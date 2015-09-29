@@ -1,0 +1,160 @@
+﻿IoTApp.createModule('IoTApp.DeviceDetails', function () {
+    "use strict";
+
+    var self = this;
+    var getDeviceDetailsView = function (deviceId) {
+        $('#loadingElement').show();
+        self.deviceId = deviceId;
+
+        $.get('/Device/GetDeviceDetails', { deviceId: deviceId }, function (response) {
+            if (!$(".details_grid").is(':visible')) {
+                IoTApp.DeviceIndex.toggleDetails();
+            }
+            onDeviceDetailsDone(response);
+        }).fail(function (response) {
+            $('#loadingElement').hide();
+            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
+        });
+
+    }
+
+    var onDeviceDetailsDone = function (html) {
+        $('#loadingElement').hide();
+        $('#details_grid_container').empty();
+        $('#details_grid_container').html(html);
+        IoTApp.Helpers.Dates.localizeDates();
+
+        setDetailsPaneLoaderHeight();
+
+        $('#deviceExplorer_authKeys').on('click', function () {
+            getDeviceKeys(self.deviceId);
+        });
+
+        $("#deviceExplorer_deactivateDevice").on("click", function () {
+
+            var anchor = $(this);
+            var isEnabled = anchor.data('hubenabledstate');
+            isEnabled = !isEnabled;
+
+            $.when(updateDeviceStatus(self.deviceId, isEnabled)).done(function (result) {
+                var data = result.data;
+                if (result.error || !data) {
+                    IoTApp.Helpers.Dialog.displayError(resources.FailedToUpdateDeviceStatus);
+                    return;
+                }
+
+                var deviceTable = $('#deviceTable').dataTable();
+                var selectedTableRowStatus = deviceTable.find('.selected').find('td:eq(0)');
+
+                if (isEnabled) {
+                    _enableDisableDetailsLinks(true);
+                    selectedTableRowStatus.removeClass('status_false');
+                    selectedTableRowStatus.addClass('status_true');
+                    selectedTableRowStatus.html(resources.running);
+                    anchor.html(resources.deactivateDevice);
+                } else {
+                    _enableDisableDetailsLinks(false);
+                    selectedTableRowStatus.removeClass('status_true');
+                    selectedTableRowStatus.addClass('status_false');
+                    selectedTableRowStatus.html(resources.disabled);
+                    anchor.html(resources.activateDevice);
+                }
+
+                var hubDetailsField = $("#deviceDetailsGrid > [name=deviceField_HubEnabledState]");
+                if (hubDetailsField) {
+                    hubDetailsField.text(isEnabled ? "True" : "False");
+                }
+
+                anchor.data('hubenabledstate', isEnabled);
+            }).fail(function () {
+                IoTApp.Helpers.Dialog.displayError(resources.failedToUpdateDeviceStatus);
+            });
+
+            return false;
+        });
+    }
+
+    var setDetailsPaneLoaderHeight = function () {
+        /* Set the height of the Device Details progress animation background to accommodate scrolling */
+        var progressAnimationHeight = $("#details_grid_container").height() + $(".grid_subhead.button_details_grid").outerHeight();
+
+        $(".loader_container_details").height(progressAnimationHeight);
+    };
+
+    var _enableDisableDetailsLinks = function (enabled) {
+        if (enabled) {
+            $("#edit_metadata_link").show();
+            $('#editConfigLink').show();
+            $('#removeDeviceLink').hide();
+        } else {
+            $("#edit_metadata_link").hide();
+            $('#editConfigLink').hide();
+            $('#removeDeviceLink').show();
+        }
+    }
+
+    var updateDeviceStatus = function (deviceId, isEnabled) {
+        $('#loadingElement').show();
+        var url = "/api/v1/devices/" + self.deviceId + "/enabledstatus";
+        var data = {
+            deviceId: self.deviceId,
+            isEnabled: isEnabled
+        };
+        return $.ajax({
+            url: url,
+            type: 'PUT',
+            data: data,
+            dataType: 'json',
+            success: function (result) {
+                $('#loadingElement').hide();
+                return result.data;
+            },
+            error: function () {
+                $('#loadingElement').hide();
+            }
+        });
+    }
+
+    var getDeviceKeys = function (deviceId) {
+        $('#loadingElement').show();
+        $.get('/Device/GetDeviceKeys', { deviceId: deviceId }, function (response) {
+            onDeviceKeysDone(response);
+            // details pane just got longer--make the spinner fully cover it
+            setDetailsPaneLoaderHeight();
+        }).fail(function () {
+            $('#loadingElement').hide();
+            IoTApp.Helpers.Dialog.displayError(resources.errorWhileRetrievingKeys);
+        });
+    }
+
+    var onDeviceKeysDone = function (html) {
+        $('#loadingElement').hide();
+        $('.deviceExplorer_detailLevel_authKeys').remove();
+        $('#deviceExplorer_authKeys').parent().html(html);
+    }
+
+    var renderRetryError = function (errorMessage, container, retryCallback) {
+        var $wrapper = $('<div />');
+        var $paragraph = $('<p />');
+
+        $wrapper.addClass('device_detail_error');
+        $wrapper.append($paragraph);
+        var node = document.createTextNode(errorMessage);
+        $paragraph.append(node);
+
+        var button = $('<button>' + resources.retry + '</button>');
+
+        button.on("click", function () {
+            retryCallback();
+        });
+
+        $wrapper.append(button);
+        container.html($wrapper);
+    }
+
+    return {
+        init: function (deviceId) {
+            getDeviceDetailsView(deviceId);
+        }
+    }
+}, [jQuery, resources]);

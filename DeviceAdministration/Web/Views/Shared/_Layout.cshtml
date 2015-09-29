@@ -1,0 +1,15 @@
+﻿@{
+    Layout = "_BaseLayout.cshtml";
+}
+
+@section Navigation
+{
+    @Html.Action("NavigationMenu", "Navigation")
+}
+
+@section Main
+{
+    <main>
+        @RenderBody()
+    </main>
+}

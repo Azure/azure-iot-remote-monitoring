@@ -1,0 +1,16 @@
+﻿@using System.Web.Mvc.Html
+@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.UpdateActionModel
+
+<header class="header_grid header_grid_general">
+    <h3 class="grid_subheadhead_detail">@Strings.ActionIDProperties</h3>
+</header>
+    
+<section class="action_properties_id"> 
+    <h4 class="grid_subhead_detail_label">@Strings.AvailableActions</h4>
+    @Html.DropDownListFor(m => Model.ActionId, Model.ActionSelectList)
+    @Html.ValidationMessageFor(model => model.ActionId)
+    @Html.AntiForgeryToken()
+    <button type="submit" id="updateAction_button" class="button_execute">@Strings.Update</button>
+</section>
+

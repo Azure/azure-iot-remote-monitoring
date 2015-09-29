@@ -1,0 +1,112 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using Microsoft.WindowsAzure.ServiceRuntime;
+
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations
+{
+    public class ConfigurationProvider : IConfigurationProvider
+    {
+        readonly Dictionary<string, string> configuration = new Dictionary<string, string>();
+        EnvironmentDescription environment = null;
+        const string ConfigToken = "config:";
+
+        public string GetConfigurationSettingValue(string configurationSettingName)
+        {
+            return this.GetConfigurationSettingValueOrDefault(configurationSettingName, string.Empty);
+        }
+
+        public string GetConfigurationSettingValueOrDefault(string configurationSettingName, string defaultValue)
+        {
+            try
+            {
+                if (!this.configuration.ContainsKey(configurationSettingName))
+                {
+                    string configValue = string.Empty;
+                    bool isEmulated = true;
+                    bool isAvailable = false;
+                    try
+                    {
+                        isAvailable = RoleEnvironment.IsAvailable;
+                    }
+                    catch (TypeInitializationException) { }
+                    if (isAvailable)
+                    {
+                        configValue = RoleEnvironment.GetConfigurationSettingValue(configurationSettingName);
+                        isEmulated = RoleEnvironment.IsEmulated;
+                    }
+                    else
+                    {
+                        configValue = ConfigurationManager.AppSettings[configurationSettingName];
+                        isEmulated = Environment.CommandLine.Contains("iisexpress.exe") ||
+                            Environment.CommandLine.Contains("DeviceAdministration.WebJob.vshost.exe");
+                    }
+                    if (isEmulated && configValue.StartsWith(ConfigToken, StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (environment == null)
+                        {
+                            LoadEnvironmentConfig();
+                        }
+                        configValue = environment.GetSetting(configValue.Substring(configValue.IndexOf(ConfigToken) + ConfigToken.Length));
+                    }
+                    try
+                    {
+                        this.configuration.Add(configurationSettingName, configValue);
+                    }
+                    catch (ArgumentException)
+                    {
+                        // at this point, this key has already been added on a different
+                        // thread, so we're fine to continue
+                    }
+                }
+            }
+            catch (RoleEnvironmentException)
+            {
+                if (string.IsNullOrEmpty(defaultValue))
+                    throw;
+
+                this.configuration.Add(configurationSettingName, defaultValue);
+            }
+            return this.configuration[configurationSettingName];
+        }
+
+        void LoadEnvironmentConfig()
+        {
+            var executingPath = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+
+            // Check for build_output
+            int buildLocation = executingPath.IndexOf("Build_Output", StringComparison.OrdinalIgnoreCase);
+            if (buildLocation >= 0)
+            {
+                string fileName = executingPath.Substring(0, buildLocation) + "local.config.user";
+                if (File.Exists(fileName))
+                {
+                    this.environment = new EnvironmentDescription(fileName);
+                    return;
+                }
+            }
+
+            // Web roles run in there app dir so look relative
+            int location = executingPath.IndexOf("Web\\bin", StringComparison.OrdinalIgnoreCase);
+
+            if (location == -1)
+            {
+                location = executingPath.IndexOf("WebJob\\bin", StringComparison.OrdinalIgnoreCase);
+            }
+            if (location >=0)
+            {
+                string fileName = executingPath.Substring(0, location) + "..\\local.config.user";
+                if (File.Exists(fileName))
+                {
+                    this.environment = new EnvironmentDescription(fileName);
+                    return;
+                }
+            }
+
+            throw new ArgumentException("Unable to locate local.config.user file.  Make sure you have run 'build.cmd local'.");
+        }
+    }
+}

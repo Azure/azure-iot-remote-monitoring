@@ -1,0 +1,86 @@
+###############################################################################
+# Set default behavior to automatically normalize line endings.
+###############################################################################
+* text=auto
+
+###############################################################################
+# Set text files explicitly
+###############################################################################
+*.sln       text
+*.csproj    text
+*.ccproj    text
+*.vbproj    text
+*.vcxproj   text
+*.vcproj    text
+*.dbproj    text
+*.fsproj    text
+*.lsproj    text
+*.wixproj   text
+*.modelproj text
+*.sqlproj   text
+*.wwaproj   text
+
+*.wadcfgx   text
+
+*.cs        text
+*.js        text
+*.css       text
+*.less      text
+*.htm       text
+*.html      text
+*.json      text
+*.xml       text
+*.txt       text
+*.md        text
+*.asax      text
+*.config    text
+*.cscgf     text
+*.csdef     text
+*.resx      text
+*.svg       text
+
+*.cshtml    text
+
+
+###############################################################################
+# behavior for image files
+#
+# image files are treated as binary by default.
+###############################################################################
+*.jpg   binary
+*.jpeg  binary
+*.png   binary
+*.gif   binary
+*.ico   binary
+
+###############################################################################
+# behavior for other binary files
+###############################################################################
+*.pdf   binary
+*.mov   binary
+*.mp4   binary
+*.flv   binary
+*.zip   binary
+*.7z    binary
+*.ttf   binary
+*.dll   binary
+*.exe   binary
+
+
+###############################################################################
+# diff behavior for common document formats
+# 
+# Convert binary document formats to text before diffing them. This feature
+# is only available from the command line. Turn it on by uncommenting the 
+# entries below.
+###############################################################################
+#*.doc   diff=astextplain
+#*.DOC   diff=astextplain
+#*.docx  diff=astextplain
+#*.DOCX  diff=astextplain
+#*.dot   diff=astextplain
+#*.DOT   diff=astextplain
+#*.pdf   diff=astextplain
+#*.PDF   diff=astextplain
+#*.rtf   diff=astextplain
+#*.RTF   diff=astextplain

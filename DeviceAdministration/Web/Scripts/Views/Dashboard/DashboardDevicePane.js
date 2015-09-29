@@ -1,0 +1,119 @@
+﻿IoTApp.createModule(
+    'IoTApp.Dashboard.DashboardDevicePane',
+    function initDashboardDevicePane() {
+        'use strict';
+        $('#loadingElement').show();
+
+        var currentDeviceId;
+        var loadDataUrlBase;
+        var refreshMilliseconds;
+        var timerId;
+        var telemetryDataUrl;
+        var telemetryGridRefreshData;
+        var telemetryHistoryRefreshData;
+
+        var init = function init(settings) {
+
+            loadDataUrlBase = settings.loadDataUrlBase;
+            refreshMilliseconds = settings.refreshMilliseconds;
+            telemetryGridRefreshData = settings.telemetryGridRefreshData;
+            telemetryHistoryRefreshData = settings.telemetryHistoryRefreshData;
+
+            settings.selectionDropDown.change(
+                function () {
+                    if (this.value) {
+                        $('#loadingElement').show();
+                        updateDeviceId(this.value);
+                    }
+                });
+            };
+
+        var onRequestComplete = function onRequestComplete(requestObj, status) {
+            if (timerId) {
+                clearTimeout(timerId);
+                timerId = null;
+            }
+
+            if (refreshMilliseconds) {
+                timerId = setTimeout(refreshData, refreshMilliseconds)
+            }
+        };
+
+        var refreshData = function refreshData() {
+            if (telemetryDataUrl) {
+
+                $.ajax({
+                    cache: false,
+                    complete: onRequestComplete,
+                    url: telemetryDataUrl
+                }).done(
+                    function telemetryReadDone(data) {
+                        if (currentDeviceId !== data.deviceId) {
+                            return;
+                        }
+
+                        if (telemetryGridRefreshData) {
+                            if (data.deviceTelemetryModels) {
+                                telemetryGridRefreshData(data.deviceTelemetryModels);
+                            } else {
+                                telemetryGridRefreshData([]);
+                            }
+                        }
+
+                        if (telemetryHistoryRefreshData) {
+                            if (data.deviceTelemetrySummaryModel) {
+                                telemetryHistoryRefreshData(
+                                    data.deviceTelemetrySummaryModel.minimumHumidity || 0.0,
+                                    data.deviceTelemetrySummaryModel.maximumHumidity || 0.0,
+                                    data.deviceTelemetrySummaryModel.averageHumidity || 0.0);
+                            } else {
+                                telemetryHistoryRefreshData(0.0, 0.0, 0.0);
+                            }
+                        }
+
+                        $('#loadingElement').hide();
+                    }
+                ).fail(function () {
+                    if (timerId) {
+                        clearTimeout(timerId);
+                        timerId = null;
+                    }
+
+                    IoTApp.Helpers.Dialog.displayError(resources.unableToRetrieveDeviceTelemetryFromService);
+
+                    if (refreshMilliseconds) {
+                        timerId = setTimeout(refreshData, refreshMilliseconds)
+                    }
+                });
+            }
+        };
+
+        var updateDeviceId = function updateDeviceId(deviceId) {
+            if (timerId) {
+                clearTimeout(timerId);
+                timerId = null;
+            }
+
+            if (deviceId === '') {
+
+                currentDeviceId = '';
+                telemetryGridRefreshData([]);
+                telemetryHistoryRefreshData(0.0, 0.0, 0.0);
+                $('#loadingElement').hide();
+
+            } else if (loadDataUrlBase && deviceId) {
+
+                telemetryDataUrl =
+                    loadDataUrlBase + encodeURIComponent(deviceId);
+                currentDeviceId = deviceId;
+
+                refreshData();
+            }
+        };
+
+        return {
+            init: init,
+            updateDeviceId: updateDeviceId
+        };
+    },
+    [jQuery, powerbi]);

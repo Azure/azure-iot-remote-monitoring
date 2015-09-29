@@ -1,0 +1,43 @@
+﻿@using System.Collections.Generic
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@using GlobalResources
+
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceDetailModel
+<div class="header_grid header_grid_general">
+    <h3 class="grid_subheadhead_detail">@Strings.DeviceProperties</h3>
+    @if (Model.IsDeviceEditEnabled)
+    {
+        @Html.ActionLink("Edit", "EditDeviceProperties", "Device", new { deviceId = Model.DeviceID }, new
+        {
+            id = "edit_metadata_link",
+            @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.HubEnabledState == false ? "hidden" : string.Empty).Trim()
+        })
+    }
+
+</div>
+
+<section class="details_grid_general" id="deviceDetailsGrid">
+    @{ DateTime? resolvedDate; }
+    @foreach (var propVal in Model.DevicePropertyValueModels)
+    {
+        <h4 class="grid_subhead_detail_label">@propVal.Name</h4>
+        if (DeviceDisplayHelper.GetIsCopyControlPropertyName(propVal.Name))
+        {
+            @IoTHelpers.TextCopy(propVal.Name, propVal.Name, propVal.Value)    ;
+        }
+        else
+        {
+            if ((propVal.PropertyType == PropertyType.DateTime) &&
+                (resolvedDate = DynamicValuesHelper.ConvertToDateTime(propVal.Value)).HasValue)
+            {
+                <p class="grid_detail_value" name="deviceField_@propVal.Name">@Html.DisplayFor(t => resolvedDate)</p>
+            }
+            else
+            {
+                <p class=" grid_detail_value" name="deviceField_@propVal.Name">@propVal.Value</p>
+            }
+        }
+    }
+</section>

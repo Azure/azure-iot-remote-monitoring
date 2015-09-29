@@ -1,0 +1,80 @@
+﻿@using GlobalResources
+@using Newtonsoft.Json;
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.ActionPropertiesModel
+
+@{
+    ViewBag.Title = "Actions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<noscript>
+    <div class="error_noscript">
+        <h1>@Strings.NoscriptHeader</h1>
+        <p>@Strings.NoscriptP1</p>
+        <p>@Strings.NoscriptP2</p>
+    </div>
+</noscript>
+
+
+<div class="content_outer content_grid">
+    <div class="content_inner">
+        <div class="grid_container height_fixed">
+
+            @*Datatables plugin for jQuery. www.datatables.net*@
+            <table id="actionTable" class="order-column">
+
+                <thead>
+                    <tr>
+                        <th>@Strings.RuleOutputHeader</th>
+                        <th>@Strings.ActionIDHeader</th>
+                        <th>@Strings.NumberOfDevicesHeader</th>
+                    </tr>
+                </thead>
+
+                <tbody></tbody>
+
+            </table>
+        </div>
+
+        <div class="details_grid_closed height_fixed button_details_grid">
+            <h2 class="grid_subhead">@Strings.PropertiesPaneLabel</h2>
+        </div>
+
+        <div class="details_grid height_fixed">
+
+            <h2 class="grid_subhead button_details_grid">@Strings.PropertiesPaneLabel</h2>
+            <div id="details_grid_container">
+                <div class="no_device_selected">
+                    @Strings.NoActionSelectedLabel
+                </div>
+            </div>
+
+            <div id="loadingElement" class="loader_container loader_container_details">
+                <div class="loader"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    "use strict";
+
+    var resources = {
+        retry: '@Strings.Retry',
+        serviceUnavailable: '@Strings.ServiceUnavailable',
+        unableToRetrieveRuleFromService: '@Strings.UnableToRetrieveActionFromService',
+        disabled: '@Strings.Disabled',
+        enabled: '@Strings.Enabled',
+        failedToRetrieveActions: '@Strings.FailedToRetrieveActions',
+        noActionSelected: '@Strings.NoActionSelectedLabel',
+        failedToUpdateActionId: '@Strings.FailedToUpdateActionId',
+        readonlyActions: '@Model.HasAssignActionPerm.ToString().ToLower()',
+    };
+</script>
+
+<script src="~/Scripts/jquery-datatables-api-extensions.js"></script>
+<script src="~/Scripts/Views/Actions/ActionsIndex.js"></script>
+<script src="~/Scripts/Views/Actions/ActionProperties.js"></script>

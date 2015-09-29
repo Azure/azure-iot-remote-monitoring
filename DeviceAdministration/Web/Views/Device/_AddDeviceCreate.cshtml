@@ -1,0 +1,75 @@
+﻿@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.UnregisteredDeviceModel
+
+@using (Ajax.BeginForm("AddDeviceCreate", "Device",
+    new AjaxOptions()
+    {
+        UpdateTargetId = "content",
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "loadingElement",
+        OnFailure = "IoTApp.AddDeviceCreate.onFailure"
+    }))
+{
+    @Html.AntiForgeryToken()
+    <h3>@Strings.DeviceIdCreationPrompt</h3>
+
+    <div class="deviceid_case_warning">@Strings.DeviceIdCaseSensitiveWarning</div>
+
+    <fieldset class="fieldset_content">
+
+        <div class="container_radio">
+            @Html.RadioButtonFor(m => m.IsDeviceIdSystemGenerated, "true", new { id = "deviceGeneratedBySystemYes" })
+            @Html.LabelFor(m => m.IsDeviceIdSystemGenerated, @Strings.GenerateADeviceId, new { @for = "deviceGeneratedBySystemYes" })
+        </div>
+        <div class="container_radio">
+            @Html.RadioButtonFor(m => m.IsDeviceIdSystemGenerated, "false", new { id = "deviceGeneratedBySystemNo" })
+            @Html.LabelFor(m => m.IsDeviceIdSystemGenerated, @Strings.LetMeDefineMyOwnDeviceId, new { @for = "deviceGeneratedBySystemNo" })
+        </div>
+        <div class="container_input_manage_enter_id" id="deviceIdInput">
+            @Html.TextBoxFor(model => model.DeviceId,
+            new
+            {
+                @class = "input_check_id",
+                id = "deviceId",
+                @Value = @Model.DeviceId ?? "",
+                @placeholder = @Strings.EnterDeviceId
+            })
+
+            <button class="button_textbox_inline" id="checkIdButton" name="button" value="check" type="submit">@Strings.CheckId</button>
+
+            @if (Model.IsDeviceIdUnique)
+            {
+                <div class="error_check_id error_check_id_available" id="deviceIdAvailable">
+                    @Strings.DeviceIdAvailable
+                </div>
+            }
+
+            @Html.DisplayFor(m => ViewData.ModelState)
+
+        </div>
+    </fieldset>
+    <fieldset class="fieldset_button">
+        @Html.HiddenFor(m => m.DeviceType.Name)
+        @Html.HiddenFor(m => m.DeviceType.DeviceTypeId)
+        @Html.HiddenFor(m => m.DeviceType.Description)
+        @Html.HiddenFor(m => m.DeviceType.InstructionsUrl)
+        @Html.HiddenFor(m => m.DeviceType.IsSimulatedDevice)
+
+        <button id="nextButton" type="submit">@Strings.Create</button>
+        <button class="button_secondary" type="button" onclick="location.href = '@Url.Action("Index", "Device")' ">@Strings.Cancel</button>
+    </fieldset>
+}
+
+<script type="text/javascript">
+    var resources = {
+        addDevice: '@String.Format(@Strings.AddADeviceFormatted, @Model.DeviceType.Name)',
+        redirectToIndexUrl: '@Url.Action("AddDevice", "Device")',
+        stepTwoHeader: '@Strings.StepTwoHeader',
+        enterDeviceId: '@Strings.EnterDeviceId',
+        createDeviceError: '@Strings.DeviceAddError'
+    }
+
+</script>
+
+<script type="text/javascript" src="~/Scripts/Views/Device/AddDeviceCreate.js"></script>

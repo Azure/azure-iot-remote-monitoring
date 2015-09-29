@@ -1,0 +1,41 @@
+﻿@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceDetailModel
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@using GlobalResources
+
+<div class="header_grid header_grid_general">
+    <h3 class="grid_subheadhead_detail">@Strings.DeviceProperties</h3>
+</div>
+
+<section class="details_grid_general">
+    <div class="grid_detail_not_registered">
+        @Strings.RegisteredButNotPresent
+    </div>
+    @foreach (var propVal in Model.DevicePropertyValueModels)
+    {
+        if (!propVal.IsIncludedWithUnregisteredDevices)
+        {
+            continue;
+        }
+
+        <h4 class="grid_subhead_detail_label">@propVal.Name</h4>
+        DateTime? resolvedDate;
+        if (DeviceDisplayHelper.GetIsCopyControlPropertyName(propVal.Name))
+        {
+            @IoTHelpers.TextCopy(propVal.Name, propVal.Name, propVal.Value);
+        }
+        else
+        {
+            if ((propVal.PropertyType == PropertyType.DateTime) &&
+                (resolvedDate = DynamicValuesHelper.ConvertToDateTime(propVal.Value)).HasValue)
+            {
+                <p class="grid_detail_value">@Html.DisplayFor(t => resolvedDate)</p>
+            }
+            else
+            {
+                <p class="grid_detail_value">@propVal.Value</p>
+            }
+        }
+    }
+</section>

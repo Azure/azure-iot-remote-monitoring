@@ -1,0 +1,5 @@
+﻿@using GlobalResources
+@model string
+
+@Html.TextBoxFor(m => m, new { @Value = Model ?? "", Title = string.Format(Strings.NumberCommandHint, "byte", Byte.MinValue, Byte.MaxValue) })
+

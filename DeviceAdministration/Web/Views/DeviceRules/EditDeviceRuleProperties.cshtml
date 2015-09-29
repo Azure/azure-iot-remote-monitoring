@@ -1,0 +1,91 @@
+﻿@using System.Web.Mvc.Html
+@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.EditDeviceRuleModel
+
+@{
+    ViewBag.Title = "Edit Device Rule Properties";
+    Layout = "~/Views/Shared/_LayoutNoNavigation.cshtml";
+}
+
+<header class="header_main">
+
+    <button class="button_back" type="button"></button>
+    @{ string firstString = @Strings.Edit; }
+    @{if(!string.IsNullOrWhiteSpace(Request.Params["createRule"]))
+    {
+    firstString = @Strings.Create;
+    }}
+    <h2 class="header_main_subhead header_main_subhead_large">@string.Format(Strings.EditDeviceRuleFormatted, firstString, Model.DeviceID)</h2>
+</header>
+<div class="content_outer">
+    <div class="content_inner">
+        <div id="content">
+            <div id="deviceRuleMetadataForm">
+                @using (Ajax.BeginForm("UpdateRuleProperties", "DeviceRules", null,
+        new AjaxOptions()
+        {
+            HttpMethod = "POST",
+            OnBegin = "IoTApp.EditDeviceRuleProperties.onBegin",
+            OnFailure = "IoTApp.EditDeviceRuleProperties.onFailure",
+            OnSuccess = "IoTApp.EditDeviceRuleProperties.onSuccess",
+            OnComplete = "IoTApp.EditDeviceRuleProperties.onComplete",
+            LoadingElementId = "loadingElement"            
+        }, null))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.Etag)
+                    @Html.HiddenFor(m => m.RuleId)
+                    @Html.HiddenFor(m => m.EnabledState)
+                    @Html.HiddenFor(m => m.DeviceID)
+
+    <fieldset class="fieldset_content fieldset_textbox">
+        @{ string state = @Strings.Enabled; }
+        @{if (!Model.EnabledState)
+        {
+            state = @Strings.Disabled;
+        }
+        }
+        <label>@Strings.RuleStatus</label>
+        @Html.TextBoxFor(m => state, new { @readonly = "readonly" })
+
+        <label>@Strings.DataFieldHeader</label>
+        @Html.DropDownListFor(m => m.DataField, Model.AvailableDataFields)
+
+        <label>@Strings.OperatorHeader</label>
+        @Html.HiddenFor(m => m.Operator)
+        <p class="edit_rule_value_display">@Model.Operator</p>
+
+        <label>@Strings.ThresholdHeader</label>
+        @Html.TextBoxFor(m => m.Threshold, new { @Title = Strings.DoubleCommandHint })
+
+        <label>@Strings.RuleOutputHeader</label>
+        @{
+        object htmlAttributes = null;
+        if (Model.AvailableRuleOutputs.Count < 2)
+        {
+            htmlAttributes = new { @disabled = "disabled" };
+            @Html.HiddenFor(m => m.RuleOutput);
+        }
+        }
+        @Html.DropDownListFor(m => m.RuleOutput, Model.AvailableRuleOutputs, htmlAttributes)
+    </fieldset>
+
+                    <fieldset class="fieldset_button">
+                        <button class="update_rule_properties" type="submit">@Strings.SaveAndViewRules</button>
+                    </fieldset>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    "use strict";
+
+    var resources = {
+        redirectUrl: '@Url.Action("Index", "DeviceRules")',
+        ruleUpdateError: '@Strings.RuleUpdateError'
+    }
+</script>
+
+<script type="text/javascript" src="~/Scripts/Views/DeviceRules/EditDeviceRuleProperties.js"></script>

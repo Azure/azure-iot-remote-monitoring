@@ -1,0 +1,36 @@
+﻿@using GlobalResources
+@{
+    ViewBag.Title = "Add a Device";
+}
+
+<header class="header_main">
+
+    <h1 class="header_main_head">@Strings.AddDevice</h1>
+    <button class="button_back" type="button"></button>
+    <h2 class="header_main_subhead">@Strings.StepOneHeader</h2>
+
+</header>
+<div class="content_outer">
+
+    <div class="content_inner">
+        <div id="content">
+            @Html.Partial("_AddDeviceSelectType")
+        </div>
+    </div>
+</div>
+
+@*The scripts below runs when the view loads but not for partials.*@
+<script type="text/javascript">
+    "use strict";
+
+    var addDeviceResources = {
+        addDevice: '@Strings.AddDevice',
+        stepOneHeader: '@Strings.StepOneHeader',
+        redirectToIndexUrl: '@Url.Action("Index", "Device")',
+        deviceDetailDeviceId: '@ViewBag.DeviceId'
+    }
+
+    $.extend(resources, addDeviceResources);
+</script>
+
+<script type="text/javascript" src="~/Scripts/Views/Device/AddDevice.js"></script>

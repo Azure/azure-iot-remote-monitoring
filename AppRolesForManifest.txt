@@ -1,0 +1,46 @@
+  "appRoles": [
+    {
+      "allowedMemberTypes": [
+        "User"
+      ],
+      "description": "Access to enable and disable devices",
+      "displayName": "Contributor",
+      "id": "a22959eb-c7fc-4f93-a838-387a24c08abe",
+      "isEnabled": true,
+      "origin": "Application",
+      "value": "Contributor"
+    },
+    {
+      "allowedMemberTypes": [
+        "User"
+      ],
+      "description": "Access to add, remove and manage devices",
+      "displayName": "Device Manager",
+      "id": "c400a00b-f67c-42b7-ba9a-f73d8c67e433",
+      "isEnabled": true,
+      "origin": "Application",
+      "value": "DeviceManager"
+    },
+    {
+      "allowedMemberTypes": [
+        "User"
+      ],
+      "description": "Read only access to device information",
+      "displayName": "Read Only",
+      "id": "e5bbd0f5-128e-4362-9dd1-8f253c6082d7",
+      "isEnabled": true,
+      "origin": "Application",
+      "value": "ReadOnly"
+    },
+    {
+      "allowedMemberTypes": [
+        "User"
+      ],
+      "description": "Administrator access to the application",
+      "displayName": "Admin",
+      "id": "a400a00b-f67c-42b7-ba9a-f73d8c67e433",
+      "isEnabled": true,
+      "origin": "Application",
+      "value": "Admin"
+    }
+  ],

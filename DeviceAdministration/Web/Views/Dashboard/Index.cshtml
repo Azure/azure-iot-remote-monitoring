@@ -1,0 +1,68 @@
+﻿@using System.Collections.Generic
+@using System.Web.Mvc.Html
+@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DashboardModel
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    'use strict';
+
+    var resources = {
+        active: '@Strings.Active',
+        alarm: '@Strings.Alarm',
+        alarmHistory: '@Strings.AlarmHistory',
+        closed: '@Strings.Closed',
+        humidity: '@Strings.Humidity',
+        information: '@Strings.Information',
+        statusIcon: '<span class=\'table_alertHistory_status\' ></span>',
+        telemetryGaugeNumericFormat: '@Strings.TelemetryGaugeNumericFormat',
+        temperature: '@Strings.Temperature',
+        alertHistoryType: '',
+        unableToRetrieveAlertsHistoryFromService: '@Strings.UnableToRetrieveAlertsHistoryFromService',
+        unableToRetrieveDeviceTelemetryFromService: '@Strings.UnableToRetrieveDeviceTelemetryFromService'
+    };
+</script>
+
+<div class="dashboardContent">
+    <div class="dashboardLeftColumn">
+        <div>
+            @{if (!string.IsNullOrWhiteSpace(Model.MapApiQueryKey))
+            {
+                <div id="deviceMap" class="dashboardDeviceMap">
+                    <script charset="UTF-8" type="text/javascript" src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1"></script>
+                    <script type="text/javascript" src="~/Scripts/IoTHelperScripts.js"></script>
+
+                    <script>
+                        resources.mapApiQueryKey = '@Model.MapApiQueryKey';
+                        resources.locationData = IoTApp.Helpers.Serialization.jsonToJavascript(@(Html.ToJson(Model.DeviceLocations)));
+                    </script>
+
+                    <script src="~/Scripts/Views/Dashboard/MapPane.js"></script>
+
+                    <script>
+                        resources.alertHistoryType = "staticAlertHistory";
+                    </script>
+                </div>
+            }
+            else
+            {
+                <img id="staticMap" src="~/Content/img/map_copyrights.png" alt="Map Img" />
+                <script>
+                    resources.alertHistoryType = "dynamicAlertHistory";
+                </script>
+            }
+            }
+        </div>
+        @{
+            Html.RenderPartial("_AlertHistory");
+        }
+    </div>
+    @{
+        Html.RenderPartial("_DashboardDevicePane", Model.DeviceIdsForDropdown);
+    }
+</div>

@@ -1,0 +1,6 @@
+﻿@model string
+@{
+    var isChecked = (Model == "true") ? "checked=\"checked\"" : "";
+}
+<input type="checkbox" id="@ViewData.TemplateInfo.HtmlFieldPrefix" @isChecked/>
+@Html.HiddenFor(m => m, new { @Value = false} )

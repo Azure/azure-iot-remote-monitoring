@@ -1,0 +1,54 @@
+﻿@using System.Collections.Generic
+
+@model IList<KeyValuePair<string, string>>
+@{
+    string firstDeviceId = string.Empty;
+}
+
+<div class="dashboardRightColumn">
+    <div class="dashboardDeviceSelection">
+        <form id="selectDevice">
+            <h5>Device to View:</h5>
+            <select id="deviceSelection" name="deviceSelection">
+                @foreach (KeyValuePair<string, string> pair in Model)
+                {
+                    if (string.IsNullOrEmpty(firstDeviceId))
+                    {
+                        firstDeviceId = pair.Key;
+                    }
+                    <option value="@Html.Encode(pair.Key)">@Html.Encode(pair.Value)</option>
+                }
+            </select>
+
+        </form>
+    </div>
+    <div class="telemetryhistory">
+        @{
+            Html.RenderPartial("_TelemetryHistory");
+            Html.RenderPartial("_TelemetryHistorySummary");
+        }
+        <div id="loadingElement" class="loader_container loader_container_details">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/Scripts/Views/Dashboard/DashboardDevicePane.js"></script>
+<script type="text/javascript">
+    (function () {
+        'use strict';
+
+        var dashboardDevicePaneSettings = {
+            loadDataUrlBase: '/api/v1/telemetry/dashboardDevicePane?deviceId=',
+            refreshMilliseconds: 3000,
+            selectionDropDown: $('#deviceSelection'),
+            telemetryGridRefreshData: IoTApp.Dashboard.TelemetryHistory.updateTelemetryHistoryGridData,
+            telemetryHistoryRefreshData: IoTApp.Dashboard.TelemetryHistorySummary.updateTelemetryHistorySummaryData
+        };
+
+        IoTApp.Dashboard.DashboardDevicePane.init(dashboardDevicePaneSettings);
+
+        $(window).ready(function () {
+            IoTApp.Dashboard.DashboardDevicePane.updateDeviceId('@Html.Encode(firstDeviceId)');
+        });
+    })();
+</script>

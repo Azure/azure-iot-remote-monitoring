@@ -1,0 +1,90 @@
+﻿@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceDetailModel
+
+
+@if ((Model.HubEnabledState != null) || Model.CanRemoveDevice)
+{
+    <header class="header_grid">
+        <h3 class="grid_subheadhead_detail">@Strings.Actions</h3>
+    </header>
+
+    <section class="details_grid_actions">
+
+        @if (Model.HubEnabledState.HasValue)
+        {
+            if (Model.CanDisableDevice)
+            {
+                <p class="grid_detail_value">
+                    <a id="deviceExplorer_deactivateDevice"
+                       data-hubenabledstate="@Model.HubEnabledState.ToString().ToLower()"
+                       class="not_disable">
+                        @Strings.ResourceManager.GetString(Model.HubEnabledState + "EnabledDevice")
+                    </a>
+                </p>
+            }
+
+            if (Model.CanAddRule)
+            {
+                <p class="grid_detail_value">
+                    @Html.ActionLink(
+                    Strings.AddRule, "EditRuleProperties", "DeviceRules",
+                    new
+                    {
+                        deviceId = Model.DeviceID,
+                        createRule = true
+                    },
+                    new
+                    {
+                        id = "addRuleLink"
+                    })
+                </p>
+            }
+
+            <p class="grid_detail_value">
+                @Html.ActionLink(
+                Strings.DeviceCommands, "Index", "DeviceCommand",
+                new
+                {
+                    deviceId = Model.DeviceID
+                },
+                new
+                {
+                    id = "sendCommandLink"
+                })
+            </p>
+        }
+
+        @if (Model.CanRemoveDevice)
+        {
+            <p id="removeDeviceLink"
+               class="grid_detail_value">
+                @Html.ActionLink(Strings.RemoveDevice,
+                    "RemoveDevice",
+                    "Device",
+                    new { deviceId = Model.DeviceID },
+                    null)
+            </p>
+        }
+    </section>
+}
+
+
+@(Model.HubEnabledState != null ? 
+    Html.Partial("_DeviceDetailsDeviceProperties", Model) : 
+    Html.Partial("_DeviceDetailsNotRegistered", Model))
+
+@{
+    if (Model.HasKeyViewingPerm)
+    {
+        Html.RenderPartial("_DeviceDetailsKeyLink", Model.GetKeys());
+    }
+}
+
+@if (Model.HubEnabledState == true)
+{
+    <script>
+        $(function () {
+            $('#removeDeviceLink').hide();
+        });
+    </script>
+}

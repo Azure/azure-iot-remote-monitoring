@@ -1,0 +1,86 @@
+﻿@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.EditDeviceRuleModel
+
+@{
+    ViewBag.Title = @Strings.DeviceRules;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<noscript>
+    <div class="error_noscript">
+        <h1>@Strings.NoscriptHeader</h1>
+        <p>@Strings.NoscriptP1</p>
+        <p>@Strings.NoscriptP2</p>
+    </div>
+</noscript>
+
+
+<div class="content_outer content_grid">
+
+    <div class="content_inner">
+
+        <div class="grid_container height_fixed">
+
+            @*Datatables plugin for jQuery. www.datatables.net*@
+            <table id="ruleTable" class="order-column">
+
+                <thead>
+                    <tr>
+                        <th>@Strings.StatusHeader</th>
+                        <th>@Strings.RuleIdHeader</th>
+                        <th>@Strings.DeviceIdHeader</th>
+                        <th>@Strings.DataFieldHeader</th>
+                        <th>@Strings.OperatorHeader</th>
+                        <th>@Strings.ThresholdHeader</th>
+                        <th>@Strings.RuleOutputHeader</th>
+                    </tr>
+                </thead>
+
+                <tbody></tbody>
+
+            </table>
+        </div>
+
+        <div class="details_grid_closed height_fixed button_details_grid">
+            <h2 class="grid_subhead">@Strings.RulePropertiesPaneLabel</h2>
+        </div>
+
+        <div class="details_grid height_fixed">
+
+            <h2 class="grid_subhead button_details_grid">@Strings.Properties</h2>
+
+            <div id="details_grid_container">
+                <div class="no_device_selected">
+                    @Strings.NoRuleSelectedLabel
+                </div>
+            </div>
+
+            <div id="loadingElement" class="loader_container loader_container_details">
+                <div class="loader"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+    "use strict";
+
+    var resources = {
+        retry: '@Strings.Retry',
+        serviceUnavailable: '@Strings.ServiceUnavailable',
+        unableToRetrieveRuleFromService: '@Strings.UnableToRetrieveRuleFromService',
+        disabled: '@Strings.Disabled',
+        enabled: '@Strings.Enabled',
+        failedToRetrieveRules: '@Strings.FailedToRetrieveRules',
+        noRuleSelected: '@Strings.NoRuleSelectedLabel',
+        ruleUpdateError: '@Strings.RuleUpdateError'
+    };
+</script>
+
+<script src="~/Scripts/jquery-datatables-api-extensions.js"></script>
+<script src="~/Scripts/Views/DeviceRules/DeviceRulesIndex.js"></script>
+<script src="~/Scripts/Views/DeviceRules/DeviceRuleProperties.js"></script>

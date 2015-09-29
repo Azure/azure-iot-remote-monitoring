@@ -1,0 +1,83 @@
+﻿@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
+@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.EditDevicePropertiesModel
+
+@{
+    ViewBag.Title = @Strings.EditDeviceProperties;
+    Layout = "~/Views/Shared/_LayoutNoNavigation.cshtml";
+}
+
+<header class="header_main">
+    
+    <button class="button_back" type="button"></button>
+    <h2 class="header_main_subhead header_main_subhead_large">@string.Format(Strings.EditDevicePropertiesFor, Model.DeviceId)</h2>
+</header>
+<div class="content_outer">
+
+    <div class="content_inner">
+        <div id="content">
+            <div id="deviceMetadataForm">
+                @using (Html.BeginForm("EditDeviceProperties", "Device", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.DeviceId)
+                    <p>
+                        @Html.ValidationSummary(false)
+                    </p>
+
+                    <fieldset class="fieldset_content fieldset_textbox">
+                        @{
+                    DateTime? resolvedTime;
+                    for (int i = 0; i < Model.DevicePropertyValueModels.Count; ++i)
+                    {
+                        if (Model.DevicePropertyValueModels[i] == null)
+                        {
+                            continue;
+                        }
+
+                        @Html.LabelFor(
+                                    m => m.DevicePropertyValueModels[i].Value,
+                                    Model.DevicePropertyValueModels[i].Name)
+
+                        if (Model.DevicePropertyValueModels[i].IsEditable)
+                        {
+                            @Html.TextBoxFor(m => m.DevicePropertyValueModels[i].Value)
+                        }
+                        else
+                        {
+                            if ((Model.DevicePropertyValueModels[i].PropertyType == PropertyType.DateTime) &&
+                                (resolvedTime = DynamicValuesHelper.ConvertToDateTime(
+                                Model.DevicePropertyValueModels[i].Value)).HasValue)
+                            {
+                                @Html.DisplayFor(m => resolvedTime, new { @class = "readOnlyField" })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(m => m.DevicePropertyValueModels[i].Value, new { @readonly = "readonly" })
+                            }
+                        }
+
+                        @Html.HiddenFor(m => m.DevicePropertyValueModels[i].Name)
+                    }
+                        }
+                    </fieldset>
+
+                    <fieldset class="fieldset_button">
+                        <button type="submit">@Strings.SaveChangesToDevice</button>
+                    </fieldset>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    "use strict";
+
+    var resources = {
+        redirectUrl: '@Url.Action("Index", "Device")',
+    }
+</script>
+
+<script type="text/javascript" src="~/Scripts/Views/Device/EditDeviceProperties.js"></script>

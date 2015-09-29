@@ -1,0 +1,14 @@
+﻿@model ModelStateDictionary
+
+@{
+    var errors = Model.Values.SelectMany(modelState => modelState.Errors).ToList();
+
+    foreach (var error in errors)
+    {
+        <div class="error_check_id error_check_id_not_available">
+            @error.ErrorMessage
+        </div>
+    }
+}
+
+

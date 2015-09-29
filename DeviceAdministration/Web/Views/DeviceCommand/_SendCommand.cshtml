@@ -1,0 +1,30 @@
+﻿@using System.Web.Mvc.Html
+@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SendCommandModel
+
+@if (Model.CanSendDeviceCommands)
+{
+    
+    if (Model.HasCommands)
+    {
+        <fieldset class="fieldset_content fieldset_textbox">
+            @Html.LabelFor(m => m.Command)
+            @Html.DropDownListFor(m => Model.Command, Model.CommandSelectList, Strings.SelectACommand)
+            @Html.ValidationMessageFor(model => model.Command)
+            @Html.AntiForgeryToken()
+            <div id="command_form" class="container_command"></div>
+        </fieldset>
+    }
+    else
+    {
+        <fieldset>
+            <h3>@string.Format(Strings.NoCommandsAvailable, Model.DeviceId)</h3>
+        </fieldset>
+    }
+}
+else
+{
+    <fieldset>
+        <h3>@string.Format(Strings.DeviceCommandIsDisabled)</h3>
+    </fieldset>
+}

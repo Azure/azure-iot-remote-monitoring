@@ -1,0 +1,23 @@
+﻿@using System.Collections.Generic
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security
+@using GlobalResources
+
+@model List<Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Navigation.NavigationMenuItem>
+<nav>
+    @foreach (var navigationMenuItem in Model)
+    {
+        if (navigationMenuItem.Selected)
+        {
+            <a class="@navigationMenuItem.Class">@navigationMenuItem.Text</a>
+        }
+        else
+        {
+            @Html.ActionLink(navigationMenuItem.Text, navigationMenuItem.Action, navigationMenuItem.Controller, null, new { @class = navigationMenuItem.Class })
+        }
+    }
+
+    @if (PermsChecker.HasPermission(Permission.AddDevices))
+    {
+        <a class="nav_add_device" href="@Url.Action("AddDevice", "Device")">@Strings.AddDevice</a>
+    }
+</nav>

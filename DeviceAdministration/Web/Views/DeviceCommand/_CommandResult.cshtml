@@ -1,0 +1,24 @@
+﻿@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@using Microsoft.Ajax.Utilities
+@using GlobalResources
+@model string
+@{
+    var separator = string.Empty;
+
+    var localizedResults = 
+        DeviceDisplayHelper.GetLocalizedCommandResultText(
+            Model, 
+            ViewData["ErrorMessage"]);
+
+    if (!string.IsNullOrEmpty(localizedResults.Value))
+    {
+        separator = ":";
+    }
+
+    <span class="@localizedResults.Key.ToLower()">@string.Format("{0}{1}", localizedResults.Key, separator)</span>
+}
+
+@if (!string.IsNullOrEmpty(separator))
+{
+    <span class="error_message" data-error-message="@localizedResults.Value">@Strings.ClickToDisplayError</span>
+}

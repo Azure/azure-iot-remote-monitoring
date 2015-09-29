@@ -1,0 +1,4 @@
+﻿@using GlobalResources
+@model string
+
+@Html.TextBoxFor(m => m, new { @Value = Model ?? "", Title = Strings.SingleCommandHint })

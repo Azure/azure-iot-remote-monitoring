@@ -1,0 +1,44 @@
+﻿@using GlobalResources
+<div class="dashboardTelemetryHistorySummary">
+    <div id="maxDeviceHumidityContainer" class="dashboardTelemetryHistoryGauge leftGauge">
+        <h5 class="gaugeHeader" id="maxDeviceHumidityLabel">@Strings.MaxOfDevicesHumidity</h5>
+        <div id="maxDevicehumidity" class="telemetrySummaryGaugeControl"></div>
+    </div><div id="minDeviceHumidityContainer" class="dashboardTelemetryHistoryGauge centerGauge">
+        <h5 class="gaugeHeader" id="maxDeviceHumidityLabel">@Strings.MinOfDevicesHumidity</h5>
+        <div id="minDeviceHumidity" class="telemetrySummaryGaugeControl"></div>
+    </div><div id="avgDeviceHumidityContainer" class="dashboardTelemetryHistoryGauge rightGauge">
+        <h5 class="gaugeHeader" id="avgDeviceHumidityLabel">@Strings.AverageOfDeviceHumidity</h5>
+        <div id="averageDeviceHumidity" class="telemetrySummaryGaugeControl"></div>
+    </div>
+</div>
+<script src="~/Scripts/Views/Dashboard/TelemetryHistorySummary.js"></script>
+<script>
+
+    (function () {
+        'use strict';
+
+        var telemetryHistorySummarySettings = {
+            averageDeviceHumidityContainer: $('#avgDeviceHumidityContainer'),
+            averageDeviceHumidityControl: $('#averageDeviceHumidity'),
+            averageDeviceHumidityLabel: $('#avgDeviceHumidityLabel'),
+            gaugeMaxValue: 100,
+            gaugeMinValue: 0,
+            maxDeviceHumidityContainer: $('#maxDeviceHumidityContainer'),
+            maxDeviceHumidityControl: $('#maxDevicehumidity'),
+            maxDeviceHumidityLabel: $('#maxDeviceHumidityLabel'),
+            minDeviceHumidityContainer: $('#minDeviceHumidityContainer'),
+            minDeviceHumidityControl: $('#minDeviceHumidity'),
+            minDeviceHumidityLabel: $('#maxDeviceHumidityLabel')
+        };
+
+        IoTApp.Dashboard.TelemetryHistorySummary.init(telemetryHistorySummarySettings);
+
+        IoTApp.Dashboard.TelemetryHistorySummary.resizeTelemetryHistorySummaryGuages();
+
+        $(window).resize(
+            function () {
+                IoTApp.Dashboard.TelemetryHistorySummary.resizeTelemetryHistorySummaryGuages();
+            });
+
+    })();
+</script>

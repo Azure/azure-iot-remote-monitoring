@@ -1,0 +1,34 @@
+﻿@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.EditDeviceRuleModel
+@{
+    ViewBag.Title = "Edit Device Rule Properties";
+    Layout = "~/Views/Shared/_LayoutNoNavigation.cshtml";
+}
+
+<header class="header_main">
+
+    <button class="button_back" type="button"></button>
+    <h2 class="header_main_subhead header_main_subhead_large">@string.Format(Strings.EditDeviceRuleFormatted, Strings.Create, Model.DeviceID)</h2>
+
+</header>
+
+<div class="content_outer">
+    <div class="content_inner">
+        <div id="content">
+            <div id="deviceRuleMetadataForm">
+                <p class="grid_detail_value">@Strings.DeviceRulesFullError</p>
+                <button class="view_rules_button" id="view_rules_button">@Strings.ViewRules</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    "use strict";
+
+    var resources = {
+        redirectUrl: '@Url.Action("Index", "DeviceRules")'
+    }
+</script>
+
+<script type="text/javascript" src="~/Scripts/Views/DeviceRules/AllRulesAssigned.js"></script>

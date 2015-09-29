@@ -1,0 +1,10 @@
+﻿@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SecurityKeysModel
+
+<h4 class="grid_subhead_detail_label divider_fieldset_subhead">@Strings.IoTHub</h4>
+
+<h5 class="grid_subhead_detail_label">@Strings.AuthKey1</h5>
+<p class="grid_detail_value">@Model.PrimaryKey</p>
+
+<h5 class="grid_subhead_detail_label">@Strings.AuthKey2</h5>
+<p class="grid_detail_value">@Model.SecondaryKey</p>

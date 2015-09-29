@@ -1,0 +1,15 @@
+﻿@{
+    Layout = "_BaseLayout.cshtml";
+}
+
+@section Main
+{
+    <main class="no_nav">
+        @RenderBody()
+    </main>
+}
+
+@section scripts{
+    @RenderSection("scripts", required: false)
+}
+

@@ -1,0 +1,63 @@
+﻿@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.RegisteredDeviceModel
+
+
+@if (Model.DeviceType.IsSimulatedDevice)
+{
+    <h2 class="manage_subhead">@Strings.SimulatorCredentialHeader</h2>
+}
+else
+{
+    <h2 class="manage_subhead">@Strings.CopyCredentials</h2>
+}
+
+<table class="table_credentials">
+    <tbody>
+        <tr>
+            <td class="table_credentials_label">
+                @Strings.DeviceIdColon
+            </td>
+            <td class="table_credentials_value">
+                @IoTHelpers.TextCopy("DeviceId", "input_credentials_device_id", @Model.DeviceId)
+            </td>
+        </tr>
+        <tr>
+            <td class="table_credentials_label">
+                @Strings.AzureDevicesHostnameColon
+            </td>
+            <td class="table_credentials_value">
+                @IoTHelpers.TextCopy("AzureDevicesHostname", "input_credentials_hostname", @Model.HostName)
+            </td>
+        </tr>
+        <tr>
+            <td class="table_credentials_label">
+                @Strings.DeviceKeyColon
+            </td>
+            <td class="table_credentials_value">
+                @IoTHelpers.TextCopy("PrimaryKey", "input_credentials_auth_1", @Model.PrimaryKey)
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<button type="button" class="button_credentials" onclick="location.href = '@Url.Action("Index", "Device")' ">@Strings.Done</button>
+
+@if (!string.IsNullOrWhiteSpace(Model.InstructionsUrl)) {
+<div class="content_instructions">
+
+    <h3>
+        <a href="@Model.InstructionsUrl" target="_blank">@String.Format(@Strings.InstructionsForYourDeviceFormatted, @Model.DeviceType.Name)</a>
+        @Strings.OpensInNewTab
+    </h3>
+  
+</div>
+}
+
+<script type="text/javascript">
+    var resources = {
+        addDevice: '@String.Format(@Strings.AddADeviceFormatted, @Model.DeviceType.Name)',
+        stepThree: '@Strings.StepThreeHeader'
+    }
+</script>
+<script type="text/javascript" src="~/Scripts/Views/Device/AddDeviceCopy.js"></script>

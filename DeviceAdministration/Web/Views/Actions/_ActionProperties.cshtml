@@ -1,0 +1,9 @@
+﻿@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.ActionPropertiesModel
+
+
+@{
+    if (Model.HasAssignActionPerm)
+    {
+        Html.RenderPartial("_ActionPropertiesUpdateAction", Model.UpdateActionModel);
+    }
+}

@@ -1,0 +1,17 @@
+﻿@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceDetailsKeysModel
+           
+<header class="header_grid">
+    <h3 class="grid_subheadhead_detail">@Strings.AuthenticationKeys</h3>
+</header>
+
+
+@if (Model.IsAllowedToViewKeys)
+{
+    <section class="details_grid_general">
+        <p class="grid_detail_value">
+            <a href="#" id="deviceExplorer_authKeys" class="not_disable">@Strings.ViewAuthenticationKeys</a>
+        </p>
+    </section>
+
+}
