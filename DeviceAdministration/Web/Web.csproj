@@ -350,14 +350,6 @@
     <Content Include="Scripts\jquery-datatables-api-extensions.js" />
     <Content Include="Scripts\dialog.js" />
     <Content Include="Scripts\jquery-dataTables-plugins.js" />
-    <Content Include="..\..\license.rtf">
-      <Link>license.rtf</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\THIRDPARTYNOTICE %28Azure IoT Suite Monitoring Solutions%29.rtf">
-      <Link>THIRDPARTYNOTICE %28Azure IoT Suite Monitoring Solutions%29.rtf</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
