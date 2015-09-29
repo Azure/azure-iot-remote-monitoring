@@ -21,6 +21,13 @@ $environmentName = $environmentName.ToLowerInvariant()
 . "$(Split-Path $MyInvocation.MyCommand.Path)\DeploymentLib.ps1"
 InitializeEnvironment $environmentName
 
+# 
+
+
+
+
+
+
 # Validate arguments
 [string[]]$services = @();
 if ([string]::IsNullOrEmpty($serviceList))

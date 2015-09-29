@@ -90,7 +90,7 @@ function GetAuthenticationResult()
 
 function ValidateLocation()
 {
-	param ([Parameter(Mandatory=$true)][string]$location)
+    param ([Parameter(Mandatory=$true)][string]$location)
     $locations = Execute-Command -Command ("Get-AzureLocation")
     if ($locations -eq $null)
     {
@@ -106,10 +106,10 @@ function ValidateLocation()
     }
     Write-Warning "$(Get-Date –f $timeStampFormat) - Location $location is not available for this subscription.  Specify different -Location";
     Write-Warning "$(Get-Date –f $timeStampFormat) - Available Locations:";
-	foreach ($loc in $locations)
-	{
-		Write-Warning $loc.Name
-	}
+    foreach ($loc in $locations)
+    {
+        Write-Warning $loc.Name
+    }
     return $false
 }
 
@@ -138,7 +138,7 @@ function Execute-Command($Command, [Array]$ExpectedExceptionList, $maxCommandRet
             Write-Verbose ("Message: {0}" -f $ex.Exception.Message)
             Write-Verbose ("Status: {0}" -f $ex.Exception.Status)
             Write-Verbose ("Error code: {0}" -f $ex.Exception.ErrorCode)
-			Write-Verbose "ExceptionList: $($ExpectedExceptionList -ne $Null)"
+            Write-Verbose "ExceptionList: $($ExpectedExceptionList -ne $Null)"
 
             if ($ExpectedExceptionList -ne $Null)
             {
@@ -154,7 +154,7 @@ function Execute-Command($Command, [Array]$ExpectedExceptionList, $maxCommandRet
                 }
                 if ($ExpectedExceptionList.Contains($global:resourceNotFound))
                 {
-					Write-Verbose "Checking for resource not found..."
+                    Write-Verbose "Checking for resource not found..."
                     if ((IsResourceNotFound $ex))
                     {
                         Write-Host "$(Get-Date –f $timeStampFormat) - Resource not found"
@@ -190,11 +190,11 @@ function Execute-Command($Command, [Array]$ExpectedExceptionList, $maxCommandRet
                     Start-Sleep 30
                 }
 
-				"StorageException"
-				{
+                "StorageException"
+                {
                     Write-Warning "$(Get-Date –f $timeStampFormat) - Caught StorageException. Will retry";
                     Start-Sleep 30
-				}
+                }
 
                 "WebException"
                 {
@@ -220,9 +220,9 @@ function Execute-Command($Command, [Array]$ExpectedExceptionList, $maxCommandRet
                     }
                 }
 
-				"HttpRequestException"
-				{
-				    switch ($ex.Exception.InnerException.Status)
+                "HttpRequestException"
+                {
+                    switch ($ex.Exception.InnerException.Status)
                     {
                         "ConnectFailure"
                         {
@@ -237,12 +237,12 @@ function Execute-Command($Command, [Array]$ExpectedExceptionList, $maxCommandRet
                             $subscriptions | Remove-AzureSubscription -Confirm:$false -Force -EA SilentlyContinue
                             LoadSubscription($false)
                         }
-						default
-						{
+                        default
+                        {
                             throw $ex.Exception.InnerException
                         }
                     }
-				}
+                }
 
                 default
                 {
@@ -260,27 +260,27 @@ function IsResourceNotFound()
         [Parameter(Mandatory=$true,Position=0)] $exc
     )
 
-	write-verbose "GetType.Name $($exc.Exception.GetType().Name)"
+    write-verbose "GetType.Name $($exc.Exception.GetType().Name)"
     if ($exc.Exception.GetType().Name -eq "ResourceNotFoundException")
     {
         return $true
     }
-	write-verbose "ErrorCode $($exc.Exception.ErrorCode)"
-	if ($exc.Exception.ErrorCode -eq "ResourceNotFound")
-	{
-		return $true
-	}
-	write-verbose "Messsage $($exc.Exception.Message)"
-	if ($exc.Exception.Message.StartsWith("ResourceNotFound"))
-	{
-		return $true
-	}
+    write-verbose "ErrorCode $($exc.Exception.ErrorCode)"
+    if ($exc.Exception.ErrorCode -eq "ResourceNotFound")
+    {
+        return $true
+    }
+    write-verbose "Messsage $($exc.Exception.Message)"
+    if ($exc.Exception.Message.StartsWith("ResourceNotFound"))
+    {
+        return $true
+    }
 
     if ($exc.Exception.GetType().Name -ne "ServiceManagementClientException")
     {
         return $false
     }
-	write-verbose "ErrorDetails.Code $($exc.Exception.ErrorDetails.Code)"
+    write-verbose "ErrorDetails.Code $($exc.Exception.ErrorDetails.Code)"
     return ($exc.Exception.ErrorDetails.Code -eq 'ResourceNotFound')
 }
 
@@ -299,120 +299,120 @@ function GetAzureStorageAccount()
 function ValidateAzureStorageAccount()
 {
     Param(
-	    [Parameter(Mandatory=$true,Position=0)] [string] $serviceBaseName,
+        [Parameter(Mandatory=$true,Position=0)] [string] $serviceBaseName,
         [Parameter(Mandatory=$true,Position=1)] [string] $storageNamePrefix
     )
 
-	# Look for existing account matching pattern
-	$storageAccounts = Execute-Command -Command "Get-AzureStorageAccount"
-	foreach ($store in $storageAccounts)
-	{
-		if ($store.StorageAccountName.StartsWith($storageNamePrefix))
-		{
+    # Look for existing account matching pattern
+    $storageAccounts = Execute-Command -Command "Get-AzureStorageAccount"
+    foreach ($store in $storageAccounts)
+    {
+        if ($store.StorageAccountName.StartsWith($storageNamePrefix))
+        {
             Write-Host ("$(Get-Date –f $timeStampFormat) - Using storage account {0}..." -f $store.StorageAccountName)
-			UpdateEnvSetting "$($serviceBaseName)StoreAccountName" $store.StorageAccountName
-			return $store.StorageAccountName
-		}
-	}
+            UpdateEnvSetting "$($serviceBaseName)StoreAccountName" $store.StorageAccountName
+            return $store.StorageAccountName
+        }
+    }
 
-	# create account
-	$max = 10
-	$store = $null
-	Write-Host "Storage account not found, will create a new one..."
-	$name = $storageNamePrefix
-	while ($store -eq $null)
-	{
-		$request = New-AzureStorageAccount -StorageAccountName $name -Location $global:AllocationRegion -EA SilentlyContinue
-		if ($request.OperationStatus -eq "Succeeded")
-		{
-			$store = GetAzureStorageAccount $name
+    # create account
+    $max = 10
+    $store = $null
+    Write-Host "Storage account not found, will create a new one..."
+    $name = $storageNamePrefix
+    while ($store -eq $null)
+    {
+        $request = New-AzureStorageAccount -StorageAccountName $name -Location $global:AllocationRegion -EA SilentlyContinue
+        if ($request.OperationStatus -eq "Succeeded")
+        {
+            $store = GetAzureStorageAccount $name
             Write-Host ("$(Get-Date –f $timeStampFormat) - Created storage account {0}..." -f $store.StorageAccountName)
-			PutEnvSetting "$($serviceBaseName)StoreAccountName" $store.StorageAccountName
-			return $store.StorageAccountName
-		}
-		if ($max-- -eq 0)
-		{
-			Write-Error -Message "Unable to create storage account for prefix $storageNamePrefix"
-		}
-		$name = "{0}{1:x}" -f $storageNamePrefix, (Get-Date).Millisecond
-	}
-	exit 1
+            PutEnvSetting "$($serviceBaseName)StoreAccountName" $store.StorageAccountName
+            return $store.StorageAccountName
+        }
+        if ($max-- -eq 0)
+        {
+            Write-Error -Message "Unable to create storage account for prefix $storageNamePrefix"
+        }
+        $name = "{0}{1:x}" -f $storageNamePrefix, (Get-Date).Millisecond
+    }
+    exit 1
 }
 
 function ValidateAzureServicebusNamespace()
 {
     Param(
-	    [Parameter(Mandatory=$true,Position=0)] [string] $serviceBaseName,
+        [Parameter(Mandatory=$true,Position=0)] [string] $serviceBaseName,
         [Parameter(Mandatory=$true,Position=1)] [string] $serviceBusNamePrefix,
         [Parameter(Mandatory=$true,Position=2)] [string] $eventHubPath
     )
 
-	# Look for existing account matching pattern
-	$namespaces = Execute-Command -Command "Get-AzureSBNamespace"
-	$namespace = $null;
-	foreach ($sbNamespace in $namespaces)
-	{
-		if ($sbNamespace.Name.StartsWith($serviceBusNamePrefix))
-		{
+    # Look for existing account matching pattern
+    $namespaces = Execute-Command -Command "Get-AzureSBNamespace"
+    $namespace = $null;
+    foreach ($sbNamespace in $namespaces)
+    {
+        if ($sbNamespace.Name.StartsWith($serviceBusNamePrefix))
+        {
             Write-Host ("$(Get-Date –f $timeStampFormat) - Using Servicebus namespace {0}..." -f $sbNamespace.Name)
-			UpdateEnvSetting "$($serviceBaseName)SBName" $sbNamespace.Name
-			UpdateEnvSetting "$($serviceBaseName)SBConnectionString" $sbNamespace.ConnectionString
-			UpdateEnvSetting "$($serviceBaseName)EHName" $eventHubPath
-			$namespace = $sbNamespace;
-			break
-		}
-	}
+            UpdateEnvSetting "$($serviceBaseName)SBName" $sbNamespace.Name
+            UpdateEnvSetting "$($serviceBaseName)SBConnectionString" $sbNamespace.ConnectionString
+            UpdateEnvSetting "$($serviceBaseName)EHName" $eventHubPath
+            $namespace = $sbNamespace;
+            break
+        }
+    }
 
-	# create account
-	$max = 10
-	$name = $serviceBusNamePrefix
-	while ($namespace -eq $null)
-	{
-		Write-Host "Servicebus namespace not found, will create a new one..."
-		$namespace = Execute-Command -Command ("New-AzureSBNamespace -Name $name -Location '$global:AllocationRegion' -NamespaceType 'Messaging' -CreateACSNamespace:`$false") -ExpectedExceptionList @("CloudException")
-		if ($max-- -eq 0)
-		{
-			Write-Error -Message "Unable to create storage account for prefix $storageNamePrefix"
-		}
-		$name = "{0}{1:x}" -f $serviceBusNamePrefix, (Get-Date).Millisecond
-		Start-Sleep 30
-	}
+    # create account
+    $max = 10
+    $name = $serviceBusNamePrefix
+    while ($namespace -eq $null)
+    {
+        Write-Host "Servicebus namespace not found, will create a new one..."
+        $namespace = Execute-Command -Command ("New-AzureSBNamespace -Name $name -Location '$global:AllocationRegion' -NamespaceType 'Messaging' -CreateACSNamespace:`$false") -ExpectedExceptionList @("CloudException")
+        if ($max-- -eq 0)
+        {
+            Write-Error -Message "Unable to create storage account for prefix $storageNamePrefix"
+        }
+        $name = "{0}{1:x}" -f $serviceBusNamePrefix, (Get-Date).Millisecond
+        Start-Sleep 30
+    }
 
-	# check if create failed
-	if ($namespace -eq $null)
-	{
-		exit 1
-	}
+    # check if create failed
+    if ($namespace -eq $null)
+    {
+        exit 1
+    }
 
-	[int]$retries = 0
-	$name = $namespace.Name
-	while ($namespace.Status -ne "Active")
-	{
-		$retries++
-		Write-Host -NoNewline "."
-		Start-Sleep 30
-		$namespace = Execute-Command -Command ("Get-AzureSBNamespace $name")  -ExpectedExceptionList @($global:resourceNotFound)
-		if ($retries -gt 10)
-		{
+    [int]$retries = 0
+    $name = $namespace.Name
+    while ($namespace.Status -ne "Active")
+    {
+        $retries++
+        Write-Host -NoNewline "."
+        Start-Sleep 30
+        $namespace = Execute-Command -Command ("Get-AzureSBNamespace $name")  -ExpectedExceptionList @($global:resourceNotFound)
+        if ($retries -gt 10)
+        {
             Write-warning -Message "$(Get-Date –f $timeStampFormat) - Servicebus namespace '$name' did not activate within 5 minutes"
-			exit 1
-		}
-	}
+            exit 1
+        }
+    }
 
-	# create eventhub
-	$NamespaceManager = [Microsoft.ServiceBus.NamespaceManager]::CreateFromConnectionString($namespace.ConnectionString);
-	if ($NamespaceManager.EventHubExists("$eventHubPath"))
-	{
-		return $namespace.Name
-	}
-	$EventHubDescription = New-Object -TypeName Microsoft.ServiceBus.Messaging.EventHubDescription -ArgumentList $eventHubPath
-	$EventHubDescription.PartitionCount = 16
-	$EventHubDescription.MessageRetentionInDays = 7
-	$NamespaceManager.CreateEventHub($EventHubDescription);
-	UpdateEnvSetting "$($serviceBaseName)SBName" $namespace.Name
-	UpdateEnvSetting "$($serviceBaseName)SBConnectionString" $namespace.ConnectionString
-	UpdateEnvSetting "$($serviceBaseName)EHName" $eventHubPath
-	return $namespace.Name
+    # create eventhub
+    $NamespaceManager = [Microsoft.ServiceBus.NamespaceManager]::CreateFromConnectionString($namespace.ConnectionString);
+    if ($NamespaceManager.EventHubExists("$eventHubPath"))
+    {
+        return $namespace.Name
+    }
+    $EventHubDescription = New-Object -TypeName Microsoft.ServiceBus.Messaging.EventHubDescription -ArgumentList $eventHubPath
+    $EventHubDescription.PartitionCount = 16
+    $EventHubDescription.MessageRetentionInDays = 7
+    $NamespaceManager.CreateEventHub($EventHubDescription);
+    UpdateEnvSetting "$($serviceBaseName)SBName" $namespace.Name
+    UpdateEnvSetting "$($serviceBaseName)SBConnectionString" $namespace.ConnectionString
+    UpdateEnvSetting "$($serviceBaseName)EHName" $eventHubPath
+    return $namespace.Name
 }
 
 function UpdateAzureStorageAccountConnectionString()
@@ -420,9 +420,9 @@ function UpdateAzureStorageAccountConnectionString()
     Param(
         [Parameter(Mandatory=$true,Position=0)] [string] $serviceBaseName
     )
-	$storageAccountName = "$($serviceBaseName)StoreAccountName"
+    $storageAccountName = "$($serviceBaseName)StoreAccountName"
     $connectionStringName = "$($serviceBaseName)StoreAccountConnectionString"
-	$storageName = GetEnvSetting $storageAccountName
+    $storageName = GetEnvSetting $storageAccountName
     $storageKey = Execute-Command -Command ("Get-AzureStorageKey $storageName")
     $connectionString = "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}" -f $storageName, $storageKey.Primary
     $cloudStorageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($connectionString)
@@ -444,18 +444,18 @@ function EnvSettingExists()
 
 function GetOrSetEnvSetting()
 {
-	Param(
-		[Parameter(Mandatory=$true,Position=0)] [string] $settingName,
+    Param(
+        [Parameter(Mandatory=$true,Position=0)] [string] $settingName,
         [Parameter(Mandatory=$true,Position=1)] [string] $command
-		)
+        )
 
-		$settingValue = GetEnvSetting $settingName $false
-		if ([string]::IsNullOrEmpty($settingValue))
-		{
-			$settingValue = Invoke-Expression -Command $command
-			$null = PutEnvSetting $settingName $settingValue
-		}
-		return $settingValue
+        $settingValue = GetEnvSetting $settingName $false
+        if ([string]::IsNullOrEmpty($settingValue))
+        {
+            $settingValue = Invoke-Expression -Command $command
+            $null = PutEnvSetting $settingName $settingValue
+        }
+        return $settingValue
 }
 
 function UpdateEnvSetting()
@@ -464,11 +464,11 @@ function UpdateEnvSetting()
         [Parameter(Mandatory=$true,Position=0)] $settingName,
         [Parameter(Mandatory=$true,Position=1)] [AllowEmptyString()] $settingValue
         )
-	$currentValue = GetEnvSetting $settingName $false
-	if ($currentValue -ne $settingValue)
-	{
-		PutEnvSetting $settingName $settingValue
-	}
+    $currentValue = GetEnvSetting $settingName $false
+    if ($currentValue -ne $settingValue)
+    {
+        PutEnvSetting $settingName $settingValue
+    }
 }
 
 function GetEnvSetting()
@@ -497,21 +497,21 @@ function PutEnvSetting()
         [Parameter(Mandatory=$True,Position=0)] [string] $settingName,
         [Parameter(Mandatory=$True,Position=1)] [AllowEmptyString()] [string] $settingValue
         )
-		if (EnvSettingExists $settingName)
-		{
+        if (EnvSettingExists $settingName)
+        {
             Write-Host "$(Get-Date –f $timeStampFormat) - $settingName changed to $settingValue"
-			$global:envSettingsXml.Environment.SelectSingleNode("//setting[@name = '$settingName']").value = $settingValue
-		}
-		else
-		{
+            $global:envSettingsXml.Environment.SelectSingleNode("//setting[@name = '$settingName']").value = $settingValue
+        }
+        else
+        {
             Write-Host "$(Get-Date –f $timeStampFormat) - Added $settingName with value $settingValue"
-			$node = $envSettingsXml.CreateElement("setting")
-			$node.SetAttribute("name", $settingName)
-			$node.SetAttribute("value", $settingValue)
-			$envSettingsXml.Environment.AppendChild($node)
-		}
-		$global:envSettingsChanges++
-		$envSettingsXml.Save((Get-Item $global:environmentSettingsFile).FullName)
+            $node = $envSettingsXml.CreateElement("setting")
+            $node.SetAttribute("name", $settingName)
+            $node.SetAttribute("value", $settingValue)
+            $envSettingsXml.Environment.AppendChild($node)
+        }
+        $global:envSettingsChanges++
+        $envSettingsXml.Save((Get-Item $global:environmentSettingsFile).FullName)
 }
 
 function Publish()
@@ -523,7 +523,7 @@ function Publish()
         $packageLocation,
         $cloudConfigLocation)
 
-	Write-Progress -Activity "Deploying Service" -CurrentOperation "Publish $serviceName" -PercentComplete 0
+    Write-Progress -Activity "Deploying Service" -CurrentOperation "Publish $serviceName" -PercentComplete 0
     $deployment =  Execute-Command -Command ("Get-AzureDeployment -ServiceName $serviceName -Slot $slot") -ExpectedExceptionList @($global:resourceNotFound)
 
     #check for existing deployment and then either upgrade, otherwise new deployment
@@ -551,7 +551,7 @@ function CreateNewDeployment()
     $retry = 0;
     while ($retry++ -lt 5)
     {
-		Write-Progress -Activity "Deploying Service" -CurrentOperation "CreateNewDeployment $serviceName" -PercentComplete $retry
+        Write-Progress -Activity "Deploying Service" -CurrentOperation "CreateNewDeployment $serviceName" -PercentComplete $retry
         $completeDeployment =  Execute-Command -Command ("Get-AzureDeployment -ServiceName $serviceName -Slot $slot") -ExpectedExceptionList @($global:resourceNotFound)
         if ($completeDeployment -ne $null)
         {
@@ -594,7 +594,7 @@ function UpgradeDeployment()
         $packageLocation,
         $cloudConfigLocation)
 
-	Write-Progress -Activity "Deploying Service" -CurrentOperation "UpgradeDeployment $serviceName" -PercentComplete 1
+    Write-Progress -Activity "Deploying Service" -CurrentOperation "UpgradeDeployment $serviceName" -PercentComplete 1
     Write-Host "$(Get-Date –f $timeStampFormat) - $serviceName - Upgrading Deployment: In progress"
 
     # perform Update-Deployment
@@ -613,7 +613,7 @@ function DeleteDeployment()
         $serviceName,
         $slot)
 
-	Write-Progress -Activity "Deploying Service" -CurrentOperation "DeleteDeployment $serviceName" -PercentComplete 1
+    Write-Progress -Activity "Deploying Service" -CurrentOperation "DeleteDeployment $serviceName" -PercentComplete 1
     Write-Host "$(Get-Date –f $timeStampFormat) - $serviceName - Deleting Deployment: In progress"
 
     #WARNING - always deletes with force
@@ -643,10 +643,10 @@ function StartInstances()
     $runstatus = $deployment.Status
     # For timeout
     $stageTimeoutTime = ResetTimer
-	$count=0
+    $count=0
     while ($runstatus -eq 'Deploying')
     {
-		Write-Progress -Activity "Deploying Service" -CurrentOperation "Wait for deployment: $serviceName" -PercentComplete ($count++)
+        Write-Progress -Activity "Deploying Service" -CurrentOperation "Wait for deployment: $serviceName" -PercentComplete ($count++)
         Write-Host "$(Get-Date –f $timeStampFormat) - $serviceName - Deployment status: $runstatus"
         $deployment = Execute-Command -Command ("Get-AzureDeployment -ServiceName $serviceName -Slot $slot")
         $runstatus = $deployment.Status
@@ -659,10 +659,10 @@ function StartInstances()
             exit 1
         }
         sleep -Seconds 30
-		if ($count -eq 100)
-		{
-			$count = 90
-		}
+        if ($count -eq 100)
+        {
+            $count = 90
+        }
     }
 
     Write-Host "$(Get-Date –f $timeStampFormat) - $serviceName - Starting Instances: In progress"
@@ -676,7 +676,7 @@ function StartInstances()
 
     while (-not(AllInstancesRunning($deployment.RoleInstanceList)))
     {
-		Write-Progress -Activity "Deploying Service" -CurrentOperation "Wait for status: $serviceName" -PercentComplete ($count++)
+        Write-Progress -Activity "Deploying Service" -CurrentOperation "Wait for status: $serviceName" -PercentComplete ($count++)
         $i = 1
         foreach ($roleInstance in $deployment.RoleInstanceList)
         {
@@ -693,10 +693,10 @@ function StartInstances()
         }
 
         sleep -Seconds 10
-		if ($count -eq 100)
-		{
-			$count = 90
-		}
+        if ($count -eq 100)
+        {
+            $count = 90
+        }
 
         $deployment =  Execute-Command -Command ("Get-AzureDeployment -ServiceName $serviceName -Slot $slot") -WriteStatus $false
 
@@ -751,7 +751,7 @@ function StartInstances()
     $opstat = $deployment.Status
 
     Write-Host "$(Get-Date –f $timeStampFormat) - $serviceName - Starting Instances: $opstat"
-	Write-Progress -Activity "Deploying Service" -CurrentOperation "Wait for status: $serviceName" -Complete
+    Write-Progress -Activity "Deploying Service" -CurrentOperation "Wait for status: $serviceName" -Complete
 }
 
 function AllInstancesRunning($roleInstanceList)
@@ -781,17 +781,17 @@ function LoadAzureAssembly()
 
 function GetServices()
 {
-	$services = @();
-	foreach($setting in $global:envSettingsXml.ChildNodes.setting)
-	{
-		if ($setting.name.EndsWith($global:serviceNameToken))
-		{
-			$service = $setting.Name.Substring(0, $setting.Name.Length - $global:serviceNameToken.Length)
+    $services = @();
+    foreach($setting in $global:envSettingsXml.ChildNodes.setting)
+    {
+        if ($setting.name.EndsWith($global:serviceNameToken))
+        {
+            $service = $setting.Name.Substring(0, $setting.Name.Length - $global:serviceNameToken.Length)
             Write-Host "$(Get-Date –f $timeStampFormat) - Found Service: $service"
-			$services += $service
-		}
-	}
-	return $services
+            $services += $service
+        }
+    }
+    return $services
 }
 
 function ValidateService()
@@ -802,20 +802,20 @@ function ValidateService()
         [Parameter(Mandatory=$false,Position=2)][switch] $create = $false
     )
 
-	# Don't provision for local environments
-	if ($environmentName -eq "Local")
-	{
-		return
-	}
+    # Don't provision for local environments
+    if ($environmentName -eq "Local")
+    {
+        return
+    }
 
     $serviceName = GetEnvSetting "$($serviceBaseName)ServiceName"
-	if ([string]::IsNullOrEmpty($serviceName))
-	{
-		$serviceName = "{0}{1}" -f $environmentName, $serviceBaseName
-		PutEnvSetting "$($serviceBaseName)ServiceName" $serviceName
-	}
+    if ([string]::IsNullOrEmpty($serviceName))
+    {
+        $serviceName = "{0}{1}" -f $environmentName, $serviceBaseName
+        PutEnvSetting "$($serviceBaseName)ServiceName" $serviceName
+    }
     $sslThumbprintName = "$($serviceBaseName)SslThumbprint"
-	$certCn = $serviceName + ".azurewebsites.net"
+    $certCn = $serviceName + ".azurewebsites.net"
 
     # Try to get service
     $service = Execute-Command -Command ("Get-AzureService -ServiceName $serviceName") -ExpectedExceptionList @($global:resourceNotFound)
@@ -828,39 +828,39 @@ function ValidateService()
 
         if (EnvSettingExists($sslThumbprintName))
         {
-			if ($global:makeCertPath -eq $null)
-			{
-				$paths = New-Object 'System.Collections.Generic.List[string]'
-				$paths.Add(".")
-				$paths.AddRange($env:path.Split(';'))
-				$makeCert = get-childitem -filter makecert.exe -Path $paths
-				if ($makeCert -ne $null)
-				{
-					$global:makeCertPath = $makeCert[0].FullName
-				}
-				else
-				{
+            if ($global:makeCertPath -eq $null)
+            {
+                $paths = New-Object 'System.Collections.Generic.List[string]'
+                $paths.Add(".")
+                $paths.AddRange($env:path.Split(';'))
+                $makeCert = get-childitem -filter makecert.exe -Path $paths
+                if ($makeCert -ne $null)
+                {
+                    $global:makeCertPath = $makeCert[0].FullName
+                }
+                else
+                {
                     Write-Warning "$(Get-Date –f $timeStampFormat) - Can't create a certificate for $serviceName, deployment will fail if certificate isn't manually uploaded"
                     Write-Warning "$(Get-Date –f $timeStampFormat) - Unable to find MakeCert.exe in path, will not create certificates"
                     Write-Warning "$(Get-Date –f $timeStampFormat) - MakeCert is available as part of the Windows SDK, which you can download from http://go.microsoft.com/fwlink/p/?linkid=84091."
-				}
-			}
+                }
+            }
 
-			if ($global:makeCertPath -ne $null)
-			{
-				# Add a selfsigned certificate for now.  Ops needs to add official certs (if needed).
-				$pass = "{0:x}" -f (get-date).Ticks
-				$certPfx = "$global:azurePath\$certCn.pfx"
-				$certCer = "$global:azurePath\$certCn.cer"
-				& certutil -delstore "My" "$certCn"
-				& $global:makeCertPath -n "CN=$certCn" -ss my -sr LocalMachine -r -pe -len 2048 $certCer
-				& certutil -p $pass -exportpfx "My" "$certCn" "$certPfx"
-				& certutil -delstore "My" "$certCn"
-				Execute-Command -Command ("Add-AzureCertificate -ServiceName $serviceName -CertToDeploy `"$certPfx`" -Password $pass")
-				Remove-Item $certCer
-				Remove-Item $certPfx
+            if ($global:makeCertPath -ne $null)
+            {
+                # Add a selfsigned certificate for now.  Ops needs to add official certs (if needed).
+                $pass = "{0:x}" -f (get-date).Ticks
+                $certPfx = "$global:azurePath\$certCn.pfx"
+                $certCer = "$global:azurePath\$certCn.cer"
+                & certutil -delstore "My" "$certCn"
+                & $global:makeCertPath -n "CN=$certCn" -ss my -sr LocalMachine -r -pe -len 2048 $certCer
+                & certutil -p $pass -exportpfx "My" "$certCn" "$certPfx"
+                & certutil -delstore "My" "$certCn"
+                Execute-Command -Command ("Add-AzureCertificate -ServiceName $serviceName -CertToDeploy `"$certPfx`" -Password $pass")
+                Remove-Item $certCer
+                Remove-Item $certPfx
                 Write-Warning "$(Get-Date –f $timeStampFormat) - $serviceName was created with a private selfsigned certificate."
-			}
+            }
         }
     }
     if ($service -ne $null)
@@ -871,14 +871,14 @@ function ValidateService()
             $certs = Execute-Command -Command ("Get-AzureCertificate -ServiceName $serviceName")
             foreach ($cert in $certs)
             {
-			    $x509Cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2
-				$x509Cert.Import([System.Convert]::FromBase64String($cert.Data))
+                $x509Cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2
+                $x509Cert.Import([System.Convert]::FromBase64String($cert.Data))
                 if ($x509Cert.Thumbprint -eq $currentThumbprint)
                 {
                     $thumbprint = $x509Cert.Thumbprint
                     break
                 }
-				# Gets cert by name for selfsigned certs
+                # Gets cert by name for selfsigned certs
                 if ($x509Cert.Subject -eq "cn=$certCn")
                 {
                     $thumbprint = $x509Cert.Thumbprint
@@ -896,36 +896,36 @@ function UpdateServiceConfig()
 {
     Param(
         [Parameter(Mandatory=$true,Position=0)] $serviceName,
-		[Parameter(Mandatory=$true,Position=1)] $buildPath
-		)
-	$configToken = "config:"
-	$configFile = "{0}\Services\{1}\pub\ServiceConfiguration.Cloud.cscfg" -f $buildPath, $serviceName
-	$config = [xml](cat $configFile)
+        [Parameter(Mandatory=$true,Position=1)] $buildPath
+        )
+    $configToken = "config:"
+    $configFile = "{0}\Services\{1}\pub\ServiceConfiguration.Cloud.cscfg" -f $buildPath, $serviceName
+    $config = [xml](cat $configFile)
 
-	# Update settings
-	foreach ($node in $config.ServiceConfiguration.Role.ConfigurationSettings.ChildNodes)
-	{
-		if ($node.value.StartsWith($configToken, 1))
-		{
-			$node.value = GetEnvSetting ($node.value.Substring($node.value.IndexOf($configToken) + $configToken.Length))
-		}
-	}
+    # Update settings
+    foreach ($node in $config.ServiceConfiguration.Role.ConfigurationSettings.ChildNodes)
+    {
+        if ($node.value.StartsWith($configToken, 1))
+        {
+            $node.value = GetEnvSetting ($node.value.Substring($node.value.IndexOf($configToken) + $configToken.Length))
+        }
+    }
 
-	# Update certificate thumbprints
-	foreach ($node in $config.ServiceConfiguration.Role.Certificates.ChildNodes)
-	{
-		if (EnvSettingExists $node.name)
-		{
-			$node.thumbprint = GetEnvSetting $node.name
-		}
-	}
-	$config.Save($configFile)
+    # Update certificate thumbprints
+    foreach ($node in $config.ServiceConfiguration.Role.Certificates.ChildNodes)
+    {
+        if (EnvSettingExists $node.name)
+        {
+            $node.thumbprint = GetEnvSetting $node.name
+        }
+    }
+    $config.Save($configFile)
 }
 
 function GetAzureAccountInfo()
 {
-	$account = Add-AzureAccount
-	return $account.Id
+    $account = Add-AzureAccount
+    return $account.Id
 }
 
 function GetAADTenant()
@@ -933,7 +933,7 @@ function GetAADTenant()
     $account = Get-AzureAccount $global:AzureAccountName
     $tenants = ($account.Tenants -replace '(?:\r\n)',',').split(",")
     if ($tenants.Count -eq 0)
-	{
+    {
         Write-Error "No Active Directory domains found for '$global:AzureAccountName)'"
         Exit -1
     }
@@ -956,10 +956,10 @@ function GetAADTenant()
             if ($result -ne $null)
             {
                 Write-Host "$tenant  $($result.userPrincipalName.Split('@')[1])"
-	}
+    }
         }
 
-	# Can't determine AADTenant, so prompt
+    # Can't determine AADTenant, so prompt
         $tenantId = "notset"
         while (!$account.Tenants.Contains($tenantId))
         {
@@ -1028,7 +1028,7 @@ function InitializeEnvironment()
 {
     Param(
         [Parameter(Mandatory=$true,Position=0)] $environmentName
-	)
+    )
     $null = ImportLibraries
     $global:environmentName = $environmentName
     if ($environmentName -eq "Local")
@@ -1040,94 +1040,67 @@ function InitializeEnvironment()
         $global:site = "https://{0}.azurewebsites.net/" -f $environmentName
     }
 
-	# Validate environment variables
-	$global:environmentSettingsFile = "{0}\..\..\{1}.config.user" -f $global:azurePath, $environmentName
-	if (!(Test-Path $global:environmentSettingsFile))
-	{
-		copy ("{0}\ConfigurationTemplate.config" -f $global:azurePath) $global:environmentSettingsFile
-		$global:envSettingsXml = [xml](cat $global:environmentSettingsFile)
-	}
+    # Validate environment variables
+    $global:environmentSettingsFile = "{0}\..\..\{1}.config.user" -f $global:azurePath, $environmentName
+    if (!(Test-Path $global:environmentSettingsFile))
+    {
+        copy ("{0}\ConfigurationTemplate.config" -f $global:azurePath) $global:environmentSettingsFile
+        $global:envSettingsXml = [xml](cat $global:environmentSettingsFile)
+    }
 
-	if (!(Test-Path variable:envsettingsXml))
-	{
-		$global:envSettingsXml = [xml](cat $global:environmentSettingsFile)
-	}
+    if (!(Test-Path variable:envsettingsXml))
+    {
+        $global:envSettingsXml = [xml](cat $global:environmentSettingsFile)
+    }
 
-	if (!(Test-Path variable:AzureAccountName) -or ((get-azureaccount $global:AzureAccountName) -eq $null))
-	{
-		$global:AzureAccountName = GetOrSetEnvSetting "AzureAccountName" "GetAzureAccountInfo"
-	}
+    if (!(Test-Path variable:AzureAccountName) -or ((get-azureaccount $global:AzureAccountName) -eq $null))
+    {
+        $global:AzureAccountName = GetOrSetEnvSetting "AzureAccountName" "GetAzureAccountInfo"
+    }
 
-	if (!(Test-Path variable:AADTenant))
-	{
-		$global:AADTenant = GetOrSetEnvSetting "AADTenant" "GetAADTenant"
-		UpdateEnvSetting "AADMetadataAddress" ("https://login.windows.net/{0}/FederationMetadata/2007-06/FederationMetadata.xml" -f $global:AADTenant)
-	}
+    if (!(Test-Path variable:AADTenant))
+    {
+        $global:AADTenant = GetOrSetEnvSetting "AADTenant" "GetAADTenant"
+        UpdateEnvSetting "AADMetadataAddress" ("https://login.windows.net/{0}/FederationMetadata/2007-06/FederationMetadata.xml" -f $global:AADTenant)
+    }
 
     # Provision AAD for webservice
     UpdateEnvSetting "AADAudience" ($global:site + "iot")
     UpdateEnvSetting "AADRealm" ($global:site + "iot")
 
-	if (!(Test-Path variable:SubscriptionId))
-	{
+    if (!(Test-Path variable:SubscriptionId))
+    {
         $accounts = Get-AzureSubscription -ErrorAction SilentlyContinue
         if ($accounts -eq $null)
         {
             $accounts = Get-AzureSubscription -ErrorAction Stop
         }
-		$global:SubscriptionId = GetEnvSetting "SubscriptionId"
-		if ([string]::IsNullOrEmpty($global:SubscriptionId))
-		{
-			$global:SubscriptionId = "z"
-		}
-		while (!$accounts.SubscriptionId.Contains($global:SubscriptionId))
-		{
-			Write-Host "Available subscriptions:"
-			$accounts |ft SubscriptionName, SubscriptionId -au
-			$global:SubscriptionId = Read-Host "Please select a valid SubscriptionId from list"
-		}
-		UpdateEnvSetting "SubscriptionId" $global:SubscriptionId
-	}
-	Select-AzureSubscription -SubscriptionId $global:SubscriptionId
+        $global:SubscriptionId = GetEnvSetting "SubscriptionId"
+        if ([string]::IsNullOrEmpty($global:SubscriptionId))
+        {
+            $global:SubscriptionId = "z"
+        }
+        while (!$accounts.SubscriptionId.Contains($global:SubscriptionId))
+        {
+            Write-Host "Available subscriptions:"
+            $accounts |ft SubscriptionName, SubscriptionId -au
+            $global:SubscriptionId = Read-Host "Please select a valid SubscriptionId from list"
+        }
+        UpdateEnvSetting "SubscriptionId" $global:SubscriptionId
+    }
+    Select-AzureSubscription -SubscriptionId $global:SubscriptionId
 
-	if (!(Test-Path variable:AllocationRegion))
-	{
-		$command = "Read-Host 'Enter Region to deploy resources (eg. West US)'"
-		$region = GetOrSetEnvSetting "AllocationRegion" $command
-		while (!(ValidateLocation $region))
-		{
-			$region = Invoke-Expression $command
-		}
-		UpdateEnvSetting "AllocationRegion" $region
-		$global:AllocationRegion = $region
-	}
-
-	# TODO - get EventHub details from IotHub
-	if (!(Test-Path variable:iotHubName))
-	{
-		$iotHubConnectionString = GetOrSetEnvSetting  "IotHubConnectionString" "Read-Host 'Enter IoT Hub connection string'"
-		$iotHub = New-Object StringParser($iotHubConnectionString)
-		$global:iotHubName = $iotHub.GetValue("HostName")
-		UpdateEnvSetting "iotHubName" $global:iotHubName
-		$iotHubKeyName = $iotHub.GetValue("SharedAccessKeyName")
-		UpdateEnvSetting "IotHubKeyName" $iotHubKeyName
-		$iotHubKey = $iotHub.GetValue("SharedAccessKey")
-		UpdateEnvSetting "IotHubKey" $iotHubKey
-	}
-	if (!(Test-Path variable:EventHubConnectionString))
-	{
-		$global:EventHubConnectionString = GetOrSetEnvSetting "EventHubConnectionString" "Read-Host 'Enter Event Hub connection string for IoT Hub $($global:iotHubName)'"
-		if ($global:EventHubConnectionString.ToLower().Contains(";entitypath="))
-		{
-			$serviceBus = New-Object StringParser($global:EventHubConnectionString)
-			$global:EventHubName = $serviceBus.GetValue("EntityPath")
-			UpdateEnvSetting "EventHubName" $global:EventHubName
-		}
-		else
-		{
-			$global:EventHubName = GetOrSetEnvSetting  "EventHubName" "Read-Host 'Enter EventHub Name for IoT Hub $($global:iotHubName)'"
-		}
-	}
+    if (!(Test-Path variable:AllocationRegion))
+    {
+        $command = "Read-Host 'Enter Region to deploy resources (eg. West US)'"
+        $region = GetOrSetEnvSetting "AllocationRegion" $command
+        while (!(ValidateLocation $region))
+        {
+            $region = Invoke-Expression $command
+        }
+        UpdateEnvSetting "AllocationRegion" $region
+        $global:AllocationRegion = $region
+    }
 }
 
 function ValidateStreamAnalyticsJob()
@@ -1137,35 +1110,35 @@ function ValidateStreamAnalyticsJob()
         [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroup,
         [Parameter(Mandatory=$true,Position=2)] [string] $jobDetails
     )
-	$createJob = $true
+    $createJob = $true
     $statusMessage = "$(Get-Date –f $timeStampFormat) - Creating Stream Analytics job $jobName..."
-	$jobDescription = $jobDetails |ConvertFrom-Json
-	$jobResult = Execute-Command -Command ("Get-AzureStreamAnalyticsJob -Name $jobName -ResourceGroupName $resourceGroup") -ExpectedExceptionList @($global:resourceNotFound)
-	if ($jobResult -ne $null)
-	{
-		# Check if job has correct query
-		if ($jobResult.Properties.Transformation.Properties.Query -eq $jobDescription.Properties.Transformation.Properties.Query)
-		{
-			$createJob = $false
-		}
-		else
-		{
-		    # Delete job that has old query
+    $jobDescription = $jobDetails |ConvertFrom-Json
+    $jobResult = Execute-Command -Command ("Get-AzureStreamAnalyticsJob -Name $jobName -ResourceGroupName $resourceGroup") -ExpectedExceptionList @($global:resourceNotFound)
+    if ($jobResult -ne $null)
+    {
+        # Check if job has correct query
+        if ($jobResult.Properties.Transformation.Properties.Query -eq $jobDescription.Properties.Transformation.Properties.Query)
+        {
+            $createJob = $false
+        }
+        else
+        {
+            # Delete job that has old query
             $statusMessage = "$(Get-Date –f $timeStampFormat) - Updating Stream Analytics job $jobName..."
-			$null = Execute-Command -Command ("Remove-AzureStreamAnalyticsJob -Name $jobName -ResourceGroupName $resourceGroup -Force")
-		}
-	}
+            $null = Execute-Command -Command ("Remove-AzureStreamAnalyticsJob -Name $jobName -ResourceGroupName $resourceGroup -Force")
+        }
+    }
 
-	# Create job and start it if needed
-	if ($createJob)
-	{
-		$tempFile = "{0}\out.json" -f $env:TEMP
-		$jobDetails | Out-File $tempFile
-		Write-Host $statusMessage
-		$null = Execute-Command -Command ("New-AzureStreamAnalyticsJob -ResourceGroupName $resourceGroup -File $tempFile -Name $jobName")
-		$null = Execute-Command -Command ("Start-AzureStreamAnalyticsJob -Name $jobName -ResourceGroupName $resourceGroup")
-		Remove-Item $tempFile
-	}
+    # Create job and start it if needed
+    if ($createJob)
+    {
+        $tempFile = "{0}\out.json" -f $env:TEMP
+        $jobDetails | Out-File $tempFile
+        Write-Host $statusMessage
+        $null = Execute-Command -Command ("New-AzureStreamAnalyticsJob -ResourceGroupName $resourceGroup -File $tempFile -Name $jobName")
+        $null = Execute-Command -Command ("Start-AzureStreamAnalyticsJob -Name $jobName -ResourceGroupName $resourceGroup")
+        Remove-Item $tempFile
+    }
 }
 
 function ReplaceFileParameters()
@@ -1187,38 +1160,38 @@ using System;
 using System.Collections.Generic;
 public class StringParser
 {
-	Dictionary<string, string> kvps;
-	public StringParser(string input)
-	{
-		kvps = new Dictionary<string, string>();
-		string[] parts = input.Split(';');
-		foreach (string part in parts)
-		{
-			int keyEnd = part.IndexOf('=');
-			if (keyEnd < 0)
-			{
-				throw new ArgumentException("Invalid pair");
-			}
-			kvps.Add(part.Substring(0, keyEnd), part.Substring(keyEnd + 1));
-		}
-	}
+    Dictionary<string, string> kvps;
+    public StringParser(string input)
+    {
+        kvps = new Dictionary<string, string>();
+        string[] parts = input.Split(';');
+        foreach (string part in parts)
+        {
+            int keyEnd = part.IndexOf('=');
+            if (keyEnd < 0)
+            {
+                throw new ArgumentException("Invalid pair");
+            }
+            kvps.Add(part.Substring(0, keyEnd), part.Substring(keyEnd + 1));
+        }
+    }
 
-	public string GetValue(string key)
-	{
-		if (kvps.ContainsKey(key))
-		{
-			return kvps[key];
-		}
-		return string.Empty;
-	}
+    public string GetValue(string key)
+    {
+        if (kvps.ContainsKey(key))
+        {
+            return kvps[key];
+        }
+        return string.Empty;
+    }
 
-	public List<string> GetKeys
-	{
-		get
-		{
-			return new List<string>(kvps.Keys);
-		}
-	}
+    public List<string> GetKeys
+    {
+        get
+        {
+            return new List<string>(kvps.Keys);
+        }
+    }
 }
 '@
 
@@ -1242,12 +1215,12 @@ if ((Get-Module | where {$_.Name -match "Azure"}) -eq $Null)
     }
     $modulePath = "$programFiles\Microsoft SDKs\Azure\PowerShell\ServiceManagement\Azure\Azure.psd1"
     if (Test-Path $modulePath)
-	{
+    {
         Get-ChildItem $modulePath | Import-Module
-	}
-	else
-	{
-	    Write-Error -Category ObjectNotFound -Message "Unable to find Azure.psd1 modules. Please install Azure Powershell 2.5.1 or later"
+    }
+    else
+    {
+        Write-Error -Category ObjectNotFound -Message "Unable to find Azure.psd1 modules. Please install Azure Powershell 2.5.1 or later"
         exit 1
-	}
+    }
 }
