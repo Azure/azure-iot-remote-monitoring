@@ -11,6 +11,10 @@
         "packageUri" : {
             "type" : "string",
             "defaultValue" : "http://aka.ms/azureiot/remotemonitoring"
+        },
+        "webJobPackageUri" : {
+            "type" : "string",
+            "defaultValue" : "http://aka.ms/azureiot/remotemonitoring/webjob"
         }
     },
     "variables" : {
@@ -30,11 +34,16 @@
         "webVersion" : "2015-04-01",
         "bingMapsName" : "[concat(variables('name'), '-map')]",
         "bingMapsVersion" : "2015-07-02",
-        "webPlanName" : "[concat(variables('name'), '-plan')]",
-        "webSiteName" : "[variables('name')]",
+        "webJobPlanName": "[concat(variables('name'), '-jobs-plan')]",
+        "webJobSku" : "Basic",
+        "webJobWorkerSize" : "0",
+        "webJobWorkerCount": "2",
+        "webJobSiteName": "[concat(variables('name'), '-jobhost')]",
+        "webPlanName": "[concat(variables('name'), '-plan')]",
+        "webSiteName": "[variables('name')]",
         "webSku" : "Basic",
         "webWorkerSize" : "0",
-        "webWorkerCount" : "1",
+        "webWorkerCount" : "2",
         "AADMetadataAddress" : "[concat('https://login.windows.net/' , parameters('AADTenant'), '/FederationMetadata/2007-06/FederationMetadata.xml')]",
         "AADRealm" : "[toLower(concat('https://', variables('webSiteName'), '.azurewebsites.net/iotsuite'))]",
         "docDBVersion" : "2015-04-08",
@@ -422,6 +431,17 @@
             }
         }, {
             "apiVersion" : "[variables('webVersion')]",
+            "name" : "[variables('webJobPlanName')]",
+            "type" : "Microsoft.Web/serverfarms",
+            "location" : "[variables('location')]",
+            "properties" : {
+                "name" : "[variables('webJobPlanName')]",
+                "sku" : "[variables('webJobSku')]",
+                "workerSize" : "[variables('webJobWorkerSize')]",
+                "numberOfWorkers" : "[variables('webJobWorkerCount')]"
+            }
+        }, {
+            "apiVersion" : "[variables('webVersion')]",
             "name" : "[variables('webSiteName')]",
             "type" : "Microsoft.Web/sites",
             "location" : "[variables('location')]",
@@ -504,6 +524,92 @@
                     ],
                     "properties" : {
                         "packageUri" : "[parameters('packageUri')]",
+                        "connectionString" : "",
+                        "dbType" : ""
+                    }
+                }
+            ]
+        }, {
+            "apiVersion" : "[variables('webVersion')]",
+            "name" : "[variables('webJobSiteName')]",
+            "type" : "Microsoft.Web/sites",
+            "location" : "[variables('location')]",
+            "dependsOn" : [
+                "[resourceId('Microsoft.Web/serverfarms', variables('webJobPlanName'))]",
+                "[resourceId('Microsoft.Web/sites', variables('webSiteName'))]"
+            ],
+            "properties" : {
+                "serverFarmId" : "[variables('webJobPlanName')]",
+                "siteConfig" : {
+                    "AlwaysOn" : true,
+                    "appSettings" : [{
+                            "name" : "ida.AADTenant",
+                            "value" : "[parameters('AADTenant')]"
+                        }, {
+                            "name" : "ida.AADAudience",
+                            "value" : "[variables('AADRealm')]"
+                        }, {
+                            "name" : "ida.FederationMetadataAddress",
+                            "value" : "[variables('AADMetadataAddress')]"
+                        }, {
+                            "name" : "ida.FederationRealm",
+                            "value" : "[variables('AADRealm')]"
+                        }, {
+                            "name" : "docdb.EndpointUrl",
+                            "value" : "[reference(variables('docDBName')).documentEndpoint]"
+                        }, {
+                            "name" : "docdb.PrimaryAuthorizationKey",
+                            "value" : "[listkeys(variables('docDBName'), '2015-04-08').primaryMasterKey]"
+                        }, {
+                            "name" : "iotHub.HostName",
+                            "value" : "[reference(variables('iotHubResourceId')).hostName]"
+                        }, {
+                            "name" : "iotHub.ConnectionString",
+                            "value" : "[concat('HostName=', reference(variables('iotHubResourceId')).hostName, ';SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', listkeys(variables('iotHubKeyResource'), variables('iotHubVersion')).primaryKey)]"
+                        }, {
+                            "name" : "device.StorageConnectionString",
+                            "value" : "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
+                        }, {
+                            "name" : "device.TableName",
+                            "value" : "DeviceList"
+                        }, {
+                            "name" : "eventHub.HubName",
+                            "value" : "[variables('ehOutName')]"
+                        }, {
+                            "name" : "eventHub.ConnectionString",
+                            "value" : "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]"
+                        }, {
+                            "name" : "eventHub.StorageConnectionString",
+                            "value" : "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
+                        }, {
+                            "name" : "RulesEventHub.Name",
+                            "value" : "[variables('ehRuleOutName')]"
+                        }, {
+                            "name" : "RulesEventHub.ConnectionString",
+                            "value" : "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]"
+                        }, {
+                            "name" : "ObjectTypePrefix",
+                            "value" : ""
+                        }, {
+                            "name" : "MapApiQueryKey",
+                            "value" : "[listSecrets(variables('bingMapsName'), variables('bingMapsVersion')).QueryKey]"
+                        }, {
+                            "name" : "SolutionName",
+                            "value" : "[variables('name')]"
+                        }
+                    ]
+                }
+
+            },
+            "resources" : [{
+                    "apiVersion" : "[variables('webVersion')]",
+                    "name" : "MSDeploy",
+                    "type" : "extensions",
+                    "dependsOn" : [
+                        "[resourceId('Microsoft.Web/Sites', variables('webJobSiteName'))]"
+                    ],
+                    "properties" : {
+                        "packageUri" : "[parameters('webJobPackageUri')]",
                         "connectionString" : "",
                         "dbType" : ""
                     }
