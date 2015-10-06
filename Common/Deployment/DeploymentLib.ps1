@@ -99,7 +99,7 @@ function ValidateLocation()
     }
     foreach ($loc in $locations)
     {
-        if ($loc.Name -eq $location)
+        if ($loc.Replace(' ', '').Tolower() -eq $location.Replace(' ', '').Tolower())
         {
             return $true;
         }
@@ -530,6 +530,23 @@ function GetAzureAccountInfo()
 {
     $account = Add-AzureAccount
     return $account.Id
+}
+
+function HostEntryExists()
+{
+    Param(
+        [Parameter(Mandatory=$true,Position=0)] $hostName
+    )
+    try
+    {
+        $hostName = [Net.Dns]::GetHostEntry($hostName)
+        if ($hostName -ne $null)
+        {
+            return $true
+        }
+    }
+    catch {}
+    return $false
 }
 
 function GetAADTenant()

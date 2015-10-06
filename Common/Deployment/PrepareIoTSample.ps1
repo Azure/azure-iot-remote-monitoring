@@ -19,6 +19,8 @@
 # Initialize library
 $environmentName = $environmentName.ToLowerInvariant()
 . "$(Split-Path $MyInvocation.MyCommand.Path)\DeploymentLib.ps1"
+
+# Sets Azure Accounts, Region, and AAD
 InitializeEnvironment $environmentName
 
 # 
