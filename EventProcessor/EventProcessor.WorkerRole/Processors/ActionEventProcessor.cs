@@ -57,7 +57,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             try
             {
                 string hostName = Environment.MachineName;
-                string eventHubPath = _configurationProvider.GetConfigurationSettingValue("RulesEventHub.Name");
+                string eventHubPath = _configurationProvider.GetConfigurationSettingValue("RulesEventHub.Name").ToLowerInvariant();
                 string consumerGroup = EventHubConsumerGroup.DefaultGroupName;
                 string eventHubConnectionString = _configurationProvider.GetConfigurationSettingValue("RulesEventHub.ConnectionString");
                 string storageConnectionString = _configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString");

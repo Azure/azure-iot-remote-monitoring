@@ -59,7 +59,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                 // Initialize
                 this.eventProcessorHost = new EventProcessorHost(
                     Environment.MachineName,
-                    configurationProvider.GetConfigurationSettingValue("eventHub.HubName").ToLower(),
+                    configurationProvider.GetConfigurationSettingValue("eventHub.HubName").ToLowerInvariant(),
                     EventHubConsumerGroup.DefaultGroupName,
                     configurationProvider.GetConfigurationSettingValue("eventHub.ConnectionString"),
                     configurationProvider.GetConfigurationSettingValue("eventHub.StorageConnectionString"));
