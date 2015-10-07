@@ -134,7 +134,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 }
             }
 
-            model.DeviceLocations = _deviceLogic.ExtractLocationsData(queryResult.Results);
             model.MapApiQueryKey = _configProvider.GetConfigurationSettingValue("MapApiQueryKey");
 
             return View(model);
@@ -163,7 +162,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             result = new DashboardDevicePaneDataModel();
 
-            result.DeviceTelemetrySummaryModel =  summaryModel =
+            result.DeviceTelemetrySummaryModel = summaryModel =
                 await _deviceTelemetryLogic.LoadLatestDeviceTelemetrySummaryAsync(
                     deviceId,
                     DateTime.Now.AddMinutes(-MaxDeviceSummaryAgeMinutes));
@@ -185,7 +184,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 telemetryModels = null;
 
-                result.DeviceTelemetrySummaryModel = 
+                result.DeviceTelemetrySummaryModel =
                     new DeviceTelemetrySummaryModel();
             }
 
@@ -200,6 +199,36 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
 
             return result;
+        }
+
+        [HttpGet]
+        [WebApiRequirePermission(Permission.ViewTelemetry)]
+        public async Task<ActionResult> GetDeviceLocationData()
+        {
+            DeviceListQuery query;
+            DeviceListQueryResult queryResult;
+
+            query = new DeviceListQuery()
+            {
+                Skip = 0,
+                Take = MaxDevicesToDisplayOnDashboard,
+                SortColumn = "DeviceID"
+            };
+            queryResult = await _deviceLogic.GetDevices(query);
+            DeviceListLocationsModel dataModel = _deviceLogic.ExtractLocationsData(queryResult.Results);
+
+            return Json(dataModel, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [WebApiRequirePermission(Permission.ViewTelemetry)]
+        public async Task<ActionResult> GetBingMapsApiKey()
+        {
+            String keySetting = await Task.Run(() =>
+            {
+                return _configProvider.GetConfigurationSettingValue("MapApiQueryKey");
+            });
+            return Json(new { mapApiKey = keySetting }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

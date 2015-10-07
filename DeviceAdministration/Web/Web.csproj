@@ -255,6 +255,7 @@
     <Compile Include="Helpers\JsonExtensions.cs" />
     <Compile Include="Helpers\MvcDataHelper.cs" />
     <Compile Include="Models\ActionPropertiesModel.cs" />
+    <Compile Include="Models\AlertHistoryDeviceModel.cs" />
     <Compile Include="Models\EditDeviceRuleModel.cs" />
     <Compile Include="Models\UpdateActionModel.cs" />
     <Compile Include="Models\AlertHistoryResultsModel.cs" />
@@ -322,6 +323,9 @@
     <Content Include="Content\img\icon_mysolutions.svg" />
     <Content Include="Content\img\icon_rules.svg" />
     <Content Include="Content\img\icon_status_alarm.svg" />
+    <Content Include="Content\img\icon_status_all_clear.svg" />
+    <Content Include="Content\img\icon_status_caution.svg" />
+    <Content Include="Content\img\icon_status_critical.svg" />
     <Content Include="Content\img\icon_status_disabled.svg" />
     <Content Include="Content\img\icon_status_enabled.svg" />
     <Content Include="Content\img\icon_status_information.svg" />
