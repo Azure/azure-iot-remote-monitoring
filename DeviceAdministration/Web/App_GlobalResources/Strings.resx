@@ -1080,4 +1080,19 @@
   <data name="RemoveRuleButtonLabel" xml:space="preserve">
     <value>Remove Rule...</value>
   </data>
+  <data name="AdministratorRole" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="ImplicitReadOnlyRole" xml:space="preserve">
+    <value>Implicit Read-Only</value>
+  </data>
+  <data name="ReadOnlyRole" xml:space="preserve">
+    <value>Read-Only</value>
+  </data>
+  <data name="DeviceToView" xml:space="preserve">
+    <value>Device to View:</value>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Sign Out</value>
+  </data>
 </root>
