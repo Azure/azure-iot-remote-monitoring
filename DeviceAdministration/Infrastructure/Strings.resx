@@ -121,7 +121,7 @@
     <value>A physical hardware device.</value>
   </data>
   <data name="CustomDeviceInstructionsUrl" xml:space="preserve">
-    <value>https://github.com/Azure/azure-iot-suite-sdks</value>
+    <value>https://azure.microsoft.com/documentation/articles/iot-suite-connecting-devices/</value>
   </data>
   <data name="CustomDeviceName" xml:space="preserve">
     <value>Custom Device</value>
