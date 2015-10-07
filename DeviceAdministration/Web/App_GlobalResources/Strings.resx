@@ -1059,4 +1059,7 @@
   <data name="RemoveDeviceConfirmation" xml:space="preserve">
     <value>Remove Device</value>
   </data>
+  <data name="CommandCToCopy" xml:space="preserve">
+    <value>Command+C to copy</value>
+  </data>
 </root>
