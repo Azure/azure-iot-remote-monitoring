@@ -1079,6 +1079,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to remove rule. An unexpected error occurred..
+        /// </summary>
+        public static string ErrorRemoveRule {
+            get {
+                return ResourceManager.GetString("ErrorRemoveRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to send configuration. An unexpected error occurred..
         /// </summary>
         public static string ErrorSendingConfig {
@@ -2150,6 +2159,51 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove Rule.
+        /// </summary>
+        public static string RemoveRule {
+            get {
+                return ResourceManager.GetString("RemoveRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Rule....
+        /// </summary>
+        public static string RemoveRuleButtonLabel {
+            get {
+                return ResourceManager.GetString("RemoveRuleButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure? This will remove this rule from your IoT solution..
+        /// </summary>
+        public static string RemoveRuleConfirmationPart1 {
+            get {
+                return ResourceManager.GetString("RemoveRuleConfirmationPart1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This action is permanent..
+        /// </summary>
+        public static string RemoveRuleConfirmationPart2 {
+            get {
+                return ResourceManager.GetString("RemoveRuleConfirmationPart2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Rule for {0} on Device {1}.
+        /// </summary>
+        public static string RemoveRuleFormatted {
+            get {
+                return ResourceManager.GetString("RemoveRuleFormatted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Either the {0} parameter is missing or the value was not recognized as a valid {1}.
         /// </summary>
         public static string RequestFormatError {
@@ -2848,6 +2902,15 @@ namespace GlobalResources {
         public static string YesRemoveDeviceFormatted {
             get {
                 return ResourceManager.GetString("YesRemoveDeviceFormatted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, remove the rule for {0} on device {1}.
+        /// </summary>
+        public static string YesRemoveRuleFormatted {
+            get {
+                return ResourceManager.GetString("YesRemoveRuleFormatted", resourceCulture);
             }
         }
         

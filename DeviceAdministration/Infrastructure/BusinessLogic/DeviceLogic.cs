@@ -30,10 +30,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly IVirtualDeviceStorage _virtualDeviceStorage;
         private readonly IConfigurationProvider _configProvider;
         private readonly ISecurityKeyGenerator _securityKeyGenerator;
+        private readonly IDeviceRulesLogic _deviceRulesLogic;
 
         public DeviceLogic(IIotHubRepository iotHubRepository, IDeviceRegistryCrudRepository deviceRegistryCrudRepository, 
             IDeviceRegistryListRepository deviceRegistryListRepository, IVirtualDeviceStorage virtualDeviceStorage, 
-            ISecurityKeyGenerator securityKeyGenerator, IConfigurationProvider configProvider)
+            ISecurityKeyGenerator securityKeyGenerator, IConfigurationProvider configProvider, IDeviceRulesLogic deviceRulesLogic)
         {
             _iotHubRepository = iotHubRepository;
             _deviceRegistryCrudRepository = deviceRegistryCrudRepository;
@@ -41,6 +42,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _virtualDeviceStorage = virtualDeviceStorage;
             _securityKeyGenerator = securityKeyGenerator;
             _configProvider = configProvider;
+            _deviceRulesLogic = deviceRulesLogic;
         }
 
         public async Task<DeviceListQueryResult> GetDevices(DeviceListQuery q)
@@ -188,9 +190,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     //simulated device from table storage do not roll back the changes.
                     Trace.TraceError("Failed to remove simulated device : {0}", ex.Message);
                 }
+
+                await _deviceRulesLogic.RemoveAllRulesForDeviceAsync(deviceId);
             }
-            
-            if (capturedException != null)
+            else
             {
                 // The "rollback" is an attempt to add the device back in to the Identity Registry
                 // It is assumed that if an exception has occured in the Device Registry, the device

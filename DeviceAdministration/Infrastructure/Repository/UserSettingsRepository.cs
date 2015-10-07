@@ -61,7 +61,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 incomingEntity.ETag = setting.Etag;
             }
 
-            TableStorageResponse<UserSetting> result = await AzureTableStorageHelper.DoTableInsertOrReplace<UserSetting, UserSettingTableEntity>(incomingEntity, (tableEntity) =>
+            TableStorageResponse<UserSetting> result = await AzureTableStorageHelper.DoTableInsertOrReplaceAsync<UserSetting, UserSettingTableEntity>(incomingEntity, (tableEntity) =>
                 {
                     if (tableEntity == null)
                     {
