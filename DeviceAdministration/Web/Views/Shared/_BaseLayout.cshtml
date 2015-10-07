@@ -32,21 +32,21 @@
                 @{
                     if (User.Identity.IsAuthenticated)
                     {
-                        @Html.ActionLink("Sign Out", "SignOut", "Account", new object { }, new { @class = "link_account" })
+                        @Html.ActionLink(@Strings.SignOut, "SignOut", "Account", new object { }, new { @class = "link_account" })
                     }
 
 
                     if (User.IsInRole("Admin"))
                     {
-                        <h2 class="header_page_subhead">Administrator</h2>
+                        <h2 class="header_page_subhead">@Strings.AdministratorRole</h2>
                     }
                     else if (User.IsInRole("ReadOnly"))
                     {
-                        <h2 class="header_page_subhead">ReadOnly</h2>
+                        <h2 class="header_page_subhead">@Strings.ReadOnlyRole</h2>
                     }
                     else
                     {
-                        <h2 class="header_page_subhead">IMPLICIT ReadOnly</h2>
+                        <h2 class="header_page_subhead">@Strings.ImplicitReadOnlyRole</h2>
                     }
 }
             </div>

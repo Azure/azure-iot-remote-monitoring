@@ -1,4 +1,5 @@
-﻿@using System.Collections.Generic
+﻿@using GlobalResources
+@using System.Collections.Generic
 
 @model IList<KeyValuePair<string, string>>
 @{
@@ -8,7 +9,7 @@
 <div class="dashboardRightColumn">
     <div class="dashboardDeviceSelection">
         <form id="selectDevice">
-            <h5>Device to View:</h5>
+            <h5>@Strings.DeviceToView</h5>
             <select id="deviceSelection" name="deviceSelection">
                 @foreach (KeyValuePair<string, string> pair in Model)
                 {
