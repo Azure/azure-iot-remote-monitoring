@@ -303,6 +303,14 @@
     <Compile Include="WebApiControllers\KeyApiController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\license.txt">
+      <Link>license.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\THIRDPARTYNOTICE %28Azure IoT Suite Monitoring Solutions%29.txt">
+      <Link>THIRDPARTYNOTICE %28Azure IoT Suite Monitoring Solutions%29.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\datatables.css" />
     <Content Include="Content\favicon.ico" />
     <Content Include="Content\img\button_back.svg" />
