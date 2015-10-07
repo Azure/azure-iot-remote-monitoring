@@ -395,6 +395,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Command+C to copy.
+        /// </summary>
+        public static string CommandCToCopy {
+            get {
+                return ResourceManager.GetString("CommandCToCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delivery Count Exceeded.
         /// </summary>
         public static string CommandDeliveryCountExceeded {

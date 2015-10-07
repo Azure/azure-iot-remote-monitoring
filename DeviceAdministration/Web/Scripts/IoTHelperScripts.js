@@ -136,12 +136,20 @@ $(function () {
     var copy;
     $(document).on("mouseover", ".button_copy", function() {
         var inputSelector = '#' + $(this).data('id');
-        copy = "Click to select all";
+        copy = baseLayoutResources.clickToSelectAll;
         $(inputSelector).siblings().attr('title', copy);
     });
     $(document).on("click", ".button_copy", function() {
         var inputSelector = ".ui-tooltip-content";
-        copy = "Control+C to copy";
+        var isMac = (navigator.userAgent.toUpperCase().indexOf("MAC") !== -1);
+        if (isMac)
+        {
+            copy = baseLayoutResources.commandCToCopy;
+        }
+        else
+        {
+            copy = baseLayoutResources.controlCToCopy;
+        }
         $(inputSelector).html(copy);
     });
 
@@ -154,4 +162,4 @@ $(function () {
     });
 
     IoTApp.Helpers.Dates.localizeDates();
-});
+}, baseLayoutResources);

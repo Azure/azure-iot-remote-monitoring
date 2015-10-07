@@ -1095,4 +1095,7 @@
   <data name="SignOut" xml:space="preserve">
     <value>Sign Out</value>
   </data>
+  <data name="CommandCToCopy" xml:space="preserve">
+    <value>Command+C to copy</value>
+  </data>
 </root>
