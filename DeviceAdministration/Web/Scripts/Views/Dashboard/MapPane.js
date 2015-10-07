@@ -2,34 +2,61 @@
     "use strict";
 
     var self = this;
+    var mapApiKey = null;
+    var locationData = null;
     var map;
     var pinInfobox;
 
     var init = function () {
-        getMap();
+        $.ajaxSetup({ cache: false });
+        getMapKey();
+        getDeviceLocationData();
+    }
+
+    var getMapKey = function () {
+        $.get('/Dashboard/GetBingMapsApiKey', {}, function (response) {
+            self.mapApiKey = response.mapApiKey;
+            if (self.locationData != null) {
+                getMap();
+            }
+        });
+    }
+
+    var getDeviceLocationData = function () {
+        $.get('/Dashboard/GetDeviceLocationData', {}, function (response) {
+            self.locationData = response;
+            if (self.mapApiKey != null) {
+                getMap();
+            }
+        });
     }
 
     var getMap = function () {
-        var locationData = resources.locationData;
-        var minLat = locationData.minimumLatitude;
-        var maxLat = locationData.maximumLatitude;
-        var minLong = locationData.minimumLongitude;
-        var maxLong = locationData.maximumLongitude;
-        var key = resources.mapApiQueryKey;
+        var minLat = self.locationData.MinimumLatitude;
+        var maxLat = self.locationData.MaximumLatitude;
+        var minLong = self.locationData.MinimumLongitude;
+        var maxLong = self.locationData.MaximumLongitude;
 
         var initialViewBounds = Microsoft.Maps.LocationRect.fromCorners(new Microsoft.Maps.Location(maxLat, minLong), new Microsoft.Maps.Location(minLat, maxLong));
-        var options = { credentials: key, bounds: initialViewBounds, mapTypeId: Microsoft.Maps.MapTypeId.aerial, animate: false };
+        var options = {
+            credentials: self.mapApiKey,
+            bounds: initialViewBounds,
+            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+            animate: false,
+            enableSearchLogo: false,
+            enableClickableLogo: false
+        };
 
         // Initialize the map
         self.map = new Microsoft.Maps.Map(document.getElementById("deviceMap"), options);
         
-        var locationsArray = locationData.deviceLocationList;
+        var locationsArray = self.locationData.DeviceLocationList;
         for (var i = 0; i < locationsArray.length; i++) {
             // Define the pushpin location
-            var loc = new Microsoft.Maps.Location(locationsArray[i].latitude, locationsArray[i].longitude);
+            var loc = new Microsoft.Maps.Location(locationsArray[i].Latitude, locationsArray[i].Longitude);
 
             // Add a pin to the map
-            var pin = new Microsoft.Maps.Pushpin(loc, {id: locationsArray[i].deviceId});
+            var pin = new Microsoft.Maps.Pushpin(loc, {id: locationsArray[i].DeviceId});
 
             // Add handler for the pushpin click event.
             Microsoft.Maps.Events.addHandler(pin, 'click', displayInfobox);
