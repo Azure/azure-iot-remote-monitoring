@@ -125,7 +125,6 @@
     <Compile Include="Cooler\Telemetry\RemoteMonitorTelemetry.cs" />
     <Compile Include="Cooler\Telemetry\Factory\CoolerTelemetryFactory.cs" />
     <Compile Include="Cooler\Telemetry\StartupTelemetry.cs" />
-    <Compile Include="WorkerRole.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
