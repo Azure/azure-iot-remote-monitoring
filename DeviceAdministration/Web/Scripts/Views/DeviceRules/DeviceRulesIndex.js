@@ -53,11 +53,11 @@
     var changeRuleStatus = function () {
         var tableStatus = self.dataTable;
 
-        var cells_status_false = tableStatus.cells(".table_rules_status:contains('false')").nodes();
+        var cells_status_false = tableStatus.cells(".table_status:contains('false')").nodes();
         $(cells_status_false).addClass('status_false');
         $(cells_status_false).html(resources.disabled);
 
-        var cells_status_true = tableStatus.cells(".table_rules_status:contains('true')").nodes();
+        var cells_status_true = tableStatus.cells(".table_status:contains('true')").nodes();
         $(cells_status_true).addClass('status_true');
         $(cells_status_true).html(resources.enabled);
     }
@@ -158,7 +158,7 @@
                 }
             ],
             "columnDefs": [
-                { className: "table_rules_status", "targets": [0] },
+                { className: "table_status", "targets": [0] },
                 { "searchable": true, "targets": [1] }
             ],
             "order": [[2, "asc"]]
