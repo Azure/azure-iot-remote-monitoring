@@ -9,7 +9,7 @@
     <h3 class="grid_subheadhead_detail">@Strings.DeviceProperties</h3>
     @if (Model.IsDeviceEditEnabled)
     {
-        @Html.ActionLink("Edit", "EditDeviceProperties", "Device", new { deviceId = Model.DeviceID }, new
+        @Html.ActionLink(@Strings.Edit, "EditDeviceProperties", "Device", new { deviceId = Model.DeviceID }, new
         {
             id = "edit_metadata_link",
             @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.HubEnabledState == false ? "hidden" : string.Empty).Trim()

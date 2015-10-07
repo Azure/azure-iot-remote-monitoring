@@ -99,7 +99,11 @@
             "dom": "<'dataTables_header'ip>lrt?",
             "ajax": onDataTableAjaxCalled,
             "language": {
-                "info": "Rules (_TOTAL_)"
+                "info": resources.rulesList + " (_TOTAL_)",
+                "paginate": {
+                    "previous": resources.previousPaging,
+                    "next": resources.nextPaging
+                }
             },
             "columns": [
                 {

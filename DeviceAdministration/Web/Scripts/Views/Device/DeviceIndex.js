@@ -236,7 +236,12 @@
             "dom": "<'dataTables_header'ip>lrt?",
             "ajax": onDataTableAjaxCalled,
             "language": {
-                "info": "Devices List (_TOTAL_)"
+                "info": resources.deviceList + " (_TOTAL_)",
+                "infoFiltered": resources.infoFiltered,
+                "paginate": {
+                    "previous": resources.previousPaging,
+                    "next": resources.nextPaging
+                }
             },
             "columns": [
                 {

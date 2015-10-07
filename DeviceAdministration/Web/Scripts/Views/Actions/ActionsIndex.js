@@ -81,7 +81,7 @@
             "dom": "<'dataTables_header'ip>lrt?",
             "ajax": onDataTableAjaxCalled,
             "language": {
-                "info": "Actions (_TOTAL_)"
+                "info": resources.actionsList + " (_TOTAL_)"
             },
             "columns": [
                 {

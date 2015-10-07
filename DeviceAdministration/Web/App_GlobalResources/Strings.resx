@@ -1059,4 +1059,14 @@
   <data name="RemoveDeviceConfirmation" xml:space="preserve">
     <value>Remove Device</value>
   </data>
+  <data name="DeviceList" xml:space="preserve">
+    <value>Device List</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="FilterInfo" xml:space="preserve">
+    <value>(filtered from _MAX_ total records)</value>
+    <comment>Do not change _MAX_. Used as a variable for total number of records.</comment>
+  </data>
 </root>

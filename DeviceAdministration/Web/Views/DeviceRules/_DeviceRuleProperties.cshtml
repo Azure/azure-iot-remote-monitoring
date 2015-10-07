@@ -76,7 +76,7 @@ else
     <h3 class="grid_subheadhead_detail">@Strings.RuleProperties</h3>
     @if (PermsChecker.HasPermission(Permission.EditRules))
     {
-        @Html.ActionLink("Edit", "EditRuleProperties", "DeviceRules",
+        @Html.ActionLink(@Strings.Edit, "EditRuleProperties", "DeviceRules",
             new { deviceId = Model.DeviceID, ruleId = Model.RuleId },
             new { id = "edit_metadata_link", @class = "link_grid_subheadhead_detail" })
     }
