@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -140,9 +141,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             double dbl;
 
-            if (double.TryParse(str, out dbl))
+            if (double.TryParse(
+                    str,
+                    NumberStyles.Float, 
+                    CultureInfo.InvariantCulture, 
+                    out dbl))
             {
-                str = dbl.ToString("F3");
+                str = dbl.ToString("F3", CultureInfo.CurrentCulture);
             }
 
             return str;
@@ -235,7 +240,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         true,
                         false) as string;
 
-                if (DateTime.TryParse(str, out date))
+                if (DateTime.TryParse(
+                        str, 
+                        CultureInfo.InvariantCulture,
+                        DateTimeStyles.AllowWhiteSpaces,
+                        out date))
                 {
                     model.Timestamp = date;
                 }

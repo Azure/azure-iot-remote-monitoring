@@ -9,7 +9,7 @@ using Microsoft.ServiceBus.Messaging;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WorkerRole.Processors
 {
-    public class ActionEventProcessor : IActionEventProcessor
+    public class ActionEventProcessor : IActionEventProcessor, IDisposable
     {
         private readonly IActionLogic _actionLogic;
         private readonly IActionMappingLogic _actionMappingLogic;
@@ -19,6 +19,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
         private IConfigurationProvider _configurationProvider; 
         private CancellationTokenSource _cancellationTokenSource;
         private bool _isRunning = false;
+        private bool _disposed = false;
 
         public ActionEventProcessor(
             ILifetimeScope lifetimeScope,
@@ -99,6 +100,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
         private void OptionsOnExceptionReceived(object sender, ExceptionReceivedEventArgs args)
         {
             Trace.TraceError("Received exception, action: {0}, exception: {1}", args.Action, args.Exception.ToString());
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                if (_cancellationTokenSource != null)
+                {
+                    _cancellationTokenSource.Dispose();
+                }
+            }
+
+            _disposed = true;
+        }
+
+        ~ActionEventProcessor()
+        {
+            Dispose(false);
         }
     }
 }

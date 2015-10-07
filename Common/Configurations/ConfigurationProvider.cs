@@ -8,11 +8,12 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations
 {
-    public class ConfigurationProvider : IConfigurationProvider
+    public class ConfigurationProvider : IConfigurationProvider, IDisposable
     {
         readonly Dictionary<string, string> configuration = new Dictionary<string, string>();
         EnvironmentDescription environment = null;
         const string ConfigToken = "config:";
+        bool _disposed = false;
 
         public string GetConfigurationSettingValue(string configurationSettingName)
         {
@@ -50,7 +51,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
                         {
                             LoadEnvironmentConfig();
                         }
-                        configValue = environment.GetSetting(configValue.Substring(configValue.IndexOf(ConfigToken) + ConfigToken.Length));
+
+                        configValue = 
+                            environment.GetSetting(configValue.Substring(configValue.IndexOf(ConfigToken, StringComparison.Ordinal) + ConfigToken.Length));
                     }
                     try
                     {
@@ -107,6 +110,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
             }
 
             throw new ArgumentException("Unable to locate local.config.user file.  Make sure you have run 'build.cmd local'.");
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                if (environment != null)
+                {
+                    environment.Dispose();
+                }
+            }
+
+            _disposed = true;
+        }
+
+        ~ConfigurationProvider()
+        {
+            Dispose(false);
         }
     }
 }

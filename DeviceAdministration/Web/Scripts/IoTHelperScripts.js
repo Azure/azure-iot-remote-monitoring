@@ -18,13 +18,7 @@ IoTApp.createModule("IoTApp.Helpers.Dates", function () {
 
     var localizeDate = function localizeDate(date, format) {
 
-        var currentMoment = moment(date);
-
-        var locale = window.navigator.userLanguage || window.navigator.language;
-        if (locale) {
-            currentMoment.locale(locale);
-        }
-
+        var currentMoment = moment(date).locale(cultureInfo);
         return currentMoment.format(format);
     };
 
@@ -44,7 +38,7 @@ IoTApp.createModule("IoTApp.Helpers.Dates", function () {
     };
 
     return dates;
-}, [jQuery, moment]);
+}, [jQuery, moment, cultureInfo]);
 
 // Helper to save the most-recently selected DeviceId in a cookie 
 // (or save a blank string if no recently-selected DeviceId)
@@ -90,6 +84,18 @@ IoTApp.createModule("IoTApp.Helpers.DeviceIdState", function () {
         getDeviceIdFromCookie: getDeviceIdFromCookie
     };
 });
+
+IoTApp.createModule("IoTApp.Helpers.Numbers", function () {
+    "use strict";
+
+    var localizeNumber = function localizeNumber(number) {
+        return Globalize.format(number, 'N', cultureInfo);
+    };
+
+    return {
+        localizeNumber: localizeNumber
+    };
+}, [jQuery, Globalize, cultureInfo]);
 
 IoTApp.createModule("IoTApp.Helpers.QueryString", function () {
 

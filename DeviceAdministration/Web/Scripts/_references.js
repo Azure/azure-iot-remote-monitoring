@@ -35,3 +35,4 @@
 /// <reference path="jquery.validate.js" />
 /// <reference path="views/dashboard/mappane.js" />
 /// <reference path="moment-with-locales.min.js" />
+/// <reference path="jquery-ui-i18n.min.js" />

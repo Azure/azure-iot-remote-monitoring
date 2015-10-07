@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 return false;
             }
 
-            return CopyControlDeviceProperties.Contains(propertyName.ToUpper());
+            return CopyControlDeviceProperties.Contains(propertyName.ToUpperInvariant());
         }
 
         #endregion

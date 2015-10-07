@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using GlobalResources;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
-using GlobalResources;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -165,7 +166,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             rule.RuleOutput = editModel.RuleOutput;
             if (!string.IsNullOrWhiteSpace(editModel.Threshold))
             {
-                rule.Threshold = double.Parse(editModel.Threshold);
+                rule.Threshold =
+                    double.Parse(
+                        editModel.Threshold,
+                        NumberStyles.Float,
+                        CultureInfo.CurrentCulture);
             }
 
             return rule;

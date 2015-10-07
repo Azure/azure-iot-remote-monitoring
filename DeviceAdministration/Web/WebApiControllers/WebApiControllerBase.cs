@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -91,7 +92,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         protected HttpResponseMessage GetFormatErrorResponse<T>(string parameterName, string type)
         {
             ServiceResponse<T> response = new ServiceResponse<T>();
-            string errorMessage = String.Format(Strings.RequestFormatError, parameterName, type);
+
+            string errorMessage = 
+                String.Format(
+                    CultureInfo.CurrentCulture,
+                    Strings.RequestFormatError, 
+                    parameterName, type);
+
             response.Error.Add(new Error(errorMessage));
 
             return Request.CreateResponse(HttpStatusCode.BadRequest, response);

@@ -12,6 +12,7 @@ using Microsoft.Azure.IoT.Samples.EventProcessor.WorkerRole.Processors;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WorkerRole
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
     public class WorkerRole : RoleEntryPoint
     {
         readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();

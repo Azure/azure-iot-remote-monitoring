@@ -16,6 +16,7 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
     public class WorkerRole : RoleEntryPoint
     {
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
