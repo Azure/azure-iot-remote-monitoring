@@ -8,6 +8,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Mode
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using GlobalResources;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -102,16 +103,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             switch (response.Status)
             {
                 case TableStorageResponseStatus.Successful:
-                    return Json(new { success = true });
+                    return Json(new 
+                    { 
+                        success = true
+                    });
                 case TableStorageResponseStatus.ConflictError:
-                    return Json(new { error = Strings.TableDataSaveConflictErrorMessage });
+                    return Json(new
+                    {
+                        error = Strings.TableDataSaveConflictErrorMessage,
+                        entity = JsonConvert.SerializeObject(response.Entity)
+                    });
                 case TableStorageResponseStatus.DuplicateInsert:
-                    return Json(new { error = Strings.RuleAlreadyAddedError });
+                    return Json(new
+                    {
+                        error = Strings.RuleAlreadyAddedError,
+                        entity = JsonConvert.SerializeObject(response.Entity)
+                    });
                 case TableStorageResponseStatus.NotFound:
-                    return Json(new { error = Strings.UnableToRetrieveRuleFromService });
+                    return Json(new
+                    {
+                        error = Strings.UnableToRetrieveRuleFromService,
+                        entity = JsonConvert.SerializeObject(response.Entity)
+                    });
                 case TableStorageResponseStatus.UnknownError:
                 default:
-                    return Json(new { error = Strings.RuleUpdateError });
+                    return Json(new
+                    {
+                        error = Strings.RuleUpdateError,
+                        entity = JsonConvert.SerializeObject(response.Entity)
+                    });
             }
         }
 
