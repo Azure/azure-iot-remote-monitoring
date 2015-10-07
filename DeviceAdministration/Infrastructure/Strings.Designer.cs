@@ -71,7 +71,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://github.com/Azure/azure-iot-suite-sdks.
+        ///   Looks up a localized string similar to https://azure.microsoft.com/documentation/articles/iot-suite-connecting-devices/.
         /// </summary>
         internal static string CustomDeviceInstructionsUrl {
             get {
