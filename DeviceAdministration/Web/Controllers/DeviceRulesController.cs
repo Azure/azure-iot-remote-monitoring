@@ -97,6 +97,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return BuildRuleUpdateResponse(response);
         }
 
+        /// <summary>
+        /// Delete the given rule for a device
+        /// </summary>
+        /// <param name="ruleModel"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [RequirePermission(Permission.DeleteRules)]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteDeviceRule(string deviceId, string ruleId)
+        {
+            TableStorageResponse<DeviceRule> response = await _deviceRulesLogic.DeleteDeviceRuleAsync(deviceId, ruleId);
+
+            return BuildRuleUpdateResponse(response);
+        }
+
         private JsonResult BuildRuleUpdateResponse(TableStorageResponse<DeviceRule> response)
         {
             switch (response.Status)
@@ -152,6 +167,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             editModel.AvailableRuleOutputs = availableRuleOutputs;
 
             return View("EditDeviceRuleProperties", editModel);
+        }
+
+        /// <summary>
+        /// Navigate to the DeleteRuleProperties screen
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <param name="ruleId"></param>
+        /// <returns></returns>
+        [RequirePermission(Permission.DeleteRules)]
+        public async Task<ActionResult> RemoveRule(string deviceId, string ruleId)
+        {
+            DeviceRule ruleModel = await _deviceRulesLogic.GetDeviceRuleOrDefaultAsync(deviceId, ruleId);
+            EditDeviceRuleModel editModel = CreateEditModelFromDeviceRule(ruleModel);
+            return View("RemoveDeviceRule", editModel);
         }
 
         private DeviceRule CreateDeviceRuleFromEditModel(EditDeviceRuleModel editModel)

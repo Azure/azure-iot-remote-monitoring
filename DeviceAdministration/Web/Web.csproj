@@ -371,6 +371,7 @@
     <Content Include="Scripts\Views\DeviceRules\DeviceRuleProperties.js" />
     <Content Include="Scripts\Views\DeviceRules\DeviceRulesIndex.js" />
     <Content Include="Scripts\Views\DeviceRules\EditDeviceRuleProperties.js" />
+    <Content Include="Scripts\Views\DeviceRules\RemoveDeviceRule.js" />
     <Content Include="Scripts\Views\Device\AddDevice.js" />
     <Content Include="Scripts\Views\Device\AddDeviceCopy.js" />
     <Content Include="Scripts\Views\Device\AddDeviceCreate.js" />
@@ -499,6 +500,7 @@
     <Content Include="Views\Dashboard\_DashboardDevicePane.cshtml" />
     <Content Include="Views\Dashboard\_TelemetryHistorySummary.cshtml" />
     <Content Include="Views\Dashboard\_AlertHistory.cshtml" />
+    <Content Include="Views\DeviceRules\RemoveDeviceRule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
