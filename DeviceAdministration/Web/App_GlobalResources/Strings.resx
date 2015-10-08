@@ -1085,7 +1085,7 @@
   </data>
   <data name="FilterInfo" xml:space="preserve">
     <value>(filtered from _MAX_ total records)</value>
-    <comment>Do not change _MAX_. Used as a variable for total number of records.</comment>
+    <comment>Do not translate the substring "_MAX_"--it is programmatically replaced with the total number of records.</comment>
   </data>
   <data name="RemoveRuleButtonLabel" xml:space="preserve">
     <value>Remove Rule...</value>

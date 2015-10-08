@@ -908,7 +908,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Device to View: &lt;3.
+        ///   Looks up a localized string similar to Device to View:.
         /// </summary>
         public static string DeviceToView {
             get {
@@ -2663,7 +2663,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sign Out &lt;3.
+        ///   Looks up a localized string similar to Sign Out.
         /// </summary>
         public static string SignOut {
             get {
