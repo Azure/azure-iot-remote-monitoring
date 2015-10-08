@@ -8,6 +8,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
@@ -17,21 +18,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     [RoutePrefix("api/v1/telemetry")]
     public class TelemetryApiController : WebApiControllerBase
     {
-        #region Constants
 
         private const double MaxDeviceSummaryAgeMinutes = 10.0;
         private const int MaxHistoryItems = 18;
-
-        #endregion
-
-        #region Instance Variables
+        private const int MaxDevicesToDisplayOnDashboard = 200;
 
         private readonly IAlertsLogic _alertsLogic;
         private readonly IDeviceTelemetryLogic _deviceTelemetryLogic;
-
-        #endregion
-
-        #region Constructors
+        private readonly IDeviceLogic _deviceLogic;
+        private readonly IConfigurationProvider _configProvider;
 
         /// <summary>
         /// Initializes a new instance of the TelemetryApiController class.
@@ -43,9 +38,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         /// <param name="alertsLogic">
         /// The IAlertsLogic implementation that the new instance will use.
         /// </param>
-        public TelemetryApiController(
-            IDeviceTelemetryLogic deviceTelemetryLogic,
-            IAlertsLogic alertsLogic)
+        public TelemetryApiController(IDeviceTelemetryLogic deviceTelemetryLogic,IAlertsLogic alertsLogic, 
+            IDeviceLogic deviceLogic, IConfigurationProvider configProvider)
         {
             if (deviceTelemetryLogic == null)
             {
@@ -57,15 +51,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 throw new ArgumentNullException("alertsLogic");
             }
 
+            if(deviceLogic == null)
+            {
+                throw new ArgumentNullException("deviceLogic");
+            }
+
+            if(configProvider == null)
+            {
+                throw new ArgumentNullException("configProvider");
+            }
+
             _deviceTelemetryLogic = deviceTelemetryLogic;
             _alertsLogic = alertsLogic;
+            _deviceLogic = deviceLogic;
+            _configProvider = configProvider;
         }
-
-        #endregion
-
-        #region Public Methods
-
-        #region Instance Method: GetDashboardDevicePaneDataAsync
 
         [HttpGet]
         [Route("dashboardDevicePane")]
@@ -139,10 +139,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 false);
         }
 
-        #endregion
-
-        #region Instance Method: GetDeviceTelemetryAsync
-
         [HttpGet]
         [Route("list")]
         [WebApiRequirePermission(Permission.ViewTelemetry)]
@@ -174,10 +170,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 false);
         }
 
-        #endregion
-
-        #region Instance Method: GetDeviceTelemetrySummaryAsync
-
         [HttpGet]
         [Route("summary")]
         [WebApiRequirePermission(Permission.ViewTelemetry)]
@@ -198,10 +190,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 getTelemetrySummary,
                 false);
         }
-
-        #endregion
-
-        #region Instance Method: GetLatestAlertHistoryAsync
 
         [HttpGet]
         [Route("alertHistory")]
@@ -239,8 +227,40 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 false);
         }
 
-        #endregion
+        [HttpGet]
+        [Route("deviceLocationData")]
+        [WebApiRequirePermission(Permission.ViewTelemetry)]
+        public async Task<HttpResponseMessage> GetDeviceLocationData()
+        {
+            return await GetServiceResponseAsync<DeviceListLocationsModel>(async () =>
+            {
+                DeviceListQuery query = new DeviceListQuery()
+                {
+                    Skip = 0,
+                    Take = MaxDevicesToDisplayOnDashboard,
+                    SortColumn = "DeviceID"
+                };
 
-        #endregion
+                DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
+                DeviceListLocationsModel dataModel = _deviceLogic.ExtractLocationsData(queryResult.Results);
+
+                return dataModel;
+            }, false);
+        }
+
+        [HttpGet]
+        [Route("mapApiKey")]
+        [WebApiRequirePermission(Permission.ViewTelemetry)]
+        public async Task<HttpResponseMessage> GetMapApiKey()
+        {
+            return await GetServiceResponseAsync<string>(async () =>
+            {
+                String keySetting = await Task.Run(() =>
+                {
+                    return _configProvider.GetConfigurationSettingValue("MapApiQueryKey");
+                });
+                return keySetting;
+            }, false);
+        }
     }
 }

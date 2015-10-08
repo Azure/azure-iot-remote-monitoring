@@ -14,8 +14,8 @@
     }
 
     var getMapKey = function () {
-        $.get('/Dashboard/GetBingMapsApiKey', {}, function (response) {
-            self.mapApiKey = response.mapApiKey;
+        $.get('/api/v1/telemetry/mapApiKey', {}, function (response) {
+            self.mapApiKey = response;
             if (self.locationData != null) {
                 getMap();
             }
@@ -23,7 +23,7 @@
     }
 
     var getDeviceLocationData = function () {
-        $.get('/Dashboard/GetDeviceLocationData', {}, function (response) {
+        $.get('/api/v1/telemetry/deviceLocationData', {}, function (response) {
             self.locationData = response;
             if (self.mapApiKey != null) {
                 getMap();
@@ -32,10 +32,10 @@
     }
 
     var getMap = function () {
-        var minLat = self.locationData.MinimumLatitude;
-        var maxLat = self.locationData.MaximumLatitude;
-        var minLong = self.locationData.MinimumLongitude;
-        var maxLong = self.locationData.MaximumLongitude;
+        var minLat = self.locationData.minimumLatitude;
+        var maxLat = self.locationData.maximumLatitude;
+        var minLong = self.locationData.minimumLongitude;
+        var maxLong = self.locationData.maximumLongitude;
 
         var initialViewBounds = Microsoft.Maps.LocationRect.fromCorners(new Microsoft.Maps.Location(maxLat, minLong), new Microsoft.Maps.Location(minLat, maxLong));
         var options = {
@@ -50,13 +50,13 @@
         // Initialize the map
         self.map = new Microsoft.Maps.Map(document.getElementById("deviceMap"), options);
         
-        var locationsArray = self.locationData.DeviceLocationList;
+        var locationsArray = self.locationData.deviceLocationList;
         for (var i = 0; i < locationsArray.length; i++) {
             // Define the pushpin location
-            var loc = new Microsoft.Maps.Location(locationsArray[i].Latitude, locationsArray[i].Longitude);
+            var loc = new Microsoft.Maps.Location(locationsArray[i].latitude, locationsArray[i].longitude);
 
             // Add a pin to the map
-            var pin = new Microsoft.Maps.Pushpin(loc, {id: locationsArray[i].DeviceId});
+            var pin = new Microsoft.Maps.Pushpin(loc, {id: locationsArray[i].deviceId});
 
             // Add handler for the pushpin click event.
             Microsoft.Maps.Events.addHandler(pin, 'click', displayInfobox);
