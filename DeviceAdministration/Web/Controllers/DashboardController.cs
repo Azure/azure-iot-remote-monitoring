@@ -84,53 +84,45 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [RequirePermission(Permission.ViewTelemetry)]
         public async Task<ActionResult> Index()
         {
-            string deviceId;
             DashboardModel model;
             DeviceListQuery query;
             DeviceListQueryResult queryResult;
 
             model = new DashboardModel();
 
+            List<Infrastructure.Models.FilterInfo> filters = new List<Infrastructure.Models.FilterInfo>();
+            filters.Add(new Infrastructure.Models.FilterInfo()
+                {
+                    ColumnName = "status", 
+                    FilterType = FilterType.Status, 
+                    FilterValue = "Running"
+                });
             query = new DeviceListQuery()
             {
                 Skip = 0,
                 Take = MaxDevicesToDisplayOnDashboard,
-                SortColumn = "DeviceID"
+                SortColumn = "DeviceID",
+                Filters = filters
             };
 
-            //The results of this query are used for populating the dropdown
-            //As well as extracting location data. We want to include disabled
-            //devices on the map, but not in the dropdown. The filters used 
-            //IN the query are apply additively to a "column". As a result, we
-            //cannot filter on enabled AND disabled because the filters are
-            //mutually exclusive. Also we cannot filter on !Pending. So to get
-            //all that we need for both uses we need to just get all devices up
-            //to the Take value and filter manually in the loop. The map will
-            //filter out unregistered devices by virtue of their not having 
-            //location data.
             queryResult = await _deviceLogic.GetDevices(query);
             if ((queryResult != null) &&
                 (queryResult.Results != null))
             {
-                string enabledState = "";
-                dynamic props = null;
                 foreach (dynamic devInfo in queryResult.Results)
                 {
+
+                    string deviceId;
                     try
                     {
                         deviceId = DeviceSchemaHelper.GetDeviceID(devInfo);
-                        props = DeviceSchemaHelper.GetDeviceProperties(devInfo);
-                        enabledState = props.HubEnabledState;
                     }
                     catch (DeviceRequiredPropertyNotFoundException)
                     {
                         continue;
                     }
 
-                    if (!string.IsNullOrEmpty(deviceId) && !string.IsNullOrWhiteSpace(enabledState) && enabledState.ToLower() == "true")
-                    {
-                        model.DeviceIdsForDropdown.Add(new StringPair(deviceId, deviceId));
-                    }
+                    model.DeviceIdsForDropdown.Add(new StringPair(deviceId, deviceId));
                 }
             }
 
