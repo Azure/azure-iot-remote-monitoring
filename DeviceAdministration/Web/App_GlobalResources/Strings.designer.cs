@@ -863,6 +863,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Device List.
+        /// </summary>
+        public static string DeviceList {
+            get {
+                return ResourceManager.GetString("DeviceList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device Not Registered in IoT Hub.
         /// </summary>
         public static string DeviceNotRegisteredInIoTHub {
@@ -899,7 +908,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Device to View: &lt;3.
+        ///   Looks up a localized string similar to Device to View:.
         /// </summary>
         public static string DeviceToView {
             get {
@@ -1201,6 +1210,15 @@ namespace GlobalResources {
         public static string FilterFieldLabel {
             get {
                 return ResourceManager.GetString("FilterFieldLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (filtered from _MAX_ total records).
+        /// </summary>
+        public static string FilterInfo {
+            get {
+                return ResourceManager.GetString("FilterInfo", resourceCulture);
             }
         }
         
@@ -2060,6 +2078,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Previous.
+        /// </summary>
+        public static string Previous {
+            get {
+                return ResourceManager.GetString("Previous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Price.
         /// </summary>
         public static string Price {
@@ -2636,7 +2663,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sign Out &lt;3.
+        ///   Looks up a localized string similar to Sign Out.
         /// </summary>
         public static string SignOut {
             get {

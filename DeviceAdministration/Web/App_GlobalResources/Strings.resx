@@ -1077,6 +1077,16 @@
   <data name="RemoveDeviceConfirmation" xml:space="preserve">
     <value>Remove Device</value>
   </data>
+  <data name="DeviceList" xml:space="preserve">
+    <value>Device List</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="FilterInfo" xml:space="preserve">
+    <value>(filtered from _MAX_ total records)</value>
+    <comment>Do not translate the substring "_MAX_"--it is programmatically replaced with the total number of records.</comment>
+  </data>
   <data name="RemoveRuleButtonLabel" xml:space="preserve">
     <value>Remove Rule...</value>
   </data>
