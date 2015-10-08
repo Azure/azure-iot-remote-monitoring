@@ -14,5 +14,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<DeviceRule> GetDeviceRuleAsync(string deviceId, string ruleId);
         Task<List<DeviceRule>> GetAllRulesForDeviceAsync(string deviceId);
         Task<TableStorageResponse<DeviceRule>> SaveDeviceRuleAsync(DeviceRule updatedRule);
+        Task<TableStorageResponse<DeviceRule>> DeleteDeviceRuleAsync(DeviceRule ruleToDelete);
     }
 }

@@ -38,6 +38,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <CodeAnalysisRuleSet>..\DeviceAdministration.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -230,6 +232,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\Strings.tt.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.tt.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_GlobalResources\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -351,6 +358,8 @@
     <Content Include="Scripts\dialog.js" />
     <Content Include="Scripts\jquery-dataTables-plugins.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-i18n.js" />
+    <Content Include="Scripts\jquery-ui-i18n.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\js.cookie-1.5.1.min.js" />
@@ -371,6 +380,7 @@
     <Content Include="Scripts\Views\DeviceRules\DeviceRuleProperties.js" />
     <Content Include="Scripts\Views\DeviceRules\DeviceRulesIndex.js" />
     <Content Include="Scripts\Views\DeviceRules\EditDeviceRuleProperties.js" />
+    <Content Include="Scripts\Views\DeviceRules\RemoveDeviceRule.js" />
     <Content Include="Scripts\Views\Device\AddDevice.js" />
     <Content Include="Scripts\Views\Device\AddDeviceCopy.js" />
     <Content Include="Scripts\Views\Device\AddDeviceCreate.js" />
@@ -499,6 +509,7 @@
     <Content Include="Views\Dashboard\_DashboardDevicePane.cshtml" />
     <Content Include="Views\Dashboard\_TelemetryHistorySummary.cshtml" />
     <Content Include="Views\Dashboard\_AlertHistory.cshtml" />
+    <Content Include="Views\DeviceRules\RemoveDeviceRule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -506,6 +517,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="App_GlobalResources\Strings.tt.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Strings.tt.designer.cs</LastGenOutput>
+      <CustomToolNamespace>PublicResXFileCodeGenerator</CustomToolNamespace>
+    </EmbeddedResource>
     <EmbeddedResource Include="App_GlobalResources\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.designer.cs</LastGenOutput>

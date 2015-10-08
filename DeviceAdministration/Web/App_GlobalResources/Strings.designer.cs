@@ -152,6 +152,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Administrator.
+        /// </summary>
+        public static string AdministratorRole {
+            get {
+                return ResourceManager.GetString("AdministratorRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Alarm.
         /// </summary>
         public static string Alarm {
@@ -382,6 +391,15 @@ namespace GlobalResources {
         public static string Command {
             get {
                 return ResourceManager.GetString("Command", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Command+C to copy.
+        /// </summary>
+        public static string CommandCToCopy {
+            get {
+                return ResourceManager.GetString("CommandCToCopy", resourceCulture);
             }
         }
         
@@ -890,6 +908,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Device to View: &lt;3.
+        /// </summary>
+        public static string DeviceToView {
+            get {
+                return ResourceManager.GetString("DeviceToView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to update the device. An unexpected error occurred..
         /// </summary>
         public static string DeviceUpdateError {
@@ -1084,6 +1111,15 @@ namespace GlobalResources {
         public static string ErrorRemoveDevice {
             get {
                 return ResourceManager.GetString("ErrorRemoveDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to remove rule. An unexpected error occurred..
+        /// </summary>
+        public static string ErrorRemoveRule {
+            get {
+                return ResourceManager.GetString("ErrorRemoveRule", resourceCulture);
             }
         }
         
@@ -1507,6 +1543,15 @@ namespace GlobalResources {
         public static string Humidity {
             get {
                 return ResourceManager.GetString("Humidity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Implicit Read-Only.
+        /// </summary>
+        public static string ImplicitReadOnlyRole {
+            get {
+                return ResourceManager.GetString("ImplicitReadOnlyRole", resourceCulture);
             }
         }
         
@@ -2123,6 +2168,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Read-Only.
+        /// </summary>
+        public static string ReadOnlyRole {
+            get {
+                return ResourceManager.GetString("ReadOnlyRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registered But Not Present.
         /// </summary>
         public static string RegisteredButNotPresent {
@@ -2173,6 +2227,51 @@ namespace GlobalResources {
         public static string RemoveDeviceFormatted {
             get {
                 return ResourceManager.GetString("RemoveDeviceFormatted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Rule.
+        /// </summary>
+        public static string RemoveRule {
+            get {
+                return ResourceManager.GetString("RemoveRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Rule....
+        /// </summary>
+        public static string RemoveRuleButtonLabel {
+            get {
+                return ResourceManager.GetString("RemoveRuleButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure? This will remove this rule from your IoT solution..
+        /// </summary>
+        public static string RemoveRuleConfirmationPart1 {
+            get {
+                return ResourceManager.GetString("RemoveRuleConfirmationPart1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This action is permanent..
+        /// </summary>
+        public static string RemoveRuleConfirmationPart2 {
+            get {
+                return ResourceManager.GetString("RemoveRuleConfirmationPart2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Rule for {0} on Device {1}.
+        /// </summary>
+        public static string RemoveRuleFormatted {
+            get {
+                return ResourceManager.GetString("RemoveRuleFormatted", resourceCulture);
             }
         }
         
@@ -2564,6 +2663,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sign Out &lt;3.
+        /// </summary>
+        public static string SignOut {
+            get {
+                return ResourceManager.GetString("SignOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your simulated device has been created with these settings.
         /// </summary>
         public static string SimulatorCredentialHeader {
@@ -2875,6 +2983,15 @@ namespace GlobalResources {
         public static string YesRemoveDeviceFormatted {
             get {
                 return ResourceManager.GetString("YesRemoveDeviceFormatted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, remove the rule for {0} on device {1}.
+        /// </summary>
+        public static string YesRemoveRuleFormatted {
+            get {
+                return ResourceManager.GetString("YesRemoveRuleFormatted", resourceCulture);
             }
         }
         

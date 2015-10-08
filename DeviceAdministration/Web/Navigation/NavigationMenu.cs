@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 
@@ -76,7 +77,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 if (navigationMenuItem.Controller == controllerName && navigationMenuItem.Action == actionName)
                 {
                     navigationMenuItem.Selected = true;
-                    navigationMenuItem.Class = string.Format("{0} {1}", navigationMenuItem.Class, "selected");
+                    navigationMenuItem.Class = string.Format(CultureInfo.CurrentCulture, "{0} {1}", navigationMenuItem.Class, "selected");
                     return navigationMenuItem;
                 }
             }

@@ -16,17 +16,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            CloudTable devicesTable = tableClient.GetTableReference(tableName);
-            await devicesTable.CreateIfNotExistsAsync();
-            return devicesTable;
+            CloudTable table = tableClient.GetTableReference(tableName);
+            await table.CreateIfNotExistsAsync();
+            return table;
         }
 
-        public static async Task<TableStorageResponse<TResult>> DoTableInsertOrReplace<TResult, TInput>(TInput incomingEntity, 
+        public static async Task<TableStorageResponse<TResult>> DoTableInsertOrReplaceAsync<TResult, TInput>(TInput incomingEntity, 
             Func<TInput, TResult> tableEntityToModelConverter, string storageAccountConnectionString, string tableName) where TInput : TableEntity
         {
-            var result = new TableStorageResponse<TResult>();
-
-            var deviceRulesTable = await AzureTableStorageHelper.GetTableAsync(storageAccountConnectionString, tableName);
+            var table = await AzureTableStorageHelper.GetTableAsync(storageAccountConnectionString, tableName);
 
             // Simply doing an InsertOrReplace will not do any concurrency checking, according to 
             // http://azure.microsoft.com/en-us/blog/managing-concurrency-in-microsoft-azure-storage-2/
@@ -34,29 +32,47 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             // If so, then we'll do a concurrency-safe update, otherwise simply insert
             TableOperation retrieveOperation =
                 TableOperation.Retrieve<TInput>(incomingEntity.PartitionKey, incomingEntity.RowKey);
-            TableResult retrievedEntity = await deviceRulesTable.ExecuteAsync(retrieveOperation);
+            TableResult retrievedEntity = await table.ExecuteAsync(retrieveOperation);
+
+            TableOperation operation = null;
+            if (retrievedEntity.Result != null)
+            {
+                operation = TableOperation.Replace(incomingEntity);
+            }
+            else
+            {
+                operation = TableOperation.Insert(incomingEntity);
+            }
+
+            return await PerformTableOperation<TResult, TInput>(table, operation, incomingEntity, tableEntityToModelConverter);
+        }
+
+        public static async Task<TableStorageResponse<TResult>> DoDeleteAsync<TResult, TInput>(TInput incomingEntity,
+            Func<TInput, TResult> tableEntityToModelConverter, string storageAccountConnectionString, string tableName) where TInput : TableEntity
+        {
+            var azureTable = await AzureTableStorageHelper.GetTableAsync(storageAccountConnectionString, tableName);
+            TableOperation operation = TableOperation.Delete(incomingEntity);
+            return await PerformTableOperation<TResult, TInput>(azureTable, operation, incomingEntity, tableEntityToModelConverter);
+        }
+
+        private static async Task<TableStorageResponse<TResult>> PerformTableOperation<TResult, TInput>(CloudTable table, 
+            TableOperation operation, TInput incomingEntity, Func<TInput, TResult> tableEntityToModelConverter) where TInput : TableEntity
+        {
+            var result = new TableStorageResponse<TResult>();
+
             try
             {
-                TableOperation operation = null;
-                if (retrievedEntity.Result != null)
-                {
-                    operation = TableOperation.Replace(incomingEntity);
-                }
-                else
-                {
-                    operation = TableOperation.Insert(incomingEntity);
-                }
-                await deviceRulesTable.ExecuteAsync(operation);
+                await table.ExecuteAsync(operation);
 
-                //Get the new version of the entity out of the database
-                // And set up the result to return to the caller
-                retrievedEntity = await deviceRulesTable.ExecuteAsync(retrieveOperation);
-                var updatedModel = tableEntityToModelConverter((TInput)retrievedEntity.Result);
-                result.Entity = updatedModel;
+                var nullModel = tableEntityToModelConverter((TInput)null);
+                result.Entity = nullModel;
                 result.Status = TableStorageResponseStatus.Successful;
             }
             catch (Exception ex)
             {
+                TableOperation retrieveOperation = TableOperation.Retrieve<TInput>(incomingEntity.PartitionKey, incomingEntity.RowKey);
+                TableResult retrievedEntity = table.Execute(retrieveOperation);
+
                 if (retrievedEntity != null)
                 {
                     // Return the found version of this rule in case it had been modified by someone else since our last read.

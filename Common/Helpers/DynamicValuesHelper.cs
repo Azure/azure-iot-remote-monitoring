@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
@@ -24,7 +25,33 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// </returns>
         public static DateTime? ConvertToDateTime(dynamic value)
         {
+            return ConvertToDateTime(CultureInfo.CurrentCulture, value);
+        }
+
+        /// <summary>
+        /// Converts a <c>dynamic</c> value to a <see cref="DateTime" />.
+        /// </summary>
+        /// <param name="value">
+        /// The <c>dynamic</c> value to convert to a <see cref="DateTime" />.
+        /// </param>
+        /// <param name="valueCultureInfo">
+        /// The CultureInfo with which <paramref name="value" /> would be 
+        /// formatted if it's a string.
+        /// </param>
+        /// <returns>
+        /// <paramref name="value" />, converted to a <see cref="DateTime" />, 
+        /// or <c>null</c>, if no such conversion is possible.
+        /// </returns>
+        public static DateTime? ConvertToDateTime(
+            CultureInfo valueCultureInfo, 
+            dynamic value)
+        {
             DateTime dt;
+
+            if (valueCultureInfo == null)
+            {
+                throw new ArgumentNullException("valueCultureInfo");
+            }
 
             dt = default(DateTime);
             if (value is DateTime)
@@ -36,7 +63,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 return (DateTime?)value;
             }
             else if ((value != null) &&
-                DateTime.TryParse(value.ToString(), out dt))
+                DateTime.TryParse(
+                    value.ToString(),
+                    valueCultureInfo,
+                    DateTimeStyles.AllowWhiteSpaces,
+                    out dt))
             {
                 return dt;
             }

@@ -1056,6 +1056,24 @@
   <data name="SimulatorCredentialHeader" xml:space="preserve">
     <value>Your simulated device has been created with these settings</value>
   </data>
+  <data name="ErrorRemoveRule" xml:space="preserve">
+    <value>Unable to remove rule. An unexpected error occurred.</value>
+  </data>
+  <data name="RemoveRule" xml:space="preserve">
+    <value>Remove Rule</value>
+  </data>
+  <data name="RemoveRuleConfirmationPart1" xml:space="preserve">
+    <value>Are you sure? This will remove this rule from your IoT solution.</value>
+  </data>
+  <data name="RemoveRuleConfirmationPart2" xml:space="preserve">
+    <value>This action is permanent.</value>
+  </data>
+  <data name="RemoveRuleFormatted" xml:space="preserve">
+    <value>Remove Rule for {0} on Device {1}</value>
+  </data>
+  <data name="YesRemoveRuleFormatted" xml:space="preserve">
+    <value>Yes, remove the rule for {0} on device {1}</value>
+  </data>
   <data name="RemoveDeviceConfirmation" xml:space="preserve">
     <value>Remove Device</value>
   </data>
@@ -1068,5 +1086,26 @@
   <data name="FilterInfo" xml:space="preserve">
     <value>(filtered from _MAX_ total records)</value>
     <comment>Do not change _MAX_. Used as a variable for total number of records.</comment>
+  </data>
+  <data name="RemoveRuleButtonLabel" xml:space="preserve">
+    <value>Remove Rule...</value>
+  </data>
+  <data name="AdministratorRole" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="ImplicitReadOnlyRole" xml:space="preserve">
+    <value>Implicit Read-Only</value>
+  </data>
+  <data name="ReadOnlyRole" xml:space="preserve">
+    <value>Read-Only</value>
+  </data>
+  <data name="DeviceToView" xml:space="preserve">
+    <value>Device to View:</value>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Sign Out</value>
+  </data>
+  <data name="CommandCToCopy" xml:space="preserve">
+    <value>Command+C to copy</value>
   </data>
 </root>

@@ -1,4 +1,5 @@
-﻿@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+﻿@using System.Threading;
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security
 @using GlobalResources
 <!DOCTYPE html>
@@ -9,6 +10,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" href="~/Content/favicon.ico" type="image/x-icon" />
     <title>IoT Device Portal - @ViewBag.Title</title>
+    <script type="text/javascript">
+        var cultureInfo = '@Culture';
+        var cultureInfoShort = '@Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName'
+    </script>
     @Scripts.Render("~/bundles/powerbi-visuals")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jquerytable")
@@ -32,23 +37,23 @@
                 @{
                     if (User.Identity.IsAuthenticated)
                     {
-                        @Html.ActionLink("Sign Out", "SignOut", "Account", new object { }, new { @class = "link_account" })
+                        @Html.ActionLink(@Strings.SignOut, "SignOut", "Account", new object { }, new { @class = "link_account" })
                     }
 
 
                     if (User.IsInRole("Admin"))
                     {
-                        <h2 class="header_page_subhead">Administrator</h2>
+                        <h2 class="header_page_subhead">@Strings.AdministratorRole</h2>
                     }
                     else if (User.IsInRole("ReadOnly"))
                     {
-                        <h2 class="header_page_subhead">ReadOnly</h2>
+                        <h2 class="header_page_subhead">@Strings.ReadOnlyRole</h2>
                     }
                     else
                     {
-                        <h2 class="header_page_subhead">IMPLICIT ReadOnly</h2>
+                        <h2 class="header_page_subhead">@Strings.ImplicitReadOnlyRole</h2>
                     }
-}
+                }
             </div>
         </div>
     </header>
@@ -63,6 +68,15 @@
         </div>
 
     </section>
+    <script>
+        "use strict";
+
+        var baseLayoutResources = {
+            commandCToCopy: '@Strings.CommandCToCopy',
+            controlCToCopy: '@Strings.ControlCToCopy',
+            clickToSelectAll: '@Strings.ClickToSelectAll'
+        };
+    </script>
 
     @Html.Partial("_Dialogs")
     <script src="~/Scripts/IoTHelperScripts.js"></script>

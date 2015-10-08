@@ -5,6 +5,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// <summary>
     /// Wraps error details to pass back to the caller of a WebAPI
     /// </summary>
+    [Serializable()]
     public class Error
     {
         public enum ErrorType

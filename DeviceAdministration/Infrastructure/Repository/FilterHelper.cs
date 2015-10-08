@@ -148,7 +148,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return false;
             }
 
-            normalizedStatus = statusName.ToLowerInvariant();
+            normalizedStatus = statusName.ToUpperInvariant();
             try
             {
                 value = DeviceSchemaHelper.GetHubEnabledState(item);
@@ -160,13 +160,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             switch (normalizedStatus)
             {
-                case "running":
+                case "RUNNING":
                     return value == true;
 
-                case "disabled":
+                case "DISABLED":
                     return value == false;
 
-                case "pending":
+                case "PENDING":
                     return !value.HasValue;
 
                 default:

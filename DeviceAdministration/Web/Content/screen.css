@@ -514,6 +514,18 @@ main.main_no_nav {
   width: auto;
   font-weight: bold;
 }
+.rule_status_container {
+  width: 150px;
+}
+.button_rule_status {
+  width: 100%;
+  display: block;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+button#remove_rule_button {
+  margin-top: 15px;
+}
 .details_grid_regenerate_keys {
   display: none;
 }
@@ -1417,5 +1429,10 @@ h5.gaugeHeader {
   border: none;
   font-weight: 400;
   font-size: 0.9em;
+}
+/* Addressing an issue in jQuery UI's initial visibility
+*/
+#ui-datepicker-div {
+  display: none;
 }
 /*# sourceMappingURL=screen.css.map */
