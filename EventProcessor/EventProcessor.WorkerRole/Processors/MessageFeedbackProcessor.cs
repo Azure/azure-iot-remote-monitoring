@@ -12,18 +12,13 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 
 namespace Microsoft.Azure.IoT.Samples.EventProcessor.WorkerRole.Processors
 {
-    public class MessageFeedbackProcessor : IMessageFeedbackProcessor
+    public class MessageFeedbackProcessor : IMessageFeedbackProcessor, IDisposable
     {
-        #region Instance Variables
-
         private CancellationTokenSource _cancellationTokenSource;
         private readonly IDeviceLogic _deviceLogic;
         private readonly string _iotHubConnectionString;
         private bool _isRunning;
-
-        #endregion
-
-        #region Constructors
+        private bool _disposed = false;
 
         public MessageFeedbackProcessor(
             ILifetimeScope scope,
@@ -55,12 +50,6 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WorkerRole.Processors
             _deviceLogic = deviceLogic;
         }
 
-        #endregion
-
-        #region Public Methods
-
-        #region Instance Method: Start
-
         public void Start()
         {
             _isRunning = true;
@@ -70,10 +59,6 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WorkerRole.Processors
                 () => this.RunProcess(_cancellationTokenSource.Token),
                 _cancellationTokenSource.Token);
         }
-
-        #endregion
-
-        #region Instance Method: Stop
 
         public void Stop()
         {
@@ -91,12 +76,6 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WorkerRole.Processors
                 Thread.Sleep(sleepInterval);
             }
         }
-
-        #endregion
-
-        #endregion
-
-        #region Private Methods
 
         private async Task RunProcess(CancellationToken token)
         {
@@ -212,6 +191,33 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WorkerRole.Processors
             _isRunning = false;
         }
 
-        #endregion
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                if (_cancellationTokenSource != null)
+                {
+                    _cancellationTokenSource.Dispose();
+                }
+            }
+
+            _disposed = true;
+        }
+
+        ~MessageFeedbackProcessor()
+        {
+            Dispose(false);
+        }
     }
 }

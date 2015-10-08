@@ -118,7 +118,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     if (exception.Errors != null && exception.Errors.Any())
                     {
-                        exception.Errors.ForEach(error => ModelState.AddModelError(string.Empty, error));
+                        exception.Errors.ToList<string>().ForEach(error => ModelState.AddModelError(string.Empty, error));
                     }
                 }
                 catch (Exception)

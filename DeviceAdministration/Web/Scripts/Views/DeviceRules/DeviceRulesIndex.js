@@ -145,7 +145,7 @@
                 {
                     "data": "threshold",
                     "mRender": function (data) {
-                        return htmlEncode(data.toString());
+                        return IoTApp.Helpers.Numbers.localizeNumber(data);
                     },
                     "name": "threshold"
                 },

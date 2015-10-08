@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 
@@ -25,6 +26,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return IsTypeValid(typeName, value);
         }
 
+        [SuppressMessage(
+            "Microsoft.Globalization", 
+            "CA1308:NormalizeStringsToUppercase",
+            Justification = "CommandTypes.Types' keys are all lower case English values.  CanTypeBeNull is likewise based on lower case English values.")]
         public object Get(string typeName, object value)
         {
             var lowerCaseTypeName = typeName.ToLowerInvariant();
@@ -68,6 +73,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return datetime.ToUniversalTime();
         }
 
+        [SuppressMessage(
+            "Microsoft.Globalization", 
+            "CA1308:NormalizeStringsToUppercase",
+            Justification = "typeName-related logic works from lower-case English values.")]
         private bool IsTypeValid(string typeName, object value)
         {
             try
@@ -80,7 +89,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 var parsedValue = Get(typeName, value);
 
                 return parsedValue != null;
-
             }
             catch
             {
@@ -113,8 +121,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 case "binary":
                     return ParseBase64(value);
 
+
                 default:
-                    return Convert.ChangeType(value, type);
+                    return Convert.ChangeType(
+                        value, 
+                        type, 
+                        CultureInfo.CurrentCulture);
             }
         }
 
@@ -181,10 +193,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return null;
             }
 
-            return datetime.ToString("yyyy-MM-dd");
+            return datetime.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
     }
 
+    /// <summary>
+    /// A class for translating command value types to managed framework ones.
+    /// </summary>
+    /// <remarks>
+    /// It uses type names, normalized as lower-case.
+    /// </remarks>
     public class CommandTypes
     {
         public static Dictionary<string, Type> Types = new Dictionary<string, Type>

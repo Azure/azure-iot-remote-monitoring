@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -318,25 +319,41 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     }
 
                     if (strdict.TryGetValue("ExternalTemperature", out str) &&
-                        double.TryParse(str, out number))
+                        double.TryParse(
+                            str,
+                            NumberStyles.Float,
+                            CultureInfo.InvariantCulture,
+                            out number))
                     {
                         model.ExternalTemperature = number;
                     }
 
                     if (strdict.TryGetValue("Humidity", out str) &&
-                        double.TryParse(str, out number))
+                        double.TryParse(
+                            str,
+                            NumberStyles.Float,
+                            CultureInfo.InvariantCulture,
+                            out number))
                     {
                         model.Humidity = number;
                     }
 
                     if (strdict.TryGetValue("Temperature", out str) &&
-                        double.TryParse(str, out number))
+                        double.TryParse(
+                            str,
+                            NumberStyles.Float,
+                            CultureInfo.InvariantCulture,
+                            out number))
                     {
                         model.Temperature = number;
                     }
 
                     if (strdict.TryGetValue("EventEnqueuedUtcTime", out str) &&
-                        DateTime.TryParse(str, out date))
+                        DateTime.TryParse(
+                            str, 
+                            CultureInfo.InvariantCulture,
+                            DateTimeStyles.AllowWhiteSpaces,
+                            out date))
                     {
                         model.Timestamp = date;
                     }
@@ -400,25 +417,41 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     }
 
                     if (strdict.TryGetValue("averagehumidity", out str) &&
-                       double.TryParse(str, out number))
+                       double.TryParse(
+                            str,
+                            NumberStyles.Float,
+                            CultureInfo.InvariantCulture,
+                            out number))
                     {
                         model.AverageHumidity = number;
                     }
 
                     if (strdict.TryGetValue("maxhumidity", out str) &&
-                       double.TryParse(str, out number))
+                       double.TryParse(
+                            str,
+                            NumberStyles.Float,
+                            CultureInfo.InvariantCulture,
+                            out number))
                     {
                         model.MaximumHumidity = number;
                     }
 
                     if (strdict.TryGetValue("minimumhumidity", out str) &&
-                       double.TryParse(str, out number))
+                       double.TryParse(
+                            str,
+                            NumberStyles.Float,
+                            CultureInfo.InvariantCulture,
+                            out number))
                     {
                         model.MinimumHumidity = number;
                     }
 
                     if (strdict.TryGetValue("timeframeminutes", out str) &&
-                       double.TryParse(str, out number))
+                       double.TryParse(
+                            str,
+                            NumberStyles.Float,
+                            CultureInfo.InvariantCulture,
+                            out number))
                     {
                         model.TimeFrameMinutes = number;
                     }
