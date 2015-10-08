@@ -1,4 +1,5 @@
 ﻿@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceDetailModel
+@using System.Globalization
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
@@ -24,13 +25,13 @@
         if (DeviceDisplayHelper.GetIsCopyControlPropertyName(propVal.Name))
         {
             @IoTHelpers.TextCopy(propVal.Name, propVal.Name, propVal.Value);
-        }
+    }
         else
         {
             if ((propVal.PropertyType == PropertyType.DateTime) &&
-                (resolvedDate = DynamicValuesHelper.ConvertToDateTime(propVal.Value)).HasValue)
+                (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, propVal.Value)).HasValue)
             {
-                <p class="grid_detail_value">@Html.DisplayFor(t => resolvedDate)</p>
+                <p class="grid_detail_value">@resolvedDate.Value.ToString(CultureInfo.InvariantCulture)</p>
             }
             else
             {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
@@ -352,7 +354,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
             // The date of the request, as specified in RFC 1123. The date format is expressed in
             // Coordinated Universal Time (UTC), for example. Fri, 08 Apr 2015 03:52:31 GMT.
-            webClient.Headers.Add("x-ms-date", DateTime.Now.ToUniversalTime().ToString("R")); 
+            webClient.Headers.Add("x-ms-date", DateTime.Now.ToUniversalTime().ToString("R", CultureInfo.InvariantCulture)); 
         }
 
         /// <summary>
@@ -376,21 +378,38 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// <param name="resourceId">The resource ID provided in the Azure portal. It should be a
         /// very short hash-looking string similar to jNHDTMVaDgB=</param>
         /// <returns></returns>
+        [SuppressMessage(
+            "Microsoft.Globalization", 
+            "CA1308:NormalizeStringsToUppercase",
+            Justification = "Token signatures are base on lower-case strings.")]
         private string GetAuthorizationToken(string requestVerb, string resourceType, string resourceId)
         {
             // https://msdn.microsoft.com/en-us/library/azure/dn783368.aspx
             // The date portion of the string is the date and time the message was sent
             // (in "HTTP-date" format as defined by RFC 7231 Date/Time Formats) e.g. Tue, 15 Nov 1994 08:12:31 GMT.
-            string dateString = DateTime.Now.ToUniversalTime().ToString("r");
-            string signatureRaw = string.Format("{0}\n{1}\n{2}\n{3}\n\n", 
-                                 requestVerb.ToLower(), resourceType.ToLower(), resourceId.ToLower(), dateString.ToLower());
+            string dateString = DateTime.Now.ToUniversalTime().ToString("r", CultureInfo.InvariantCulture);
+
+            string signatureRaw = 
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0}\n{1}\n{2}\n{3}\n\n", 
+                     requestVerb.ToLowerInvariant(), 
+                     resourceType.ToLowerInvariant(), 
+                     resourceId.ToLowerInvariant(), 
+                     dateString.ToLowerInvariant());
 
             byte[] sigBytes = Encoding.UTF8.GetBytes(signatureRaw);
             byte[] keyBytes = Convert.FromBase64String(_docDbKey);
-            byte[] hashBytes = new HMACSHA256(keyBytes).ComputeHash(sigBytes);
+
+            byte[] hashBytes;
+            using (HashAlgorithm algo = new HMACSHA256(keyBytes))
+            {
+                hashBytes = algo.ComputeHash(sigBytes);
+            }
+
             string hashString = Convert.ToBase64String(hashBytes);
 
-            return Uri.EscapeDataString(string.Format("type=master&ver=1.0&sig={0}", hashString));
+            return Uri.EscapeDataString(string.Format(CultureInfo.InvariantCulture, "type=master&ver=1.0&sig={0}", hashString));
         }
     }
 }
