@@ -4,24 +4,24 @@
     var self = this;
 
     var init = function (deviceId, ruleId, updateCallback) {
-        self.updateCallback = updateCallback;
-        getRulePropertiesView(deviceId, ruleId);
-    }
-
-    var getRulePropertiesView = function (deviceId, ruleId) {
-        $('#loadingElement').show();
         self.deviceId = deviceId;
         self.ruleId = ruleId;
+        self.updateCallback = updateCallback;
+        getRulePropertiesView();
+    }
+
+    var getRulePropertiesView = function () {
+        $('#loadingElement').show();
 
         $.ajaxSetup({ cache: false });
-        $.get('/DeviceRules/GetRuleProperties', { deviceId: deviceId, ruleId: ruleId }, function (response) {
+        $.get('/DeviceRules/GetRuleProperties', { deviceId: self.deviceId, ruleId: self.ruleId }, function (response) {
             if (!$(".details_grid").is(':visible')) {
                 IoTApp.DeviceRulesIndex.toggleProperties();
             }
             onRulePropertiesDone(response);
         }).fail(function (response) {
             $('#loadingElement').hide();
-            renderRetryError(resources.unableToRetrieveRuleFromService, $('#details_grid_container'), function () { getRulePropertiesView(deviceId, ruleId); });
+            renderRetryError(resources.unableToRetrieveRuleFromService, $('#details_grid_container'), function () { getRulePropertiesView(); });
         });
     }
 
@@ -29,6 +29,13 @@
         $('#loadingElement').hide();
         $('#details_grid_container').empty();
         $('#details_grid_container').html(html);
+
+        var removeButton = $('#remove_rule_button');
+        if (removeButton != null) {
+            removeButton.on("click", function () {
+                location.href = "/DeviceRules/RemoveRule?deviceId=" + self.deviceId + "&ruleId=" + self.ruleId;
+            });
+        }
 
         setDetailsPaneLoaderHeight();
     }

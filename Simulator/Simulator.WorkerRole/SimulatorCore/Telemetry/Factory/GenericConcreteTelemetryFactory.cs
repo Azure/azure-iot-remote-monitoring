@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole.SimulatorCore.Devices;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole.SimulatorCore.Logging;
 
@@ -24,7 +25,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.Worker
             var eg1 = new ConcreteTelemetry(_logger)
             {
                 DelayBefore = new TimeSpan(0, 0, 0, 0, 1000),
-                MessageBody = string.Format("Device {0} - event A!", device.DeviceID),
+                MessageBody = string.Format(CultureInfo.CurrentCulture, "Device {0} - event A!", device.DeviceID),
                 RepeatCount = 5
             };
 
@@ -33,10 +34,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.Worker
             var eg2 = new ConcreteTelemetry(_logger)
             {
                 DelayBefore = new TimeSpan(0, 0, 0, 0, 1000),
-                MessageBody = string.Format("Device {0} - event B!", device.DeviceID),
+                MessageBody = string.Format(CultureInfo.CurrentCulture, "Device {0} - event B!", device.DeviceID),
                 RepeatCount = 5
             };
-
 
             device.TelemetryEvents.Add(eg2);
         }

@@ -219,6 +219,9 @@ nav a {
   text-transform: uppercase;
   background-repeat: no-repeat;
   background-position: center 17px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 nav a:hover {
   color: #f2f2f2;
@@ -230,7 +233,7 @@ nav .selected {
 }
 .nav_dashboard {
   background-image: url(img/icon_dashboard.svg);
-  background-size: 30px 30px;
+  background-size: 30px 37px;
 }
 .nav_devices {
   background-image: url(img/icon_devices.svg);
@@ -301,7 +304,7 @@ nav .selected {
 .search_container .search_details_container {
   border: 10px solid #f2f2f2;
   overflow: hidden;
-  padding: 10px 0 10px 10px;
+  padding: 10px;
   height: 100%;
 }
 .search_container .search_details_query {
@@ -310,9 +313,15 @@ nav .selected {
 .search_container .search_details_button_container {
   position: absolute;
   bottom: 12px;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
 }
 .search_container .search_button.button_secondary {
   margin-left: 45px;
+  margin-right: 10px;
 }
 .search_container .filter_add_clause_link {
   display: block;
@@ -327,6 +336,9 @@ nav .selected {
   width: 65px;
   float: left;
   line-height: 3.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .search_container .filter_input {
   width: 184px;
@@ -501,6 +513,18 @@ main.main_no_nav {
 .details_grid .button_details_grid {
   width: auto;
   font-weight: bold;
+}
+.rule_status_container {
+  width: 150px;
+}
+.button_rule_status {
+  width: 100%;
+  display: block;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+button#remove_rule_button {
+  margin-top: 15px;
 }
 .details_grid_regenerate_keys {
   display: none;
@@ -1310,7 +1334,7 @@ img#staticMap {
 }
 .alertHeader {
   background-color: #ffffff;
-  height: 35px;
+  height: 36px;
   line-height: normal;
 }
 #alertHistoryTable_info {
@@ -1405,5 +1429,10 @@ h5.gaugeHeader {
   border: none;
   font-weight: 400;
   font-size: 0.9em;
+}
+/* Addressing an issue in jQuery UI's initial visibility
+*/
+#ui-datepicker-div {
+  display: none;
 }
 /*# sourceMappingURL=screen.css.map */

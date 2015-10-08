@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.IdentityModel.Claims;
+using System.Threading;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -24,6 +26,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
         // Require HTTPS for all requests processed by ASP.NET
         protected void Application_BeginRequest(Object sender, EventArgs e)
         {
+            Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = GetSelectedCulture();
+
             if (Context.Request.IsSecureConnection)
             {
                 // HSTS blocks access to sites with invalid certs
@@ -55,6 +59,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
                 context.Response.Clear();
                 context.Response.StatusCode = 401;
             }
+        }
+
+        private CultureInfo GetSelectedCulture()
+        {
+            // Add custom logic here for getting a user-specified culture.
+
+            // Default to server-selected one.
+            return CultureInfo.CurrentCulture;
         }
     }
 }

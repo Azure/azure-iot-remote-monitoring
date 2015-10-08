@@ -169,5 +169,38 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             humidityRule.Threshold = 48.0d;
             await SaveDeviceRuleAsync(humidityRule);
         }
+        
+        public async Task<TableStorageResponse<DeviceRule>> DeleteDeviceRuleAsync(string deviceId, string ruleId)
+        {
+            DeviceRule found = await _deviceRulesRepository.GetDeviceRuleAsync(deviceId, ruleId);
+            if (found == null)
+            {
+                var response = new TableStorageResponse<DeviceRule>();
+                response.Entity = found;
+                response.Status = TableStorageResponseStatus.NotFound;
+
+                return response;
+            }
+
+            return await _deviceRulesRepository.DeleteDeviceRuleAsync(found);
+        }
+        
+        public async Task<bool> RemoveAllRulesForDeviceAsync(string deviceId)
+        {
+            bool result = true;
+
+            List<DeviceRule> deviceRules = await _deviceRulesRepository.GetAllRulesForDeviceAsync(deviceId);
+            foreach(DeviceRule rule in deviceRules)
+            {
+                TableStorageResponse<DeviceRule> response = await _deviceRulesRepository.DeleteDeviceRuleAsync(rule);
+                if(response.Status != TableStorageResponseStatus.Successful)
+                {
+                    //Do nothing, just report that it failed. The client can then take other steps if needed/desired
+                    result = false;
+                }
+            }
+
+            return result;
+        }
     }
 }

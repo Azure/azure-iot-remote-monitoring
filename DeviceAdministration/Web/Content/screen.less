@@ -338,6 +338,9 @@ nav {
         text-transform: uppercase;
         background-repeat: no-repeat;
         background-position:center 17px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
 
         &:hover {
             color:@anchor-nav-hover-color;
@@ -355,7 +358,7 @@ nav {
 
 .nav_dashboard {
     background-image: url(img/icon_dashboard.svg);
-    background-size:30px 30px;
+    background-size:30px 37px;
     }
 
 .nav_devices {
@@ -431,7 +434,7 @@ nav {
     .search_details_container {
         border: 10px solid @secondary-color;
         overflow: hidden;
-        padding: 10px 0 10px 10px;
+        padding: 10px;
         height: 100%;
         }
 
@@ -442,10 +445,12 @@ nav {
     .search_details_button_container {
         position: absolute;
         bottom: 12px;
+        .display-flex();
         }
 
     .search_button.button_secondary {
             margin-left: 45px;
+            margin-right: 10px;
         }
 
     .filter_add_clause_link {
@@ -462,6 +467,9 @@ nav {
         width: 65px;
         float: left;
         line-height: 3.5;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
         }
 
     .filter_input {
@@ -688,7 +696,22 @@ main {
         width: auto;
         font-weight: bold;
         }
-    }        
+    }  
+
+.rule_status_container {
+    width: 150px;
+}      
+ 
+.button_rule_status {
+    width: 100%;
+    display: block;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+button#remove_rule_button {
+    margin-top: 15px;
+}
 
 .details_grid_regenerate_keys {
     display: none;
@@ -1687,7 +1710,7 @@ img#staticMap{
 
 .alertHeader {
     background-color:@background-color;
-    height:35px;
+    height:36px;
     line-height:normal;
     }
 
@@ -1789,3 +1812,7 @@ h5.gaugeHeader {
     font-weight:400;
     font-size:0.9em
 }
+
+/* Addressing an issue in jQuery UI's initial visibility
+*/
+#ui-datepicker-div { display: none; }

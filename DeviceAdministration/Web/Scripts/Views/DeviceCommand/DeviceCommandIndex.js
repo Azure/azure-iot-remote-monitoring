@@ -244,8 +244,15 @@
 
     var addDateTime = function ()
     {
+        if (cultureInfo && $.datepicker.regional[cultureInfo]) {
+            $('.datetime').datepicker($.datepicker.regional[cultureInfo]);
+        } else if (cultureInfoShort && $.datepicker.regional[cultureInfoShort]) {
+            $('.datetime').datepicker($.datepicker.regional[cultureInfoShort]);
+        }
+
+        $('.datetime').datepicker('option', 'dateFormat', 'yy-mm-dd');
+
         $('.datetime').datepicker({
-            dateFormat: 'yy-mm-dd',
             onClose: function() {
                 var boundTo = $(this).data('bound-to');
                 if (boundTo) {

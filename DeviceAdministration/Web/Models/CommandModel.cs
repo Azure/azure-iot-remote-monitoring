@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
@@ -53,14 +55,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return validationResult;
         }
 
+        [SuppressMessage(
+            "Microsoft.Globalization", 
+            "CA1308:NormalizeStringsToUppercase",
+            Justification = "Type error messages are based on lower-case English names.")]
         private string GetCommandErrorMessage()
         {
             var errorMessage =
-                Strings.ResourceManager.GetString(string.Format("{0}CommandErrorMessage", Type.ToLowerInvariant()));
+                Strings.ResourceManager.GetString(
+                    string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0}CommandErrorMessage", 
+                    Type.ToLowerInvariant()));
 
             if (string.IsNullOrEmpty(errorMessage))
             {
-                errorMessage = string.Format(Strings.UnknownCommandParameterType, Type);
+                errorMessage = 
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        Strings.UnknownCommandParameterType, 
+                        Type);
             }
             return errorMessage;
         }
