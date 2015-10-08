@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.WindowsAzure.Storage.Blob;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Dynamic;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -118,8 +118,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return result;
         }
 
-        private static AlertHistoryItemModel ProduceAlertHistoryItem(
-            ExpandoObject expandoObject)
+        private static AlertHistoryItemModel ProduceAlertHistoryItem(ExpandoObject expandoObject)
         {
             Debug.Assert(expandoObject != null, "expandoObject is a null reference.");
 
@@ -156,7 +155,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return BuildModelForItem(ruleOutput, deviceId, readingValue, thresholdValue, time);
         }
 
-        private static AlertHistoryItemModel BuildModelForItem(string ruleOutput, string deviceId, string value, string threshold, string time) {
+        private static AlertHistoryItemModel BuildModelForItem(string ruleOutput, string deviceId, string value, string threshold, string time)
+        {
             double valDouble;
             double threshDouble;
             DateTime timeAsDateTime;
@@ -166,7 +166,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 !string.IsNullOrWhiteSpace(deviceId) &&
                 double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out valDouble) &&
                 double.TryParse(threshold, NumberStyles.Float, CultureInfo.InvariantCulture, out threshDouble) &&
-                DateTime.TryParse(time, CultureInfo.InvariantCulture, DateTimeStyles.None, out timeAsDateTime))
+                DateTime.TryParse(time, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out timeAsDateTime))
             {
                 return new AlertHistoryItemModel()
                 {

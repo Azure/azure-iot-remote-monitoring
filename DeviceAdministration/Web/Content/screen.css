@@ -1418,4 +1418,9 @@ h5.gaugeHeader {
   font-weight: 400;
   font-size: 0.9em;
 }
+/* Addressing an issue in jQuery UI's initial visibility
+*/
+#ui-datepicker-div {
+  display: none;
+}
 /*# sourceMappingURL=screen.css.map */
