@@ -35,6 +35,7 @@ namespace DeviceAdministration.WebJob
         private static readonly string SHUTDOWN_FILE_ENV_VAR = "WEBJOBS_SHUTDOWN_FILE";
         private static string _shutdownFile;
         private static bool _shutdownSignalReceived = false;
+        private static Timer _timer;
 
         static void Main(string[] args)
         {
@@ -68,7 +69,7 @@ namespace DeviceAdministration.WebJob
 
                 BuildContainer();
 
-                CreateInitialDataAsNeeded();
+                StartDataInitializationAsNeeded();
                 StartEventProcessorHost();
                 
                 StartActionProcessorHost();
@@ -99,8 +100,22 @@ namespace DeviceAdministration.WebJob
             eventProcessorContainer = builder.Build();
         }
 
-        static void CreateInitialDataAsNeeded()
+        static void StartDataInitializationAsNeeded()
         {
+            //We have observed that Azure reliably starts the web job twice on a fresh deploy. The second start
+            //is reliably about 7 seconds after the first start (under current conditions -- this is admittedly
+            //not a perfect solution, but absent visibility into the black box of Azure this is what works at
+            //the time) with a shutdown command being received on the current instance in the interim. We want
+            //to further bolster our guard against starting a data initialization process that may be aborted
+            //in the middle of its work. So we want to delay the data initialization for about 10 seconds to
+            //give ourselves the best chance of receiving the shutdown command if it is going to come in. After
+            //this delay there is an extremely good chance that we are on a stable start that will remain in place.
+            _timer = new Timer(CreateInitialDataAsNeeded, null, 10000, Timeout.Infinite);
+        }
+
+        static void CreateInitialDataAsNeeded(object state)
+        {
+            _timer.Dispose();
             if (!_shutdownSignalReceived && !cancellationTokenSource.Token.IsCancellationRequested)
             {
 
