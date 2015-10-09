@@ -66,11 +66,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [RequirePermission(Permission.ViewTelemetry)]
         public async Task<ActionResult> Index()
         {
-            DashboardModel model;
-            DeviceListQuery query;
-            DeviceListQueryResult queryResult;
-
-            model = new DashboardModel();
+            var model = new DashboardModel();
 
             List<Infrastructure.Models.FilterInfo> filters = new List<Infrastructure.Models.FilterInfo>();
             filters.Add(new Infrastructure.Models.FilterInfo()
@@ -79,7 +75,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     FilterType = FilterType.Status, 
                     FilterValue = "Running"
                 });
-            query = new DeviceListQuery()
+            var query = new DeviceListQuery()
             {
                 Skip = 0,
                 Take = MaxDevicesToDisplayOnDashboard,
@@ -87,9 +83,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 Filters = filters
             };
 
-            queryResult = await _deviceLogic.GetDevices(query);
-            if ((queryResult != null) &&
-                (queryResult.Results != null))
+            DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
+            if ((queryResult != null) && (queryResult.Results != null))
             {
                 foreach (dynamic devInfo in queryResult.Results)
                 {
@@ -104,9 +99,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         continue;
                     }
 
-                        model.DeviceIdsForDropdown.Add(new StringPair(deviceId, deviceId));
-                    }
+                    model.DeviceIdsForDropdown.Add(new StringPair(deviceId, deviceId));
                 }
+            }
 
             model.MapApiQueryKey = _configProvider.GetConfigurationSettingValue("MapApiQueryKey");
 
