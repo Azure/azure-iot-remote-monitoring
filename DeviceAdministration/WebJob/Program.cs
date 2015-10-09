@@ -32,7 +32,7 @@ namespace DeviceAdministration.WebJob
         //static ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
         static IContainer eventProcessorContainer;
 
-        private static readonly string SHUTDOWN_FILE_ENV_VAR = "WEBJOBS_SHUTDOWN_FILE";
+        private const string SHUTDOWN_FILE_ENV_VAR = "WEBJOBS_SHUTDOWN_FILE";
         private static string _shutdownFile;
         private static bool _shutdownSignalReceived = false;
         private static Timer _timer;
