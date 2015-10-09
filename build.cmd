@@ -66,6 +66,7 @@
     rmdir /s /q Build_Output)
 msbuild RemoteMonitoring.sln /v:m /p:Configuration=%Configuration%
 msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package /P:VisualStudioVersion=12.0 /p:OutputPath=%~dp0Build_Output\
+msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /P:VisualStudioVersion=12.0 /p:OutputPath=%~dp0Build_Output\
 @IF /I '%ERRORLEVEL%' NEQ '0' (
     @echo Error msbuild IoTRefImplementation.sln /v:m /t:publish /p:Configuration=%Configuration%
     @goto :Error
