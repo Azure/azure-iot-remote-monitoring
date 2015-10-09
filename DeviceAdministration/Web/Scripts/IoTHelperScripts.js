@@ -88,11 +88,21 @@ IoTApp.createModule("IoTApp.Helpers.DeviceIdState", function () {
 IoTApp.createModule("IoTApp.Helpers.Numbers", function () {
     "use strict";
 
+    var localizeFromInvariant = function localizeFromInvariant(text) {
+        var number = Globalize.parseFloat(text, null, 'en-US');
+        if (isNaN(number)) {
+            return text;
+        } else {
+            return localizeNumber(number);
+        }
+    };
+
     var localizeNumber = function localizeNumber(number) {
         return Globalize.format(number, 'N', cultureInfo);
     };
 
     return {
+        localizeFromInvariant: localizeFromInvariant,
         localizeNumber: localizeNumber
     };
 }, [jQuery, Globalize, cultureInfo]);
