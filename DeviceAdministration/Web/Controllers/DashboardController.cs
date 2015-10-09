@@ -23,22 +23,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     [OutputCache(CacheProfile = "NoCacheProfile")]
     public class DashboardController : Controller
     {
-        #region Constants
-
         private const double MaxDeviceSummaryAgeMinutes = 10.0;
         private const int MaxDevicesToDisplayOnDashboard = 200;
-
-        #endregion
-
-        #region Instance Variables
 
         private readonly IDeviceLogic _deviceLogic;
         private readonly IDeviceTelemetryLogic _deviceTelemetryLogic;
         private readonly IConfigurationProvider _configProvider;
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the DashboardController class.
@@ -74,12 +64,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             _deviceTelemetryLogic = deviceTelemetryLogic;
             _configProvider = configProvider;
         }
-
-        #endregion
-
-        #region Public Methods
-
-        #region Instance Method: Index
 
         [RequirePermission(Permission.ViewTelemetry)]
         public async Task<ActionResult> Index()
@@ -140,10 +124,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View(model);
         }
 
-        #endregion
-
-        #region Instance Method: LoadDashboardDevicePaneData
-
         [HttpGet]
         [WebApiRequirePermission(Permission.ViewTelemetry)]
         public async Task<DashboardDevicePaneDataModel> LoadDashboardDevicePaneData(
@@ -201,9 +181,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             return result;
         }
-
-        #endregion
-
-        #endregion
     }
 }
