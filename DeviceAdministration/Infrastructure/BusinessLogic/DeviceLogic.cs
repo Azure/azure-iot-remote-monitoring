@@ -977,8 +977,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return true;
         }
 
-        #region Temporary Device Generation Code for Testing
         /// <summary>
+        /// TEMPORARY DEVICE GENERATION CODE FOR TESTING PURPOSES!
         /// Generates N devices with random data and properties for testing
         /// NOTE: Adds the devices to both the device registry and device identity repository
         /// </summary>
@@ -995,7 +995,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 await AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             }   
         }
-        #endregion
 
         public async Task<List<string>> BootstrapDefaultDevices()
         {
