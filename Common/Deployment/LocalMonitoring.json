@@ -2,34 +2,40 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "name": {
+        "aadTenant": {
             "type": "string",
-            "metadata" : {
-                "description" : "The name of the suite"
+            "metadata": {
+                "description": "The name of the service Tenant"
+            }
+        },
+        "suiteName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the suite"
             }
         },
         "docDBName": {
             "type": "string",
-            "metadata" : {
-                "description" : "The name of the documentDB"
+            "metadata": {
+                "description": "The name of the documentDB"
             }
         },
         "storageName": {
             "type": "string",
-            "metadata" : {
-                "description" : "The name of the storageAccount"
+            "metadata": {
+                "description": "The name of the storageAccount"
             }
         },
         "iotHubName": {
             "type": "string",
-            "metadata" : {
-                "description" : "The name of the iotHub"
+            "metadata": {
+                "description": "The name of the iotHub"
             }
         },
         "sbName": {
             "type": "string",
-            "metadata" : {
-                "description" : "The name of the serviceBus"
+            "metadata": {
+                "description": "The name of the serviceBus"
             }
         }
     },
@@ -39,12 +45,12 @@
         "storageVersion": "2015-05-01-preview",
         "storageId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
         "sbVersion": "[providers('Microsoft.Eventhub', 'namespaces').apiVersions[0]]",
-        "ehOutName": "[concat(parameters('name'), '-ehout')]",
-        "ehRuleOutName": "[concat(parameters('name'), '-ehruleout')]",
+        "ehOutName": "[concat(parameters('suiteName'), '-ehout')]",
+        "ehRuleOutName": "[concat(parameters('suiteName'), '-ehruleout')]",
         "sbKeyName": "RootManageSharedAccessKey",
         "sbResourceId": "[resourceId('Microsoft.Eventhub/namespaces/authorizationRules', parameters('sbName'), variables('sbKeyName'))]",
         "saVersion": "2015-06-01",
-        "bingMapsName": "[concat(parameters('name'), '-map')]",
+        "bingMapsName": "[concat(parameters('suiteName'), '-map')]",
         "bingMapsVersion": "2015-07-02",
         "docDBVersion": "2015-04-08",
         "docDBSku": "Standard",
@@ -168,7 +174,7 @@
         {
             "apiVersion": "[variables('saVersion')]",
             "type": "Microsoft.StreamAnalytics/streamingjobs",
-            "name": "[concat(parameters('name'), '-Telemetry')]",
+            "name": "[concat(parameters('suiteName'), '-Telemetry')]",
             "location": "[variables('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Storage/storageAccounts/', parameters('storageName'))]",
@@ -271,7 +277,7 @@
         {
             "apiVersion": "[variables('saVersion')]",
             "type": "Microsoft.StreamAnalytics/streamingjobs",
-            "name": "[concat(parameters('name'), '-DeviceInfo')]",
+            "name": "[concat(parameters('suiteName'), '-DeviceInfo')]",
             "location": "[variables('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Eventhub/namespaces/', parameters('sbName'))]",
@@ -342,7 +348,7 @@
         {
             "apiVersion": "[variables('saVersion')]",
             "type": "Microsoft.StreamAnalytics/streamingjobs",
-            "name": "[concat(parameters('name'), '-Rules')]",
+            "name": "[concat(parameters('suiteName'), '-Rules')]",
             "location": "[variables('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Storage/storageAccounts/', parameters('storageName'))]",
@@ -467,24 +473,28 @@
             }
         }
     ],
-    "outputs" : {
-        "IotHubConnectionString" : {
-            "type" : "string",
-            "value" : "[concat('HostName=', reference(variables('iotHubResourceId')).hostName, ';SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', listkeys(variables('iotHubKeyResource'), variables('iotHubVersion')).primaryKey)]"
+    "outputs": {
+        "iotHubHostName": {
+            "type": "string",
+            "value": "[reference(variables('iotHubResourceId')).hostName]"
         },
-        "DocDbURI" : {
-            "type" : "string",
-            "value" : "[reference(variables('docDBResourceId')).documentEndpoint]"
+        "iotHubConnectionString": {
+            "type": "string",
+            "value": "[concat('HostName=', reference(variables('iotHubResourceId')).hostName, ';SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', listkeys(variables('iotHubKeyResource'), variables('iotHubVersion')).primaryKey)]"
         },
-        "DocDbKey" : {
-            "type" : "string",
-            "value" : "[listkeys(variables('docDBResourceId'), '2015-04-08').primaryMasterKey]"
+        "docDbURI": {
+            "type": "string",
+            "value": "[reference(variables('docDBResourceId')).documentEndpoint]"
         },
-        "BingMapsQueryKey": {
+        "docDbKey": {
+            "type": "string",
+            "value": "[listkeys(variables('docDBResourceId'), '2015-04-08').primaryMasterKey]"
+        },
+        "bingMapsQueryKey": {
             "type": "string",
             "value": "[listSecrets(variables('bingMapsName'), variables('bingMapsVersion')).QueryKey]"
         },
-        "StorageConnectionString": {
+        "storageConnectionString": {
             "type": "string",
             "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
         },

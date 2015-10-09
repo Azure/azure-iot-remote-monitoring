@@ -65,8 +65,11 @@
 @IF /I '%ActionType%' == 'Clean' (
     rmdir /s /q Build_Output)
 msbuild RemoteMonitoring.sln /v:m /p:Configuration=%Configuration%
-msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package /P:VisualStudioVersion=12.0 /p:OutputPath=%~dp0Build_Output\
-msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /P:VisualStudioVersion=12.0 /p:OutputPath=%~dp0Build_Output\
+
+@REM For future Zip based deployments for private repos
+@REM msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package /P:VisualStudioVersion=12.0 /p:OutputPath=%~dp0Build_Output\
+@REM msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /P:VisualStudioVersion=12.0 /p:OutputPath=%~dp0Build_Output\
+
 @IF /I '%ERRORLEVEL%' NEQ '0' (
     @echo Error msbuild IoTRefImplementation.sln /v:m /t:publish /p:Configuration=%Configuration%
     @goto :Error
@@ -75,22 +78,6 @@ msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
     @GOTO :End)
 
 :Config
-@IF /I '%Services%' NEQ '' (
-    @Set PublishCmd=%PublishCmd% -ServiceList %Services%
-    )
-
-@IF /I '%DeploymentLabel%' NEQ '' (
-    @Set PublishCmd=%PublishCmd% -DeploymentLabel %DeploymentLabel%
-    )
-
-@IF /I '%Slot%' NEQ '' (
-    @Set PublishCmd=%PublishCmd% -Slot %Slot%
-    )
-
-@IF /I '%VipSwap%' NEQ '' (
-    @Set PublishCmd=%PublishCmd% -VipSwap %VipSwap%
-    )
-
 %PublishCmd%
 
 @IF /I '%ERRORLEVEL%' NEQ '0' (
@@ -109,23 +96,15 @@ msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
 @ECHO   Configuration: build configuration either Debug or Release; default is Debug
 @ECHO   EnvironmentName: Name of cloud environment to deploy - default is local
 @ECHO   ActionType: "Clean" flag indicating to clean before build/config - default is not to clean
-@ECHO   Services: Comma separated string of services to deploy, eg. "EventProcessor,VendingMachines" - default deploys all services
-@ECHO   DeploymentLabel: A label used to describe the deployment - default is timestamped string
-@ECHO   Slot: Either production or staging slot - default is staging
-@ECHO   VipSwap: Indicates if VIP swap (swap staging and production) should occur after successful deployment - default true
 @ECHO
 @ECHO eg.
 @ECHO   build - build.cmd build
 @ECHO   local deployment: build.cmd local
 @ECHO   local release clean deployment: build.cmd local release local clean
 @ECHO   cloud deployment: build.cmd cloud release mydeployment
-@ECHO   cloud deployment with args: build.cmd cloud release mydeployment update "EventProcessor"
 :End
 @Set Command=
 @Set EnvironmentName=
 @Set Configuration=
 @Set ActionType=
-@Set Services=
-@Set DeploymentLabel=
-@Set Slot=
-@Set VipSwap=
+

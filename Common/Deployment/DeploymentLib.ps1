@@ -168,12 +168,12 @@ function ValidateResourceName()
     )
 
     # Return name for existing resource if exists
-    $resources = Get-AzureResource -ResourceGroupName $resourceGroupName -ResourceType $resourceType
+    $resources = Get-AzureResource -ResourceGroupName $resourceGroupName -ResourceType $resourceType -OutputObjectFormat New
     if ($resources -ne $null)
     {
         foreach($resource in $resources)
         {
-            if ($resource.Name.StartsWith($resourceBaseName))
+            if ($resource.Name.ToLower().StartsWith($resourceBaseName.ToLower()))
             {
                 return $resource.Name
             }
@@ -537,6 +537,11 @@ function InitializeEnvironment()
     )
     $null = ImportLibraries
     $global:environmentName = $environmentName
+    $null = Get-AzureResourceGroup -ErrorAction SilentlyContinue -ErrorVariable credError
+    if ($credError -ne $null)
+    {
+        $null = GetAzureAccountInfo
+    }
 
     # Validate environment variables
     $global:environmentSettingsFile = "{0}\..\..\{1}.config.user" -f $global:azurePath, $environmentName
@@ -593,7 +598,7 @@ function InitializeEnvironment()
     # Validate EnvironmentName availability for cloud
     if ($environmentName -ne "local")
     {
-        $webResource = Get-AzureResource -Name $environmentName -ResourceType Microsoft.Web/sites -ResourceGroupName $environmentName
+        $webResource = Get-AzureResource -Name $environmentName -ResourceType Microsoft.Web/sites -ResourceGroupName $environmentName -OutputObjectFormat New
         if ($webResource -eq $null)
         {
             if(HostEntryExists ("{0}.azurewebsites.net" -f $environmentName))
