@@ -50,7 +50,7 @@
 @SET DeploymentScripts=%~dp0\Common\Deployment
 @SET BuildPath=%~dp0Build_Output\%Configuration%
 @SET PowerShellCmd=%windir%\system32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Unrestricted -Command
-@SET PublishCmd=%PowerShellCmd% %DeploymentScripts%\PrepareIoTSample.ps1 -environmentName %EnvironmentName% -buildPath %BuildPath%
+@SET PublishCmd=%PowerShellCmd% %DeploymentScripts%\PrepareIoTSample.ps1 -environmentName %EnvironmentName% -configuration %Configuration%
 
 @IF /I '%Command%' == 'Build' (
     @GOTO :Build)
