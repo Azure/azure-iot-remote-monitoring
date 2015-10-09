@@ -81,7 +81,7 @@
                 {
                     "data": "value",
                     "mRender": function (data) {
-                        return htmlEncode(data);
+                        return htmlEncode(IoTApp.Helpers.Numbers.localizeFromInvariant(data));
                     },
                     "name": "value"
                 },

@@ -13,6 +13,12 @@
     <script type="text/javascript">
         var cultureInfo = '@Culture';
         var cultureInfoShort = '@Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName'
+
+        var baseLayoutResources = {
+            commandCToCopy: '@Strings.CommandCToCopy',
+            controlCToCopy: '@Strings.ControlCToCopy',
+            clickToSelectAll: '@Strings.ClickToSelectAll'
+        };
     </script>
     @Scripts.Render("~/bundles/powerbi-visuals")
     @Scripts.Render("~/bundles/jqueryval")
@@ -68,15 +74,6 @@
         </div>
 
     </section>
-    <script>
-        "use strict";
-
-        var baseLayoutResources = {
-            commandCToCopy: '@Strings.CommandCToCopy',
-            controlCToCopy: '@Strings.ControlCToCopy',
-            clickToSelectAll: '@Strings.ClickToSelectAll'
-        };
-    </script>
 
     @Html.Partial("_Dialogs")
     <script src="~/Scripts/IoTHelperScripts.js"></script>
