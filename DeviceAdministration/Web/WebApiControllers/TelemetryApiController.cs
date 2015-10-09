@@ -79,12 +79,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             DeviceTelemetrySummaryModel summaryModel;
             IEnumerable<DeviceTelemetryModel> telemetryModels;
 
-            if (string.IsNullOrEmpty(deviceId))
-            {
-                throw new ArgumentException(
-                    "deviceId is a null reference or empty string.",
-                    "deviceId");
-            }
+            ValidateArgumentPopulation("deviceId", deviceId);
 
             result = new DashboardDevicePaneDataModel()
             {
@@ -153,6 +148,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Func<Task<DeviceTelemetryModel[]>> getTelemetry;
             IEnumerable<DeviceTelemetryModel> telemetryModels;
 
+            ValidateArgumentPopulation("deviceId", deviceId);
+
             getTelemetry =
                 async () =>
                 {
@@ -185,6 +182,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             string deviceId)
         {
             Func<Task<DeviceTelemetrySummaryModel>> getTelemetrySummary;
+
+            ValidateArgumentPopulation("deviceId", deviceId);
 
             getTelemetrySummary =
                 async () =>

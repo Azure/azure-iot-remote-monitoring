@@ -143,6 +143,60 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             throw new HttpResponseException(responseMessage);
         }
 
+        protected void ValidateArgumentPopulation(string argumentName, string value)
+        {
+            Debug.Assert(
+                !string.IsNullOrWhiteSpace(argumentName),
+                "argumentName is a null reference, empty string, or contains only whitespace.");
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                // Error strings are not localized.
+                string errorText =
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "{0} is a null reference or empty string.",
+                        argumentName);
+
+                TerminateProcessingWithMessage(HttpStatusCode.BadRequest, errorText);
+            }
+        }
+
+        protected void ValidateArgumentNotNull(string argumentName, object value)
+        {
+            Debug.Assert(
+                !string.IsNullOrWhiteSpace(argumentName),
+                "argumentName is a null reference, empty string, or contains only whitespace.");
+
+            if (value != null)
+            {
+                // Error strings are not localized.
+                string errorText =
+                    string.Format(CultureInfo.InvariantCulture, "{0} is a null reference.", argumentName);
+
+                TerminateProcessingWithMessage(HttpStatusCode.BadRequest, errorText);
+            }
+        }
+
+        protected void ValidatePositiveValue(string argumentName, int value)
+        {
+            Debug.Assert(
+                !string.IsNullOrWhiteSpace(argumentName),
+                "argumentName is a null reference, empty string, or contains only whitespace.");
+
+            if (value <= 0)
+            {
+                // Error strings are not localized.
+                string errorText =
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "{0} is not a positive integer.",
+                        argumentName);
+
+                TerminateProcessingWithMessage(HttpStatusCode.BadRequest, errorText);
+            }
+        }
+
         private static string FormatExceptionMessage(Exception ex)
         {
             Debug.Assert(ex != null, "ex is a null reference.");
