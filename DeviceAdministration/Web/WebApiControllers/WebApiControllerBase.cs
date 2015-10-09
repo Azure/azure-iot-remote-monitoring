@@ -143,7 +143,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             throw new HttpResponseException(responseMessage);
         }
 
-        protected void ValidateArgumentPopulation(string argumentName, string value)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers.WebApiControllerBase.TerminateProcessingWithMessage(System.Net.HttpStatusCode,System.String)")]
+        protected void ValidateArgumentNotNullOrWhitespace(string argumentName, string value)
         {
             Debug.Assert(
                 !string.IsNullOrWhiteSpace(argumentName),
@@ -155,13 +156,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 string errorText =
                     string.Format(
                         CultureInfo.InvariantCulture,
-                        "{0} is a null reference or empty string.",
+                        "{0} is null, empty, or just whitespace.",
                         argumentName);
 
                 TerminateProcessingWithMessage(HttpStatusCode.BadRequest, errorText);
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers.WebApiControllerBase.TerminateProcessingWithMessage(System.Net.HttpStatusCode,System.String)")]
         protected void ValidateArgumentNotNull(string argumentName, object value)
         {
             Debug.Assert(
@@ -171,13 +173,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             if (value != null)
             {
                 // Error strings are not localized.
-                string errorText =
-                    string.Format(CultureInfo.InvariantCulture, "{0} is a null reference.", argumentName);
+                string errorText = string.Format(CultureInfo.InvariantCulture, "{0} is a null reference.", argumentName);
 
                 TerminateProcessingWithMessage(HttpStatusCode.BadRequest, errorText);
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers.WebApiControllerBase.TerminateProcessingWithMessage(System.Net.HttpStatusCode,System.String)")]
         protected void ValidatePositiveValue(string argumentName, int value)
         {
             Debug.Assert(
@@ -201,7 +203,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             Debug.Assert(ex != null, "ex is a null reference.");
 
-            // TODO: Localize string if neccessary.
+            // Error strings are not localized
             return string.Format(
                 CultureInfo.CurrentCulture,
                 "{0}{0}*** EXCEPTION ***{0}{0}{1}{0}{0}",

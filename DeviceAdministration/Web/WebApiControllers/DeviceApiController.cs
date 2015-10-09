@@ -45,7 +45,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewDevices)]
         public async Task<HttpResponseMessage> GetDeviceAsync(string id)
         {
-            ValidateArgumentPopulation("id", id);
+            ValidateArgumentNotNullOrWhitespace("id", id);
 
             return await GetServiceResponseAsync<dynamic>(async () =>
             {
@@ -150,7 +150,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.RemoveDevices)]
         public async Task<HttpResponseMessage> RemoveDeviceAsync(string id)
         {
-            ValidateArgumentPopulation("id", id);
+            ValidateArgumentNotNullOrWhitespace("id", id);
 
             return await GetServiceResponseAsync(async () =>
             {
@@ -194,7 +194,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewDeviceSecurityKeys)]
         public async Task<HttpResponseMessage> GetDeviceKeysAsync(string id)
         {
-            ValidateArgumentPopulation("id", id);
+            ValidateArgumentNotNullOrWhitespace("id", id);
 
             return await GetServiceResponseAsync<SecurityKeys>(async () =>
             {
@@ -210,7 +210,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             bool isEnabled;
 
-            ValidateArgumentPopulation("deviceId", deviceId);
+            ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
 
             if (request == null)
                 return GetNullRequestErrorResponse<bool>();
@@ -244,8 +244,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.SendCommandToDevices)]
         public async Task<HttpResponseMessage> SendCommand(string deviceId, string commandName, [FromBody]dynamic parameters)
         {
-            ValidateArgumentPopulation("deviceId", deviceId);
-            ValidateArgumentPopulation("commandName", commandName);
+            ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
+            ValidateArgumentNotNullOrWhitespace("commandName", commandName);
 
             return await GetServiceResponseAsync(async () =>
             {

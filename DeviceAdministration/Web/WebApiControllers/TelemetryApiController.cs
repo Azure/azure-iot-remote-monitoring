@@ -79,7 +79,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             DeviceTelemetrySummaryModel summaryModel;
             IEnumerable<DeviceTelemetryModel> telemetryModels;
 
-            ValidateArgumentPopulation("deviceId", deviceId);
+            ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
 
             result = new DashboardDevicePaneDataModel()
             {
@@ -148,7 +148,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Func<Task<DeviceTelemetryModel[]>> getTelemetry;
             IEnumerable<DeviceTelemetryModel> telemetryModels;
 
-            ValidateArgumentPopulation("deviceId", deviceId);
+            ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
 
             getTelemetry =
                 async () =>
@@ -183,7 +183,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             Func<Task<DeviceTelemetrySummaryModel>> getTelemetrySummary;
 
-            ValidateArgumentPopulation("deviceId", deviceId);
+            ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
 
             getTelemetrySummary =
                 async () =>
