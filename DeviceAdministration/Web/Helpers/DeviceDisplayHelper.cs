@@ -12,20 +12,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     /// </summary>
     public static class DeviceDisplayHelper
     {
-        #region Static Variables
-
         private static readonly HashSet<string> CopyControlDeviceProperties =
             new HashSet<string>(
                 new string[] {
                     "DEVICEID",
                     "HOSTNAME"
                 });
-
-        #endregion
-
-        #region Public Methods
-
-        #region Static Method: GetIsCopyControlPropertyName
 
         /// <summary>
         /// Gets a value indicating whether a named Device property should be 
@@ -49,10 +41,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return CopyControlDeviceProperties.Contains(propertyName.ToUpperInvariant());
         }
 
-        #endregion
-
-        #region Static Method: GetLocalizedCommandResultText
-
         /// <summary>
         /// Gets localized text and error text for a Device Command's Result.
         /// </summary>
@@ -70,10 +58,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             string commandResult,
             object viewStateErrorMessage)
         {
-            string errorMessage;
             FeedbackStatusCode resolvedValue;
 
-            errorMessage = viewStateErrorMessage as string;
+            var errorMessage = viewStateErrorMessage as string;
             if (Enum.TryParse<FeedbackStatusCode>(
                     commandResult,
                     out resolvedValue))
@@ -104,9 +91,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             return new StringPair(commandResult, errorMessage);
         }
-
-        #endregion
-
-        #endregion
     }
 }

@@ -104,9 +104,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         continue;
                     }
 
-                    model.DeviceIdsForDropdown.Add(new StringPair(deviceId, deviceId));
+                        model.DeviceIdsForDropdown.Add(new StringPair(deviceId, deviceId));
+                    }
                 }
-            }
 
             model.MapApiQueryKey = _configProvider.GetConfigurationSettingValue("MapApiQueryKey");
 
