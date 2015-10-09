@@ -978,12 +978,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         /// <summary>
-        /// TEMPORARY DEVICE GENERATION CODE FOR TESTING PURPOSES!
         /// Generates N devices with random data and properties for testing
         /// NOTE: Adds the devices to both the device registry and device identity repository
         /// </summary>
         /// <param name="deviceCount">Number of devices to generate</param>
         /// <returns></returns>
+        /// <remarks>TEMPORARY DEVICE GENERATION CODE FOR TESTING PURPOSES!</remarks>
         public async Task GenerateNDevices(int deviceCount)
         {
             Random randomNumber = new Random();
