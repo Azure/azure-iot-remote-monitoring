@@ -85,14 +85,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// A delegate for getting the time of a specified Device's most recent 
         /// alert.
         /// </returns>
-        public Func<string, DateTime?> ProducedGetLatestDeviceAlertTime(
+        public Func<string, DateTime?> ProduceGetLatestDeviceAlertTime(
             IEnumerable<AlertHistoryItemModel> alertHistoryModels)
         {
             DateTime date;
 
             if (alertHistoryModels == null)
             {
-                throw new ArgumentNullException("telemetryModels");
+                throw new ArgumentNullException("alertHistoryModels");
             }
 
             Dictionary<string, DateTime> index = new Dictionary<string, DateTime>();
@@ -105,8 +105,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             foreach (AlertHistoryItemModel model in alertHistoryModels)
             {
-                if (index.TryGetValue(model.DeviceId, out date) &&
-                    (date >= model.Timestamp))
+                if (index.TryGetValue(model.DeviceId, out date) && (date >= model.Timestamp))
                 {
                     continue;
                 }

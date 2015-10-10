@@ -15,7 +15,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             string deviceId,
             DateTime? minTime);
 
-        Func<string, DateTime?> ProducedGetLatestDeviceAlertTime(
+        Func<string, DateTime?> ProduceGetLatestDeviceAlertTime(
             IEnumerable<AlertHistoryItemModel> alertHistoryModels);
     }
 }

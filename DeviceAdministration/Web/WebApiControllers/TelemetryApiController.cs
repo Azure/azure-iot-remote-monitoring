@@ -208,7 +208,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                                 if (locationsModel.DeviceLocationList != null)
                                 {
                                     Func<string, DateTime?> getStatusTime =
-                                        _deviceTelemetryLogic.ProducedGetLatestDeviceAlertTime(historyItems);
+                                        _deviceTelemetryLogic.ProduceGetLatestDeviceAlertTime(historyItems);
 
                                     foreach (DeviceLocationModel locationModel in locationsModel.DeviceLocationList)
                                     {
