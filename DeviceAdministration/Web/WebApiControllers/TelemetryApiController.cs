@@ -18,14 +18,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     [RoutePrefix("api/v1/telemetry")]
     public class TelemetryApiController : WebApiControllerBase
     {
-        private const double MaxDeviceSummaryAgeMinutes = 10.0;
-        private const int MaxHistoryItems = 18;
-        private const int MaxDevicesToDisplayOnDashboard = 200;
+        private const double MAX_DEVICE_SUMMARY_AGE_MINUTES = 10.0;
+        private const int MAX_HISTORY_ITEMS = 18;
+        private const int MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD = 200;
 
         private readonly IAlertsLogic _alertsLogic;
         private readonly IDeviceTelemetryLogic _deviceTelemetryLogic;
-        private readonly IDeviceLogic _deviceLogic;
-        private readonly IConfigurationProvider _configProvider;
+
         /// <summary>
         /// Initializes a new instance of the TelemetryApiController class.
         /// </summary>
@@ -36,8 +35,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         /// <param name="alertsLogic">
         /// The IAlertsLogic implementation that the new instance will use.
         /// </param>
-        public TelemetryApiController(IDeviceTelemetryLogic deviceTelemetryLogic,IAlertsLogic alertsLogic, 
-            IDeviceLogic deviceLogic, IConfigurationProvider configProvider)
+        public TelemetryApiController(IDeviceTelemetryLogic deviceTelemetryLogic, IAlertsLogic alertsLogic)
         {
             if (deviceTelemetryLogic == null)
             {
@@ -49,20 +47,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 throw new ArgumentNullException("alertsLogic");
             }
 
-            if(deviceLogic == null)
-            {
-                throw new ArgumentNullException("deviceLogic");
-            }
-
-            if(configProvider == null)
-            {
-                throw new ArgumentNullException("configProvider");
-            }
-
             _deviceTelemetryLogic = deviceTelemetryLogic;
             _alertsLogic = alertsLogic;
-            _deviceLogic = deviceLogic;
-            _configProvider = configProvider;
         }
 
         [HttpGet]
@@ -72,9 +58,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             if (string.IsNullOrEmpty(deviceId))
             {
-                throw new ArgumentException(
-                    "deviceId is a null reference or empty string.",
-                    "deviceId");
+                throw new ArgumentException("deviceId is a null reference or empty string.", "deviceId");
             }
 
             DashboardDevicePaneDataModel result = new DashboardDevicePaneDataModel()
@@ -89,7 +73,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
                     result.DeviceTelemetrySummaryModel = summaryModel =
                         await _deviceTelemetryLogic.LoadLatestDeviceTelemetrySummaryAsync(
-                            deviceId, DateTime.Now.AddMinutes(-MaxDeviceSummaryAgeMinutes));
+                            deviceId, DateTime.Now.AddMinutes(-MAX_DEVICE_SUMMARY_AGE_MINUTES));
 
                     IEnumerable<DeviceTelemetryModel> telemetryModels;
                     if ((summaryModel != null) && summaryModel.Timestamp.HasValue && summaryModel.TimeFrameMinutes.HasValue)
@@ -185,7 +169,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 async () => {
 
                     historyItems = new List<AlertHistoryItemModel>();
-                    data = await _alertsLogic.LoadLatestAlertHistoryAsync(MaxHistoryItems);
+                    data = await _alertsLogic.LoadLatestAlertHistoryAsync(MAX_HISTORY_ITEMS);
                     if (data != null)
                     {
                         historyItems.AddRange(data);
