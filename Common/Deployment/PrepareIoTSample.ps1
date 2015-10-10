@@ -19,6 +19,7 @@ $suitename = "IotSuiteLocal"
 $suiteType = "LocalMonitoring"
 $deploymentTemplatePath = "$(Split-Path $MyInvocation.MyCommand.Path)\LocalMonitoring.json"
 $global:site = "https://localhost:44305/"
+$cloudDeploy = $false
 
 if ($environmentName -ne "local")
 {
@@ -27,9 +28,10 @@ if ($environmentName -ne "local")
     $deploymentTemplatePath = "$(Split-Path $MyInvocation.MyCommand.Path)\RemoteMonitoring.json"
     $global:site = "https://{0}.azurewebsites.net/" -f $environmentName
     [string]$branch = "$(git symbolic-ref --short -q HEAD)"
+    $cloudDeploy = $true
 }
 $resourceGroupName = (GetResourceGroup -Name $suiteName -Type $suiteType).ResourceGroupName
-$storageAccount = GetAzureStorageAccount $environmentName $resourceGroupName
+$storageAccount = GetAzureStorageAccount $suiteName $resourceGroupName
 $iotHubName = GetAzureIotHubName $suitename $resourceGroupName
 $sevicebusName = GetAzureServicebusName $suitename $resourceGroupName
 
@@ -50,15 +52,25 @@ $params = @{ `
     sbName=$sevicebusName; `
     aadTenant=$($global:AADTenant)}
 
-# Set ReleaseBranch to current git branch if available
-if ($branch -ne $null)
+Write-Host "Suite name: $suitename"
+Write-Host "DocDb Name: $(GetAzureDocumentDbName $suitename $resourceGroupName)"
+Write-Host "Storage Name: $($storageAccount.Name)"
+Write-Host "IotHub Name: $iotHubName"
+Write-Host "Servicebus Name: $sevicebusName"
+Write-Host "AAD Tenant: $($global:AADTenant)"
+Write-Host "ResourceGroup Name: $resourceGroupName"
+Write-Host "Deployment template path: $deploymentTemplatePath"
+
+# Upload WebPackages
+if ($cloudDeploy)
 {
-    Write-Host "Using branch: $branch for deployment"
-    $params += @{releaseBranch=$branch}
+    $webPackage = UploadFile (".\DeviceAdministration\Web\obj\{0}\Package\Web.zip" -f $configuration) $storageAccount.Name $resourceGroupName "WebDeploy"
+    $params += @{packageUri=$webPackage}
+    $webJobPackage = UploadFile (".\WebJobHost\obj\{0}\Package\WebJobHost.zip" -f $configuration) $storageAccount.Name $resourceGroupName "WebDeploy"
+    $params += @{webJobPackageUri=$webJobPackage}
 }
 
 Write-Host "Provisioning resources, if this is the first time, this operation can take up 10 minutes..."
-$params
 $result = New-AzureResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $deploymentTemplatePath -TemplateParameterObject $params -Verbose
 
 if ($result.ProvisioningState -ne "Succeeded")

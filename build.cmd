@@ -10,18 +10,6 @@
 @IF /I '%4' NEQ '' (
     Set ActionType=%4)
 
-@IF /I '%5' NEQ '' (
-    Set Services=%5)
-
-@IF /I '%6' NEQ '' (
-    Set DeploymentLabel=%6)
-
-@IF /I '%7' NEQ '' (
-    Set Slot=%7)
-
-@IF /I '%8' NEQ '' (
-    Set VipSwap=%8)
-
 @REM ----------------------------------------------
 @REM Validate arguments
 @REM ----------------------------------------------
@@ -66,9 +54,12 @@
     rmdir /s /q Build_Output)
 msbuild RemoteMonitoring.sln /v:m /p:Configuration=%Configuration%
 
-@REM For future Zip based deployments for private repos
-@REM msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package /P:VisualStudioVersion=12.0 /p:OutputPath=%~dp0Build_Output\
-@REM msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /P:VisualStudioVersion=12.0 /p:OutputPath=%~dp0Build_Output\
+@IF /I '%Command%' == 'Local' (
+    @GOTO :Config)
+
+@REM For Zip based deployments for private repos
+msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
+msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
 
 @IF /I '%ERRORLEVEL%' NEQ '0' (
     @echo Error msbuild IoTRefImplementation.sln /v:m /t:publish /p:Configuration=%Configuration%

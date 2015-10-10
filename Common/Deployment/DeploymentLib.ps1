@@ -239,12 +239,16 @@ function GetAzureStorageAccount()
     $storage = Get-AzureStorageAccount -ResourceGroupName $resourceGroupName -Name $storageAccountName -ErrorAction SilentlyContinue
     if ($storage -eq $null)
     {
+        Write-Host "Creating new storage account: $storageAccountName"
         $storage = New-AzureStorageAccount -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -Location $global:AllocationRegion -Type Standard_GRS
+        Write-Host "Waiting for storage account url to resolve." -NoNewline
         while (!(HostEntryExists $storage.PrimaryEndpoints.Blob.Host))
         {
+            Write-Host "." -NoNewline
             Clear-DnsClientCache
-            sleep 1
+            sleep 3
         }
+        Write-Host
     }
     return $storage
 }
@@ -284,17 +288,20 @@ function UploadFile()
         [Parameter(Mandatory=$true,Position=2)] [string] $resourceGroupName,
         [Parameter(Mandatory=$true,Position=3)] [string] $containerName
     )
+    $containerName = $containerName.ToLower()
     $file = Get-Item -Path $filePath
+    $fileName = $file.Name.ToLower()
     $storageAccountKey = (Get-AzureStorageAccountKey -StorageAccountName $storageAccountName -ResourceGroupName $resourceGroupName).Key1
     $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageAccountKey
-    New-AzureStorageContainer $ContainerName.ToLower() -Permission Off -Context $context -ErrorAction SilentlyContinue
-    Set-AzureStorageBlobContent -Blob $file.Name -Container $ContainerName.ToLower() -File $file.FullName -Context $context -Force
+    $null = New-AzureStorageContainer $ContainerName -Permission Off -Context $context -ErrorAction SilentlyContinue
+    $null = Set-AzureStorageBlobContent -Blob $fileName -Container $ContainerName -File $file.FullName -Context $context -Force
+    sleep 5
 
     # Generate Uri with sas token
     $storageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse(("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}" -f $storageAccountName, $storageAccountKey))
     $blobClient = $storageAccount.CreateCloudBlobClient()
     $container = $blobClient.GetContainerReference($containerName)
-    $blob = $container.GetBlobReference($file.Name)
+    $blob = $container.GetBlobReference($fileName)
     $sasPolicy = New-Object Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPolicy
     $sasPolicy.SharedAccessStartTime = [System.DateTime]::Now.AddMinutes(-5)
     $sasPolicy.SharedAccessExpiryTime = [System.DateTime]::Now.AddHours(24)
@@ -585,7 +592,7 @@ function InitializeEnvironment()
 
     if (!(Test-Path variable:AllocationRegion))
     {
-        $command = "Read-Host 'Enter Region to deploy resources (eg. West US)'"
+        $command = "Read-Host 'Enter Region to deploy resources (eg. East US)'"
         $region = GetOrSetEnvSetting "AllocationRegion" $command
         while (!(ValidateLocation $region))
         {
@@ -598,7 +605,22 @@ function InitializeEnvironment()
     # Validate EnvironmentName availability for cloud
     if ($environmentName -ne "local")
     {
-        $webResource = Get-AzureResource -Name $environmentName -ResourceType Microsoft.Web/sites -ResourceGroupName $environmentName -OutputObjectFormat New
+        $webResource = $null
+        $resourceGroup = Get-AzureResourceGroup $environmentName -ErrorAction SilentlyContinue
+        if ($resourceGroup -ne $null)
+        {
+            $webResources = Get-AzureResource -ResourceType Microsoft.Web/sites -ResourceGroupName $environmentName -OutputObjectFormat New
+            if ($webResources -ne $null)
+            {
+                foreach($resource in $webResources)
+                {
+                    if ($resource.Name -eq $environmentName)
+                    {
+                        $webResource = $resource
+                    }
+                }
+            }
+        }
         if ($webResource -eq $null)
         {
             if(HostEntryExists ("{0}.azurewebsites.net" -f $environmentName))
