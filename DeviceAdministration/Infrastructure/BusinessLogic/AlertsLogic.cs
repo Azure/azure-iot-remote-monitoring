@@ -12,13 +12,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </summary>
     public class AlertsLogic : IAlertsLogic
     {
-        #region Instance Variables
-
         private readonly IAlertsRepository alertsRepository;
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the AlertsLogic class.
@@ -36,10 +30,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             this.alertsRepository = alertsRepository;
         }
 
-        #endregion
-
-        #region Public Methods
-
         /// <summary>
         /// Loads the latest Device Alert History items.
         /// </summary>
@@ -49,13 +39,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns>
         /// The latest Device Alert History items.
         /// </returns>
-        public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(
-            DateTime minTime)
+        public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(DateTime minTime)
         {
 
             return await this.alertsRepository.LoadLatestAlertHistoryAsync(minTime);
         }
-
-        #endregion
     }
 }

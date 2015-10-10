@@ -13,13 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </summary>
     public class DeviceTelemetryLogic : IDeviceTelemetryLogic
     {
-        #region Instance Variables
-
         private readonly IDeviceTelemetryRepository _deviceTelemetryRepository;
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the DeviceTelemetryLogic class.
@@ -28,8 +22,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// The IDeviceTelemetryRepository implementation that the new 
         /// instance will use.
         /// </param>
-        public DeviceTelemetryLogic(
-            IDeviceTelemetryRepository deviceTelemetryRepository)
+        public DeviceTelemetryLogic(IDeviceTelemetryRepository deviceTelemetryRepository)
         {
             if (deviceTelemetryRepository == null)
             {
@@ -39,9 +32,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _deviceTelemetryRepository = deviceTelemetryRepository;
         }
 
-        #endregion
-
-        #region Public Methods
 
         /// <summary>
         /// Loads the most recent Device telemetry.
@@ -57,12 +47,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// minTime.
         /// </returns>
         public async Task<IEnumerable<DeviceTelemetryModel>> LoadLatestDeviceTelemetryAsync(
-            string deviceId,
+            string deviceId, 
             DateTime minTime)
         {
-            return await _deviceTelemetryRepository.LoadLatestDeviceTelemetryAsync(
-                deviceId,
-                minTime);
+            return await _deviceTelemetryRepository.LoadLatestDeviceTelemetryAsync(deviceId, minTime);
         }
 
         /// <summary>
@@ -80,13 +68,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// The most recent DeviceTElemetrySummaryModel for the Device, 
         /// specified by deviceId.
         /// </returns>
-        public async Task<DeviceTelemetrySummaryModel> LoadLatestDeviceTelemetrySummaryAsync(
-            string deviceId,
-            DateTime? minTime)
+        public async Task<DeviceTelemetrySummaryModel> LoadLatestDeviceTelemetrySummaryAsync(string deviceId, DateTime? minTime)
         {
-            return await _deviceTelemetryRepository.LoadLatestDeviceTelemetrySummaryAsync(
-                deviceId,
-                minTime);
+            return await _deviceTelemetryRepository.LoadLatestDeviceTelemetrySummaryAsync(deviceId, minTime);
         }
 
         /// <summary>
@@ -142,7 +126,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return null;
             };
         }
-
-        #endregion
     }
 }

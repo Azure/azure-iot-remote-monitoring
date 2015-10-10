@@ -8,8 +8,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     /// </summary>
     public class DashboardDevicePaneDataModel
     {
-        #region Properties
-
         /// <summary>
         /// Gets or sets the ID of the Device for which telemetry should be 
         /// shown.
@@ -39,7 +37,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             get;
             set;
         }
-
-        #endregion
     }
 }
