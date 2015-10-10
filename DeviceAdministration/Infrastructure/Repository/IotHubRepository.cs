@@ -168,7 +168,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
         }
 
-        #region IDisposable Interface
         /// <summary>
         /// Implement the IDisposable interface in order to close the device manager
         /// </summary>
@@ -200,6 +199,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             Dispose(false);
         }
-        #endregion
     }
 }

@@ -17,21 +17,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     [RoutePrefix("api/v1/telemetry")]
     public class TelemetryApiController : WebApiControllerBase
     {
-        #region Constants
-
         private const double MaxDeviceSummaryAgeMinutes = 10.0;
         private const int MaxHistoryItems = 18;
 
-        #endregion
-
-        #region Instance Variables
-
         private readonly IAlertsLogic _alertsLogic;
         private readonly IDeviceTelemetryLogic _deviceTelemetryLogic;
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the TelemetryApiController class.
@@ -61,51 +51,33 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             _alertsLogic = alertsLogic;
         }
 
-        #endregion
-
-        #region Public Methods
-
-        #region Instance Method: GetDashboardDevicePaneDataAsync
-
         [HttpGet]
         [Route("dashboardDevicePane")]
         [WebApiRequirePermission(Permission.ViewTelemetry)]
-        public async Task<HttpResponseMessage> GetDashboardDevicePaneDataAsync(
-            string deviceId)
+        public async Task<HttpResponseMessage> GetDashboardDevicePaneDataAsync(string deviceId)
         {
-            Func<Task<DashboardDevicePaneDataModel>> getTelemetry;
-            DateTime minTime;
-            DashboardDevicePaneDataModel result;
-            DeviceTelemetrySummaryModel summaryModel;
-            IEnumerable<DeviceTelemetryModel> telemetryModels;
-
             ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
 
-            result = new DashboardDevicePaneDataModel()
+            DashboardDevicePaneDataModel result = new DashboardDevicePaneDataModel()
             {
                 DeviceId = deviceId
             };
 
-            getTelemetry =
+            Func<Task<DashboardDevicePaneDataModel>> getTelemetry =
                 async () =>
                 {
+                    DeviceTelemetrySummaryModel summaryModel;
+
                     result.DeviceTelemetrySummaryModel = summaryModel =
                         await _deviceTelemetryLogic.LoadLatestDeviceTelemetrySummaryAsync(
-                            deviceId,
-                            DateTime.Now.AddMinutes(-MaxDeviceSummaryAgeMinutes));
+                            deviceId, DateTime.Now.AddMinutes(-MaxDeviceSummaryAgeMinutes));
 
-                    if ((summaryModel != null) &&
-                        summaryModel.Timestamp.HasValue &&
-                        summaryModel.TimeFrameMinutes.HasValue)
+                    IEnumerable<DeviceTelemetryModel> telemetryModels;
+                    if ((summaryModel != null) && summaryModel.Timestamp.HasValue && summaryModel.TimeFrameMinutes.HasValue)
                     {
-                        minTime =
-                            summaryModel.Timestamp.Value.AddMinutes(
-                                -summaryModel.TimeFrameMinutes.Value);
+                        DateTime minTime = summaryModel.Timestamp.Value.AddMinutes(-summaryModel.TimeFrameMinutes.Value);
 
-                        telemetryModels =
-                            await _deviceTelemetryLogic.LoadLatestDeviceTelemetryAsync(
-                                deviceId,
-                                minTime);
+                        telemetryModels = await _deviceTelemetryLogic.LoadLatestDeviceTelemetryAsync(deviceId, minTime);
 
                     }
                     else
@@ -134,10 +106,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 false);
         }
 
-        #endregion
-
-        #region Instance Method: GetDeviceTelemetryAsync
-
         [HttpGet]
         [Route("list")]
         [WebApiRequirePermission(Permission.ViewTelemetry)]
@@ -145,15 +113,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             string deviceId,
             DateTime minTime)
         {
-            Func<Task<DeviceTelemetryModel[]>> getTelemetry;
-            IEnumerable<DeviceTelemetryModel> telemetryModels;
-
             ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
 
-            getTelemetry =
+            Func<Task<DeviceTelemetryModel[]>> getTelemetry =
                 async () =>
                 {
-                    telemetryModels = 
+                    IEnumerable<DeviceTelemetryModel> telemetryModels =
                         await _deviceTelemetryLogic.LoadLatestDeviceTelemetryAsync(
                             deviceId, 
                             minTime);
@@ -171,21 +136,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 false);
         }
 
-        #endregion
-
-        #region Instance Method: GetDeviceTelemetrySummaryAsync
-
         [HttpGet]
         [Route("summary")]
         [WebApiRequirePermission(Permission.ViewTelemetry)]
-        public async Task<HttpResponseMessage> GetDeviceTelemetrySummaryAsync(
-            string deviceId)
+        public async Task<HttpResponseMessage> GetDeviceTelemetrySummaryAsync(string deviceId)
         {
-            Func<Task<DeviceTelemetrySummaryModel>> getTelemetrySummary;
-
             ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
 
-            getTelemetrySummary =
+            Func<Task<DeviceTelemetrySummaryModel>> getTelemetrySummary =
                 async () =>
                 {
                     return await _deviceTelemetryLogic.LoadLatestDeviceTelemetrySummaryAsync(
@@ -198,28 +156,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 false);
         }
 
-        #endregion
-
-        #region Instance Method: GetLatestAlertHistoryAsync
-
         [HttpGet]
         [Route("alertHistory")]
         [WebApiRequirePermission(Permission.ViewTelemetry)]
         public async Task<HttpResponseMessage> GetLatestAlertHistoryAsync()
         {
             IEnumerable<AlertHistoryItemModel> data;
-            List<AlertHistoryItemModel> historyItems;
-            Func<Task<AlertHistoryResultsModel>> loadHistoryItems;
 
-            historyItems = new List<AlertHistoryItemModel>();
+            List<AlertHistoryItemModel> historyItems = new List<AlertHistoryItemModel>();
 
-            loadHistoryItems =
+            Func<Task<AlertHistoryResultsModel>> loadHistoryItems =
                 async () => {
 
                     historyItems = new List<AlertHistoryItemModel>();
-                    data = 
-                        await _alertsLogic.LoadLatestAlertHistoryAsync(
-                            MaxHistoryItems);
+                    data = await _alertsLogic.LoadLatestAlertHistoryAsync(MaxHistoryItems);
                     if (data != null)
                     {
                         historyItems.AddRange(data);
@@ -237,9 +187,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 loadHistoryItems,
                 false);
         }
-
-        #endregion
-
-        #endregion
     }
 }

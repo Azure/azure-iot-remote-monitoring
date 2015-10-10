@@ -37,8 +37,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             foreach (var f in filters)
             {
-                if ((f != null) &&
-                    !string.IsNullOrEmpty(f.ColumnName))
+                if ((f != null) && !string.IsNullOrEmpty(f.ColumnName))
                 {
                     list = FilterItems(list, f);
                 }
@@ -47,17 +46,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return list;
         }
 
-        #region Private Methods
-
-        #region Static Method: FilterItems
-
         private static IQueryable<dynamic> FilterItems(
             IQueryable<dynamic> list, 
             FilterInfo filter)
         {
-            Func<dynamic, bool> applyFilter;
-            Func<dynamic, dynamic> getValue;
-
             if (list == null)
             {
                 throw new ArgumentNullException("item");
@@ -75,13 +67,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     "filter");
             }
 
-            getValue = 
+            Func<dynamic, dynamic> getValue =
                 ReflectionHelper.ProducePropertyValueExtractor(
                     filter.ColumnName, 
                     false, 
                     false);
 
-            applyFilter =
+            Func<dynamic, bool> applyFilter =
                 (item) =>
                 {
                     dynamic columnValue;
@@ -103,8 +95,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                     try
                     {
-                        deviceProperties = 
-                            DeviceSchemaHelper.GetDeviceProperties(item);
+                        deviceProperties = DeviceSchemaHelper.GetDeviceProperties(item);
                     }
                     catch (DeviceRequiredPropertyNotFoundException)
                     {
@@ -118,26 +109,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return list.Where(applyFilter).AsQueryable();
         }
 
-        #endregion
-
-        #region Static Method: GetIsNotNull
-
         private static bool GetIsNotNull(dynamic item)
         {
             return item != null;
         }
 
-        #endregion
-
-        #region Static Method: GetValueMatchesStatus
-
-        private static bool GetValueMatchesStatus(
-            dynamic item,
-            string statusName)
+        private static bool GetValueMatchesStatus(dynamic item, string statusName)
         {
-            string normalizedStatus;
-            bool? value;
-
             if (item == null)
             {
                 throw new ArgumentNullException("item");
@@ -148,7 +126,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return false;
             }
 
-            normalizedStatus = statusName.ToUpperInvariant();
+            string normalizedStatus = statusName.ToUpperInvariant();
+            bool? value;
             try
             {
                 value = DeviceSchemaHelper.GetHubEnabledState(item);
@@ -170,22 +149,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     return !value.HasValue;
 
                 default:
-                    throw new ArgumentOutOfRangeException(
-                        "statusName",
-                        statusName,
-                        "statusName has an unhandled status value.");
+                    throw new ArgumentOutOfRangeException("statusName", statusName, "statusName has an unhandled status value.");
             }
         }
-
-        #endregion
-
-        #region Static Method: GetValueSatisfiesFilter
 
         private static bool GetValueSatisfiesFilter(
             dynamic value,
             FilterInfo filterInfo)
         {
-            string match;
             string strVal;
 
             if (value == null)
@@ -197,48 +168,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 strVal = value.ToString();
             }
 
-            match = filterInfo.FilterValue ?? string.Empty;
+            string match = filterInfo.FilterValue ?? string.Empty;
 
             switch (filterInfo.FilterType)
             {
                 case FilterType.ContainsCaseInsensitive:
-                    return strVal.IndexOf(
-                        match, 
-                        StringComparison.CurrentCultureIgnoreCase) >= 0;
+                    return strVal.IndexOf(match, StringComparison.CurrentCultureIgnoreCase) >= 0;
 
                 case FilterType.ContainsCaseSensitive:
-                    return strVal.IndexOf(
-                        match,
-                        StringComparison.CurrentCulture) >= 0;
+                    return strVal.IndexOf(match, StringComparison.CurrentCulture) >= 0;
 
                 case FilterType.ExactMatchCaseInsensitive:
-                    return string.Equals(
-                        strVal,
-                        match,
-                        StringComparison.CurrentCultureIgnoreCase);
+                    return string.Equals(strVal, match, StringComparison.CurrentCultureIgnoreCase);
 
                 case FilterType.ExactMatchCaseSensitive:
-                    return string.Equals(
-                        strVal,
-                        match,
-                        StringComparison.CurrentCulture);
+                    return string.Equals(strVal, match, StringComparison.CurrentCulture);
 
                 case FilterType.StartsWithCaseInsensitive:
-                    return strVal.StartsWith(
-                        match,
-                        StringComparison.CurrentCultureIgnoreCase);
+                    return strVal.StartsWith(match, StringComparison.CurrentCultureIgnoreCase);
 
                 case FilterType.StartsWithCaseSensitive:
-                    return strVal.StartsWith(
-                        match,
-                        StringComparison.CurrentCulture);
+                    return strVal.StartsWith(match, StringComparison.CurrentCulture);
             }
 
             return false;
         }
-
-        #endregion
-
-        #endregion
     }
 }
