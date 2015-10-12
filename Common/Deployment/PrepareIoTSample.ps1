@@ -27,7 +27,7 @@ if ($environmentName -ne "local")
     $suiteType = "RemoteMonitoring"
     $deploymentTemplatePath = "$(Split-Path $MyInvocation.MyCommand.Path)\RemoteMonitoring.json"
     $global:site = "https://{0}.azurewebsites.net/" -f $environmentName
-    [string]$branch = "$(git symbolic-ref --short -q HEAD)"
+    #[string]$branch = "$(git symbolic-ref --short -q HEAD)"
     $cloudDeploy = $true
 }
 $resourceGroupName = (GetResourceGroup -Name $suiteName -Type $suiteType).ResourceGroupName
@@ -95,8 +95,23 @@ UpdateEnvSetting "RulesEventHubName" $result.Outputs['ehOutName'].Value
 UpdateEnvSetting "RulesEventHubConnectionString" $result.Outputs['ehConnectionString'].Value
 UpdateEnvSetting "MapApiQueryKey" $result.Outputs['bingMapsQueryKey'].Value
 
+Write-Host ("Provisioning and deployment completed successfully, see {0}.config.user for deployment values" -f $environmentName)
+
 if ($environmentName -ne "local")
 {
+    $maxSleep = 40
+    Write-Host "Waiting for website url to resolve." -NoNewline
+    while (!(HostEntryExists ("{0}.azurewebsites.net" -f $environmentName)))
+    {
+        Write-Host "." -NoNewline
+        Clear-DnsClientCache
+        if ($maxSleep-- -le 0)
+        {
+            Write-Warning ("website unable to resolve {0}" -f $global:site)
+            break
+        }
+        sleep 3
+    }
+    Write-Host
     start $global:site
 }
-Write-Host ("Provisioning and deployment completed successfully, see {0}.config.user for deployment values" -f $environmentName)

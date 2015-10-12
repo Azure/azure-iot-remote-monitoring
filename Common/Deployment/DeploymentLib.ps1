@@ -288,20 +288,46 @@ function UploadFile()
         [Parameter(Mandatory=$true,Position=2)] [string] $resourceGroupName,
         [Parameter(Mandatory=$true,Position=3)] [string] $containerName
     )
+    $maxSleep = 60
     $containerName = $containerName.ToLower()
     $file = Get-Item -Path $filePath
     $fileName = $file.Name.ToLower()
     $storageAccountKey = (Get-AzureStorageAccountKey -StorageAccountName $storageAccountName -ResourceGroupName $resourceGroupName).Key1
     $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageAccountKey
+    if (!(HostEntryExists $context.StorageAccount.BlobEndpoint.Host))
+    {
+        throw ("Unable resolve blob endpoint: {0}" -f $context.StorageAccount.BlobEndpoint.Host)
+    }
     $null = New-AzureStorageContainer $ContainerName -Permission Off -Context $context -ErrorAction SilentlyContinue
     $null = Set-AzureStorageBlobContent -Blob $fileName -Container $ContainerName -File $file.FullName -Context $context -Force
-    sleep 5
 
     # Generate Uri with sas token
     $storageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse(("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}" -f $storageAccountName, $storageAccountKey))
     $blobClient = $storageAccount.CreateCloudBlobClient()
     $container = $blobClient.GetContainerReference($containerName)
+    Write-Host "Checking container." -NoNewline
+    while (!$container.Exists())
+    {
+        Write-Host "." -NoNewline
+        sleep 1
+        if ($maxSleep-- -le 0)
+        {
+            throw ("Timed out waiting for container: {0}" -f $ContainerName)
+        }
+    }
+    Write-Host
+    Write-Host "Checking blob." -NoNewline
     $blob = $container.GetBlobReference($fileName)
+    while (!$blob.Exists())
+    {
+        Write-Host "." -NoNewline
+        sleep 1
+        if ($maxSleep-- -le 0)
+        {
+            throw ("Timed out waiting for blob: {0}" -f $fileName)
+        }
+    }
+    Write-Host
     $sasPolicy = New-Object Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPolicy
     $sasPolicy.SharedAccessStartTime = [System.DateTime]::Now.AddMinutes(-5)
     $sasPolicy.SharedAccessExpiryTime = [System.DateTime]::Now.AddHours(24)
@@ -404,7 +430,16 @@ function LoadAzureAssembly()
 
 function GetAzureAccountInfo()
 {
-    $account = Add-AzureAccount
+    $account = $null
+    $maxRetry = 1
+    while ($account -eq $null)
+    {
+        $account = Add-AzureAccount
+        if ($maxRetry-- -le 0)
+        {
+            throw "No valid user name provided"
+        }
+    }
     return $account.Id
 }
 
@@ -452,7 +487,7 @@ function GetAADTenant()
     }
     if ($tenants.Count -eq 1)
     {
-        $tenantId = $account.Tenants[0]
+        [string]$tenantId = $account.Tenants[0]
     }
     else
     {
@@ -473,10 +508,10 @@ function GetAADTenant()
         }
 
     # Can't determine AADTenant, so prompt
-        $tenantId = "notset"
+        [string]$tenantId = "notset"
         while (!$account.Tenants.Contains($tenantId))
         {
-            $tenantId = Read-Host "Please select a valid TenantId from list"
+            [string]$tenantId = Read-Host "Please select a valid TenantId from list"
         }
     }
 
