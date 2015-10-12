@@ -71,9 +71,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
             catch (ValidationException ex)
             {
-                if (ex.Errors == null)
+                if (ex.Errors == null || ex.Errors.Count == 0)
                 {
-                    response.Error.Add(new Error(ex.Message));
+                    response.Error.Add(new Error("Unknown validation error"));
                 }
                 else
                 {
@@ -89,7 +89,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
             catch (HttpResponseException ex)
             {
-                throw ex;
+                throw;
             }
             catch (Exception ex)
             {
