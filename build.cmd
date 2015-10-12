@@ -43,7 +43,7 @@
 @IF /I '%Command%' == 'Build' (
     @GOTO :Build)
 @IF /I '%Command%' == 'Local' (
-    @GOTO :Build)
+    @GOTO :Config)
 @IF /I '%Command%' == 'Cloud' (
     @GOTO :Build)
 @ECHO Invalid command '%Command%'
@@ -54,19 +54,24 @@
     rmdir /s /q Build_Output)
 msbuild RemoteMonitoring.sln /v:m /p:Configuration=%Configuration%
 
-@IF /I '%Command%' == 'Local' (
-    @GOTO :Config)
-
-@REM For Zip based deployments for private repos
-msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
-msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
-
 @IF /I '%ERRORLEVEL%' NEQ '0' (
     @echo Error msbuild IoTRefImplementation.sln /v:m /t:publish /p:Configuration=%Configuration%
-    @goto :Error
-)
+    @goto :Error)
+
 @IF /I '%Command%' == 'Build' (
     @GOTO :End)
+
+:Package
+@REM For Zip based deployments for private repos
+msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
+@IF /I '%ERRORLEVEL%' NEQ '0' (
+    @echo Error msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
+    @goto :Error)
+
+msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
+@IF /I '%ERRORLEVEL%' NEQ '0' (
+    @echo Error msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
+    @goto :Error)
 
 :Config
 %PublishCmd%
@@ -82,8 +87,8 @@ msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
 @REM ----------------------------------------------
 @REM Help on errors
 @REM ----------------------------------------------
-@ECHO Arguments: build.cmd "Command" "Configuration" "EnvironmentName" "ActionType" "Services" "DeploymentLabel" "Slot" "VipSwap"
-@ECHO   Command: build (just builds); local (config local and build); cloud (config cloud, build, and deploy)
+@ECHO Arguments: build.cmd "Command" "Configuration" "EnvironmentName" "ActionType"
+@ECHO   Command: build (just builds); local (config local); cloud (config cloud, build, and deploy)
 @ECHO   Configuration: build configuration either Debug or Release; default is Debug
 @ECHO   EnvironmentName: Name of cloud environment to deploy - default is local
 @ECHO   ActionType: "Clean" flag indicating to clean before build/config - default is not to clean
@@ -91,7 +96,6 @@ msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
 @ECHO eg.
 @ECHO   build - build.cmd build
 @ECHO   local deployment: build.cmd local
-@ECHO   local release clean deployment: build.cmd local release local clean
 @ECHO   cloud deployment: build.cmd cloud release mydeployment
 :End
 @Set Command=
