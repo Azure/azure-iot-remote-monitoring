@@ -2,13 +2,21 @@
     "use strict";
 
     var self = this;
+    var mapApiKey = null;
     var map;
     var pinInfobox;
     var boundsSet = false;
 
     var init = function () {
         $.ajaxSetup({ cache: false });
-        startMap();
+        getMapKey();
+    }
+
+    var getMapKey = function () {
+        $.get('/api/v1/telemetry/mapApiKey', {}, function (response) {
+            self.mapApiKey = response;
+            startMap();
+        });
     }
 
     var startMap = function () {
@@ -17,7 +25,7 @@
 
     var finishMap = function() {
         var options = {
-            credentials: resources.mapApiQueryKey,
+            credentials: self.mapApiKey,
             mapTypeId: Microsoft.Maps.MapTypeId.aerial,
             animate: false,
             enableSearchLogo: false,
@@ -67,13 +75,7 @@
         }
     }
 
-    var setDeviceLocationData = function setDeviceLocationData(
-        minLatitude,
-        minLongitude,
-        maxLatitude,
-        maxLongitude,
-        deviceLocations) {
-
+    var setDeviceLocationData = function setDeviceLocationData(minLatitude, minLongitude, maxLatitude, maxLongitude, deviceLocations) {
         var i;
         var loc;
         var mapOptions;

@@ -10,6 +10,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
@@ -21,7 +22,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     [RoutePrefix("api/v1/telemetry")]
     public class TelemetryApiController : WebApiControllerBase
     {
-        private const int MaxDevicesToDisplayOnDashboard = 200;
+        private const double MAX_DEVICE_SUMMARY_AGE_MINUTES = 10.0;
+        private const int MAX_HISTORY_ITEMS = 18;
+        private const int MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD = 200;
 
         private const double CautionAlertMaxMinutes = 91.0;
         private const double CriticalAlertMaxMinutes = 11.0;
@@ -31,6 +34,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly IAlertsLogic _alertsLogic;
         private readonly IDeviceLogic _deviceLogic;
         private readonly IDeviceTelemetryLogic _deviceTelemetryLogic;
+        private readonly IConfigurationProvider _configProvider;
 
         /// <summary>
         /// Initializes a new instance of the TelemetryApiController class.
@@ -48,7 +52,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public TelemetryApiController(
             IDeviceTelemetryLogic deviceTelemetryLogic,
             IAlertsLogic alertsLogic,
-            IDeviceLogic deviceLogic)
+            IDeviceLogic deviceLogic,
+            IConfigurationProvider configProvider)
         {
             if (deviceTelemetryLogic == null)
             {
@@ -60,9 +65,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 throw new ArgumentNullException("alertsLogic");
             }
 
+            if(deviceLogic == null)
+            {
+                throw new ArgumentNullException("deviceLogic");
+            }
+
+            if (configProvider == null)
+            {
+                throw new ArgumentNullException("configProvider");
+            }
+
             _deviceTelemetryLogic = deviceTelemetryLogic;
             _alertsLogic = alertsLogic;
             _deviceLogic = deviceLogic;
+            _configProvider = configProvider;
         }
 
         [HttpGet]
@@ -72,9 +88,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             if (string.IsNullOrEmpty(deviceId))
             {
-                throw new ArgumentException(
-                    "deviceId is a null reference or empty string.",
-                    "deviceId");
+                throw new ArgumentException("deviceId is a null reference or empty string.", "deviceId");
             }
 
             DashboardDevicePaneDataModel result = new DashboardDevicePaneDataModel()
@@ -89,7 +103,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
                     result.DeviceTelemetrySummaryModel = summaryModel =
                         await _deviceTelemetryLogic.LoadLatestDeviceTelemetrySummaryAsync(
-                            deviceId, DateTime.Now.AddMinutes(-MaxDeviceSummaryAgeMinutes));
+                            deviceId, DateTime.Now.AddMinutes(-MAX_DEVICE_SUMMARY_AGE_MINUTES));
 
                     IEnumerable<DeviceTelemetryModel> telemetryModels;
                     if ((summaryModel != null) && summaryModel.Timestamp.HasValue && summaryModel.TimeFrameMinutes.HasValue)
@@ -247,7 +261,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         }
                     }
 
-                    resultsModel.Data = historyItems.Take(MaxDevicesToDisplayOnDashboard).ToList();
+                    resultsModel.Data = historyItems.Take(MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD).ToList();
                     resultsModel.Devices = deviceModels;
                     resultsModel.TotalAlertCount = historyItems.Count;
                     resultsModel.TotalFilteredCount = historyItems.Count;
@@ -271,7 +285,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             query = new DeviceListQuery()
             {
                 Skip = 0,
-                Take = MaxDevicesToDisplayOnDashboard,
+                Take = MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD,
                 SortColumn = "DeviceID"
             };
 
@@ -303,6 +317,42 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
 
             return devices;
+        }
+
+        [HttpGet]
+        [Route("deviceLocationData")]
+        [WebApiRequirePermission(Permission.ViewTelemetry)]
+        public async Task<HttpResponseMessage> GetDeviceLocationData()
+        {
+            return await GetServiceResponseAsync<DeviceListLocationsModel>(async () =>
+            {
+                DeviceListQuery query = new DeviceListQuery()
+                {
+                    Skip = 0,
+                    Take = MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD,
+                    SortColumn = "DeviceID"
+                };
+
+                DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
+                DeviceListLocationsModel dataModel = _deviceLogic.ExtractLocationsData(queryResult.Results);
+ 
+                return dataModel;
+            }, false);
+        }
+
+        [HttpGet]
+        [Route("mapApiKey")]
+        [WebApiRequirePermission(Permission.ViewTelemetry)]
+        public async Task<HttpResponseMessage> GetMapApiKey()
+        {
+            return await GetServiceResponseAsync<string>(async () =>
+            {
+                String keySetting = await Task.Run(() =>
+                {
+                    return _configProvider.GetConfigurationSettingValue("MapApiQueryKey");
+                });
+                return keySetting;
+            }, false);
         }
 
         #endregion
