@@ -150,12 +150,12 @@
 
     var stashIdsByRow = function (settings) {
         self.deviceIdsByRow = [];
-        if (settings.aoData != null && settings.aoData.length > 0) {
+        if (settings.aoData !== null && settings.aoData.length > 0) {
             var dataArray = settings.aoData;
             var length = dataArray.length;
             for (var i = 0; i < length; i++) {
-                if (dataArray[i].anCells != null && dataArray[i].anCells.length > deviceIdCellIndex &&
-                    dataArray[i].anCells[deviceIdCellIndex] != null) {
+                if (dataArray[i].anCells !== null && dataArray[i].anCells.length > deviceIdCellIndex &&
+                    dataArray[i].anCells[deviceIdCellIndex] !== null) {
                     var cell = dataArray[i].anCells[deviceIdCellIndex];
                     self.deviceIdsByRow.push(cell.textContent);
                 }

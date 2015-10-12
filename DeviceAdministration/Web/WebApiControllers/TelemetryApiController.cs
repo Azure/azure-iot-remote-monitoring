@@ -196,13 +196,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     DateTime currentTime = DateTime.UtcNow;
 
-                    List<AlertHistoryItemModel> historyItems = new List<AlertHistoryItemModel>();
-                    List<AlertHistoryDeviceModel> deviceModels = new List<AlertHistoryDeviceModel>();
-
-                    AlertHistoryResultsModel resultsModel = new AlertHistoryResultsModel();
+                    var historyItems = new List<AlertHistoryItemModel>();
+                    var deviceModels = new List<AlertHistoryDeviceModel>();
+                    var resultsModel = new AlertHistoryResultsModel();
 
                     IEnumerable<AlertHistoryItemModel> data =
                         await _alertsLogic.LoadLatestAlertHistoryAsync(currentTime.AddMinutes(-CautionAlertMaxMinutes));
+
                     if (data != null)
                     {
                         historyItems.AddRange(data);
@@ -226,18 +226,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
                                     foreach (DeviceLocationModel locationModel in locationsModel.DeviceLocationList)
                                     {
-                                        if ((locationModel == null) ||
-                                            string.IsNullOrWhiteSpace(locationModel.DeviceId))
+                                        if ((locationModel == null) || string.IsNullOrWhiteSpace(locationModel.DeviceId))
                                         {
                                             continue;
-                    }
+                                        }
 
-                                        AlertHistoryDeviceModel deviceModel = new AlertHistoryDeviceModel()
-                    {
+                                        var deviceModel = new AlertHistoryDeviceModel()
+                                        {
                                             DeviceId = locationModel.DeviceId,
                                             Latitude = locationModel.Latitude,
                                             Longitude = locationModel.Longitude
-                    };
+                                        };
 
                                         DateTime? lastStatusTime = getStatusTime(locationModel.DeviceId);
                                         if (lastStatusTime.HasValue)
@@ -269,30 +268,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     return resultsModel;
                 };
 
-            return await GetServiceResponseAsync<AlertHistoryResultsModel>(
-                loadHistoryItems,
-                false);
+            return await GetServiceResponseAsync<AlertHistoryResultsModel>(loadHistoryItems, false);
         }
-
-        #region Private Methods
 
         private async Task<List<dynamic>> LoadAllDevicesAsync()
         {
-            string deviceId;
-            DeviceListQuery query;
-            DeviceListQueryResult queryResult;
-
-            query = new DeviceListQuery()
+            var query = new DeviceListQuery()
             {
                 Skip = 0,
                 Take = MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD,
                 SortColumn = "DeviceID"
             };
 
-            List<dynamic> devices = new List<dynamic>();
-            queryResult = await _deviceLogic.GetDevices(query);
-            if ((queryResult != null) &&
-                (queryResult.Results != null))
+            string deviceId;
+            var devices = new List<dynamic>();
+            DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
+            if ((queryResult != null) &&  (queryResult.Results != null))
             {
                 string enabledState = "";
                 dynamic props = null;
@@ -326,7 +317,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             return await GetServiceResponseAsync<DeviceListLocationsModel>(async () =>
             {
-                DeviceListQuery query = new DeviceListQuery()
+                var query = new DeviceListQuery()
                 {
                     Skip = 0,
                     Take = MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD,
@@ -354,7 +345,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 return keySetting;
             }, false);
         }
-
-        #endregion
     }
 }
