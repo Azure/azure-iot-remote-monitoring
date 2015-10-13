@@ -29,6 +29,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         public string MapApiQueryKey { get; set; }
-        public DeviceListLocationsModel DeviceLocations { get; set; }
     }
 }
