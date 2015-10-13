@@ -33,20 +33,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <summary>
         /// Loads the latest Device Alert History items.
         /// </summary>
-        /// <param name="maxItems">
-        /// The maximum number of Device Alert History items to return.
+        /// <param name="minTime">
+        /// The cutoff time for Device Alert History items that should be returned.
         /// </param>
         /// <returns>
         /// The latest Device Alert History items.
         /// </returns>
-        public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(int maxItems)
+        public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(DateTime minTime)
         {
-            if (maxItems <= 0)
-            {
-                throw new ArgumentOutOfRangeException("maxItems", "maxItems is not a positive integer.");
-            }
 
-            return await this.alertsRepository.LoadLatestAlertHistoryAsync(maxItems);
+            return await this.alertsRepository.LoadLatestAlertHistoryAsync(minTime);
         }
     }
 }

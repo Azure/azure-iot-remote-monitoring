@@ -1319,6 +1319,9 @@ img#staticMap {
 #staticAlertHistory {
   height: 363px;
 }
+table#alertHistoryTable tr.selectedAlert {
+  background-color: lightblue;
+}
 #dynamicAlertHistory {
   height: 417px;
 }

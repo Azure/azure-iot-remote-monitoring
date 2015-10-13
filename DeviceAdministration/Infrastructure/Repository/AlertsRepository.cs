@@ -53,49 +53,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <summary>
         /// Loads the latest Device Alert History items.
         /// </summary>
-        /// <param name="maxItems">
-        /// The maximum number of Device Alert History items to return.
+        /// <param name="minTime">
+        /// The cutoff time for Device Alert History items that should be returned.
         /// </param>
         /// <returns>
         /// The latest Device Alert History items.
         /// </returns>
-        public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(int maxItems)
+        public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(DateTime minTime)
         {
             IEnumerable<IListBlobItem> blobs;
             CloudBlockBlob blockBlob;
-            CloudBlobContainer container;
             List<AlertHistoryItemModel> result;
             IEnumerable<AlertHistoryItemModel> segment;
 
-            if (maxItems <= 0)
-            {
-                throw new ArgumentOutOfRangeException("maxItems", "maxItems is not a positive integer.");
-            }
-
             result = new List<AlertHistoryItemModel>();
 
-            container =
-                await BlobStorageHelper.BuildBlobContainerAsync(
-                    this.alertsContainerConnectionString,
-                    this.alertsStoreContainerName);
-
-            blobs =
-                await BlobStorageHelper.LoadBlobItemsAsync(
-                    async (token) =>
-                    {
-                        return await container.ListBlobsSegmentedAsync(
-                            this.deviceAlertsDataPrefix,
-                            true,
-                            BlobListingDetails.None,
-                            null,
-                            token,
-                            null,
-                            null);
-                    });
-
-            blobs =
-                blobs.OrderByDescending(
-                    t => BlobStorageHelper.ExtractBlobItemDate(t));
+            blobs = await LoadApplicableListBlobItemsAsync(minTime);
 
             foreach (IListBlobItem blob in blobs)
             {
@@ -105,14 +78,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
 
                 segment = await ProduceAlertHistoryItemsAsync(blockBlob);
-                segment = segment.OrderByDescending(t => t.Timestamp);
+
+                segment = segment.Where(
+                    t =>
+                        (t != null) &&
+                        t.Timestamp.HasValue &&
+                        (t.Timestamp.Value.ToUniversalTime() > minTime)).OrderByDescending(u => u.Timestamp);
 
                 result.AddRange(segment);
-
-                if (result.Count >= maxItems)
-                {
-                    return result.Take(maxItems);
-                }
             }
 
             return result;
@@ -123,34 +96,34 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Debug.Assert(expandoObject != null, "expandoObject is a null reference.");
 
             var deviceId = ReflectionHelper.GetNamedPropertyValue(
-                    expandoObject,
-                    DEVICE_ID_COLUMN_NAME,
-                    true,
-                    false) as string;
+                        expandoObject,
+                        DEVICE_ID_COLUMN_NAME,
+                        true,
+                        false) as string;
 
             var readingValue = ReflectionHelper.GetNamedPropertyValue(
-                    expandoObject,
-                    READING_VALUE_COLUMN_NAME,
-                    true,
-                    false) as string;
+                        expandoObject,
+                        READING_VALUE_COLUMN_NAME,
+                        true,
+                        false) as string;
 
             var thresholdValue = ReflectionHelper.GetNamedPropertyValue(
-                    expandoObject,
-                    THRESHOLD_VALUE_COLUMN_NAME,
-                    true,
-                    false) as string;
+                        expandoObject,
+                        THRESHOLD_VALUE_COLUMN_NAME,
+                        true,
+                        false) as string;
 
             var ruleOutput = ReflectionHelper.GetNamedPropertyValue(
-                    expandoObject,
-                    RULE_OUTPUT_COLUMN_NAME,
-                    true,
-                    false) as string;
+                        expandoObject,
+                        RULE_OUTPUT_COLUMN_NAME,
+                        true,
+                        false) as string;
 
             var time = ReflectionHelper.GetNamedPropertyValue(
-                    expandoObject,
-                    TIME_COLUMN_NAME,
-                    true,
-                    false) as string;
+                        expandoObject,
+                        TIME_COLUMN_NAME,
+                        true,
+                        false) as string;
 
             return BuildModelForItem(ruleOutput, deviceId, readingValue, thresholdValue, time);
         }
@@ -225,6 +198,53 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             return models;
+        }
+
+        private async Task<IEnumerable<IListBlobItem>> LoadApplicableListBlobItemsAsync(DateTime cutoffTime)
+        {
+            CloudBlobContainer container =
+                await BlobStorageHelper.BuildBlobContainerAsync(
+                    this.alertsContainerConnectionString,
+                    this.alertsStoreContainerName);
+
+            IEnumerable<IListBlobItem> blobs =
+                await BlobStorageHelper.LoadBlobItemsAsync(
+                    async (token) =>
+                    {
+                        return await container.ListBlobsSegmentedAsync(
+                            this.deviceAlertsDataPrefix,
+                            true,
+                            BlobListingDetails.None,
+                            null,
+                            token,
+                            null,
+                            null);
+                    });
+
+            List<IListBlobItem> applicableBlobs = new List<IListBlobItem>();
+
+            if (blobs != null)
+            {
+                blobs = blobs.OrderByDescending(t => BlobStorageHelper.ExtractBlobItemDate(t));
+                foreach (IListBlobItem blob in blobs)
+                {
+                    if (blob == null)
+                    {
+                        continue;
+                    }
+
+                    applicableBlobs.Add(blob);
+
+                    // Allow 1 blob to be past the cutoff date.
+                    DateTime? timestamp = BlobStorageHelper.ExtractBlobItemDate(blob);
+                    if (timestamp.HasValue && timestamp.Value <= cutoffTime)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return applicableBlobs;
         }
     }
 }

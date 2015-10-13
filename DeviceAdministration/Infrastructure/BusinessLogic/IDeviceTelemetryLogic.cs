@@ -14,5 +14,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<DeviceTelemetrySummaryModel> LoadLatestDeviceTelemetrySummaryAsync(
             string deviceId,
             DateTime? minTime);
+
+        Func<string, DateTime?> ProduceGetLatestDeviceAlertTime(
+            IEnumerable<AlertHistoryItemModel> alertHistoryModels);
     }
 }
