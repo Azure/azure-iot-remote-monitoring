@@ -96,32 +96,32 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Debug.Assert(expandoObject != null, "expandoObject is a null reference.");
 
             var deviceId = ReflectionHelper.GetNamedPropertyValue(
-                    expandoObject,
-                    DEVICE_ID_COLUMN_NAME,
-                    true,
-                    false) as string;
+                        expandoObject,
+                        DEVICE_ID_COLUMN_NAME,
+                        true,
+                        false) as string;
 
             var readingValue = ReflectionHelper.GetNamedPropertyValue(
                         expandoObject,
-                    READING_VALUE_COLUMN_NAME,
+                        READING_VALUE_COLUMN_NAME,
                         true,
                         false) as string;
 
             var thresholdValue = ReflectionHelper.GetNamedPropertyValue(
                         expandoObject,
-                    THRESHOLD_VALUE_COLUMN_NAME,
+                        THRESHOLD_VALUE_COLUMN_NAME,
                         true,
                         false) as string;
 
             var ruleOutput = ReflectionHelper.GetNamedPropertyValue(
                         expandoObject,
-                    RULE_OUTPUT_COLUMN_NAME,
+                        RULE_OUTPUT_COLUMN_NAME,
                         true,
                         false) as string;
 
             var time = ReflectionHelper.GetNamedPropertyValue(
                         expandoObject,
-                    TIME_COLUMN_NAME,
+                        TIME_COLUMN_NAME,
                         true,
                         false) as string;
 
@@ -148,7 +148,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     DeviceId = deviceId,
                     Timestamp = timeAsDateTime
                 };
-                }
+            }
 
             return null;
         }
