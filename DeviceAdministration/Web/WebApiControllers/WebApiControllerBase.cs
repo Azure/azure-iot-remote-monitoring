@@ -71,9 +71,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
             catch (ValidationException ex)
             {
-                if (ex.Errors == null)
+                if (ex.Errors == null || ex.Errors.Count == 0)
                 {
-                    response.Error.Add(new Error(ex.Message));
+                    response.Error.Add(new Error("Unknown validation error"));
                 }
                 else
                 {
@@ -89,7 +89,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
             catch (HttpResponseException ex)
             {
-                throw ex;
+                throw;
             }
             catch (Exception ex)
             {
@@ -143,11 +143,67 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             throw new HttpResponseException(responseMessage);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers.WebApiControllerBase.TerminateProcessingWithMessage(System.Net.HttpStatusCode,System.String)")]
+        protected void ValidateArgumentNotNullOrWhitespace(string argumentName, string value)
+        {
+            Debug.Assert(
+                !string.IsNullOrWhiteSpace(argumentName),
+                "argumentName is a null reference, empty string, or contains only whitespace.");
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                // Error strings are not localized.
+                string errorText =
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "{0} is null, empty, or just whitespace.",
+                        argumentName);
+
+                TerminateProcessingWithMessage(HttpStatusCode.BadRequest, errorText);
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers.WebApiControllerBase.TerminateProcessingWithMessage(System.Net.HttpStatusCode,System.String)")]
+        protected void ValidateArgumentNotNull(string argumentName, object value)
+        {
+            Debug.Assert(
+                !string.IsNullOrWhiteSpace(argumentName),
+                "argumentName is a null reference, empty string, or contains only whitespace.");
+
+            if (value != null)
+            {
+                // Error strings are not localized.
+                string errorText = string.Format(CultureInfo.InvariantCulture, "{0} is a null reference.", argumentName);
+
+                TerminateProcessingWithMessage(HttpStatusCode.BadRequest, errorText);
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers.WebApiControllerBase.TerminateProcessingWithMessage(System.Net.HttpStatusCode,System.String)")]
+        protected void ValidatePositiveValue(string argumentName, int value)
+        {
+            Debug.Assert(
+                !string.IsNullOrWhiteSpace(argumentName),
+                "argumentName is a null reference, empty string, or contains only whitespace.");
+
+            if (value <= 0)
+            {
+                // Error strings are not localized.
+                string errorText =
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "{0} is not a positive integer.",
+                        argumentName);
+
+                TerminateProcessingWithMessage(HttpStatusCode.BadRequest, errorText);
+            }
+        }
+
         private static string FormatExceptionMessage(Exception ex)
         {
             Debug.Assert(ex != null, "ex is a null reference.");
 
-            // TODO: Localize string if neccessary.
+            // Error strings are not localized
             return string.Format(
                 CultureInfo.CurrentCulture,
                 "{0}{0}*** EXCEPTION ***{0}{0}{1}{0}{0}",

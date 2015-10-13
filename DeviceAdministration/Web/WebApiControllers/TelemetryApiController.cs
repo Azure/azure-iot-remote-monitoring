@@ -40,7 +40,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         /// Initializes a new instance of the TelemetryApiController class.
         /// </summary>
         /// <param name="deviceTelemetryLogic">
-        /// The IDeviceRegistryListLogic implementation that the new instance 
+        /// The IDeviceRegistryListLogic implementation that the new instance
         /// will use.
         /// </param>
         /// <param name="alertsLogic">
@@ -86,10 +86,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewTelemetry)]
         public async Task<HttpResponseMessage> GetDashboardDevicePaneDataAsync(string deviceId)
         {
-            if (string.IsNullOrEmpty(deviceId))
-            {
-                throw new ArgumentException("deviceId is a null reference or empty string.", "deviceId");
-            }
+            ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
 
             DashboardDevicePaneDataModel result = new DashboardDevicePaneDataModel()
             {
@@ -146,6 +143,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             string deviceId,
             DateTime minTime)
         {
+            ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
+
             Func<Task<DeviceTelemetryModel[]>> getTelemetry =
                 async () =>
                 {
@@ -170,9 +169,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpGet]
         [Route("summary")]
         [WebApiRequirePermission(Permission.ViewTelemetry)]
-        public async Task<HttpResponseMessage> GetDeviceTelemetrySummaryAsync(
-            string deviceId)
+        public async Task<HttpResponseMessage> GetDeviceTelemetrySummaryAsync(string deviceId)
         {
+            ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
+
             Func<Task<DeviceTelemetrySummaryModel>> getTelemetrySummary =
                 async () =>
                 {
@@ -274,11 +274,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private async Task<List<dynamic>> LoadAllDevicesAsync()
         {
             var query = new DeviceListQuery()
-            {
+                    {
                 Skip = 0,
                 Take = MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD,
                 SortColumn = "DeviceID"
-            };
+                    };
 
             string deviceId;
             var devices = new List<dynamic>();
