@@ -57,17 +57,17 @@
         }
         $('#DataField > option').each(function () {
             if (this.value == rule.DataField) {
-                $(this).attr("selected", "selected");
+                $(this).prop("selected", true);
             } else {
-                $(this).removeAttr("selected");
+                $(this).removeProp("selected");
             }
         });
         $('#Threshold').val(rule.Threshold.toString());
         $('#RuleOutput > option').each(function () {
             if (this.value == rule.RuleOutput) {
-                $(this).attr("selected", "selected");
+                $(this).prop("selected", true);
             } else {
-                $(this).removeAttr("selected");
+                $(this).removeProp("selected");
             }
         });
 
