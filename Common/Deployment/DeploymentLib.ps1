@@ -45,7 +45,7 @@ function LoadLibrary()
     $assemblies = (Get-ChildItem ("{0}.dll" -f $dllName) -Path $packageDirectories[$packageDirectories.length-1].FullName -Recurse)
     if ($assemblies -eq $null)
     {
-        Write-Host ("Unable to find {0}.dll assembly for {0} library, is the dll a different name?" -f $library) -ForegroundColor Red
+        Write-Error ("Unable to find {0}.dll assembly for {0} library, is the dll a different name?" -f $library)
         return $false
     }
 
@@ -60,7 +60,7 @@ function LoadLibrary()
     {
         Write-Host ("Fixing {0} package directories ..." -f $library) -ForegroundColor Yellow
         $packageDirectories | Remove-Item -Recurse -Force | Out-Null
-        Write-Host ("Not able to load {0} assembly. Restart PowerShell session and try again ..." -f $library)
+        Write-Error ("Not able to load {0} assembly. Restart PowerShell session and try again ..." -f $library)
         $success = $false
     }
     return $success
