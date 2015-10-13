@@ -126,10 +126,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         false) as string;
 
             return BuildModelForItem(ruleOutput, deviceId, readingValue, thresholdValue, time);
-            }
+        }
 
         private static AlertHistoryItemModel BuildModelForItem(string ruleOutput, string deviceId, string value, string threshold, string time)
-            {
+        {
             double valDouble;
             double threshDouble;
             DateTime timeAsDateTime;
