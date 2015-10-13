@@ -18,13 +18,7 @@ IoTApp.createModule("IoTApp.Helpers.Dates", function () {
 
     var localizeDate = function localizeDate(date, format) {
 
-        var currentMoment = moment(date);
-
-        var locale = window.navigator.userLanguage || window.navigator.language;
-        if (locale) {
-            currentMoment.locale(locale);
-        }
-
+        var currentMoment = moment(date).locale(cultureInfo);
         return currentMoment.format(format);
     };
 
@@ -44,7 +38,7 @@ IoTApp.createModule("IoTApp.Helpers.Dates", function () {
     };
 
     return dates;
-}, [jQuery, moment]);
+}, [jQuery, moment, cultureInfo]);
 
 // Helper to save the most-recently selected DeviceId in a cookie 
 // (or save a blank string if no recently-selected DeviceId)
@@ -91,6 +85,28 @@ IoTApp.createModule("IoTApp.Helpers.DeviceIdState", function () {
     };
 });
 
+IoTApp.createModule("IoTApp.Helpers.Numbers", function () {
+    "use strict";
+
+    var localizeFromInvariant = function localizeFromInvariant(text) {
+        var number = Globalize.parseFloat(text, null, 'en-US');
+        if (isNaN(number)) {
+            return text;
+        } else {
+            return localizeNumber(number);
+        }
+    };
+
+    var localizeNumber = function localizeNumber(number) {
+        return Globalize.format(number, 'N', cultureInfo);
+    };
+
+    return {
+        localizeFromInvariant: localizeFromInvariant,
+        localizeNumber: localizeNumber
+    };
+}, [jQuery, Globalize, cultureInfo]);
+
 IoTApp.createModule("IoTApp.Helpers.QueryString", function () {
 
     // returns a single parameter from the current query string
@@ -136,12 +152,20 @@ $(function () {
     var copy;
     $(document).on("mouseover", ".button_copy", function() {
         var inputSelector = '#' + $(this).data('id');
-        copy = "Click to select all";
+        copy = baseLayoutResources.clickToSelectAll;
         $(inputSelector).siblings().attr('title', copy);
     });
     $(document).on("click", ".button_copy", function() {
         var inputSelector = ".ui-tooltip-content";
-        copy = "Control+C to copy";
+        var isMac = (navigator.userAgent.toUpperCase().indexOf("MAC") !== -1);
+        if (isMac)
+        {
+            copy = baseLayoutResources.commandCToCopy;
+        }
+        else
+        {
+            copy = baseLayoutResources.controlCToCopy;
+        }
         $(inputSelector).html(copy);
     });
 
@@ -154,4 +178,4 @@ $(function () {
     });
 
     IoTApp.Helpers.Dates.localizeDates();
-});
+}, baseLayoutResources);

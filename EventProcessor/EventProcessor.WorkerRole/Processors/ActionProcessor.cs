@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
@@ -192,7 +193,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             }
 
             string valueAsString = value.ToString();
-            return double.Parse(valueAsString);
+            return double.Parse(valueAsString, CultureInfo.CurrentCulture);
         }
 
         public Task CloseAsync(PartitionContext context, CloseReason reason)

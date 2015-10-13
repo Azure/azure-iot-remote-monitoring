@@ -1,4 +1,5 @@
-﻿@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+﻿@using System.Globalization
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 @using GlobalResources
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.EditDevicePropertiesModel
@@ -26,8 +27,8 @@
                         @Html.ValidationSummary(false)
                     </p>
 
-                    <fieldset class="fieldset_content fieldset_textbox">
-                        @{
+    <fieldset class="fieldset_content fieldset_textbox">
+        @{
                     DateTime? resolvedTime;
                     for (int i = 0; i < Model.DevicePropertyValueModels.Count; ++i)
                     {
@@ -47,10 +48,12 @@
                         else
                         {
                             if ((Model.DevicePropertyValueModels[i].PropertyType == PropertyType.DateTime) &&
-                                (resolvedTime = DynamicValuesHelper.ConvertToDateTime(
-                                Model.DevicePropertyValueModels[i].Value)).HasValue)
+                                (resolvedTime =
+                                    DynamicValuesHelper.ConvertToDateTime(
+                                        CultureInfo.InvariantCulture,
+                                        Model.DevicePropertyValueModels[i].Value)).HasValue)
                             {
-                                @Html.DisplayFor(m => resolvedTime, new { @class = "readOnlyField" })
+                                @Html.TextBox(Model.DevicePropertyValueModels[i].Name, resolvedTime.Value.ToString(CultureInfo.InvariantCulture), new { @class = "readOnlyField" })
                             }
                             else
                             {
@@ -59,9 +62,9 @@
                         }
 
                         @Html.HiddenFor(m => m.DevicePropertyValueModels[i].Name)
-                    }
-                        }
-                    </fieldset>
+        }
+        }
+    </fieldset>
 
                     <fieldset class="fieldset_button">
                         <button type="submit">@Strings.SaveChangesToDevice</button>

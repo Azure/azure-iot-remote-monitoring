@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
@@ -59,8 +60,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         public static dynamic GetSampleDevice(Random randomNumber, SecurityKeys keys)
         {
-            string deviceId = string.Format("00000-DEV-{0}C-{1}LK-{2}D-{3}",
-                MAX_COMMANDS_SUPPORTED, randomNumber.Next(99999));
+            string deviceId = 
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "00000-DEV-{0}C-{1}LK-{2}D-{3}",
+                    MAX_COMMANDS_SUPPORTED, 
+                    randomNumber.Next(99999),
+                    randomNumber.Next(99999),
+                    randomNumber.Next(99999));
+
             dynamic device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, false);
             device.ObjectName = "IoT Device Description";
 

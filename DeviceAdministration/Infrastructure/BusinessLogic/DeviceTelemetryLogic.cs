@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
@@ -12,13 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </summary>
     public class DeviceTelemetryLogic : IDeviceTelemetryLogic
     {
-        #region Instance Variables
-
         private readonly IDeviceTelemetryRepository _deviceTelemetryRepository;
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the DeviceTelemetryLogic class.
@@ -27,8 +22,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// The IDeviceTelemetryRepository implementation that the new 
         /// instance will use.
         /// </param>
-        public DeviceTelemetryLogic(
-            IDeviceTelemetryRepository deviceTelemetryRepository)
+        public DeviceTelemetryLogic(IDeviceTelemetryRepository deviceTelemetryRepository)
         {
             if (deviceTelemetryRepository == null)
             {
@@ -38,9 +32,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _deviceTelemetryRepository = deviceTelemetryRepository;
         }
 
-        #endregion
-
-        #region Public Methods
 
         /// <summary>
         /// Loads the most recent Device telemetry.
@@ -59,9 +50,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             string deviceId, 
             DateTime minTime)
         {
-            return await _deviceTelemetryRepository.LoadLatestDeviceTelemetryAsync(
-                deviceId,
-                minTime);
+            return await _deviceTelemetryRepository.LoadLatestDeviceTelemetryAsync(deviceId, minTime);
         }
 
         /// <summary>
@@ -79,15 +68,62 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// The most recent DeviceTElemetrySummaryModel for the Device, 
         /// specified by deviceId.
         /// </returns>
-        public async Task<DeviceTelemetrySummaryModel> LoadLatestDeviceTelemetrySummaryAsync(
-            string deviceId,
-            DateTime? minTime)
+        public async Task<DeviceTelemetrySummaryModel> LoadLatestDeviceTelemetrySummaryAsync(string deviceId, DateTime? minTime)
         {
-            return await _deviceTelemetryRepository.LoadLatestDeviceTelemetrySummaryAsync(
-                deviceId,
-                minTime);
+            return await _deviceTelemetryRepository.LoadLatestDeviceTelemetrySummaryAsync(deviceId, minTime);
         }
 
-        #endregion
+        /// <summary>
+        /// Produces a delegate for getting the time of a specified Device's most
+        /// recent alert.
+        /// </summary>
+        /// <param name="alertHistoryModels">
+        /// A collection of AlertHistoryItemModel, representing all alerts that 
+        /// should be considered.
+        /// </param>
+        /// <returns>
+        /// A delegate for getting the time of a specified Device's most recent 
+        /// alert.
+        /// </returns>
+        public Func<string, DateTime?> ProduceGetLatestDeviceAlertTime(
+            IEnumerable<AlertHistoryItemModel> alertHistoryModels)
+        {
+            DateTime date;
+
+            if (alertHistoryModels == null)
+            {
+                throw new ArgumentNullException("alertHistoryModels");
+            }
+
+            Dictionary<string, DateTime> index = new Dictionary<string, DateTime>();
+
+            alertHistoryModels = alertHistoryModels.Where(
+                t =>
+                    (t != null) &&
+                    !string.IsNullOrEmpty(t.DeviceId) &&
+                    t.Timestamp.HasValue);
+
+            foreach (AlertHistoryItemModel model in alertHistoryModels)
+            {
+                if (index.TryGetValue(model.DeviceId, out date) && (date >= model.Timestamp))
+                {
+                    continue;
+                }
+
+                index[model.DeviceId] = model.Timestamp.Value;
+            }
+
+            return (deviceId) =>
+            {
+                DateTime lastAlert;
+
+                if (index.TryGetValue(deviceId, out lastAlert))
+                {
+                    return lastAlert;
+                }
+
+                return null;
+            };
+        }
     }
 }
