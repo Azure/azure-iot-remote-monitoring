@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.UnitTests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebJob", "DeviceAdministration\WebJob\WebJob.csproj", "{8F9CAF4E-8537-4398-A1C2-C39CC4136B69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebJobHost", "WebJobHost\WebJobHost.csproj", "{350C5961-0778-45F8-9A59-D309FCD653DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{8F9CAF4E-8537-4398-A1C2-C39CC4136B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F9CAF4E-8537-4398-A1C2-C39CC4136B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F9CAF4E-8537-4398-A1C2-C39CC4136B69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{350C5961-0778-45F8-9A59-D309FCD653DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{350C5961-0778-45F8-9A59-D309FCD653DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{350C5961-0778-45F8-9A59-D309FCD653DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{350C5961-0778-45F8-9A59-D309FCD653DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

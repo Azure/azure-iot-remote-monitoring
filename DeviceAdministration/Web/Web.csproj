@@ -429,7 +429,6 @@
     <Content Include="Content\screen.css.map">
       <DependentUpon>screen.css</DependentUpon>
     </Content>
-    <Content Include="Properties\webjobs-list.json" />
     <None Include="Scripts\jquery-1.11.2.intellisense.js" />
     <Content Include="Scripts\IoTHelperScripts.js" />
     <Content Include="Scripts\jquery-1.11.2.js" />
