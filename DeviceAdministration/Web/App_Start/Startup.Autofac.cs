@@ -9,6 +9,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Owin;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
 {
@@ -77,7 +78,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             builder.RegisterType<AlertsRepository>().As<IAlertsRepository>();
             builder.RegisterType<UserSettingsRepository>().As<IUserSettingsRepository>();
 
-            builder.RegisterType<DocDbRestHelper>().As<IDocDbRestHelper>();
+            builder.RegisterType<DocDbRestUtility>().As<IDocDbRestUtility>();
         }
     }
 }
