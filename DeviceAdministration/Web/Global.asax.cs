@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IdentityModel.Claims;
 using System.Threading;
@@ -54,7 +55,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             // with MVC and ajax requests. The code below modifies the status code
             // to 401 if the status is 302 and the request is ajax based.
             var context = new HttpContextWrapper(Context);
-            if (context.Response.StatusCode == 302 && context.Request.IsAjaxRequest())
+            if (context.Response.StatusCode == 302 && GetIsServiceCall(context))
             {
                 context.Response.Clear();
                 context.Response.StatusCode = 401;
@@ -67,6 +68,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
 
             // Default to server-selected one.
             return CultureInfo.CurrentCulture;
+        }
+
+        private bool GetIsServiceCall(HttpContextWrapper contextWrapper)
+        {
+            Debug.Assert(contextWrapper != null, "contextWrapper is a null reference.");
+
+            if (contextWrapper.Request.IsAjaxRequest())
+            {
+                return true;
+            }
+
+            string apiPath = VirtualPathUtility.ToAbsolute("~/api/");
+            return contextWrapper.Request.Url.LocalPath.StartsWith(apiPath, StringComparison.Ordinal);
         }
     }
 }

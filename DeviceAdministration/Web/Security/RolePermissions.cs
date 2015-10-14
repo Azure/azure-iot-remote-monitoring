@@ -78,6 +78,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private void DefineRoles()
         {
             AssignRolesToPermission(Permission.ViewDevices,
+                NATIVE_CLIENT_ROLE_NAME,
                 READ_ONLY_ROLE_NAME,
                 ADMIN_ROLE_NAME);
 
