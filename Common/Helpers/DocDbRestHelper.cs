@@ -345,7 +345,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
             // The date of the request, as specified in RFC 1123. The date format is expressed in
             // Coordinated Universal Time (UTC), for example. Fri, 08 Apr 2015 03:52:31 GMT.
-            webClient.Headers.Add("x-ms-date", DateTime.Now.ToUniversalTime().ToString("R", CultureInfo.InvariantCulture));
+            webClient.Headers.Add("x-ms-date", DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture));
 
             return webClient;
         }
@@ -380,7 +380,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             // https://msdn.microsoft.com/en-us/library/azure/dn783368.aspx
             // The date portion of the string is the date and time the message was sent
             // (in "HTTP-date" format as defined by RFC 7231 Date/Time Formats) e.g. Tue, 15 Nov 1994 08:12:31 GMT.
-            string dateString = DateTime.Now.ToUniversalTime().ToString("r", CultureInfo.InvariantCulture);
+            string dateString = DateTime.UtcNow.ToString("r", CultureInfo.InvariantCulture);
 
             string signatureRaw = 
                 string.Format(

@@ -70,7 +70,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return null;
             }
 
-            return datetime.ToUniversalTime();
+            // If marked with a timezone offset, DateTimes will translate to 
+            // the local one when parsed.  
+            return datetime;
         }
 
         [SuppressMessage(

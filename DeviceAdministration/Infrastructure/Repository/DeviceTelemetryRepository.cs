@@ -61,7 +61,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             string deviceId,
             DateTime minTime)
         {
-            minTime = minTime.ToUniversalTime();
             IEnumerable<DeviceTelemetryModel> result = new DeviceTelemetryModel[0];
 
             CloudBlobContainer container =
@@ -113,7 +112,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         t =>
                             (t != null) &&
                             t.Timestamp.HasValue &&
-                            t.Timestamp.Value.ToUniversalTime() >= minTime);
+                            t.Timestamp.Value >= minTime);
 
                 if (preFilterCount == 0)
                 {
@@ -155,11 +154,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             string deviceId,
             DateTime? minTime)
         {
-            if (minTime.HasValue)
-            {
-                minTime = minTime.Value.ToUniversalTime();
-            }
-
             DeviceTelemetrySummaryModel summaryModel = null;
 
             CloudBlobContainer container =
@@ -193,10 +187,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     continue;
                 }
 
+                // Translate LastModified to local time zone.  DateTimeOffsets 
+                // don't do this automatically.  This is for equivalent behavior 
+                // with parsed DateTimes.
                 if (minTime.HasValue &&
                     (blockBlob.Properties != null) &&
                     blockBlob.Properties.LastModified.HasValue &&
-                    (blockBlob.Properties.LastModified.Value.UtcDateTime < minTime))
+                    (blockBlob.Properties.LastModified.Value.LocalDateTime < minTime.Value))
                 {
                     break;
                 }
@@ -391,11 +388,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         model.TimeFrameMinutes = number;
                     }
 
+                    // Translate LastModified to local time zone.  DateTimeOffsets 
+                    // don't do this automatically.  This is for equivalent behavior 
+                    // with parsed DateTimes.
                     if ((blob.Properties != null) &&
                         blob.Properties.LastModified.HasValue)
                     {
-                        model.Timestamp =
-                            blob.Properties.LastModified.Value.UtcDateTime;
+                        model.Timestamp = blob.Properties.LastModified.Value.LocalDateTime;
                     }
 
                     models.Add(model);

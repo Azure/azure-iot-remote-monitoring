@@ -38,14 +38,6 @@
                 "description": "The name of the serviceBus"
             }
         },
-        "packageUri": {
-            "type": "string",
-            "defaultValue": "http://aka.ms/azureiot/remotemonitoring/web"
-        },
-        "webJobPackageUri": {
-            "type": "string",
-            "defaultValue": "http://aka.ms/azureiot/remotemonitoring/webjob"
-        },
         "sasStartBehavior": {
             "type": "string",
             "metadata": {
@@ -71,26 +63,13 @@
         "sbKeyName": "RootManageSharedAccessKey",
         "sbResourceId": "[resourceId('Microsoft.Eventhub/namespaces/authorizationRules', parameters('sbName'), variables('sbKeyName'))]",
         "saVersion": "2015-10-01",
-        "webVersion": "2015-04-01",
         "bingMapsName": "[concat(parameters('suiteName'), '-map')]",
         "bingMapsVersion": "2015-07-02",
-        "webJobPlanName": "[concat(parameters('suiteName'), '-jobsplan')]",
-        "webJobSku": "Standard",
-        "webJobWorkerSize": "0",
-        "webJobWorkerCount": "2",
-        "webJobSiteName": "[concat(parameters('suiteName'), '-jobhost')]",
-        "webPlanName": "[concat(parameters('suiteName'), '-plan')]",
-        "webSiteName": "[parameters('suiteName')]",
-        "webSku": "Standard",
-        "webWorkerSize": "0",
-        "webWorkerCount": "2",
-        "AADMetadataAddress": "[concat('https://login.windows.net/' , parameters('AADTenant'), '/FederationMetadata/2007-06/FederationMetadata.xml')]",
-        "AADRealm": "[toLower(concat('https://', variables('webSiteName'), '.azurewebsites.net/iotsuite'))]",
         "docDBVersion": "2015-04-08",
         "docDBSku": "Standard",
         "docDBResourceId": "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
         "iotHubVersion": "2015-08-15-preview",
-        "iotHubSku": "S2",
+        "iotHubSku": "S1",
         "iotHubTier": "Standard",
         "iotHubResourceId": "[resourceId('Microsoft.Devices/Iothubs', parameters('iotHubName'))]",
         "iotHubKeyName": "iothubowner",
@@ -122,7 +101,7 @@
                 "promotionCode": null
             },
             "properties": { }
-            },
+        },
         {
             "apiVersion": "[variables('storageVersion')]",
             "type": "Microsoft.Storage/storageAccounts",
@@ -506,257 +485,11 @@
                 "Transformation": {
                     "Name": "DeviceRules",
                     "Properties": {
-                        "Query": "WITH AlarmsData AS \r\n(\r\nSELECT\r\n     Stream.DeviceID,\r\n     'Temperature' as ReadingType,\r\n     Stream.Temperature as Reading,\r\n     Ref.Temperature as Threshold,\r\n     Ref.TemperatureRuleOutput as RuleOutput,\r\n     Stream.EventEnqueuedUtcTime AS [Time]\r\nFROM IoTTelemetryStream Stream\r\nJOIN DeviceRulesBlob Ref ON Stream.DeviceID = Ref.DeviceID\r\nWHERE\r\n     Ref.Temperature IS NOT null AND Stream.Temperature > Ref.Temperature\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n     Stream.DeviceID,\r\n     'Humidity' as ReadingType,\r\n     Stream.Humidity as Reading,\r\n     Ref.Humidity as Threshold,\r\n     Ref.HumidityRuleOutput as RuleOutput,\r\n     Stream.EventEnqueuedUtcTime AS [Time]\r\nFROM IoTTelemetryStream Stream\r\nJOIN DeviceRulesBlob Ref ON Stream.DeviceID = Ref.DeviceID\r\nWHERE\r\n     Ref.Humidity IS NOT null AND Stream.Humidity > Ref.Humidity\r\n)\r\n\r\nSELECT *\r\nINTO DeviceRulesMonitoring\r\nFROM AlarmsData\r\n\r\nSELECT *\r\nINTO DeviceRulesHub\r\nFROM AlarmsData",
+                        "Query": "WITH AlarmsData AS ( SELECT Stream.DeviceID, Stream.Temperature as TempReading, Ref.Temperature as TempThreshold, Stream.Humidity as HumidityReading, Ref.Humidity as HumidityThreshold, Ref.TemperatureRuleOutput, Ref.HumidityRuleOutput, Stream.EventEnqueuedUtcTime AS [Time] FROM IoTTelemetryStream Stream JOIN DeviceRulesBlob Ref ON Stream.DeviceID = Ref.DeviceID WHERE (Ref.Humidity IS NOT null AND Stream.Humidity > Ref.Humidity) OR (Ref.Temperature IS NOT null AND Stream.Temperature > Ref.Temperature) ) SELECT * INTO DeviceRulesMonitoring FROM AlarmsData SELECT * INTO DeviceRulesHub FROM AlarmsData",
                         "StreamingUnits": 1
                     }
                 }
             }
-        },
-        {
-            "apiVersion": "[variables('webVersion')]",
-            "name": "[variables('webPlanName')]",
-            "type": "Microsoft.Web/serverfarms",
-            "location": "[variables('location')]",
-            "properties": {
-                "name": "[variables('webPlanName')]",
-                "sku": "[variables('webSku')]",
-                "workerSize": "[variables('webWorkerSize')]",
-                "numberOfWorkers": "[variables('webWorkerCount')]"
-            }
-        },
-        {
-            "apiVersion": "[variables('webVersion')]",
-            "name": "[variables('webJobPlanName')]",
-            "type": "Microsoft.Web/serverfarms",
-            "location": "[variables('location')]",
-            "properties": {
-                "name": "[variables('webJobPlanName')]",
-                "sku": "[variables('webJobSku')]",
-                "workerSize": "[variables('webJobWorkerSize')]",
-                "numberOfWorkers": "[variables('webJobWorkerCount')]"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', variables('webPlanName'))]"
-            ]
-        },
-        {
-            "apiVersion": "[variables('webVersion')]",
-            "name": "[variables('webSiteName')]",
-            "type": "Microsoft.Web/sites",
-            "location": "[variables('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', variables('webPlanName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
-                "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
-                "[resourceId('Microsoft.Devices/Iothubs', parameters('iotHubName'))]",
-                "[resourceId('Microsoft.BingMaps/mapApis', variables('bingMapsName'))]"
-            ],
-            "properties": {
-                "serverFarmId": "[variables('webPlanName')]",
-                "siteConfig": {
-                    "AlwaysOn": true,
-                    "appSettings": [
-                        {
-                            "name": "ida.AADTenant",
-                            "value": "[parameters('AADTenant')]"
-                        },
-                        {
-                            "name": "ida.AADAudience",
-                            "value": "[variables('AADRealm')]"
-                        },
-                        {
-                            "name": "ida.FederationMetadataAddress",
-                            "value": "[variables('AADMetadataAddress')]"
-                        },
-                        {
-                            "name": "ida.FederationRealm",
-                            "value": "[variables('AADRealm')]"
-                        },
-                        {
-                            "name": "docdb.EndpointUrl",
-                            "value": "[reference(variables('docDBResourceId')).documentEndpoint]"
-                        },
-                        {
-                            "name": "docdb.PrimaryAuthorizationKey",
-                            "value": "[listkeys(variables('docDBResourceId'), '2015-04-08').primaryMasterKey]"
-                        },
-                        {
-                            "name": "iotHub.HostName",
-                            "value": "[reference(variables('iotHubResourceId')).hostName]"
-                        },
-                        {
-                            "name": "iotHub.ConnectionString",
-                            "value": "[concat('HostName=', reference(variables('iotHubResourceId')).hostName, ';SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', listkeys(variables('iotHubKeyResource'), variables('iotHubVersion')).primaryKey)]"
-                        },
-                        {
-                            "name": "device.StorageConnectionString",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
-                        },
-                        {
-                            "name": "device.TableName",
-                            "value": "DeviceList"
-                        },
-                        {
-                            "name": "eventHub.HubName",
-                            "value": "[variables('ehOutName')]"
-                        },
-                        {
-                            "name": "eventHub.ConnectionString",
-                            "value": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]"
-                        },
-                        {
-                            "name": "eventHub.StorageConnectionString",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
-                        },
-                        {
-                            "name": "RulesEventHub.Name",
-                            "value": "[variables('ehRuleOutName')]"
-                        },
-                        {
-                            "name": "RulesEventHub.ConnectionString",
-                            "value": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]"
-                        },
-                        {
-                            "name": "ObjectTypePrefix",
-                            "value": ""
-                        },
-                        {
-                            "name": "MapApiQueryKey",
-                            "value": "[listSecrets(variables('bingMapsName'), variables('bingMapsVersion')).QueryKey]"
-                        },
-                        {
-                            "name": "SolutionName",
-                            "value": "[variables('webSiteName')]"
-                        }
-                    ]
-                }
-            },
-            "resources": [
-                {
-                    "apiVersion": "[variables('webVersion')]",
-                    "name": "MSDeploy",
-                    "type": "extensions",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', variables('webSiteName'))]"
-                    ],
-                    "properties": {
-                        "packageUri": "[parameters('packageUri')]",
-                        "connectionString": "",
-                        "dbType": ""
-                    }
-                        }
-                    ]
-        },
-        {
-            "apiVersion": "[variables('webVersion')]",
-            "name": "[variables('webJobSiteName')]",
-            "type": "Microsoft.Web/sites",
-            "location": "[variables('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', variables('webJobPlanName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
-                "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
-                "[resourceId('Microsoft.Devices/Iothubs', parameters('iotHubName'))]",
-                "[resourceId('Microsoft.BingMaps/mapApis', variables('bingMapsName'))]",
-                "[resourceId('Microsoft.StreamAnalytics/streamingjobs', concat(parameters('suiteName'), '-Telemetry'))]",
-                "[resourceId('Microsoft.StreamAnalytics/streamingjobs', concat(parameters('suiteName'), '-DeviceInfo'))]",
-                "[resourceId('Microsoft.StreamAnalytics/streamingjobs', concat(parameters('suiteName'), '-Rules'))]"
-            ],
-            "properties": {
-                "serverFarmId": "[variables('webJobPlanName')]",
-                "siteConfig": {
-                    "AlwaysOn": true,
-                    "appSettings": [
-                        {
-                            "name": "ida.AADTenant",
-                            "value": "[parameters('AADTenant')]"
-                        },
-                        {
-                            "name": "ida.AADAudience",
-                            "value": "[variables('AADRealm')]"
-                        },
-                        {
-                            "name": "ida.FederationMetadataAddress",
-                            "value": "[variables('AADMetadataAddress')]"
-                        },
-                        {
-                            "name": "ida.FederationRealm",
-                            "value": "[variables('AADRealm')]"
-                        },
-                        {
-                            "name": "docdb.EndpointUrl",
-                            "value": "[reference(variables('docDBResourceId')).documentEndpoint]"
-                        },
-                        {
-                            "name": "docdb.PrimaryAuthorizationKey",
-                            "value": "[listkeys(variables('docDBResourceId'), '2015-04-08').primaryMasterKey]"
-                        },
-                        {
-                            "name": "iotHub.HostName",
-                            "value": "[reference(variables('iotHubResourceId')).hostName]"
-                        },
-                        {
-                            "name": "iotHub.ConnectionString",
-                            "value": "[concat('HostName=', reference(variables('iotHubResourceId')).hostName, ';SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', listkeys(variables('iotHubKeyResource'), variables('iotHubVersion')).primaryKey)]"
-                        },
-                        {
-                            "name": "device.StorageConnectionString",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
-                        },
-                        {
-                            "name": "device.TableName",
-                            "value": "DeviceList"
-                        },
-                        {
-                            "name": "eventHub.HubName",
-                            "value": "[variables('ehOutName')]"
-                        },
-                        {
-                            "name": "eventHub.ConnectionString",
-                            "value": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]"
-                        },
-                        {
-                            "name": "eventHub.StorageConnectionString",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
-                        },
-                        {
-                            "name": "RulesEventHub.Name",
-                            "value": "[variables('ehRuleOutName')]"
-                        },
-                        {
-                            "name": "RulesEventHub.ConnectionString",
-                            "value": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]"
-                        },
-                        {
-                            "name": "ObjectTypePrefix",
-                            "value": ""
-                        },
-                        {
-                            "name": "MapApiQueryKey",
-                            "value": "[listSecrets(variables('bingMapsName'), variables('bingMapsVersion')).QueryKey]"
-                        },
-                        {
-                            "name": "SolutionName",
-                            "value": "[variables('webSiteName')]"
-                        }
-                    ]
-                }
-            },
-            "resources": [
-                {
-                    "apiVersion": "[variables('webVersion')]",
-                    "name": "MSDeploy",
-                    "type": "extensions",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', variables('webJobSiteName'))]"
-                    ],
-                    "properties": {
-                        "packageUri": "[parameters('webJobPackageUri')]",
-                        "connectionString": "",
-                        "dbType": ""
-                    }
-                }
-            ]
         }
     ],
     "outputs": {

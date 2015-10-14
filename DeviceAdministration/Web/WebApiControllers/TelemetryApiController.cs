@@ -194,7 +194,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Func<Task<AlertHistoryResultsModel>> loadHistoryItems =
                 async () =>
                 {
-                    DateTime currentTime = DateTime.UtcNow;
+                    // Dates are stored internally as UTC and marked as such.  
+                    // When parsed, they'll be made relative to the server's 
+                    // time zone.  This is only in an issue on servers machines, 
+                    // not set to GMT.
+                    DateTime currentTime = DateTime.Now;
 
                     var historyItems = new List<AlertHistoryItemModel>();
                     var deviceModels = new List<AlertHistoryDeviceModel>();
@@ -241,7 +245,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                                         DateTime? lastStatusTime = getStatusTime(locationModel.DeviceId);
                                         if (lastStatusTime.HasValue)
                                         {
-                                            TimeSpan deltaTime = currentTime - lastStatusTime.Value.ToUniversalTime();
+                                            TimeSpan deltaTime = currentTime - lastStatusTime.Value;
 
                                             if (deltaTime.TotalMinutes < CriticalAlertMaxMinutes)
                                             {
