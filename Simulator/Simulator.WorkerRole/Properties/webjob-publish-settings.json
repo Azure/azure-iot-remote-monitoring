@@ -1,6 +1,6 @@
 ﻿{
   "$schema": "http://schemastore.org/schemas/json/webjob-publish-settings.json",
-  "webJobName": "DeviceAdministration-WebJob",
+  "webJobName": "DeviceSimulator-WebJob",
   "startTime": null,
   "endTime": null,
   "jobRecurrenceFrequency": null,

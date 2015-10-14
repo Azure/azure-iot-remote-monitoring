@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WorkerRole.DataInitialization
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole.DataInitialization
 {
     public class DataInitializer : IDataInitializer
     {

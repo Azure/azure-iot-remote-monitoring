@@ -1,36 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WorkerRole;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WorkerRole.Processors;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole.Cooler.Devices.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole.Cooler.Telemetry.Factory;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole.DataInitialization;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole.SimulatorCore.Devices.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole.SimulatorCore.Logging;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole.SimulatorCore.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole.SimulatorCore.Serialization;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole.SimulatorCore.Transport.Factory;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole.SimulatorCore.Repository;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WorkerRole.DataInitialization;
-using Microsoft.Azure.IoT.Samples.EventProcessor.WorkerRole.Processors;
-using System.IO;
 
-namespace DeviceAdministration.WebJob
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
 {
-    class Program
+    public static class Program
     {
-
         static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-        //static ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
-        static IContainer eventProcessorContainer;
+        static IContainer simulatorContainer;
 
         private const string SHUTDOWN_FILE_ENV_VAR = "WEBJOBS_SHUTDOWN_FILE";
         private static string _shutdownFile;
@@ -70,10 +61,6 @@ namespace DeviceAdministration.WebJob
                 BuildContainer();
 
                 StartDataInitializationAsNeeded();
-                StartEventProcessorHost();
-                
-                StartActionProcessorHost();
-                StartMessageFeedbackProcessorHost();
                 StartSimulator();
 
                 RunAsync().Wait();
@@ -85,6 +72,13 @@ namespace DeviceAdministration.WebJob
             }
         }
 
+        static void BuildContainer()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new SimulatorModule());
+            simulatorContainer = builder.Build();
+        }
+
         private static void OnShutdownFileChanged(object sender, FileSystemEventArgs e)
         {
             if (e.FullPath.IndexOf(Path.GetFileName(_shutdownFile), StringComparison.OrdinalIgnoreCase) >= 0)
@@ -93,11 +87,16 @@ namespace DeviceAdministration.WebJob
             }
         }
 
-        static void BuildContainer()
+        static void CreateInitialDataAsNeeded(object state)
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(new EventProcessorModule());
-            eventProcessorContainer = builder.Build();
+            _timer.Dispose();
+            if (!_shutdownSignalReceived && !cancellationTokenSource.Token.IsCancellationRequested)
+            {
+
+                Trace.TraceInformation("Preparing to add initial data");
+                var creator = simulatorContainer.Resolve<IDataInitializer>();
+                creator.CreateInitialDataIfNeeded();
+            }
         }
 
         static void StartDataInitializationAsNeeded()
@@ -111,39 +110,6 @@ namespace DeviceAdministration.WebJob
             //give ourselves the best chance of receiving the shutdown command if it is going to come in. After
             //this delay there is an extremely good chance that we are on a stable start that will remain in place.
             _timer = new Timer(CreateInitialDataAsNeeded, null, 10000, Timeout.Infinite);
-        }
-
-        static void CreateInitialDataAsNeeded(object state)
-        {
-            _timer.Dispose();
-            if (!_shutdownSignalReceived && !cancellationTokenSource.Token.IsCancellationRequested)
-            {
-
-                Trace.TraceInformation("Preparing to add initial data");
-                var creator = eventProcessorContainer.Resolve<IDataInitializer>();
-                creator.CreateInitialDataIfNeeded();
-            }
-        }
-
-        static void StartEventProcessorHost()
-        {
-            Trace.TraceInformation("Starting Event Processor");
-            var eventProcessor = eventProcessorContainer.Resolve<IDeviceEventProcessor>();
-            eventProcessor.Start(cancellationTokenSource.Token);
-        }
-
-        static void StartActionProcessorHost()
-        {
-            Trace.TraceInformation("Starting action processor");
-            var actionProcessor = eventProcessorContainer.Resolve<IActionEventProcessor>();
-            actionProcessor.Start();
-        }
-
-        static void StartMessageFeedbackProcessorHost()
-        {
-            Trace.TraceInformation("Starting command feedback processor");
-            var feedbackProcessor = eventProcessorContainer.Resolve<IMessageFeedbackProcessor>();
-            feedbackProcessor.Start();
         }
 
         static void StartSimulator()

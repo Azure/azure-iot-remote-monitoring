@@ -2,28 +2,18 @@
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WorkerRole.Processors;
-using Microsoft.Azure.IoT.Samples.EventProcessor.WorkerRole.Processors;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole.DataInitialization;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WorkerRole
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WorkerRole
 {
-    public sealed class EventProcessorModule : Module
+    public sealed class SimulatorModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<ConfigurationProvider>()
                 .As<IConfigurationProvider>()
-                .SingleInstance();
-
-            builder.RegisterType<DeviceEventProcessor>()
-                .As<IDeviceEventProcessor>()
-                .SingleInstance();
-
-            builder.RegisterType<ActionEventProcessor>()
-                .As<IActionEventProcessor>()
                 .SingleInstance();
 
             builder.RegisterType<DeviceLogic>()
@@ -59,14 +49,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             builder.RegisterType<ActionLogic>()
                 .As<IActionLogic>();
 
+            builder.RegisterType<DataInitializer>()
+                .As<IDataInitializer>();
+
             builder.RegisterType<ActionRepository>()
                 .As<IActionRepository>();
 
-            builder.RegisterType<DocDbRestUtility>()
-                .As<IDocDbRestUtility>();
-
-            builder.RegisterType<MessageFeedbackProcessor>()
-                .As<IMessageFeedbackProcessor>().SingleInstance();
+            builder.RegisterType<DocDbRestHelper>()
+                .As<IDocDbRestHelper>();
         }
     }
 }
