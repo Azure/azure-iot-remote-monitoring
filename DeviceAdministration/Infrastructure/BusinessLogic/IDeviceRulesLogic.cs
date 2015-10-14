@@ -19,5 +19,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<Dictionary<string, List<string>>> GetAvailableFieldsForDeviceRuleAsync(string deviceId, string ruleId);
         Task<bool> CanNewRuleBeCreatedForDeviceAsync(string deviceId);
         Task BootstrapDefaultRulesAsync(List<string> existingDeviceIds);
+        Task<TableStorageResponse<DeviceRule>> DeleteDeviceRuleAsync(string deviceId, string ruleId);
+        Task<bool> RemoveAllRulesForDeviceAsync(string deviceId);
     }
 }

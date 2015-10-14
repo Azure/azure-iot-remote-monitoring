@@ -12,10 +12,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
     /// </summary>
     public static class BlobStorageHelper
     {
-        #region Public Methods
-
-        #region Static Method: BuildBlobContainerAsync
-
         /// <summary>
         /// Builds a CloudBlobContainer from provided settings.
         /// </summary>
@@ -33,10 +29,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             string connectionString,
             string containerName)
         {
-            CloudBlobClient blobClient;
-            CloudBlobContainer container;
-            CloudStorageAccount storageAccount;
-
             if (string.IsNullOrEmpty(connectionString))
             {
                 throw new ArgumentException(
@@ -49,26 +41,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 throw new ArgumentNullException(containerName);
             }
 
-            if (!CloudStorageAccount.TryParse(
-                    connectionString, 
-                    out storageAccount))
+            CloudStorageAccount storageAccount;
+            if (!CloudStorageAccount.TryParse(connectionString, out storageAccount))
             {
                 throw new ArgumentException(
-                    "connectionString is not a valid Cloud Storage Account connection string.",
-                    "connectionString");
+                    "connectionString is not a valid Cloud Storage Account connection string.", "connectionString");
             }
 
-            blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
 
-            container = blobClient.GetContainerReference(containerName);
+            CloudBlobContainer container = blobClient.GetContainerReference(containerName);
             await container.CreateIfNotExistsAsync();
 
             return container;
         }
-
-        #endregion
-
-        #region Static Method: ExtractBlobItemDate
 
         /// <summary>
         /// Exctract's a blob item's last modified date.
@@ -82,14 +68,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// </returns>
         public static DateTime? ExtractBlobItemDate(IListBlobItem blobItem)
         {
-            BlobProperties blobProperties;
-            CloudBlockBlob blockBlob;
-            CloudPageBlob pageBlob;
-
             if (blobItem == null)
             {
                 throw new ArgumentNullException("blobItem");
             }
+
+            BlobProperties blobProperties;
+            CloudBlockBlob blockBlob;
+            CloudPageBlob pageBlob;
 
             if ((blockBlob = blobItem as CloudBlockBlob) != null)
             {
@@ -113,10 +99,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             return null;
         }
 
-        #endregion
-
-        #region Static Method: LoadBlobItemsAsync
-
         /// <summary>
         /// Load's a blob listing's items.
         /// </summary>
@@ -129,17 +111,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         public static async Task<IEnumerable<IListBlobItem>> LoadBlobItemsAsync(
             Func<BlobContinuationToken, Task<BlobResultSegment>> segmentLoader)
         {
-            IEnumerable<IListBlobItem> blobItems;
-            BlobResultSegment segment;
-
             if (segmentLoader == null)
             {
                 throw new ArgumentNullException("segmentLoader");
             }
 
-            blobItems = new IListBlobItem[0];
+            IEnumerable<IListBlobItem> blobItems = new IListBlobItem[0];
 
-            segment = await segmentLoader(null);
+            BlobResultSegment segment = await segmentLoader(null);
             while ((segment != null) &&
                 (segment.Results != null))
             {
@@ -155,9 +134,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
             return blobItems;
         }
-
-        #endregion
-
-        #endregion
     }
 }

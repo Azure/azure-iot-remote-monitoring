@@ -262,7 +262,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.Worker
                 });
         }
 
-        #region IDisposable Interface
         /// <summary>
         /// Implement the IDisposable interface in order to close the device manager
         /// </summary>
@@ -274,23 +273,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.Worker
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (_disposed)
             {
-                if (disposing)
-                {
-                    if (_deviceClient != null)
-                    {
-                        _deviceClient.CloseAsync().Wait();
-                    }
-                }
-                _disposed = true;
+                return;
             }
+
+            if (disposing)
+            {
+                if (_deviceClient != null)
+                {
+                    _deviceClient.CloseAsync().Wait();
+                }
+            }
+
+            _disposed = true;
         }
 
         ~IoTHubTransport()
         {
             Dispose(false);
         }
-        #endregion
     }
 }

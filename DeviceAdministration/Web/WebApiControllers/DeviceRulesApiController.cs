@@ -131,5 +131,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 return await _deviceRulesLogic.UpdateDeviceRuleEnabledStateAsync(deviceId, ruleId, enabled);
             });
         }
+
+        /// <summary>
+        /// Delete the given rule for the given device
+        /// 
+        /// Delete: api/v1/devicerules/2345/123
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <param name="ruleId"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Route("{deviceId}/{ruleId}")]
+        [WebApiRequirePermission(Permission.DeleteRules)]
+        public async Task<HttpResponseMessage> DeleteRuleAsync(string deviceId, string ruleId)
+        {
+            return await GetServiceResponseAsync<TableStorageResponse<DeviceRule>>(async () =>
+            {
+                return await _deviceRulesLogic.DeleteDeviceRuleAsync(deviceId, ruleId);
+            });
+        }
     }
 }

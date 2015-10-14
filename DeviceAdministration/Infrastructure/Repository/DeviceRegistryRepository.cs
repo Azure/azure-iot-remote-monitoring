@@ -205,7 +205,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return existingDevice;
         }
 
-        #region IDeviceRegistryListRepository
         /// <summary>
         /// Searches the DeviceProperties of all devices in the DocumentDB, sorts them and pages based on the provided values
         /// </summary>
@@ -291,11 +290,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             // iterate through the DeviceProperties Properties and look for the search value
             // case insensitive search
-            var lowerCaseSearch = search.ToLower();
+            var upperCaseSearch = search.ToUpperInvariant();
             return devProps.ToKeyValuePairs().Any(
                 t =>
                     (t.Value != null) &&
-                    t.Value.ToString().ToLower().Contains(lowerCaseSearch));
+                    t.Value.ToString().ToUpperInvariant().Contains(upperCaseSearch));
         }
 
         /// <summary>
@@ -369,6 +368,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return deviceList.OrderByDescending(keySelector).AsQueryable();
             }
         }
-        #endregion
     }
 }

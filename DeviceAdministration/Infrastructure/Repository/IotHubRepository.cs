@@ -168,7 +168,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
         }
 
-        #region IDisposable Interface
         /// <summary>
         /// Implement the IDisposable interface in order to close the device manager
         /// </summary>
@@ -180,23 +179,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (_disposed)
             {
-                if (disposing)
-                {
-                    if (_deviceManager != null)
-                    {
-                        _deviceManager.CloseAsync().Wait();
-                    }
-                }
-                _disposed = true;
+                return;
             }
+            
+            if (disposing)
+            {
+                if (_deviceManager != null)
+                {
+                    _deviceManager.CloseAsync().Wait();
+                }
+            }
+
+            _disposed = true;
         }
 
         ~IotHubRepository()
         {
             Dispose(false);
         }
-        #endregion
     }
 }

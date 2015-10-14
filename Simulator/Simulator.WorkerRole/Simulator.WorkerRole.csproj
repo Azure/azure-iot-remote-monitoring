@@ -20,6 +20,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <CodeAnalysisRuleSet>..\..\DeviceAdministration\DeviceAdministration.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -125,7 +127,6 @@
     <Compile Include="Cooler\Telemetry\RemoteMonitorTelemetry.cs" />
     <Compile Include="Cooler\Telemetry\Factory\CoolerTelemetryFactory.cs" />
     <Compile Include="Cooler\Telemetry\StartupTelemetry.cs" />
-    <Compile Include="WorkerRole.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

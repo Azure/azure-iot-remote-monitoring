@@ -578,30 +578,22 @@ table.dataTable thead {
 
 
 /* Status column icons */
-.table_devices_status {
+.table_status {
     background-repeat:no-repeat;
     background-position:20px center;
     background-size: 13px 13px;
     }
 
-    .table_devices_status.status_false {
+    .table_status.status_false {
         background-image:url(img/icon_status_disabled.svg);
         }
 
-    .table_devices_status.status_true {
+    .table_status.status_true {
         background-image:url(img/icon_status_enabled.svg);
         }
 
-    .table_devices_status.status_pending {
+    .table_status.status_pending {
         background-image:url(img/icon_status_null.svg);
-        }
-
-    .status_information{
-        background-image:url(img/icon_status_information.svg);
-        }
-
-    .status_alarm{
-        background-image:url(img/icon_status_alarm.svg);
         }
 
 .table_alertHistory_issueType{
