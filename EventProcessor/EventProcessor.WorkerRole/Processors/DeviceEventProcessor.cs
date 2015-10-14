@@ -9,40 +9,41 @@ using Microsoft.ServiceBus.Messaging;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WorkerRole.Processors
 {
-    public class DeviceEventProcessor : IDeviceEventProcessor
+    public class DeviceEventProcessor : IDeviceEventProcessor, IDisposable
     {
         readonly IDeviceLogic _deviceLogic;
 
-        EventProcessorHost eventProcessorHost = null;
-        DeviceAdministrationProcessorFactory factory;
-        IConfigurationProvider configurationProvider;
-        CancellationTokenSource cancellationTokenSource;
-        bool running;
+        EventProcessorHost _eventProcessorHost = null;
+        DeviceAdministrationProcessorFactory _factory;
+        IConfigurationProvider _configurationProvider;
+        CancellationTokenSource _cancellationTokenSource;
+        bool _running;
+        bool _disposed = false;
 
         public DeviceEventProcessor(ILifetimeScope scope, IDeviceLogic deviceLogic)
         {
-            this.configurationProvider = scope.Resolve<IConfigurationProvider>();
+            _configurationProvider = scope.Resolve<IConfigurationProvider>();
             _deviceLogic = deviceLogic;
         }
 
         public void Start()
         {
-            this.cancellationTokenSource = new CancellationTokenSource();
-            this.Start(this.cancellationTokenSource.Token);
+            _cancellationTokenSource = new CancellationTokenSource();
+            this.Start(this._cancellationTokenSource.Token);
         }
 
         public void Start(CancellationToken cancellationToken)
         {
-            this.running = true;
+            _running = true;
             Task.Run(() => this.StartProcessor(cancellationToken), cancellationToken);
         }
 
         public void Stop()
         {
-            this.cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Cancel();
             TimeSpan timeout = TimeSpan.FromSeconds(30);
             TimeSpan sleepInterval = TimeSpan.FromSeconds(1);
-            while (this.running)
+            while (_running)
             {
                 if (timeout < sleepInterval)
                 {
@@ -57,18 +58,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             try
             {
                 // Initialize
-                this.eventProcessorHost = new EventProcessorHost(
+                _eventProcessorHost = new EventProcessorHost(
                     Environment.MachineName,
-                    configurationProvider.GetConfigurationSettingValue("eventHub.HubName").ToLower(),
+                    _configurationProvider.GetConfigurationSettingValue("eventHub.HubName").ToLowerInvariant(),
                     EventHubConsumerGroup.DefaultGroupName,
-                    configurationProvider.GetConfigurationSettingValue("eventHub.ConnectionString"),
-                    configurationProvider.GetConfigurationSettingValue("eventHub.StorageConnectionString"));
+                    _configurationProvider.GetConfigurationSettingValue("eventHub.ConnectionString"),
+                    _configurationProvider.GetConfigurationSettingValue("eventHub.StorageConnectionString"));
 
-                this.factory = new DeviceAdministrationProcessorFactory(_deviceLogic, configurationProvider);
+                _factory = new DeviceAdministrationProcessorFactory(_deviceLogic, _configurationProvider);
                 Trace.TraceInformation("DeviceEventProcessor: Registering host...");
                 var options = new EventProcessorOptions();
                 options.ExceptionReceived += OptionsOnExceptionReceived;
-                await this.eventProcessorHost.RegisterEventProcessorFactoryAsync(factory);
+                await _eventProcessorHost.RegisterEventProcessorFactoryAsync(_factory);
 
                 // processing loop
                 while (!token.IsCancellationRequested)
@@ -80,18 +81,47 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                 }
 
                 // cleanup
-                await this.eventProcessorHost.UnregisterEventProcessorAsync();
+                await _eventProcessorHost.UnregisterEventProcessorAsync();
             }
             catch (Exception e)
             {
                 Trace.TraceInformation("Error in DeviceEventProcessor.StartProcessor, Exception: {0}", e.Message);
             }
-            this.running = false;
+            _running = false;
         }
 
         void OptionsOnExceptionReceived(object sender, ExceptionReceivedEventArgs exceptionReceivedEventArgs)
         {
             Trace.TraceError("Received exception, action: {0}, message: {1}", exceptionReceivedEventArgs.Action, exceptionReceivedEventArgs.Exception.ToString());
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                if (_cancellationTokenSource != null)
+                {
+                    _cancellationTokenSource.Dispose();
+                }
+            }
+
+            _disposed = true;
+        }
+
+        ~DeviceEventProcessor()
+        {
+            Dispose(false);
         }
     }
 }

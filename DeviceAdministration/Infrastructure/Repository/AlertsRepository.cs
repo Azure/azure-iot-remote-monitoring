@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.WindowsAzure.Storage.Blob;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Dynamic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -18,15 +19,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </summary>
     public class AlertsRepository : IAlertsRepository
     {
-        #region Instance Variables
+        // column names in ASA job output
+        private const string DEVICE_ID_COLUMN_NAME = "deviceid";
+        private const string READING_TYPE_COLUMN_NAME = "readingtype";
+        private const string READING_VALUE_COLUMN_NAME = "reading";
+        private const string THRESHOLD_VALUE_COLUMN_NAME = "threshold";
+        private const string RULE_OUTPUT_COLUMN_NAME = "ruleoutput";
+        private const string TIME_COLUMN_NAME = "time";
 
         private readonly string alertsContainerConnectionString;
         private readonly string alertsStoreContainerName;
         private readonly string deviceAlertsDataPrefix;
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the AlertsRepository class.
@@ -42,72 +45,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new ArgumentNullException("configProvider");
             }
 
-            this.alertsContainerConnectionString =
-                configProvider.GetConfigurationSettingValue(
-                    "device.StorageConnectionString");
-
-            this.alertsStoreContainerName =
-                configProvider.GetConfigurationSettingValue(
-                    "AlertsStoreContainerName");
-
-            this.deviceAlertsDataPrefix =
-                configProvider.GetConfigurationSettingValue(
-                    "DeviceAlertsDataPrefix");
+            this.alertsContainerConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
+            this.alertsStoreContainerName = configProvider.GetConfigurationSettingValue("AlertsStoreContainerName");
+            this.deviceAlertsDataPrefix =configProvider.GetConfigurationSettingValue("DeviceAlertsDataPrefix");
         }
-
-        #endregion
-
-        #region Public Methods
 
         /// <summary>
         /// Loads the latest Device Alert History items.
         /// </summary>
-        /// <param name="maxItems">
-        /// The maximum number of Device Alert History items to return.
+        /// <param name="minTime">
+        /// The cutoff time for Device Alert History items that should be returned.
         /// </param>
         /// <returns>
         /// The latest Device Alert History items.
         /// </returns>
-        public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(
-            int maxItems)
+        public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(DateTime minTime)
         {
             IEnumerable<IListBlobItem> blobs;
             CloudBlockBlob blockBlob;
-            CloudBlobContainer container;
             List<AlertHistoryItemModel> result;
             IEnumerable<AlertHistoryItemModel> segment;
 
-            if (maxItems <= 0)
-            {
-                throw new ArgumentOutOfRangeException(
-                    "maxItems",
-                    "maxItems is not a positive integer.");
-            }
-
             result = new List<AlertHistoryItemModel>();
 
-            container =
-                await BlobStorageHelper.BuildBlobContainerAsync(
-                    this.alertsContainerConnectionString,
-                    this.alertsStoreContainerName);
-
-            blobs =
-                await BlobStorageHelper.LoadBlobItemsAsync(
-                    async (token) =>
-                    {
-                        return await container.ListBlobsSegmentedAsync(
-                            this.deviceAlertsDataPrefix,
-                            true,
-                            BlobListingDetails.None,
-                            null,
-                            token,
-                            null,
-                            null);
-                    });
-
-            blobs =
-                blobs.OrderByDescending(
-                    t => BlobStorageHelper.ExtractBlobItemDate(t));
+            blobs = await LoadApplicableListBlobItemsAsync(minTime);
 
             foreach (IListBlobItem blob in blobs)
             {
@@ -117,138 +78,80 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
 
                 segment = await ProduceAlertHistoryItemsAsync(blockBlob);
-                segment = segment.OrderByDescending(t => t.Timestamp);
+
+                segment = segment.Where(
+                    t =>
+                        (t != null) &&
+                        t.Timestamp.HasValue &&
+                        (t.Timestamp.Value > minTime)).OrderByDescending(u => u.Timestamp);
 
                 result.AddRange(segment);
-
-                if (result.Count >= maxItems)
-                {
-                    return result.Take(maxItems);
-                }
             }
 
             return result;
         }
 
-        #endregion
-
-        #region Private Methods
-
-        #region Static Method: AttemptNumericFormatting
-
-        private static string AttemptNumericFormatting(string str)
+        private static AlertHistoryItemModel ProduceAlertHistoryItem(ExpandoObject expandoObject)
         {
-            double dbl;
+            Debug.Assert(expandoObject != null, "expandoObject is a null reference.");
 
-            if (double.TryParse(str, out dbl))
-            {
-                str = dbl.ToString("F3");
-            }
+            var deviceId = ReflectionHelper.GetNamedPropertyValue(
+                        expandoObject,
+                        DEVICE_ID_COLUMN_NAME,
+                        true,
+                        false) as string;
 
-            return str;
+            var readingValue = ReflectionHelper.GetNamedPropertyValue(
+                        expandoObject,
+                        READING_VALUE_COLUMN_NAME,
+                        true,
+                        false) as string;
+
+            var thresholdValue = ReflectionHelper.GetNamedPropertyValue(
+                        expandoObject,
+                        THRESHOLD_VALUE_COLUMN_NAME,
+                        true,
+                        false) as string;
+
+            var ruleOutput = ReflectionHelper.GetNamedPropertyValue(
+                        expandoObject,
+                        RULE_OUTPUT_COLUMN_NAME,
+                        true,
+                        false) as string;
+
+            var time = ReflectionHelper.GetNamedPropertyValue(
+                        expandoObject,
+                        TIME_COLUMN_NAME,
+                        true,
+                        false) as string;
+
+            return BuildModelForItem(ruleOutput, deviceId, readingValue, thresholdValue, time);
         }
 
-        #endregion
-
-        #region Static Method: ProduceAlertHistoryItem
-
-        private static AlertHistoryItemModel ProduceAlertHistoryItem(
-            ExpandoObject expandoObject,
-            string sourceField)
+        private static AlertHistoryItemModel BuildModelForItem(string ruleOutput, string deviceId, string value, string threshold, string time)
         {
-            DateTime date;
-            AlertHistoryItemModel model;
-            string str;
+            double valDouble;
+            double threshDouble;
+            DateTime timeAsDateTime;
 
-            Debug.Assert(
-                expandoObject != null,
-                "expandoObject is a null reference.");
-
-            Debug.Assert(
-                !string.IsNullOrEmpty(sourceField),
-                "sourceField is a null reference or empty string.");
-
-            model = null;
-
-            str =
-                ReflectionHelper.GetNamedPropertyValue(
-                    expandoObject,
-                    sourceField,
-                    true,
-                    false) as string;
-
-            if (string.Equals(
-                    str,
-                    "AlarmTemp",
-                    StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(value) &&
+                !string.IsNullOrWhiteSpace(threshold) &&
+                !string.IsNullOrWhiteSpace(deviceId) &&
+                double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out valDouble) &&
+                double.TryParse(threshold, NumberStyles.Float, CultureInfo.InvariantCulture, out threshDouble) &&
+                DateTime.TryParse(time, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out timeAsDateTime))
             {
-                model = new AlertHistoryItemModel()
+                return new AlertHistoryItemModel()
                 {
-                    RuleOutput = str
+                    RuleOutput = ruleOutput,
+                    Value = value,
+                    DeviceId = deviceId,
+                    Timestamp = timeAsDateTime
                 };
-
-                model.DeviceId =
-                    ReflectionHelper.GetNamedPropertyValue(
-                        expandoObject,
-                        "deviceid",
-                        true,
-                        false) as string;
-
-                model.Value =
-                    ReflectionHelper.GetNamedPropertyValue(
-                        expandoObject,
-                        "tempreading",
-                        true,
-                        false) as string;
-            }
-            else if (string.Equals(
-                    str,
-                    "AlarmHumidity",
-                    StringComparison.OrdinalIgnoreCase))
-            {
-                model = new AlertHistoryItemModel()
-                {
-                    RuleOutput = str
-                };
-
-                model.DeviceId =
-                    ReflectionHelper.GetNamedPropertyValue(
-                        expandoObject,
-                        "deviceid",
-                        true,
-                        false) as string;
-
-                model.Value =
-                    ReflectionHelper.GetNamedPropertyValue(
-                        expandoObject,
-                        "humidityreading",
-                        true,
-                        false) as string;
             }
 
-            if (model != null)
-            {
-                str =
-                    ReflectionHelper.GetNamedPropertyValue(
-                        expandoObject,
-                        "time",
-                        true,
-                        false) as string;
-
-                if (DateTime.TryParse(str, out date))
-                {
-                    model.Timestamp = date;
-                }
-
-                model.Value = AttemptNumericFormatting(model.Value);
-            }
-
-            return model;
+            return null;
         }
-
-        #endregion
-
-        #region Static Method: ProduceAlertHistoryItemsAsync
 
         private async static Task<List<AlertHistoryItemModel>> ProduceAlertHistoryItemsAsync(
             CloudBlockBlob blob)
@@ -256,16 +159,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             IDisposable disp;
             IEnumerable<ExpandoObject> expandos;
             AlertHistoryItemModel model;
-            List<AlertHistoryItemModel> models;
-            TextReader reader;
-            MemoryStream stream;
 
             Debug.Assert(blob != null, "blob is a null reference.");
 
-            models = new List<AlertHistoryItemModel>();
+            var models = new List<AlertHistoryItemModel>();
 
-            reader = null;
-            stream = null;
+            TextReader reader = null;
+            MemoryStream stream = null;
             try
             {
                 stream = new MemoryStream();
@@ -276,18 +176,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 expandos = ParsingHelper.ParseCsv(reader).ToExpandoObjects();
                 foreach (ExpandoObject expando in expandos)
                 {
-                    model =
-                        ProduceAlertHistoryItem(
-                            expando,
-                            "temperatureruleoutput");
-
-                    if (model != null)
-                    {
-                        models.Add(model);
-                    }
-
-                    model =
-                        ProduceAlertHistoryItem(expando, "humidityruleoutput");
+                    model = ProduceAlertHistoryItem(expando);
 
                     if (model != null)
                     {
@@ -311,8 +200,51 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return models;
         }
 
-        #endregion
+        private async Task<IEnumerable<IListBlobItem>> LoadApplicableListBlobItemsAsync(DateTime cutoffTime)
+        {
+            CloudBlobContainer container =
+                await BlobStorageHelper.BuildBlobContainerAsync(
+                    this.alertsContainerConnectionString,
+                    this.alertsStoreContainerName);
 
-        #endregion
+            IEnumerable<IListBlobItem> blobs =
+                await BlobStorageHelper.LoadBlobItemsAsync(
+                    async (token) =>
+                    {
+                        return await container.ListBlobsSegmentedAsync(
+                            this.deviceAlertsDataPrefix,
+                            true,
+                            BlobListingDetails.None,
+                            null,
+                            token,
+                            null,
+                            null);
+                    });
+
+            List<IListBlobItem> applicableBlobs = new List<IListBlobItem>();
+
+            if (blobs != null)
+            {
+                blobs = blobs.OrderByDescending(t => BlobStorageHelper.ExtractBlobItemDate(t));
+                foreach (IListBlobItem blob in blobs)
+                {
+                    if (blob == null)
+                    {
+                        continue;
+                    }
+
+                    applicableBlobs.Add(blob);
+
+                    // Allow 1 blob to be past the cutoff date.
+                    DateTime? timestamp = BlobStorageHelper.ExtractBlobItemDate(blob);
+                    if (timestamp.HasValue && timestamp.Value <= cutoffTime)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return applicableBlobs;
+        }
     }
 }

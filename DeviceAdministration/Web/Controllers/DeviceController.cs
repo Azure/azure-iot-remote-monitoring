@@ -118,7 +118,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     if (exception.Errors != null && exception.Errors.Any())
                     {
-                        exception.Errors.ForEach(error => ModelState.AddModelError(string.Empty, error));
+                        exception.Errors.ToList<string>().ForEach(error => ModelState.AddModelError(string.Empty, error));
                     }
                 }
                 catch (Exception)
@@ -257,10 +257,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View("Index");
         }
 
-        #region Private Methods
-
-        #region Static Method: ApplyDevicePropertyOrdering
-
         private static IEnumerable<DevicePropertyValueModel> ApplyDevicePropertyOrdering(
             IEnumerable<DevicePropertyValueModel> devicePropertyModels)
         {
@@ -273,10 +269,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     t.Name)).ThenBy(u => u.DisplayOrder).ThenBy(
                         v => v.Name);
         }
-
-        #endregion
-
-        #region Instance Method: AddDeviceAsync
 
         private async Task<dynamic> AddDeviceAsync(
             UnregisteredDeviceModel unregisteredDeviceModel,
@@ -309,9 +301,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             return !object.ReferenceEquals(existingDevice, null);
         }
-
-        #endregion
-
-        #endregion
     }
 }

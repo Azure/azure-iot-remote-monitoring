@@ -5,6 +5,8 @@
  */
  //#define SUPPRESS_CSRF_PROTECTION
 
+using System;
+using System.Globalization;
 using System.Web.Http;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security
@@ -35,19 +37,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             var origin = request.Headers["origin"];
             var referer = request.Headers["referer"];
-            var host = request.Url.Host.ToLower();
+            var host = request.Url.Host;
             var scheme = request.Url.Scheme;
-            var baseUrl = string.Format("{0}://{1}", scheme, host);
+
+            var baseUrl = 
+                string.Format(
+                    CultureInfo.InvariantCulture, 
+                    "{0}://{1}", 
+                    scheme, 
+                    host);
 
             var valid = true;
 
             if (origin != null)
             {
-                valid = origin.ToLower().StartsWith(baseUrl);
+                valid =
+                    origin.StartsWith(
+                        baseUrl, 
+                        StringComparison.OrdinalIgnoreCase);
             }
             else if (referer != null)
             {
-                valid = referer.ToLower().StartsWith(baseUrl);
+                valid =
+                    referer.StartsWith(
+                        baseUrl,
+                        StringComparison.OrdinalIgnoreCase);
             }
 
             return valid;
