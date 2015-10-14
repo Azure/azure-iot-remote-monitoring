@@ -64,7 +64,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
 
                 _eventProcessorHost = new EventProcessorHost(
                     hostName,
-                    eventHubPath,
+                    eventHubPath.ToLower(),
                     consumerGroup,
                     eventHubConnectionString,
                     storageConnectionString);

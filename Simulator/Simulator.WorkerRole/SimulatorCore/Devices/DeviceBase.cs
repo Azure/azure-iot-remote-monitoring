@@ -128,19 +128,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.Worker
         /// <returns></returns>
         public async Task StartAsync(CancellationToken token)
         {
-            Transport.Open();
+            try
+            {
+                Transport.Open();
 
-            var loopTasks = new List<Task>
+                var loopTasks = new List<Task>
             {
                 StartReceiveLoopAsync(token), 
                 StartSendLoopAsync(token)
             };
 
-            // Wait both the send and receive loops
-            await Task.WhenAll(loopTasks.ToArray());
+                // Wait both the send and receive loops
+                await Task.WhenAll(loopTasks.ToArray());
 
-            // once the code makes it here the token has been canceled
-            await Transport.CloseAsync();
+                // once the code makes it here the token has been canceled
+                await Transport.CloseAsync();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Unexpected Exception starting device: {0}", ex.ToString());
+            }
         }
 
         /// <summary>
@@ -186,6 +193,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.Worker
             catch (TaskCanceledException) 
             {
                 //do nothing if the task was cancelled
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Unexpected Exception starting device send loop: {0}", ex.ToString());
             }
 
             if (token.IsCancellationRequested)
@@ -287,6 +298,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.Worker
             catch (TaskCanceledException)
             {
                 //do nothing if the task was cancelled
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Unexpected Exception starting device receive loop: {0}", ex.ToString());
             }
 
             Logger.LogInfo("********** Processing Device {0} has been cancelled - StartReceiveLoopAsync Ending. **********", DeviceID);
