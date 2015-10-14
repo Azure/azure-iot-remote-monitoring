@@ -1,14 +1,14 @@
-﻿using System.Reflection;
-using System.Web.Mvc;
-using Autofac;
+﻿using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Owin;
+using System.Reflection;
+using System.Web.Mvc;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
 {
@@ -77,7 +77,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             builder.RegisterType<AlertsRepository>().As<IAlertsRepository>();
             builder.RegisterType<UserSettingsRepository>().As<IUserSettingsRepository>();
 
-            builder.RegisterType<DocDbRestHelper>().As<IDocDbRestHelper>();
+            builder.RegisterType<DocDbRestUtility>().As<IDocDbRestUtility>();
         }
     }
 }

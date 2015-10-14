@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Newtonsoft.Json.Linq;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 {
-    public class DocDbRestHelper : IDocDbRestHelper
+    public class DocDbRestUtility : IDocDbRestUtility
     {
         //DocDB Rest documentation: https://msdn.microsoft.com/en-us/library/azure/dn781481.aspx
 
@@ -29,7 +30,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         private const string COLLECTION_RESOURCE_TYPE = "colls";
         private const string DOCUMENTS_RESOURCE_TYPE = "docs";
 
-        public DocDbRestHelper(IConfigurationProvider configProvider)
+        public DocDbRestUtility(IConfigurationProvider configProvider)
         {
             this._docDbEndpoint = configProvider.GetConfigurationSettingValue("docdb.EndpointUrl");
             this._docDbKey = configProvider.GetConfigurationSettingValue("docdb.PrimaryAuthorizationKey");
