@@ -141,16 +141,13 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Deployment\Application.json" />
-    <None Include="Deployment\AzureDeployment.json" />
     <None Include="Deployment\ConfigurationTemplate.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="Deployment\DeploymentLib.ps1" />
-    <None Include="Deployment\DeviceInfoFilterJob.json" />
     <None Include="Deployment\PrepareIoTSample.ps1" />
-    <None Include="Deployment\PublishIoTSample.ps1" />
+    <None Include="Deployment\LocalMonitoring.json" />
     <None Include="Deployment\RemoteMonitoring.json" />
-    <None Include="Deployment\TelemetryToBlobJob.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
