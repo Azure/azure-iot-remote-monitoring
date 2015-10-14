@@ -70,6 +70,12 @@ if ($cloudDeploy)
     $params += @{webJobPackageUri=$webJobPackage}
 }
 
+# Stream analytics does not auto stop, and requires a start time for both create and update as well as stop if already exists
+[string]$startTime = (get-date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+$null = StopExistingStreamAnalyticsJobs $resourceGroupName
+$params += @{sasStartBehavior='CustomTime'}
+$params += @{sasStartTime=$startTime}
+
 Write-Host "Provisioning resources, if this is the first time, this operation can take up 10 minutes..."
 $result = New-AzureResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $deploymentTemplatePath -TemplateParameterObject $params -Verbose
 
@@ -100,18 +106,23 @@ Write-Host ("Provisioning and deployment completed successfully, see {0}.config.
 if ($environmentName -ne "local")
 {
     $maxSleep = 40
+    $webEndpoint = "{0}.azurewebsites.net" -f $environmentName
     Write-Host "Waiting for website url to resolve." -NoNewline
-    while (!(HostEntryExists ("{0}.azurewebsites.net" -f $environmentName)))
+    while (!(HostEntryExists $webEndpoint))
     {
         Write-Host "." -NoNewline
         Clear-DnsClientCache
         if ($maxSleep-- -le 0)
         {
-            Write-Warning ("website unable to resolve {0}" -f $global:site)
+            Write-Host
+            Write-Warning ("website unable to resolve {0}, please wait and try again in 15 minutes" -f $global:site)
             break
         }
         sleep 3
     }
     Write-Host
-    start $global:site
+    if (HostEntryExists $webEndpoint)
+    {
+        start $global:site
+    }
 }

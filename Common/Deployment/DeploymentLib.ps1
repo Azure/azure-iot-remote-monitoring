@@ -102,7 +102,7 @@ function ValidateLocation()
     $locations = @("East US", "North Europe", "East Asia")
     foreach ($loc in $locations)
     {
-        if ($loc.Replace(' ', '').Tolower() -eq $location.Replace(' ', '').Tolower())
+        if ($loc.Replace(' ', '').ToLowerInvariant() -eq $location.Replace(' ', '').ToLowerInvariant())
         {
             return $true;
         }
@@ -173,7 +173,7 @@ function ValidateResourceName()
     {
         foreach($resource in $resources)
         {
-            if ($resource.Name.ToLower().StartsWith($resourceBaseName.ToLower()))
+            if ($resource.Name.ToLowerInvariant().StartsWith($resourceBaseName.ToLowerInvariant()))
             {
                 return $resource.Name
             }
@@ -182,7 +182,7 @@ function ValidateResourceName()
 
     # Generate a unique name
     $resourceUrl = " "
-    switch ($resourceType.ToLower())
+    switch ($resourceType.ToLowerInvariant())
     {
         "microsoft.devices/iothubs"
         {
@@ -235,7 +235,7 @@ function GetAzureStorageAccount()
         [Parameter(Mandatory=$true,Position=0)] [string] $storageBaseName,
         [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName
     )
-    $storageAccountName = ValidateResourceName $storageBaseName.ToLower() Microsoft.Storage/storageAccounts $resourceGroupName
+    $storageAccountName = ValidateResourceName $storageBaseName.ToLowerInvariant().Replace('-','') Microsoft.Storage/storageAccounts $resourceGroupName
     $storage = Get-AzureStorageAccount -ResourceGroupName $resourceGroupName -Name $storageAccountName -ErrorAction SilentlyContinue
     if ($storage -eq $null)
     {
@@ -259,7 +259,7 @@ function GetAzureDocumentDbName()
         [Parameter(Mandatory=$true,Position=0)] [string] $baseName,
         [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName
     )
-    return ValidateResourceName $baseName.ToLower() Microsoft.DocumentDb/databaseAccounts $resourceGroupName
+    return ValidateResourceName $baseName.ToLowerInvariant() Microsoft.DocumentDb/databaseAccounts $resourceGroupName
 }
 
 function GetAzureIotHubName()
@@ -280,6 +280,24 @@ function GetAzureServicebusName()
     return ValidateResourceName $baseName Microsoft.Eventhub/namespaces $resourceGroupName
 }
 
+function StopExistingStreamAnalyticsJobs()
+{
+    Param(
+        [Parameter(Mandatory=$true,Position=0)] [string] $resourceGroupName
+    )
+    $sasJobs = Get-AzureResource -ResourceGroupName $resourceGroupName -ResourceType Microsoft.StreamAnalytics/streamingjobs -OutputObjectFormat New
+    if ($sasJobs -eq $null)
+    {
+        return $false
+    }
+    Write-Host "Stopping existing Stream Analytics jobs..."
+    foreach ($sasJob in $sasJobs)
+    {
+        $null = Stop-AzureStreamAnalyticsJob -Name $sasJob.ResourceName -ResourceGroupName $resourceGroupName
+    }
+    return $true
+}
+
 function UploadFile()
 {
     Param(
@@ -289,9 +307,9 @@ function UploadFile()
         [Parameter(Mandatory=$true,Position=3)] [string] $containerName
     )
     $maxSleep = 60
-    $containerName = $containerName.ToLower()
+    $containerName = $containerName.ToLowerInvariant()
     $file = Get-Item -Path $filePath
-    $fileName = $file.Name.ToLower()
+    $fileName = $file.Name.ToLowerInvariant()
     $storageAccountKey = (Get-AzureStorageAccountKey -StorageAccountName $storageAccountName -ResourceGroupName $resourceGroupName).Key1
     $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageAccountKey
     if (!(HostEntryExists $context.StorageAccount.BlobEndpoint.Host))
@@ -305,7 +323,7 @@ function UploadFile()
     $storageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse(("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}" -f $storageAccountName, $storageAccountKey))
     $blobClient = $storageAccount.CreateCloudBlobClient()
     $container = $blobClient.GetContainerReference($containerName)
-    Write-Host "Checking container." -NoNewline
+    Write-Host ("Checking container '{0}'." -f $containerName) -NoNewline
     while (!$container.Exists())
     {
         Write-Host "." -NoNewline
@@ -316,7 +334,7 @@ function UploadFile()
         }
     }
     Write-Host
-    Write-Host "Checking blob." -NoNewline
+    Write-Host ("Checking blob '{0}'." -f $fileName) -NoNewline
     $blob = $container.GetBlobReference($fileName)
     while (!$blob.Exists())
     {
@@ -692,6 +710,6 @@ if ((Get-Module | where {$_.Name -match "Azure"}) -eq $Null)
     }
     else
     {
-        thow "Unable to find Azure.psd1 modules. Please install Azure Powershell 2.5.1 or later"
+        throw "Unable to find Azure.psd1 modules. Please install Azure Powershell 2.5.1 or later"
     }
 }

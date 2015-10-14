@@ -37,6 +37,19 @@
             "metadata": {
                 "description": "The name of the serviceBus"
             }
+        },
+        "sasStartBehavior": {
+            "type": "string",
+            "metadata": {
+                "description": "The start behavior for Stream Analytics jobs [LastStopTime | JobStartTime (default)]"
+            },
+            "defaultValue": "JobStartTime"
+        },
+        "sasStartTime": {
+            "type": "string",
+            "metadata": {
+                "description": "The start time for Stream Analytics jobs"
+            }
         }
     },
     "variables": {
@@ -49,7 +62,7 @@
         "ehRuleOutName": "[concat(parameters('suiteName'), '-ehruleout')]",
         "sbKeyName": "RootManageSharedAccessKey",
         "sbResourceId": "[resourceId('Microsoft.Eventhub/namespaces/authorizationRules', parameters('sbName'), variables('sbKeyName'))]",
-        "saVersion": "2015-06-01",
+        "saVersion": "2015-10-01",
         "bingMapsName": "[concat(parameters('suiteName'), '-map')]",
         "bingMapsVersion": "2015-07-02",
         "docDBVersion": "2015-04-08",
@@ -184,6 +197,8 @@
                 "sku": {
                     "name": "standard"
                 },
+                "OutputStartMode": "[parameters('sasStartBehavior')]",
+                "OutputStartTime": "[parameters('sasStartTime')]",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [
@@ -287,6 +302,8 @@
                 "sku": {
                     "name": "standard"
                 },
+                "OutputStartMode": "[parameters('sasStartBehavior')]",
+                "OutputStartTime": "[parameters('sasStartTime')]",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [
@@ -359,6 +376,8 @@
                 "sku": {
                     "name": "standard"
                 },
+                "OutputStartMode": "[parameters('sasStartBehavior')]",
+                "OutputStartTime": "[parameters('sasStartTime')]",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [
