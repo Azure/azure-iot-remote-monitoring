@@ -83,7 +83,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     t =>
                         (t != null) &&
                         t.Timestamp.HasValue &&
-                        (t.Timestamp.Value.ToUniversalTime() > minTime)).OrderByDescending(u => u.Timestamp);
+                        (t.Timestamp.Value > minTime)).OrderByDescending(u => u.Timestamp);
 
                 result.AddRange(segment);
             }
