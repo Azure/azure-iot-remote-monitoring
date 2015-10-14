@@ -1,6 +1,7 @@
 ﻿IoTApp.createModule('IoTApp.DeviceDetails', function () {
     "use strict";
 
+    $.ajaxSetup({ cache: false });
     var self = this;
     var getDeviceDetailsView = function (deviceId) {
         $('#loadingElement').show();
