@@ -1,5 +1,5 @@
 #Microsoft Azure IoT Suite 
-##Remote Monitoring preconfgured solution
+##Remote Monitoring preconfigured solution
 
 
 ##Contents of this repository
