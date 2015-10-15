@@ -61,23 +61,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </returns>
         public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(DateTime minTime)
         {
-            IEnumerable<IListBlobItem> blobs;
-            CloudBlockBlob blockBlob;
-            List<AlertHistoryItemModel> result;
-            IEnumerable<AlertHistoryItemModel> segment;
-
-            result = new List<AlertHistoryItemModel>();
-
-            blobs = await LoadApplicableListBlobItemsAsync(minTime);
+            IEnumerable<IListBlobItem> blobs = await LoadApplicableListBlobItemsAsync(minTime);
+            List<AlertHistoryItemModel> result = new List<AlertHistoryItemModel>();
 
             foreach (IListBlobItem blob in blobs)
             {
+                CloudBlockBlob blockBlob;
                 if ((blockBlob = blob as CloudBlockBlob) == null)
                 {
                     continue;
                 }
 
-                segment = await ProduceAlertHistoryItemsAsync(blockBlob);
+                
+                IEnumerable<AlertHistoryItemModel> segment = await ProduceAlertHistoryItemsAsync(blockBlob);
 
                 segment = segment.Where(
                     t =>
@@ -130,6 +126,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private static AlertHistoryItemModel BuildModelForItem(string ruleOutput, string deviceId, string value, string threshold, string time)
         {
+            //Not initialized because these are all used for out params
             double valDouble;
             double threshDouble;
             DateTime timeAsDateTime;
@@ -156,16 +153,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private async static Task<List<AlertHistoryItemModel>> ProduceAlertHistoryItemsAsync(
             CloudBlockBlob blob)
         {
-            IDisposable disp;
-            IEnumerable<ExpandoObject> expandos;
-            AlertHistoryItemModel model;
-
             Debug.Assert(blob != null, "blob is a null reference.");
 
             var models = new List<AlertHistoryItemModel>();
 
             TextReader reader = null;
             MemoryStream stream = null;
+            IDisposable disp;
             try
             {
                 stream = new MemoryStream();
@@ -173,10 +167,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 stream.Position = 0;
                 reader = new StreamReader(stream);
 
-                expandos = ParsingHelper.ParseCsv(reader).ToExpandoObjects();
+                IEnumerable<ExpandoObject> expandos = ParsingHelper.ParseCsv(reader).ToExpandoObjects();
                 foreach (ExpandoObject expando in expandos)
                 {
-                    model = ProduceAlertHistoryItem(expando);
+                    AlertHistoryItemModel model = ProduceAlertHistoryItem(expando);
 
                     if (model != null)
                     {

@@ -67,14 +67,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 throw new ArgumentException("propertyName is a null reference or empty string.", "propertyName");
             }
 
-            StringComparison comparisonType;
+            StringComparison comparisonType = StringComparison.CurrentCultureIgnoreCase;
             if (usesCaseSensitivePropertyNameMatch)
             {
                 comparisonType = StringComparison.CurrentCulture;
-            }
-            else
-            {
-                comparisonType = StringComparison.CurrentCultureIgnoreCase;
             }
 
             PropertyDescriptor descriptor = default(PropertyDescriptor);
@@ -144,16 +140,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 throw new ArgumentException("propertyName is a null reference or empty string.", "propertyName");
             }
 
-            StringComparison comparisonType;
+            StringComparison comparisonType = StringComparison.CurrentCultureIgnoreCase; ;
             if (!usesCaseSensitivePropertyNameMatch || exceptionThrownIfNoMatch)
             {
                 if (usesCaseSensitivePropertyNameMatch)
                 {
                     comparisonType = StringComparison.CurrentCulture;
-                }
-                else
-                {
-                    comparisonType = StringComparison.CurrentCultureIgnoreCase;
                 }
 
                 propertyName = D.Dynamic.GetMemberNames(item, true).FirstOrDefault(
@@ -230,14 +222,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                     exceptionThrownIfNoMatch);
             }
 
-            StringComparison comparisonType;
+            StringComparison comparisonType = StringComparison.CurrentCultureIgnoreCase;
             if (usesCaseSensitivePropertyNameMatch)
             {
                 comparisonType = StringComparison.CurrentCulture;
-            }
-            else
-            {
-                comparisonType = StringComparison.CurrentCultureIgnoreCase;
             }
 
             IEnumerable<PropertyInfo> matchingProps = item.GetType().GetProperties().Where(
@@ -376,14 +364,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 throw new ArgumentException("propertyName is a null reference or empty string.", "propertyName");
             }
 
-            StringComparison comparisonType;
+            StringComparison comparisonType = StringComparison.CurrentCultureIgnoreCase;
             if (usesCaseSensitivePropertyNameMatch)
             {
                 comparisonType = StringComparison.CurrentCulture;
-            }
-            else
-            {
-                comparisonType = StringComparison.CurrentCultureIgnoreCase;
             }
 
             PropertyDescriptor descriptor = default(PropertyDescriptor);
@@ -497,14 +481,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName), "propertyName is a null reference or empty string.");
 
-            StringComparison comparisonType;
+            StringComparison comparisonType = StringComparison.CurrentCultureIgnoreCase;
             if (usesCaseSensitivePropertyNameMatch)
             {
                 comparisonType = StringComparison.CurrentCulture;
-            }
-            else
-            {
-                comparisonType = StringComparison.CurrentCultureIgnoreCase;
             }
 
             return (type) =>
