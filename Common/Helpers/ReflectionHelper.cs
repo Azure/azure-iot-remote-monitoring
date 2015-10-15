@@ -140,9 +140,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 throw new ArgumentException("propertyName is a null reference or empty string.", "propertyName");
             }
 
-            StringComparison comparisonType = StringComparison.CurrentCultureIgnoreCase; ;
             if (!usesCaseSensitivePropertyNameMatch || exceptionThrownIfNoMatch)
             {
+                StringComparison comparisonType = StringComparison.CurrentCultureIgnoreCase;
                 if (usesCaseSensitivePropertyNameMatch)
                 {
                     comparisonType = StringComparison.CurrentCulture;
