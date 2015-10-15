@@ -1,6 +1,7 @@
 ﻿IoTApp.createModule('IoTApp.DeviceDetails', function () {
     "use strict";
 
+    $.ajaxSetup({ cache: false });
     var self = this;
     var getDeviceDetailsView = function (deviceId) {
         $('#loadingElement').show();
@@ -83,10 +84,12 @@
 
     var _enableDisableDetailsLinks = function (enabled) {
         if (enabled) {
+            $(".link_grid_subheadhead_detail").removeClass("hidden");
             $("#edit_metadata_link").show();
             $('#editConfigLink').show();
             $('#removeDeviceLink').hide();
         } else {
+            $(".link_grid_subheadhead_detail").addClass("hidden");
             $("#edit_metadata_link").hide();
             $('#editConfigLink').hide();
             $('#removeDeviceLink').show();

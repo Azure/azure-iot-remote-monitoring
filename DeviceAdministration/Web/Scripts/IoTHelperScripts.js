@@ -123,18 +123,6 @@ IoTApp.createModule("IoTApp.Helpers.QueryString", function () {
     }
 });
 
-IoTApp.createModule("IoTApp.Helpers.Serialization", function () {
-    "use strict";
-
-    var jsonToJavascript = function (json) {
-        return JSON.parse(JSON.stringify(json));
-    }
-
-    return {
-        jsonToJavascript: jsonToJavascript
-    }
-});
-
 $(function () {
     "use strict";
 
