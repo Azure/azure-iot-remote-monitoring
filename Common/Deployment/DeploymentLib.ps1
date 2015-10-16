@@ -504,7 +504,7 @@ function GetAADTenant()
     }
     if ($tenants.Count -eq 1)
     {
-        [string]$tenantId = $account.Tenants[0]
+        [string]$tenantId = $account.Tenants
     }
     else
     {
@@ -703,6 +703,9 @@ $global:version = "0.9"
 
 # Add Servicebus dll before Azure powershell so we use latest version
 add-type -path ("{0}\..\..\packages\WindowsAzure.ServiceBus.3.0.1\lib\net45-full\Microsoft.ServiceBus.dll" -f $global:azurePath)
+
+# Load System.Web
+Add-Type -AssemblyName System.Web
 
 # Make sure Azure PowerShell modules are loaded
 if ((Get-Module | where {$_.Name -match "Azure"}) -eq $Null)
