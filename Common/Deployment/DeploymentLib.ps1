@@ -99,8 +99,7 @@ function GetAuthenticationResult()
 function ValidateLocation()
 {
     param ([Parameter(Mandatory=$true)][string]$location)
-    $locations = @("East US", "North Europe", "East Asia")
-    foreach ($loc in $locations)
+    foreach ($loc in $global:locations)
     {
         if ($loc.Replace(' ', '').ToLowerInvariant() -eq $location.Replace(' ', '').ToLowerInvariant())
         {
@@ -511,8 +510,7 @@ function GetAADTenant()
     {
         # List Active directories associated with account
         Write-Host "Available Active directories:"
-        Write-Host "Tenant ID                             Active Directory"
-        Write-Host "---------                             ----------------"
+        $directories = @()
         foreach ($tenant in $tenants)
         {
             $uri = "https://graph.windows.net/{0}/me?api-version=1.6" -f $tenant
@@ -521,13 +519,17 @@ function GetAADTenant()
             $result = Invoke-RestMethod -Method "GET" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"}
             if ($result -ne $null)
             {
-                Write-Host "$tenant  $($result.userPrincipalName.Split('@')[1])"
-    }
+                $directory = New-Object System.Object
+                $directory | Add-Member -MemberType NoteProperty -Name "Directory Name" -Value ($result.userPrincipalName.Split('@')[1])
+                $directory | Add-Member -MemberType NoteProperty -Name "Tenant Id" -Value $tenant
+                $directories += $directory
+            }
         }
 
-    # Can't determine AADTenant, so prompt
+        # Can't determine AADTenant, so prompt
         [string]$tenantId = "notset"
-        while (!$account.Tenants.Contains($tenantId))
+        write-host ($directories | Out-String)
+        while (!(($tenants | ?{$_ -eq $tenantId}) -ne $null))
         {
             [string]$tenantId = Read-Host "Please select a valid TenantId from list"
         }
@@ -645,6 +647,13 @@ function InitializeEnvironment()
 
     if (!(Test-Path variable:AllocationRegion))
     {
+        $global:locations = @("East US", "North Europe", "East Asia")
+        Write-Host
+        Write-Host "Available Locations:";
+        foreach ($loc in $locations)
+        {
+            Write-Host $loc
+        }
         $command = "Read-Host 'Enter Region to deploy resources (eg. East US)'"
         $region = GetOrSetEnvSetting "AllocationRegion" $command
         while (!(ValidateLocation $region))
