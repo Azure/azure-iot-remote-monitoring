@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
@@ -207,22 +208,32 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </remarks>
     public class CommandTypes
     {
-        public static Dictionary<string, Type> Types = new Dictionary<string, Type>
+        private static ReadOnlyDictionary<string, Type> TypesBacking = 
+            new ReadOnlyDictionary<string, Type>(
+                new Dictionary<string, Type>
+                {
+                    {"int16", typeof (Int16)},
+                    {"int32", typeof (Int32)},
+                    {"int64", typeof (Int64)},
+                    {"sbyte", typeof (sbyte)},
+                    {"byte", typeof (byte)},
+                    {"double", typeof (double)},
+                    {"boolean", typeof (bool)},
+                    {"decimal", typeof (decimal)},
+                    {"single", typeof (Single)},
+                    {"guid", typeof (Guid)},
+                    {"binary", typeof (string)},
+                    {"string", typeof (string)},
+                    {"date", typeof (DateTime)},
+                    {"datetimeoffset", typeof (DateTime)}
+                });
+
+        public static ReadOnlyDictionary<string, Type> Types
         {
-            {"int16", typeof (Int16)},
-            {"int32", typeof (Int32)},
-            {"int64", typeof (Int64)},
-            {"sbyte", typeof (sbyte)},
-            {"byte", typeof (byte)},
-            {"double", typeof (double)},
-            {"boolean", typeof (bool)},
-            {"decimal", typeof (decimal)},
-            {"single", typeof (Single)},
-            {"guid", typeof (Guid)},
-            {"binary", typeof (string)},
-            {"string", typeof (string)},
-            {"date", typeof (DateTime)},
-            {"datetimeoffset", typeof (DateTime)}
-        };
+            get
+            {
+                return TypesBacking;
+            }
+        }
     }
 }
