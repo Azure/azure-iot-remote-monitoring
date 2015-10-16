@@ -1,4 +1,6 @@
-﻿@using System.Collections.Generic
+﻿@using System.Globalization
+@using System.Collections.Generic
+@using System.Globalization
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
@@ -9,7 +11,7 @@
     <h3 class="grid_subheadhead_detail">@Strings.DeviceProperties</h3>
     @if (Model.IsDeviceEditEnabled)
     {
-        @Html.ActionLink("Edit", "EditDeviceProperties", "Device", new { deviceId = Model.DeviceID }, new
+        @Html.ActionLink(@Strings.Edit, "EditDeviceProperties", "Device", new { deviceId = Model.DeviceID }, new
         {
             id = "edit_metadata_link",
             @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.HubEnabledState == false ? "hidden" : string.Empty).Trim()
@@ -25,14 +27,14 @@
         <h4 class="grid_subhead_detail_label">@propVal.Name</h4>
         if (DeviceDisplayHelper.GetIsCopyControlPropertyName(propVal.Name))
         {
-            @IoTHelpers.TextCopy(propVal.Name, propVal.Name, propVal.Value)    ;
+            @IoTHelpers.TextCopy(propVal.Name, propVal.Name, propVal.Value);
         }
         else
         {
             if ((propVal.PropertyType == PropertyType.DateTime) &&
-                (resolvedDate = DynamicValuesHelper.ConvertToDateTime(propVal.Value)).HasValue)
+                (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, propVal.Value)).HasValue)
             {
-                <p class="grid_detail_value" name="deviceField_@propVal.Name">@Html.DisplayFor(t => resolvedDate)</p>
+                <p class="grid_detail_value" name="deviceField_@propVal.Name">@resolvedDate.Value.ToString(CultureInfo.InvariantCulture)</p>
             }
             else
             {

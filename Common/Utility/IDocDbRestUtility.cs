@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 {
-    public interface IDocDbRestHelper
+    public interface IDocDbRestUtility
     {
         Task InitializeDatabase();
         Task InitializeDeviceCollection();

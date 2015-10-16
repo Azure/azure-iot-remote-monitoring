@@ -22,7 +22,6 @@
             settings.selectionDropDown.change(
                 function () {
                     if (this.value) {
-                        $('#loadingElement').show();
                         updateDeviceId(this.value);
                     }
                 });
@@ -89,6 +88,7 @@
         };
 
         var updateDeviceId = function updateDeviceId(deviceId) {
+            $('#loadingElement').show();
             if (timerId) {
                 clearTimeout(timerId);
                 timerId = null;
@@ -108,12 +108,25 @@
                 currentDeviceId = deviceId;
 
                 refreshData();
+                IoTApp.AlertHistoryTable.setSelectedDevice(deviceId);
             }
         };
 
+        var setSelectedDevice = function (deviceId) {
+            $('#deviceSelection > option').each(function () {
+                if (this.value === deviceId) {
+                    $(this).prop("selected", true);
+                } else {
+                    $(this).removeProp("selected");
+                }
+            });
+            updateDeviceId(deviceId);
+        }
+
         return {
             init: init,
-            updateDeviceId: updateDeviceId
+            updateDeviceId: updateDeviceId,
+            setSelectedDevice: setSelectedDevice
         };
     },
     [jQuery, powerbi]);

@@ -10,10 +10,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
     // Methods, related to parsing.
     public static class ParsingHelper
     {
-        #region Public Methods
-
-        #region Static Method: ParseCsv
-
         /// <summary>
         /// Parses a TextReader's contents as a CSV.
         /// </summary>
@@ -25,30 +21,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// </returns>
         public static IEnumerable<string[]> ParseCsv(TextReader textReader)
         {
-            Action addItem;
-            char currentChar;
-            int currentRead;
-            bool inQuote;
-            Func<string[]> produceRow;
-            List<string> rowBuilder;
-            StringBuilder stringBuffer;
-
             if (textReader == null)
             {
                 throw new ArgumentNullException("textReader");
             }
 
-            inQuote = false;
-            stringBuffer = new StringBuilder();
-            rowBuilder = new List<string>();
+            bool inQuote = false;
+            var stringBuffer = new StringBuilder();
+            var rowBuilder = new List<string>();
 
-            addItem = () =>
+            Action addItem = () =>
             {
                 rowBuilder.Add(stringBuffer.ToString());
                 stringBuffer.Clear();
             };
 
-            produceRow = () =>
+            Func<string[]> produceRow = () =>
             {
                 string[] row;
 
@@ -59,6 +47,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
                 return row;
             };
+
+            char currentChar;
+            int currentRead;
 
             while ((currentRead = textReader.Read()) >= 0)
             {
@@ -115,21 +106,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
             if (inQuote)
             {
-                throw new ArgumentException(
-                    "textReader's contents have an unmatched double-quote.",
-                    "textReader");
+                throw new ArgumentException("textReader's contents have an unmatched double-quote.", "textReader");
             }
 
-            if ((stringBuffer.Length != 0) ||
-                (rowBuilder.Count != 0))
+            if ((stringBuffer.Length != 0) || (rowBuilder.Count != 0))
             {
                 yield return produceRow();
             }
         }
-
-        #endregion
-
-        #region Static Method: ToDictionaries
 
         /// <summary>
         /// Expresses a parsed CSV's items as string dictionaries.
@@ -144,13 +128,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// The first parsed item's contents will be used as keys for 
         /// subsequent items.
         /// </remarks>
-        public static IEnumerable<IDictionary<string, string>> ToDictionaries(
-            this IEnumerable<string[]> parsedCsv)
+        public static IEnumerable<IDictionary<string, string>> ToDictionaries(this IEnumerable<string[]> parsedCsv)
         {
-            Dictionary<string, string> currentItem;
-            string[] firstRow;
-            int i;
-
             if (parsedCsv == null)
             {
                 throw new ArgumentNullException("parsedCsv");
@@ -158,28 +137,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
             parsedCsv = parsedCsv.Where(t => t != null);
 
-            firstRow = null;
+            string[] firstRow = null;
             foreach (string[] row in parsedCsv)
             {
                 if (firstRow == null)
                 {
                     if (row.Any(t => object.ReferenceEquals(t, null)))
                     {
-                        throw new ArgumentException(
-                            "parsedCsv's first non-null item has an index that is a null reference.",
-                            "parsedCsv");
+                        throw new ArgumentException("parsedCsv's first non-null item has an index that is a null reference.", "parsedCsv");
                     }
 
                     firstRow = row;
                 }
                 else
                 {
-                    currentItem = new Dictionary<string, string>();
+                    var currentItem = new Dictionary<string, string>();
 
-                    for (i = 0;
-                        (i < row.Length) &&
-                        (i < firstRow.Length);
-                        ++i)
+                    for (int i = 0; (i < row.Length) &&(i < firstRow.Length); ++i)
                     {
                         currentItem[firstRow[i]] = row[i];
                     }
@@ -190,15 +164,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
             if (firstRow == null)
             {
-                throw new ArgumentException(
-                    "parsedCsv has no header row item.",
-                    "parsedCsv");
+                throw new ArgumentException("parsedCsv has no header row item.", "parsedCsv");
             }
         }
-
-        #endregion
-
-        #region Static Method: ToExpandoObjects
 
         /// <summary>
         /// Expresses a parsed CSV's items as ExpandoObjects.
@@ -213,14 +181,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// The first parsed item's contents will be used as property names for 
         /// subsequent items.
         /// </remarks>
-        public static IEnumerable<ExpandoObject> ToExpandoObjects(
-            this IEnumerable<string[]> parsedCsv)
+        public static IEnumerable<ExpandoObject> ToExpandoObjects(this IEnumerable<string[]> parsedCsv)
         {
-            ExpandoObject currentItem;
-            IDictionary<string, object> currentDictionary;
-            string[] firstRow;
-            int i;
-
             if (parsedCsv == null)
             {
                 throw new ArgumentNullException("parsedCsv");
@@ -228,7 +190,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
             parsedCsv = parsedCsv.Where(t => t != null);
 
-            firstRow = null;
+            string[] firstRow = null;
             foreach (string[] row in parsedCsv)
             {
                 if (firstRow == null)
@@ -244,13 +206,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 }
                 else
                 {
-                    currentItem = new ExpandoObject();
-                    currentDictionary = (IDictionary<string, object>)currentItem;
+                    ExpandoObject currentItem = new ExpandoObject();
+                    IDictionary<string, object> currentDictionary = (IDictionary<string, object>)currentItem;
 
-                    for (i = 0;
-                        (i < row.Length) &&
-                        (i < firstRow.Length);
-                        ++i)
+                    for (int i = 0; (i < row.Length) && (i < firstRow.Length); ++i)
                     {
                         currentDictionary[firstRow[i]] = row[i];
                     }
@@ -261,14 +220,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
             if (firstRow == null)
             {
-                throw new ArgumentException(
-                    "parsedCsv has no header row item.",
-                    "parsedCsv");
+                throw new ArgumentException("parsedCsv has no header row item.", "parsedCsv");
             }
         }
-
-        #endregion
-
-        #endregion
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 {
     public class DocDbRestQueryResult
     {

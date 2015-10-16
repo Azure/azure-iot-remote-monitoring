@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
@@ -8,25 +9,43 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
     /// </summary>
     public static class DynamicValuesHelper
     {
-        #region Public Methods
-
-        #region Static Method: ConvertToDateTime
-
         /// <summary>
-        /// Converts a <c>dynamic</c> value to a <see cref="DateTime" />.
+        /// Converts a dynamic value to a DateTime.
         /// </summary>
         /// <param name="value">
-        /// The <c>dynamic</c> value to convert to a <see cref="DateTime" />.
+        /// The dynamic value to convert to a DateTime.
         /// </param>
         /// <returns>
-        /// <paramref name="value" />, converted to a <see cref="DateTime" />, 
-        /// or <c>null</c>, if no such conversion is possible.
+        /// value converted to a DateTime, 
+        /// or null, if no such conversion is possible.
         /// </returns>
         public static DateTime? ConvertToDateTime(dynamic value)
         {
-            DateTime dt;
+            return ConvertToDateTime(CultureInfo.CurrentCulture, value);
+        }
 
-            dt = default(DateTime);
+        /// <summary>
+        /// Converts a dynamic value to a DateTime.
+        /// </summary>
+        /// <param name="value">
+        /// The dynamic value to convert to a DateTime.
+        /// </param>
+        /// <param name="valueCultureInfo">
+        /// The CultureInfo with which value would be 
+        /// formatted if it's a string.
+        /// </param>
+        /// <returns>
+        /// value converted to a DateTime, 
+        /// or null, if no such conversion is possible.
+        /// </returns>
+        public static DateTime? ConvertToDateTime(CultureInfo valueCultureInfo, dynamic value)
+        {
+            if (valueCultureInfo == null)
+            {
+                throw new ArgumentNullException("valueCultureInfo");
+            }
+
+            DateTime dt = default(DateTime);
             if (value is DateTime)
             {
                 return (DateTime)value;
@@ -36,7 +55,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 return (DateTime?)value;
             }
             else if ((value != null) &&
-                DateTime.TryParse(value.ToString(), out dt))
+                DateTime.TryParse(
+                    value.ToString(),
+                    valueCultureInfo,
+                    DateTimeStyles.AllowWhiteSpaces,
+                    out dt))
             {
                 return dt;
             }
@@ -44,19 +67,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             return null;
         }
 
-        #endregion
-
-        #region Static Method: ConvertToJsonString
-
         /// <summary>
-        /// Converts a <c>dynamic</c> value to a JSON string.
+        /// Converts a dynamic value to a JSON string.
         /// </summary>
         /// <param name="value">
-        /// The <c>dynamic</c> value to convert to a JSON string.
+        /// The dynamic value to convert to a JSON string.
         /// </param>
         /// <returns>
-        /// <paramref name="value" />, converted to a JSON string, or 
-        /// <c>null</c>, if no such conversion is possible.
+        /// value, converted to a JSON string, or 
+        /// null, if no such conversion is possible.
         /// </returns>
         public static string ConvertToJsonString(dynamic value)
         {
@@ -67,9 +86,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
             return null;
         }
-
-        #endregion
-
-        #endregion
     }
 }
