@@ -21,6 +21,7 @@
         AssignAction,
         ViewRules,
         EditRules,
+        DeleteRules,
         ViewTelemetry
     }
 }

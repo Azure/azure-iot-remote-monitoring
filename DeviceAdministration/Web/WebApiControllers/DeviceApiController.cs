@@ -30,6 +30,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.AddDevices)]
         public async Task<HttpResponseMessage> GenerateSampleDevicesAsync(int count)
         {
+            ValidatePositiveValue("count", count);
+
             return await GetServiceResponseAsync(async () =>
             {
                 await _deviceLogic.GenerateNDevices(count);
@@ -43,6 +45,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewDevices)]
         public async Task<HttpResponseMessage> GetDeviceAsync(string id)
         {
+            ValidateArgumentNotNullOrWhitespace("id", id);
+
             return await GetServiceResponseAsync<dynamic>(async () =>
             {
                 return await _deviceLogic.GetDeviceAsync(id);
@@ -107,24 +111,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewDevices)]
         public async Task<HttpResponseMessage> GetDevices([FromBody]JObject requestData)
         {
-            var dataTableRequest = requestData.ToObject<DataTablesRequest>();
-            var sortColumnIndex = dataTableRequest.SortColumns[0].ColumnIndex;
-
-            var listQuery = new DeviceListQuery()
-            {
-                SortOrder = dataTableRequest.SortColumns[0].SortOrder,
-                SortColumn = dataTableRequest.Columns[sortColumnIndex].Name,
-                
-                SearchQuery = dataTableRequest.Search.Value,
-
-                Filters = dataTableRequest.Filters,
-
-                Skip = dataTableRequest.Start,
-                Take = dataTableRequest.Length
-            };
-
             return await GetServiceResponseAsync<DataTablesResponse>(async () =>
             {
+                var dataTableRequest = requestData.ToObject<DataTablesRequest>();
+                var sortColumnIndex = dataTableRequest.SortColumns[0].ColumnIndex;
+
+                var listQuery = new DeviceListQuery()
+                {
+                    SortOrder = dataTableRequest.SortColumns[0].SortOrder,
+                    SortColumn = dataTableRequest.Columns[sortColumnIndex].Name,
+
+                    SearchQuery = dataTableRequest.Search.Value,
+
+                    Filters = dataTableRequest.Filters,
+
+                    Skip = dataTableRequest.Start,
+                    Take = dataTableRequest.Length
+                };
+
                 var queryResult = await _deviceLogic.GetDevices(listQuery);
 
                 var dataTablesResponse = new DataTablesResponse()
@@ -146,6 +150,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.RemoveDevices)]
         public async Task<HttpResponseMessage> RemoveDeviceAsync(string id)
         {
+            ValidateArgumentNotNullOrWhitespace("id", id);
+
             return await GetServiceResponseAsync(async () =>
             {
                 await _deviceLogic.RemoveDeviceAsync(id);
@@ -159,6 +165,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.AddDevices)]
         public async Task<HttpResponseMessage> AddDeviceAsync(dynamic device)
         {
+            ValidateArgumentNotNull("device", device);
+
             return await GetServiceResponseAsync<DeviceWithKeys>(async () => 
             { 
                 return await _deviceLogic.AddDeviceAsync(device,  User.Identity.Name); 
@@ -171,6 +179,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.EditDeviceMetadata)]
         public async Task<HttpResponseMessage> UpdateDeviceAsync(dynamic device)
         {
+            ValidateArgumentNotNull("device", device);
+
             return await GetServiceResponseAsync<bool>(async () =>
             {
                 await _deviceLogic.UpdateDeviceAsync(device);
@@ -184,6 +194,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewDeviceSecurityKeys)]
         public async Task<HttpResponseMessage> GetDeviceKeysAsync(string id)
         {
+            ValidateArgumentNotNullOrWhitespace("id", id);
+
             return await GetServiceResponseAsync<SecurityKeys>(async () =>
             {
                 return await _deviceLogic.GetIoTHubKeysAsync(id);
@@ -197,6 +209,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<HttpResponseMessage> UpdateDeviceEnabledStatus(string deviceId, [FromBody]JObject request)
         {
             bool isEnabled;
+
+            ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
 
             if (request == null)
                 return GetNullRequestErrorResponse<bool>();
@@ -230,6 +244,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.SendCommandToDevices)]
         public async Task<HttpResponseMessage> SendCommand(string deviceId, string commandName, [FromBody]dynamic parameters)
         {
+            ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
+            ValidateArgumentNotNullOrWhitespace("commandName", commandName);
+
             return await GetServiceResponseAsync(async () =>
             {
                 await _deviceLogic.SendCommandAsync(deviceId, commandName, parameters);

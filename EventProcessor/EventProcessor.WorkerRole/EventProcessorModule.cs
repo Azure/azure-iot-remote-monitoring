@@ -2,9 +2,9 @@
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WorkerRole.DataInitialization;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WorkerRole.Processors;
 using Microsoft.Azure.IoT.Samples.EventProcessor.WorkerRole.Processors;
 
@@ -59,14 +59,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             builder.RegisterType<ActionLogic>()
                 .As<IActionLogic>();
 
-            builder.RegisterType<DataInitializer>()
-                .As<IDataInitializer>();
-
             builder.RegisterType<ActionRepository>()
                 .As<IActionRepository>();
 
-            builder.RegisterType<DocDbRestHelper>()
-                .As<IDocDbRestHelper>();
+            builder.RegisterType<DocDbRestUtility>()
+                .As<IDocDbRestUtility>();
 
             builder.RegisterType<MessageFeedbackProcessor>()
                 .As<IMessageFeedbackProcessor>().SingleInstance();

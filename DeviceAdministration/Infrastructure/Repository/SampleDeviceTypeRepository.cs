@@ -11,7 +11,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </summary>
     public class SampleDeviceTypeRepository : IDeviceTypeRepository
     {
-        #region Sample Data
         List<DeviceType> DeviceTypes = new List<DeviceType>
         {
             new DeviceType 
@@ -30,7 +29,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 InstructionsUrl = Strings.CustomDeviceInstructionsUrl
             }
         };
-        #endregion
 
         /// <summary>
         /// Return the full list of device types available

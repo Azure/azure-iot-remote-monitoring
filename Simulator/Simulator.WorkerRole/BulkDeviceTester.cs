@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,7 +44,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.Worker
             _deviceStorage = virtualDeviceStorage;
             _deviceList = new List<InitialDeviceConfig>();
 
-            _devicePollIntervalSeconds = Convert.ToInt32(_configProvider.GetConfigurationSettingValueOrDefault("DevicePollIntervalSeconds", DEFAULT_DEVICE_POLL_INTERVAL_SECONDS.ToString()));
+            string pollingIntervalString = _configProvider.GetConfigurationSettingValueOrDefault(
+                                        "DevicePollIntervalSeconds",
+                                        DEFAULT_DEVICE_POLL_INTERVAL_SECONDS.ToString(CultureInfo.InvariantCulture));
+
+            _devicePollIntervalSeconds = Convert.ToInt32(pollingIntervalString, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
