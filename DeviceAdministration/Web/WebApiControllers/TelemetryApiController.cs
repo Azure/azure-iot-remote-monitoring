@@ -26,8 +26,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private const int MAX_HISTORY_ITEMS = 18;
         private const int MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD = 200;
 
-        private const double CautionAlertMaxMinutes = 91.0;
-        private const double CriticalAlertMaxMinutes = 11.0;
+
+        private static readonly TimeSpan CautionAlertMaxDelta = TimeSpan.FromMinutes(91.0);
+        private static readonly TimeSpan CriticalAlertMaxDelta = TimeSpan.FromMinutes(11.0);
+
         private const double MaxDeviceSummaryAgeMinutes = 10.0;
         private const int MaxHistoryItems = 18;
 
@@ -205,7 +207,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     var resultsModel = new AlertHistoryResultsModel();
 
                     IEnumerable<AlertHistoryItemModel> data =
-                        await _alertsLogic.LoadLatestAlertHistoryAsync(currentTime.AddMinutes(-CautionAlertMaxMinutes));
+                        await _alertsLogic.LoadLatestAlertHistoryAsync(
+                            currentTime.Subtract(CautionAlertMaxDelta), 
+                            MaxHistoryItems);
 
                     if (data != null)
                     {
@@ -247,11 +251,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                                         {
                                             TimeSpan deltaTime = currentTime - lastStatusTime.Value;
 
-                                            if (deltaTime.TotalMinutes < CriticalAlertMaxMinutes)
+                                            if (deltaTime < CriticalAlertMaxDelta)
                                             {
                                                 deviceModel.Status = AlertHistoryDeviceStatus.Critical;
                                             }
-                                            else if (deltaTime.TotalMinutes < CautionAlertMaxMinutes)
+                                            else if (deltaTime < CautionAlertMaxDelta)
                                             {
                                                 deviceModel.Status = AlertHistoryDeviceStatus.Caution;
                                             }
@@ -264,7 +268,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         }
                     }
 
-                    resultsModel.Data = historyItems.Take(MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD).ToList();
+                    resultsModel.Data = historyItems.Take(MaxHistoryItems).ToList();
                     resultsModel.Devices = deviceModels;
                     resultsModel.TotalAlertCount = historyItems.Count;
                     resultsModel.TotalFilteredCount = historyItems.Count;
