@@ -591,9 +591,12 @@ function GetAADTenant()
         $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction SilentlyContinue
         if ($result -eq $null)
         {
-            throw "Unable create RoleAssignment for application '$($global:site)iotsuite'"
+            Write-Warning "Unable create RoleAssignment for application '$($global:site)iotsuite' for current user - will be Implicit Readonly"
         }
-        Write-Host "Successfully assigned user to application '$($result.resourceDisplayName)' as role 'Admin'"
+        else
+        {
+            Write-Host "Successfully assigned user to application '$($result.resourceDisplayName)' as role 'Admin'"
+        }
     }
     else
     {
