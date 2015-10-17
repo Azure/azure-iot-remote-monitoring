@@ -701,9 +701,6 @@ $global:serviceNameToken = "ServiceName"
 $global:azurePath = Split-Path $MyInvocation.MyCommand.Path
 $global:version = "0.9"
 
-# Add Servicebus dll before Azure powershell so we use latest version
-add-type -path ("{0}\..\..\packages\WindowsAzure.ServiceBus.3.0.1\lib\net45-full\Microsoft.ServiceBus.dll" -f $global:azurePath)
-
 # Load System.Web
 Add-Type -AssemblyName System.Web
 
