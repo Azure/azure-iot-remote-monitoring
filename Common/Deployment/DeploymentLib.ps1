@@ -240,14 +240,6 @@ function GetAzureStorageAccount()
     {
         Write-Host "Creating new storage account: $storageAccountName"
         $storage = New-AzureStorageAccount -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -Location $global:AllocationRegion -Type Standard_GRS
-        Write-Host "Waiting for storage account url to resolve." -NoNewline
-        while (!(HostEntryExists $storage.PrimaryEndpoints.Blob.Host))
-        {
-            Write-Host "." -NoNewline
-            Clear-DnsClientCache
-            sleep 3
-        }
-        Write-Host
     }
     return $storage
 }
@@ -313,7 +305,14 @@ function UploadFile()
     $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageAccountKey
     if (!(HostEntryExists $context.StorageAccount.BlobEndpoint.Host))
     {
-        throw ("Unable resolve blob endpoint: {0}" -f $context.StorageAccount.BlobEndpoint.Host)
+        Write-Host "Waiting for storage account url to resolve." -NoNewline
+        while (!(HostEntryExists $context.StorageAccount.BlobEndpoint.Host))
+        {
+            Write-Host "." -NoNewline
+            Clear-DnsClientCache
+            sleep 3
+        }
+        Write-Host
     }
     $null = New-AzureStorageContainer $ContainerName -Permission Off -Context $context -ErrorAction SilentlyContinue
     $null = Set-AzureStorageBlobContent -Blob $fileName -Container $ContainerName -File $file.FullName -Context $context -Force
@@ -546,7 +545,11 @@ function GetAADTenant()
     if ($result.value.Count -eq 0)
     {
         $body = ReplaceFileParameters ("{0}\Application.json" -f $global:azurePath) -arguments @($global:site, $global:environmentName)
-        $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction Stop
+        $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction SilentlyContinue
+        if ($result -eq $null)
+        {
+            throw "Unable create application'$($global:site)iotsuite'"
+        }
         Write-Host "Successfully created application '$($result.displayName)'"
         $applicationId = $result.appId
     }
@@ -563,7 +566,11 @@ function GetAADTenant()
     if ($result.value.Count -eq 0)
     {
         $body = "{ `"appId`": `"$applicationId`" }"
-        $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction Stop
+        $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction SilentlyContinue
+        if ($result -eq $null)
+        {
+            throw "Unable create ServicePrincipal for application '$($global:site)iotsuite'"
+        }
         Write-Host "Successfully created ServicePrincipal '$($result.displayName)'"
         $resourceId = $result.objectId
         $roleId = ($result.appRoles| ?{$_.value -eq "admin"}).Id
@@ -581,7 +588,11 @@ function GetAADTenant()
     if (($result.value | ?{$_.ResourceId -eq $resourceId}) -eq $null)
     {
         $body = "{ `"id`": `"$roleId`", `"principalId`": `"$($authResult.UserInfo.UniqueId)`", `"resourceId`": `"$resourceId`" }"
-        $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction Stop
+        $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction SilentlyContinue
+        if ($result -eq $null)
+        {
+            throw "Unable create RoleAssignment for application '$($global:site)iotsuite'"
+        }
         Write-Host "Successfully assigned user to application '$($result.resourceDisplayName)' as role 'Admin'"
     }
     else

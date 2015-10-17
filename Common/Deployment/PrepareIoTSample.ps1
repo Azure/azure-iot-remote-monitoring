@@ -107,20 +107,23 @@ if ($environmentName -ne "local")
 {
     $maxSleep = 40
     $webEndpoint = "{0}.azurewebsites.net" -f $environmentName
-    Write-Host "Waiting for website url to resolve." -NoNewline
-    while (!(HostEntryExists $webEndpoint))
+    if (!(HostEntryExists $webEndpoint))
     {
-        Write-Host "." -NoNewline
-        Clear-DnsClientCache
-        if ($maxSleep-- -le 0)
+        Write-Host "Waiting for website url to resolve." -NoNewline
+        while (!(HostEntryExists $webEndpoint))
         {
-            Write-Host
-            Write-Warning ("website unable to resolve {0}, please wait and try again in 15 minutes" -f $global:site)
-            break
+            Write-Host "." -NoNewline
+            Clear-DnsClientCache
+            if ($maxSleep-- -le 0)
+            {
+                Write-Host
+                Write-Warning ("website unable to resolve {0}, please wait and try again in 15 minutes" -f $global:site)
+                break
+            }
+            sleep 3
         }
-        sleep 3
+        Write-Host
     }
-    Write-Host
     if (HostEntryExists $webEndpoint)
     {
         start $global:site
