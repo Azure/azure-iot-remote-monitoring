@@ -208,6 +208,7 @@ function ValidateResourceName()
         "microsoft.storage/storageaccounts"
         {
             $resourceUrl = "blob.core.windows.net"
+            $resourceBaseName = $resourceBaseName.Substring(0, [System.Math]::Min(19, $storgeTempName.Length))
         }
         "microsoft.documentdb/databaseaccounts"
         {
@@ -252,7 +253,8 @@ function GetAzureStorageAccount()
         [Parameter(Mandatory=$true,Position=0)] [string] $storageBaseName,
         [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName
     )
-    $storageAccountName = ValidateResourceName $storageBaseName.ToLowerInvariant().Replace('-','') Microsoft.Storage/storageAccounts $resourceGroupName
+    $storgeTempName = $storageBaseName.ToLowerInvariant().Replace('-','')
+    $storageAccountName = ValidateResourceName $storgeTempName.Substring(0, [System.Math]::Min(24, $storgeTempName.Length)) Microsoft.Storage/storageAccounts $resourceGroupName
     $storage = Get-AzureStorageAccount -ResourceGroupName $resourceGroupName -Name $storageAccountName -ErrorAction SilentlyContinue
     if ($storage -eq $null)
     {
@@ -286,7 +288,7 @@ function GetAzureServicebusName()
         [Parameter(Mandatory=$true,Position=0)] [string] $baseName,
         [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName
     )
-    return ValidateResourceName $baseName Microsoft.Eventhub/namespaces $resourceGroupName
+    return ValidateResourceName ($baseName.PadRight(6,"x")) Microsoft.Eventhub/namespaces $resourceGroupName
 }
 
 function StopExistingStreamAnalyticsJobs()
@@ -629,6 +631,11 @@ function InitializeEnvironment()
     Param(
         [Parameter(Mandatory=$true,Position=0)] $environmentName
     )
+    if ($environmentName.Length -lt 3 -or $environmentName.Length -gt 62)
+    {
+        throw "Suite name '$environmentName' must be between 3-62 characters"
+    }
+
     $null = ImportLibraries
     $global:environmentName = $environmentName
     $null = Get-AzureResourceGroup -ErrorAction SilentlyContinue -ErrorVariable credError
