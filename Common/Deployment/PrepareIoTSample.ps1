@@ -19,6 +19,7 @@ $suitename = "IotSuiteLocal"
 $suiteType = "LocalMonitoring"
 $deploymentTemplatePath = "$(Split-Path $MyInvocation.MyCommand.Path)\LocalMonitoring.json"
 $global:site = "https://localhost:44305/"
+$global:appName = "iotsuite"
 $cloudDeploy = $false
 
 if ($environmentName -ne "local")
@@ -39,8 +40,8 @@ $sevicebusName = GetAzureServicebusName $suitename $resourceGroupName
 UpdateResourceGroupState $resourceGroupName ProvisionAAD
 $global:AADTenant = GetOrSetEnvSetting "AADTenant" "GetAADTenant"
 UpdateEnvSetting "AADMetadataAddress" ("https://login.windows.net/{0}/FederationMetadata/2007-06/FederationMetadata.xml" -f $global:AADTenant)
-UpdateEnvSetting "AADAudience" ($global:site + "iot")
-UpdateEnvSetting "AADRealm" ($global:site + "iot")
+UpdateEnvSetting "AADAudience" ($global:site + $global:appName)
+UpdateEnvSetting "AADRealm" ($global:site + $global:appName)
 
 # Deploy via Template
 UpdateResourceGroupState $resourceGroupName ProvisionAzure

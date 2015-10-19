@@ -96,6 +96,24 @@ function GetAuthenticationResult()
     return $authResult
 }
 
+function GetSuiteLocation()
+{
+    $command = "Read-Host 'Enter Region to deploy resources (eg. East US)'"
+    $global:locations = @("East US", "North Europe", "East Asia")
+    Write-Host
+    Write-Host "Available Locations:";
+    foreach ($loc in $locations)
+    {
+        Write-Host $loc
+    }
+    $region = Invoke-Expression $command
+    while (!(ValidateLocation $region))
+    {
+        $region = Invoke-Expression $command
+    }
+    return $region
+}
+
 function ValidateLocation()
 {
     param ([Parameter(Mandatory=$true)][string]$location)
@@ -503,7 +521,7 @@ function GetAADTenant()
     }
     if ($tenants.Count -eq 1)
     {
-        [string]$tenantId = $account.Tenants
+        [string]$tenantId = $tenants[0]
     }
     else
     {
@@ -536,7 +554,7 @@ function GetAADTenant()
 
     # Configure Application
     $uri = "https://graph.windows.net/{0}/applications?api-version=1.6" -f $tenantId
-    $searchUri = "{0}&`$filter=identifierUris/any(uri:uri%20eq%20'{1}iotsuite')" -f $uri, [System.Web.HttpUtility]::UrlEncode($global:site)
+    $searchUri = "{0}&`$filter=identifierUris/any(uri:uri%20eq%20'{1}{2}')" -f $uri, [System.Web.HttpUtility]::UrlEncode($global:site), $global:appName
     $authResult = GetAuthenticationResult $tenantId "https://login.windows.net/" "https://graph.windows.net/" $global:AzureAccountName
     $header = $authResult.CreateAuthorizationHeader()
 
@@ -661,21 +679,7 @@ function InitializeEnvironment()
 
     if (!(Test-Path variable:AllocationRegion))
     {
-        $global:locations = @("East US", "North Europe", "East Asia")
-        Write-Host
-        Write-Host "Available Locations:";
-        foreach ($loc in $locations)
-        {
-            Write-Host $loc
-        }
-        $command = "Read-Host 'Enter Region to deploy resources (eg. East US)'"
-        $region = GetOrSetEnvSetting "AllocationRegion" $command
-        while (!(ValidateLocation $region))
-        {
-            $region = Invoke-Expression $command
-        }
-        UpdateEnvSetting "AllocationRegion" $region
-        $global:AllocationRegion = $region
+        $global:AllocationRegion = GetOrSetEnvSetting "AllocationRegion" "GetSuiteLocation"
     }
 
     # Validate EnvironmentName availability for cloud
