@@ -64,9 +64,10 @@ Write-Host "Deployment template path: $deploymentTemplatePath"
 # Upload WebPackages
 if ($cloudDeploy)
 {
-    $webPackage = UploadFile (".\DeviceAdministration\Web\obj\{0}\Package\Web.zip" -f $configuration) $storageAccount.Name $resourceGroupName "WebDeploy"
+    $projectRoot = Join-Path $PSScriptRoot "..\.." -Resolve
+    $webPackage = UploadFile ("$projectRoot\DeviceAdministration\Web\obj\{0}\Package\Web.zip" -f $configuration) $storageAccount.Name $resourceGroupName "WebDeploy"
     $params += @{packageUri=$webPackage}
-    $webJobPackage = UploadFile (".\WebJobHost\obj\{0}\Package\WebJobHost.zip" -f $configuration) $storageAccount.Name $resourceGroupName "WebDeploy"
+    $webJobPackage = UploadFile ("$projectRoot\WebJobHost\obj\{0}\Package\WebJobHost.zip" -f $configuration) $storageAccount.Name $resourceGroupName "WebDeploy"
     $params += @{webJobPackageUri=$webJobPackage}
 }
 
