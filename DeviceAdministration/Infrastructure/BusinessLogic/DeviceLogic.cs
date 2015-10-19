@@ -1012,11 +1012,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var result = new DeviceListLocationsModel();
 
-            //Initialize defaults around Seattle
-            double minLat = 47.6;
-            double maxLat = 47.6;
-            double minLong = -122.3;
-            double maxLong = -122.3;
+            //Initialize defaults to opposite extremes to ensure mins and maxes are real
+            double minLat = double.MaxValue;
+            double maxLat = double.MinValue;
+            double minLong = double.MaxValue;
+            double maxLong = double.MinValue;
 
             var locationList = new List<DeviceLocationModel>();
             foreach(dynamic device in devices)
@@ -1064,6 +1064,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 {
                     maxLat = latitude;
                 }
+            }
+
+            if(locationList.Count == 0)
+            {
+                //reinitialize bounds to center on Seattle as a default
+                minLat = 47.6;
+                maxLat = 47.6;
+                minLong = -122.3;
+                maxLong = -122.3;
             }
 
             var offset = 0.05;
