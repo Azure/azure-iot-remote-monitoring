@@ -251,7 +251,7 @@
                         "Properties": {
                             "DataSource": {
                                 "Properties": {
-                                    "Container": "DeviceTelemetry",
+                                    "Container": "devicetelemetry",
                                     "DateFormat": "yyyy/MM/dd",
                                     "TimeFormat": "HH",
                                     "PathPattern": "devicetelemetry/{date}/{time}",
