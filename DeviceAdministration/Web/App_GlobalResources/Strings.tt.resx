@@ -684,6 +684,9 @@
   <data name="Local" xml:space="preserve">
     <value>[Ŀőčäľ !!! !!! !!! !!!]</value>
   </data>
+  <data name="LocalTime" xml:space="preserve">
+    <value>[Ŀőčäľ Ŧįmę !!! !!!]</value>
+  </data>
   <data name="ManufactureHeader" xml:space="preserve">
     <value>[Mäŉūƒäčŧūřęř !!! !!!]</value>
   </data>

@@ -1763,6 +1763,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Local Time.
+        /// </summary>
+        public static string LocalTime {
+            get {
+                return ResourceManager.GetString("LocalTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manufacturer.
         /// </summary>
         public static string ManufactureHeader {

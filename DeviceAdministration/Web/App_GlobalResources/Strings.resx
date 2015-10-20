@@ -1117,4 +1117,7 @@
   <data name="DevicePropertiesFormattedAsStored" xml:space="preserve">
     <value>Device Property values are formatted as stored in DocumentDB.</value>
   </data>
+  <data name="LocalTime" xml:space="preserve">
+    <value>Local Time</value>
+  </data>
 </root>
