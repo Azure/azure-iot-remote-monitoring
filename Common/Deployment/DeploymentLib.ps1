@@ -253,8 +253,8 @@ function GetAzureStorageAccount()
         [Parameter(Mandatory=$true,Position=0)] [string] $storageBaseName,
         [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName
     )
-    $storgeTempName = $storageBaseName.ToLowerInvariant().Replace('-','')
-    $storageAccountName = ValidateResourceName $storgeTempName.Substring(0, [System.Math]::Min(24, $storgeTempName.Length)) Microsoft.Storage/storageAccounts $resourceGroupName
+    $storageTempName = $storageBaseName.ToLowerInvariant().Replace('-','')
+    $storageAccountName = ValidateResourceName $storageTempName.Substring(0, [System.Math]::Min(24, $storageTempName.Length)) Microsoft.Storage/storageAccounts $resourceGroupName
     $storage = Get-AzureStorageAccount -ResourceGroupName $resourceGroupName -Name $storageAccountName -ErrorAction SilentlyContinue
     if ($storage -eq $null)
     {
