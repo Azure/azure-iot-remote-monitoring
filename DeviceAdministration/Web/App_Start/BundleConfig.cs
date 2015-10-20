@@ -22,7 +22,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include("~/Scripts/jquery-ui-1.11.4.js", "~/Scripts/jquery-ui-i18n.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css")
-                .Include("~/Content/datatables.css", "~/Content/themes/base/core.css", "~/Content/themes/base/dialog.css", "~/Content/visuals.min.css", "~/Content/screen.css"));
+                .Include("~/Content/datatables.css", "~/Content/themes/base/core.css", "~/Content/themes/base/dialog.css", "~/Content/visuals.min.css", "~/Content/screen.less"));
         }
     }
 }

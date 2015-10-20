@@ -73,6 +73,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Autofac.WebApi2.Owin.3.3.0\lib\net45\Autofac.Integration.WebApi.Owin.dll</HintPath>
     </Reference>
+    <Reference Include="dotless.Core, Version=1.5.1.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\dotless.1.5.1\lib\dotless.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Dynamitey, Version=1.0.2.0, Culture=neutral, PublicKeyToken=cbf53ea3aeb972c6, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Dynamitey.1.0.2.0\lib\net40\Dynamitey.dll</HintPath>
@@ -352,10 +356,6 @@
     <Content Include="Content\img\sort_both.png" />
     <Content Include="Content\img\sort_desc.png" />
     <Content Include="Content\img\sort_desc_disabled.png" />
-    <Content Include="Content\screen.css" />
-    <Content Include="Content\screen.min.css">
-      <DependentUpon>screen.css</DependentUpon>
-    </Content>
     <Content Include="Content\visuals.min.css" />
     <Content Include="Scripts\jquery-datatables-api-extensions.js" />
     <Content Include="Scripts\dialog.js" />
@@ -425,9 +425,6 @@
     <Content Include="Global.asax" />
     <Content Include="App_Code\IoTHelpers.cshtml" />
     <Content Include="Content\screen.less" />
-    <Content Include="Content\screen.css.map">
-      <DependentUpon>screen.css</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-1.11.2.intellisense.js" />
     <Content Include="Scripts\IoTHelperScripts.js" />
     <Content Include="Scripts\jquery-1.11.2.js" />
