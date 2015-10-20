@@ -99,7 +99,7 @@ UpdateEnvSetting "IotHubConnectionString" $result.Outputs['iotHubConnectionStrin
 UpdateEnvSetting "DocDbEndPoint" $result.Outputs['docDbURI'].Value
 UpdateEnvSetting "DocDBKey" $result.Outputs['docDbKey'].Value
 UpdateEnvSetting "DeviceTableName" "DeviceList"
-UpdateEnvSetting "RulesEventHubName" $result.Outputs['ehOutName'].Value
+UpdateEnvSetting "RulesEventHubName" $result.Outputs['ehRuleName'].Value
 UpdateEnvSetting "RulesEventHubConnectionString" $result.Outputs['ehConnectionString'].Value
 UpdateEnvSetting "MapApiQueryKey" $result.Outputs['bingMapsQueryKey'].Value
 
