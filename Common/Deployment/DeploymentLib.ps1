@@ -208,7 +208,7 @@ function ValidateResourceName()
         "microsoft.storage/storageaccounts"
         {
             $resourceUrl = "blob.core.windows.net"
-            $resourceBaseName = $resourceBaseName.Substring(0, [System.Math]::Min(19, $storgeTempName.Length))
+            $resourceBaseName = $resourceBaseName.Substring(0, [System.Math]::Min(19, $resourceBaseName.Length))
         }
         "microsoft.documentdb/databaseaccounts"
         {
