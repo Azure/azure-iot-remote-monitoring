@@ -1012,7 +1012,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var result = new DeviceListLocationsModel();
 
-            //Initialize defaults to opposite extremes to ensure mins and maxes are real
+            // Initialize defaults to opposite extremes to ensure mins and maxes are beyond any actual values
             double minLat = double.MaxValue;
             double maxLat = double.MinValue;
             double minLong = double.MaxValue;
@@ -1022,7 +1022,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             foreach(dynamic device in devices)
             {
                 dynamic props = DeviceSchemaHelper.GetDeviceProperties(device);
-                if(props.Longitude == null || props.Latitude == null)
+                if (props.Longitude == null || props.Latitude == null)
                 {
                     continue;
                 }
@@ -1066,16 +1066,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             }
 
-            if(locationList.Count == 0)
+            if (locationList.Count == 0)
             {
-                //reinitialize bounds to center on Seattle as a default
+                // reinitialize bounds to center on Seattle area if no devices
                 minLat = 47.6;
                 maxLat = 47.6;
                 minLong = -122.3;
                 maxLong = -122.3;
             }
 
-            var offset = 0.05;
+            double offset = 0.05;
 
             result.DeviceLocationList = locationList;
             result.MinimumLatitude = minLat - offset;
