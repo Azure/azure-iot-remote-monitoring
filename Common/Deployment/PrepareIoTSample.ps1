@@ -19,6 +19,7 @@ $suitename = "IotSuiteLocal"
 $suiteType = "LocalMonitoring"
 $deploymentTemplatePath = "$(Split-Path $MyInvocation.MyCommand.Path)\LocalMonitoring.json"
 $global:site = "https://localhost:44305/"
+$global:appName = "iotsuite"
 $cloudDeploy = $false
 
 if ($environmentName -ne "local")
@@ -39,8 +40,8 @@ $sevicebusName = GetAzureServicebusName $suitename $resourceGroupName
 UpdateResourceGroupState $resourceGroupName ProvisionAAD
 $global:AADTenant = GetOrSetEnvSetting "AADTenant" "GetAADTenant"
 UpdateEnvSetting "AADMetadataAddress" ("https://login.windows.net/{0}/FederationMetadata/2007-06/FederationMetadata.xml" -f $global:AADTenant)
-UpdateEnvSetting "AADAudience" ($global:site + "iot")
-UpdateEnvSetting "AADRealm" ($global:site + "iot")
+UpdateEnvSetting "AADAudience" ($global:site + $global:appName)
+UpdateEnvSetting "AADRealm" ($global:site + $global:appName)
 
 # Deploy via Template
 UpdateResourceGroupState $resourceGroupName ProvisionAzure
@@ -108,20 +109,23 @@ if ($environmentName -ne "local")
 {
     $maxSleep = 40
     $webEndpoint = "{0}.azurewebsites.net" -f $environmentName
-    Write-Host "Waiting for website url to resolve." -NoNewline
-    while (!(HostEntryExists $webEndpoint))
+    if (!(HostEntryExists $webEndpoint))
     {
-        Write-Host "." -NoNewline
-        Clear-DnsClientCache
-        if ($maxSleep-- -le 0)
+        Write-Host "Waiting for website url to resolve." -NoNewline
+        while (!(HostEntryExists $webEndpoint))
         {
-            Write-Host
-            Write-Warning ("website unable to resolve {0}, please wait and try again in 15 minutes" -f $global:site)
-            break
+            Write-Host "." -NoNewline
+            Clear-DnsClientCache
+            if ($maxSleep-- -le 0)
+            {
+                Write-Host
+                Write-Warning ("website unable to resolve {0}, please wait and try again in 15 minutes" -f $global:site)
+                break
+            }
+            sleep 3
         }
-        sleep 3
+        Write-Host
     }
-    Write-Host
     if (HostEntryExists $webEndpoint)
     {
         start $global:site
