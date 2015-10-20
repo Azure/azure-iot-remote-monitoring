@@ -96,6 +96,24 @@ function GetAuthenticationResult()
     return $authResult
 }
 
+function GetSuiteLocation()
+{
+    $command = "Read-Host 'Enter Region to deploy resources (eg. East US)'"
+    $global:locations = @("East US", "North Europe", "East Asia")
+    Write-Host
+    Write-Host "Available Locations:";
+    foreach ($loc in $locations)
+    {
+        Write-Host $loc
+    }
+    $region = Invoke-Expression $command
+    while (!(ValidateLocation $region))
+    {
+        $region = Invoke-Expression $command
+    }
+    return $region
+}
+
 function ValidateLocation()
 {
     param ([Parameter(Mandatory=$true)][string]$location)
@@ -190,6 +208,7 @@ function ValidateResourceName()
         "microsoft.storage/storageaccounts"
         {
             $resourceUrl = "blob.core.windows.net"
+            $resourceBaseName = $resourceBaseName.Substring(0, [System.Math]::Min(19, $resourceBaseName.Length))
         }
         "microsoft.documentdb/databaseaccounts"
         {
@@ -234,20 +253,13 @@ function GetAzureStorageAccount()
         [Parameter(Mandatory=$true,Position=0)] [string] $storageBaseName,
         [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName
     )
-    $storageAccountName = ValidateResourceName $storageBaseName.ToLowerInvariant().Replace('-','') Microsoft.Storage/storageAccounts $resourceGroupName
+    $storageTempName = $storageBaseName.ToLowerInvariant().Replace('-','')
+    $storageAccountName = ValidateResourceName $storageTempName.Substring(0, [System.Math]::Min(24, $storageTempName.Length)) Microsoft.Storage/storageAccounts $resourceGroupName
     $storage = Get-AzureStorageAccount -ResourceGroupName $resourceGroupName -Name $storageAccountName -ErrorAction SilentlyContinue
     if ($storage -eq $null)
     {
         Write-Host "Creating new storage account: $storageAccountName"
         $storage = New-AzureStorageAccount -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -Location $global:AllocationRegion -Type Standard_GRS
-        Write-Host "Waiting for storage account url to resolve." -NoNewline
-        while (!(HostEntryExists $storage.PrimaryEndpoints.Blob.Host))
-        {
-            Write-Host "." -NoNewline
-            Clear-DnsClientCache
-            sleep 3
-        }
-        Write-Host
     }
     return $storage
 }
@@ -276,7 +288,7 @@ function GetAzureServicebusName()
         [Parameter(Mandatory=$true,Position=0)] [string] $baseName,
         [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName
     )
-    return ValidateResourceName $baseName Microsoft.Eventhub/namespaces $resourceGroupName
+    return ValidateResourceName ($baseName.PadRight(6,"x")) Microsoft.Eventhub/namespaces $resourceGroupName
 }
 
 function StopExistingStreamAnalyticsJobs()
@@ -313,7 +325,14 @@ function UploadFile()
     $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageAccountKey
     if (!(HostEntryExists $context.StorageAccount.BlobEndpoint.Host))
     {
-        throw ("Unable resolve blob endpoint: {0}" -f $context.StorageAccount.BlobEndpoint.Host)
+        Write-Host "Waiting for storage account url to resolve." -NoNewline
+        while (!(HostEntryExists $context.StorageAccount.BlobEndpoint.Host))
+        {
+            Write-Host "." -NoNewline
+            Clear-DnsClientCache
+            sleep 3
+        }
+        Write-Host
     }
     $null = New-AzureStorageContainer $ContainerName -Permission Off -Context $context -ErrorAction SilentlyContinue
     $null = Set-AzureStorageBlobContent -Blob $fileName -Container $ContainerName -File $file.FullName -Context $context -Force
@@ -504,7 +523,7 @@ function GetAADTenant()
     }
     if ($tenants.Count -eq 1)
     {
-        [string]$tenantId = $account.Tenants[0]
+        [string]$tenantId = $tenants[0]
     }
     else
     {
@@ -537,7 +556,7 @@ function GetAADTenant()
 
     # Configure Application
     $uri = "https://graph.windows.net/{0}/applications?api-version=1.6" -f $tenantId
-    $searchUri = "{0}&`$filter=identifierUris/any(uri:uri%20eq%20'{1}iotsuite')" -f $uri, [System.Web.HttpUtility]::UrlEncode($global:site)
+    $searchUri = "{0}&`$filter=identifierUris/any(uri:uri%20eq%20'{1}{2}')" -f $uri, [System.Web.HttpUtility]::UrlEncode($global:site), $global:appName
     $authResult = GetAuthenticationResult $tenantId "https://login.windows.net/" "https://graph.windows.net/" $global:AzureAccountName
     $header = $authResult.CreateAuthorizationHeader()
 
@@ -546,7 +565,11 @@ function GetAADTenant()
     if ($result.value.Count -eq 0)
     {
         $body = ReplaceFileParameters ("{0}\Application.json" -f $global:azurePath) -arguments @($global:site, $global:environmentName)
-        $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction Stop
+        $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction SilentlyContinue
+        if ($result -eq $null)
+        {
+            throw "Unable to create application'$($global:site)iotsuite'"
+        }
         Write-Host "Successfully created application '$($result.displayName)'"
         $applicationId = $result.appId
     }
@@ -563,7 +586,11 @@ function GetAADTenant()
     if ($result.value.Count -eq 0)
     {
         $body = "{ `"appId`": `"$applicationId`" }"
-        $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction Stop
+        $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction SilentlyContinue
+        if ($result -eq $null)
+        {
+            throw "Unable to create ServicePrincipal for application '$($global:site)iotsuite'"
+        }
         Write-Host "Successfully created ServicePrincipal '$($result.displayName)'"
         $resourceId = $result.objectId
         $roleId = ($result.appRoles| ?{$_.value -eq "admin"}).Id
@@ -581,8 +608,15 @@ function GetAADTenant()
     if (($result.value | ?{$_.ResourceId -eq $resourceId}) -eq $null)
     {
         $body = "{ `"id`": `"$roleId`", `"principalId`": `"$($authResult.UserInfo.UniqueId)`", `"resourceId`": `"$resourceId`" }"
-        $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction Stop
-        Write-Host "Successfully assigned user to application '$($result.resourceDisplayName)' as role 'Admin'"
+        $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction SilentlyContinue
+        if ($result -eq $null)
+        {
+            Write-Warning "Unable to create RoleAssignment for application '$($global:site)iotsuite' for current user - will be Implicit Readonly"
+        }
+        else
+        {
+            Write-Host "Successfully assigned user to application '$($result.resourceDisplayName)' as role 'Admin'"
+        }
     }
     else
     {
@@ -597,6 +631,11 @@ function InitializeEnvironment()
     Param(
         [Parameter(Mandatory=$true,Position=0)] $environmentName
     )
+    if ($environmentName.Length -lt 3 -or $environmentName.Length -gt 62)
+    {
+        throw "Suite name '$environmentName' must be between 3-62 characters"
+    }
+
     $null = ImportLibraries
     $global:environmentName = $environmentName
     $null = Get-AzureResourceGroup -ErrorAction SilentlyContinue -ErrorVariable credError
@@ -647,21 +686,7 @@ function InitializeEnvironment()
 
     if (!(Test-Path variable:AllocationRegion))
     {
-        $global:locations = @("East US", "North Europe", "East Asia")
-        Write-Host
-        Write-Host "Available Locations:";
-        foreach ($loc in $locations)
-        {
-            Write-Host $loc
-        }
-        $command = "Read-Host 'Enter Region to deploy resources (eg. East US)'"
-        $region = GetOrSetEnvSetting "AllocationRegion" $command
-        while (!(ValidateLocation $region))
-        {
-            $region = Invoke-Expression $command
-        }
-        UpdateEnvSetting "AllocationRegion" $region
-        $global:AllocationRegion = $region
+        $global:AllocationRegion = GetOrSetEnvSetting "AllocationRegion" "GetSuiteLocation"
     }
 
     # Validate EnvironmentName availability for cloud
@@ -701,8 +726,8 @@ $global:serviceNameToken = "ServiceName"
 $global:azurePath = Split-Path $MyInvocation.MyCommand.Path
 $global:version = "0.9"
 
-# Add Servicebus dll before Azure powershell so we use latest version
-add-type -path ("{0}\..\..\packages\WindowsAzure.ServiceBus.3.0.1\lib\net45-full\Microsoft.ServiceBus.dll" -f $global:azurePath)
+# Load System.Web
+Add-Type -AssemblyName System.Web
 
 # Make sure Azure PowerShell modules are loaded
 if ((Get-Module | where {$_.Name -match "Azure"}) -eq $Null)

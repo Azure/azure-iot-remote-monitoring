@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -124,7 +125,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
             var transportFactory = new IotHubTransportFactory(serializer, logger, configProvider);
 
             IVirtualDeviceStorage deviceStorage = null;
-            var useConfigforDeviceList = Convert.ToBoolean(configProvider.GetConfigurationSettingValueOrDefault("UseConfigForDeviceList", "False"));
+            var useConfigforDeviceList = Convert.ToBoolean(configProvider.GetConfigurationSettingValueOrDefault("UseConfigForDeviceList", "False"), CultureInfo.InvariantCulture);
 
             if (useConfigforDeviceList)
             {

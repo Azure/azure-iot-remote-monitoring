@@ -16,8 +16,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
         static IContainer eventProcessorContainer;
 
         private const string SHUTDOWN_FILE_ENV_VAR = "WEBJOBS_SHUTDOWN_FILE";
-        private static string _shutdownFile;
-        private static Timer _timer;
+        private static string shutdownFile;
 
         static void Main(string[] args)
         {
@@ -28,14 +27,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                 // to start initializing data if we have already gotten the shutdown message, so we'll 
                 // monitor it. This environment variable is reliable
                 // http://blog.amitapple.com/post/2014/05/webjobs-graceful-shutdown/#.VhVYO6L8-B4
-                _shutdownFile = Environment.GetEnvironmentVariable(SHUTDOWN_FILE_ENV_VAR);
+                shutdownFile = Environment.GetEnvironmentVariable(SHUTDOWN_FILE_ENV_VAR);
                 bool shutdownSignalReceived = false;
 
                 // Setup a file system watcher on that file's directory to know when the file is created
                 // First check for null, though. This does not exist on a localhost deploy, only cloud
-                if (!string.IsNullOrWhiteSpace(_shutdownFile))
+                if (!string.IsNullOrWhiteSpace(shutdownFile))
                 {
-                    var fileSystemWatcher = new FileSystemWatcher(Path.GetDirectoryName(_shutdownFile));
+                    var fileSystemWatcher = new FileSystemWatcher(Path.GetDirectoryName(shutdownFile));
                     fileSystemWatcher.Created += OnShutdownFileChanged;
                     fileSystemWatcher.Changed += OnShutdownFileChanged;
                     fileSystemWatcher.NotifyFilter = NotifyFilters.CreationTime | NotifyFilters.FileName | NotifyFilters.LastWrite;
@@ -43,7 +42,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                     fileSystemWatcher.EnableRaisingEvents = true;
 
                     // In case the file had already been created before we started watching it.
-                    if (System.IO.File.Exists(_shutdownFile))
+                    if (System.IO.File.Exists(shutdownFile))
                     {
                         shutdownSignalReceived = true;
                     }
@@ -69,7 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
 
         private static void OnShutdownFileChanged(object sender, FileSystemEventArgs e)
         {
-            if (e.FullPath.IndexOf(Path.GetFileName(_shutdownFile), StringComparison.OrdinalIgnoreCase) >= 0)
+            if (e.FullPath.IndexOf(Path.GetFileName(shutdownFile), StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 cancellationTokenSource.Cancel();
             }
