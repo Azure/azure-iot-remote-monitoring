@@ -568,7 +568,7 @@ function GetAADTenant()
         $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction SilentlyContinue
         if ($result -eq $null)
         {
-            throw "Unable create application'$($global:site)iotsuite'"
+            throw "Unable to create application'$($global:site)iotsuite'"
         }
         Write-Host "Successfully created application '$($result.displayName)'"
         $applicationId = $result.appId
@@ -589,7 +589,7 @@ function GetAADTenant()
         $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction SilentlyContinue
         if ($result -eq $null)
         {
-            throw "Unable create ServicePrincipal for application '$($global:site)iotsuite'"
+            throw "Unable to create ServicePrincipal for application '$($global:site)iotsuite'"
         }
         Write-Host "Successfully created ServicePrincipal '$($result.displayName)'"
         $resourceId = $result.objectId
@@ -611,7 +611,7 @@ function GetAADTenant()
         $result = Invoke-RestMethod -Method "POST" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"} -Body $body -ErrorAction SilentlyContinue
         if ($result -eq $null)
         {
-            Write-Warning "Unable create RoleAssignment for application '$($global:site)iotsuite' for current user - will be Implicit Readonly"
+            Write-Warning "Unable to create RoleAssignment for application '$($global:site)iotsuite' for current user - will be Implicit Readonly"
         }
         else
         {
