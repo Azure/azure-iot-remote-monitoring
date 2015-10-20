@@ -485,7 +485,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TIME CREATED.
+        ///   Looks up a localized string similar to LOCAL TIME CREATED.
         /// </summary>
         public static string CommandTimeCreated {
             get {
@@ -494,7 +494,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TIME UPDATED.
+        ///   Looks up a localized string similar to LOCAL TIME UPDATED.
         /// </summary>
         public static string CommandTimeUpdated {
             get {
@@ -886,6 +886,33 @@ namespace GlobalResources {
         public static string DeviceProperties {
             get {
                 return ResourceManager.GetString("DeviceProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device Property values are formatted as stored in DocumentDB..
+        /// </summary>
+        public static string DevicePropertiesFormattedAsStored {
+            get {
+                return ResourceManager.GetString("DevicePropertiesFormattedAsStored", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CreatedTime (UTC).
+        /// </summary>
+        public static string DeviceProperty_CreatedTime {
+            get {
+                return ResourceManager.GetString("DeviceProperty_CreatedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UpdatedTime (UTC).
+        /// </summary>
+        public static string DeviceProperty_UpdatedTime {
+            get {
+                return ResourceManager.GetString("DeviceProperty_UpdatedTime", resourceCulture);
             }
         }
         
