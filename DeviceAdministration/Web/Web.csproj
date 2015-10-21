@@ -368,6 +368,7 @@
     <Content Include="Content\blocks\navigation.less" />
     <Content Include="Content\blocks\rules_view\RulesView.less" />
     <Content Include="Content\blocks\actions_view\ActionsView.less" />
+    <Content Include="Content\blocks\inner_page_header_block.less" />
     <Content Include="Content\blocks\device_view\search_devices.less" />
     <Content Include="Content\blocks\root_grid.less" />
     <Content Include="Content\blocks\loader.less" />
