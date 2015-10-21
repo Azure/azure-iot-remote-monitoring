@@ -153,7 +153,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Debug.Assert(blob != null, "blob is a null reference.");
 
             var models = new List<AlertHistoryItemModel>();
-            MemoryStream stream = new MemoryStream();
+            var stream = new MemoryStream();
             TextReader reader = null;
             try
             {
