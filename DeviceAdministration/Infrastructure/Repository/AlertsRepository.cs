@@ -61,23 +61,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </returns>
         public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(DateTime minTime)
         {
-            IEnumerable<IListBlobItem> blobs;
-            CloudBlockBlob blockBlob;
-            List<AlertHistoryItemModel> result;
-            IEnumerable<AlertHistoryItemModel> segment;
-
-            result = new List<AlertHistoryItemModel>();
-
-            blobs = await LoadApplicableListBlobItemsAsync(minTime);
+            IEnumerable<IListBlobItem> blobs = await LoadApplicableListBlobItemsAsync(minTime);
+            var result = new List<AlertHistoryItemModel>();
 
             foreach (IListBlobItem blob in blobs)
             {
-                if ((blockBlob = blob as CloudBlockBlob) == null)
+                CloudBlockBlob blockBlob = blob as CloudBlockBlob;
+                if (blockBlob == null)
                 {
                     continue;
                 }
 
-                segment = await ProduceAlertHistoryItemsAsync(blockBlob);
+                IEnumerable<AlertHistoryItemModel> segment = await ProduceAlertHistoryItemsAsync(blockBlob);
 
                 segment = segment.Where(
                     t =>
@@ -153,30 +148,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return null;
         }
 
-        private async static Task<List<AlertHistoryItemModel>> ProduceAlertHistoryItemsAsync(
-            CloudBlockBlob blob)
+        private async static Task<List<AlertHistoryItemModel>> ProduceAlertHistoryItemsAsync(CloudBlockBlob blob)
         {
-            IDisposable disp;
-            IEnumerable<ExpandoObject> expandos;
-            AlertHistoryItemModel model;
-
             Debug.Assert(blob != null, "blob is a null reference.");
 
             var models = new List<AlertHistoryItemModel>();
-
+            var stream = new MemoryStream();
             TextReader reader = null;
-            MemoryStream stream = null;
             try
             {
-                stream = new MemoryStream();
                 await blob.DownloadToStreamAsync(stream);
                 stream.Position = 0;
                 reader = new StreamReader(stream);
 
-                expandos = ParsingHelper.ParseCsv(reader).ToExpandoObjects();
+                IEnumerable<ExpandoObject> expandos = ParsingHelper.ParseCsv(reader).ToExpandoObjects();
                 foreach (ExpandoObject expando in expandos)
                 {
-                    model = ProduceAlertHistoryItem(expando);
+                    AlertHistoryItemModel model = ProduceAlertHistoryItem(expando);
 
                     if (model != null)
                     {
@@ -186,14 +174,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
             finally
             {
-                if ((disp = stream) != null)
+                IDisposable dispStream = stream as IDisposable;
+                if (dispStream != null)
                 {
-                    disp.Dispose();
+                    dispStream.Dispose();
                 }
 
-                if ((disp = reader) != null)
+                IDisposable dispReader = reader as IDisposable;
+                if (dispReader != null)
                 {
-                    disp.Dispose();
+                    dispReader.Dispose();
                 }
             }
 
@@ -221,7 +211,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                             null);
                     });
 
-            List<IListBlobItem> applicableBlobs = new List<IListBlobItem>();
+            var applicableBlobs = new List<IListBlobItem>();
 
             if (blobs != null)
             {
