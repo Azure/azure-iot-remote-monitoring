@@ -168,6 +168,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Properties\webjob-publish-settings.json" />
+    <None Include="run.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="settings.job" />
   </ItemGroup>
   <ItemGroup>
