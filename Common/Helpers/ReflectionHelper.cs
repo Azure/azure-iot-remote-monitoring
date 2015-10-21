@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
+using Microsoft.CSharp.RuntimeBinder;
 using D = Dynamitey;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
@@ -162,7 +163,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 }
             }
 
-            return D.Dynamic.InvokeGet(item, propertyName);
+            try
+            {
+                return D.Dynamic.InvokeGet(item, propertyName);
+            }
+            catch (RuntimeBinderException)
+            {
+                return null;
+            }
         }
 
         // <summary>
