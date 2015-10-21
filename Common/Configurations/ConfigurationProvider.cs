@@ -43,9 +43,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
                     {
                         configValue = ConfigurationManager.AppSettings[configurationSettingName];
                         isEmulated = Environment.CommandLine.Contains("iisexpress.exe") ||
-                            Environment.CommandLine.Contains("DeviceAdministration.WebJob.vshost.exe");
+                            Environment.CommandLine.Contains("WebJob.vshost.exe");
                     }
-                    if (isEmulated && configValue.StartsWith(ConfigToken, StringComparison.OrdinalIgnoreCase))
+                    if (isEmulated && (configValue != null && configValue.StartsWith(ConfigToken, StringComparison.OrdinalIgnoreCase)))
                     {
                         if (environment == null)
                         {
