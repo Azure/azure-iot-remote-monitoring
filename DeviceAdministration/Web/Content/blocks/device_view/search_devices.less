@@ -1,0 +1,111 @@
+﻿.search_container_closed {
+    position: relative;
+    float: left;
+    width: 30px;
+    left: 0;
+    top: 0;
+    z-index: 200;
+    background-color: @secondary-color;
+    cursor: pointer;
+
+    .pane_subhead {
+        position: relative;
+        top: 130px;
+        background-image: url(../../img/icon_deviceExplorer_details_close.svg);
+        background-repeat: no-repeat;
+        background-size: 7px 11px;
+        background-position: 0;
+        .transform(rotate(270deg));
+        white-space: nowrap;
+        padding: 0 0 0 12px;
+        font-size: 1.1em;
+        font-weight: normal;
+        }
+    }
+
+.search_container {
+    position: relative;
+    float: left;
+    width: @search-pane-width;
+    left: 0;
+    top: 0;
+    z-index: 200;
+
+    .search_subhead {
+        background-color: @secondary-color;
+        padding: 14px 20px 7px 22px;
+        margin: 0;
+        font-weight: bold;
+        font-size: 1.1em;
+        background-image: url(../../img/icon_deviceExplorer_details_open.svg);
+        background-repeat: no-repeat;
+        background-position: 11px 20px;
+        background-size: 7px 11px;
+        cursor: pointer;
+        }
+
+    .search_details_container {
+        border: 10px solid @secondary-color;
+        overflow: hidden;
+        padding: 10px;
+        height: 100%;
+        }
+
+    .search_details_query {
+        width: 239px;
+        }
+
+    .search_details_button_container {
+        position: absolute;
+        bottom: 12px;
+        .display-flex();
+        }
+
+    .search_button.button_secondary {
+            margin-left: 45px;
+            margin-right: 10px;
+        }
+
+    .filter_add_clause_link {
+        display: block;
+        font-size: 14px;
+        padding-left: 121px;
+        padding-bottom: 13px;
+        clear: both;
+        }
+
+    .filter_label {
+        font-size: 70%;
+        display: inline-block;
+        width: 65px;
+        float: left;
+        line-height: 3.5;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        }
+
+    .filter_input {
+        width: @filter_input_width;
+        font-size: 80%;
+        margin-right: 0;
+        margin-bottom: 0;
+        padding-right: 0;
+        padding-left: 0;
+        height: 30px;
+        }
+
+    input[type=text].filter_input {
+        padding-left: 5px;
+        width: @filter_input_width - 5px;  /* width of .filter_input minus the padding here */
+        }
+
+    .filter_clause_container {
+        padding-top: 20px;
+        clear: both;
+        }
+
+    #filter_holder {
+        overflow-y: auto;
+        }
+    }

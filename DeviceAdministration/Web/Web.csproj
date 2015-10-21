@@ -368,6 +368,9 @@
     <Content Include="Content\blocks\navigation.less" />
     <Content Include="Content\blocks\rules_view\RulesView.less" />
     <Content Include="Content\blocks\actions_view\ActionsView.less" />
+    <Content Include="Content\blocks\device_view\search_devices.less" />
+    <Content Include="Content\blocks\root_grid.less" />
+    <Content Include="Content\blocks\loader.less" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery-ui-i18n.min.js" />
@@ -546,9 +549,7 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\blocks\device_view\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
