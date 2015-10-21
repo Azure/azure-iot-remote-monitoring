@@ -155,6 +155,7 @@
             "type": "Microsoft.Eventhub/namespaces",
             "location": "[variables('location')]",
             "properties": {
+                "messagingSku": 1,
                 "region": "[variables('location')]"
             },
             "resources": [
@@ -167,7 +168,8 @@
                         "[concat('Microsoft.Eventhub/namespaces/', parameters('sbName'))]"
                     ],
                     "properties": {
-                        "path": "[variables('ehOutName')]"
+                        "path": "[variables('ehOutName')]",
+                        "MessageRetentionInDays": 1
                     }
                 },
                 {
@@ -179,7 +181,8 @@
                         "[concat('Microsoft.Eventhub/namespaces/', parameters('sbName'))]"
                     ],
                     "properties": {
-                        "path": "[variables('ehRuleOutName')]"
+                        "path": "[variables('ehRuleOutName')]",
+                        "MessageRetentionInDays": 1
                     }
                 }
             ]
