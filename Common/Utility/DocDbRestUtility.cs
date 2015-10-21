@@ -30,6 +30,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         private const string COLLECTION_RESOURCE_TYPE = "colls";
         private const string DOCUMENTS_RESOURCE_TYPE = "docs";
 
+        private const string APPLICATION_JSON = "application/json";
+        private const string X_MS_VERSION = "2015-04-08";
+
         public DocDbRestUtility(IConfigurationProvider configProvider)
         {
             this._docDbEndpoint = configProvider.GetConfigurationSettingValue("docdb.EndpointUrl");
@@ -340,9 +343,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         {
             var webClient = new WebClient();
             webClient.Encoding = System.Text.Encoding.UTF8;
-            webClient.Headers.Add("Content-Type", "application/json");
-            webClient.Headers.Add("Accept", "application/json");
-            webClient.Headers.Add("x-ms-version", "2015-04-08");
+            webClient.Headers.Add("Content-Type", APPLICATION_JSON);
+            webClient.Headers.Add("Accept", APPLICATION_JSON);
+            webClient.Headers.Add("x-ms-version", X_MS_VERSION);
 
             // The date of the request, as specified in RFC 1123. The date format is expressed in
             // Coordinated Universal Time (UTC), for example. Fri, 08 Apr 2015 03:52:31 GMT.
