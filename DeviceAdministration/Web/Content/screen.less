@@ -1,46 +1,11 @@
 ﻿/* ##### Layout styles ##### */
 
 
-.content_outer {
-    width: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    background-color: @secondary-color;
 
-    &.content_grid {
-        background-color:@background-color;
-        }
-
-    &.content_command {
-        overflow:inherit;
-
-        }
-
-    }
 
 .content_outer_selectDevice {
     overflow-x:visible;
     overflow-y:visible;
-    }
-
-.content_inner {
-    width: auto;
-    margin: 0 50px;
-
-    &.content_message {
-        background-color: @background-color;
-        margin: 20px 50px 10px 0;
-        padding: 30px;
-
-        p {
-            margin-bottom: 1.4em;
-            }
-
-        p:last-child {
-            margin-bottom: 0;
-            }
-        }
-
     }
 
 .content_inner_selectDevice {
@@ -202,66 +167,7 @@
 
 /* ##### Forms ##### */
 
-.fieldset_content {
-    padding:15px 30px;
-    background-color:@background-color;
-    font-size:1.4em;
-    color:#4d4d4d;
 
-    p {
-        margin:.4em 0 .85em 0;
-        }
-
-    }
-
-.fieldset_button {
-    margin-top:10px;
-    margin-bottom:20px;
-    }
-
-label {
-    display: block;
-    clear: both;
-    }
-
-.fieldset_textbox label {
-    color: @form-fieldset-textbox-label;
-    font-size:.7em;
-    text-transform:uppercase;
-    }
-
-input[type="text"] {
-    display: block;
-    float: left;
-    width: 460px;
-    margin:.25em 1em 1.4em 0;
-    border:1px solid @form-textbox-border;
-    background-color: @form-textbox-background;
-    font-size: .85em;
-    padding: 0 5px;
-    min-height:30px;
-    box-sizing: content-box;
-
-    &:disabled {
-        color:@form-textbox-disabled-color;
-        background-color:@form-textbox-disabled-background;
-        border-color:@form-textbox-disabled-border;
-        font-style:italic;
-        }
-
-    &:read-only {
-        color:@form-textbox-readonly-color;
-        background-color:@form-textbox-readonly-background;
-        border-color:@form-textbox-readonly-border;
-        }
-
-    .small {
-        .input_small;
-        }
-    .medium {
-        .input_medium;
-        }
-    }
 
 select#DataField {
     width: 460px;
@@ -283,69 +189,6 @@ select#RuleOutput {
 .command_parameter_field input[type=checkbox]{
     margin-bottom: 25px;
     clear:both;
-    }
-
-/* IE11 fix - replicates :read-only attribute. */
-input[readonly] {
-    color:@form-textbox-readonly-color;
-    background-color:@form-textbox-readonly-background;
-    border-color:@form-textbox-readonly-border;
-    }
-
-
-    input[type="text"].input_credentials_value {
-        width:~"calc(100% - 55px)"; /* fluid width. Subtract width of copy button width and margin. */
-        float:left;
-        padding-bottom: 0;
-        padding-top: 0;
-        font-size:22px;
-        font-weight:600;
-        }
-
-        .details_grid_general input[type="text"].input_credentials_value {
-            font-size:@font-size-property-value;
-            font-weight:normal;
-            margin-right:0;
-
-            &.input_credentials_device_id,
-            &.input_credentials_host_name {
-                margin-bottom:1.4em;
-                }
-
-            }
-
-    input[type="text"].input_check_id {
-        margin-bottom:0.4em;
-        }
-
-
-select {
-    display: block;
-    float: left;
-    margin: .25em 1em 1.4em 0;
-    border-color: @form-textbox-border;
-    background-color: @form-textbox-background;
-    border-width: 1px;
-    font-size: .85em;
-    padding: 0 5px;
-    min-height:30px;
-    box-sizing: content-box;
-    .small {
-        width: 475px;
-        .input_small;
-    }
-    .medium {
-        width: 475px;
-        .input_medium;
-        }
-    }
-
-textarea {
-    width: 315px;
-    height: 210px;
-    border-color: @form-textbox-border;
-    background-color: @form-textbox-background;
-    font-size: .8em;
     }
 
 .container_radio,
@@ -653,19 +496,6 @@ button,
 .hidden {
     display:none;
     }
-
-.readOnlyField {
-    background-color: @form-textbox-readonly-background;
-    color: @form-textbox-readonly-color;
-    border: 1px solid @form-textbox-readonly-border;
-    box-sizing: content-box;
-    float: left;
-    font-size: 0.85em;
-    margin: 0.25em 1em 1.4em 0;
-    min-height: 30px;
-    padding: 0 5px;
-    width: 460px;
-}
 
 /* tooltip */
 

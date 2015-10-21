@@ -1,0 +1,36 @@
+﻿.content_outer {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: @secondary-color;
+
+    &.content_grid {
+        background-color:@background-color;
+        }
+
+    &.content_command {
+        overflow:inherit;
+
+        }
+
+    }
+
+.content_inner {
+    width: auto;
+    margin: 0 50px;
+
+    &.content_message {
+        background-color: @background-color;
+        margin: 20px 50px 10px 0;
+        padding: 30px;
+
+        p {
+            margin-bottom: 1.4em;
+            }
+
+        p:last-child {
+            margin-bottom: 0;
+            }
+        }
+
+    }
