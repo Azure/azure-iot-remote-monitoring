@@ -1,0 +1,67 @@
+﻿nav {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 95px;
+    height: 100%;
+    z-index:300;
+    background-color: @primary-color;
+
+    a {
+        display: block;
+        width: 95px;
+        height: 77px;
+        font-size: .6em;
+        color: @text-secondary-color;
+        text-align: center;
+        line-height: 110px;
+        text-decoration: none;
+        text-transform: uppercase;
+        background-repeat: no-repeat;
+        background-position:center 17px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:hover {
+            color:@anchor-nav-hover-color;
+            background-color:@anchor-nav-hover-background-color;
+            text-decoration:none;
+            }
+
+        }
+
+    .selected {
+        background-color: @anchor-nav-background-color;
+        }
+
+    }
+
+.nav_dashboard {
+    background-image: url(img/icon_dashboard.svg);
+    background-size:30px 37px;
+    }
+
+.nav_devices {
+    background-image: url(img/icon_devices.svg);
+    background-size:30px 30px;
+    }
+
+.nav_view_rules {
+    background-image: url(img/icon_rules.svg);
+    background-size:30px 30px;
+    }
+
+.nav_actions {
+    background-image: url(img/icon_actions.svg);
+    background-size:30px 30px;
+    }
+
+
+.nav_add_device {
+    position:absolute;
+    bottom:60px;
+    z-index:200;
+    background-image: url(img/icon_add.svg);
+    background-size:20px 20px;
+    }

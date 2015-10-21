@@ -1,0 +1,114 @@
+﻿
+.transform(@string){
+    -webkit-transform: @string;
+       -moz-transform: @string;
+        -ms-transform: @string;
+         -o-transform: @string;
+            transform: @string;
+    }
+
+.display-flex(){
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flex;
+        display: -o-flex;
+        display: flex;
+    }
+
+.display-inline-flex(){
+        display: -webkit-inline-flex;
+        display: -moz-inline-flex;
+        display: -ms-inline-flex;
+        display: -o-inline-flex;
+        display: inline-flex;
+    }
+
+/* ##### Reset styles ##### */
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    }
+
+main {
+    display: block;
+    }
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+    }
+
+ul, ol {
+    margin: 0;
+    padding: 0;
+    }
+
+p {
+    margin: 0;
+    padding: 0;
+    }
+
+div {
+    position: relative;
+    }
+
+section {
+    clear: both;
+    }
+
+fieldset {
+    margin:0;
+    padding: 0;
+    border: 0;
+    overflow:auto;
+    }
+
+
+/* ##### Typography ##### */
+
+body {
+    font-family: 'Segoe UI', Verdana, Arial, sans-serif;
+    font-size: 16px;
+    color: @text-color;
+    }
+
+h1, h2 {
+    font-weight: 500;
+    }
+
+h2 {
+    font-size: 1.4em;
+    margin-bottom: .4em;
+    }
+
+h3, h4 {
+    color:@text-mainhead-color;
+    font-size:1.333em;
+    font-weight:normal;
+    margin-bottom:.4em;
+    }
+
+a {
+    text-decoration: none;
+    color: @anchor-color;
+    cursor:pointer;
+    }
+
+a:hover {                       // modifier
+    text-decoration: underline;
+    }
+
+.disabled_link {
+   color: @anchor-disabled-color;
+   pointer-events: none;
+   cursor: pointer;
+    }
+
+.list_number {
+    font-weight:bold;
+    }
