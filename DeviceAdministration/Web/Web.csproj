@@ -360,14 +360,14 @@
     <Content Include="Scripts\jquery-datatables-api-extensions.js" />
     <Content Include="Scripts\dialog.js" />
     <Content Include="Scripts\jquery-dataTables-plugins.js" />
-    <Content Include="Content\DashboardView.less" />
-    <Content Include="Content\_baseLayout.less" />
+    <Content Include="Content\blocks\dashboard_view\DashboardView.less" />
+    <Content Include="Content\root_style_values.less" />
     <Content Include="Content\variables.less" />
     <Content Include="Content\main.less" />
-    <Content Include="Content\header.less" />
-    <Content Include="Content\navigation.less" />
-    <Content Include="Content\RulesView.less" />
-    <Content Include="Content\ActionsView.less" />
+    <Content Include="Content\blocks\main_header.less" />
+    <Content Include="Content\blocks\navigation.less" />
+    <Content Include="Content\blocks\rules_view\RulesView.less" />
+    <Content Include="Content\blocks\actions_view\ActionsView.less" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery-ui-i18n.min.js" />
@@ -546,7 +546,9 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\blocks\device_view\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

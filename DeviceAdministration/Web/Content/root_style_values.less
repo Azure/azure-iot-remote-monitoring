@@ -1,29 +1,4 @@
-﻿
-.transform(@string){
-    -webkit-transform: @string;
-       -moz-transform: @string;
-        -ms-transform: @string;
-         -o-transform: @string;
-            transform: @string;
-    }
-
-.display-flex(){
-        display: -webkit-flex;
-        display: -moz-flex;
-        display: -ms-flex;
-        display: -o-flex;
-        display: flex;
-    }
-
-.display-inline-flex(){
-        display: -webkit-inline-flex;
-        display: -moz-inline-flex;
-        display: -ms-inline-flex;
-        display: -o-inline-flex;
-        display: inline-flex;
-    }
-
-/* ##### Reset styles ##### */
+﻿/* ##### Reset styles ##### */
 html {
     margin: 0;
     padding: 0;
@@ -99,16 +74,32 @@ a {
     cursor:pointer;
     }
 
-a:hover {                       // modifier
+a:hover { 
     text-decoration: underline;
     }
 
-.disabled_link {
-   color: @anchor-disabled-color;
-   pointer-events: none;
-   cursor: pointer;
+/* ##### Prefix functions ##### */
+
+.transform(@string){
+    -webkit-transform: @string;
+       -moz-transform: @string;
+        -ms-transform: @string;
+         -o-transform: @string;
+            transform: @string;
     }
 
-.list_number {
-    font-weight:bold;
+.display-flex(){
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flex;
+        display: -o-flex;
+        display: flex;
+    }
+
+.display-inline-flex(){
+        display: -webkit-inline-flex;
+        display: -moz-inline-flex;
+        display: -ms-inline-flex;
+        display: -o-inline-flex;
+        display: inline-flex;
     }
