@@ -1,85 +1,13 @@
-﻿/* ##### Layout styles ##### */
-
-.content_grid {
-    margin-top: 0;
-    
-    .content_inner {
-        margin: 0;
-        max-width: inherit;
-        }
-
-    }
-
-.container_button {
-    margin-top:.85em;
-
-    .button_secondary {
-        float:right;
-        margin-right:0;
-        }
-
-    }
-
-.container_command {
-    clear:both;
-    }
-
-
-/* Layout - instructions */
-
-
-.list_instructions {
-    background-color:@background-color;
-    padding:30px;
-    list-style:none;
-    counter-reset:li;
-    }
-
-.list_instructions > li:before {
-    content:counter(li);
-    counter-increment:li;
-    position:absolute;
-    left:1em;
-    width:1em;
-    color:#000;
-    font-size:1.333em;
-    font-weight:500;
-    }
-
-.list_item_instructions {
-    margin:0 0 2em 1em;
-
-    &:last-child {
-        margin-bottom: 0;
-        }
-
-    }
-
-
+﻿
 /* Layout - Device Command */
 
-
-.command_container {
-    margin-top:1.8em;
-    margin-bottom:2em;
-    }
 
 
 /* ##### Forms ##### */
 
 
 
-select#DataField {
-    width: 460px;
-}
 
-select#Operator {
-    width: 460px;
-}
-
-select#RuleOutput {
-    width: 460px;
-}
 
 
 .command_parameter_field {
