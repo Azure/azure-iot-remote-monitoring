@@ -380,6 +380,10 @@
     <Content Include="Content\blocks\add_device_views\add_device_select_type.less" />
     <Content Include="Content\blocks\commands_block.less" />
     <Content Include="Content\blocks\rules_view\edit_rule_form.less" />
+    <Content Include="Content\blocks\remove_block.less" />
+    <Content Include="Content\blocks\device_view\device_details_block.less" />
+    <Content Include="Content\modifiers\browser-specific-modifiers.less" />
+    <Content Include="Content\elements\error_reporting.less" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery-ui-i18n.min.js" />

@@ -1,0 +1,25 @@
+﻿.divider_fieldset_subhead {
+    font-size:.7em;
+    color:@text-divider-fieldset-color;
+    line-height:1.2em; /* horizontal rule alignment */
+    text-transform:uppercase;
+    overflow:hidden;
+    position:relative;
+    width:100%;
+    margin-bottom:1.4em;
+
+    &:after {
+        background: @layout-divider-fieldset-color;
+        content: "";
+        height: 1px;
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        margin-left:1em;
+        }
+
+    &.grid_subhead_detail_label {
+        font-size:@font-size-grid-subhead-detail-label;
+        }
+
+    }
