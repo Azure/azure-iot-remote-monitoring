@@ -384,6 +384,7 @@
     <Content Include="Content\blocks\device_view\device_details_block.less" />
     <Content Include="Content\modifiers\browser-specific-modifiers.less" />
     <Content Include="Content\elements\error_reporting.less" />
+    <Content Include="Content\elements\copy_text_contents_element.less" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery-ui-i18n.min.js" />
