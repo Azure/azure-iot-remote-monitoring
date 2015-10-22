@@ -169,7 +169,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             return await GetServiceResponseAsync<DeviceWithKeys>(async () => 
             { 
-                return await _deviceLogic.AddDeviceAsync(device,  User.Identity.Name); 
+                return await _deviceLogic.AddDeviceAsync(device);
             });
         }
 
