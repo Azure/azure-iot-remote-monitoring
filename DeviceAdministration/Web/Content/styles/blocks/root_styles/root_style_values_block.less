@@ -124,3 +124,17 @@ main.main_no_nav {
         display: -o-inline-flex;
         display: inline-flex;
     }
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:@form-textbox-disabled-color;
+    background-color:@form-textbox-disabled-background;
+    border-color:@form-textbox-disabled-border;
+    font-style:italic;
+    }
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:@form-textbox-disabled-color;
+    background-color:@form-textbox-disabled-background;
+    border-color:@form-textbox-disabled-border;
+    font-style:italic;
+    }

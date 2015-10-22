@@ -23,11 +23,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
 
             bundles.Add(new StyleBundle("~/Content/css")
                 .Include(
-                "~/Content/datatables.css", 
+                "~/Content/styles/datatables.css", 
                 "~/Content/themes/base/core.css", 
                 "~/Content/themes/base/dialog.css", 
-                "~/Content/visuals.min.css", 
-                "~/Content/main.less"));
+                "~/Content/styles/visuals.min.css", 
+                "~/Content/styles/main.less"));
         }
     }
 }

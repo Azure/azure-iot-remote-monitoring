@@ -322,7 +322,7 @@
       <Link>THIRDPARTYNOTICE %28Azure IoT Suite Monitoring Solutions%29.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\datatables.css" />
+    <Content Include="Content\styles\datatables.css" />
     <Content Include="Content\favicon.ico" />
     <Content Include="Content\img\button_back.svg" />
     <Content Include="Content\img\button_copy.svg" />
@@ -356,35 +356,34 @@
     <Content Include="Content\img\sort_both.png" />
     <Content Include="Content\img\sort_desc.png" />
     <Content Include="Content\img\sort_desc_disabled.png" />
-    <Content Include="Content\visuals.min.css" />
+    <Content Include="Content\styles\visuals.min.css" />
     <Content Include="Scripts\jquery-datatables-api-extensions.js" />
     <Content Include="Scripts\dialog.js" />
     <Content Include="Scripts\jquery-dataTables-plugins.js" />
-    <Content Include="Content\blocks\dashboard_view\dashboard_view.less" />
-    <Content Include="Content\blocks\root_styles\root_style_values.less" />
-    <Content Include="Content\variables.less" />
-    <Content Include="Content\main.less" />
-    <Content Include="Content\blocks\headers\main_header.less" />
-    <Content Include="Content\blocks\root_styles\navigation.less" />
-    <Content Include="Content\blocks\rules_view\rules_view.less" />
-    <Content Include="Content\blocks\actions_view\actions_view.less" />
-    <Content Include="Content\blocks\headers\inner_page_header_block.less" />
-    <Content Include="Content\blocks\device_view\search_devices.less" />
-    <Content Include="Content\blocks\root_styles\root_grid.less" />
-    <Content Include="Content\blocks\root_styles\loader.less" />
-    <Content Include="Content\blocks\root_styles\root_containers.less" />
-    <Content Include="Content\blocks\edit_view\edit_form_block.less" />
-    <Content Include="Content\elements\buttons.less" />
-    <Content Include="Content\blocks\add_device_views\add_device_copy.less" />
-    <Content Include="Content\blocks\add_device_views\add_device_create.less" />
-    <Content Include="Content\blocks\add_device_views\add_device_select_type.less" />
-    <Content Include="Content\blocks\command_view\commands_block.less" />
-    <Content Include="Content\blocks\rules_view\edit_rule_form.less" />
-    <Content Include="Content\blocks\remove_view\remove_block.less" />
-    <Content Include="Content\blocks\device_view\device_details_block.less" />
-    <Content Include="Content\modifiers\browser-specific-modifiers.less" />
-    <Content Include="Content\elements\error_reporting.less" />
-    <Content Include="Content\elements\copy_text_contents_element.less" />
+    <Content Include="Content\styles\blocks\dashboard_view\dashboard_block.less" />
+    <Content Include="Content\styles\blocks\root_styles\root_style_values_block.less" />
+    <Content Include="Content\styles\variables.less" />
+    <Content Include="Content\styles\main.less" />
+    <Content Include="Content\styles\blocks\headers\main_header_block.less" />
+    <Content Include="Content\styles\blocks\root_styles\navigation_block.less" />
+    <Content Include="Content\styles\blocks\rules_view\rules_block.less" />
+    <Content Include="Content\styles\blocks\actions_view\actions_block.less" />
+    <Content Include="Content\styles\blocks\headers\inner_page_header_block.less" />
+    <Content Include="Content\styles\blocks\device_view\search_devices_block.less" />
+    <Content Include="Content\styles\blocks\root_styles\root_grid_block.less" />
+    <Content Include="Content\styles\blocks\root_styles\loader_block.less" />
+    <Content Include="Content\styles\blocks\root_styles\root_containers_block.less" />
+    <Content Include="Content\styles\blocks\edit_view\edit_form_block.less" />
+    <Content Include="Content\styles\elements\buttons.less" />
+    <Content Include="Content\styles\blocks\add_device_views\add_device_copy_block.less" />
+    <Content Include="Content\styles\blocks\add_device_views\add_device_create_block.less" />
+    <Content Include="Content\styles\blocks\add_device_views\add_device_select_type_block.less" />
+    <Content Include="Content\styles\blocks\command_view\commands_block.less" />
+    <Content Include="Content\styles\blocks\rules_view\edit_rule_form_block.less" />
+    <Content Include="Content\styles\blocks\remove_view\remove_block.less" />
+    <Content Include="Content\styles\blocks\device_view\device_details_block.less" />
+    <Content Include="Content\styles\elements\error_reporting.less" />
+    <Content Include="Content\styles\elements\copy_text_contents_element.less" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery-ui-i18n.min.js" />
@@ -449,7 +448,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="App_Code\IoTHelpers.cshtml" />
-    <Content Include="Content\elements\ui_styles.less" />
+    <Content Include="Content\styles\elements\ui_styles.less" />
     <None Include="Scripts\jquery-1.11.2.intellisense.js" />
     <Content Include="Scripts\IoTHelperScripts.js" />
     <Content Include="Scripts\jquery-1.11.2.js" />
@@ -563,7 +562,9 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\styles\modifiers\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
