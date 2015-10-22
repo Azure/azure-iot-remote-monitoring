@@ -137,7 +137,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 model.DeviceType != null, 
                 "model.DeviceType is a null reference.");
 
-            dynamic deviceWithKeys = await AddDeviceAsync(model, User.Identity.Name);
+            dynamic deviceWithKeys = await AddDeviceAsync(model);
 
             var newDevice = new RegisteredDeviceModel
             { 
@@ -271,8 +271,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         private async Task<dynamic> AddDeviceAsync(
-            UnregisteredDeviceModel unregisteredDeviceModel,
-            string userName)
+            UnregisteredDeviceModel unregisteredDeviceModel)
         {
             dynamic device;
 
@@ -284,13 +283,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 unregisteredDeviceModel.DeviceType != null,
                 "unregisteredDeviceModel.DeviceType is a null reference.");
 
-            Debug.Assert(
-                !string.IsNullOrEmpty(userName),
-                "userName is a null reference or empty string.");
-
             device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId, unregisteredDeviceModel.DeviceType.IsSimulatedDevice);
 
-            return await this._deviceLogic.AddDeviceAsync(device, userName);
+            return await this._deviceLogic.AddDeviceAsync(device);
         }
 
         private async Task<bool> GetDeviceExistsAsync(string deviceId)
