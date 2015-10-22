@@ -99,9 +99,12 @@ UpdateEnvSetting "IotHubConnectionString" $result.Outputs['iotHubConnectionStrin
 UpdateEnvSetting "DocDbEndPoint" $result.Outputs['docDbURI'].Value
 UpdateEnvSetting "DocDBKey" $result.Outputs['docDbKey'].Value
 UpdateEnvSetting "DeviceTableName" "DeviceList"
-UpdateEnvSetting "RulesEventHubName" $result.Outputs['ehOutName'].Value
+UpdateEnvSetting "RulesEventHubName" $result.Outputs['ehRuleName'].Value
 UpdateEnvSetting "RulesEventHubConnectionString" $result.Outputs['ehConnectionString'].Value
-UpdateEnvSetting "MapApiQueryKey" $result.Outputs['bingMapsQueryKey'].Value
+if ($result.Outputs['bingMapsQueryKey'].Value.Length -gt 0)
+{
+    UpdateEnvSetting "MapApiQueryKey" $result.Outputs['bingMapsQueryKey'].Value
+}
 
 Write-Host ("Provisioning and deployment completed successfully, see {0}.config.user for deployment values" -f $environmentName)
 
