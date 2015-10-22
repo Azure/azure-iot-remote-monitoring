@@ -63,8 +63,6 @@
         "sbKeyName": "RootManageSharedAccessKey",
         "sbResourceId": "[resourceId('Microsoft.Eventhub/namespaces/authorizationRules', parameters('sbName'), variables('sbKeyName'))]",
         "saVersion": "2015-10-01",
-        "bingMapsName": "[concat(parameters('suiteName'), '-map')]",
-        "bingMapsVersion": "2015-07-02",
         "docDBVersion": "2015-04-08",
         "docDBSku": "Standard",
         "docDBResourceId": "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
@@ -88,19 +86,6 @@
                 "name": "[parameters('docDBName')]",
                 "databaseAccountOfferType": "[variables('docDBSku')]"
             }
-        },
-        {
-            "apiVersion": "[variables('bingMapsVersion')]",
-            "type": "Microsoft.BingMaps/mapApis",
-            "name": "[variables('bingMapsName')]",
-            "location": "westus",
-            "plan": {
-                "publisher": "bingmaps",
-                "product": "mapapis",
-                "name": "internal1",
-                "promotionCode": null
-            },
-            "properties": { }
         },
         {
             "apiVersion": "[variables('storageVersion')]",
@@ -155,6 +140,7 @@
             "type": "Microsoft.Eventhub/namespaces",
             "location": "[variables('location')]",
             "properties": {
+                "messagingSku": 1,
                 "region": "[variables('location')]"
             },
             "resources": [
@@ -167,7 +153,8 @@
                         "[concat('Microsoft.Eventhub/namespaces/', parameters('sbName'))]"
                     ],
                     "properties": {
-                        "path": "[variables('ehOutName')]"
+                        "path": "[variables('ehOutName')]",
+                        "MessageRetentionInDays": 1
                     }
                 },
                 {
@@ -179,7 +166,8 @@
                         "[concat('Microsoft.Eventhub/namespaces/', parameters('sbName'))]"
                     ],
                     "properties": {
-                        "path": "[variables('ehRuleOutName')]"
+                        "path": "[variables('ehRuleOutName')]",
+                        "MessageRetentionInDays": 1
                     }
                 }
             ]
@@ -230,7 +218,7 @@
                         "Properties": {
                             "DataSource": {
                                 "Properties": {
-                                    "Container": "DeviceTelemetry",
+                                    "Container": "devicetelemetry",
                                     "DateFormat": "yyyy/MM/dd",
                                     "TimeFormat": "HH",
                                     "PathPattern": "devicetelemetry/{date}/{time}",
@@ -485,7 +473,7 @@
                 "Transformation": {
                     "Name": "DeviceRules",
                     "Properties": {
-                        "Query": "WITH AlarmsData AS ( SELECT Stream.DeviceID, Stream.Temperature as TempReading, Ref.Temperature as TempThreshold, Stream.Humidity as HumidityReading, Ref.Humidity as HumidityThreshold, Ref.TemperatureRuleOutput, Ref.HumidityRuleOutput, Stream.EventEnqueuedUtcTime AS [Time] FROM IoTTelemetryStream Stream JOIN DeviceRulesBlob Ref ON Stream.DeviceID = Ref.DeviceID WHERE (Ref.Humidity IS NOT null AND Stream.Humidity > Ref.Humidity) OR (Ref.Temperature IS NOT null AND Stream.Temperature > Ref.Temperature) ) SELECT * INTO DeviceRulesMonitoring FROM AlarmsData SELECT * INTO DeviceRulesHub FROM AlarmsData",
+                        "Query": "WITH AlarmsData AS \r\n(\r\nSELECT\r\n     Stream.DeviceID,\r\n     'Temperature' as ReadingType,\r\n     Stream.Temperature as Reading,\r\n     Ref.Temperature as Threshold,\r\n     Ref.TemperatureRuleOutput as RuleOutput,\r\n     Stream.EventEnqueuedUtcTime AS [Time]\r\nFROM IoTTelemetryStream Stream\r\nJOIN DeviceRulesBlob Ref ON Stream.DeviceID = Ref.DeviceID\r\nWHERE\r\n     Ref.Temperature IS NOT null AND Stream.Temperature > Ref.Temperature\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n     Stream.DeviceID,\r\n     'Humidity' as ReadingType,\r\n     Stream.Humidity as Reading,\r\n     Ref.Humidity as Threshold,\r\n     Ref.HumidityRuleOutput as RuleOutput,\r\n     Stream.EventEnqueuedUtcTime AS [Time]\r\nFROM IoTTelemetryStream Stream\r\nJOIN DeviceRulesBlob Ref ON Stream.DeviceID = Ref.DeviceID\r\nWHERE\r\n     Ref.Humidity IS NOT null AND Stream.Humidity > Ref.Humidity\r\n)\r\n\r\nSELECT *\r\nINTO DeviceRulesMonitoring\r\nFROM AlarmsData\r\n\r\nSELECT *\r\nINTO DeviceRulesHub\r\nFROM AlarmsData",
                         "StreamingUnits": 1
                     }
                 }
@@ -511,7 +499,7 @@
         },
         "bingMapsQueryKey": {
             "type": "string",
-            "value": "[listSecrets(variables('bingMapsName'), variables('bingMapsVersion')).QueryKey]"
+            "value": ""
         },
         "storageConnectionString": {
             "type": "string",
