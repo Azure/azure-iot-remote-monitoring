@@ -122,7 +122,7 @@
                 "promotionCode": null
             },
             "properties": { }
-            },
+        },
         {
             "apiVersion": "[variables('storageVersion')]",
             "type": "Microsoft.Storage/storageAccounts",
@@ -176,6 +176,7 @@
             "type": "Microsoft.Eventhub/namespaces",
             "location": "[variables('location')]",
             "properties": {
+                "messagingSku": 1,
                 "region": "[variables('location')]"
             },
             "resources": [
@@ -188,7 +189,8 @@
                         "[concat('Microsoft.Eventhub/namespaces/', parameters('sbName'))]"
                     ],
                     "properties": {
-                        "path": "[variables('ehOutName')]"
+                        "path": "[variables('ehOutName')]",
+                        "MessageRetentionInDays" : 1
                     }
                 },
                 {
@@ -200,7 +202,8 @@
                         "[concat('Microsoft.Eventhub/namespaces/', parameters('sbName'))]"
                     ],
                     "properties": {
-                        "path": "[variables('ehRuleOutName')]"
+                        "path": "[variables('ehRuleOutName')]",
+                        "MessageRetentionInDays" : 1
                     }
                 }
             ]
@@ -251,7 +254,7 @@
                         "Properties": {
                             "DataSource": {
                                 "Properties": {
-                                    "Container": "DeviceTelemetry",
+                                    "Container": "devicetelemetry",
                                     "DateFormat": "yyyy/MM/dd",
                                     "TimeFormat": "HH",
                                     "PathPattern": "devicetelemetry/{date}/{time}",
@@ -644,8 +647,8 @@
                         "connectionString": "",
                         "dbType": ""
                     }
-                        }
-                    ]
+                }
+            ]
         },
         {
             "apiVersion": "[variables('webVersion')]",

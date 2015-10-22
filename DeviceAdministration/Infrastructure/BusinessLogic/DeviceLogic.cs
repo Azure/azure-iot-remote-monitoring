@@ -64,9 +64,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// Adds a device to the Device Identity Store and Device Registry
         /// </summary>
         /// <param name="device">Device to add to the underlying repositories</param>
-        /// <param name="username">Username of the user who created the device</param>
         /// <returns>Device created along with the device identity store keys</returns>
-        public async Task<DeviceWithKeys> AddDeviceAsync(dynamic device, string username)
+        public async Task<DeviceWithKeys> AddDeviceAsync(dynamic device)
         {
             // Validation logic throws an exception if it finds a validation error
             await ValidateDevice(device);
@@ -1012,17 +1011,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var result = new DeviceListLocationsModel();
 
-            //Initialize defaults around Seattle
-            double minLat = 47.6;
-            double maxLat = 47.6;
-            double minLong = -122.3;
-            double maxLong = -122.3;
+            // Initialize defaults to opposite extremes to ensure mins and maxes are beyond any actual values
+            double minLat = double.MaxValue;
+            double maxLat = double.MinValue;
+            double minLong = double.MaxValue;
+            double maxLong = double.MinValue;
 
             var locationList = new List<DeviceLocationModel>();
             foreach(dynamic device in devices)
             {
                 dynamic props = DeviceSchemaHelper.GetDeviceProperties(device);
-                if(props.Longitude == null || props.Latitude == null)
+                if (props.Longitude == null || props.Latitude == null)
                 {
                     continue;
                 }
@@ -1066,7 +1065,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             }
 
-            var offset = 0.05;
+            if (locationList.Count == 0)
+            {
+                // reinitialize bounds to center on Seattle area if no devices
+                minLat = 47.6;
+                maxLat = 47.6;
+                minLong = -122.3;
+                maxLong = -122.3;
+            }
+
+            double offset = 0.05;
 
             result.DeviceLocationList = locationList;
             result.MinimumLatitude = minLat - offset;

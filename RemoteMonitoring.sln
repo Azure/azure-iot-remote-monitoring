@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "DeviceAdministration
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "DeviceAdministration\Infrastructure\Infrastructure.csproj", "{54B5B211-B661-42E9-AF2D-87712A37D608}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventProcessor.WorkerRole", "EventProcessor\EventProcessor.WorkerRole\EventProcessor.WorkerRole.csproj", "{588C29C8-3BF8-4CF6-89A7-33D611388E0E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventProcessor.WebJob", "EventProcessor\EventProcessor.WebJob\EventProcessor.WebJob.csproj", "{588C29C8-3BF8-4CF6-89A7-33D611388E0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator.WorkerRole", "Simulator\Simulator.WorkerRole\Simulator.WorkerRole.csproj", "{8F0FF371-2306-4210-9C22-0D0657B595DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator.WebJob", "Simulator\Simulator.WebJob\Simulator.WebJob.csproj", "{8F0FF371-2306-4210-9C22-0D0657B595DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3E3CB1FA-112D-49FB-A60A-71085BF01992}"
 	ProjectSection(SolutionItems) = preProject
@@ -21,8 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3E3CB1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.UnitTests", "DeviceAdministration\Infrastructure.UnitTests\Infrastructure.UnitTests.csproj", "{008E8267-1703-4108-904A-99C1B9ED8F7A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebJob", "DeviceAdministration\WebJob\WebJob.csproj", "{8F9CAF4E-8537-4398-A1C2-C39CC4136B69}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebJobHost", "WebJobHost\WebJobHost.csproj", "{350C5961-0778-45F8-9A59-D309FCD653DD}"
 EndProject
@@ -56,10 +54,6 @@ Global
 		{008E8267-1703-4108-904A-99C1B9ED8F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{008E8267-1703-4108-904A-99C1B9ED8F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{008E8267-1703-4108-904A-99C1B9ED8F7A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F9CAF4E-8537-4398-A1C2-C39CC4136B69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F9CAF4E-8537-4398-A1C2-C39CC4136B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F9CAF4E-8537-4398-A1C2-C39CC4136B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F9CAF4E-8537-4398-A1C2-C39CC4136B69}.Release|Any CPU.Build.0 = Release|Any CPU
 		{350C5961-0778-45F8-9A59-D309FCD653DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{350C5961-0778-45F8-9A59-D309FCD653DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{350C5961-0778-45F8-9A59-D309FCD653DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
