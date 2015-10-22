@@ -68,6 +68,7 @@ if ($cloudDeploy)
     $projectRoot = Join-Path $PSScriptRoot "..\.." -Resolve
     $webPackage = UploadFile ("$projectRoot\DeviceAdministration\Web\obj\{0}\Package\Web.zip" -f $configuration) $storageAccount.Name $resourceGroupName "WebDeploy"
     $params += @{packageUri=$webPackage}
+    FixWebJobZip ("$projectRoot\WebJobHost\obj\{0}\Package\WebJobHost.zip" -f $configuration)
     $webJobPackage = UploadFile ("$projectRoot\WebJobHost\obj\{0}\Package\WebJobHost.zip" -f $configuration) $storageAccount.Name $resourceGroupName "WebDeploy"
     $params += @{webJobPackageUri=$webJobPackage}
 }
