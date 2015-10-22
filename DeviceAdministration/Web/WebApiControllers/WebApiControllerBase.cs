@@ -87,7 +87,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 response.Error.Add(new Error(ex.Message));
             }
-            catch (HttpResponseException ex)
+            catch (HttpResponseException)
             {
                 throw;
             }
