@@ -64,9 +64,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// Adds a device to the Device Identity Store and Device Registry
         /// </summary>
         /// <param name="device">Device to add to the underlying repositories</param>
-        /// <param name="username">Username of the user who created the device</param>
         /// <returns>Device created along with the device identity store keys</returns>
-        public async Task<DeviceWithKeys> AddDeviceAsync(dynamic device, string username)
+        public async Task<DeviceWithKeys> AddDeviceAsync(dynamic device)
         {
             // Validation logic throws an exception if it finds a validation error
             await ValidateDevice(device);
