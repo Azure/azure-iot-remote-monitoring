@@ -63,8 +63,6 @@
         "sbKeyName": "RootManageSharedAccessKey",
         "sbResourceId": "[resourceId('Microsoft.Eventhub/namespaces/authorizationRules', parameters('sbName'), variables('sbKeyName'))]",
         "saVersion": "2015-10-01",
-        "bingMapsName": "[concat(parameters('suiteName'), '-map')]",
-        "bingMapsVersion": "2015-07-02",
         "docDBVersion": "2015-04-08",
         "docDBSku": "Standard",
         "docDBResourceId": "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
@@ -88,19 +86,6 @@
                 "name": "[parameters('docDBName')]",
                 "databaseAccountOfferType": "[variables('docDBSku')]"
             }
-        },
-        {
-            "apiVersion": "[variables('bingMapsVersion')]",
-            "type": "Microsoft.BingMaps/mapApis",
-            "name": "[variables('bingMapsName')]",
-            "location": "westus",
-            "plan": {
-                "publisher": "bingmaps",
-                "product": "mapapis",
-                "name": "internal1",
-                "promotionCode": null
-            },
-            "properties": { }
         },
         {
             "apiVersion": "[variables('storageVersion')]",
@@ -514,7 +499,7 @@
         },
         "bingMapsQueryKey": {
             "type": "string",
-            "value": "[listSecrets(variables('bingMapsName'), variables('bingMapsVersion')).QueryKey]"
+            "value": ""
         },
         "storageConnectionString": {
             "type": "string",
