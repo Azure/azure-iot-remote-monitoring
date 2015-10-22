@@ -1,33 +1,44 @@
 ﻿@base-image-path: "/Content/img";
 
 @import "variables.less";
-@import "root_style_values.less";
-@import "root_containers.less";
 
-@import "blocks/main_header.less";
-@import "blocks/navigation.less";
-@import "blocks/root_grid.less";
-@import "blocks/loader.less";
-@import "blocks/inner_page_header_block.less";
-@import "blocks/rules_view/edit_rule_form.less";
-@import "blocks/edit_form_block.less";
-@import "blocks/buttons.less";
-@import "blocks/commands_block.less";
-@import "blocks/remove_block.less";
-@import "blocks/device_view/device_details_block.less";
+/* ##### BLOCKS ##### */
+
+@import "blocks/root_styles/root_style_values.less";
+@import "blocks/root_styles/root_containers.less";
+@import "blocks/root_styles/navigation.less";
+@import "blocks/root_styles/root_grid.less";
+@import "blocks/root_styles/loader.less";
+
+@import "blocks/headers/main_header.less";
+@import "blocks/headers/inner_page_header_block.less";
+
+@import "blocks/edit_view/edit_form_block.less";
+@import "blocks/remove_view/remove_block.less";
+
+@import "blocks/command_view/commands_block.less";
 
 @import "blocks/dashboard_view/dashboard_view.less";
-@import "blocks/rules_view/rules_view.less";
-@import "blocks/actions_view/actions_view.less";
+
 @import "blocks/device_view/search_devices.less";
+@import "blocks/device_view/device_details_block.less";
+
+@import "blocks/rules_view/rules_view.less";
+@import "blocks/rules_view/edit_rule_form.less";
+
+@import "blocks/actions_view/actions_view.less";
 
 @import "blocks/add_device_views/add_device_select_type.less";
 @import "blocks/add_device_views/add_device_create.less";
 @import "blocks/add_device_views/add_device_copy.less";
 
+/* ##### MODIFIERS ##### */
+
 @import "modifiers/browser-specific-modifiers.less";
 
+/* ##### ELEMENTS ##### */
+
+@import "elements/buttons.less";
 @import "elements/error_reporting.less";
 @import "elements/copy_text_contents_element.less";
-
-@import "screen.less";
+@import "elements/ui_styles.less";
