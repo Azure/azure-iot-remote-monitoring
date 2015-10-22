@@ -1,0 +1,93 @@
+﻿
+button,
+.button {
+    display:block;
+    float:left;
+    color: @button-color;
+    background-color: @button-background-color;
+    border: 1px solid @button-border-color;
+    font-size: 16px;
+    min-width: 6.45em;
+    padding: 0 1em;
+    min-height:32px;
+    cursor: pointer;
+
+    &:disabled {
+        background-color:@button-disabled-background-color;
+        border-color:@button-disabled-border-color;
+        color:@text-secondary-color;
+        }
+
+    }
+
+    .button { /* anchor version */
+        text-align:center;
+        line-height:32px;
+
+        &:hover {
+            color:@button-color;
+            text-decoration:none;
+            }
+
+        }
+ 
+.button_secondary {
+    background-color: @button-secondary-background-color;
+    border: 1px solid @button-secondary-border-color;
+    color: @text-color;
+    margin-left: 1.8em;
+    }
+
+.button_copy {
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+    background-color: @button-copy-background-color;
+    background-image: url(../img/button_copy.svg);
+    background-repeat: no-repeat;
+    background-size:15px auto;
+    background-position:center center;
+    text-indent: -9999px;
+    border: 0;
+    margin: 6px 0 0 6px;
+    padding: 0;
+    }
+
+    .details_grid_general .button_copy {
+        margin-top:4px;
+        }
+
+
+.button_details_grid {
+    cursor: pointer;
+    }
+
+.button_selectDevice {
+    position: absolute;
+    bottom: 15px;
+    left:20px;
+    z-index: 100;
+    width: 100px;
+    max-width: 100px;
+    padding-left: 0;
+    padding-right: 0;
+    font-size: .9em;
+    }
+
+.button_filter {
+    position: absolute;
+    bottom: 20px;
+    width: 260px;
+    }
+
+.button_textbox_inline {
+    margin-top:5px;
+    }
+
+.button_credentials {
+    margin-bottom:2em;
+    }
+
+.button_execute {
+    clear:both;
+    }

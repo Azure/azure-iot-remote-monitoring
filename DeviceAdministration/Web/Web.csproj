@@ -374,6 +374,10 @@
     <Content Include="Content\blocks\loader.less" />
     <Content Include="Content\root_containers.less" />
     <Content Include="Content\blocks\edit_form_block.less" />
+    <Content Include="Content\blocks\buttons.less" />
+    <Content Include="Content\blocks\add_device_views\add_device_copy.less" />
+    <Content Include="Content\blocks\add_device_views\add_device_create.less" />
+    <Content Include="Content\blocks\add_device_views\add_device_select_type.less" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery-ui-i18n.min.js" />

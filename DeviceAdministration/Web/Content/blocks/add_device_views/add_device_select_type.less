@@ -1,0 +1,94 @@
+﻿/* ##### Add Device Select Type ##### */
+
+.content_outer_selectDevice {
+    overflow-x:visible;
+    overflow-y:visible;
+    }
+
+.content_inner_selectDevice {
+    overflow-x:visible;
+    overflow-y:visible;
+    }
+
+.list_select_device {
+    min-width:1130px;
+    list-style: none;
+    }
+
+.list_item_select_device {
+    position: relative;
+    float: left;
+    width: 515px;
+    min-height: 150px;
+    margin: 10px 0;
+    padding: 15px;
+    background-color: @background-color;
+
+
+    &:nth-child(2n+1) {
+        margin-right: 20px;
+        }
+
+    &:nth-last-child(1),
+    &:nth-last-child(2) {
+        border: 0;
+        }
+
+    }
+
+.select_device_subhead {
+    margin-bottom: 1em;
+    }
+
+.select_device_description {
+    font-size: .85em;
+    color:@text-devicedetail-color;
+    }
+
+@media screen and (max-width:900px) {
+
+
+    /* Select a Device */
+    .content_outer_selectDevice {
+        overflow-x:auto;
+        overflow-y:auto;
+        }
+
+
+    .list_select_device {
+        min-width:inherit;
+        }
+
+
+    .list_item_select_device {
+        float:none;
+        margin-right:0;
+        width:auto;
+        min-height:inherit;
+        overflow:auto;
+        }
+
+    .select_device_description {
+        margin-bottom:1em;
+        }
+
+    .button_selectDevice {
+        position:relative;
+        bottom:inherit;
+        left:inherit;
+        }
+
+
+
+    /* Edit Keys */
+
+    .message_textbox {
+        float:left;
+        margin-bottom:1em;
+        }
+
+    input[type="text"].textbox_key_primary,
+    select.valid {
+        margin-bottom:0;
+        }
+    }

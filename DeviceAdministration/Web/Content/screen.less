@@ -1,53 +1,5 @@
 ﻿/* ##### Layout styles ##### */
 
-
-
-
-.content_outer_selectDevice {
-    overflow-x:visible;
-    overflow-y:visible;
-    }
-
-.content_inner_selectDevice {
-    overflow-x:visible;
-    overflow-y:visible;
-    }
-
-.list_select_device {
-    min-width:1130px;
-    list-style: none;
-    }
-
-.list_item_select_device {
-    position: relative;
-    float: left;
-    width: 515px;
-    min-height: 150px;
-    margin: 10px 0;
-    padding: 15px;
-    background-color: @background-color;
-
-
-    &:nth-child(2n+1) {
-        margin-right: 20px;
-        }
-
-    &:nth-last-child(1),
-    &:nth-last-child(2) {
-        border: 0;
-        }
-
-    }
-
-.select_device_subhead {
-    margin-bottom: 1em;
-    }
-
-.select_device_description {
-    font-size: .85em;
-    color:@text-devicedetail-color;
-    }
-
 .content_grid {
     margin-top: 0;
     
@@ -73,60 +25,8 @@
     }
 
 
-/* Layout - add / edit devices */
-
-.deviceid_case_warning {
-    margin-bottom: 10px;
-    }
-
-.manage_subhead {
-    color:@text-mainhead-color;
-    font-size:26px;
-    margin-bottom:.4em;
-    }
-
-
-.table_credentials {
-    width:100%;
-    background-color:@background-color;
-    padding:30px;
-    margin:0 0 10px 0;
-
-    td {
-        padding:.52em 0;
-        font-size:1.4em;
-
-        &.table_credentials_label {
-            padding-right:1em;
-            }
-
-        }
-
-    input[type="text"].input_credentials_value { 
-        margin-bottom:0;
-        margin-right:0;
-        }
-
-    }
-
-.table_credentials_label {
-    text-align:right;
-    width:1em;
-    white-space:nowrap;
-    }
-
-
-.container_input_manage_enter_id {
-    margin-left:1.7em;
-    }
-
-
 /* Layout - instructions */
 
-.content_instructions {
-    clear:both;
-    margin-bottom:20px;
-    }
 
 .list_instructions {
     background-color:@background-color;
@@ -191,7 +91,6 @@ select#RuleOutput {
     clear:both;
     }
 
-.container_radio,
 .container_checkbox {
     margin: 15px 0;
     
@@ -300,29 +199,6 @@ input[type="text"].input-validation-error {
 
     }
 
-.error_check_id {
-    clear:both;
-    margin-top:.5em;
-    font-size:16px;
-    padding-left:25px;
-    background-repeat:no-repeat;
-    background-position:center left;
-
-
-    &.error_check_id_available {
-        color:@error-validate-color;
-        background-image:url(img/icon_confirmed.svg);
-        background-size:16px 18px;
-        }
-
-    &.error_check_id_not_available {
-        color:@error-color;
-        background-image:url(img/icon_error.svg);
-        background-size:18px 18px;
-        }
-
-    }
-
 /* errors & messages - these class names are generated on the server */
 .field-validation-error {
     color: @error-color;
@@ -389,99 +265,6 @@ input[type="text"].input-validation-error {
 
 
 /* ##### Controls ##### */
-
-button,
-.button {
-    display:block;
-    float:left;
-    color: @button-color;
-    background-color: @button-background-color;
-    border: 1px solid @button-border-color;
-    font-size: 16px;
-    min-width: 6.45em;
-    padding: 0 1em;
-    min-height:32px;
-    cursor: pointer;
-
-    &:disabled {
-        background-color:@button-disabled-background-color;
-        border-color:@button-disabled-border-color;
-        color:@text-secondary-color;
-        }
-
-    }
-
-    .button { /* anchor version */
-        text-align:center;
-        line-height:32px;
-
-        &:hover {
-            color:@button-color;
-            text-decoration:none;
-            }
-
-        }
- 
-.button_secondary {
-    background-color: @button-secondary-background-color;
-    border: 1px solid @button-secondary-border-color;
-    color: @text-color;
-    margin-left: 1.8em;
-    }
-
-.button_copy {
-    width: 30px;
-    min-width: 30px;
-    height: 30px;
-    background-color: @button-copy-background-color;
-    background-image: url(img/button_copy.svg);
-    background-repeat: no-repeat;
-    background-size:15px auto;
-    background-position:center center;
-    text-indent: -9999px;
-    border: 0;
-    margin: 6px 0 0 6px;
-    padding: 0;
-    }
-
-    .details_grid_general .button_copy {
-        margin-top:4px;
-        }
-
-
-.button_details_grid {
-    cursor: pointer;
-    }
-
-.button_selectDevice {
-    position: absolute;
-    bottom: 15px;
-    left:20px;
-    z-index: 100;
-    width: 100px;
-    max-width: 100px;
-    padding-left: 0;
-    padding-right: 0;
-    font-size: .9em;
-    }
-
-.button_filter {
-    position: absolute;
-    bottom: 20px;
-    width: 260px;
-    }
-
-.button_textbox_inline {
-    margin-top:5px;
-    }
-
-.button_credentials {
-    margin-bottom:2em;
-    }
-
-.button_execute {
-    clear:both;
-    }
 
 
 .details_grid_general {
@@ -560,53 +343,7 @@ These responsive styles are for desktop support.
 */
 
 
-@media screen and (max-width:900px) {
 
-
-    /* Select a Device */
-    .content_outer_selectDevice {
-        overflow-x:auto;
-        overflow-y:auto;
-        }
-
-
-    .list_select_device {
-        min-width:inherit;
-        }
-
-
-    .list_item_select_device {
-        float:none;
-        margin-right:0;
-        width:auto;
-        min-height:inherit;
-        overflow:auto;
-        }
-
-    .select_device_description {
-        margin-bottom:1em;
-        }
-
-    .button_selectDevice {
-        position:relative;
-        bottom:inherit;
-        left:inherit;
-        }
-
-
-
-    /* Edit Keys */
-
-    .message_textbox {
-        float:left;
-        margin-bottom:1em;
-        }
-
-    input[type="text"].textbox_key_primary,
-    select.valid {
-        margin-bottom:0;
-        }
-    }
 
 
 /* Addressing an issue in jQuery UI's initial visibility
