@@ -67,62 +67,46 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             DateTime minTime,
             int minResults)
         {
-            IEnumerable<IListBlobItem> blobs;
-            CloudBlockBlob blockBlob;
-            int filteredCount;
-            List<AlertHistoryItemModel> filteredResult;
-            IEnumerable<AlertHistoryItemModel> filteredSegment;
-            IEnumerable<AlertHistoryItemModel> segment;
-            int unfilteredCount;
-            List<AlertHistoryItemModel> unfilteredResult;
-
-
             if (minResults <= 0)
             {
-                throw new ArgumentOutOfRangeException(
-                    "minResults",
-                    minResults,
-                    "minResults must be a positive integer.");
+                throw new ArgumentOutOfRangeException("minResults", minResults, "minResults must be a positive integer.");
             }
 
-            filteredResult = new List<AlertHistoryItemModel>();
-            unfilteredResult = new List<AlertHistoryItemModel>();
+            var filteredResult = new List<AlertHistoryItemModel>();
+            var unfilteredResult = new List<AlertHistoryItemModel>();
 
-            blobs = await LoadApplicableListBlobItemsAsync();
+            IEnumerable<IListBlobItem> blobs = await LoadApplicableListBlobItemsAsync();
 
             foreach (IListBlobItem blob in blobs)
             {
-                if ((blockBlob = blob as CloudBlockBlob) == null)
+                CloudBlockBlob blockBlob = blob as CloudBlockBlob;
+                if (blockBlob == null)
                 {
                     continue;
                 }
 
-                segment = await ProduceAlertHistoryItemsAsync(blockBlob);
+                IEnumerable<AlertHistoryItemModel> segment = await ProduceAlertHistoryItemsAsync(blockBlob);
 
-                filteredSegment = 
-                    segment.Where(
-                        t =>
-                            (t != null) &&
-                            t.Timestamp.HasValue &&
-                            (t.Timestamp.Value > minTime));
+                IEnumerable<AlertHistoryItemModel> filteredSegment = segment.Where(
+                        t => (t != null) && t.Timestamp.HasValue && (t.Timestamp.Value > minTime));
 
-                unfilteredCount = segment.Count();
-                filteredCount = unfilteredResult.Count();
+                int unfilteredCount = segment.Count();
+                int filteredCount = filteredSegment.Count();
 
                 unfilteredResult.AddRange(segment.OrderByDescending(t => t.Timestamp));
                 filteredResult.AddRange(filteredSegment.OrderByDescending(t => t.Timestamp));
 
                 // Anything filtered and min entries?
-                if ((filteredCount != unfilteredCount) &&
-                    (filteredResult.Count >= minResults))
+                if ((filteredCount != unfilteredCount) && (filteredResult.Count >= minResults))
                 {
+                    // already into items older than minTime
                     break;
                 }
 
                 // No more filtered entries and enough otherwise?
-                if ((filteredCount == 0) &&
-                    (unfilteredResult.Count >= minResults))
+                if ((filteredCount == 0) && (unfilteredResult.Count >= minResults))
                 {
+                    // we are past minTime and we have enough unfiltered results
                     break;
                 }
             }
@@ -199,30 +183,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return null;
         }
 
-        private async static Task<List<AlertHistoryItemModel>> ProduceAlertHistoryItemsAsync(
-            CloudBlockBlob blob)
+        private async static Task<List<AlertHistoryItemModel>> ProduceAlertHistoryItemsAsync(CloudBlockBlob blob)
         {
-            IDisposable disp;
-            IEnumerable<ExpandoObject> expandos;
-            AlertHistoryItemModel model;
-
             Debug.Assert(blob != null, "blob is a null reference.");
 
             var models = new List<AlertHistoryItemModel>();
-
+            var stream = new MemoryStream();
             TextReader reader = null;
-            MemoryStream stream = null;
             try
             {
-                stream = new MemoryStream();
                 await blob.DownloadToStreamAsync(stream);
                 stream.Position = 0;
                 reader = new StreamReader(stream);
 
-                expandos = ParsingHelper.ParseCsv(reader).ToExpandoObjects();
+                IEnumerable<ExpandoObject> expandos = ParsingHelper.ParseCsv(reader).ToExpandoObjects();
                 foreach (ExpandoObject expando in expandos)
                 {
-                    model = ProduceAlertHistoryItem(expando);
+                    AlertHistoryItemModel model = ProduceAlertHistoryItem(expando);
 
                     if (model != null)
                     {
@@ -232,14 +209,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
             finally
             {
-                if ((disp = stream) != null)
+                IDisposable dispStream = stream as IDisposable;
+                if (dispStream != null)
                 {
-                    disp.Dispose();
+                    dispStream.Dispose();
                 }
 
-                if ((disp = reader) != null)
+                IDisposable dispReader = reader as IDisposable;
+                if (dispReader != null)
                 {
-                    disp.Dispose();
+                    dispReader.Dispose();
                 }
             }
 
@@ -270,7 +249,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             if (blobs != null)
             {
                 blobs = blobs.OrderByDescending(t => BlobStorageHelper.ExtractBlobItemDate(t));
-            }
+                    }
 
             return blobs;
         }
