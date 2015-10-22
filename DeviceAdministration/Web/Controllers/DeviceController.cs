@@ -270,8 +270,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         v => v.Name);
         }
 
-        private async Task<dynamic> AddDeviceAsync(
-            UnregisteredDeviceModel unregisteredDeviceModel)
+        private async Task<dynamic> AddDeviceAsync(UnregisteredDeviceModel unregisteredDeviceModel)
         {
             dynamic device;
 
