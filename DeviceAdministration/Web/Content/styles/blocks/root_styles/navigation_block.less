@@ -1,4 +1,7 @@
-﻿.navigation {
+﻿
+/* BLOCK */
+
+.navigation {
     position: fixed;
     top: 50px;
     left: 0;
@@ -7,6 +10,8 @@
     z-index: 300;
     background-color: @primary-color;
 }
+
+/* ELEMENT */
 
 .navigation__link {
     display: block;
@@ -31,33 +36,35 @@
     text-decoration: none;
 }
 
+/* MODIFIERS */
+
 .selected {
     background-color: @anchor-nav-background-color;
 }
 
 
-.navigation__dashboard {
+.navigation__link--dashboard {
     background-image: url("@{base-image-path}/icon_dashboard.svg");
     background-size: 30px 37px;
 }
 
-.navigation__devices {
+.navigation__link--devices {
     background-image: url("@{base-image-path}/icon_devices.svg");
     background-size: 30px 30px;
 }
 
-.navigation__rules {
+.navigation__link--rules {
     background-image: url("@{base-image-path}/icon_rules.svg");
     background-size: 30px 30px;
 }
 
-.navigation__actions {
+.navigation__link--actions {
     background-image: url("@{base-image-path}/icon_actions.svg");
     background-size: 30px 30px;
 }
 
 
-.navigation__add_device {
+.navigation__link--add_device {
     position: absolute;
     bottom: 60px;
     z-index: 200;
