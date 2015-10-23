@@ -122,14 +122,16 @@
 
     var onXhr = function onXhr(e, settings, data) {
         if (handleRequestError(settings)) {
-            if (data) {
-                IoTApp.MapPane.setDeviceLocationData(
-                    data.minLatitude,
-                    data.minLongitude,
-                    data.maxLatitude,
-                    data.maxLongitude,
-                    data.devices
-                );
+            if (typeof IoTApp.MapPane === "object") {
+                if (data) {
+                    IoTApp.MapPane.setDeviceLocationData(
+                        data.minLatitude,
+                        data.minLongitude,
+                        data.maxLatitude,
+                        data.maxLongitude,
+                        data.devices
+                    );
+                }
             }
 
             if (refreshMilliseconds) {
