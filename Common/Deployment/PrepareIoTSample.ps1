@@ -68,6 +68,7 @@ if ($cloudDeploy)
     $projectRoot = Join-Path $PSScriptRoot "..\.." -Resolve
     $webPackage = UploadFile ("$projectRoot\DeviceAdministration\Web\obj\{0}\Package\Web.zip" -f $configuration) $storageAccount.Name $resourceGroupName "WebDeploy"
     $params += @{packageUri=$webPackage}
+    FixWebJobZip ("$projectRoot\WebJobHost\obj\{0}\Package\WebJobHost.zip" -f $configuration)
     $webJobPackage = UploadFile ("$projectRoot\WebJobHost\obj\{0}\Package\WebJobHost.zip" -f $configuration) $storageAccount.Name $resourceGroupName "WebDeploy"
     $params += @{webJobPackageUri=$webJobPackage}
 }
@@ -101,7 +102,10 @@ UpdateEnvSetting "DocDBKey" $result.Outputs['docDbKey'].Value
 UpdateEnvSetting "DeviceTableName" "DeviceList"
 UpdateEnvSetting "RulesEventHubName" $result.Outputs['ehRuleName'].Value
 UpdateEnvSetting "RulesEventHubConnectionString" $result.Outputs['ehConnectionString'].Value
-UpdateEnvSetting "MapApiQueryKey" $result.Outputs['bingMapsQueryKey'].Value
+if ($result.Outputs['bingMapsQueryKey'].Value.Length -gt 0)
+{
+    UpdateEnvSetting "MapApiQueryKey" $result.Outputs['bingMapsQueryKey'].Value
+}
 
 Write-Host ("Provisioning and deployment completed successfully, see {0}.config.user for deployment values" -f $environmentName)
 

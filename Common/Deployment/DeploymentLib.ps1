@@ -718,6 +718,27 @@ function InitializeEnvironment()
     }
 }
 
+# Remove incorrectly duplicated files from the WebJob
+function FixWebJobZip()
+{
+    Param(
+        [Parameter(Mandatory=$true,Position=0)] [string] $filePath
+    )
+    $zipfile = get-item $filePath
+    $zip = [System.IO.Compression.ZipFile]::Open($zipfile.FullName, "Update")
+
+    $entries = $zip.Entries.Where({$_.FullName.Contains("EventProcessor-WebJob/settings.job")})
+    foreach ($entry in $entries) { $entry.Delete() }
+
+    $entries = $zip.Entries.Where({$_.FullName.Contains("EventProcessor-WebJob/Simulator")})
+    foreach ($entry in $entries) { $entry.Delete() }
+
+    $entries = $zip.Entries.Where({$_.FullName.Contains("DeviceSimulator-WebJob/EventProcessor")})
+    foreach ($entry in $entries) { $entry.Delete() }
+
+    $zip.Dispose()
+}
+
 # Variable initialization
 [int]$global:envSettingsChanges = 0;
 $global:timeStampFormat = "o"
@@ -728,6 +749,9 @@ $global:version = "0.9"
 
 # Load System.Web
 Add-Type -AssemblyName System.Web
+
+# Load System.IO.Compression.FileSystem
+Add-Type -AssemblyName  System.IO.Compression.FileSystem
 
 # Make sure Azure PowerShell modules are loaded
 if ((Get-Module | where {$_.Name -match "Azure"}) -eq $Null)
