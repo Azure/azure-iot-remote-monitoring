@@ -23,15 +23,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     public class TelemetryApiController : WebApiControllerBase
     {
         private const double MAX_DEVICE_SUMMARY_AGE_MINUTES = 10.0;
-        private const int MAX_HISTORY_ITEMS = 18;
+        private const int DISPLAYED_HISTORY_ITEMS = 18;
         private const int MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD = 200;
-
 
         private static readonly TimeSpan CautionAlertMaxDelta = TimeSpan.FromMinutes(91.0);
         private static readonly TimeSpan CriticalAlertMaxDelta = TimeSpan.FromMinutes(11.0);
-
-        private const double MaxDeviceSummaryAgeMinutes = 10.0;
-        private const int MaxHistoryItems = 18;
 
         private readonly IAlertsLogic _alertsLogic;
         private readonly IDeviceLogic _deviceLogic;
@@ -209,7 +205,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     IEnumerable<AlertHistoryItemModel> data =
                         await _alertsLogic.LoadLatestAlertHistoryAsync(
                             currentTime.Subtract(CautionAlertMaxDelta), 
-                            MaxHistoryItems);
+                            DISPLAYED_HISTORY_ITEMS);
 
                     if (data != null)
                     {
@@ -268,7 +264,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         }
                     }
 
-                    resultsModel.Data = historyItems.Take(MaxHistoryItems).ToList();
+                    resultsModel.Data = historyItems.Take(DISPLAYED_HISTORY_ITEMS).ToList();
                     resultsModel.Devices = deviceModels;
                     resultsModel.TotalAlertCount = historyItems.Count;
                     resultsModel.TotalFilteredCount = historyItems.Count;
