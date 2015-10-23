@@ -35,38 +35,28 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
         public DocDbRestUtility(IConfigurationProvider configProvider)
         {
-            this._docDbEndpoint = configProvider.GetConfigurationSettingValue("docdb.EndpointUrl");
-            this._docDbKey = configProvider.GetConfigurationSettingValue("docdb.PrimaryAuthorizationKey");
-            this._dbName = configProvider.GetConfigurationSettingValue("docdb.DatabaseId");
-            this._collectionName = configProvider.GetConfigurationSettingValue("docdb.DocumentCollectionId");
+            _docDbEndpoint = configProvider.GetConfigurationSettingValue("docdb.EndpointUrl");
+            _docDbKey = configProvider.GetConfigurationSettingValue("docdb.PrimaryAuthorizationKey");
+            _dbName = configProvider.GetConfigurationSettingValue("docdb.DatabaseId");
+            _collectionName = configProvider.GetConfigurationSettingValue("docdb.DocumentCollectionId");
         }
 
         public async Task InitializeDatabase()
         {
-            IEnumerable databases;
-            string topResponse;
-
             string endpoint = string.Format("{0}dbs", _docDbEndpoint);
             string queryString = "SELECT * FROM dbs db WHERE (db.id = @id)";
             var queryParams = new Dictionary<string, object>();
-            queryParams.Add("@id", this._dbName);
+            queryParams.Add("@id", _dbName);
 
+            string topResponse;
             using (WebClient client = BuildWebClient())
             {
                 topResponse = await QueryDocDbInternal(client, endpoint, queryString, queryParams, DATABASE_RESOURCE_TYPE, "");
-                //client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("GET", DATABASE_RESOURCE_TYPE, ""));
-                //topResponse = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
-                //    await client.DownloadStringTaskAsync(endpoint));
             }
 
             object topJson = JObject.Parse(topResponse);
 
-            databases =
-                ReflectionHelper.GetNamedPropertyValue(
-                    topJson,
-                    "Databases",
-                    true,
-                    false) as IEnumerable;
+            IEnumerable databases = ReflectionHelper.GetNamedPropertyValue(topJson, "Databases", true, false) as IEnumerable;
 
             if (databases != null)
             {
@@ -74,22 +64,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 {
                     if (database != null)
                     {
-                        object id =
-                            ReflectionHelper.GetNamedPropertyValue(
-                                database,
-                                "id",
-                                true,
-                                false);
+                        object id = ReflectionHelper.GetNamedPropertyValue(database, "id", true, false);
 
-                        if ((id != null) &&
-                            (id.ToString() == this._dbName))
+                        if ((id != null) && (id.ToString() == this._dbName))
                         {
-                            object rid =
-                                ReflectionHelper.GetNamedPropertyValue(
-                                    database,
-                                    "_rid",
-                                    true,
-                                    false);
+                            object rid = ReflectionHelper.GetNamedPropertyValue(database, "_rid", true, false);
 
                             if (rid != null)
                             {
@@ -122,12 +101,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
                 object json = JObject.Parse(response);
 
-                _dbId =
-                ReflectionHelper.GetNamedPropertyValue(
-                    json,
-                    "_rid",
-                    true,
-                    false).ToString();
+                _dbId = ReflectionHelper.GetNamedPropertyValue(json, "_rid", true, false).ToString();
             }
         }
 
@@ -148,33 +122,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
             object topJson = JObject.Parse(topResponse);
 
-            collections =
-                ReflectionHelper.GetNamedPropertyValue(
-                    topJson,
-                    "DocumentCollections",
-                    true,
-                    false) as IEnumerable;
+            collections = ReflectionHelper.GetNamedPropertyValue(topJson, "DocumentCollections", true, false) as IEnumerable;
 
             if (collections != null)
             {
                 foreach (object col in collections)
                 {
-                    object id =
-                        ReflectionHelper.GetNamedPropertyValue(
-                            col,
-                            "id",
-                            true,
-                            false);
+                    object id = ReflectionHelper.GetNamedPropertyValue(col, "id", true, false);
 
-                    if ((id != null) &&
-                        (id.ToString() == this._collectionName))
+                    if ((id != null) && (id.ToString() == this._collectionName))
                     {
-                        object rid =
-                            ReflectionHelper.GetNamedPropertyValue(
-                                col,
-                                "_rid",
-                                true,
-                                false);
+                        object rid = ReflectionHelper.GetNamedPropertyValue(col, "_rid", true, false);
 
                         if (rid != null)
                         {
@@ -193,25 +151,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
         private async Task CreateDeviceCollection()
         {
-            string response;
-
             string endpoint = string.Format("{0}dbs/{1}/colls", _docDbEndpoint, _dbId);
-            JObject body = new JObject();
+            var body = new JObject();
             body.Add("id", _collectionName);
             using (WebClient client = BuildWebClient())
             {
                 client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", COLLECTION_RESOURCE_TYPE, _dbId));
-                response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
+                string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
                     await client.UploadStringTaskAsync(endpoint, "POST", body.ToString())); 
 
                 object json = JObject.Parse(response);
 
-                _collectionId =
-                ReflectionHelper.GetNamedPropertyValue(
-                    json,
-                    "_rid",
-                    true,
-                    false).ToString();
+                _collectionId = ReflectionHelper.GetNamedPropertyValue(json, "_rid", true, false).ToString();
             }
         }
 
@@ -225,29 +176,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         public async Task<DocDbRestQueryResult> QueryDeviceManagementCollectionAsync(
             string queryString, Dictionary<string, Object> queryParams, int pageSize = -1, string continuationToken = null)
         {
-            WebClient client = BuildWebClient();
-
-            string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
-
-            DocDbRestQueryResult result = new DocDbRestQueryResult();
-
-            string response = await QueryDocDbInternal(client, endpoint, queryString, queryParams, DOCUMENTS_RESOURCE_TYPE, _collectionId, pageSize, continuationToken);
-            JObject responseJobj =JObject.Parse(response);
-            JToken documents = responseJobj.GetValue("Documents");
-            if (documents != null)
+            using (WebClient client = BuildWebClient())
             {
-                result.Documents = (JArray)documents;
-            }
+                string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
 
-            WebHeaderCollection responseHeaders = client.ResponseHeaders;
-            string count = responseHeaders["x-ms-item-count"];
-            if(!string.IsNullOrEmpty(count))
-            {
-                result.TotalDocuments = int.Parse(count);
-            }
-            result.ContinuationToken = responseHeaders["x-ms-continuation"];
+                var result = new DocDbRestQueryResult();
 
-            return result;
+                string response = await QueryDocDbInternal(client, endpoint, queryString, queryParams, DOCUMENTS_RESOURCE_TYPE, _collectionId, pageSize, continuationToken);
+                JObject responseJobj = JObject.Parse(response);
+                JToken documents = responseJobj.GetValue("Documents");
+                if (documents != null)
+                {
+                    result.Documents = (JArray)documents;
+                }
+
+                WebHeaderCollection responseHeaders = client.ResponseHeaders;
+
+                string count = responseHeaders["x-ms-item-count"];
+                if (!string.IsNullOrEmpty(count))
+                {
+                    result.TotalDocuments = int.Parse(count);
+                }
+                result.ContinuationToken = responseHeaders["x-ms-continuation"];
+
+                return result;
+            }
         }
 
         private async Task<string> QueryDocDbInternal(WebClient preparedWebClient, string endpoint, string queryString, Dictionary<string, Object> queryParams, 
@@ -266,14 +219,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 preparedWebClient.Headers.Add("x-ms-continuation", continuationToken);
             }
 
-            JObject body = new JObject();
+            var body = new JObject();
             body.Add("query", queryString);
             if (queryParams != null && queryParams.Count > 0)
             {
-                JArray paramsArray = new JArray();
+                var paramsArray = new JArray();
                 foreach (string key in queryParams.Keys)
                 {
-                    JObject param = new JObject();
+                    var param = new JObject();
                     param.Add("name", key);
                     param.Add("value", JToken.FromObject(queryParams[key]));
                     paramsArray.Add(param);
@@ -281,27 +234,29 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 body.Add("parameters", paramsArray);
             }
 
-            DocDbRestQueryResult result = new DocDbRestQueryResult();
+            var result = new DocDbRestQueryResult();
 
             return await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () => await preparedWebClient.UploadStringTaskAsync(endpoint, "POST", body.ToString())); 
         }
 
         public async Task<JObject> SaveNewDeviceAsync(dynamic device)
         {
-            WebClient client = BuildWebClient();
-            client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", DOCUMENTS_RESOURCE_TYPE, _collectionId));
-
-            string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
-
-            if (device.id == null)
+            using (WebClient client = BuildWebClient())
             {
-                device.id = Guid.NewGuid().ToString();
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", DOCUMENTS_RESOURCE_TYPE, _collectionId));
+
+                string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
+
+                if (device.id == null)
+                {
+                    device.id = Guid.NewGuid().ToString();
+                }
+
+                string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
+                    await client.UploadStringTaskAsync(endpoint, "POST", device.ToString()));
+
+                return JObject.Parse(response);
             }
-
-            string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async() =>
-                await client.UploadStringTaskAsync(endpoint, "POST", device.ToString()));
-
-            return JObject.Parse(response);
         }
 
         /// <summary>
@@ -313,15 +268,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         {
             string rid = DeviceSchemaHelper.GetDocDbRid(updatedDevice);
 
-            WebClient client = BuildWebClient();
-            client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("PUT", DOCUMENTS_RESOURCE_TYPE, rid));
+            using (WebClient client = BuildWebClient())
+            {
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("PUT", DOCUMENTS_RESOURCE_TYPE, rid));
 
-            string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
+                string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
 
-            string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async() =>
-                await client.UploadStringTaskAsync(endpoint, "PUT", updatedDevice.ToString()));
+                string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
+                    await client.UploadStringTaskAsync(endpoint, "PUT", updatedDevice.ToString()));
 
-            return JObject.Parse(response);
+                return JObject.Parse(response);
+            }
         }
 
         /// <summary>
@@ -334,13 +291,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         {
             string rid = DeviceSchemaHelper.GetDocDbRid(device);
 
-            WebClient client = BuildWebClient();
-            client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("DELETE", DOCUMENTS_RESOURCE_TYPE, rid));
+            using (WebClient client = BuildWebClient())
+            {
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("DELETE", DOCUMENTS_RESOURCE_TYPE, rid));
 
-            string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
+                string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
 
-            await AzureRetryHelper.OperationWithBasicRetryAsync(async() =>
-                await client.UploadStringTaskAsync(endpoint, "DELETE", ""));
+                await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
+                    await client.UploadStringTaskAsync(endpoint, "DELETE", ""));
+            }
         }
 
         /// <summary>
