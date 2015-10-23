@@ -17,6 +17,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         // can do all system functions
         private const string ADMIN_ROLE_NAME = "Admin";
 
+        // default OAuth role name in AAD
         private const string NATIVE_CLIENT_ROLE_NAME = "user_impersonation";
 
         public RolePermissions()
