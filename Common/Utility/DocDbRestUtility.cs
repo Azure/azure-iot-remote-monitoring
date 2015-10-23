@@ -31,7 +31,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         private const string DOCUMENTS_RESOURCE_TYPE = "docs";
 
         private const string APPLICATION_JSON = "application/json";
-        private const string X_MS_VERSION = "2015-04-08";
+        private const string X_MS_VERSION = "2015-08-06";
 
         public DocDbRestUtility(IConfigurationProvider configProvider)
         {
