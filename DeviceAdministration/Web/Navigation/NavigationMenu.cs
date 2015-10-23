@@ -19,7 +19,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     Action = "Index",
                     Controller = "Dashboard",
                     Selected = false,
-                    Class = "nav_dashboard",
+                    Class = "navigation__dashboard",
                     MinimumPermission = Permission.ViewTelemetry,
                 },
                 new NavigationMenuItem
@@ -28,7 +28,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     Action = "Index",
                     Controller = "Device",
                     Selected = false,
-                    Class = "nav_devices",
+                    Class = "navigation__devices",
                     MinimumPermission = Permission.ViewDevices,
                 },
                 new NavigationMenuItem
@@ -37,7 +37,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     Action = "Index",
                     Controller = "DeviceRules",
                     Selected = false,
-                    Class = "nav_view_rules",
+                    Class = "navigation__rules",
                     MinimumPermission = Permission.ViewRules,
                 },
                 new NavigationMenuItem
@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     Action = "Index",
                     Controller = "Actions",
                     Selected = false,
-                    Class = "nav_actions",
+                    Class = "navigation__actions",
                     MinimumPermission = Permission.ViewActions,
                 },
             };
