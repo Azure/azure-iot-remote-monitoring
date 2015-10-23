@@ -9,7 +9,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
     {
         Task InitializeDatabase();
         Task InitializeDeviceCollection();
-        Task<DocDbRestQueryResult> QueryDeviceDbAsync(
+        Task<DocDbRestQueryResult> QueryDeviceManagementCollectionAsync(
             string queryString, Dictionary<string, Object> queryParams, int pageSize = -1, string continuationToken = null);
         Task<JObject> SaveNewDeviceAsync(dynamic device);
         Task<JObject> UpdateDeviceAsync(dynamic updatedDevice);

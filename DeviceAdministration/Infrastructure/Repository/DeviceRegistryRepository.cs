@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             int pageSize = 500;
             do
             {
-                DocDbRestQueryResult result = await _docDbRestUtil.QueryDeviceDbAsync(query, null, pageSize, continuationToken);
+                DocDbRestQueryResult result = await _docDbRestUtil.QueryDeviceManagementCollectionAsync(query, null, pageSize, continuationToken);
 
                 docs =
                     ReflectionHelper.GetNamedPropertyValue(
@@ -94,7 +94,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             Dictionary<string, Object> queryParams = new Dictionary<string, Object>();
             queryParams.Add("@id", deviceId);
-            DocDbRestQueryResult response = await _docDbRestUtil.QueryDeviceDbAsync("SELECT VALUE root FROM root WHERE (root.DeviceProperties.DeviceID = @id)", queryParams);
+            DocDbRestQueryResult response = await _docDbRestUtil.QueryDeviceManagementCollectionAsync("SELECT VALUE root FROM root WHERE (root.DeviceProperties.DeviceID = @id)", queryParams);
             JArray foundDevices = response.Documents;
 
             if (foundDevices != null && foundDevices.Count > 0)

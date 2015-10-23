@@ -222,7 +222,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         /// <param name="queryString"></param>
         /// <param name="queryParameters"></param>
         /// <returns></returns>
-        public async Task<DocDbRestQueryResult> QueryDeviceDbAsync(
+        public async Task<DocDbRestQueryResult> QueryDeviceManagementCollectionAsync(
             string queryString, Dictionary<string, Object> queryParams, int pageSize = -1, string continuationToken = null)
         {
             WebClient client = BuildWebClient();
