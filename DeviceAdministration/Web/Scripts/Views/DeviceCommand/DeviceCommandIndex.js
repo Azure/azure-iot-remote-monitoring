@@ -6,7 +6,7 @@
     var init = function (commands, deviceIsEnabled) {
         setDatatable();
         self._sendCommandButton = $('#sendCommand_button');
-        self._backButton = $('.button_back');
+        self._backButton = $('.header_main__button_back');
         self.sendCommandForm = $("#command_form");
         self._backButton.show();
         self.commands = commands;

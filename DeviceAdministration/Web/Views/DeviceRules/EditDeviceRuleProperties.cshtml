@@ -9,13 +9,13 @@
 
 <header class="header_main">
 
-    <button class="button_back" type="button"></button>
+    <button class="header_main__button_back" type="button"></button>
     @{ string firstString = @Strings.Edit; }
     @{if(!string.IsNullOrWhiteSpace(Request.Params["createRule"]))
     {
     firstString = @Strings.Create;
     }}
-    <h2 class="header_main_subhead header_main_subhead_large">@string.Format(Strings.EditDeviceRuleFormatted, firstString, Model.DeviceID)</h2>
+    <h2 class="header_main__subhead header_main__subhead--large">@string.Format(Strings.EditDeviceRuleFormatted, firstString, Model.DeviceID)</h2>
 </header>
 <div class="content_outer">
     <div class="content_inner">
