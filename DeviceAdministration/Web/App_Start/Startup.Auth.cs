@@ -63,7 +63,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
                     TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidAudience = aadAudience,
-                        RoleClaimType = "roles" // Used to unwrap token roles and provide them to [Authorize(Roles="")] attributes
+                        RoleClaimType = "http://schemas.microsoft.com/identity/claims/scope" // Used to unwrap token roles and provide them to [Authorize(Roles="")] attributes
                     },
                 });
         }
