@@ -641,7 +641,7 @@ function InitializeEnvironment()
     $null = Get-AzureResourceGroup -ErrorAction SilentlyContinue -ErrorVariable credError
     if ($credError -ne $null)
     {
-        $null = GetAzureAccountInfo
+        $global:AzureAccountName = GetAzureAccountInfo
     }
 
     # Validate environment variables
