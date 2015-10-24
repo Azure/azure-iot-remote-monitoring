@@ -81,7 +81,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 return await NextCommandProcessor.HandleCommandAsync(deserializableCommand);
             }
 
-            return CommandProcessingResult.Success;
+            return CommandProcessingResult.CannotComplete;
         }
     }
 }
