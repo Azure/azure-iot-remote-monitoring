@@ -56,13 +56,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="minTime">
         /// The cutoff time for Device Alert History items that should be returned.
         /// </param>
+        /// <param name="minResults">
+        /// The minimum number of items that should be returned, if possible, 
+        /// after <paramref name="minTime"/> or otherwise.
+        /// </param>
         /// <returns>
         /// The latest Device Alert History items.
         /// </returns>
-        public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(DateTime minTime)
+        public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(
+            DateTime minTime,
+            int minResults)
         {
-            IEnumerable<IListBlobItem> blobs = await LoadApplicableListBlobItemsAsync(minTime);
-            var result = new List<AlertHistoryItemModel>();
+            if (minResults <= 0)
+            {
+                throw new ArgumentOutOfRangeException("minResults", minResults, "minResults must be a positive integer.");
+            }
+
+            var filteredResult = new List<AlertHistoryItemModel>();
+            var unfilteredResult = new List<AlertHistoryItemModel>();
+
+            IEnumerable<IListBlobItem> blobs = await LoadApplicableListBlobItemsAsync();
 
             foreach (IListBlobItem blob in blobs)
             {
@@ -74,16 +87,38 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                 IEnumerable<AlertHistoryItemModel> segment = await ProduceAlertHistoryItemsAsync(blockBlob);
 
-                segment = segment.Where(
-                    t =>
-                        (t != null) &&
-                        t.Timestamp.HasValue &&
-                        (t.Timestamp.Value > minTime)).OrderByDescending(u => u.Timestamp);
+                IEnumerable<AlertHistoryItemModel> filteredSegment = segment.Where(
+                        t => (t != null) && t.Timestamp.HasValue && (t.Timestamp.Value > minTime));
 
-                result.AddRange(segment);
+                int unfilteredCount = segment.Count();
+                int filteredCount = filteredSegment.Count();
+
+                unfilteredResult.AddRange(segment.OrderByDescending(t => t.Timestamp));
+                filteredResult.AddRange(filteredSegment.OrderByDescending(t => t.Timestamp));
+
+                // Anything filtered and min entries?
+                if ((filteredCount != unfilteredCount) && (filteredResult.Count >= minResults))
+                {
+                    // already into items older than minTime
+                    break;
+                }
+
+                // No more filtered entries and enough otherwise?
+                if ((filteredCount == 0) && (unfilteredResult.Count >= minResults))
+                {
+                    // we are past minTime and we have enough unfiltered results
+                    break;
+                }
             }
 
-            return result;
+            if (filteredResult.Count >= minResults)
+            {
+                return filteredResult;
+            }
+            else
+            {
+                return unfilteredResult.Take(minResults);
+            }
         }
 
         private static AlertHistoryItemModel ProduceAlertHistoryItem(ExpandoObject expandoObject)
@@ -190,7 +225,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return models;
         }
 
-        private async Task<IEnumerable<IListBlobItem>> LoadApplicableListBlobItemsAsync(DateTime cutoffTime)
+        private async Task<IEnumerable<IListBlobItem>> LoadApplicableListBlobItemsAsync()
         {
             CloudBlobContainer container =
                 await BlobStorageHelper.BuildBlobContainerAsync(
@@ -211,30 +246,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                             null);
                     });
 
-            var applicableBlobs = new List<IListBlobItem>();
-
             if (blobs != null)
             {
                 blobs = blobs.OrderByDescending(t => BlobStorageHelper.ExtractBlobItemDate(t));
-                foreach (IListBlobItem blob in blobs)
-                {
-                    if (blob == null)
-                    {
-                        continue;
                     }
 
-                    applicableBlobs.Add(blob);
-
-                    // Allow 1 blob to be past the cutoff date.
-                    DateTime? timestamp = BlobStorageHelper.ExtractBlobItemDate(blob);
-                    if (timestamp.HasValue && timestamp.Value <= cutoffTime)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return applicableBlobs;
+            return blobs;
         }
     }
 }
