@@ -143,7 +143,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 }
             }
 
-            if(string.IsNullOrWhiteSpace(_collectionId))
+            if (string.IsNullOrWhiteSpace(_collectionId))
             {
                 await CreateDeviceCollection();
             }
@@ -167,15 +167,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         }
 
         /// <summary>
-        /// 
+        /// Queries the device collection
         /// https://msdn.microsoft.com/en-us/library/azure/dn783363.aspx
         /// </summary>
         /// <param name="queryString"></param>
         /// <param name="queryParameters"></param>
-        /// <returns></returns>
+        /// <returns>One page of device results, with metadata</returns>
         public async Task<DocDbRestQueryResult> QueryDeviceManagementCollectionAsync(
             string queryString, Dictionary<string, Object> queryParams, int pageSize = -1, string continuationToken = null)
         {
+            if (string.IsNullOrWhiteSpace(queryString))
+            {
+                throw new ArgumentException("queryString is null or whitespace");
+            }
+
             using (WebClient client = BuildWebClient())
             {
                 string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
@@ -206,6 +211,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         private async Task<string> QueryDocDbInternal(WebClient preparedWebClient, string endpoint, string queryString, Dictionary<string, Object> queryParams, 
             string resourceType, string resourceId, int pageSize = -1, string continuationToken = null)
         {
+            if (preparedWebClient == null)
+            {
+                throw new ArgumentNullException("preparedWebClient");
+            }
+
+            if (string.IsNullOrWhiteSpace(endpoint))
+            {
+                throw new ArgumentException("endpoint is null or whitespace");
+            }
+
+            if (string.IsNullOrWhiteSpace(queryString))
+            {
+                throw new ArgumentException("queryString is null or whitespace");
+            }
+
             preparedWebClient.Headers.Set("Content-Type", "application/query+json");
             preparedWebClient.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", resourceType, resourceId));
             preparedWebClient.Headers.Add("x-ms-documentdb-isquery", "true");
