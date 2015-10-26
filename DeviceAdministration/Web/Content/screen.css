@@ -556,6 +556,16 @@ button#remove_rule_button {
 .grid_subhead_detail_label:first-child {
   margin-top: 0;
 }
+.grid_subhead_detail_info {
+  color: #808080;
+  font-size: 0.75em;
+  padding-bottom: 1em;
+  font-weight: normal;
+  clear: both;
+}
+.unregistered_device {
+  margin-top: 1.2em;
+}
 .grid_detail_value {
   font-size: 1em;
   color: #333333;
