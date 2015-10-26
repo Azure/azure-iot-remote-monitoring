@@ -93,21 +93,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
         private async Task CreateDatabase()
         {
-            string response;
-
             string endpoint = string.Format("{0}dbs", _docDbEndpoint);
             JObject body = new JObject();
             body.Add("id", _dbName);
-            using (WebClient client = BuildWebClient())
-            {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(POST_VERB, DocDbResourceTypeEnum.DATABASES.QueryResourceType, ""));
-                response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
-                    await client.UploadStringTaskAsync(endpoint, POST_VERB, body.ToString())); 
+            string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceTypeEnum.DATABASES, "", body.ToString());
 
-                object json = JObject.Parse(response);
+            JObject json = JObject.Parse(response);
 
-                _dbId = ReflectionHelper.GetNamedPropertyValue(json, "_rid", true, false).ToString();
-            }
+            _collectionId = ReflectionHelper.GetNamedPropertyValue(json, "_rid", true, false).ToString();
         }
 
         public async Task InitializeDeviceCollection()
@@ -115,7 +108,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             string endpoint = string.Format("{0}dbs/{1}/colls", _docDbEndpoint, _dbId);
             string queryString = "SELECT * FROM colls c WHERE (c.id = @id)";
             var queryParams = new Dictionary<string, object>();
-            queryParams.Add("@id", this._collectionName);
+            queryParams.Add("@id", _collectionName);
 
             DocDbRestQueryResult result = await QueryDocDbInternal(endpoint, queryString, queryParams, DocDbResourceTypeEnum.COLLECTIONS, _dbId);
             IEnumerable collections = result.ResultSet as IEnumerable;
@@ -150,16 +143,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             string endpoint = string.Format("{0}dbs/{1}/colls", _docDbEndpoint, _dbId);
             var body = new JObject();
             body.Add("id", _collectionName);
-            using (WebClient client = BuildWebClient())
-            {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(POST_VERB, DocDbResourceTypeEnum.COLLECTIONS.QueryResourceType, _dbId));
-                string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
-                    await client.UploadStringTaskAsync(endpoint, POST_VERB, body.ToString())); 
+            string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceTypeEnum.COLLECTIONS, _dbId, body.ToString());
 
-                object json = JObject.Parse(response);
+            JObject json = JObject.Parse(response);
 
-                _collectionId = ReflectionHelper.GetNamedPropertyValue(json, "_rid", true, false).ToString();
-            }
+            _collectionId = ReflectionHelper.GetNamedPropertyValue(json, "_rid", true, false).ToString();
         }
 
         /// <summary>
@@ -193,9 +181,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 throw new ArgumentException("queryString is null or whitespace");
             }
 
-            using (WebClient client = BuildWebClient())
+            using (WebClient client = new WebClient())
             {
-                client.Headers.Set(CONTENT_TYPE_HEADER_KEY, APPLICATION_QUERY_JSON);
+                client.Encoding = System.Text.Encoding.UTF8;
+                client.Headers.Add(CONTENT_TYPE_HEADER_KEY, APPLICATION_QUERY_JSON);
+                client.Headers.Add(ACCEPT_HEADER_KEY, APPLICATION_JSON);
+                client.Headers.Add(VERSION_HEADER_KEY, X_MS_VERSION);
+
+                // The date of the request, as specified in RFC 1123. The date format is expressed in
+                // Coordinated Universal Time (UTC), for example. Fri, 08 Apr 2015 03:52:31 GMT.
+                client.Headers.Add(DATE_HEADER_KEY, DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture));
                 client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(POST_VERB, resourceType.QueryResourceType, resourceId));
                 client.Headers.Add(IS_QUERY_HEADER_KEY, "true");
 
@@ -247,22 +242,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
         public async Task<JObject> SaveNewDeviceAsync(dynamic device)
         {
-            using (WebClient client = BuildWebClient())
+            string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
+            if (device.id == null)
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(POST_VERB, DocDbResourceTypeEnum.DOCUMENTS.QueryResourceType, _collectionId));
-
-                string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
-
-                if (device.id == null)
-                {
-                    device.id = Guid.NewGuid().ToString();
-                }
-
-                string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
-                    await client.UploadStringTaskAsync(endpoint, POST_VERB, device.ToString()));
-
-                return JObject.Parse(response);
+                device.id = Guid.NewGuid().ToString();
             }
+            string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceTypeEnum.DOCUMENTS, _collectionId, device.ToString());
+
+            return JObject.Parse(response);
         }
 
         /// <summary>
@@ -273,18 +260,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         public async Task<JObject> UpdateDeviceAsync(dynamic updatedDevice)
         {
             string rid = DeviceSchemaHelper.GetDocDbRid(updatedDevice);
+            string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
+            string response = await PerformRestCallAsync(endpoint, PUT_VERB, DocDbResourceTypeEnum.DOCUMENTS, rid, updatedDevice.ToString());
 
-            using (WebClient client = BuildWebClient())
-            {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(PUT_VERB, DocDbResourceTypeEnum.DOCUMENTS.QueryResourceType, rid));
-
-                string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
-
-                string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
-                    await client.UploadStringTaskAsync(endpoint, PUT_VERB, updatedDevice.ToString()));
-
-                return JObject.Parse(response);
-            }
+            return JObject.Parse(response);
         }
 
         /// <summary>
@@ -296,42 +275,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         public async Task DeleteDeviceAsync(dynamic device)
         {
             string rid = DeviceSchemaHelper.GetDocDbRid(device);
-
-            using (WebClient client = BuildWebClient())
-            {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(DELETE_VERB, DocDbResourceTypeEnum.DOCUMENTS.QueryResourceType, rid));
-
-                string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
-
-                await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
-                    await client.UploadStringTaskAsync(endpoint, DELETE_VERB, ""));
-            }
+            string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
+            await PerformRestCallAsync(endpoint, DELETE_VERB, DocDbResourceTypeEnum.DOCUMENTS, rid, "");
         }
 
-        /// <summary>
-        /// Builds the necessary headers and adds them to the WebClient that will be used for the request. This does
-        /// NOT include the required Authorization header, which may be different for various requests and must be
-        /// handled by the calling method before making the request
-        /// </summary>
-        /// <param name="webClient">Required: The WebClient that will be used for the request. 
-        /// The headers will be added to this client</param>
-        /// <param name="pageItemCount">Optional: If the request will be made in pages this is the
-        /// number of items per page</param>
-        /// <param name="continuationToken">Optional: If the request will be made in pages, and you have a continuation token 
-        /// from a previous page, this will ensure the next page begins at the right place</param>
-        private WebClient BuildWebClient()
+        private async Task<string> PerformRestCallAsync(string endpoint, string httpVerb, DocDbResourceTypeEnum resourceType, string resourceId, string body)
         {
-            var webClient = new WebClient();
-            webClient.Encoding = System.Text.Encoding.UTF8;
-            webClient.Headers.Add(CONTENT_TYPE_HEADER_KEY, APPLICATION_JSON);
-            webClient.Headers.Add(ACCEPT_HEADER_KEY, APPLICATION_JSON);
-            webClient.Headers.Add(VERSION_HEADER_KEY, X_MS_VERSION);
+            using (WebClient webClient = new WebClient())
+            {
+                webClient.Encoding = System.Text.Encoding.UTF8;
+                webClient.Headers.Add(CONTENT_TYPE_HEADER_KEY, APPLICATION_JSON);
+                webClient.Headers.Add(ACCEPT_HEADER_KEY, APPLICATION_JSON);
+                webClient.Headers.Add(VERSION_HEADER_KEY, X_MS_VERSION);
 
-            // The date of the request, as specified in RFC 1123. The date format is expressed in
-            // Coordinated Universal Time (UTC), for example. Fri, 08 Apr 2015 03:52:31 GMT.
-            webClient.Headers.Add(DATE_HEADER_KEY, DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture));
+                // The date of the request, as specified in RFC 1123. The date format is expressed in
+                // Coordinated Universal Time (UTC), for example. Fri, 08 Apr 2015 03:52:31 GMT.
+                webClient.Headers.Add(DATE_HEADER_KEY, DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture));
+                webClient.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(httpVerb, resourceType.QueryResourceType, resourceId));
 
-            return webClient;
+                return await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () => await webClient.UploadStringTaskAsync(endpoint, httpVerb, body));
+            }
         }
 
         /// <summary>
