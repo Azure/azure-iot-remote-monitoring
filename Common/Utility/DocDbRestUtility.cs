@@ -47,6 +47,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
         public DocDbRestUtility(IConfigurationProvider configProvider)
         {
+            if (configProvider == null)
+            {
+                throw new ArgumentNullException("configProvider");
+            }
+
             _docDbEndpoint = configProvider.GetConfigurationSettingValue("docdb.EndpointUrl");
             _docDbKey = configProvider.GetConfigurationSettingValue("docdb.PrimaryAuthorizationKey");
             _dbName = configProvider.GetConfigurationSettingValue("docdb.DatabaseId");
@@ -242,6 +247,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
         public async Task<JObject> SaveNewDeviceAsync(dynamic device)
         {
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
             if (device.id == null)
             {
@@ -259,6 +269,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         /// <returns></returns>
         public async Task<JObject> UpdateDeviceAsync(dynamic updatedDevice)
         {
+            if (updatedDevice == null)
+            {
+                throw new ArgumentNullException("updatedDevice");
+            }
+
             string rid = DeviceSchemaHelper.GetDocDbRid(updatedDevice);
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
             string response = await PerformRestCallAsync(endpoint, PUT_VERB, DocDbResourceType.Document, rid, updatedDevice.ToString());
@@ -274,6 +289,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         /// <returns></returns>
         public async Task DeleteDeviceAsync(dynamic device)
         {
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
             string rid = DeviceSchemaHelper.GetDocDbRid(device);
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
             await PerformRestCallAsync(endpoint, DELETE_VERB, DocDbResourceType.Document, rid, "");
