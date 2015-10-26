@@ -116,6 +116,7 @@
     <Compile Include="Utility\DocDbQueryResult.cs" />
     <Compile Include="Helpers\DynamicValuesHelper.cs" />
     <Compile Include="Helpers\FunctionalHelper.cs" />
+    <Compile Include="Utility\DocDbResourceTypeEnum.cs" />
     <Compile Include="Utility\DocDbRestUtility.cs" />
     <Compile Include="Utility\IDocDbRestUtility.cs" />
     <Compile Include="Helpers\ParsingHelper.cs" />

@@ -26,9 +26,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         private string _collectionId;
 
         private const string AUTHORIZATION_HEADER_KEY = "authorization";
-        private const string DATABASE_RESOURCE_TYPE = "dbs";
-        private const string COLLECTION_RESOURCE_TYPE = "colls";
-        private const string DOCUMENTS_RESOURCE_TYPE = "docs";
 
         private const string APPLICATION_JSON = "application/json";
         private const string X_MS_VERSION = "2015-08-06";
@@ -48,7 +45,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             var queryParams = new Dictionary<string, object>();
             queryParams.Add("@id", _dbName);
 
-            DocDbRestQueryResult result = await QueryDocDbInternal(endpoint, queryString, queryParams, DATABASE_RESOURCE_TYPE, "", "Databases");
+            DocDbRestQueryResult result = await QueryDocDbInternal(endpoint, queryString, queryParams, DocDbResourceTypeEnum.DATABASES, "");
             IEnumerable databases = result.ResultSet as IEnumerable;
 
             if (databases != null)
@@ -88,7 +85,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             body.Add("id", _dbName);
             using (WebClient client = BuildWebClient())
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", DATABASE_RESOURCE_TYPE, ""));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", DocDbResourceTypeEnum.DATABASES.QueryResourceType, ""));
                 response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
                     await client.UploadStringTaskAsync(endpoint, "POST", body.ToString())); 
 
@@ -105,7 +102,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             var queryParams = new Dictionary<string, object>();
             queryParams.Add("@id", this._collectionName);
 
-            DocDbRestQueryResult result = await QueryDocDbInternal(endpoint, queryString, queryParams, COLLECTION_RESOURCE_TYPE, _dbId, "DocumentCollections");
+            DocDbRestQueryResult result = await QueryDocDbInternal(endpoint, queryString, queryParams, DocDbResourceTypeEnum.COLLECTIONS, _dbId);
             IEnumerable collections = result.ResultSet as IEnumerable;
 
             if (collections != null)
@@ -140,7 +137,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             body.Add("id", _collectionName);
             using (WebClient client = BuildWebClient())
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", COLLECTION_RESOURCE_TYPE, _dbId));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", DocDbResourceTypeEnum.COLLECTIONS.QueryResourceType, _dbId));
                 string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
                     await client.UploadStringTaskAsync(endpoint, "POST", body.ToString())); 
 
@@ -165,11 +162,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 throw new ArgumentException("queryString is null or whitespace");
             }
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
-            return await QueryDocDbInternal(endpoint, queryString, queryParams, DOCUMENTS_RESOURCE_TYPE, _collectionId, "Documents", pageSize, continuationToken);
+            return await QueryDocDbInternal(endpoint, queryString, queryParams, DocDbResourceTypeEnum.DOCUMENTS, _collectionId, pageSize, continuationToken);
         }
 
         private async Task<DocDbRestQueryResult> QueryDocDbInternal(string endpoint, string queryString, Dictionary<string, Object> queryParams, 
-            string resourceType, string resourceId, string resultSetKey, int pageSize = -1, string continuationToken = null)
+            DocDbResourceTypeEnum resourceType, string resourceId, int pageSize = -1, string continuationToken = null)
         {
             if (string.IsNullOrWhiteSpace(endpoint))
             {
@@ -184,7 +181,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             using (WebClient client = BuildWebClient())
             {
                 client.Headers.Set("Content-Type", "application/query+json");
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", resourceType, resourceId));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", resourceType.QueryResourceType, resourceId));
                 client.Headers.Add("x-ms-documentdb-isquery", "true");
 
                 if (pageSize >= 0)
@@ -214,7 +211,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 var result = new DocDbRestQueryResult();            
                 string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () => await client.UploadStringTaskAsync(endpoint, "POST", body.ToString()));
                 JObject responseJobj = JObject.Parse(response);
-                JToken jsonResultSet = responseJobj.GetValue(resultSetKey);
+                JToken jsonResultSet = responseJobj.GetValue(resourceType.ResultSetResponseKey);
                 if (jsonResultSet != null)
                 {
                     result.ResultSet = (JArray)jsonResultSet;
@@ -237,7 +234,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         {
             using (WebClient client = BuildWebClient())
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", DOCUMENTS_RESOURCE_TYPE, _collectionId));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", DocDbResourceTypeEnum.DOCUMENTS.QueryResourceType, _collectionId));
 
                 string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
 
@@ -264,7 +261,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
             using (WebClient client = BuildWebClient())
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("PUT", DOCUMENTS_RESOURCE_TYPE, rid));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("PUT", DocDbResourceTypeEnum.DOCUMENTS.QueryResourceType, rid));
 
                 string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
 
@@ -287,7 +284,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
             using (WebClient client = BuildWebClient())
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("DELETE", DOCUMENTS_RESOURCE_TYPE, rid));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("DELETE", DocDbResourceTypeEnum.DOCUMENTS.QueryResourceType, rid));
 
                 string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
 
