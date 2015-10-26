@@ -60,7 +60,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             var queryParams = new Dictionary<string, object>();
             queryParams.Add("@id", _dbName);
 
-            DocDbRestQueryResult result = await QueryDocDbInternal(endpoint, queryString, queryParams, DocDbResourceTypeEnum.DATABASES, "");
+            DocDbRestQueryResult result = await QueryDocDbInternal(endpoint, queryString, queryParams, DocDbResourceType.Database, "");
             IEnumerable databases = result.ResultSet as IEnumerable;
 
             if (databases != null)
@@ -96,7 +96,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             string endpoint = string.Format("{0}dbs", _docDbEndpoint);
             JObject body = new JObject();
             body.Add("id", _dbName);
-            string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceTypeEnum.DATABASES, "", body.ToString());
+            string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceType.Database, "", body.ToString());
 
             JObject json = JObject.Parse(response);
 
@@ -110,7 +110,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             var queryParams = new Dictionary<string, object>();
             queryParams.Add("@id", _collectionName);
 
-            DocDbRestQueryResult result = await QueryDocDbInternal(endpoint, queryString, queryParams, DocDbResourceTypeEnum.COLLECTIONS, _dbId);
+            DocDbRestQueryResult result = await QueryDocDbInternal(endpoint, queryString, queryParams, DocDbResourceType.Collection, _dbId);
             IEnumerable collections = result.ResultSet as IEnumerable;
 
             if (collections != null)
@@ -143,7 +143,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             string endpoint = string.Format("{0}dbs/{1}/colls", _docDbEndpoint, _dbId);
             var body = new JObject();
             body.Add("id", _collectionName);
-            string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceTypeEnum.COLLECTIONS, _dbId, body.ToString());
+            string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceType.Collection, _dbId, body.ToString());
 
             JObject json = JObject.Parse(response);
 
@@ -165,11 +165,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 throw new ArgumentException("queryString is null or whitespace");
             }
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
-            return await QueryDocDbInternal(endpoint, queryString, queryParams, DocDbResourceTypeEnum.DOCUMENTS, _collectionId, pageSize, continuationToken);
+            return await QueryDocDbInternal(endpoint, queryString, queryParams, DocDbResourceType.Document, _collectionId, pageSize, continuationToken);
         }
 
         private async Task<DocDbRestQueryResult> QueryDocDbInternal(string endpoint, string queryString, Dictionary<string, Object> queryParams, 
-            DocDbResourceTypeEnum resourceType, string resourceId, int pageSize = -1, string continuationToken = null)
+            DocDbResourceType resourceType, string resourceId, int pageSize = -1, string continuationToken = null)
         {
             if (string.IsNullOrWhiteSpace(endpoint))
             {
@@ -191,7 +191,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 // The date of the request, as specified in RFC 1123. The date format is expressed in
                 // Coordinated Universal Time (UTC), for example. Fri, 08 Apr 2015 03:52:31 GMT.
                 client.Headers.Add(DATE_HEADER_KEY, DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture));
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(POST_VERB, resourceType.QueryResourceType, resourceId));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(POST_VERB, DocDbResourceTypeHelper.GetResourceTypeString(resourceType), resourceId));
                 client.Headers.Add(IS_QUERY_HEADER_KEY, "true");
 
                 if (pageSize >= 0)
@@ -221,7 +221,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 var result = new DocDbRestQueryResult();
                 string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () => await client.UploadStringTaskAsync(endpoint, POST_VERB, body.ToString()));
                 JObject responseJobj = JObject.Parse(response);
-                JToken jsonResultSet = responseJobj.GetValue(resourceType.ResultSetResponseKey);
+                JToken jsonResultSet = responseJobj.GetValue(DocDbResourceTypeHelper.GetResultSetKey(resourceType));
                 if (jsonResultSet != null)
                 {
                     result.ResultSet = (JArray)jsonResultSet;
@@ -247,7 +247,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             {
                 device.id = Guid.NewGuid().ToString();
             }
-            string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceTypeEnum.DOCUMENTS, _collectionId, device.ToString());
+            string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceType.Document, _collectionId, device.ToString());
 
             return JObject.Parse(response);
         }
@@ -261,7 +261,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         {
             string rid = DeviceSchemaHelper.GetDocDbRid(updatedDevice);
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
-            string response = await PerformRestCallAsync(endpoint, PUT_VERB, DocDbResourceTypeEnum.DOCUMENTS, rid, updatedDevice.ToString());
+            string response = await PerformRestCallAsync(endpoint, PUT_VERB, DocDbResourceType.Document, rid, updatedDevice.ToString());
 
             return JObject.Parse(response);
         }
@@ -276,10 +276,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         {
             string rid = DeviceSchemaHelper.GetDocDbRid(device);
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
-            await PerformRestCallAsync(endpoint, DELETE_VERB, DocDbResourceTypeEnum.DOCUMENTS, rid, "");
+            await PerformRestCallAsync(endpoint, DELETE_VERB, DocDbResourceType.Document, rid, "");
         }
 
-        private async Task<string> PerformRestCallAsync(string endpoint, string httpVerb, DocDbResourceTypeEnum resourceType, string resourceId, string body)
+        private async Task<string> PerformRestCallAsync(string endpoint, string httpVerb, DocDbResourceType resourceType, string resourceId, string body)
         {
             using (WebClient webClient = new WebClient())
             {
@@ -291,7 +291,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 // The date of the request, as specified in RFC 1123. The date format is expressed in
                 // Coordinated Universal Time (UTC), for example. Fri, 08 Apr 2015 03:52:31 GMT.
                 webClient.Headers.Add(DATE_HEADER_KEY, DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture));
-                webClient.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(httpVerb, resourceType.QueryResourceType, resourceId));
+                webClient.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(httpVerb, DocDbResourceTypeHelper.GetResourceTypeString(resourceType), resourceId));
 
                 return await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () => await webClient.UploadStringTaskAsync(endpoint, httpVerb, body));
             }
