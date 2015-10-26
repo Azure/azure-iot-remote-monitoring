@@ -890,7 +890,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Device Property values are formatted as stored in DocumentDB..
+        ///   Looks up a localized string similar to Device Properties displayed as stored (without localization or local timezone conversion).
         /// </summary>
         public static string DevicePropertiesFormattedAsStored {
             get {
