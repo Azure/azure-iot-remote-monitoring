@@ -25,10 +25,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         private readonly string _collectionName;
         private string _collectionId;
 
+        private const string DATE_HEADER_KEY = "x-ms-date";
+        private const string VERSION_HEADER_KEY = "x-ms-version";
+        private const string ACCEPT_HEADER_KEY = "Accept";
+        private const string CONTENT_TYPE_HEADER_KEY = "Content-Type";
         private const string AUTHORIZATION_HEADER_KEY = "authorization";
+        private const string CONTINUATION_HEADER_KEY = "x-ms-continuation";
+        private const string MAX_ITEMS_HEADER_KEY = "x-ms-max-item-count";
+        private const string IS_QUERY_HEADER_KEY = "x-ms-documentdb-isquery";
 
         private const string APPLICATION_JSON = "application/json";
+        private const string APPLICATION_QUERY_JSON = "application/query+json";
         private const string X_MS_VERSION = "2015-08-06";
+
+        private const string ITEM_COUNT_RESPONSE_HEADER_KEY = "x-ms-item-count";
+
+        private const string POST_VERB = "POST";
+        private const string PUT_VERB = "PUT";
+        private const string GET_VERB = "GET";
+        private const string DELETE_VERB = "DELETE";
 
         public DocDbRestUtility(IConfigurationProvider configProvider)
         {
@@ -85,9 +100,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             body.Add("id", _dbName);
             using (WebClient client = BuildWebClient())
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", DocDbResourceTypeEnum.DATABASES.QueryResourceType, ""));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(POST_VERB, DocDbResourceTypeEnum.DATABASES.QueryResourceType, ""));
                 response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
-                    await client.UploadStringTaskAsync(endpoint, "POST", body.ToString())); 
+                    await client.UploadStringTaskAsync(endpoint, POST_VERB, body.ToString())); 
 
                 object json = JObject.Parse(response);
 
@@ -137,9 +152,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             body.Add("id", _collectionName);
             using (WebClient client = BuildWebClient())
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", DocDbResourceTypeEnum.COLLECTIONS.QueryResourceType, _dbId));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(POST_VERB, DocDbResourceTypeEnum.COLLECTIONS.QueryResourceType, _dbId));
                 string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
-                    await client.UploadStringTaskAsync(endpoint, "POST", body.ToString())); 
+                    await client.UploadStringTaskAsync(endpoint, POST_VERB, body.ToString())); 
 
                 object json = JObject.Parse(response);
 
@@ -180,17 +195,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
             using (WebClient client = BuildWebClient())
             {
-                client.Headers.Set("Content-Type", "application/query+json");
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", resourceType.QueryResourceType, resourceId));
-                client.Headers.Add("x-ms-documentdb-isquery", "true");
+                client.Headers.Set(CONTENT_TYPE_HEADER_KEY, APPLICATION_QUERY_JSON);
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(POST_VERB, resourceType.QueryResourceType, resourceId));
+                client.Headers.Add(IS_QUERY_HEADER_KEY, "true");
 
                 if (pageSize >= 0)
                 {
-                    client.Headers.Add("x-ms-max-item-count", pageSize.ToString());
+                    client.Headers.Add(MAX_ITEMS_HEADER_KEY, pageSize.ToString());
                 }
                 if (continuationToken != null && continuationToken.Length > 0)
                 {
-                    client.Headers.Add("x-ms-continuation", continuationToken);
+                    client.Headers.Add(CONTINUATION_HEADER_KEY, continuationToken);
                 }
 
                 var body = new JObject();
@@ -208,8 +223,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                     body.Add("parameters", paramsArray);
                 }
 
-                var result = new DocDbRestQueryResult();            
-                string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () => await client.UploadStringTaskAsync(endpoint, "POST", body.ToString()));
+                var result = new DocDbRestQueryResult();
+                string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () => await client.UploadStringTaskAsync(endpoint, POST_VERB, body.ToString()));
                 JObject responseJobj = JObject.Parse(response);
                 JToken jsonResultSet = responseJobj.GetValue(resourceType.ResultSetResponseKey);
                 if (jsonResultSet != null)
@@ -219,12 +234,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
                 WebHeaderCollection responseHeaders = client.ResponseHeaders;
 
-                string count = responseHeaders["x-ms-item-count"];
+                string count = responseHeaders[ITEM_COUNT_RESPONSE_HEADER_KEY];
                 if (!string.IsNullOrEmpty(count))
                 {
                     result.TotalResults = int.Parse(count);
                 }
-                result.ContinuationToken = responseHeaders["x-ms-continuation"];
+                result.ContinuationToken = responseHeaders[CONTINUATION_HEADER_KEY];
 
                 return result; 
             }
@@ -234,7 +249,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         {
             using (WebClient client = BuildWebClient())
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", DocDbResourceTypeEnum.DOCUMENTS.QueryResourceType, _collectionId));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(POST_VERB, DocDbResourceTypeEnum.DOCUMENTS.QueryResourceType, _collectionId));
 
                 string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
 
@@ -244,7 +259,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 }
 
                 string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
-                    await client.UploadStringTaskAsync(endpoint, "POST", device.ToString()));
+                    await client.UploadStringTaskAsync(endpoint, POST_VERB, device.ToString()));
 
                 return JObject.Parse(response);
             }
@@ -261,12 +276,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
             using (WebClient client = BuildWebClient())
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("PUT", DocDbResourceTypeEnum.DOCUMENTS.QueryResourceType, rid));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(PUT_VERB, DocDbResourceTypeEnum.DOCUMENTS.QueryResourceType, rid));
 
                 string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
 
                 string response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
-                    await client.UploadStringTaskAsync(endpoint, "PUT", updatedDevice.ToString()));
+                    await client.UploadStringTaskAsync(endpoint, PUT_VERB, updatedDevice.ToString()));
 
                 return JObject.Parse(response);
             }
@@ -284,12 +299,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
             using (WebClient client = BuildWebClient())
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("DELETE", DocDbResourceTypeEnum.DOCUMENTS.QueryResourceType, rid));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(DELETE_VERB, DocDbResourceTypeEnum.DOCUMENTS.QueryResourceType, rid));
 
                 string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
 
                 await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
-                    await client.UploadStringTaskAsync(endpoint, "DELETE", ""));
+                    await client.UploadStringTaskAsync(endpoint, DELETE_VERB, ""));
             }
         }
 
@@ -308,13 +323,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         {
             var webClient = new WebClient();
             webClient.Encoding = System.Text.Encoding.UTF8;
-            webClient.Headers.Add("Content-Type", APPLICATION_JSON);
-            webClient.Headers.Add("Accept", APPLICATION_JSON);
-            webClient.Headers.Add("x-ms-version", X_MS_VERSION);
+            webClient.Headers.Add(CONTENT_TYPE_HEADER_KEY, APPLICATION_JSON);
+            webClient.Headers.Add(ACCEPT_HEADER_KEY, APPLICATION_JSON);
+            webClient.Headers.Add(VERSION_HEADER_KEY, X_MS_VERSION);
 
             // The date of the request, as specified in RFC 1123. The date format is expressed in
             // Coordinated Universal Time (UTC), for example. Fri, 08 Apr 2015 03:52:31 GMT.
-            webClient.Headers.Add("x-ms-date", DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture));
+            webClient.Headers.Add(DATE_HEADER_KEY, DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture));
 
             return webClient;
         }
