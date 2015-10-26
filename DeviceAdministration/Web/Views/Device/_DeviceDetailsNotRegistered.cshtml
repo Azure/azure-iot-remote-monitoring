@@ -7,13 +7,13 @@
 
 <div class="header_grid header_grid_general">
     <h3 class="grid_subheadhead_detail">@Strings.DeviceProperties</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DevicePropertiesFormattedAsStored" />
 </div>
 
 <section class="details_grid_general">
     <div class="grid_detail_not_registered">
         @Strings.RegisteredButNotPresent
     </div>
-    <h4 class="grid_subhead_detail_info unregistered_device">@Strings.DevicePropertiesFormattedAsStored</h4>
     @foreach (var propVal in Model.DevicePropertyValueModels)
     {
         if (!propVal.IsIncludedWithUnregisteredDevices)
