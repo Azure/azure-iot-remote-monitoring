@@ -21,10 +21,11 @@
 </div>
 
 <section class="details_grid_general" id="deviceDetailsGrid">
+    <h4 class="grid_subhead_detail_info">@Strings.DevicePropertiesFormattedAsStored</h4>
     @{ DateTime? resolvedDate; }
     @foreach (var propVal in Model.DevicePropertyValueModels)
     {
-        <h4 class="grid_subhead_detail_label">@propVal.Name</h4>
+        <h4 class="grid_subhead_detail_label">@DeviceDisplayHelper.GetDevicePropertyFieldLocalName(propVal.Name)</h4>
         if (DeviceDisplayHelper.GetIsCopyControlPropertyName(propVal.Name))
         {
             @IoTHelpers.TextCopy(propVal.Name, propVal.Name, propVal.Value);
