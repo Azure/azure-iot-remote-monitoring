@@ -455,7 +455,7 @@
 
         // clear the details pane (so it's clean!)
         var noDeviceSelected = resources.noDeviceSelected;
-        $('#details_grid_container').html('<div class="no_device_selected">' + noDeviceSelected + '</div>');
+        $('#details_grid_container').html('<div class="details_grid__no_selection">' + noDeviceSelected + '</div>');
     }
 
     var toggleSearchPane = function () {

@@ -6,60 +6,50 @@
     width: 368px;
     background-color: @secondary-color;
     overflow-y: scroll;
+}
 
-    .grid_subhead {
-        background-image: url("@{base-image-path}/icon_deviceExplorer_details_close.svg");
-        background-repeat: no-repeat;
-        background-position: 20px 22px;
-        background-size: 7px 11px;
-        font-size:1.1em;
-        margin: 0;
-        padding: 14px 20px 20px 30px;
-        background-color: @secondary-color;
-        font-weight: normal;
-        }
+.details_grid__grid_subhead {
+    background-image: url("@{base-image-path}/icon_deviceExplorer_details_close.svg");
+    background-repeat: no-repeat;
+    background-position: 20px 22px;
+    background-size: 7px 11px;
+    font-size:1.1em;
+    margin: 0;
+    padding: 14px 20px 20px 30px;
+    background-color: @secondary-color;
+    width: auto;
+    font-weight: bold;
+}
 
-    section {
-        overflow:auto;
-        background-color: @background-color;
-        margin: 5px 20px 20px 20px;
-        padding: 20px 20px 0 20px;
+.details_grid_general {
+    overflow:auto;
+    background-color: @background-color;
+    margin: 5px 20px 20px 20px;
+    padding: 20px 13px 0 20px;
+}
 
-        &.details_grid_general {
-            padding-right:13px;
-            }
-
-        }
-
-     .no_device_selected {
-        text-align: center;
-        margin-top:5em;
-        font-size: 1.2em;
-        }
-
-    .button_details_grid {
-        width: auto;
-        font-weight: bold;
-        }
-    } 
+.details_grid__no_selection {
+    text-align: center;
+    margin-top:5em;
+    font-size: 1.2em;
+}
 
 .content_grid {
     margin-top: 0;
+}
     
-    .content_inner {
-        margin: 0;
-        max-width: inherit;
-        }
-
-    }
+.content_inner--inherit_max_width_no_margin {
+    margin: 0;
+    max-width: inherit;
+}
 
 .details_grid_regenerate_keys {
     display: none;
-    }
+}
 
 .header_grid {
     overflow: auto;
-    }
+}
 
 .grid_subheadhead_detail {
     float: left;
@@ -68,13 +58,13 @@
     font-size: @font-size-panel-subsection-header;
     color: @text-devicedetail-color;
     font-weight: normal;
-    }
+}
 
 .link_grid_subheadhead_detail {
     float: right;
     font-size: @font-size-panel-subsection-header;
     margin-right: 20px;
-    }
+}
 
 .grid_subhead_detail_label {
     color: @text-devicedetail-color;
@@ -84,18 +74,17 @@
     font-weight: normal;
     clear: both;
     display: block;
+}
 
-    &:first-child {
-        margin-top: 0;
-        }
-
-    }
+.grid_subhead_detail_label:first-child {
+    margin-top: 0;
+}
 
 .grid_detail_value {
     font-size: @font-size-property-value;
     color: @text-color;
     margin-bottom:1em;
-    }
+}
 
 .grid_detail_not_registered {
     background-color:@text-devicedetail-head-background-color;
@@ -104,7 +93,7 @@
     margin-top:-20px;
     width:273px;
     padding:10px 20px;
-    }
+}
 
 .grid_container {
     float: left;
@@ -115,7 +104,7 @@
     border-right:1px solid @layout-border-color;
     background-color: @secondary-color;
     width: 1px; /* initial value--gets overwritten by JS code */
-    }
+}
 
 .details_grid_closed {
     position: absolute;
@@ -124,39 +113,26 @@
     width: 30px;
     height: 100%;
     background-color: @secondary-color;
-
-    .grid_subhead {
-        background-image: url("@{base-image-path}/icon_deviceExplorer_details_close.svg");
-        background-repeat: no-repeat;
-        background-position: 24px 15px;
-        background-size: 7px 11px;
-        .transform(rotate(90deg));
-        white-space: nowrap;
-        padding: 8px 0 0 40px;
-        font-size: 1.1em;
-        font-weight: normal;
-    }
 }
 
-.grid_container_header {
-    overflow: auto;
-    height: 50px;
-    line-height: 50px;
-    
-    .grid_subhead {
-        float: left;
-        margin: 0 0 0 15px;
-        padding: 0;
-        }
-
-    }
+.details_grid_closed__grid_subhead {
+    background-image: url("@{base-image-path}/icon_deviceExplorer_details_close.svg");
+    background-repeat: no-repeat;
+    background-position: 24px 15px;
+    background-size: 7px 11px;
+    .transform(rotate(90deg));
+    white-space: nowrap;
+    padding: 8px 0 0 40px;
+    font-size: 1.1em;
+    font-weight: normal;
+}
 
 .grid_container_page {
     float: right;
     margin: 0 15px 0 0;
-    }
+}
 
 
 .hidden {
     display:none;
-    }
+}
