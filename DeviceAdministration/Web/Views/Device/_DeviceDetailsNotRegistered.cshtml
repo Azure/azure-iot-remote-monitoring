@@ -13,6 +13,7 @@
     <div class="grid_detail_not_registered">
         @Strings.RegisteredButNotPresent
     </div>
+    <h4 class="grid_subhead_detail_info unregistered_device">@Strings.DevicePropertiesFormattedAsStored</h4>
     @foreach (var propVal in Model.DevicePropertyValueModels)
     {
         if (!propVal.IsIncludedWithUnregisteredDevices)
@@ -20,12 +21,12 @@
             continue;
         }
 
-        <h4 class="grid_subhead_detail_label">@propVal.Name</h4>
+        <h4 class="grid_subhead_detail_label">@DeviceDisplayHelper.GetDevicePropertyFieldLocalName(propVal.Name)</h4>
         DateTime? resolvedDate;
         if (DeviceDisplayHelper.GetIsCopyControlPropertyName(propVal.Name))
         {
             @IoTHelpers.TextCopy(propVal.Name, propVal.Name, propVal.Value);
-    }
+        }
         else
         {
             if ((propVal.PropertyType == PropertyType.DateTime) &&

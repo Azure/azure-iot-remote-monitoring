@@ -16,14 +16,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         // can do all system functions
         private const string ADMIN_ROLE_NAME = "Admin";
-        
+
+        // default OAuth role name in AAD
+        private const string NATIVE_CLIENT_ROLE_NAME = "user_impersonation";
 
         public RolePermissions()
         {
             _allRoles = new List<string> 
                 {
                     ADMIN_ROLE_NAME,
-                    READ_ONLY_ROLE_NAME
+                    READ_ONLY_ROLE_NAME,
+                    NATIVE_CLIENT_ROLE_NAME
                 };
 
             _rolePermissions = new Dictionary<Permission, HashSet<string>>();
@@ -76,6 +79,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private void DefineRoles()
         {
             AssignRolesToPermission(Permission.ViewDevices,
+                NATIVE_CLIENT_ROLE_NAME,
                 READ_ONLY_ROLE_NAME,
                 ADMIN_ROLE_NAME);
 
@@ -109,6 +113,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 ADMIN_ROLE_NAME);
 
             AssignRolesToPermission(Permission.ViewTelemetry,
+                NATIVE_CLIENT_ROLE_NAME,
                 READ_ONLY_ROLE_NAME,
                 ADMIN_ROLE_NAME);
 
