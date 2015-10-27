@@ -5,9 +5,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.SampleDat
 {
     public class RandomGenerator : IRandomGenerator
     {
-        private readonly Random _random;
+        private static readonly Random _random = BuildRandomSource();
 
         public RandomGenerator()
+        {
+        }
+
+        public double GetRandomDouble()
+        {
+            lock (_random)
+            {
+                return _random.NextDouble();
+            }
+        }
+
+        private static Random BuildRandomSource()
         {
             byte[] vector = new byte[4];
             using (RandomNumberGenerator cryptoRng = RandomNumberGenerator.Create())
@@ -16,18 +28,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.SampleDat
             }
 
             int seed = 0;
-            for (int i = 0 ; i < vector.Length ; ++i)
+            for (int i = 0; i < vector.Length; ++i)
             {
                 seed |= vector[i];
                 seed = seed << 8;
             }
 
-            _random = new Random(seed);
-        }
-
-        public double GetRandomDouble()
-        {
-            return _random.NextDouble();
+            return new Random(seed);
         }
     }
 }
