@@ -19,7 +19,7 @@
 </header>
 
 
-<div class="content_outer content_command">
+<div class="content_outer content_outer--inherit_overflow">
 
     <div class="content_inner">
         @if (Model.SupportDeviceCommand)
@@ -44,7 +44,7 @@
                         {
                             <th></th>
                         }
-                        
+
                     </tr>
                 </thead>
                 <tbody>
@@ -57,7 +57,7 @@
                             <td>
                                 @{string result = commandHistoryItem.Result;}
                                 @{string errorMessage = commandHistoryItem.ErrorMessage;}
-                                @(Html.Partial("_CommandResult", result ?? Strings.Pending, new ViewDataDictionary {{"ErrorMessage", errorMessage}}))
+                                @(Html.Partial("_CommandResult", result ?? Strings.Pending, new ViewDataDictionary { { "ErrorMessage", errorMessage } }))
                             </td>
                             <td>
                                 @DynamicValuesHelper.ConvertToJsonString(commandHistoryItem.Parameters)
