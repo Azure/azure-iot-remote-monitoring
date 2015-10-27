@@ -49,7 +49,7 @@
         @Html.TextBoxFor(m => state, new { @readonly = "readonly", @class = "readOnlyField" })
 
         <label class="edit_form__label">@Strings.DataFieldHeader</label>
-        @Html.DropDownListFor(m => m.DataField, Model.AvailableDataFields, new { @class = "edit_form__select_data_field" })
+        @Html.DropDownListFor(m => m.DataField, Model.AvailableDataFields, new { @class = "edit_form__select" })
 
         <label class="edit_form__label">@Strings.OperatorHeader</label>
         @Html.HiddenFor(m => m.Operator)
@@ -60,10 +60,10 @@
 
         <label class="edit_form__label">@Strings.RuleOutputHeader</label>
         @{
-            object htmlAttributes = new { @class = "edit_form__select_output" };
+            object htmlAttributes = new { @class = "edit_form__select" };
             if (Model.AvailableRuleOutputs.Count < 2)
             {
-                htmlAttributes = new { @disabled = "disabled", @class = "edit_form__select_output" };
+                htmlAttributes = new { @disabled = "disabled", @class = "edit_form__select" };
                 @Html.HiddenFor(m => m.RuleOutput);
             }
         }
