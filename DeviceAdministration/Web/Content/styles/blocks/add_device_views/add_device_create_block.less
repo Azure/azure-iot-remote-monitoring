@@ -1,44 +1,54 @@
-﻿/* ##### Add Device Create ##### */
-
-.deviceid_case_warning {
+﻿.deviceid_case_warning {
     margin-bottom: 10px;
-    }
+}
 
-.container_radio {
+.add_device_create_form {
+    padding: 15px 30px;
+    background-color: @background-color;
+    font-size: 1.4em;
+    color: #4d4d4d;
+}
+
+.radio_button {
     margin: 15px 0;
-    
-    label {
-        clear: none;
-        position: absolute;
-        top: 0;
-        left: 1.7em;
-        }
-    }
+}
 
-.container_input_manage_enter_id {
-    margin-left:1.7em;
-    }
+.radio_button__label {
+    clear: none;
+    position: absolute;
+    top: 0;
+    left: 1.7em;
+}
 
-.error_check_id {
-    clear:both;
-    margin-top:.5em;
-    font-size:16px;
-    padding-left:25px;
-    background-repeat:no-repeat;
-    background-position:center left;
+.unique_device_id {
+    margin-left: 1.7em;
+}
 
+.unique_device_id__input {
+    margin-bottom: 0.4em;
+}
 
-    &.error_check_id_available {
-        color:@error-validate-color;
-        background-image:url("@{base-image-path}/icon_confirmed.svg");
-        background-size:16px 18px;
-        }
+.unique_device_id__check_id {
+    margin-top: 5px;
+}
 
-    &.error_check_id_not_available {
-        color:@error-color;
-        background-image:url("@{base-image-path}/icon_error.svg");
-        background-size:18px 18px;
-        }
+.unique_device_id__error_check_id {
+    clear: both;
+    margin-top: .5em;
+    font-size: 16px;
+    padding-left: 25px;
+    background-repeat: no-repeat;
+    background-position: center left;
+}
 
-    }
+.unique_device_id__error_check_id--available {
+    color: @error-validate-color;
+    background-image: url("@{base-image-path}/icon_confirmed.svg");
+    background-size: 16px 18px;
+}
 
+.unique_device_id__error_check_id--not_available {
+    color: @error-color;
+    background-image: url("@{base-image-path}/icon_error.svg");
+    background-size: 18px 18px;
+}

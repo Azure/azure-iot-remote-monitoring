@@ -16,31 +16,31 @@
 
     <div class="deviceid_case_warning">@Strings.DeviceIdCaseSensitiveWarning</div>
 
-    <fieldset class="fieldset_content">
+    <fieldset class="add_device_create_form">
 
-        <div class="container_radio">
+        <div class="radio_button">
             @Html.RadioButtonFor(m => m.IsDeviceIdSystemGenerated, "true", new { id = "deviceGeneratedBySystemYes" })
-            @Html.LabelFor(m => m.IsDeviceIdSystemGenerated, @Strings.GenerateADeviceId, new { @for = "deviceGeneratedBySystemYes" })
+            @Html.LabelFor(m => m.IsDeviceIdSystemGenerated, @Strings.GenerateADeviceId, new { @for = "deviceGeneratedBySystemYes", @class="radio_button__label" })
         </div>
-        <div class="container_radio">
+        <div class="radio_button">
             @Html.RadioButtonFor(m => m.IsDeviceIdSystemGenerated, "false", new { id = "deviceGeneratedBySystemNo" })
-            @Html.LabelFor(m => m.IsDeviceIdSystemGenerated, @Strings.LetMeDefineMyOwnDeviceId, new { @for = "deviceGeneratedBySystemNo" })
+            @Html.LabelFor(m => m.IsDeviceIdSystemGenerated, @Strings.LetMeDefineMyOwnDeviceId, new { @for = "deviceGeneratedBySystemNo", @class = "radio_button__label" })
         </div>
-        <div class="container_input_manage_enter_id" id="deviceIdInput">
+        <div class="unique_device_id" id="deviceIdInput">
             @Html.TextBoxFor(model => model.DeviceId,
             new
             {
-                @class = "input_check_id",
+                @class = "unique_device_id__input",
                 id = "deviceId",
                 @Value = @Model.DeviceId ?? "",
                 @placeholder = @Strings.EnterDeviceId
             })
 
-            <button class="button_textbox_inline" id="checkIdButton" name="button" value="check" type="submit">@Strings.CheckId</button>
+            <button class="unique_device_id__check_id" id="checkIdButton" name="button" value="check" type="submit">@Strings.CheckId</button>
 
             @if (Model.IsDeviceIdUnique)
             {
-                <div class="error_check_id error_check_id_available" id="deviceIdAvailable">
+                <div class="unique_device_id__error_check_id unique_device_id__error_check_id--available" id="deviceIdAvailable">
                     @Strings.DeviceIdAvailable
                 </div>
             }

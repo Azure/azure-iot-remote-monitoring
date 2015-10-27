@@ -23,7 +23,7 @@
 
         $('input[type="radio"]').bind("click", function () {
             if ($(this).attr("value") == "true") {
-                $(".error_check_id").hide();
+                $(".unique_device_id__error_check_id").hide();
                 $("#checkIdButton").prop("disabled", true);
                 $("#deviceId").prop("disabled", true);
                 $("#deviceId").val(resources.enterDeviceId);
