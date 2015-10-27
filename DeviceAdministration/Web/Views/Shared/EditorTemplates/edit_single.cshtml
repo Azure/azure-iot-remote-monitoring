@@ -1,4 +1,4 @@
 ﻿@using GlobalResources
 @model string
 
-@Html.TextBoxFor(m => m, new { @Value = Model ?? "", Title = Strings.SingleCommandHint })
+@Html.TextBoxFor(m => m, new { @Value = Model ?? "", Title = Strings.SingleCommandHint, @class = "command_parameter_field__input--text" })

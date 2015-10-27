@@ -1,5 +1,5 @@
 ﻿@using GlobalResources
 @model string
 
-@Html.TextBoxFor(m => m, new { @Value = Model ?? "", Title = Strings.DecimalCommandHint })
+@Html.TextBoxFor(m => m, new { @Value = Model ?? "", Title = Strings.DecimalCommandHint, @class = "command_parameter_field__input--text" })
 
