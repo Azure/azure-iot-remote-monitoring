@@ -383,7 +383,6 @@
     <Content Include="Content\styles\blocks\remove_view\remove_block.less" />
     <Content Include="Content\styles\blocks\device_view\device_details_block.less" />
     <Content Include="Content\styles\elements\error_reporting.less" />
-    <Content Include="Content\styles\elements\copy_text_contents_element.less" />
     <Content Include="Content\styles\blocks\text_copy\text_copy_block.less" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />

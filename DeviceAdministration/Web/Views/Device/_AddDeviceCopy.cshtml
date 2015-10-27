@@ -11,6 +11,10 @@ else
     <h2 class="manage_subhead">@Strings.CopyCredentials</h2>
 }
 
+@{
+    string classname = "text_copy_container__input--add_device_copy_table";
+    string class_styles_modifier = "";
+
 <table class="table_credentials">
     <tbody>
         <tr>
@@ -18,7 +22,7 @@ else
                 @Strings.DeviceIdColon
             </td>
             <td class="table_credentials_value">
-                @IoTHelpers.TextCopy("DeviceId", "input_credentials_device_id", @Model.DeviceId)
+                @IoTHelpers.TextCopy("DeviceId", classname, @Model.DeviceId, class_styles_modifier)
             </td>
         </tr>
         <tr>
@@ -26,7 +30,7 @@ else
                 @Strings.AzureDevicesHostnameColon
             </td>
             <td class="table_credentials_value">
-                @IoTHelpers.TextCopy("AzureDevicesHostname", "input_credentials_hostname", @Model.HostName)
+                @IoTHelpers.TextCopy("AzureDevicesHostname", classname, @Model.HostName, class_styles_modifier)
             </td>
         </tr>
         <tr>
@@ -34,11 +38,12 @@ else
                 @Strings.DeviceKeyColon
             </td>
             <td class="table_credentials_value">
-                @IoTHelpers.TextCopy("PrimaryKey", "input_credentials_auth_1", @Model.PrimaryKey)
+                @IoTHelpers.TextCopy("PrimaryKey", classname, @Model.PrimaryKey, class_styles_modifier)
             </td>
         </tr>
     </tbody>
 </table>
+}
 
 
 <button type="button" class="button_credentials" onclick="location.href = '@Url.Action("Index", "Device")' ">@Strings.Done</button>
