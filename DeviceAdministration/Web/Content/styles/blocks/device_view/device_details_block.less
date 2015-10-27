@@ -1,5 +1,5 @@
 ﻿.divider_fieldset_subhead {
-    font-size:.7em;
+    font-size:.75em;
     color:@text-divider-fieldset-color;
     line-height:1.2em; /* horizontal rule alignment */
     text-transform:uppercase;
@@ -7,22 +7,17 @@
     position:relative;
     width:100%;
     margin-bottom:1.4em;
+}
 
-    &:after {
-        background: @layout-divider-fieldset-color;
-        content: "";
-        height: 1px;
-        position: absolute;
-        top: 50%;
-        width: 100%;
-        margin-left:1em;
-        }
-
-    &.grid_subhead_detail_label {
-        font-size:@font-size-grid-subhead-detail-label;
-        }
-
-    }
+.divider_fieldset_subhead:after {
+    background: @layout-divider-fieldset-color;
+    content: "";
+    height: 1px;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    margin-left:1em;
+}
 
 .details_grid_actions {
     overflow:auto;
