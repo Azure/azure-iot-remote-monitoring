@@ -45,7 +45,7 @@
 
                         if (Model.DevicePropertyValueModels[i].IsEditable)
                         {
-                            @Html.TextBoxFor(m => m.DevicePropertyValueModels[i].Value)
+                            @Html.TextBoxFor(m => m.DevicePropertyValueModels[i].Value, new { @class="edit_form__text" })
                         }
                         else
                         {

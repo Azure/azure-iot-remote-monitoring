@@ -56,7 +56,7 @@
         <p class="edit_form__edit_rule_value_display">@Model.Operator</p>
 
         <label class="edit_form__label">@Strings.ThresholdHeader</label>
-        @Html.TextBoxFor(m => m.Threshold, new { @Title = Strings.DoubleCommandHint })
+        @Html.TextBoxFor(m => m.Threshold, new { @Title = Strings.DoubleCommandHint, @class = "edit_form__text" })
 
         <label class="edit_form__label">@Strings.RuleOutputHeader</label>
         @{
