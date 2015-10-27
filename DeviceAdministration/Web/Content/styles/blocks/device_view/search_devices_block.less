@@ -51,10 +51,6 @@
         height: 100%;
         }
 
-    .search_details_query {
-        width: 239px;
-        }
-
     .search_details_button_container {
         position: absolute;
         bottom: 12px;
@@ -83,6 +79,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+        clear: both;
         }
 
     .filter_input {
@@ -95,11 +92,6 @@
         height: 30px;
         }
 
-    input[type=text].filter_input {
-        padding-left: 5px;
-        width: @filter_input_width - 5px;  /* width of .filter_input minus the padding here */
-        }
-
     .filter_clause_container {
         padding-top: 20px;
         clear: both;
@@ -109,3 +101,30 @@
         overflow-y: auto;
         }
     }
+
+.search_details_query__text {
+    display: block;
+    float: left;
+    margin:.25em 1em 1.4em 0;
+    border:1px solid @form-textbox-border;
+    background-color: @form-textbox-background;
+    font-size: .85em;
+    padding: 0 5px;
+    min-height:30px;
+    box-sizing: content-box;
+    width: 239px;
+}
+
+.filter_input__text {
+    display: block;
+    float: left;
+    margin:.25em 0 0 0;
+    border:1px solid @form-textbox-border;
+    background-color: @form-textbox-background;
+    min-height:30px;
+    box-sizing: content-box;
+    width: @filter_input_width - 5px;  /* width of .filter_input minus the padding here */
+    font-size: 80%;
+    padding: 0 0 0 5px;
+    height: 30px;
+}
