@@ -1,15 +1,24 @@
-﻿section.action_properties_id {
+﻿.action_properties_id {
     overflow:auto;
     background-color: @background-color;
     margin: 5px 20px 20px 20px;
     padding: 10px 10px 10px 20px;
     }
 
-select#ActionId{
+.action_properties_id__select {
     width: 250px;
     font-size:@font-size-property-value;
+    display: block;
+    float: left;
+    margin: .25em 1em 1.4em 0;
+    border-color: @form-textbox-border;
+    background-color: @form-textbox-background;
+    border-width: 1px;
+    padding: 0 5px;
+    min-height:30px;
+    box-sizing: content-box;
 }
 
-#updateAction_button {
+.action_properties_id__update_action_id {
     font-size: @font-size-property-value
 }
