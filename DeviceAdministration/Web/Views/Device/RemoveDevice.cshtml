@@ -28,12 +28,12 @@
                     @Html.AntiForgeryToken()
                     <div id="removeDeviceContainer">
 
-                        <fieldset class="fieldset_content">
-                            <p>@Strings.RemoveDeviceConfirmationPart1</p>
-                            <p>@Strings.RemoveDeviceConfirmationPart2</p>
-                            <div class="container_checkbox">
+                        <fieldset class="remove_form">
+                            <p class="remove_form__remove_confirmation">@Strings.RemoveDeviceConfirmationPart1</p>
+                            <p class="remove_form__remove_confirmation">@Strings.RemoveDeviceConfirmationPart2</p>
+                            <div class="remove_checkbox">
                                 <input type="checkbox" id="removeDeviceCheckbox" />
-                                <label for="removeDeviceCheckbox">@String.Format(@Strings.YesRemoveDeviceFormatted, @Model.DeviceId)</label>
+                                <label class="remove_checkbox__label" for="removeDeviceCheckbox">@String.Format(@Strings.YesRemoveDeviceFormatted, @Model.DeviceId)</label>
                             </div>
                         </fieldset>
 
