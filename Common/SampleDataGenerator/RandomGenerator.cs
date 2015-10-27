@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.SampleDataGenerator
 {
@@ -21,20 +20,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.SampleDat
 
         private static Random BuildRandomSource()
         {
-            byte[] vector = new byte[4];
-            using (RandomNumberGenerator cryptoRng = RandomNumberGenerator.Create())
-            {
-                cryptoRng.GetBytes(vector);
-            }
-
-            int seed = 0;
-            for (int i = 0; i < vector.Length; ++i)
-            {
-                seed |= vector[i];
-                seed = seed << 8;
-            }
-
-            return new Random(seed);
+            return new Random(Guid.NewGuid().GetHashCode());
         }
     }
 }
