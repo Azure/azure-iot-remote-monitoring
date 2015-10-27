@@ -1,0 +1,48 @@
+﻿.details_grid_general {
+
+    .text_copy_container {
+        float: left;
+        width: 100%;
+    }
+}
+
+.table_credentials {
+    width: 100%;
+    background-color: @background-color;
+    padding: 30px;
+    margin: 0 0 10px 0;
+
+    td {
+        padding: .52em 0;
+        font-size: 1.4em;
+
+        &.table_credentials_label {
+            padding-right: 1em;
+        }
+    }
+
+    input[type="text"].input_credentials_value {
+        margin-bottom: 0;
+        margin-right: 0;
+    }
+}
+
+input[type="text"].input_credentials_value {
+    width: ~"calc(100% - 55px)"; /* fluid width. Subtract width of copy button width and margin. */
+    float: left;
+    padding-bottom: 0;
+    padding-top: 0;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.details_grid_general input[type="text"].input_credentials_value {
+    font-size: @font-size-property-value;
+    font-weight: normal;
+    margin-right: 0;
+
+    &.input_credentials_device_id,
+    &.input_credentials_host_name {
+        margin-bottom: 1.4em;
+    }
+}
