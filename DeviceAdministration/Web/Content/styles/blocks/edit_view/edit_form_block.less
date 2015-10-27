@@ -1,30 +1,17 @@
-﻿.fieldset_content {
-    padding:15px 30px;
-    background-color:@background-color;
-    font-size:1.4em;
-    color:#4d4d4d;
+﻿.edit_form {
+	padding:15px 30px;
+	background-color:@background-color;
+	font-size:1.4em;
+	color:#4d4d4d;
+}
 
-    p {
-        margin:.4em 0 .85em 0;
-        }
-
-    }
-
-.fieldset_button {
-    margin-top:10px;
-    margin-bottom:20px;
-    }
-
-label {
+.edit_form__label{
+	color: @form-fieldset-textbox-label;
+	font-size:.7em;
+	text-transform:uppercase;
     display: block;
     clear: both;
-    }
-
-.fieldset_textbox label {
-    color: @form-fieldset-textbox-label;
-    font-size:.7em;
-    text-transform:uppercase;
-    }
+}
 
 input[type="text"] {
     display: block;
@@ -45,52 +32,15 @@ input[type="text"] {
         font-style:italic;
         }
 
-    &:read-only {
-        color:@form-textbox-readonly-color;
-        background-color:@form-textbox-readonly-background;
-        border-color:@form-textbox-readonly-border;
-        }
-
     .small {
-        .input_small;
+        width: 125px;
         }
     .medium {
-        .input_medium;
+        width: 160px;
         }
     }
 
-/* IE11 fix - replicates :read-only attribute. */
-input[readonly] {
-    color:@form-textbox-readonly-color;
-    background-color:@form-textbox-readonly-background;
-    border-color:@form-textbox-readonly-border;
-    }
-
-
-    input[type="text"].input_credentials_value {
-        width:~"calc(100% - 55px)"; /* fluid width. Subtract width of copy button width and margin. */
-        float:left;
-        padding-bottom: 0;
-        padding-top: 0;
-        font-size:22px;
-        font-weight:600;
-        }
-
-        .details_grid_general input[type="text"].input_credentials_value {
-            font-size:@font-size-property-value;
-            font-weight:normal;
-            margin-right:0;
-
-            &.input_credentials_device_id,
-            &.input_credentials_host_name {
-                margin-bottom:1.4em;
-                }
-
-            }
-
-    input[type="text"].input_check_id {
-        margin-bottom:0.4em;
-        }
+  
 
 select {
     display: block;
@@ -104,12 +54,10 @@ select {
     min-height:30px;
     box-sizing: content-box;
     .small {
-        width: 475px;
-        .input_small;
+        width: 125px;
     }
     .medium {
-        width: 475px;
-        .input_medium;
+        width: 160px;
         }
     }
 
@@ -121,7 +69,7 @@ textarea {
     font-size: .8em;
     }
 
-.readOnlyField {
+.readOnlyField { //modifier
     background-color: @form-textbox-readonly-background;
     color: @form-textbox-readonly-color;
     border: 1px solid @form-textbox-readonly-border;

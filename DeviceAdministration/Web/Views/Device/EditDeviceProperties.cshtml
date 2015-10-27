@@ -28,7 +28,7 @@
                         @Html.ValidationSummary(false)
                     </p>
 
-    <fieldset class="fieldset_content fieldset_textbox">
+    <fieldset class="edit_form">
         <p class="grid_subhead_detail_info">@Strings.DevicePropertiesFormattedAsStored</p>
         @{
                     DateTime? resolvedTime;
@@ -40,8 +40,9 @@
                         }
 
                         @Html.LabelFor(
-                                m => m.DevicePropertyValueModels[i].Value,
-                                DeviceDisplayHelper.GetDevicePropertyFieldLocalName(Model.DevicePropertyValueModels[i].Name))
+                                    m => m.DevicePropertyValueModels[i].Value,
+                                    Model.DevicePropertyValueModels[i].Name,
+                                    new { @class = "edit_form__label"})
 
                         if (Model.DevicePropertyValueModels[i].IsEditable)
                         {
@@ -59,7 +60,7 @@
                             }
                             else
                             {
-                                @Html.TextBoxFor(m => m.DevicePropertyValueModels[i].Value, new { @readonly = "readonly" })
+                                @Html.TextBoxFor(m => m.DevicePropertyValueModels[i].Value, new { @readonly = "readonly", @class = "readOnlyField" })
                             }
                         }
 

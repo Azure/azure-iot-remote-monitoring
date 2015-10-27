@@ -38,27 +38,27 @@
                     @Html.HiddenFor(m => m.EnabledState)
                     @Html.HiddenFor(m => m.DeviceID)
 
-    <fieldset class="fieldset_content fieldset_textbox">
+    <fieldset class="edit_form">
         @{ string state = @Strings.Enabled; }
         @{if (!Model.EnabledState)
         {
             state = @Strings.Disabled;
         }
         }
-        <label>@Strings.RuleStatus</label>
-        @Html.TextBoxFor(m => state, new { @readonly = "readonly" })
+        <label class="edit_form__label">@Strings.RuleStatus</label>
+        @Html.TextBoxFor(m => state, new { @readonly = "readonly", @class = "readOnlyField" })
 
-        <label>@Strings.DataFieldHeader</label>
+        <label class="edit_form__label">@Strings.DataFieldHeader</label>
         @Html.DropDownListFor(m => m.DataField, Model.AvailableDataFields)
 
-        <label>@Strings.OperatorHeader</label>
+        <label class="edit_form__label">@Strings.OperatorHeader</label>
         @Html.HiddenFor(m => m.Operator)
         <p class="edit_rule_value_display">@Model.Operator</p>
 
-        <label>@Strings.ThresholdHeader</label>
+        <label class="edit_form__label">@Strings.ThresholdHeader</label>
         @Html.TextBoxFor(m => m.Threshold, new { @Title = Strings.DoubleCommandHint })
 
-        <label>@Strings.RuleOutputHeader</label>
+        <label class="edit_form__label">@Strings.RuleOutputHeader</label>
         @{
         object htmlAttributes = null;
         if (Model.AvailableRuleOutputs.Count < 2)
