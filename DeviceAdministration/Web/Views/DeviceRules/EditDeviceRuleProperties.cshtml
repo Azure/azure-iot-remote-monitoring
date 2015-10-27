@@ -49,23 +49,23 @@
         @Html.TextBoxFor(m => state, new { @readonly = "readonly", @class = "readOnlyField" })
 
         <label class="edit_form__label">@Strings.DataFieldHeader</label>
-        @Html.DropDownListFor(m => m.DataField, Model.AvailableDataFields, new { @class = "fieldset_content__select_data_field" })
+        @Html.DropDownListFor(m => m.DataField, Model.AvailableDataFields, new { @class = "edit_form__select_data_field" })
 
         <label class="edit_form__label">@Strings.OperatorHeader</label>
         @Html.HiddenFor(m => m.Operator)
-        <p class="fieldset_content__edit_rule_value_display">@Model.Operator</p>
+        <p class="edit_form__edit_rule_value_display">@Model.Operator</p>
 
         <label class="edit_form__label">@Strings.ThresholdHeader</label>
         @Html.TextBoxFor(m => m.Threshold, new { @Title = Strings.DoubleCommandHint })
 
         <label class="edit_form__label">@Strings.RuleOutputHeader</label>
         @{
-        object htmlAttributes = null;
-        if (Model.AvailableRuleOutputs.Count < 2)
-        {
-            htmlAttributes = new { @disabled = "disabled", @class = "fieldset_content__select_output" };
-            @Html.HiddenFor(m => m.RuleOutput);
-        }
+            object htmlAttributes = new { @class = "edit_form__select_output" };
+            if (Model.AvailableRuleOutputs.Count < 2)
+            {
+                htmlAttributes = new { @disabled = "disabled", @class = "edit_form__select_output" };
+                @Html.HiddenFor(m => m.RuleOutput);
+            }
         }
         @Html.DropDownListFor(m => m.RuleOutput, Model.AvailableRuleOutputs, htmlAttributes)
     </fieldset>
