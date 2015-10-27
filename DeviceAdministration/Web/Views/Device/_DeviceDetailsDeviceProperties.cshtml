@@ -9,6 +9,7 @@
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceDetailModel
 <div class="header_grid header_grid_general">
     <h3 class="grid_subheadhead_detail">@Strings.DeviceProperties</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DevicePropertiesFormattedAsStored" />
     @if (Model.IsDeviceEditEnabled)
     {
         @Html.ActionLink(@Strings.Edit, "EditDeviceProperties", "Device", new { deviceId = Model.DeviceID }, new
@@ -21,7 +22,6 @@
 </div>
 
 <section class="details_grid_general" id="deviceDetailsGrid">
-    <h4 class="grid_subhead_detail_info">@Strings.DevicePropertiesFormattedAsStored</h4>
     @{ DateTime? resolvedDate; }
     @foreach (var propVal in Model.DevicePropertyValueModels)
     {
