@@ -16,24 +16,24 @@
     <div class="content_inner content_inner--inherit_max_width_no_margin">
 
         <div class="search_container_closed search_height_closed_fixed">
-            <h2 class="pane_subhead">@Strings.FindDevicesLabelCollapsed</h2>
+            <h2 class="search_container_closed__pane_subhead">@Strings.FindDevicesLabelCollapsed</h2>
         </div>
 
         <div class="search_container search_height_fixed">
-            <h2 class="search_subhead">@Strings.FindDevices</h2>
-            <div class="search_details_container">
+            <h2 class="search_container__search_subhead">@Strings.FindDevices</h2>
+            <div class="search_container__search_details_container">
                 <label for="searchQuery" class="grid_subhead_detail_label">@Strings.SearchDevices</label>
                 <input type="text" name="searchQuery" id="searchQuery" class="search_details_query__text" />
 
                 <h2 class="grid_subhead_detail_label">@Strings.FilterDevices</h2>
-                <a class="filter_add_clause_link">@Strings.AddNewClause</a>
+                <a class="search_details_container__filter_add_clause_link">@Strings.AddNewClause</a>
 
                 <!-- This template is copied for each filter clause -->
                 <div id="filter_template" class="search_filters" style="display: none;">
 
                     <div>
 
-                        <label class="filter_label filter_group_top" for="filterFieldREPLACE_ME"><span>@Strings.FilterFieldLabel</span></label>
+                        <label class="filter_template__filter_label filter_group_top" for="filterFieldREPLACE_ME"><span>@Strings.FilterFieldLabel</span></label>
 
                         <select id="filterFieldREPLACE_ME" name="filterFieldREPLACE_ME" class="search_filter__select">
                             <option value="Status">@Strings.FilterOptionStatus</option>
@@ -51,7 +51,7 @@
 
                     <div id="filterOperatorControlREPLACE_ME">
 
-                        <label class="filter_label" for="filterOperatorREPLACE_ME"><span>@Strings.FilterOperatorLabel</span></label>
+                        <label class="filter_template__filter_label" for="filterOperatorREPLACE_ME"><span>@Strings.FilterOperatorLabel</span></label>
 
                         <select id="filterOperatorREPLACE_ME" name="filterOperatorREPLACE_ME" class="search_filter__select">
                             <option value="ExactMatchCaseInsensitive">@Strings.FilterOperatorExactInsensitive</option>
@@ -66,7 +66,7 @@
 
                     <div id="filterValueControlREPLACE_ME">
 
-                        <label class="filter_label" for="filterValueREPLACE_ME"><span>@Strings.FilterValueLabel</span></label>
+                        <label class="filter_template__filter_label" for="filterValueREPLACE_ME"><span>@Strings.FilterValueLabel</span></label>
 
                         <input type="text" id="filterValueREPLACE_ME" name="filterValueREPLACE_ME" class="search_filter__text" />
 
@@ -74,7 +74,7 @@
 
                     <div id="filterStatusControlREPLACE_ME">
 
-                        <label class="filter_label" for="filterStatusREPLACE_ME"><span>@Strings.FilterStatusLabel</span></label>
+                        <label class="filter_template__filter_label" for="filterStatusREPLACE_ME"><span>@Strings.FilterStatusLabel</span></label>
 
                         <select id="filterStatusSelectREPLACE_ME" name="filterStatusSelectREPLACE_ME" class="search_filter__select">
                             <option value="Pending">@Strings.FilterStatusPending</option>
@@ -83,20 +83,20 @@
                         </select>
                     </div>
 
-                    <div class="filter_clause_container">
+                    <div class="filter_template__filter_clause_container">
                     </div>
 
                 </div>
                 <!-- End filter clause template -->
 
-                <div id="filter_holder">
+                <div class="search_details_container__filter_holder" id="filter_holder">
                 </div>
 
-                <div class="search_details_button_container">
-                    <button type="button" onclick="IoTApp.DeviceIndex.reloadGrid()" class="search_button">
+                <div class="search_container__search_details_button_container">
+                    <button type="button" onclick="IoTApp.DeviceIndex.reloadGrid()" class="search_details_button_container__search_button">
                         @Strings.FindLabel
                     </button>
-                    <button type="button" onclick="IoTApp.DeviceIndex.resetSearch()" class="button_secondary search_button">
+                    <button type="button" onclick="IoTApp.DeviceIndex.resetSearch()" class="search_details_button_container__search_button search_details_button_container__search_button--secondary">
                         @Strings.ResetLabel
                     </button>
                 </div>

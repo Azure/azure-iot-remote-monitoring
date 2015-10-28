@@ -9,7 +9,7 @@
         self.deviceGridClosed = $(".details_grid_closed");
         self.deviceGridContainer = $(".grid_container");
         self.buttonDetailsGrid = $(".button_details_grid");
-        self.buttonSearchPane = $(".search_subhead");
+        self.buttonSearchPane = $(".search_container__search_subhead");
         self.searchPane = $(".search_container");
         self.searchPaneClosed = $(".search_container_closed");
 
@@ -44,7 +44,7 @@
         });
 
         // reload devices with new search term and filters if ENTER pressed on any in search/filter pane
-        $('.search_details_container').on(
+        $('.search_container__search_details_container').on(
             'keypress',
             'input[type=text]',
             function (e) {
@@ -418,8 +418,8 @@
 
         // set height of open search pane
         var fixedHeightSearchVal = $(window).height() -
-            $(".search_details_button_container").height() -
-            $(".search_subhead").height() -
+            $(".search_container__search_details_button_container").height() -
+            $(self.buttonSearchPane).height() -
             80;
 
         $(".search_height_fixed").height(fixedHeightSearchVal);
@@ -430,8 +430,8 @@
 
         // set height of scrolling filter container inside search pane
         var fixedHeightFilterVal = $(window).height() -
-            $(".search_details_button_container").height() -
-            $(".search_subhead").height() -
+            $(".search_container__search_details_button_container").height() -
+            $(self.buttonSearchPane).height() -
             270;
 
         $("#filter_holder").height(fixedHeightFilterVal);
