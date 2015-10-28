@@ -292,10 +292,10 @@
     <value>RESULT</value>
   </data>
   <data name="CommandTimeCreated" xml:space="preserve">
-    <value>TIME CREATED</value>
+    <value>LOCAL TIME CREATED</value>
   </data>
   <data name="CommandTimeUpdated" xml:space="preserve">
-    <value>TIME UPDATED</value>
+    <value>LOCAL TIME UPDATED</value>
   </data>
   <data name="CommandValuesSent" xml:space="preserve">
     <value>VALUES SENT</value>
@@ -1107,5 +1107,17 @@
   </data>
   <data name="CommandCToCopy" xml:space="preserve">
     <value>Command+C to copy</value>
+  </data>
+  <data name="DeviceProperty_CreatedTime" xml:space="preserve">
+    <value>CreatedTime (UTC)</value>
+  </data>
+  <data name="DeviceProperty_UpdatedTime" xml:space="preserve">
+    <value>UpdatedTime (UTC)</value>
+  </data>
+  <data name="DevicePropertiesFormattedAsStored" xml:space="preserve">
+    <value>Device Properties are displayed as stored.</value>
+  </data>
+  <data name="LocalTime" xml:space="preserve">
+    <value>Local Time</value>
   </data>
 </root>

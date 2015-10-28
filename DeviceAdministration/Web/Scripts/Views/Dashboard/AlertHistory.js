@@ -122,7 +122,7 @@
 
     var onXhr = function onXhr(e, settings, data) {
         if (handleRequestError(settings)) {
-            if (data) {
+            if (typeof IoTApp.MapPane === "object" && data) {
                 IoTApp.MapPane.setDeviceLocationData(
                     data.minLatitude,
                     data.minLongitude,

@@ -7,6 +7,7 @@
 
 <div class="header_grid header_grid_general">
     <h3 class="grid_subheadhead_detail">@Strings.DeviceProperties</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DevicePropertiesFormattedAsStored" />
 </div>
 
 <section class="details_grid_general">
@@ -20,12 +21,12 @@
             continue;
         }
 
-        <h4 class="grid_subhead_detail_label">@propVal.Name</h4>
+        <h4 class="grid_subhead_detail_label">@DeviceDisplayHelper.GetDevicePropertyFieldLocalName(propVal.Name)</h4>
         DateTime? resolvedDate;
         if (DeviceDisplayHelper.GetIsCopyControlPropertyName(propVal.Name))
         {
             @IoTHelpers.TextCopy(propVal.Name, propVal.Name, propVal.Value);
-    }
+        }
         else
         {
             if ((propVal.PropertyType == PropertyType.DateTime) &&

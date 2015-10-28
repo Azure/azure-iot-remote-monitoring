@@ -147,6 +147,9 @@
   <data name="AddRule" xml:space="preserve">
     <value>[Åđđ Ŗūľę... !!! !!!]</value>
   </data>
+  <data name="AdministratorRole" xml:space="preserve">
+    <value>[Åđmįŉįşŧřäŧőř !!! !!!]</value>
+  </data>
   <data name="Alarm" xml:space="preserve">
     <value>[Åľäřm !!! !!! !!! !!!]</value>
   </data>
@@ -225,6 +228,9 @@
   <data name="Command" xml:space="preserve">
     <value>[Cőmmäŉđ !!! !!! !!! !!! !!! !!!]</value>
   </data>
+  <data name="CommandCToCopy" xml:space="preserve">
+    <value>[Cőmmäŉđ+C ŧő čőpy !!! !!!]</value>
+  </data>
   <data name="CommandDeliveryCountExceeded" xml:space="preserve">
     <value>[Đęľįvęřy Cőūŉŧ Ēχčęęđęđ !!! !!!]</value>
   </data>
@@ -253,10 +259,10 @@
     <value>[Ŝūččęşş !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="CommandTimeCreated" xml:space="preserve">
-    <value>[ŦĨMĒ CŖĒÅŦĒĐ !!! !!!]</value>
+    <value>[ĿØCÅĿ ŦĨMĒ CŖĒÅŦĒĐ !!! !!!]</value>
   </data>
   <data name="CommandTimeUpdated" xml:space="preserve">
-    <value>[ŦĨMĒ ŮPĐÅŦĒĐ !!! !!!]</value>
+    <value>[ĿØCÅĿ ŦĨMĒ ŮPĐÅŦĒĐ !!! !!!]</value>
   </data>
   <data name="CommandValueCannotBeLongerThan1024" xml:space="preserve">
     <value>[Å čőmmäŉđ väľūę čäŉŉőŧ þę ľőŉģęř ŧĥäŉ 1024 čĥäřäčŧęřş !!! !!! !!!]</value>
@@ -378,17 +384,32 @@
   <data name="DeviceKeysError" xml:space="preserve">
     <value>[Åŉ ęřřőř őččūřřęđ ŵĥįľę ŧřyįŉģ ŧő ūpđäŧę ĸęyş !!! !!!]</value>
   </data>
+  <data name="DeviceList" xml:space="preserve">
+    <value>[Đęvįčę Ŀįşŧ !!! !!!]</value>
+  </data>
   <data name="DeviceNotRegisteredInIoTHub" xml:space="preserve">
     <value>[Đęvįčę Ńőŧ Ŗęģįşŧęřęđ įŉ ĨőŦ Ħūþ !!! !!!]</value>
   </data>
   <data name="DeviceProperties" xml:space="preserve">
     <value>[Đęvįčę Přőpęřŧįęş !!! !!!]</value>
   </data>
+  <data name="DevicePropertiesFormattedAsStored" xml:space="preserve">
+    <value>[Đęvįčę Přőpęřŧįęş äřę đįşpľäyęđ äş şŧőřęđ. !!! !!!]</value>
+  </data>
+  <data name="DeviceProperty_CreatedTime" xml:space="preserve">
+    <value>[CřęäŧęđŦįmę (ŮŦC) !!! !!!]</value>
+  </data>
+  <data name="DeviceProperty_UpdatedTime" xml:space="preserve">
+    <value>[ŮpđäŧęđŦįmę (ŮŦC) !!! !!!]</value>
+  </data>
   <data name="DeviceRules" xml:space="preserve">
     <value>[Đęvįčę Ŗūľęş !!! !!!]</value>
   </data>
   <data name="DeviceRulesFullError" xml:space="preserve">
     <value>[Åľľ äväįľäþľę đäŧä ƒįęľđş ĥävę řūľęş đęƒįŉęđ ƒőř ŧĥįş đęvįčę. Pľęäşę mőđįƒy äŉ ęχįşŧįŉģ řūľę įŉşŧęäđ. !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="DeviceToView" xml:space="preserve">
+    <value>[Đęvįčę ŧő Vįęŵ: !!! !!!]</value>
   </data>
   <data name="DeviceUpdateError" xml:space="preserve">
     <value>[Ůŉäþľę ŧő ūpđäŧę ŧĥę đęvįčę. Åŉ ūŉęχpęčŧęđ ęřřőř őččūřřęđ. !!! !!! !!!]</value>
@@ -456,6 +477,9 @@
   <data name="ErrorRemoveDevice" xml:space="preserve">
     <value>[Ůŉäþľę ŧő řęmővę đęvįčę. Åŉ ūŉęχpęčŧęđ ęřřőř őččūřřęđ. !!! !!! !!!]</value>
   </data>
+  <data name="ErrorRemoveRule" xml:space="preserve">
+    <value>[Ůŉäþľę ŧő řęmővę řūľę. Åŉ ūŉęχpęčŧęđ ęřřőř őččūřřęđ. !!! !!! !!!]</value>
+  </data>
   <data name="ErrorSendingConfig" xml:space="preserve">
     <value>[Ůŉäþľę ŧő şęŉđ čőŉƒįģūřäŧįőŉ. Åŉ ūŉęχpęčŧęđ ęřřőř őččūřřęđ. !!! !!! !!!]</value>
   </data>
@@ -485,6 +509,9 @@
   </data>
   <data name="FilterFieldLabel" xml:space="preserve">
     <value>[FĨĒĿĐ !!! !!! !!! !!!]</value>
+  </data>
+  <data name="FilterInfo" xml:space="preserve">
+    <value>[(ƒįľŧęřęđ ƒřőm _MÅX_ ŧőŧäľ řęčőřđş) !!! !!!]</value>
   </data>
   <data name="FilterOperatorContainsInsensitive" xml:space="preserve">
     <value>[Cőŉŧäįŉş (čäşę įŉşęŉşįŧįvę) !!! !!!]</value>
@@ -594,6 +621,9 @@
   <data name="Humidity" xml:space="preserve">
     <value>[Ħūmįđįŧy !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
+  <data name="ImplicitReadOnlyRole" xml:space="preserve">
+    <value>[Ĩmpľįčįŧ Ŗęäđ-Øŉľy !!! !!!]</value>
+  </data>
   <data name="InfoIconLink" xml:space="preserve">
     <value>[ĥŧŧpş://äžūřę.mįčřőşőƒŧ.čőm/şőľūŧįőŉş/įőŧ-şūįŧę/ !!! !!! !!!]</value>
   </data>
@@ -653,6 +683,9 @@
   </data>
   <data name="Local" xml:space="preserve">
     <value>[Ŀőčäľ !!! !!! !!! !!!]</value>
+  </data>
+  <data name="LocalTime" xml:space="preserve">
+    <value>[Ŀőčäľ Ŧįmę !!! !!!]</value>
   </data>
   <data name="ManufactureHeader" xml:space="preserve">
     <value>[Mäŉūƒäčŧūřęř !!! !!!]</value>
@@ -768,6 +801,9 @@
   <data name="PowerSourceVoltage" xml:space="preserve">
     <value>[Pőŵęř Ŝőūřčę Vőľŧäģę !!! !!!]</value>
   </data>
+  <data name="Previous" xml:space="preserve">
+    <value>[Přęvįőūş !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
   <data name="Price" xml:space="preserve">
     <value>[Přįčę !!! !!! !!! !!!]</value>
   </data>
@@ -795,6 +831,9 @@
   <data name="PropertiesPaneLabel" xml:space="preserve">
     <value>[Přőpęřŧįęş !!! !!!]</value>
   </data>
+  <data name="ReadOnlyRole" xml:space="preserve">
+    <value>[Ŗęäđ-Øŉľy !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
   <data name="RegisteredButNotPresent" xml:space="preserve">
     <value>[Ŗęģįşŧęřęđ ßūŧ Ńőŧ Přęşęŉŧ !!! !!!]</value>
   </data>
@@ -812,6 +851,21 @@
   </data>
   <data name="RemoveDeviceFormatted" xml:space="preserve">
     <value>[Ŗęmővę đęvįčę '{0}' !!! !!!]</value>
+  </data>
+  <data name="RemoveRule" xml:space="preserve">
+    <value>[Ŗęmővę Ŗūľę !!! !!!]</value>
+  </data>
+  <data name="RemoveRuleButtonLabel" xml:space="preserve">
+    <value>[Ŗęmővę Ŗūľę... !!! !!!]</value>
+  </data>
+  <data name="RemoveRuleConfirmationPart1" xml:space="preserve">
+    <value>[Åřę yőū şūřę? Ŧĥįş ŵįľľ řęmővę ŧĥįş řūľę ƒřőm yőūř ĨőŦ şőľūŧįőŉ. !!! !!! !!! !!!]</value>
+  </data>
+  <data name="RemoveRuleConfirmationPart2" xml:space="preserve">
+    <value>[Ŧĥįş äčŧįőŉ įş pęřmäŉęŉŧ. !!! !!!]</value>
+  </data>
+  <data name="RemoveRuleFormatted" xml:space="preserve">
+    <value>[Ŗęmővę Ŗūľę ƒőř {0} őŉ Đęvįčę {1} !!! !!!]</value>
   </data>
   <data name="RequestFormatError" xml:space="preserve">
     <value>[Ēįŧĥęř ŧĥę {0} päřämęŧęř įş mįşşįŉģ őř ŧĥę väľūę ŵäş ŉőŧ řęčőģŉįžęđ äş ä väľįđ {1} !!! !!! !!! !!! !!!]</value>
@@ -942,6 +996,9 @@
   <data name="SignIn" xml:space="preserve">
     <value>[Ŝįģŉ Ĩŉ !!! !!! !!! !!! !!! !!!]</value>
   </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>[Ŝįģŉ Øūŧ !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
   <data name="SimulatorCredentialHeader" xml:space="preserve">
     <value>[Ÿőūř şįmūľäŧęđ đęvįčę ĥäş þęęŉ čřęäŧęđ ŵįŧĥ ŧĥęşę şęŧŧįŉģş !!! !!! !!!]</value>
   </data>
@@ -1046,6 +1103,9 @@
   </data>
   <data name="YesRemoveDeviceFormatted" xml:space="preserve">
     <value>[Ÿęş, řęmővę đęvįčę {0} !!! !!!]</value>
+  </data>
+  <data name="YesRemoveRuleFormatted" xml:space="preserve">
+    <value>[Ÿęş, řęmővę ŧĥę řūľę ƒőř {0} őŉ đęvįčę {1} !!! !!!]</value>
   </data>
   <data name="YouChose" xml:space="preserve">
     <value>[Ÿőū Cĥőşę: !!! !!!]</value>
