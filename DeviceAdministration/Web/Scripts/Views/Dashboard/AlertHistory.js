@@ -48,7 +48,7 @@
             "lengthChange": false,
             "processing": true,
             "serverSide": true,
-            "dom": "<'dataTables_header alertHeader'i>",
+            "dom": "<'dataTables_header dashboard_alert_history__alertHeader'i>",
             "ajax": {
                 url: getDataUri,
                 error: onError,
@@ -189,7 +189,7 @@
 
     var setId = function () {
         var alertHistoryType = resources.alertHistoryType;
-        $("div.dashboardAlertHistory").attr("id", alertHistoryType);
+        $("div.dashboard_alert_history").addClass(alertHistoryType);
     }
 
     return {

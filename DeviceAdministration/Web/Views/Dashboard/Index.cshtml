@@ -30,27 +30,27 @@
     };
 </script>
 
-<div class="dashboardContent">
-    <div class="dashboardLeftColumn">
+<div class="dashboard_content">
+    <div class="dashboard_left_column">
         <div>
             @{if (!string.IsNullOrWhiteSpace(Model.MapApiQueryKey))
             {
-                <div id="deviceMap" class="dashboardDeviceMap">
+                <div id="deviceMap" class="dashboard_device_map">
                     <script charset="UTF-8" type="text/javascript" src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1"></script>
                     <script type="text/javascript" src="~/Scripts/IoTHelperScripts.js"></script>
 
                     <script src="~/Scripts/Views/Dashboard/MapPane.js"></script>
 
                     <script>
-                        resources.alertHistoryType = "staticAlertHistory";
+                        resources.alertHistoryType = "dashboard_alert_history--static_height";
                     </script>
                 </div>
             }
             else
             {
-                <img id="staticMap" src="~/Content/img/map_copyrights.png" alt="Map Img" />
+                <img class="static_map" id="staticMap" src="~/Content/img/map_copyrights.png" alt="Map Img" />
                 <script>
-                    resources.alertHistoryType = "dynamicAlertHistory";
+                    resources.alertHistoryType = "dashboard_alert_history--dynamic_height";
                 </script>
             }
             }
