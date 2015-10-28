@@ -6,11 +6,11 @@
     string firstDeviceId = string.Empty;
 }
 
-<div class="dashboardRightColumn">
-    <div class="dashboardDeviceSelection">
-        <form id="selectDevice">
-            <h5>@Strings.DeviceToView</h5>
-            <select id="deviceSelection" name="deviceSelection">
+<div class="dashboard_right_column">
+    <div class="dashboard_device_selection">
+        <form class="dashboard_device_selection__selection_form" id="selectDevice">
+            <h5 class="dashboard_device_selection__selection_form__label">@Strings.DeviceToView</h5>
+            <select class="dashboard_device_selection__selection_form__selection_dropdown" id="deviceSelection" name="deviceSelection">
                 @foreach (KeyValuePair<string, string> pair in Model)
                 {
                     if (string.IsNullOrEmpty(firstDeviceId))

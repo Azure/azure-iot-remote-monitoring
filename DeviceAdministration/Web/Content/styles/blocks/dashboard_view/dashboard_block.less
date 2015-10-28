@@ -1,5 +1,5 @@
 ﻿
-.dashboardContent {
+.dashboard_content {
     width: 100%;
     height: 100%;
     max-height: 890px;
@@ -8,7 +8,7 @@
     .display-flex();
 }
 
-.dashboardLeftColumn {
+.dashboard_left_column {
     width: 50%;
     height: 100%;
     float: left;
@@ -17,7 +17,7 @@
     box-sizing: border-box;
 }
 
-.dashboardRightColumn {
+.dashboard_right_column {
     width: 50%;
     height: 100%;
     padding: 14px 14px 14px 7px;
@@ -26,7 +26,7 @@
     box-sizing: border-box;
 }
 
-#deviceMap{
+.dashboard_device_map {
     width: ~"calc(100% - 20px)";  // 10px border subject 20px from the width
     height:456px;
     float: left;
@@ -35,7 +35,7 @@
     border: 10px solid @background-color;
 } 
 
-img#staticMap{
+.static_map {
     width: ~"calc(100% - 20px)";  // 10px border subject 20px from the width
     height: 50%;
     min-width:311.5px;
@@ -47,52 +47,62 @@ img#staticMap{
     margin-bottom: 15px;
 }
 
-.dashboardAlertHistory {
+.dashboard_alert_history {
     width:100%;
     background-color: @background-color;
     float: left;
     border: none;
 }
 
-#staticAlertHistory {
-    height:363px;
-}
-
+/*This style needs to remain in traditional CSS instead of BEM because the datatables are currently driven
+    by CSS and the override rules prevent a BEM implementation from taking precedence. i.e. we don't get
+    highlighted rules because this rule is overridden by the more specific rule provided in datatables.css.
+    ('table.dataTable tbody tr' overrides '.alert_history_table__alert_row--selected')
+*/
 table#alertHistoryTable{
     tr.selectedAlert {
         background-color: lightblue;
     }
 }
 
-#dynamicAlertHistory {
+.dashboard_alert_history--static_height {    
+    height:363px;
+}
+
+.dashboard_alert_history--dynamic_height {
     height: 417px;
 }
 
 @media screen and (max-width:1100px) {
-    #dynamicAlertHistory {
+    .dashboard_alert_history--dynamic_height {
         height:563px;
-        }
     }
+}
 
 @media screen and (min-width:1500px) {
-    #dynamicAlertHistory {
+    .dashboard_alert_history--dynamic_height {
         height:271px;
-        }
     }
+}
 
-.alertHeader {
+.dashboard_alert_history__alertHeader {
     background-color:@background-color;
     height:36px;
     line-height:normal;
     z-index: 0;
-    }
+}
 
+/*
+    It seems this style needs to remain on the id instead of on a class, contrary to BEM practice, because
+    the element in question is built by the datatables library and given this id. The class given to the element
+    is more general and would apply to all data tables
+*/
 #alertHistoryTable_info {
     font-weight:400;
     font-size: 1.5em;
     }
 
-.dashboardTelemetryHistory {
+.dashboard_telemetry_history {
     width: 100%;
     height: 637px;
     padding: 6px 6px 6px 6px;
@@ -102,12 +112,12 @@ table#alertHistoryTable{
     box-sizing: border-box;
     }
 
-.dashboardTelemetryHistory#telemetryHistoryTitle {
+.dashboard_telemetry_history__telemetry_history_title {
     font-size:1.4em;
     font-weight:400;
     }
 
-.telemetryHistoryGraph {
+.dashboard_telemetry_history__telemetry_history_graph {
     width: 100%;
     height: 100%;
     margin-left: 25px;
@@ -115,43 +125,45 @@ table#alertHistoryTable{
     background-color: @background-color;
 }
 
-.dashboardDeviceSelection {
+.dashboard_device_selection {
     display: inline-block;
     width: 100%;
     margin-bottom: 6px;
 }
 
-form#selectDevice {
+.dashboard_device_selection__selection_form {
     .display-inline-flex();
-    h5 {
-        float: left;
-        font-size: 1.3em;
-        font-weight:400;
-        white-space:nowrap;
-        margin-right:10px;
-        width:auto;
-    }
-    select#deviceSelection {
-        margin: 0 0 0 0;
-        min-height: 0;
-        float: right;
-        font-size:1.2em;
-        display: block;
-        border-color: @form-textbox-border;
-        background-color: @form-textbox-background;
-        border-width: 1px;
-        padding: 0 5px;
-        box-sizing: content-box;
-    }
 }
 
-.dashboardTelemetryHistorySummary {
+.dashboard_device_selection__selection_form__label {
+    float: left;
+    font-size: 1.3em;
+    font-weight:400;
+    white-space:nowrap;
+    margin-right:10px;
+    width:auto;
+}
+
+.dashboard_device_selection__selection_form__selection_dropdown {
+    margin: 0 0 0 0;
+    min-height: 0;
+    float: right;
+    font-size:1.2em;
+    display: block;
+    border-color: @form-textbox-border;
+    background-color: @form-textbox-background;
+    border-width: 1px;
+    padding: 0 5px;
+    box-sizing: content-box;
+}
+
+.dashboard_telemetry_history_summary {
     width: 100%;
     box-sizing: border-box;
     .display-inline-flex();
 }
 
-.dashboardTelemetryHistoryGauge {
+.dashboard_telemetry_history_summary__dashboard_telemetry_history_gauge {
     background-color: @background-color;
     height: 172px;
     width: 33.333%;
@@ -163,27 +175,27 @@ form#selectDevice {
     border-bottom-width: 0;
 }
 
-.leftGauge {
+.dashboard_telemetry_history_gauge--leftGauge {
     border-right: 6px solid @body-background-color;
 }
 
-.centerGauge {
+.dashboard_telemetry_history_gauge--centerGauge {
     border-right: 6px solid @body-background-color;
     border-left: 6px solid @body-background-color;
 }
 
-.rightGauge {
+.dashboard_telemetry_history_gauge--rightGauge {
    border-left: 6px solid @body-background-color;
 }
 
-.telemetrySummaryGaugeControl {
+.dashboard_telemetry_history_gauge__telemetry_summary_gauge_control {
     width: 100%;
     height:100%;
     background-color: @background-color;
     float: left;
 }
 
-h5.gaugeHeader {
+.telemetry_summary_gauge_control__gauge_header {
     border: none;
     font-weight:400;
     font-size:0.9em
