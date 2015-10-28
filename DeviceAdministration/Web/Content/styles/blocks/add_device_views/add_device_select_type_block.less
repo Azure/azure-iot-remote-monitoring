@@ -1,21 +1,19 @@
-﻿/* ##### Add Device Select Type ##### */
+﻿.content_outer--select_device {
+    overflow-x: visible;
+    overflow-y: visible;
+}
 
-.content_outer_selectDevice {
-    overflow-x:visible;
-    overflow-y:visible;
-    }
+.content_inner--select_device {
+    overflow-x: visible;
+    overflow-y: visible;
+}
 
-.content_inner_selectDevice {
-    overflow-x:visible;
-    overflow-y:visible;
-    }
-
-.list_select_device {
-    min-width:1130px;
+.select_device__list {
+    min-width: 1130px;
     list-style: none;
-    }
+}
 
-.list_item_select_device {
+.list__item {
     position: relative;
     float: left;
     width: 515px;
@@ -23,72 +21,77 @@
     margin: 10px 0;
     padding: 15px;
     background-color: @background-color;
+}
 
+.list__item:nth-child(2n+1) {
+    margin-right: 20px;
+}
 
-    &:nth-child(2n+1) {
-        margin-right: 20px;
-        }
+.list__item:nth-last-child(1) {
+    border: 0;
+}
 
-    &:nth-last-child(1),
-    &:nth-last-child(2) {
-        border: 0;
-        }
+.list__item:nth-last-child(2) {
+    border: 0;
+}
 
-    }
-
-.select_device_subhead {
+.item__name {
     margin-bottom: 1em;
-    }
+}
 
-.select_device_description {
+.item__description {
     font-size: .85em;
-    color:@text-devicedetail-color;
-    }
+    color: @text-devicedetail-color;
+}
+
+.item__add_new_button {
+    display: block;
+    float: left;
+    color: @button-color;
+    background-color: @button-background-color;
+    border: 1px solid @button-border-color;
+    min-width: 6.45em;
+    padding: 0 1em;
+    min-height: 32px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
+    z-index: 100;
+    width: 100px;
+    max-width: 100px;
+    padding-left: 0;
+    padding-right: 0;
+    font-size: .9em;
+}
 
 @media screen and (max-width:900px) {
-
-
-    /* Select a Device */
-    .content_outer_selectDevice {
-        overflow-x:auto;
-        overflow-y:auto;
-        }
-
-
-    .list_select_device {
-        min-width:inherit;
-        }
-
-
-    .list_item_select_device {
-        float:none;
-        margin-right:0;
-        width:auto;
-        min-height:inherit;
-        overflow:auto;
-        }
-
-    .select_device_description {
-        margin-bottom:1em;
-        }
-
-    .button_selectDevice {
-        position:relative;
-        bottom:inherit;
-        left:inherit;
-        }
-
-
-
-    /* Edit Keys */
-
-    .message_textbox {
-        float:left;
-        margin-bottom:1em;
-        }
-
-    input[type="text"].textbox_key_primary,
-    select.valid {
-        margin-bottom:0;
-        }
+    .content_outer--select_device {
+        overflow-x: auto;
+        overflow-y: auto;
     }
+
+
+    .select_device__list {
+        min-width: inherit;
+    }
+
+
+    .list__item {
+        float: none;
+        margin-right: 0;
+        width: auto;
+        min-height: inherit;
+        overflow: auto;
+    }
+
+    .item__description {
+        margin-bottom: 1em;
+    }
+
+    .item__add_new_button {
+        position: relative;
+        bottom: inherit;
+        left: inherit;
+    }
+}
