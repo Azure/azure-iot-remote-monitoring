@@ -29,13 +29,13 @@
                 <a class="filter_add_clause_link">@Strings.AddNewClause</a>
 
                 <!-- This template is copied for each filter clause -->
-                <div id="filter_template" style="display: none;">
+                <div id="filter_template" class="search_filters" style="display: none;">
 
                     <div>
 
                         <label class="filter_label filter_group_top" for="filterFieldREPLACE_ME"><span>@Strings.FilterFieldLabel</span></label>
 
-                        <select id="filterFieldREPLACE_ME" name="filterFieldREPLACE_ME" class="filter_input">
+                        <select id="filterFieldREPLACE_ME" name="filterFieldREPLACE_ME" class="search_filter__select">
                             <option value="Status">@Strings.FilterOptionStatus</option>
                             <option value="DeviceId" selected>@Strings.FilterOptionDeviceId</option>
                             <option value="Manufacturer">@Strings.FilterOptionManufacturer</option>
@@ -53,7 +53,7 @@
 
                         <label class="filter_label" for="filterOperatorREPLACE_ME"><span>@Strings.FilterOperatorLabel</span></label>
 
-                        <select id="filterOperatorREPLACE_ME" name="filterOperatorREPLACE_ME" class="filter_input">
+                        <select id="filterOperatorREPLACE_ME" name="filterOperatorREPLACE_ME" class="search_filter__select">
                             <option value="ExactMatchCaseInsensitive">@Strings.FilterOperatorExactInsensitive</option>
                             <option value="StartsWithCaseInsensitive">@Strings.FilterOperatorStartsWithInsensitive</option>
                             <option value="ContainsCaseInsensitive" selected>@Strings.FilterOperatorContainsInsensitive</option>
@@ -68,7 +68,7 @@
 
                         <label class="filter_label" for="filterValueREPLACE_ME"><span>@Strings.FilterValueLabel</span></label>
 
-                        <input type="text" id="filterValueREPLACE_ME" name="filterValueREPLACE_ME" class="filter_input__text" />
+                        <input type="text" id="filterValueREPLACE_ME" name="filterValueREPLACE_ME" class="search_filter__text" />
 
                     </div>
 
@@ -76,7 +76,7 @@
 
                         <label class="filter_label" for="filterStatusREPLACE_ME"><span>@Strings.FilterStatusLabel</span></label>
 
-                        <select id="filterStatusSelectREPLACE_ME" name="filterStatusSelectREPLACE_ME" class="filter_input">
+                        <select id="filterStatusSelectREPLACE_ME" name="filterStatusSelectREPLACE_ME" class="search_filter__select">
                             <option value="Pending">@Strings.FilterStatusPending</option>
                             <option value="Running">@Strings.FilterStatusRunning</option>
                             <option value="Disabled">@Strings.FilterStatusDisabled</option>

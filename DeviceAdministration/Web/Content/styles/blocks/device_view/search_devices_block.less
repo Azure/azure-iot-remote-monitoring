@@ -20,8 +20,8 @@
         padding: 0 0 0 12px;
         font-size: 1.1em;
         font-weight: normal;
-        }
     }
+}
 
 .search_container {
     position: relative;
@@ -42,25 +42,25 @@
         background-position: 11px 20px;
         background-size: 7px 11px;
         cursor: pointer;
-        }
+    }
 
     .search_details_container {
         border: 10px solid @secondary-color;
         overflow: hidden;
         padding: 10px;
         height: 100%;
-        }
+    }
 
     .search_details_button_container {
         position: absolute;
         bottom: 12px;
         .display-flex();
-        }
+    }
 
     .search_button.button_secondary {
-            margin-left: 45px;
-            margin-right: 10px;
-        }
+        margin-left: 45px;
+        margin-right: 10px;
+    }
 
     .filter_add_clause_link {
         display: block;
@@ -68,7 +68,7 @@
         padding-left: 121px;
         padding-bottom: 13px;
         clear: both;
-        }
+    }
 
     .filter_label {
         font-size: 70%;
@@ -80,51 +80,64 @@
         white-space: nowrap;
         overflow: hidden;
         clear: both;
-        }
-
-    .filter_input {
-        width: @filter_input_width;
-        font-size: 80%;
-        margin-right: 0;
-        margin-bottom: 0;
-        padding-right: 0;
-        padding-left: 0;
-        height: 30px;
-        }
+    }
 
     .filter_clause_container {
         padding-top: 20px;
         clear: both;
-        }
+    }
 
     #filter_holder {
         overflow-y: auto;
-        }
     }
+}
 
 .search_details_query__text {
     display: block;
     float: left;
-    margin:.25em 1em 1.4em 0;
-    border:1px solid @form-textbox-border;
+    margin: .25em 1em 1.4em 0;
+    border: 1px solid @form-textbox-border;
     background-color: @form-textbox-background;
     font-size: .85em;
     padding: 0 5px;
-    min-height:30px;
+    min-height: 30px;
     box-sizing: content-box;
     width: 239px;
 }
 
-.filter_input__text {
+.search_filter__text {
     display: block;
     float: left;
-    margin:.25em 0 0 0;
-    border:1px solid @form-textbox-border;
+    margin: .25em 0 0 0;
+    border: 1px solid @form-textbox-border;
     background-color: @form-textbox-background;
-    min-height:30px;
+    min-height: 30px;
     box-sizing: content-box;
-    width: @filter_input_width - 5px;  /* width of .filter_input minus the padding here */
+    width: @filter_input_width - 5px; /* width of .filter_input minus the padding here */
     font-size: 80%;
     padding: 0 0 0 5px;
+    height: 30px;
+}
+
+.search_filter__select {
+    position: relative;
+    left: 0;
+    top: 0;
+    z-index: 200;
+    display: block;
+    float: left;
+    margin: .25em 1em 1.4em 0;
+    border-color: @form-textbox-border;
+    background-color: @form-textbox-background;
+    border-width: 1px;
+    padding: 0 5px;
+    min-height: 30px;
+    box-sizing: content-box;
+    width: @filter_input_width;
+    font-size: 80%;
+    margin-right: 0;
+    margin-bottom: 0;
+    padding-right: 0;
+    padding-left: 0;
     height: 30px;
 }
