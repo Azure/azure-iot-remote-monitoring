@@ -4,7 +4,7 @@
     var uniqueId = string.Format("{0}_{1}", idPrefix, Guid.NewGuid());
     
     <div class="text_copy_container @class_styles_modifier">
-        <input class="readOnlyField text_copy_container__input @classname" data-val="true" id="@uniqueId" readonly="readonly" type="text" value="@content">
+        <input class="input_text--readonly text_copy_container__input @classname" data-val="true" id="@uniqueId" readonly="readonly" type="text" value="@content">
         <button class="button_copy" data-id="@uniqueId">
             @Strings.Copy
         </button>

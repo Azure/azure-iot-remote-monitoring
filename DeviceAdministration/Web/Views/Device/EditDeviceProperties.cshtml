@@ -55,11 +55,11 @@
                                         CultureInfo.InvariantCulture,
                                         Model.DevicePropertyValueModels[i].Value)).HasValue)
                             {
-                                @Html.TextBox(Model.DevicePropertyValueModels[i].Name, resolvedTime.Value.ToString(CultureInfo.InvariantCulture), new { @class = "readOnlyField" })
+                                @Html.TextBox(Model.DevicePropertyValueModels[i].Name, resolvedTime.Value.ToString(CultureInfo.InvariantCulture), new { @class = "input_text--readonly" })
                             }
                             else
                             {
-                                @Html.TextBoxFor(m => m.DevicePropertyValueModels[i].Value, new { @readonly = "readonly", @class = "readOnlyField" })
+                                @Html.TextBoxFor(m => m.DevicePropertyValueModels[i].Value, new { @readonly = "readonly", @class = "input_text--readonly" })
                             }
                         }
 

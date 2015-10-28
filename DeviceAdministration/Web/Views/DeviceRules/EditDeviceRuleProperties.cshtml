@@ -46,7 +46,7 @@
         }
         }
         <label class="edit_form__label">@Strings.RuleStatus</label>
-        @Html.TextBoxFor(m => state, new { @readonly = "readonly", @class = "readOnlyField" })
+        @Html.TextBoxFor(m => state, new { @readonly = "readonly", @class = "input_text--readonly" })
 
         <label class="edit_form__label">@Strings.DataFieldHeader</label>
         @Html.DropDownListFor(m => m.DataField, Model.AvailableDataFields, new { @class = "edit_form__select" })
