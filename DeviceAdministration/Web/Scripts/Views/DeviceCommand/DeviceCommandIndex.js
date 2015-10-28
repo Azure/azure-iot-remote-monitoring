@@ -25,7 +25,7 @@
 
     var commandHistoryErrors = function() {
         $("#commandHistory .error").parent().on("click", function () {
-            var errorMessageElement = $(this).find(".error_message");
+            var errorMessageElement = $(this).find(".command_history__error_message");
             var errorMessage = errorMessageElement.data("error-message");
             errorMessageElement.html(errorMessage);
             $(this).off("click");
