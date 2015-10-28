@@ -1,22 +1,28 @@
-﻿input[type="text"].input-validation-error {
-    border-color: @error-color;
-    }
+﻿.error_noscript {
+    background-color: transparent;
+    color: @error-color;
+    background-color: @body-background-color;
+    padding: 1em;
+}
+
+.error_noscript__header {
+    margin-bottom: .5em;
+}
 
 .device_detail_error {
     text-align: center;
-    margin-top:5em;
-    
-     p {
-        margin-bottom: 10px;
-        }
+    margin-top: 5em;
+}
 
-     button {
-        float:none;
-        margin-left:auto;
-        margin-right:auto;    
-        }
+.device_detail_error__information {
+    margin-bottom: 10px;
+}
 
-    }
+.device_detail_error__retry_button {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 /* errors & messages - these class names are generated on the server */
 .field-validation-error {
@@ -26,10 +32,10 @@
     padding-left: 30px;
     min-height: 18px;
     background-image: url("@{base-image-path}/icon_error.svg");
-    background-size:18px 18px;
-    background-position:center left;
+    background-size: 18px 18px;
+    background-position: center left;
     background-repeat: no-repeat;
-    }
+}
 
 .field-validation-valid {
     display: none;
@@ -38,45 +44,11 @@
     height: 13px;
     margin: 15px 0 0 15px;
     background-image: url("@{base-image-path}/icon_confirmed.svg");
-    background-size:16px 18px;
-    background-position:center left;
+    background-size: 16px 18px;
+    background-position: center left;
     background-repeat: no-repeat;
-    }
+}
 
-.error_noscript {
-    background-color:transparent;
-    color:@error-color;
-    background-color:@body-background-color;
-    padding:1em;
-
-    h1 {
-        margin-bottom:.5em;
-        }
-
-    }
-
-
-/* errors & messages - inline text box messages */
-
-.message_textbox {
-    line-height:36px;
-    font-size:1em;
-    color:@error-pending-color;
-    }
-
-.pending {
-    color:@error-pending-color;
-    }
-
-.success {
-    color: @error-validate-color;
-    }
-
-
-/* errors & messages - command history */
-
-.dataTable .error_message,
-.dataTable .error {
-    color: @error-color;
-    word-break: break-all;
-    }
+.input-validation-error {
+    border-color: @error-color;
+}

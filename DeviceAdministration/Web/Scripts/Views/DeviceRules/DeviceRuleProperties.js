@@ -55,8 +55,9 @@
         $wrapper.append($paragraph);
         var node = document.createTextNode(errorMessage);
         $paragraph.append(node);
+        $paragraph.addClass('device_detail_error__information');
 
-        var button = $('<button class="button_base">' + resources.retry + '</button>');
+        var button = $('<button class="button_base device_detail_error__retry_button">' + resources.retry + '</button>');
 
         button.on("click", function () {
             retryCallback();
