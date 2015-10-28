@@ -422,11 +422,11 @@
             $(self.buttonSearchPane).height() -
             80;
 
-        $(".search_height_fixed").height(fixedHeightSearchVal);
+        $(".search_height--fixed").height(fixedHeightSearchVal);
 
         // set height of collapsed search pane
         var fixedHeightSearchClosedVal = $(window).height() - 51;
-        $(".search_height_closed_fixed").height(fixedHeightSearchClosedVal);
+        $(".search_height--closed_fixed").height(fixedHeightSearchClosedVal);
 
         // set height of scrolling filter container inside search pane
         var fixedHeightFilterVal = $(window).height() -

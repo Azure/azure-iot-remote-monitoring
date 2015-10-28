@@ -15,21 +15,21 @@
 <div class="content_outer content_outer--background_color content_grid">
     <div class="content_inner content_inner--inherit_max_width_no_margin">
 
-        <div class="search_container_closed search_height_closed_fixed">
+        <div class="search_container_closed search_height--closed_fixed">
             <h2 class="search_container_closed__pane_subhead">@Strings.FindDevicesLabelCollapsed</h2>
         </div>
 
-        <div class="search_container search_height_fixed">
+        <div class="search_container search_height--fixed">
             <h2 class="search_container__search_subhead">@Strings.FindDevices</h2>
             <div class="search_container__search_details_container">
                 <label for="searchQuery" class="grid_subhead_detail_label">@Strings.SearchDevices</label>
-                <input type="text" name="searchQuery" id="searchQuery" class="search_details_query__text" />
+                <input type="text" name="searchQuery" id="searchQuery" class="search_details_container__text" />
 
                 <h2 class="grid_subhead_detail_label">@Strings.FilterDevices</h2>
                 <a class="search_details_container__filter_add_clause_link">@Strings.AddNewClause</a>
 
                 <!-- This template is copied for each filter clause -->
-                <div id="filter_template" class="search_filters" style="display: none;">
+                <div id="filter_template" class="search_filter" style="display: none;">
 
                     <div>
 
