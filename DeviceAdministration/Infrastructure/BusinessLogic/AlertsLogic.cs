@@ -36,13 +36,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="minTime">
         /// The cutoff time for Device Alert History items that should be returned.
         /// </param>
+        /// <param name="minResults">
+        /// The minimum number of items that should be returned, if possible, 
+        /// after <paramref name="minTime"/> or otherwise.
+        /// </param>
         /// <returns>
         /// The latest Device Alert History items.
         /// </returns>
-        public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(DateTime minTime)
+        public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(DateTime minTime, int minResults)
         {
+            if (minResults <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    "minResults",
+                    minResults,
+                    "minResults must be a positive integer.");
+            }
 
-            return await this.alertsRepository.LoadLatestAlertHistoryAsync(minTime);
+            return await this.alertsRepository.LoadLatestAlertHistoryAsync(minTime, minResults);
         }
     }
 }

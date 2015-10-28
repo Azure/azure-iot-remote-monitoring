@@ -333,6 +333,7 @@
     <Content Include="Content\img\icon_deviceExplorer_details_open.svg" />
     <Content Include="Content\img\icon_devices.svg" />
     <Content Include="Content\img\icon_error.svg" />
+    <Content Include="Content\img\icon_info_gray.svg" />
     <Content Include="Content\img\icon_info_white.svg" />
     <Content Include="Content\img\icon_mysolutions.svg" />
     <Content Include="Content\img\icon_rules.svg" />

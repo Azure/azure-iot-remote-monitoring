@@ -9,6 +9,7 @@
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceDetailModel
 <div class="header_grid header_grid_general">
     <h3 class="grid_subheadhead_detail">@Strings.DeviceProperties</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DevicePropertiesFormattedAsStored" />
     @if (Model.IsDeviceEditEnabled)
     {
         @Html.ActionLink(@Strings.Edit, "EditDeviceProperties", "Device", new { deviceId = Model.DeviceID }, new
@@ -24,7 +25,7 @@
     @{ DateTime? resolvedDate; }
     @foreach (var propVal in Model.DevicePropertyValueModels)
     {
-        <h4 class="grid_subhead_detail_label">@propVal.Name</h4>
+        <h4 class="grid_subhead_detail_label">@DeviceDisplayHelper.GetDevicePropertyFieldLocalName(propVal.Name)</h4>
         if (DeviceDisplayHelper.GetIsCopyControlPropertyName(propVal.Name))
         {
             @IoTHelpers.TextCopy(propVal.Name, propVal.Name, propVal.Value);
