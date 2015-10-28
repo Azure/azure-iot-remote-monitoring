@@ -4,16 +4,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.SampleDat
 {
     public class RandomGenerator : IRandomGenerator
     {
-        private readonly Random _random;
+        private static readonly Random _random = BuildRandomSource();
 
         public RandomGenerator()
         {
-            _random = new Random();
         }
 
         public double GetRandomDouble()
         {
-            return _random.NextDouble();
+            lock (_random)
+            {
+                return _random.NextDouble();
+            }
+        }
+
+        private static Random BuildRandomSource()
+        {
+            return new Random(Guid.NewGuid().GetHashCode());
         }
     }
 }
