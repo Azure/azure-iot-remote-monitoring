@@ -2,30 +2,80 @@
     "$schema" : "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
     "contentVersion" : "1.0.0.0",
     "parameters" : {
-        "AADTenant" : {
-            "type" : "string",
-            "metadata" : {
-                "description" : "The name of the service Tenant"
+        "AADTenant": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the service Tenant"
             }
         },
-        "packageUri" : {
-            "type" : "string",
-            "defaultValue" : "http://aka.ms/azureiot/remotemonitoring"
+        "suiteName": {
+            "type": "string",
+            "defaultValue": "notset",
+            "metadata": {
+                "description": "The name of the suite"
+            }
+        },
+        "docDBName": {
+            "type": "string",
+            "defaultValue": "notset",
+            "metadata": {
+                "description": "The name of the documentDB"
+            }
+        },
+        "storageName": {
+            "type": "string",
+            "defaultValue": "notset",
+            "metadata": {
+                "description": "The name of the storageAccount"
+            }
+        },
+        "iotHubName": {
+            "type": "string",
+            "defaultValue": "notset",
+            "metadata": {
+                "description": "The name of the iotHub"
+            }
+        },
+        "sbName": {
+            "type": "string",
+            "defaultValue": "notset",
+            "metadata": {
+                "description": "The name of the serviceBus"
+            }
+        },
+        "packageUri": {
+            "type": "string",
+            "defaultValue": "http://aka.ms/azureiot/remotemonitoring"
+        },
+        "asaStartBehavior": {
+            "type": "string",
+            "metadata": {
+                "description": "The start behavior for Stream Analytics jobs [LastStopTime | JobStartTime (default)]"
+            },
+            "defaultValue": "JobStartTime"
+        },
+        "asaStartTime": {
+            "type": "string",
+            "defaultValue": "notset",
+            "metadata": {
+                "description": "The start time for Stream Analytics jobs"
+            }
         }
+
     },
     "variables" : {
         "name" : "[resourceGroup().name]",
         "storageAccountType" : "Standard_LRS",
         "location" : "[resourceGroup().location]",
         "storageVersion" : "2015-05-01-preview",
-        "storageName" : "[toLower(concat(variables('name'), 'store'))]",
-        "storageId" : "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]",
+        "storageNameVar" : "[toLower(concat(variables('name'), 'store'))]",
+        "storageId" : "[resourceId('Microsoft.Storage/storageAccounts', variables('storageNameVar'))]",
         "sbVersion" : "[providers('Microsoft.Eventhub', 'namespaces').apiVersions[0]]",
-        "sbName" : "[concat(variables('name'), '-servicebus')]",
+        "sbNameVar" : "[concat(variables('name'), '-servicebus')]",
         "ehOutName" : "[concat(variables('name'), '-ehout')]",
         "ehRuleOutName" : "[concat(variables('name'), '-ehruleout')]",
         "sbKeyName" : "RootManageSharedAccessKey",
-        "sbResourceId" : "[resourceId('Microsoft.Eventhub/namespaces/authorizationRules', variables('sbName'), variables('sbKeyName'))]",
+        "sbResourceId" : "[resourceId('Microsoft.Eventhub/namespaces/authorizationRules', variables('sbNameVar'), variables('sbKeyName'))]",
         "saVersion" : "2015-06-01",
         "webVersion" : "2015-04-01",
         "bingMapsName" : "[concat(variables('name'), '-map')]",
@@ -38,7 +88,7 @@
         "AADMetadataAddress" : "[concat('https://login.windows.net/' , parameters('AADTenant'), '/FederationMetadata/2007-06/FederationMetadata.xml')]",
         "AADRealm" : "[toLower(concat('https://', variables('webSiteName'), '.azurewebsites.net/iotsuite'))]",
         "docDBVersion" : "2015-04-08",
-        "docDBName" : "[toLower(concat(variables('name'), '-IotSuite'))]",
+        "docDBNameVar" : "[toLower(concat(variables('name'), '-IotSuite'))]",
         "docDBSku" : "Standard",
         "iotHubVersion" : "2015-08-15-preview",
         "iotHubSku" : "S1",
@@ -50,10 +100,10 @@
     "resources" : [{
             "apiVersion" : "[variables('docDBVersion')]",
             "type" : "Microsoft.DocumentDb/databaseAccounts",
-            "name" : "[variables('docDBName')]",
+            "name" : "[variables('docDBNameVar')]",
             "location" : "[variables('location')]",
             "properties" : {
-                "name" : "[variables('docDBName')]",
+                "name" : "[variables('docDBNameVar')]",
                 "databaseAccountOfferType" : "[variables('docDBSku')]"
             }
         }, {
@@ -71,7 +121,7 @@
         }, {
             "apiVersion" : "[variables('storageVersion')]",
             "type" : "Microsoft.Storage/storageAccounts",
-            "name" : "[variables('storageName')]",
+            "name" : "[variables('storageNameVar')]",
             "location" : "[variables('location')]",
             "properties" : {
                 "accountType" : "[variables('storageAccountType')]"
@@ -91,7 +141,7 @@
             }
         }, {
             "apiVersion" : "[variables('sbVersion')]",
-            "name" : "[variables('sbName')]",
+            "name" : "[variables('sbNameVar')]",
             "type" : "Microsoft.Eventhub/namespaces",
             "location" : "[variables('location')]",
             "properties" : {
@@ -103,7 +153,7 @@
                     "type" : "eventHubs",
                     "location" : "[variables('location')]",
                     "dependsOn" : [
-                        "[concat('Microsoft.Eventhub/namespaces/', variables('sbName'))]"
+                        "[concat('Microsoft.Eventhub/namespaces/', variables('sbNameVar'))]"
                     ],
                     "properties" : {
                         "path" : "[variables('ehOutName')]"
@@ -114,7 +164,7 @@
                     "type" : "eventHubs",
                     "location" : "[variables('location')]",
                     "dependsOn" : [
-                        "[concat('Microsoft.Eventhub/namespaces/', variables('sbName'))]"
+                        "[concat('Microsoft.Eventhub/namespaces/', variables('sbNameVar'))]"
                     ],
                     "properties" : {
                         "path" : "[variables('ehRuleOutName')]"
@@ -127,7 +177,7 @@
             "name" : "[concat(variables('name'), '-Telemetry')]",
             "location" : "[variables('location')]",
             "dependsOn" : [
-                "[concat('Microsoft.Storage/storageAccounts/', variables('storageName'))]",
+                "[concat('Microsoft.Storage/storageAccounts/', variables('storageNameVar'))]",
                 "[concat('Microsoft.Devices/Iothubs/', variables('name'))]"
             ],
             "properties" : {
@@ -170,7 +220,7 @@
                                     "PathPattern" : "devicetelemetry/{date}/{time}",
                                     "StorageAccounts" : [{
                                             "AccountKey" : "[listkeys(variables('storageId'), variables('storageVersion')).key1]",
-                                            "AccountName" : "[variables('storageName')]"
+                                            "AccountName" : "[variables('storageNameVar')]"
                                         }
                                     ]
                                 },
@@ -195,7 +245,7 @@
                                     "PathPattern" : "devicetelemetry-summary/{date}/{time}",
                                     "StorageAccounts" : [{
                                             "AccountKey" : "[listkeys(variables('storageId'), variables('storageVersion')).key1]",
-                                            "AccountName" : "[variables('storageName')]"
+                                            "AccountName" : "[variables('storageNameVar')]"
                                         }
                                     ]
                                 },
@@ -225,7 +275,7 @@
             "name" : "[concat(variables('name'), '-DeviceInfo')]",
             "location" : "[variables('location')]",
             "dependsOn" : [
-                "[concat('Microsoft.Eventhub/namespaces/', variables('sbName'))]",
+                "[concat('Microsoft.Eventhub/namespaces/', variables('sbNameVar'))]",
                 "[concat('Microsoft.Devices/Iothubs/', variables('name'))]"
             ],
             "properties" : {
@@ -263,7 +313,7 @@
                             "DataSource" : {
                                 "Properties" : {
                                     "EventHubName" : "[variables('ehOutName')]",
-                                    "ServiceBusNamespace" : "[variables('sbName')]",
+                                    "ServiceBusNamespace" : "[variables('sbNameVar')]",
                                     "SharedAccessPolicyKey" : "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryKey]",
                                     "SharedAccessPolicyName" : "[variables('sbKeyName')]",
                                     "PartitionKey" : "PartitionId"
@@ -294,8 +344,8 @@
             "name" : "[concat(variables('name'), '-Rules')]",
             "location" : "[variables('location')]",
             "dependsOn" : [
-                "[concat('Microsoft.Storage/storageAccounts/', variables('storageName'))]",
-                "[concat('Microsoft.Eventhub/namespaces/', variables('sbName'))]",
+                "[concat('Microsoft.Storage/storageAccounts/', variables('storageNameVar'))]",
+                "[concat('Microsoft.Eventhub/namespaces/', variables('sbNameVar'))]",
                 "[concat('Microsoft.Devices/Iothubs/', variables('name'))]"
             ],
             "properties" : {
@@ -315,7 +365,7 @@
                                     "BlobName" : "{date}/{time}/devicerules.json",
                                     "StorageAccounts" : [{
                                             "AccountKey" : "[listkeys(variables('storageId'), variables('storageVersion')).key1]",
-                                            "AccountName" : "[variables('storageName')]"
+                                            "AccountName" : "[variables('storageNameVar')]"
                                         }
                                     ],
                                     "TimeFormat" : "HH-mm"
@@ -359,7 +409,7 @@
                             "DataSource" : {
                                 "Properties" : {
                                     "EventHubName" : "[variables('ehRuleOutName')]",
-                                    "ServiceBusNamespace" : "[variables('sbName')]",
+                                    "ServiceBusNamespace" : "[variables('sbNameVar')]",
                                     "SharedAccessPolicyKey" : "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryKey]",
                                     "SharedAccessPolicyName" : "[variables('sbKeyName')]",
                                     "PartitionKey" : "PartitionId"
@@ -385,7 +435,7 @@
                                     "PathPattern" : "{date}/{time}",
                                     "StorageAccounts" : [{
                                             "AccountKey" : "[listkeys(variables('storageId'), variables('storageVersion')).key1]",
-                                            "AccountName" : "[variables('storageName')]"
+                                            "AccountName" : "[variables('storageNameVar')]"
                                         }
                                     ]
                                 },
@@ -427,8 +477,8 @@
             "location" : "[variables('location')]",
             "dependsOn" : [
                 "[resourceId('Microsoft.Web/serverfarms', variables('webPlanName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]",
-                "[resourceId('Microsoft.DocumentDb/databaseAccounts', variables('docDBName'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageNameVar'))]",
+                "[resourceId('Microsoft.DocumentDb/databaseAccounts', variables('docDBNameVar'))]",
                 "[resourceId('Microsoft.Devices/Iothubs', variables('name'))]",
                 "[resourceId('Microsoft.BingMaps/mapApis', variables('bingMapsName'))]"
             ],
@@ -450,10 +500,10 @@
                             "value" : "[variables('AADRealm')]"
                         }, {
                             "name" : "docdb.EndpointUrl",
-                            "value" : "[reference(variables('docDBName')).documentEndpoint]"
+                            "value" : "[reference(variables('docDBNameVar')).documentEndpoint]"
                         }, {
                             "name" : "docdb.PrimaryAuthorizationKey",
-                            "value" : "[listkeys(variables('docDBName'), '2015-04-08').primaryMasterKey]"
+                            "value" : "[listkeys(variables('docDBNameVar'), '2015-04-08').primaryMasterKey]"
                         }, {
                             "name" : "iotHub.HostName",
                             "value" : "[reference(variables('iotHubResourceId')).hostName]"
@@ -462,7 +512,7 @@
                             "value" : "[concat('HostName=', reference(variables('iotHubResourceId')).hostName, ';SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', listkeys(variables('iotHubKeyResource'), variables('iotHubVersion')).primaryKey)]"
                         }, {
                             "name" : "device.StorageConnectionString",
-                            "value" : "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
+                            "value" : "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageNameVar'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
                         }, {
                             "name" : "device.TableName",
                             "value" : "DeviceList"
@@ -474,7 +524,7 @@
                             "value" : "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]"
                         }, {
                             "name" : "eventHub.StorageConnectionString",
-                            "value" : "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
+                            "value" : "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageNameVar'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
                         }, {
                             "name" : "RulesEventHub.Name",
                             "value" : "[variables('ehRuleOutName')]"
@@ -530,11 +580,11 @@
         },
         "DocDbURI" : {
             "type" : "string",
-            "value" : "[reference(variables('docDBName')).documentEndpoint]"
+            "value" : "[reference(variables('docDBNameVar')).documentEndpoint]"
         },
         "DocDbKey" : {
             "type" : "string",
-            "value" : "[listkeys(variables('docDBName'), '2015-04-08').primaryMasterKey]"
+            "value" : "[listkeys(variables('docDBNameVar'), '2015-04-08').primaryMasterKey]"
         },
         "BingMapsQueryKey" : {
             "type" : "string",
