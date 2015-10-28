@@ -81,7 +81,7 @@
                             @if (Model.SupportDeviceCommand)
                             {
                                 <td>
-                                    <button class="resend-command"
+                                    <button class="button_base resend-command"
                                             data-command-name="@commandHistoryItem.Name"
                                             data-command-json="@CommandHistorySchemaHelper.GetCommandParametersAsJsonString(commandHistoryItem)">
                                         @Strings.Resend

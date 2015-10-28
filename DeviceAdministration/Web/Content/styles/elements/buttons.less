@@ -1,5 +1,4 @@
-﻿button,
-.button {
+﻿.button_base {
     display:block;
     float:left;
     color: @button-color;
@@ -10,30 +9,28 @@
     padding: 0 1em;
     min-height:32px;
     cursor: pointer;
+}
 
-    &:disabled {
-        background-color:@button-disabled-background-color;
-        border-color:@button-disabled-border-color;
-        color:@text-secondary-color;
-        }
+.button_base:disabled {
+    background-color:@button-disabled-background-color;
+    border-color:@button-disabled-border-color;
+    color:@text-secondary-color;
+}
 
-    }
+.button { /* anchor version */
+    text-align:center;
+    line-height:32px;
+}
 
-    .button { /* anchor version */
-        text-align:center;
-        line-height:32px;
-
-        &:hover {
-            color:@button-color;
-            text-decoration:none;
-            }
-
-        }
+.button:hover {
+    color:@button-color;
+    text-decoration:none;
+}
 
 .fieldset_button {
     margin-top:10px;
     margin-bottom:20px;
-    }
+}
 
 
 .button_secondary {
@@ -41,7 +38,7 @@
     border: 1px solid @button-secondary-border-color;
     color: @text-color;
     margin-left: 1.8em;
-    }
+}
 
 .button_copy {
     width: 30px;
@@ -56,29 +53,33 @@
     border: 0;
     margin: 6px 0 0 6px;
     padding: 0;
-    }
+}
 
-    .details_grid_general .button_copy {
-        margin-top:4px;
-        }
-
+/*
+    Keeping this here in buttons instead of in root_grid_block with the details_grid_general style because
+    this file is imported after the other and that will make this top margin take precedence over the other
+    button_copy styles. Otherwise the margin gets overridden
+*/
+.details_grid_general__copy_button {
+    margin-top: 4px;
+}
 
 .button_details_grid {
     cursor: pointer;
-    }
+}
 
 .button_filter {
     position: absolute;
     bottom: 20px;
     width: 260px;
-    }
+}
 
 
 
 .button_credentials {
     margin-bottom:2em;
-    }
+}
 
 .button_execute {
     clear:both;
-    }
+}

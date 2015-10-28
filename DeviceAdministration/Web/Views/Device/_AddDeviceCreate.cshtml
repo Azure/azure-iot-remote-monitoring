@@ -36,7 +36,7 @@
                 @placeholder = @Strings.EnterDeviceId
             })
 
-            <button class="unique_device_id__check_id" id="checkIdButton" name="button" value="check" type="submit">@Strings.CheckId</button>
+            <button class="button_base unique_device_id__check_id" id="checkIdButton" name="button" value="check" type="submit">@Strings.CheckId</button>
 
             @if (Model.IsDeviceIdUnique)
             {
@@ -56,8 +56,8 @@
         @Html.HiddenFor(m => m.DeviceType.InstructionsUrl)
         @Html.HiddenFor(m => m.DeviceType.IsSimulatedDevice)
 
-        <button id="nextButton" type="submit">@Strings.Create</button>
-        <button class="button_secondary" type="button" onclick="location.href = '@Url.Action("Index", "Device")' ">@Strings.Cancel</button>
+        <button class="button_base" id="nextButton" type="submit">@Strings.Create</button>
+        <button class="button_base button_secondary" type="button" onclick="location.href = '@Url.Action("Index", "Device")' ">@Strings.Cancel</button>
     </fieldset>
 }
 

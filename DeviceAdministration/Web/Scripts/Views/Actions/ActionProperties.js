@@ -106,7 +106,7 @@
         var node = document.createTextNode(errorMessage);
         $paragraph.append(node);
 
-        var button = $('<button>' + resources.retry + '</button>');
+        var button = $('<button class="button_base">' + resources.retry + '</button>');
 
         button.on("click", function () {
             retryCallback();

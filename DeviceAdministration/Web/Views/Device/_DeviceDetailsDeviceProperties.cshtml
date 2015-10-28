@@ -30,7 +30,8 @@
         {
             string classname = "text_copy_container__input--details_grid";
             string class_styles_modifier = "text_copy_container--details_grid";
-            @IoTHelpers.TextCopy(propVal.Name, classname, propVal.Value, class_styles_modifier);
+            string button_style_modifier = "details_grid_general__copy_button";
+            @IoTHelpers.TextCopy(propVal.Name, classname, propVal.Value, class_styles_modifier, button_style_modifier);
         }
         else
         {
