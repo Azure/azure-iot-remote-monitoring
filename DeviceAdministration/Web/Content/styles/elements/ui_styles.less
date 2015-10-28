@@ -1,39 +1,39 @@
 ﻿/* tooltip */
 
 .ui-widget {
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
 .ui-widget-content {
-    border:0;
-    background:none;
-    background-color:@text-color;
-    color:@text-secondary-color;
-    font-size:1em;
-    }
+    border: 0;
+    background: none;
+    background-color: @text-color;
+    color: @text-secondary-color;
+    font-size: 1em;
+}
 
 .ui-tooltip {
-    position:absolute;
-    padding:.5em;
-    }
+    position: absolute;
+    padding: .5em;
+}
 
 /* UI Dialog */
 
 .ui-dialog {
     background: none @background-color;
-    border:1px solid @widget-border-color;
+    border: 1px solid @widget-border-color;
     border-radius: 0;
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
     z-index: 9999;
 }
 
-.ui-dialog-buttonpane{
+.ui-dialog-buttonpane {
     background: none @background-color;
 }
 
-.ui-dialog-content{
-    color:@text-color;
+.ui-dialog-content {
+    color: @text-color;
 }
 
 .ui-widget-header {
@@ -41,15 +41,17 @@
 }
 
 .ui-dialog-title {
-    color: @text-secondary-color;   
+    color: @text-secondary-color;
 }
 
 .ui-state-error {
-    border:0;
-    background:transparent;
-    color:@text-color;
-    }
+    border: 0;
+    background: transparent;
+    color: @text-color;
+}
 
 /* Addressing an issue in jQuery UI's initial visibility
 */
-#ui-datepicker-div { display: none; }
+#ui-datepicker-div {
+    display: none;
+}
