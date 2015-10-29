@@ -40,6 +40,12 @@
 @SET PowerShellCmd=%windir%\system32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Unrestricted -Command
 @SET PublishCmd=%PowerShellCmd% %DeploymentScripts%\PrepareIoTSample.ps1 -environmentName %EnvironmentName% -configuration %Configuration%
 
+@%PowerShellCmd% "if (!('%EnvironmentName%' -match '^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{3,49}[a-zA-Z0-9]{1,1}$')) { throw 'Invalid EnvironmentName' }"
+@IF /I '%ERRORLEVEL%' NEQ '0' (
+    @echo Error EnvironmentName - '%EnvironmentName%' must start with a letter, end with a letter or number, between 3-50 characters in length, and only contain letters, numbers and dashes
+    @echo
+    @goto :Error)
+
 @IF /I '%Command%' == 'Build' (
     @GOTO :Build)
 @IF /I '%Command%' == 'Local' (
