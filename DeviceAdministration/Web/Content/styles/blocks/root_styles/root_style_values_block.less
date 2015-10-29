@@ -98,6 +98,25 @@ main.main_no_nav {
     margin-left: 0;
 }
 
+.button_base {
+    display: block;
+    float: left;
+    color: @button-color;
+    background-color: @button-background-color;
+    border: 1px solid @button-border-color;
+    font-size: 16px;
+    min-width: 6.45em;
+    padding: 0 1em;
+    min-height: 32px;
+    cursor: pointer;
+}
+
+.button_base:disabled {
+    background-color: @button-disabled-background-color;
+    border-color: @button-disabled-border-color;
+    color: @text-secondary-color;
+}
+
 
 /* ##### Prefix functions ##### */
 
