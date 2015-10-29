@@ -13,12 +13,54 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     /// </summary>
     public static class DeviceDisplayHelper
     {
-        private static readonly HashSet<string> CopyControlDeviceProperties =
+        private static readonly HashSet<string> _copyControlDeviceProperties =
             new HashSet<string>(
                 new string[] {
                     "DEVICEID",
                     "HOSTNAME"
                 });
+
+        /// <summary>
+        /// Gets the name of the CSS class that should be used when displaying 
+        /// a provided FeedbackStatusCode textual value.
+        /// </summary>
+        /// <param name="commandResult">
+        /// The FeedbackStatusCode textual value that will be displayed.
+        /// </param>
+        /// <returns>
+        /// The name of the CSS class that should be applied when displaying 
+        /// <paramref name="commandResult" />.
+        /// </returns>
+        public static string GetCommandResultClassName(string commandResult)
+        {
+            FeedbackStatusCode resolvedValue;
+
+            if (Enum.TryParse<FeedbackStatusCode>(
+                    commandResult,
+                    out resolvedValue))
+            {
+                switch (resolvedValue)
+                {
+                    case FeedbackStatusCode.DeliveryCountExceeded:
+                        commandResult = "Error";
+                        break;
+
+                    case FeedbackStatusCode.Expired:
+                        commandResult = "Error";
+                        break;
+
+                    case FeedbackStatusCode.Rejected:
+                        commandResult = "Error";
+                        break;
+                }
+            }
+            else if (string.IsNullOrWhiteSpace(commandResult))
+            {
+                commandResult = "pending";
+            }
+
+            return commandResult;
+        }
 
         /// <summary>
         /// Gets a value indicating whether a named Device property should be 
@@ -39,7 +81,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 return false;
             }
 
-            return CopyControlDeviceProperties.Contains(propertyName.ToUpperInvariant());
+            return _copyControlDeviceProperties.Contains(propertyName.ToUpperInvariant());
         }
 
         /// <summary>
@@ -60,6 +102,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             object viewStateErrorMessage)
         {
             FeedbackStatusCode resolvedValue;
+
+            if (string.IsNullOrWhiteSpace(commandResult))
+            {
+                commandResult = Strings.Pending;
+            }
 
             var errorMessage = viewStateErrorMessage as string;
             if (Enum.TryParse<FeedbackStatusCode>(

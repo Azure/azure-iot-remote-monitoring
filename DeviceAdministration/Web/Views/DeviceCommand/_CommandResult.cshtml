@@ -10,12 +10,14 @@
             Model, 
             ViewData["ErrorMessage"]);
 
+    var className = DeviceDisplayHelper.GetCommandResultClassName(Model);
+
     if (!string.IsNullOrEmpty(localizedResults.Value))
     {
         separator = ":";
     }
 
-    <span class="@localizedResults.Key.ToLower()">@string.Format("{0}{1}", localizedResults.Key, separator)</span>
+    <span class="@className.ToLowerInvariant()">@string.Format("{0}{1}", localizedResults.Key, separator)</span>
 }
 
 @if (!string.IsNullOrEmpty(separator))
