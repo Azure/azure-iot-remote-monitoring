@@ -46,14 +46,14 @@
             "type": "string",
             "defaultValue": "http://aka.ms/azureiot/remotemonitoring/webjob"
         },
-        "sasStartBehavior": {
+        "asaStartBehavior": {
             "type": "string",
             "metadata": {
                 "description": "The start behavior for Stream Analytics jobs [LastStopTime | JobStartTime (default)]"
             },
             "defaultValue": "JobStartTime"
         },
-        "sasStartTime": {
+        "asaStartTime": {
             "type": "string",
             "metadata": {
                 "description": "The start time for Stream Analytics jobs"
@@ -221,8 +221,8 @@
                 "sku": {
                     "name": "standard"
                 },
-                "OutputStartMode": "[parameters('sasStartBehavior')]",
-                "OutputStartTime": "[parameters('sasStartTime')]",
+                "OutputStartMode": "[parameters('asaStartBehavior')]",
+                "OutputStartTime": "[parameters('asaStartTime')]",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [
@@ -326,8 +326,8 @@
                 "sku": {
                     "name": "standard"
                 },
-                "OutputStartMode": "[parameters('sasStartBehavior')]",
-                "OutputStartTime": "[parameters('sasStartTime')]",
+                "OutputStartMode": "[parameters('asaStartBehavior')]",
+                "OutputStartTime": "[parameters('asaStartTime')]",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [
@@ -400,8 +400,8 @@
                 "sku": {
                     "name": "standard"
                 },
-                "OutputStartMode": "[parameters('sasStartBehavior')]",
-                "OutputStartTime": "[parameters('sasStartTime')]",
+                "OutputStartMode": "[parameters('asaStartBehavior')]",
+                "OutputStartTime": "[parameters('asaStartTime')]",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [
