@@ -196,7 +196,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 // https://msdn.microsoft.com/en-us/library/azure/dn783368.aspx
                 // The date of the request, as specified in RFC 1123. The date format is expressed in
                 // Coordinated Universal Time (UTC), for example. Fri, 08 Apr 2015 03:52:31 GMT.
-                string formattedTimeString = DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture);
+                string formattedTimeString = DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture).ToLowerInvariant();
                 client.Headers.Add(DATE_HEADER_KEY, formattedTimeString);
                 client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(POST_VERB, DocDbResourceTypeHelper.GetResourceTypeString(resourceType), resourceId, formattedTimeString));
                 client.Headers.Add(IS_QUERY_HEADER_KEY, "true");
@@ -313,7 +313,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 // https://msdn.microsoft.com/en-us/library/azure/dn783368.aspx
                 // The date of the request, as specified in RFC 1123. The date format is expressed in
                 // Coordinated Universal Time (UTC), for example. Fri, 08 Apr 2015 03:52:31 GMT.
-                string formattedTimeString = DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture);
+                string formattedTimeString = DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture).ToLowerInvariant();
                 webClient.Headers.Add(DATE_HEADER_KEY, formattedTimeString);
                 webClient.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(httpVerb, DocDbResourceTypeHelper.GetResourceTypeString(resourceType), resourceId, formattedTimeString));
 
@@ -338,13 +338,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         private string GetAuthorizationToken(string requestVerb, string resourceType, string resourceId, string formattedTimeString)
         {
             string signatureRaw = 
-                string.Format(
-                    CultureInfo.InvariantCulture,
-                    "{0}\n{1}\n{2}\n{3}\n\n", 
-                     requestVerb.ToLowerInvariant(), 
-                     resourceType.ToLowerInvariant(), 
-                     resourceId.ToLowerInvariant(), 
-                     formattedTimeString.ToLowerInvariant());
+                string.Format(CultureInfo.InvariantCulture, "{0}\n{1}\n{2}\n{3}\n\n", requestVerb, resourceType, resourceId, formattedTimeString)
+                .ToLowerInvariant();
 
             byte[] sigBytes = Encoding.UTF8.GetBytes(signatureRaw);
             byte[] keyBytes = Convert.FromBase64String(_docDbKey);
