@@ -193,10 +193,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 client.Headers.Add(ACCEPT_HEADER_KEY, APPLICATION_JSON);
                 client.Headers.Add(VERSION_HEADER_KEY, X_MS_VERSION);
 
+                // https://msdn.microsoft.com/en-us/library/azure/dn783368.aspx
                 // The date of the request, as specified in RFC 1123. The date format is expressed in
                 // Coordinated Universal Time (UTC), for example. Fri, 08 Apr 2015 03:52:31 GMT.
-                client.Headers.Add(DATE_HEADER_KEY, DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture));
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(POST_VERB, DocDbResourceTypeHelper.GetResourceTypeString(resourceType), resourceId));
+                string formattedTimeString = DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture);
+                client.Headers.Add(DATE_HEADER_KEY, formattedTimeString);
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(POST_VERB, DocDbResourceTypeHelper.GetResourceTypeString(resourceType), resourceId, formattedTimeString));
                 client.Headers.Add(IS_QUERY_HEADER_KEY, "true");
 
                 if (pageSize >= 0)
@@ -308,10 +310,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 webClient.Headers.Add(ACCEPT_HEADER_KEY, APPLICATION_JSON);
                 webClient.Headers.Add(VERSION_HEADER_KEY, X_MS_VERSION);
 
+                // https://msdn.microsoft.com/en-us/library/azure/dn783368.aspx
                 // The date of the request, as specified in RFC 1123. The date format is expressed in
                 // Coordinated Universal Time (UTC), for example. Fri, 08 Apr 2015 03:52:31 GMT.
-                webClient.Headers.Add(DATE_HEADER_KEY, DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture));
-                webClient.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(httpVerb, DocDbResourceTypeHelper.GetResourceTypeString(resourceType), resourceId));
+                string formattedTimeString = DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture);
+                webClient.Headers.Add(DATE_HEADER_KEY, formattedTimeString);
+                webClient.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken(httpVerb, DocDbResourceTypeHelper.GetResourceTypeString(resourceType), resourceId, formattedTimeString));
 
                 return await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () => await webClient.UploadStringTaskAsync(endpoint, httpVerb, body));
             }
@@ -331,13 +335,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             "Microsoft.Globalization", 
             "CA1308:NormalizeStringsToUppercase",
             Justification = "Token signatures are base on lower-case strings.")]
-        private string GetAuthorizationToken(string requestVerb, string resourceType, string resourceId)
+        private string GetAuthorizationToken(string requestVerb, string resourceType, string resourceId, string formattedTimeString)
         {
-            // https://msdn.microsoft.com/en-us/library/azure/dn783368.aspx
-            // The date portion of the string is the date and time the message was sent
-            // (in "HTTP-date" format as defined by RFC 7231 Date/Time Formats) e.g. Tue, 15 Nov 1994 08:12:31 GMT.
-            string dateString = DateTime.UtcNow.ToString("r", CultureInfo.InvariantCulture);
-
             string signatureRaw = 
                 string.Format(
                     CultureInfo.InvariantCulture,
@@ -345,7 +344,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                      requestVerb.ToLowerInvariant(), 
                      resourceType.ToLowerInvariant(), 
                      resourceId.ToLowerInvariant(), 
-                     dateString.ToLowerInvariant());
+                     formattedTimeString.ToLowerInvariant());
 
             byte[] sigBytes = Encoding.UTF8.GetBytes(signatureRaw);
             byte[] keyBytes = Convert.FromBase64String(_docDbKey);
