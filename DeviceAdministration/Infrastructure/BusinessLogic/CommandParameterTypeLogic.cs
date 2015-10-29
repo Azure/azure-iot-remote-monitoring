@@ -206,7 +206,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </remarks>
     public class CommandTypes
     {
-        private static ReadOnlyDictionary<string, Type> _typesBacking =
+        private static readonly ReadOnlyDictionary<string, Type> _typesBacking =
             new ReadOnlyDictionary<string, Type>(
                 new Dictionary<string, Type>
                 {
