@@ -141,6 +141,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Deployment\Application.json" />
+    <None Include="Deployment\build.ps1" />
     <None Include="Deployment\ConfigurationTemplate.config">
       <SubType>Designer</SubType>
     </None>
