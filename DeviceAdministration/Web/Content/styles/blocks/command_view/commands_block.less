@@ -3,7 +3,7 @@
     background-color: @background-color;
     font-size: 1.4em;
     color: #4d4d4d;
-    .display-flex();
+    display: block;
 }
 
 .command_form__label {
@@ -14,7 +14,6 @@
 
 .command_form__select {
     display: block;
-    float: left;
     margin: .25em 1em 1em 0;
     border-color: @form-textbox-border;
     background-color: @form-textbox-background;
@@ -42,6 +41,8 @@
 .command_parameter_field__label {
     font-size: .7em;
     display: block;
+    color: @form-fieldset-textbox-label;
+    text-transform: uppercase;
 }
 
 .command_parameter_field__input--text {
@@ -57,6 +58,7 @@
 }
 
 .command_parameter_field__input--checkbox {
+    margin-top: 10px;
     margin-bottom: 25px;
     clear: both;
     float: left;
