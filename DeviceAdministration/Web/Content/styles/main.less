@@ -1,7 +1,13 @@
 ﻿@base-image-path: "/Content/img";
 
-/* If a file is no longer in the same location or has been deleted and is stil imported
-    the entire stylesheet will not be found and will create a 404.
+/*
+If any of the included files are moved, missing, or contain Less syntax errors,
+the .less compilation will fail. In this case, the request for this file will
+return an HTTP 404 error.
+
+To troubleshoot, use an HTTP debugger (like Fiddler or Charles) and look at the
+raw HTTP 404 response, which will include a detailed error message of the compilation
+error and can be *very* helpful.
 */
 
 @import "variables.less";
