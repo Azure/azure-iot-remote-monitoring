@@ -25,7 +25,7 @@
 
     var init = function init(alertHistoryTableSettings) {
 
-        setId();
+        setAlertHistoryTypeClass();
         self.dataTableContainer = alertHistoryTableSettings.dataTable;
         getDataUri = alertHistoryTableSettings.getDataUri;
         refreshMilliseconds = alertHistoryTableSettings.refreshMilliseconds;
@@ -187,7 +187,7 @@
         self.dataTable.ajax.reload();
     }
 
-    var setId = function () {
+    var setAlertHistoryTypeClass = function () {
         var alertHistoryType = resources.alertHistoryType;
         $("div.dashboard_alert_history").addClass(alertHistoryType);
     }
