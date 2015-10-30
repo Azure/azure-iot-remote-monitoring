@@ -9,8 +9,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [DisplayName("Command")]
         public dynamic Command { get; set; }
 
-        public bool CanSendDeviceCommands { get; set; }
-
         public List<dynamic> CommandHistory { get; set; }
 
         public string DeviceId { get; set; }
