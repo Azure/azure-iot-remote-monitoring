@@ -13,7 +13,6 @@ else
 
 @{
     string classname = "text_copy_container__input--add_device_copy_table";
-    string class_styles_modifier = "";
 
 <table class="table_credentials">
     <tbody>
@@ -22,7 +21,7 @@ else
                 @Strings.DeviceIdColon
             </td>
             <td class="table_credentials__value">
-                @IoTHelpers.TextCopy("DeviceId", classname, @Model.DeviceId, class_styles_modifier)
+                @IoTHelpers.TextCopy("DeviceId", classname, @Model.DeviceId)
             </td>
         </tr>
         <tr>
@@ -30,7 +29,7 @@ else
                 @Strings.AzureDevicesHostnameColon
             </td>
             <td class="table_credentials__value">
-                @IoTHelpers.TextCopy("AzureDevicesHostname", classname, @Model.HostName, class_styles_modifier)
+                @IoTHelpers.TextCopy("AzureDevicesHostname", classname, @Model.HostName)
             </td>
         </tr>
         <tr>
@@ -38,7 +37,7 @@ else
                 @Strings.DeviceKeyColon
             </td>
             <td class="table_credentials__value">
-                @IoTHelpers.TextCopy("PrimaryKey", classname, @Model.PrimaryKey, class_styles_modifier)
+                @IoTHelpers.TextCopy("PrimaryKey", classname, @Model.PrimaryKey)
             </td>
         </tr>
     </tbody>
