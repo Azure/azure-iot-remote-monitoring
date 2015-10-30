@@ -10,6 +10,11 @@
     Layout = "~/Views/Shared/_LayoutNoNavigation.cshtml";
 
     DateTime? resolvedTime;
+
+    bool canSendCommands =
+        Model.SupportDeviceCommand &&
+        (Model.SendCommandModel != null) &&
+        Model.SendCommandModel.CanSendDeviceCommands;
 }
 
 <header class="header_main">
@@ -19,7 +24,6 @@
 
 </header>
 
-
 <div class="content_outer content_command">
 
     <div class="content_inner">
@@ -27,7 +31,6 @@
         {
             Html.RenderPartial("_SendCommand", Model.SendCommandModel);
         }
-
 
         <div class="command_container" id="content">
 
@@ -41,11 +44,11 @@
                         <th>@Strings.CommandValuesSent</th>
                         <th>@Strings.CommandTimeCreated</th>
                         <th>@Strings.CommandTimeUpdated</th>
-                        @if (Model.SupportDeviceCommand)
+                        @if (canSendCommands)
                         {
                             <th></th>
                         }
-
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -82,7 +85,7 @@
                                 }
 
                             </td>
-                            @if (Model.SupportDeviceCommand)
+                            @if (canSendCommands)
                             {
                                 <td>
                                     @{
