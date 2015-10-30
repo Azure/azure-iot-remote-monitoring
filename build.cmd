@@ -69,14 +69,14 @@ msbuild RemoteMonitoring.sln /v:m /p:Configuration=%Configuration%
 
 :Package
 @REM For Zip based deployments for private repos
-msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
+msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package
 @IF /I '%ERRORLEVEL%' NEQ '0' (
-    @echo Error msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
+    @echo Error msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package
     @goto :Error)
 
-msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
+msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package
 @IF /I '%ERRORLEVEL%' NEQ '0' (
-    @echo Error msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /P:VisualStudioVersion=12.0
+    @echo Error msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package
     @goto :Error)
 
 :Config
