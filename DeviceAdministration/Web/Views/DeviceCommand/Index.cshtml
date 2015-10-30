@@ -26,7 +26,7 @@
 <div class="content_outer content_command">
 
     <div class="content_inner">
-        @if (canSendCommands)
+        @if (Model.SupportDeviceCommand)
         {
             Html.RenderPartial("_SendCommand", Model.SendCommandModel);
         }
