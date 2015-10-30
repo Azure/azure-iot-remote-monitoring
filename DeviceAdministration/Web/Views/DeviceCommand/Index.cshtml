@@ -1,7 +1,8 @@
 ﻿@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @using GlobalResources
-@using Newtonsoft.Json;
+@using Newtonsoft.Json
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceCommandModel
 
 @{
@@ -47,10 +48,13 @@
                         {
                             <th></th>
                         }
-
+                        
                     </tr>
                 </thead>
                 <tbody>
+                    @{
+                        var supportedCommandNames = DeviceDisplayHelper.BuildAvailableCommandNameSet(Model);
+                    }
                     @foreach (var commandHistoryItem in Model.CommandHistory)
                     {
                         <tr>
@@ -60,7 +64,7 @@
                             <td>
                                 @{string result = commandHistoryItem.Result;}
                                 @{string errorMessage = commandHistoryItem.ErrorMessage;}
-                                @(Html.Partial("_CommandResult", result ?? Strings.Pending, new ViewDataDictionary {{"ErrorMessage", errorMessage}}))
+                                @(Html.Partial("_CommandResult", result ?? Strings.Pending, new ViewDataDictionary { { "ErrorMessage", errorMessage } }))
                             </td>
                             <td>
                                 @DynamicValuesHelper.ConvertToJsonString(commandHistoryItem.Parameters)
@@ -84,14 +88,20 @@
                             @if (canSendCommands)
                             {
                                 <td>
+                                    @{
+                                string commandName = commandHistoryItem.Name;
+                                if (!string.IsNullOrWhiteSpace(commandName) &&
+                                    supportedCommandNames.Contains(commandName))
+                                {
                                     <button class="resend-command"
-                                            data-command-name="@commandHistoryItem.Name"
+                                            data-command-name="@commandName"
                                             data-command-json="@CommandHistorySchemaHelper.GetCommandParametersAsJsonString(commandHistoryItem)">
                                         @Strings.Resend
                                     </button>
+                                }
+                                    }
                                 </td>
                             }
-
                         </tr>
                     }
                 </tbody>
