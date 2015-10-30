@@ -233,15 +233,15 @@ nav .selected {
 }
 .nav_dashboard {
   background-image: url(img/icon_dashboard.svg);
-  background-size: 30px 37px;
+  background-size: 34px;
 }
 .nav_devices {
   background-image: url(img/icon_devices.svg);
-  background-size: 30px 30px;
+  background-size: 30px;
 }
 .nav_actions {
   background-image: url(img/icon_actions.svg);
-  background-size: 30px 30px;
+  background-size: 30px;
 }
 .nav_add_device {
   position: absolute;
@@ -252,7 +252,7 @@ nav .selected {
 }
 .nav_view_rules {
   background-image: url(img/icon_rules.svg);
-  background-size: 30px 30px;
+  background-size: 36px;
 }
 .search_container_closed {
   position: relative;
