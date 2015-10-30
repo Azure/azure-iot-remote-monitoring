@@ -9,7 +9,7 @@
     Layout = "~/Views/Shared/_LayoutNoNavigation.cshtml";
 
     DateTime? resolvedTime;
-    }
+}
 
 <header class="header_main">
 
@@ -18,15 +18,13 @@
 
 </header>
 
-
 <div class="content_outer content_command">
 
     <div class="content_inner">
-        @if (Model.SupportDeviceCommand)
+        @if (Model.SupportDeviceCommand && Model.CanSendDeviceCommands)
         {
             Html.RenderPartial("_SendCommand", Model.SendCommandModel);
         }
-
 
         <div class="command_container" id="content">
 
@@ -40,11 +38,11 @@
                         <th>@Strings.CommandValuesSent</th>
                         <th>@Strings.CommandTimeCreated</th>
                         <th>@Strings.CommandTimeUpdated</th>
-                        @if (Model.SupportDeviceCommand)
+                        @if (Model.SupportDeviceCommand && Model.CanSendDeviceCommands)
                         {
                             <th></th>
                         }
-                        
+
                     </tr>
                 </thead>
                 <tbody>
@@ -78,7 +76,7 @@
                                 }
 
                             </td>
-                            @if (Model.SupportDeviceCommand)
+                            @if (Model.SupportDeviceCommand && Model.CanSendDeviceCommands)
                             {
                                 <td>
                                     <button class="resend-command"
