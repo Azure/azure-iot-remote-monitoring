@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             if (list == null)
             {
-                throw new ArgumentNullException("item");
+                throw new ArgumentNullException("list");
             }
 
             if (filter == null)
