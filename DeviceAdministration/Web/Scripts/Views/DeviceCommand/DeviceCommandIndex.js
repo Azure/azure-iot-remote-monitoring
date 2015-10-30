@@ -12,7 +12,7 @@
         self.commands = commands;
         self.deviceIsEnabled = deviceIsEnabled;
         self.commandsResponse = [];
-        self.resendCommandbuttons = $('.resend-command');
+        self.resendCommandbuttons = $('.resend_command');
         setNavigationEvents();
         commandHistoryErrors();
         $.validator.setDefaults({
