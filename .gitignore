@@ -201,8 +201,3 @@ VendingMachineSample/packages/*
 
 # Merge file remains
 *.orig
-
-# Less files that we create are handled on the server using a handler. We don't want to commit any output from .less files to vc
-screen.css
-screen.min.css
-screen.css.map
