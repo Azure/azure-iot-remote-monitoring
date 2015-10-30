@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using GlobalResources;
-using Microsoft.Azure.Devices;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 {
@@ -19,6 +20,38 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     "DEVICEID",
                     "HOSTNAME"
                 });
+
+        /// <summary>
+        /// Returns a set of the names of a the Commands a Device supports.
+        /// </summary>
+        /// <param name="model">
+        /// A DeviceCommandModel, representing the Device for which a set of 
+        /// supported Command names should be returned.
+        /// </param>
+        /// <returns>
+        /// A set of <paramref name="model" />'s supported Command names.
+        /// </returns>
+        public static HashSet<string> BuildAvailableCommandNameSet(DeviceCommandModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException("model");
+            }
+
+            IEnumerable<string> commandNames = new string[0];
+            if ((model.SendCommandModel != null) &&
+                (model.SendCommandModel.CommandSelectList != null))
+            {
+                commandNames =
+                    commandNames.Concat(
+                        model.SendCommandModel.CommandSelectList.Where(
+                            t =>
+                                (t != null) &&
+                                !string.IsNullOrWhiteSpace(t.Value)).Select(u => u.Value));
+            }
+
+            return new HashSet<string>(commandNames);
+        }
 
         /// <summary>
         /// Gets a value indicating whether a named Device property should be 
