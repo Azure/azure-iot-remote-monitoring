@@ -68,12 +68,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 =======
             IEnumerable databases;
             string topResponse;
-            var utcNow = DateTime.UtcNow;
 
             string endpoint = string.Format("{0}dbs", _docDbEndpoint);
-            using (WebClient client = BuildWebClient(utcNow))
+            using (WebClient client = BuildWebClient())
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("GET", DATABASE_RESOURCE_TYPE, "", utcNow));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("GET", DATABASE_RESOURCE_TYPE, ""));
                 topResponse = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
                     await client.DownloadStringTaskAsync(endpoint));
             }
@@ -125,13 +124,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             _collectionId = ReflectionHelper.GetNamedPropertyValue(json, "_rid", true, false).ToString();
 =======
             string response;
-            var utcNow = DateTime.UtcNow;
+
             string endpoint = string.Format("{0}dbs", _docDbEndpoint);
             JObject body = new JObject();
             body.Add("id", _dbName);
-            using (WebClient client = BuildWebClient(utcNow))
+            using (WebClient client = BuildWebClient())
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", DATABASE_RESOURCE_TYPE, "", utcNow));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", DATABASE_RESOURCE_TYPE, ""));
                 response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
                     await client.UploadStringTaskAsync(endpoint, "POST", body.ToString())); 
 
@@ -157,11 +156,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 =======
             IEnumerable collections;
             string topResponse;
-            var utcNow = DateTime.UtcNow;
+
             string endpoint = string.Format("{0}dbs/{1}/colls", _docDbEndpoint, _dbId);
-            using (WebClient client = BuildWebClient(utcNow))
+            using (WebClient client = BuildWebClient())
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("GET", COLLECTION_RESOURCE_TYPE, _dbId, utcNow));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("GET", COLLECTION_RESOURCE_TYPE, _dbId));
                 topResponse = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () => 
                     await client.DownloadStringTaskAsync(endpoint));
             }
@@ -202,11 +201,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 <<<<<<< HEAD
 =======
             string response;
+<<<<<<< HEAD
             var utcNow = DateTime.UtcNow;
 >>>>>>> Coordinate header and signature timestamps to avoid HTTP 401 errors.
+=======
+
+>>>>>>> Revert "Coordinate header and signature timestamps to avoid HTTP 401 errors."
             string endpoint = string.Format("{0}dbs/{1}/colls", _docDbEndpoint, _dbId);
             var body = new JObject();
             body.Add("id", _collectionName);
+<<<<<<< HEAD
 <<<<<<< HEAD
             string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceType.Collection, _dbId, body.ToString());
 
@@ -215,8 +219,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             _collectionId = ReflectionHelper.GetNamedPropertyValue(json, "_rid", true, false).ToString();
 =======
             using (WebClient client = BuildWebClient(utcNow))
+=======
+            using (WebClient client = BuildWebClient())
+>>>>>>> Revert "Coordinate header and signature timestamps to avoid HTTP 401 errors."
             {
-                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", COLLECTION_RESOURCE_TYPE, _dbId, utcNow));
+                client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("POST", COLLECTION_RESOURCE_TYPE, _dbId));
                 response = await AzureRetryHelper.OperationWithBasicRetryAsync<string>(async () =>
                     await client.UploadStringTaskAsync(endpoint, "POST", body.ToString())); 
 
@@ -243,6 +250,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             string queryString, Dictionary<string, Object> queryParams, int pageSize = -1, string continuationToken = null)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             if (string.IsNullOrWhiteSpace(queryString))
             {
                 throw new ArgumentException("queryString is null or whitespace");
@@ -253,8 +261,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 =======
             var utcNow = DateTime.UtcNow;
             WebClient client = BuildWebClient(utcNow);
+=======
+            WebClient client = BuildWebClient();
+>>>>>>> Revert "Coordinate header and signature timestamps to avoid HTTP 401 errors."
             client.Headers.Set("Content-Type", "application/query+json");
-            client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationTokenForDeviceManagementCollectionQuery("POST", utcNow));
+            client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationTokenForDeviceManagementCollectionQuery("POST"));
             client.Headers.Add("x-ms-documentdb-isquery", "true");
 >>>>>>> Coordinate header and signature timestamps to avoid HTTP 401 errors.
 
@@ -335,6 +346,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         public async Task<JObject> SaveNewDeviceAsync(dynamic device)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             if (device == null)
             {
                 throw new ArgumentNullException("device");
@@ -344,6 +356,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             WebClient client = BuildWebClient(utcNow);
             client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationTokenForDeviceManagementCollectionQuery("POST", utcNow));
 >>>>>>> Coordinate header and signature timestamps to avoid HTTP 401 errors.
+=======
+            WebClient client = BuildWebClient();
+            client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationTokenForDeviceManagementCollectionQuery("POST"));
+>>>>>>> Revert "Coordinate header and signature timestamps to avoid HTTP 401 errors."
 
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
             if (device.id == null)
@@ -369,10 +385,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             }
 =======
             string rid = DeviceSchemaHelper.GetDocDbRid(updatedDevice);
+<<<<<<< HEAD
             var utcNow = DateTime.UtcNow;
             WebClient client = BuildWebClient(utcNow);
             client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("PUT", DOCUMENTS_RESOURCE_TYPE, rid, utcNow));
 >>>>>>> Coordinate header and signature timestamps to avoid HTTP 401 errors.
+=======
+
+            WebClient client = BuildWebClient();
+            client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("PUT", DOCUMENTS_RESOURCE_TYPE, rid));
+>>>>>>> Revert "Coordinate header and signature timestamps to avoid HTTP 401 errors."
 
             string rid = DeviceSchemaHelper.GetDocDbRid(updatedDevice);
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
@@ -396,10 +418,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             }
 =======
             string rid = DeviceSchemaHelper.GetDocDbRid(device);
+<<<<<<< HEAD
             var utcNow = DateTime.UtcNow;
             WebClient client = BuildWebClient(utcNow);
             client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("DELETE", DOCUMENTS_RESOURCE_TYPE, rid, utcNow));
 >>>>>>> Coordinate header and signature timestamps to avoid HTTP 401 errors.
+=======
+
+            WebClient client = BuildWebClient();
+            client.Headers.Add(AUTHORIZATION_HEADER_KEY, GetAuthorizationToken("DELETE", DOCUMENTS_RESOURCE_TYPE, rid));
+>>>>>>> Revert "Coordinate header and signature timestamps to avoid HTTP 401 errors."
 
             string rid = DeviceSchemaHelper.GetDocDbRid(device);
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
@@ -442,18 +470,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         /// number of items per page</param>
         /// <param name="continuationToken">Optional: If the request will be made in pages, and you have a continuation token 
         /// from a previous page, this will ensure the next page begins at the right place</param>
-        private WebClient BuildWebClient(DateTime utcNow)
+        private WebClient BuildWebClient()
         {
             var webClient = new WebClient();
             webClient.Encoding = System.Text.Encoding.UTF8;
             webClient.Headers.Add("Content-Type", APPLICATION_JSON);
             webClient.Headers.Add("Accept", APPLICATION_JSON);
             webClient.Headers.Add("x-ms-version", X_MS_VERSION);
-            webClient.Headers.Add("x-ms-documentdb-isquery", "True");
 
             // The date of the request, as specified in RFC 1123. The date format is expressed in
             // Coordinated Universal Time (UTC), for example. Fri, 08 Apr 2015 03:52:31 GMT.
-            webClient.Headers.Add("x-ms-date", utcNow.ToString("R", CultureInfo.InvariantCulture));
+            webClient.Headers.Add("x-ms-date", DateTime.UtcNow.ToString("R", CultureInfo.InvariantCulture));
 
             return webClient;
         }
@@ -464,10 +491,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         /// </summary>
         /// <param name="requestVerb">GET, PUT, POST, DELETE, etc</param>
         /// <returns></returns>
-        private string GetAuthorizationTokenForDeviceManagementCollectionQuery(string requestVerb, DateTime utcNow)
+        private string GetAuthorizationTokenForDeviceManagementCollectionQuery(string requestVerb)
         {
+<<<<<<< HEAD
             return GetAuthorizationToken(requestVerb, DOCUMENTS_RESOURCE_TYPE, _collectionId, utcNow);
 >>>>>>> Coordinate header and signature timestamps to avoid HTTP 401 errors.
+=======
+            return GetAuthorizationToken(requestVerb, DOCUMENTS_RESOURCE_TYPE, _collectionId);
+>>>>>>> Revert "Coordinate header and signature timestamps to avoid HTTP 401 errors."
         }
 
         /// <summary>
@@ -485,15 +516,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             "CA1308:NormalizeStringsToUppercase",
             Justification = "Token signatures are base on lower-case strings.")]
 <<<<<<< HEAD
+<<<<<<< HEAD
         private string GetAuthorizationToken(string requestVerb, string resourceType, string resourceId, string formattedTimeString)
         {
 =======
         private string GetAuthorizationToken(string requestVerb, string resourceType, string resourceId, DateTime utcNow)
+=======
+        private string GetAuthorizationToken(string requestVerb, string resourceType, string resourceId)
+>>>>>>> Revert "Coordinate header and signature timestamps to avoid HTTP 401 errors."
         {
             // https://msdn.microsoft.com/en-us/library/azure/dn783368.aspx
             // The date portion of the string is the date and time the message was sent
             // (in "HTTP-date" format as defined by RFC 7231 Date/Time Formats) e.g. Tue, 15 Nov 1994 08:12:31 GMT.
-            string dateString = utcNow.ToString("r", CultureInfo.InvariantCulture);
+            string dateString = DateTime.UtcNow.ToString("r", CultureInfo.InvariantCulture);
 
 >>>>>>> Coordinate header and signature timestamps to avoid HTTP 401 errors.
             string signatureRaw = 
