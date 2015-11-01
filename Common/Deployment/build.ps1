@@ -83,23 +83,18 @@ Param(
     [Switch]
     $Clean = $false
 )
+##############################################################################
+# Init libraries
+##############################################################################
+Import-Module "$(Split-Path $MyInvocation.MyCommand.Path)\Invoke-MsBuild.psm1"
+
+##############################################################################
+# Globals / Logging
+##############################################################################
 
 # Set the output level to verbose and make the script stop on error
 $VerbosePreference = "Continue"
 $ErrorActionPreference = "Stop"
-$logFolder = Join-Path $env:TEMP "remoteMonitoring"
-$logFile = Join-Path $logFolder ("\Build-{0:yyyyMMdd}.log" -f (Get-Date))
-if(![System.IO.Directory]::Exists($logFolder))
-{
-    [System.IO.Directory]::CreateDirectory($logFolder)
-}
-
-Function LogWrite
-{
-   Param ([string]$logstring)
-
-   Add-content $logFile -value $logstring
-}
 
 function Get-MissingFiles ($required)
 {
@@ -118,22 +113,22 @@ function Get-MissingFiles ($required)
 function Build()
 {
     Param([string]$path,
-        [string[]]$params)
-
-    $msbuild = "$env:windir\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
-    $buildargs =  @($path) + $params
+        [string] $params)
 
     Write-Verbose ("Starting build...")
-    Write-Verbose($msbuild + " " + $buildargs)
-    LogWrite($msbuild + $buildargs)
+    Write-Verbose("msbuild {0} {1}" -f $path, $params)
 
-    $result = &  $msbuild $buildargs
-    LogWrite ($result -join "`n")
-    if ($LASTEXITCODE -ne 0) 
+    $result = Invoke-MsBuild -Path $path  -Params $params
+    if (-Not $result)
     {
-        throw "MSBuild failed.  Additional detail in the log."
+        $log = Invoke-MsBuild -Path $path  -Params $params -GetLogPath
+        throw "MSBuild failed.  Additional detail in the log: $log"
     }
 }
+
+##############################################################################
+# Begin Script
+##############################################################################
 
 try
 {
@@ -143,9 +138,6 @@ try
     $buildPath = Join-Path $buildOutput $Configuration
 
     Write-Verbose ("Starting log {0}" -f $logFile)
-    LogWrite "================================================================================"
-    LogWrite ("Starting build at {0}" -f  (Get-Date))
-    LogWrite "================================================================================"
 
     # Get the time that script execution starts
     $startTime = Get-Date
@@ -163,6 +155,11 @@ try
         {
             throw "EnvironmentName must be specified for Cloud deployments"
         }
+   
+       if ($EnvironmentName -notmatch '^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{3,49}[a-zA-Z0-9]{1,1}$')
+       {
+         Throw "EnvironmentName - $EnvironmentName must start with a letter, end with a letter or number, between 3-50 characters in length, and only contain letters, numbers and dashes"
+       }
     }
     else
     {
@@ -186,15 +183,15 @@ try
     # MSBuild - remotemonitoring.sln
     $path = Join-Path $solutionPath "RemoteMonitoring.sln"
     $config = "/p:Configuration={0}" -f $Configuration
-    Build -path $path  -params @("/v:m", $config)
+    Build -path $path  -params ("/v:m {0}" -f $config)
 
     # MSBuild - web.csproj
     $path = Join-Path $solutionPath "DeviceAdministration\Web\Web.csproj" 
-    Build -path $path  -params @("/v:m", "/t:Package", "/P:VisualStudioVersion=14.0")
+    Build -path $path  -params "/v:m /t:Package"
 
     # MSBuild - WebJobHost.csproj
     $path = Join-Path $solutionPath "WebJobHost\WebJobHost.csproj"
-    Build -path $path -params @("/v:m", "/T:Package", "/P:VisualStudioVersion=14.0")
+    Build -path $path -params  "/v:m /T:Package"
 
     # Call the prepare script
     if($Publish.IsPresent)

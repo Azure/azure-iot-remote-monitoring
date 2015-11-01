@@ -148,6 +148,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Deployment\DeploymentLib.ps1" />
+    <None Include="Deployment\Invoke-MsBuild.psm1" />
     <None Include="Deployment\PrepareIoTSample.ps1" />
     <None Include="Deployment\LocalMonitoring.json" />
     <None Include="Deployment\RemoteMonitoring.json" />
