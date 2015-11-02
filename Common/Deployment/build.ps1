@@ -183,15 +183,15 @@ try
     # MSBuild - remotemonitoring.sln
     $path = Join-Path $solutionPath "RemoteMonitoring.sln"
     $config = "/p:Configuration={0}" -f $Configuration
-    Build -path $path  -params ("/v:m {0}" -f $config)
+    Build -path $path  -params "/v:m $config"
 
     # MSBuild - web.csproj
     $path = Join-Path $solutionPath "DeviceAdministration\Web\Web.csproj" 
-    Build -path $path  -params "/v:m /t:Package"
+    Build -path $path  -params "/v:m /t:Package $config"
 
     # MSBuild - WebJobHost.csproj
     $path = Join-Path $solutionPath "WebJobHost\WebJobHost.csproj"
-    Build -path $path -params  "/v:m /T:Package"
+    Build -path $path -params  "/v:m /T:Package $config"
 
     # Call the prepare script
     if($Publish.IsPresent)
