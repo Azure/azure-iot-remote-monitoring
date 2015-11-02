@@ -1,0 +1,54 @@
+﻿.error_noscript {
+    background-color: transparent;
+    color: @error-color;
+    background-color: @body-background-color;
+    padding: 1em;
+}
+
+.error_noscript__header {
+    margin-bottom: .5em;
+}
+
+.device_detail_error {
+    text-align: center;
+    margin-top: 5em;
+}
+
+.device_detail_error__information {
+    margin-bottom: 10px;
+}
+
+.device_detail_error__retry_button {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* errors & messages - these class names are generated on the server */
+.field-validation-error {
+    color: @error-color;
+    line-height: 40px;
+    margin-left: 10px;
+    padding-left: 30px;
+    min-height: 18px;
+    background-image: url("@{base-image-path}/icon_error.svg");
+    background-size: 18px 18px;
+    background-position: center left;
+    background-repeat: no-repeat;
+}
+
+.field-validation-valid {
+    display: none;
+    float: left;
+    width: 13px;
+    height: 13px;
+    margin: 15px 0 0 15px;
+    background-image: url("@{base-image-path}/icon_confirmed.svg");
+    background-size: 16px 18px;
+    background-position: center left;
+    background-repeat: no-repeat;
+}
+
+.input-validation-error {
+    border-color: @error-color;
+}

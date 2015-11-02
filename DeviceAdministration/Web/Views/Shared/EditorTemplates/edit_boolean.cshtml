@@ -2,5 +2,5 @@
 @{
     var isChecked = (Model == "true") ? "checked=\"checked\"" : "";
 }
-<input type="checkbox" id="@ViewData.TemplateInfo.HtmlFieldPrefix" @isChecked/>
-@Html.HiddenFor(m => m, new { @Value = false} )
+<input type="checkbox" id="@ViewData.TemplateInfo.HtmlFieldPrefix" class="command_parameter_field__input--checkbox" @isChecked />
+@Html.HiddenFor(m => m, new { @Value = false })

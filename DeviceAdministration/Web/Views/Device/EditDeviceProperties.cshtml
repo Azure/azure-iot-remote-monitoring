@@ -12,8 +12,8 @@
 
 <header class="header_main">
     
-    <button class="button_back" type="button"></button>
-    <h2 class="header_main_subhead header_main_subhead_large">@string.Format(Strings.EditDevicePropertiesFor, Model.DeviceId)</h2>
+    <button class="header_main__button_back" type="button"></button>
+    <h2 class="header_main__subhead header_main__subhead--large">@string.Format(Strings.EditDevicePropertiesFor, Model.DeviceId)</h2>
 </header>
 <div class="content_outer">
 
@@ -28,7 +28,7 @@
                         @Html.ValidationSummary(false)
                     </p>
 
-    <fieldset class="fieldset_content fieldset_textbox">
+    <fieldset class="edit_form">
         @{
                     DateTime? resolvedTime;
                     for (int i = 0; i < Model.DevicePropertyValueModels.Count; ++i)
@@ -40,11 +40,12 @@
 
                         @Html.LabelFor(
                                 m => m.DevicePropertyValueModels[i].Value,
-                                DeviceDisplayHelper.GetDevicePropertyFieldLocalName(Model.DevicePropertyValueModels[i].Name))
+                                    Model.DevicePropertyValueModels[i].Name,
+                                    new { @class = "edit_form__label"})
 
                         if (Model.DevicePropertyValueModels[i].IsEditable)
                         {
-                            @Html.TextBoxFor(m => m.DevicePropertyValueModels[i].Value)
+                            @Html.TextBoxFor(m => m.DevicePropertyValueModels[i].Value, new { @class="edit_form__text" })
                         }
                         else
                         {
@@ -54,11 +55,11 @@
                                         CultureInfo.InvariantCulture,
                                         Model.DevicePropertyValueModels[i].Value)).HasValue)
                             {
-                                @Html.TextBox(Model.DevicePropertyValueModels[i].Name, resolvedTime.Value.ToString(CultureInfo.InvariantCulture), new { @class = "readOnlyField" })
+                                @Html.TextBox(Model.DevicePropertyValueModels[i].Name, resolvedTime.Value.ToString(CultureInfo.InvariantCulture), new {@readonly = "readonly", @class = "input_text--readonly" })
                             }
                             else
                             {
-                                @Html.TextBoxFor(m => m.DevicePropertyValueModels[i].Value, new { @readonly = "readonly" })
+                                @Html.TextBoxFor(m => m.DevicePropertyValueModels[i].Value, new { @readonly = "readonly", @class = "input_text--readonly" })
                             }
                         }
 
@@ -68,7 +69,7 @@
     </fieldset>
 
                     <fieldset class="fieldset_button">
-                        <button type="submit">@Strings.SaveChangesToDevice</button>
+                        <button class="button_base" type="submit">@Strings.SaveChangesToDevice</button>
                     </fieldset>
                 }
             </div>

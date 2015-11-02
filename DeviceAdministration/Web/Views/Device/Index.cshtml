@@ -5,37 +5,37 @@
 
 <noscript>
     <div class="error_noscript">
-        <h1>@Strings.NoscriptHeader</h1>
+        <h1 class="error_noscript__header">@Strings.NoscriptHeader</h1>
         <p>@Strings.NoscriptP1</p>
         <p>@Strings.NoscriptP2</p>
     </div>
 </noscript>
 
 
-<div class="content_outer content_grid">
-    <div class="content_inner">
+<div class="content_outer content_outer--background_color content_grid">
+    <div class="content_inner content_inner--inherit_max_width_no_margin">
 
-        <div class="search_container_closed search_height_closed_fixed">
-            <h2 class="pane_subhead">@Strings.FindDevicesLabelCollapsed</h2>
+        <div class="search_container_closed search_height--closed_fixed">
+            <h2 class="search_container_closed__pane_subhead">@Strings.FindDevicesLabelCollapsed</h2>
         </div>
 
-        <div class="search_container search_height_fixed">
-            <h2 class="search_subhead">@Strings.FindDevices</h2>
-            <div class="search_details_container">
+        <div class="search_container search_height--fixed">
+            <h2 class="search_container__search_subhead">@Strings.FindDevices</h2>
+            <div class="search_container__search_details_container">
                 <label for="searchQuery" class="grid_subhead_detail_label">@Strings.SearchDevices</label>
-                <input type="text" name="searchQuery" id="searchQuery" class="search_details_query" />
+                <input type="text" name="searchQuery" id="searchQuery" class="search_details_container__text" />
 
                 <h2 class="grid_subhead_detail_label">@Strings.FilterDevices</h2>
-                <a class="filter_add_clause_link">@Strings.AddNewClause</a>
+                <a class="search_details_container__filter_add_clause_link">@Strings.AddNewClause</a>
 
                 <!-- This template is copied for each filter clause -->
-                <div id="filter_template" style="display: none;">
+                <div id="filter_template" class="search_filter" style="display: none;">
 
                     <div>
 
-                        <label class="filter_label filter_group_top" for="filterFieldREPLACE_ME"><span>@Strings.FilterFieldLabel</span></label>
+                        <label class="filter_template__filter_label filter_group_top" for="filterFieldREPLACE_ME"><span>@Strings.FilterFieldLabel</span></label>
 
-                        <select id="filterFieldREPLACE_ME" name="filterFieldREPLACE_ME" class="filter_input">
+                        <select id="filterFieldREPLACE_ME" name="filterFieldREPLACE_ME" class="search_filter__select">
                             <option value="Status">@Strings.FilterOptionStatus</option>
                             <option value="DeviceId" selected>@Strings.FilterOptionDeviceId</option>
                             <option value="Manufacturer">@Strings.FilterOptionManufacturer</option>
@@ -51,9 +51,9 @@
 
                     <div id="filterOperatorControlREPLACE_ME">
 
-                        <label class="filter_label" for="filterOperatorREPLACE_ME"><span>@Strings.FilterOperatorLabel</span></label>
+                        <label class="filter_template__filter_label" for="filterOperatorREPLACE_ME"><span>@Strings.FilterOperatorLabel</span></label>
 
-                        <select id="filterOperatorREPLACE_ME" name="filterOperatorREPLACE_ME" class="filter_input">
+                        <select id="filterOperatorREPLACE_ME" name="filterOperatorREPLACE_ME" class="search_filter__select">
                             <option value="ExactMatchCaseInsensitive">@Strings.FilterOperatorExactInsensitive</option>
                             <option value="StartsWithCaseInsensitive">@Strings.FilterOperatorStartsWithInsensitive</option>
                             <option value="ContainsCaseInsensitive" selected>@Strings.FilterOperatorContainsInsensitive</option>
@@ -66,37 +66,37 @@
 
                     <div id="filterValueControlREPLACE_ME">
 
-                        <label class="filter_label" for="filterValueREPLACE_ME"><span>@Strings.FilterValueLabel</span></label>
+                        <label class="filter_template__filter_label" for="filterValueREPLACE_ME"><span>@Strings.FilterValueLabel</span></label>
 
-                        <input type="text" id="filterValueREPLACE_ME" name="filterValueREPLACE_ME" class="filter_input" />
+                        <input type="text" id="filterValueREPLACE_ME" name="filterValueREPLACE_ME" class="search_filter__text" />
 
                     </div>
 
                     <div id="filterStatusControlREPLACE_ME">
 
-                        <label class="filter_label" for="filterStatusREPLACE_ME"><span>@Strings.FilterStatusLabel</span></label>
+                        <label class="filter_template__filter_label" for="filterStatusREPLACE_ME"><span>@Strings.FilterStatusLabel</span></label>
 
-                        <select id="filterStatusSelectREPLACE_ME" name="filterStatusSelectREPLACE_ME" class="filter_input">
+                        <select id="filterStatusSelectREPLACE_ME" name="filterStatusSelectREPLACE_ME" class="search_filter__select">
                             <option value="Pending">@Strings.FilterStatusPending</option>
                             <option value="Running">@Strings.FilterStatusRunning</option>
                             <option value="Disabled">@Strings.FilterStatusDisabled</option>
                         </select>
                     </div>
 
-                    <div class="filter_clause_container">
+                    <div class="filter_template__filter_clause_container">
                     </div>
 
                 </div>
                 <!-- End filter clause template -->
 
-                <div id="filter_holder">
+                <div class="search_details_container__filter_holder" id="filter_holder">
                 </div>
 
-                <div class="search_details_button_container">
-                    <button type="button" onclick="IoTApp.DeviceIndex.reloadGrid()" class="search_button">
+                <div class="search_container__search_details_button_container">
+                    <button type="button" onclick="IoTApp.DeviceIndex.reloadGrid()" class="button_base search_details_button_container__search_button">
                         @Strings.FindLabel
                     </button>
-                    <button type="button" onclick="IoTApp.DeviceIndex.resetSearch()" class="button_secondary search_button">
+                    <button type="button" onclick="IoTApp.DeviceIndex.resetSearch()" class="search_details_button_container__reset_button">
                         @Strings.ResetLabel
                     </button>
                 </div>
@@ -128,20 +128,20 @@
         </div>
 
         <div class="details_grid_closed height_fixed button_details_grid">
-            <h2 class="grid_subhead">@Strings.DeviceDetailsPaneLabel</h2>
+            <h2 class="details_grid_closed__grid_subhead">@Strings.DeviceDetailsPaneLabel</h2>
         </div>
         <div class="details_grid height_fixed">
 
-            <h2 class="grid_subhead button_details_grid">@Strings.DeviceDetailsPaneLabel</h2>
+            <h2 class="details_grid__grid_subhead button_details_grid">@Strings.DeviceDetailsPaneLabel</h2>
 
             <div id="details_grid_container">
-                <div class="no_device_selected">
+                <div class="details_grid__no_selection">
                     @Strings.NoDeviceSelectedLabel
                 </div>
             </div>
 
             <div id="loadingElement" class="loader_container loader_container_details">
-                <div class="loader"></div>
+                <div class="loader_container__loader loader_container__loader--large_top_margin"></div>
             </div>
 
         </div>

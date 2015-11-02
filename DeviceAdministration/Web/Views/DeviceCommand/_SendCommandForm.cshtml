@@ -17,7 +17,7 @@
     for (var i = 0; i < Model.Parameters.Count; i++)
     {
         <div class="command_parameter_field">
-            @Html.LabelFor(m => m.Parameters[i].Name, Model.Parameters[i].Name)
+            @Html.LabelFor(m => m.Parameters[i].Name, Model.Parameters[i].Name, new { @class = "command_parameter_field__label" })
             @Html.EditorFor(m => m.Parameters[i].Value, string.Format("edit_{0}", Model.Parameters[i].Type), new { Suffix = string.Format("Value_{0}", i) })
             @Html.ValidationMessageFor(m => m.Parameters[i].Value)
             @foreach (var message in Model.Parameters[i].ErrorMessages)
@@ -32,6 +32,6 @@
 
     @Html.HiddenFor(command => command.Name)
     @Html.HiddenFor(command => command.DeviceId)
-    <button type="submit" id="sendCommand_button" class="button_execute">@Strings.SendCommand</button>
+    <button type="submit" id="sendCommand_button" class="button_base button_execute">@Strings.SendCommand</button>
 
 }

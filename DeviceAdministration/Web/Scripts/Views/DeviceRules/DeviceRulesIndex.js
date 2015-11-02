@@ -256,7 +256,7 @@
         // Even though we're working with rules, we still use the no_device_selected class
         // So we don't have to duplicate a bunch of styling for now
         var noRuleSelected = resources.noRuleSelected;
-        $('#details_grid_container').html('<div class="no_device_selected">' + noRuleSelected + '</div>');
+        $('#details_grid_container').html('<div class="details_grid__no_selection">' + noRuleSelected + '</div>');
     }
 
     var setGridWidth = function () {

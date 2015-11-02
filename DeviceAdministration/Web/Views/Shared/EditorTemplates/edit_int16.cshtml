@@ -1,5 +1,5 @@
 ﻿@using GlobalResources
 @model string
 
-@Html.TextBoxFor(m => m, new { @Value = Model ?? "", Title = string.Format(Strings.NumberCommandHint, "int16", Int16.MinValue, Int16.MaxValue) })
+@Html.TextBoxFor(m => m, new { @Value = Model ?? "", Title = string.Format(Strings.NumberCommandHint, "int16", Int16.MinValue, Int16.MaxValue), @class = "command_parameter_field__input--text" })
 

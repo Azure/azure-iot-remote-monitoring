@@ -2,12 +2,12 @@
     "use strict";
 
     var init = function() {
-        $(".header_main_head").text(resources.addDevice);
-        $(".header_main_subhead").text(resources.stepTwoHeader);
-        $(".content_outer").removeClass("content_outer_selectDevice");
-        $(".content_inner").removeClass("content_inner_selectDevice");
-        $(".button_back").show();
-        $(".button_back").off("click").click(function () {
+        $(".header_main__head").text(resources.addDevice);
+        $(".header_main__subhead").text(resources.stepTwoHeader);
+        $(".content_outer").removeClass("content_outer--select_device");
+        $(".content_inner").removeClass("content_inner--select_device");
+        $(".header_main__button_back").show();
+        $(".header_main__button_back").off("click").click(function () {
             location.href = resources.redirectToIndexUrl;
         });
 
@@ -23,7 +23,7 @@
 
         $('input[type="radio"]').bind("click", function () {
             if ($(this).attr("value") == "true") {
-                $(".error_check_id").hide();
+                $(".unique_device_id__error_check_id").hide();
                 $("#checkIdButton").prop("disabled", true);
                 $("#deviceId").prop("disabled", true);
                 $("#deviceId").val(resources.enterDeviceId);

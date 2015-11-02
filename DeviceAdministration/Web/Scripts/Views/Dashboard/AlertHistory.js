@@ -25,7 +25,7 @@
 
     var init = function init(alertHistoryTableSettings) {
 
-        setId();
+        setAlertHistoryTypeClass();
         self.dataTableContainer = alertHistoryTableSettings.dataTable;
         getDataUri = alertHistoryTableSettings.getDataUri;
         refreshMilliseconds = alertHistoryTableSettings.refreshMilliseconds;
@@ -48,7 +48,7 @@
             "lengthChange": false,
             "processing": true,
             "serverSide": true,
-            "dom": "<'dataTables_header alertHeader'i>",
+            "dom": "<'dataTables_header dashboard_alert_history__alertHeader'i>",
             "ajax": {
                 url: getDataUri,
                 error: onError,
@@ -187,9 +187,9 @@
         self.dataTable.ajax.reload();
     }
 
-    var setId = function () {
+    var setAlertHistoryTypeClass = function () {
         var alertHistoryType = resources.alertHistoryType;
-        $("div.dashboardAlertHistory").attr("id", alertHistoryType);
+        $("div.dashboard_alert_history").addClass(alertHistoryType);
     }
 
     return {

@@ -31,33 +31,33 @@
 </head>
 <body>
     <header class="header_page">
-        <h1 class="header_page_head">@Strings.MicrosoftAzureIoTSuite</h1>
+        <h1 class="header_page__head">@Strings.MicrosoftAzureIoTSuite</h1>
         <a target="_blank" href="@Strings.InfoIconLink">
-            <img src="~/Content/img/icon_info_white.svg" alt="@Strings.Information" id="infoLinkImg" />
+            <img class="header_page__infoLinkImg" src="~/Content/img/icon_info_white.svg" alt="@Strings.Information" id="infoLinkImg" />
         </a>
-        <h2 class="header_solution_name">@HeaderHelper.GetHeaderTitle()</h2>
-        <div class="account">
-            <div class="account_login">
-                <div class="account_login_username">@PrincipalHelper.GetEmailAddress(User)</div>
+        <h2 class="header_page__solution_name">@HeaderHelper.GetHeaderTitle()</h2>
+        <div class="header_page__account">
+            <div class="header_page__account__account_login">
+                <div class="header_page__account__account_login__account_login_username">@PrincipalHelper.GetEmailAddress(User)</div>
 
                 @{
                     if (User.Identity.IsAuthenticated)
                     {
-                        @Html.ActionLink(@Strings.SignOut, "SignOut", "Account", new object { }, new { @class = "link_account" })
+                        @Html.ActionLink(@Strings.SignOut, "SignOut", "Account", new object { }, new { @class = "header_page__account__account_login__account_login_username__link_account" })
                     }
 
 
                     if (User.IsInRole("Admin"))
                     {
-                        <h2 class="header_page_subhead">@Strings.AdministratorRole</h2>
+                        <h2 class="header_page__subhead">@Strings.AdministratorRole</h2>
                     }
                     else if (User.IsInRole("ReadOnly"))
                     {
-                        <h2 class="header_page_subhead">@Strings.ReadOnlyRole</h2>
+                        <h2 class="header_page__subhead">@Strings.ReadOnlyRole</h2>
                     }
                     else
                     {
-                        <h2 class="header_page_subhead">@Strings.ImplicitReadOnlyRole</h2>
+                        <h2 class="header_page__subhead">@Strings.ImplicitReadOnlyRole</h2>
                     }
                 }
             </div>
@@ -70,7 +70,7 @@
         @RenderSection("Main", required: true)
 
         <div id="loadingElement" class="loader_container">
-            <div class="loader"></div>
+            <div class="loader_container__loader"></div>
         </div>
 
     </section>

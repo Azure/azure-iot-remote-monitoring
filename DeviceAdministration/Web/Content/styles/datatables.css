@@ -35,15 +35,15 @@ table.dataTable {
     cursor: pointer;
     *cursor: hand; }
   table.dataTable thead .sorting {
-    background: url("../images/sort_both.png") no-repeat center right; }
+    background: url("/Content/themes/base/images/sort_both.png") no-repeat center right; }
   table.dataTable thead .sorting_asc {
-    background: url("../images/sort_asc.png") no-repeat center right; }
+    background: url("/Content/themes/base/images/sort_asc.png") no-repeat center right; }
   table.dataTable thead .sorting_desc {
-    background: url("../images/sort_desc.png") no-repeat center right; }
+    background: url("/Content/themes/base/images/sort_desc.png") no-repeat center right; }
   table.dataTable thead .sorting_asc_disabled {
-    background: url("../images/sort_asc_disabled.png") no-repeat center right; }
+    background: url("/Content/themes/base/images/sort_asc_disabled.png") no-repeat center right; }
   table.dataTable thead .sorting_desc_disabled {
-    background: url("../images/sort_desc_disabled.png") no-repeat center right; }
+    background: url("/Content/themes/base/images/sort_desc_disabled.png") no-repeat center right; }
   table.dataTable tbody tr {
     background-color: white; }
     table.dataTable tbody tr.selected {
@@ -418,23 +418,23 @@ table.dataTable.no-footer {
     }
 
 table.dataTable thead .sorting {
-    background: url("img/sort_both.png") no-repeat bottom right;
+    background: url("/Content/img/sort_both.png") no-repeat bottom right;
     }
 
 table.dataTable thead .sorting_asc {
-    background: url("img/sort_asc.png") no-repeat bottom right;
+    background: url("/Content/img/sort_asc.png") no-repeat bottom right;
     }
 
 table.dataTable thead .sorting_desc {
-    background: url("img/sort_desc.png") no-repeat bottom right;
+    background: url("/Content/img/sort_desc.png") no-repeat bottom right;
     }
 
 table.dataTable thead .sorting_asc_disabled {
-    background: url("img/sort_asc_disabled.png") no-repeat bottom right; 
+    background: url("/Content/img/sort_asc_disabled.png") no-repeat bottom right; 
     }
 
 table.dataTable thead .sorting_desc_disabled {
-    background: url("img/sort_desc_disabled.png") no-repeat bottom right;
+    background: url("/Content/img/sort_desc_disabled.png") no-repeat bottom right;
     }
 
 
@@ -476,13 +476,13 @@ table.dataTable td.dataTables_empty {
 
 
     .dataTables_wrapper .dataTables_paginate .paginate_button.next {
-        background-image:url(img/button_page_next.svg);
+        background-image:url(/Content/img/button_page_next.svg);
         background-position:center right;
         padding-right:1.5em;
         }
 
     .dataTables_wrapper .dataTables_paginate .paginate_button.previous {
-        background-image:url(img/button_page_prev.svg);
+        background-image:url(/Content/img/button_page_prev.svg);
         background-position:center left;
         padding-left:1.5em;
         }
@@ -585,15 +585,15 @@ table.dataTable thead {
     }
 
     .table_status.status_false {
-        background-image:url(img/icon_status_disabled.svg);
+        background-image:url(/Content/img/icon_status_disabled.svg);
         }
 
     .table_status.status_true {
-        background-image:url(img/icon_status_enabled.svg);
+        background-image:url(/Content/img/icon_status_enabled.svg);
         }
 
     .table_status.status_pending {
-        background-image:url(img/icon_status_null.svg);
+        background-image:url(/Content/img/icon_status_null.svg);
         }
 
 .table_alertHistory_issueType{

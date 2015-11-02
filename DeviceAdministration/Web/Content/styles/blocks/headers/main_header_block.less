@@ -1,0 +1,77 @@
+﻿.header_page {
+    min-width: 800px;
+    position: fixed;
+    z-index: 300;
+    background-color: @primary-color;
+    color: @text-secondary-color;
+    width: 100%;
+    height: 50px;
+    .display-flex();
+}
+
+.header_page__head {
+    float: left;
+    margin: 0;
+    padding-left: 10px;
+    padding-right: 5px;
+    font-size: 1.4em;
+    line-height: 50px;
+}
+
+.header_page__solution_name {
+    border-left: 2px solid #373B3D;
+    padding-left: 20px;
+    float: left;
+    font-size: .85em;
+    line-height: 50px;
+}
+
+.header_page__subhead {
+    float: right;
+    clear: both;
+    margin: 0;
+    font-size: .85em;
+    text-transform: uppercase;
+    color: @text-pagehead-color;
+}
+
+.header_page__infoLinkImg {
+    width: 17px;
+    height: 17px;
+    padding-right: 20px;
+    position: relative;
+    top: 18px;
+    left: 7px;
+    opacity: 1.0;
+}
+
+.header_page__account {
+    height: 50px;
+    overflow: auto;
+    font-size: .85em;
+    position: absolute;
+    right: 20px;
+}
+
+.header_page__account__account_login {
+    float: right;
+    padding-right: 80px;
+}
+
+.header_page__account__account_login__account_login_username {
+    color: @text-accountusername-color;
+    line-height: 2em;
+}
+
+.header_page__account__account_login__account_login_username__link_account {
+    color: @anchor-color;
+    font-size: 1em;
+    text-decoration: none;
+    position: absolute;
+    top: 14px;
+    right: 0;
+}
+
+.header_page__account__account_login__account_login_username__link_account:hover {
+    color: @anchor-hover-color;
+}

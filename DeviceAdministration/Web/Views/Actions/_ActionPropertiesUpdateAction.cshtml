@@ -8,9 +8,9 @@
     
 <section class="action_properties_id"> 
     <h4 class="grid_subhead_detail_label">@Strings.AvailableActions</h4>
-    @Html.DropDownListFor(m => Model.ActionId, Model.ActionSelectList)
+    @Html.DropDownListFor(m => Model.ActionId, Model.ActionSelectList, new { @class = "action_properties_id__select" })
     @Html.ValidationMessageFor(model => model.ActionId)
     @Html.AntiForgeryToken()
-    <button type="submit" id="updateAction_button" class="button_execute">@Strings.Update</button>
+    <button type="submit" id="updateAction_button" class="button_base action_properties_id__update_action_id button_execute">@Strings.Update</button>
 </section>
 

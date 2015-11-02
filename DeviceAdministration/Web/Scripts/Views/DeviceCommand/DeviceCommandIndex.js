@@ -6,13 +6,13 @@
     var init = function (commands, deviceIsEnabled) {
         setDatatable();
         self._sendCommandButton = $('#sendCommand_button');
-        self._backButton = $('.button_back');
+        self._backButton = $('.header_main__button_back');
         self.sendCommandForm = $("#command_form");
         self._backButton.show();
         self.commands = commands;
         self.deviceIsEnabled = deviceIsEnabled;
         self.commandsResponse = [];
-        self.resendCommandbuttons = $('.resend-command');
+        self.resendCommandbuttons = $('.resend_command');
         setNavigationEvents();
         commandHistoryErrors();
         $.validator.setDefaults({
@@ -25,7 +25,7 @@
 
     var commandHistoryErrors = function() {
         $("#commandHistory .error").parent().on("click", function () {
-            var errorMessageElement = $(this).find(".error_message");
+            var errorMessageElement = $(this).find(".command_history__error_message");
             var errorMessage = errorMessageElement.data("error-message");
             errorMessageElement.html(errorMessage);
             $(this).off("click");

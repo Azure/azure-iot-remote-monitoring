@@ -19,7 +19,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     Action = "Index",
                     Controller = "Dashboard",
                     Selected = false,
-                    Class = "nav_dashboard",
+                    Class = "navigation__link--dashboard",
                     MinimumPermission = Permission.ViewTelemetry,
                 },
                 new NavigationMenuItem
@@ -28,7 +28,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     Action = "Index",
                     Controller = "Device",
                     Selected = false,
-                    Class = "nav_devices",
+                    Class = "navigation__link--devices",
                     MinimumPermission = Permission.ViewDevices,
                 },
                 new NavigationMenuItem
@@ -37,7 +37,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     Action = "Index",
                     Controller = "DeviceRules",
                     Selected = false,
-                    Class = "nav_view_rules",
+                    Class = "navigation__link--rules",
                     MinimumPermission = Permission.ViewRules,
                 },
                 new NavigationMenuItem
@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     Action = "Index",
                     Controller = "Actions",
                     Selected = false,
-                    Class = "nav_actions",
+                    Class = "navigation__link--actions",
                     MinimumPermission = Permission.ViewActions,
                 },
             };
@@ -77,7 +77,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 if (navigationMenuItem.Controller == controllerName && navigationMenuItem.Action == actionName)
                 {
                     navigationMenuItem.Selected = true;
-                    navigationMenuItem.Class = string.Format(CultureInfo.CurrentCulture, "{0} {1}", navigationMenuItem.Class, "selected");
+                    navigationMenuItem.Class = string.Format(CultureInfo.InvariantCulture, "{0} {1}", navigationMenuItem.Class, "navigation__link--selected");
                     return navigationMenuItem;
                 }
             }

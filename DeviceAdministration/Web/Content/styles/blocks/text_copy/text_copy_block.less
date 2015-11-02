@@ -1,0 +1,35 @@
+﻿.text_copy_container {
+    overflow: hidden;
+}
+
+.text_copy_container--details_grid {
+    float: left;
+    width: 100%;
+}
+
+.text_copy_container__input {
+    width: ~"calc(100% - 55px)"; /* fluid width. Subtract width of copy button width and margin. */
+    float: left;
+    padding-bottom: 0;
+    padding-top: 0;
+    font-size: 22px;
+    font-weight: 600;
+    display: block;
+    margin: .25em 1em 1.4em 0;
+    border: 1px solid @form-textbox-readonly-border;
+    background-color: @form-textbox-background;
+    padding: 0 5px;
+    min-height: 30px;
+    box-sizing: content-box;
+}
+
+.text_copy_container__input--details_grid {
+    font-size: @font-size-property-value;
+    font-weight: normal;
+    margin-right: 0;
+}
+
+.text_copy_container__input--add_device_copy_table {
+    margin-bottom: 0;
+    margin-right: 0;
+}

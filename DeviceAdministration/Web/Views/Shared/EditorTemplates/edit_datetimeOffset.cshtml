@@ -1,9 +1,9 @@
 ﻿@using GlobalResources
 @model string
 
-<input type="text" class="medium datetime dateoffset" placeholder="YYYY-MM-DD" id="@string.Format("{0}_{1}", ViewData["Suffix"], "date")" data-bound-to="@ViewData.TemplateInfo.HtmlFieldPrefix" />
-<input type="text" class="small timeoffset" placeholder="HH:mm:ss" id="@string.Format("{0}_{1}", ViewData["Suffix"], "time")" data-bound-to="@ViewData.TemplateInfo.HtmlFieldPrefix" />
-<select class=" small timezone" id="@string.Format("{0}_{1}", ViewData["Suffix"], "timezone")" data-bound-to="@ViewData.TemplateInfo.HtmlFieldPrefix">
+<input type="text" class="datetime dateoffset command_parameter_field__input--datetimeoffset" placeholder="YYYY-MM-DD" id="@string.Format("{0}_{1}", ViewData["Suffix"], "date")" data-bound-to="@ViewData.TemplateInfo.HtmlFieldPrefix" />
+<input type="text" class="timeoffset command_parameter_field__input--datetimeoffset" placeholder="HH:mm:ss" id="@string.Format("{0}_{1}", ViewData["Suffix"], "time")" data-bound-to="@ViewData.TemplateInfo.HtmlFieldPrefix" />
+<select class="timezone command_parameter_field__select" id="@string.Format("{0}_{1}", ViewData["Suffix"], "timezone")" data-bound-to="@ViewData.TemplateInfo.HtmlFieldPrefix">
     <option value="local">@Strings.Local</option>
     <option value="UTC">@Strings.UTC</option>
 </select>
@@ -12,5 +12,5 @@
     data_date_bound = string.Format("{0}_{1}", ViewData["Suffix"], "date"),
     data_time_bound = string.Format("{0}_{1}", ViewData["Suffix"], "time"),
     data_timezone_bound = string.Format("{0}_{1}", ViewData["Suffix"], "timezone"),
-    @class = "dateTimeValue"
+    @class = "dateTimeValue command_parameter_field__input--text"
 })

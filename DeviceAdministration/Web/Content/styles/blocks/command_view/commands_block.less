@@ -1,0 +1,114 @@
+﻿.command_form {
+    padding: 15px 30px;
+    background-color: @background-color;
+    font-size: 1.4em;
+    color: #4d4d4d;
+    display: block;
+}
+
+.command_form__label {
+    color: @form-fieldset-textbox-label;
+    font-size: .7em;
+    text-transform: uppercase;
+}
+
+.command_form__select {
+    display: block;
+    margin: .25em 1em 1em 0;
+    border-color: @form-textbox-border;
+    background-color: @form-textbox-background;
+    border-width: 1px;
+    font-size: .85em;
+    padding: 0 5px;
+    min-height: 30px;
+    box-sizing: content-box;
+}
+
+.container_command {
+    clear: both;
+}
+
+.command_container {
+    margin-top: 1.8em;
+    margin-bottom: 2em;
+}
+
+.command_parameter_field {
+    clear: both;
+    display: block;
+}
+
+.command_parameter_field__label {
+    font-size: .7em;
+    display: block;
+    color: @form-fieldset-textbox-label;
+    text-transform: uppercase;
+}
+
+.command_parameter_field__input--text {
+    display: block;
+    margin: .25em 1em 1.4em 0;
+    border: 1px solid @form-textbox-border;
+    background-color: @form-textbox-background;
+    font-size: .85em;
+    padding: 0 5px;
+    min-height: 30px;
+    box-sizing: content-box;
+    float: left;
+    width: 460px;
+}
+
+.command_parameter_field__input--checkbox {
+    margin-top: 10px;
+    margin-bottom: 25px;
+    clear: both;
+    float: left;
+    display: block;
+}
+
+.command_parameter_field__input--datetimeoffset {
+    display: block;
+    float: left;
+    width: 460px;
+    margin: .25em 1em 1.4em 0;
+    border: 1px solid @form-textbox-border;
+    background-color: @form-textbox-background;
+    font-size: .85em;
+    padding: 0 5px;
+    min-height: 30px;
+    box-sizing: content-box;
+}
+
+.command_parameter_field__select {
+    display: block;
+    float: left;
+    margin: .25em 1em 1.4em 0;
+    border-color: @form-textbox-border;
+    background-color: @form-textbox-background;
+    border-width: 1px;
+    font-size: .85em;
+    padding: 0 5px;
+    min-height: 30px;
+    box-sizing: content-box;
+}
+
+.command_history__error_message {
+    color: @error-color;
+    word-break: break-all;
+}
+
+/*
+    Classes for Command Result come from localized string styling from DeviceDisplayHelper.cs
+*/
+.pending {
+    color: @error-pending-color;
+}
+
+.success {
+    color: @error-validate-color;
+}
+
+.error {
+    color: @error-color;
+    word-break: break-all;
+}

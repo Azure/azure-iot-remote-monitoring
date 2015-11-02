@@ -7,9 +7,9 @@
     
     if (Model.HasCommands)
     {
-        <fieldset class="fieldset_content fieldset_textbox">
-            @Html.LabelFor(m => m.Command)
-            @Html.DropDownListFor(m => Model.Command, Model.CommandSelectList, Strings.SelectACommand)
+        <fieldset class="command_form">
+            @Html.LabelFor(m => m.Command, new { @class = "command_form__label" })
+            @Html.DropDownListFor(m => Model.Command, Model.CommandSelectList, Strings.SelectACommand, new { @class = "command_form__select"})
             @Html.ValidationMessageFor(model => model.Command)
             @Html.AntiForgeryToken()
             <div id="command_form" class="container_command"></div>

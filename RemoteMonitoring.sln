@@ -24,6 +24,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.UnitTests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebJobHost", "WebJobHost\WebJobHost.csproj", "{350C5961-0778-45F8-9A59-D309FCD653DD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{42031CBE-7F96-4B37-8DE8-FE30A3F2B0CB}"
+	ProjectSection(SolutionItems) = preProject
+		WebEssentials-Settings.json = WebEssentials-Settings.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
