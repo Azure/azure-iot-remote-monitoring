@@ -198,7 +198,7 @@ try
     {
         Write-Verbose "Publishing...Calling PrepareIoTSample.ps1..."
         ./PrepareIoTSample.ps1 -environmentName $EnvironmentName -Configuration $Configuration 
-        if ($LASTEXITCODE -ne 0) 
+        if (-not ($LASTEXITCODE -eq 0 -or $LASTEXITCODE -eq $null)) 
         {
             throw "Publish failed."
         }
