@@ -304,7 +304,27 @@ function StopExistingStreamAnalyticsJobs()
     Write-Host "Stopping existing Stream Analytics jobs..."
     foreach ($sasJob in $sasJobs)
     {
+        Write-Host ("Stopping {0}..." -f $sasJob.Name)
         $null = Stop-AzureStreamAnalyticsJob -Name $sasJob.ResourceName -ResourceGroupName $resourceGroupName
+    }
+    return $true
+}
+
+function StartExistingStreamAnalyticsJobs()
+{
+    Param(
+        [Parameter(Mandatory=$true,Position=0)] [string] $resourceGroupName
+    )
+    $sasJobs = Get-AzureResource -ResourceGroupName $resourceGroupName -ResourceType Microsoft.StreamAnalytics/streamingjobs -OutputObjectFormat New
+    if ($sasJobs -eq $null)
+    {
+        return $false
+    }
+    Write-Host "Starting existing Stream Analytics jobs..."
+    foreach ($sasJob in $sasJobs)
+    {
+        Write-Host ("Starting {0}..." -f $sasJob.Name)
+        $null = Start-AzureStreamAnalyticsJob -Name $sasJob.ResourceName -ResourceGroupName $resourceGroupName
     }
     return $true
 }

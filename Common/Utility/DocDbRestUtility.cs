@@ -173,7 +173,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             return await QueryDocDbInternal(endpoint, queryString, queryParams, DocDbResourceType.Document, _collectionId, pageSize, continuationToken);
         }
 
-        private async Task<DocDbRestQueryResult> QueryDocDbInternal(string endpoint, string queryString, Dictionary<string, Object> queryParams, 
+        private async Task<DocDbRestQueryResult> QueryDocDbInternal(string endpoint, string queryString, Dictionary<string, Object> queryParams,
             DocDbResourceType resourceType, string resourceId, int pageSize = -1, string continuationToken = null)
         {
             if (string.IsNullOrWhiteSpace(endpoint))
@@ -243,7 +243,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 }
                 result.ContinuationToken = responseHeaders[CONTINUATION_HEADER_KEY];
 
-                return result; 
+                return result;
             }
         }
 
@@ -332,12 +332,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         /// very short hash-looking string similar to jNHDTMVaDgB=</param>
         /// <returns></returns>
         [SuppressMessage(
-            "Microsoft.Globalization", 
+            "Microsoft.Globalization",
             "CA1308:NormalizeStringsToUppercase",
             Justification = "Token signatures are base on lower-case strings.")]
         private string GetAuthorizationToken(string requestVerb, string resourceType, string resourceId, string formattedTimeString)
         {
-            string signatureRaw = 
+            string signatureRaw =
                 string.Format(CultureInfo.InvariantCulture, "{0}\n{1}\n{2}\n{3}\n\n", requestVerb, resourceType, resourceId, formattedTimeString)
                 .ToLowerInvariant();
 
