@@ -105,7 +105,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
             JObject json = JObject.Parse(response);
 
-            _collectionId = ReflectionHelper.GetNamedPropertyValue(json, "_rid", true, false).ToString();
+            _dbId = ReflectionHelper.GetNamedPropertyValue(json, "_rid", true, false).ToString();
         }
 
         public async Task InitializeDeviceCollection()
