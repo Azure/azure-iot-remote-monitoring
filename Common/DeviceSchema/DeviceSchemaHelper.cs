@@ -273,7 +273,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
 
             JObject deviceProps = new JObject();
             deviceProps.Add(DevicePropertiesConstants.DEVICE_ID, deviceId);
-            deviceProps.Add(DevicePropertiesConstants.HUB_ENABLED_STATE, true);
+            deviceProps.Add(DevicePropertiesConstants.HUB_ENABLED_STATE, null);
             deviceProps.Add(DevicePropertiesConstants.CREATED_TIME, DateTime.UtcNow);
             deviceProps.Add(DevicePropertiesConstants.DEVICE_STATE, "normal");
             deviceProps.Add(DevicePropertiesConstants.UPDATED_TIME, null);
