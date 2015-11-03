@@ -109,7 +109,7 @@
                 "name": "[parameters('docDBName')]",
                 "databaseAccountOfferType": "[variables('docDBSku')]"
             }
-        },
+            },
         {
             "apiVersion": "[variables('bingMapsVersion')]",
             "type": "Microsoft.BingMaps/mapApis",
@@ -131,7 +131,7 @@
             "properties": {
                 "accountType": "[variables('storageAccountType')]"
             }
-        },
+            },
         {
             "apiVersion": "[variables('iotHubVersion')]",
             "type": "Microsoft.Devices/Iothubs",
@@ -145,7 +145,7 @@
             "properties": {
                 "location": "[variables('location')]"
             }
-        },
+            },
         {
             "apiVersion": "[variables('iotHubVersion')]",
             "name": "[concat(parameters('iotHubName'), '/events/', variables('rulesCGName'))]",
