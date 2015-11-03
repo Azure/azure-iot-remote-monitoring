@@ -65,7 +65,7 @@
     },
     "variables" : {
         "name" : "[resourceGroup().name]",
-        "storageAccountType" : "Standard_LRS",
+        "storageAccountType" : "Standard_GRS",
         "location" : "[resourceGroup().location]",
         "storageVersion" : "2015-05-01-preview",
         "storageNameVar" : "[toLower(concat(variables('name'), 'store'))]",
