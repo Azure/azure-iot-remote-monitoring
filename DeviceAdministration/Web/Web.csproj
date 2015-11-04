@@ -249,6 +249,7 @@
     <Compile Include="App_Start\Startup.Json.cs" />
     <Compile Include="App_Start\Startup.Autofac.cs" />
     <Compile Include="App_Start\Startup.WebApi.cs" />
+    <Compile Include="Bundling\LessTransform.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActionsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
