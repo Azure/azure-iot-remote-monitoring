@@ -8,16 +8,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     using System.Web.Optimization;
     using dotless.Core;
 
-    //public sealed class LessTransform : IBundleTransform
-    //{
-    //    public void Process(BundleContext context, BundleResponse response)
-    //    {
-    //        response.Content = dotless.Core.Less.Parse(response.Content);
-    //        response.ContentType = "text/css";
-    //    }
-    //}
-
-    public class LessTransform : IBundleTransform
+    public sealed class LessTransform : IBundleTransform
     {
         private readonly string path;
 
