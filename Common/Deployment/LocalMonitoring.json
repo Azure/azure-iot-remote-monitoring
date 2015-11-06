@@ -20,10 +20,24 @@
                 "description": "The name of the documentDB"
             }
         },
+        "docDBSku": {
+            "type": "string",
+            "defaultValue": "Standard",
+            "metadata": {
+                "description": "The DocumentDB Sku"
+            }
+        },
         "storageName": {
             "type": "string",
             "metadata": {
                 "description": "The name of the storageAccount"
+            }
+        },
+        "storageAccountSku": {
+            "type": "string",
+            "defaultValue": "Standard_GRS",
+            "metadata": {
+                "description": "The storage Sku"
             }
         },
         "iotHubName": {
@@ -32,10 +46,31 @@
                 "description": "The name of the iotHub"
             }
         },
+        "iotHubSku": {
+            "type": "string",
+            "defaultValue": "S2",
+            "metadata": {
+                "description": "The Iothub Sku"
+            }
+        },
+        "iotHubTier": {
+            "type": "string",
+            "defaultValue": "Standard",
+            "metadata": {
+                "description": "The Iothub tier"
+            }
+        },
         "sbName": {
             "type": "string",
             "metadata": {
                 "description": "The name of the serviceBus"
+            }
+        },
+        "sbSku": {
+            "type": "int",
+            "defaultValue": 1,
+            "metadata": { 
+                "description": "The servicebus Sku"
             }
         },
         "asaStartBehavior": {
@@ -53,7 +88,6 @@
         }
     },
     "variables": {
-        "storageAccountType": "Standard_GRS",
         "location": "[resourceGroup().location]",
         "storageVersion": "2015-05-01-preview",
         "storageId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
@@ -64,11 +98,8 @@
         "sbResourceId": "[resourceId('Microsoft.Eventhub/namespaces/authorizationRules', parameters('sbName'), variables('sbKeyName'))]",
         "saVersion": "2015-10-01",
         "docDBVersion": "2015-04-08",
-        "docDBSku": "Standard",
         "docDBResourceId": "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
         "iotHubVersion": "2015-08-15-preview",
-        "iotHubSku": "S1",
-        "iotHubTier": "Standard",
         "iotHubResourceId": "[resourceId('Microsoft.Devices/Iothubs', parameters('iotHubName'))]",
         "iotHubKeyName": "iothubowner",
         "iotHubKeyResource": "[resourceId('Microsoft.Devices/Iothubs/Iothubkeys', parameters('iotHubName'), variables('iotHubKeyName'))]",
@@ -84,7 +115,7 @@
             "location": "[variables('location')]",
             "properties": {
                 "name": "[parameters('docDBName')]",
-                "databaseAccountOfferType": "[variables('docDBSku')]"
+                "databaseAccountOfferType": "[parameters('docDBSku')]"
             }
         },
         {
@@ -93,7 +124,7 @@
             "name": "[parameters('storageName')]",
             "location": "[variables('location')]",
             "properties": {
-                "accountType": "[variables('storageAccountType')]"
+                "accountType": "[parameters('storageAccountSku')]"
             }
         },
         {
@@ -102,8 +133,8 @@
             "name": "[parameters('iotHubName')]",
             "location": "[variables('location')]",
             "sku": {
-                "name": "[variables('iotHubSku')]",
-                "tier": "[variables('iotHubTier')]",
+                "name": "[parameters('iotHubSku')]",
+                "tier": "[parameters('iotHubTier')]",
                 "capacity": 1
             },
             "properties": {
@@ -140,7 +171,7 @@
             "type": "Microsoft.Eventhub/namespaces",
             "location": "[variables('location')]",
             "properties": {
-                "messagingSku": 1,
+                "messagingSku": "[parameters('sbSku')]",
                 "region": "[variables('location')]"
             },
             "resources": [

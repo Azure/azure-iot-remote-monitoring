@@ -89,15 +89,15 @@
             }
         },
         "webWorkerSize": {
-            "type": "string",
-            "defaultValue": "0",
+            "type": "int",
+            "defaultValue": 0,
             "metadata": {
                 "description": "The size of the webapp"
             }
         },
         "webWorkerCount": {
-            "type": "string",
-            "defaultValue": "2",
+            "type": "int",
+            "defaultValue": 2,
             "metadata": {
                 "description": "The webapp worker count"
             }
@@ -110,15 +110,15 @@
             }
         },
         "webJobWorkerSize": {
-            "type": "string",
-            "defaultValue": "0",
+            "type": "int",
+            "defaultValue": 0,
             "metadata": {
                 "description": "The size of the webjob"
             }
         },
         "webJobWorkerCount": {
-            "type": "string",
-            "defaultValue": "2",
+            "type": "int",
+            "defaultValue": 2,
             "metadata": {
                 "description": "The webjob worker count"
             }

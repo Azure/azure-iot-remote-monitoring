@@ -147,6 +147,26 @@ function GetResourceGroup()
     return $resourceGroup
 }
 
+function ResourceObjectExists
+{
+    Param(
+        [Parameter(Mandatory=$true,Position=0)] [string] $resourceGroupName,
+        [Parameter(Mandatory=$true,Position=1)] [string] $resourceName,
+        [Parameter(Mandatory=$true,Position=2)] [string] $type
+    )
+    return (Get-AzureResource -ResourceGroupName $resourceGroupName -ResourceType $type -OutputObjectFormat New | ?{$_.Name -eq $resourceName}) -ne $null
+}
+
+function GetResourceObject
+{
+    Param(
+        [Parameter(Mandatory=$true,Position=0)] [string] $resourceGroupName,
+        [Parameter(Mandatory=$true,Position=1)] [string] $resourceName,
+        [Parameter(Mandatory=$true,Position=2)] [string] $type
+    )
+    return Get-AzureResource -ResourceName $resourceName -ResourceGroupName $resourceGroupName -ResourceType $type -OutputObjectFormat New
+}
+
 function UpdateResourceGroupState()
 {
     Param(
@@ -243,7 +263,7 @@ function GetUniqueResourceName()
             throw ("Unable to create unique name for resource {0} for url {1}" -f $resourceBaseName, $resourceUrl)
         }
     }
-    Clear-DnsClientCache
+    ClearDNSCache
     return $name
 }
 
@@ -329,7 +349,7 @@ function UploadFile()
         while (!(HostEntryExists $context.StorageAccount.BlobEndpoint.Host))
         {
             Write-Host "." -NoNewline
-            Clear-DnsClientCache
+            ClearDNSCache
             sleep 3
         }
         Write-Host
@@ -495,6 +515,51 @@ function HostEntryExists()
     }
     catch {}
     Write-Verbose ("Did not find hostname: {0}" -f $hostName)
+    return $false
+}
+
+function ClearDNSCache()
+{
+    if ($global:ClearDns -eq $null)
+    {
+        $global:ClearDns = CommandExists Clear-DnsClientCache
+    }
+    if ($global:ClearDns)
+    {
+        Clear-DnsClientCache
+    }
+}
+
+function SwitchAzureMode()
+{
+    Param(
+        [Parameter(Mandatory=$true,Position=0)] $mode
+    )
+    if (CommandExists Switch-AzureMode)
+    {
+        Switch-AzureMode $mode
+    }
+}
+
+function CommandExists()
+{
+    Param(
+        [Parameter(Mandatory=$true,Position=0)] $command
+    )
+    $oldPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'stop'
+    try
+    {
+        if (Get-Command $command)
+        {
+            return $true
+        }
+    }
+    catch {}
+    finally
+    {
+        $ErrorActionPreference = $oldPreference
+    }
     return $false
 }
 
