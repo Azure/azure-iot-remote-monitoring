@@ -8,8 +8,8 @@
 # Initialize library
 $environmentName = $environmentName.ToLowerInvariant()
 . "$(Split-Path $MyInvocation.MyCommand.Path)\DeploymentLib.ps1"
-Switch-AzureMode AzureResourceManager
-Clear-DnsClientCache
+SwitchAzureMode AzureResourceManager
+ClearDNSCache
 
 # Sets Azure Accounts, Region, Name validation, and AAD application
 InitializeEnvironment $environmentName
@@ -31,10 +31,12 @@ if ($environmentName -ne "local")
     #[string]$branch = "$(git symbolic-ref --short -q HEAD)"
     $cloudDeploy = $true
 }
+$suiteExists = (Get-AzureResourceGroup -Tag @{Name="IotSuiteType";Value=$suiteType} | ?{$_.ResourceGroupName -eq $suiteName}) -ne $null
 $resourceGroupName = (GetResourceGroup -Name $suiteName -Type $suiteType).ResourceGroupName
 $storageAccount = GetAzureStorageAccount $suiteName $resourceGroupName
 $iotHubName = GetAzureIotHubName $suitename $resourceGroupName
 $sevicebusName = GetAzureServicebusName $suitename $resourceGroupName
+$docDbName = GetAzureDocumentDbName $suitename $resourceGroupName
 
 # Setup AAD for webservice
 UpdateResourceGroupState $resourceGroupName ProvisionAAD
@@ -47,20 +49,35 @@ UpdateEnvSetting "AADRealm" ($global:site + $global:appName)
 UpdateResourceGroupState $resourceGroupName ProvisionAzure
 $params = @{ `
     suiteName=$suitename; `
-    docDBName=$(GetAzureDocumentDbName $suitename $resourceGroupName); `
+    docDBName=$docDbName; `
     storageName=$($storageAccount.Name); `
     iotHubName=$iotHubName; `
     sbName=$sevicebusName; `
     aadTenant=$($global:AADTenant)}
 
 Write-Host "Suite name: $suitename"
-Write-Host "DocDb Name: $(GetAzureDocumentDbName $suitename $resourceGroupName)"
+Write-Host "DocDb Name: $docDbName"
 Write-Host "Storage Name: $($storageAccount.Name)"
 Write-Host "IotHub Name: $iotHubName"
 Write-Host "Servicebus Name: $sevicebusName"
 Write-Host "AAD Tenant: $($global:AADTenant)"
 Write-Host "ResourceGroup Name: $resourceGroupName"
 Write-Host "Deployment template path: $deploymentTemplatePath"
+
+# Respect existing Sku values
+if ($suiteExists)
+{
+    $docDbSku = GetResourceObject $suitename $docDbName Microsoft.DocumentDb/databaseAccounts
+    $params += @{docDBSku=$($docDbSku.Properties.DatabaseAccountOfferType)}
+    $storageSku = GetResourceObject $suitename $storageAccount.Name Microsoft.Storage/storageAccounts
+    $params += @{storageAccountSku=$($storageSku.Properties.AccountType)}
+    #IotHub uses new format for sku which requires Azure PS 1.0 - will switch later
+    #$iotHubSku = GetResourceObject $suitename $iotHubName Microsoft.Devices/IotHubs
+    #$params += @{iotHubSku=$($iotHubSku.Sku.Name)}
+    #$params += @{iotHubTier=$($iotHubSku.Sku.Tier)}
+    $servicebusSku = GetResourceObject $suitename $sevicebusName Microsoft.Eventhub/namespaces
+    $params += @{sbSku=$($servicebusSku.Properties.MessagingSku)}
+}
 
 # Upload WebPackages
 if ($cloudDeploy)
@@ -71,6 +88,24 @@ if ($cloudDeploy)
     FixWebJobZip ("$projectRoot\WebJobHost\obj\{0}\Package\WebJobHost.zip" -f $configuration)
     $webJobPackage = UploadFile ("$projectRoot\WebJobHost\obj\{0}\Package\WebJobHost.zip" -f $configuration) $storageAccount.Name $resourceGroupName "WebDeploy"
     $params += @{webJobPackageUri=$webJobPackage}
+    # Respect existing Sku values
+    if ($suiteExists)
+    {
+        $webSku = GetResourceObject $suitename $suitename Microsoft.Web/sites
+        $params += @{webSku=$($webSku.Properties.Sku)}
+        $webPlan = GetResourceObject $suiteName ("{0}-plan" -f $suiteName) Microsoft.Web/serverfarms
+        $params += @{webWorkerSize=$($webPlan.Properties.WorkerSize)}
+        $params += @{webWorkerCount=$($webPlan.Properties.NumberOfWorkers)}
+        $jobName = "{0}-jobhost" -f $suitename
+        if (ResourceObjectExists $suitename $jobName Microsoft.Web/sites)
+        {
+            $webJobSku = GetResourceObject $suitename $jobName Microsoft.Web/sites
+            $params += @{webJobSku=$($webJobSku.Properties.Sku)}
+            $webJobPlan = GetResourceObject $suiteName ("{0}-jobsplan" -f $suiteName) Microsoft.Web/serverfarms
+            $params += @{webJobWorkerSize=$($webJobPlan.Properties.WorkerSize)}
+            $params += @{webJobWorkerCount=$($webJobPlan.Properties.NumberOfWorkers)}
+        }
+    }
 }
 
 # Stream analytics does not auto stop, and requires a start time for both create and update as well as stop if already exists
