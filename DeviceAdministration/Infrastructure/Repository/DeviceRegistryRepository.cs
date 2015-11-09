@@ -7,6 +7,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configuration
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Newtonsoft.Json.Linq;
@@ -21,9 +22,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         readonly string _databaseId;
         readonly string _documentCollectionName;
 
-        IDocDbRestHelper _docDbRestHelper;
+        IDocDbRestUtility _docDbRestUtil;
 
-        public DeviceRegistryRepository(IConfigurationProvider configProvider, IDocDbRestHelper docDbRestHelper)
+        public DeviceRegistryRepository(IConfigurationProvider configProvider, IDocDbRestUtility docDbRestUtil)
         {
             if (configProvider == null)
             {
@@ -36,9 +37,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _documentCollectionName = configProvider.GetConfigurationSettingValue("docdb.DocumentCollectionId");
 
 
-            _docDbRestHelper = docDbRestHelper;
-            Task.Run(() => _docDbRestHelper.InitializeDatabase()).Wait();
-            Task.Run(() => _docDbRestHelper.InitializeDeviceCollection()).Wait();
+            _docDbRestUtil = docDbRestUtil;
+            Task.Run(() => _docDbRestUtil.InitializeDatabase()).Wait();
+            Task.Run(() => _docDbRestUtil.InitializeDeviceCollection()).Wait();
         }
 
         /// <summary>
@@ -55,12 +56,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             int pageSize = 500;
             do
             {
-                DocDbRestQueryResult result = await _docDbRestHelper.QueryDeviceDbAsync(query, null, pageSize, continuationToken);
+                DocDbRestQueryResult result = await _docDbRestUtil.QueryDeviceManagementCollectionAsync(query, null, pageSize, continuationToken);
 
                 docs =
                     ReflectionHelper.GetNamedPropertyValue(
                         result,
-                        "Documents",
+                        "ResultSet",
                         true,
                         false) as IEnumerable;
 
@@ -93,8 +94,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             Dictionary<string, Object> queryParams = new Dictionary<string, Object>();
             queryParams.Add("@id", deviceId);
-            DocDbRestQueryResult response = await _docDbRestHelper.QueryDeviceDbAsync("SELECT VALUE root FROM root WHERE (root.DeviceProperties.DeviceID = @id)", queryParams);
-            JArray foundDevices = response.Documents;
+            DocDbRestQueryResult response = await _docDbRestUtil.QueryDeviceManagementCollectionAsync("SELECT VALUE root FROM root WHERE (root.DeviceProperties.DeviceID = @id)", queryParams);
+            JArray foundDevices = response.ResultSet;
 
             if (foundDevices != null && foundDevices.Count > 0)
             {
@@ -120,7 +121,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceAlreadyRegisteredException(deviceId);
             }
 
-            device = await _docDbRestHelper.SaveNewDeviceAsync(device);
+            device = await _docDbRestUtil.SaveNewDeviceAsync(device);
 
             return device;
         }
@@ -134,7 +135,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceNotRegisteredException(deviceId);
             }
 
-            await _docDbRestHelper.DeleteDeviceAsync(existingDevice);
+            await _docDbRestUtil.DeleteDeviceAsync(existingDevice);
         }
 
         /// <summary>
@@ -182,7 +183,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             DeviceSchemaHelper.UpdateUpdatedTime(device);
 
-            device = await _docDbRestHelper.UpdateDeviceAsync(device);
+            device = await _docDbRestUtil.UpdateDeviceAsync(device);
 
             return device;
         }
@@ -200,12 +201,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             deviceProps.HubEnabledState = isEnabled;
             DeviceSchemaHelper.UpdateUpdatedTime(existingDevice);
 
-            existingDevice = await _docDbRestHelper.UpdateDeviceAsync(existingDevice);
+            existingDevice = await _docDbRestUtil.UpdateDeviceAsync(existingDevice);
 
             return existingDevice;
         }
 
-        #region IDeviceRegistryListRepository
         /// <summary>
         /// Searches the DeviceProperties of all devices in the DocumentDB, sorts them and pages based on the provided values
         /// </summary>
@@ -291,11 +291,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             // iterate through the DeviceProperties Properties and look for the search value
             // case insensitive search
-            var lowerCaseSearch = search.ToLower();
+            var upperCaseSearch = search.ToUpperInvariant();
             return devProps.ToKeyValuePairs().Any(
                 t =>
                     (t.Value != null) &&
-                    t.Value.ToString().ToLower().Contains(lowerCaseSearch));
+                    t.Value.ToString().ToUpperInvariant().Contains(upperCaseSearch));
         }
 
         /// <summary>
@@ -369,6 +369,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return deviceList.OrderByDescending(keySelector).AsQueryable();
             }
         }
-        #endregion
     }
 }

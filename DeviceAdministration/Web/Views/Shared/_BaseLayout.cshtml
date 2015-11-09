@@ -1,4 +1,5 @@
-﻿@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+﻿@using System.Threading;
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security
 @using GlobalResources
 <!DOCTYPE html>
@@ -9,6 +10,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" href="~/Content/favicon.ico" type="image/x-icon" />
     <title>IoT Device Portal - @ViewBag.Title</title>
+    <script type="text/javascript">
+        var cultureInfo = '@Culture';
+        var cultureInfoShort = '@Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName'
+
+        var baseLayoutResources = {
+            commandCToCopy: '@Strings.CommandCToCopy',
+            controlCToCopy: '@Strings.ControlCToCopy',
+            clickToSelectAll: '@Strings.ClickToSelectAll'
+        };
+    </script>
     @Scripts.Render("~/bundles/powerbi-visuals")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jquerytable")
@@ -16,39 +27,40 @@
     <script type="text/javascript" src="~/Scripts/js.cookie-1.5.1.min.js"></script>
     <script src="~/Scripts/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="~/Scripts/Views/IoTApp.js"></script>
+    @Styles.Render("~/Content/css/vendor")
     @Styles.Render("~/Content/css")
 </head>
 <body>
     <header class="header_page">
-        <h1 class="header_page_head">@Strings.MicrosoftAzureIoTSuite</h1>
+        <h1 class="header_page__head">@Strings.MicrosoftAzureIoTSuite</h1>
         <a target="_blank" href="@Strings.InfoIconLink">
-            <img src="~/Content/img/icon_info_white.svg" alt="@Strings.Information" id="infoLinkImg" />
+            <img class="header_page__infoLinkImg" src="~/Content/img/icon_info_white.svg" alt="@Strings.Information" id="infoLinkImg" />
         </a>
-        <h2 class="header_solution_name">@HeaderHelper.GetHeaderTitle()</h2>
-        <div class="account">
-            <div class="account_login">
-                <div class="account_login_username">@PrincipalHelper.GetEmailAddress(User)</div>
+        <h2 class="header_page__solution_name">@HeaderHelper.GetHeaderTitle()</h2>
+        <div class="header_page__account">
+            <div class="header_page__account__account_login">
+                <div class="header_page__account__account_login__account_login_username">@PrincipalHelper.GetEmailAddress(User)</div>
 
                 @{
                     if (User.Identity.IsAuthenticated)
                     {
-                        @Html.ActionLink("Sign Out", "SignOut", "Account", new object { }, new { @class = "link_account" })
+                        @Html.ActionLink(@Strings.SignOut, "SignOut", "Account", new object { }, new { @class = "header_page__account__account_login__account_login_username__link_account" })
                     }
 
 
                     if (User.IsInRole("Admin"))
                     {
-                        <h2 class="header_page_subhead">Administrator</h2>
+                        <h2 class="header_page__subhead">@Strings.AdministratorRole</h2>
                     }
                     else if (User.IsInRole("ReadOnly"))
                     {
-                        <h2 class="header_page_subhead">ReadOnly</h2>
+                        <h2 class="header_page__subhead">@Strings.ReadOnlyRole</h2>
                     }
                     else
                     {
-                        <h2 class="header_page_subhead">IMPLICIT ReadOnly</h2>
+                        <h2 class="header_page__subhead">@Strings.ImplicitReadOnlyRole</h2>
                     }
-}
+                }
             </div>
         </div>
     </header>
@@ -59,7 +71,7 @@
         @RenderSection("Main", required: true)
 
         <div id="loadingElement" class="loader_container">
-            <div class="loader"></div>
+            <div class="loader_container__loader"></div>
         </div>
 
     </section>

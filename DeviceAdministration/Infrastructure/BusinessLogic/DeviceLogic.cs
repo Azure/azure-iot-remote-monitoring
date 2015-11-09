@@ -30,10 +30,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly IVirtualDeviceStorage _virtualDeviceStorage;
         private readonly IConfigurationProvider _configProvider;
         private readonly ISecurityKeyGenerator _securityKeyGenerator;
+        private readonly IDeviceRulesLogic _deviceRulesLogic;
 
         public DeviceLogic(IIotHubRepository iotHubRepository, IDeviceRegistryCrudRepository deviceRegistryCrudRepository, 
             IDeviceRegistryListRepository deviceRegistryListRepository, IVirtualDeviceStorage virtualDeviceStorage, 
-            ISecurityKeyGenerator securityKeyGenerator, IConfigurationProvider configProvider)
+            ISecurityKeyGenerator securityKeyGenerator, IConfigurationProvider configProvider, IDeviceRulesLogic deviceRulesLogic)
         {
             _iotHubRepository = iotHubRepository;
             _deviceRegistryCrudRepository = deviceRegistryCrudRepository;
@@ -41,6 +42,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _virtualDeviceStorage = virtualDeviceStorage;
             _securityKeyGenerator = securityKeyGenerator;
             _configProvider = configProvider;
+            _deviceRulesLogic = deviceRulesLogic;
         }
 
         public async Task<DeviceListQueryResult> GetDevices(DeviceListQuery q)
@@ -62,9 +64,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// Adds a device to the Device Identity Store and Device Registry
         /// </summary>
         /// <param name="device">Device to add to the underlying repositories</param>
-        /// <param name="username">Username of the user who created the device</param>
         /// <returns>Device created along with the device identity store keys</returns>
-        public async Task<DeviceWithKeys> AddDeviceAsync(dynamic device, string username)
+        public async Task<DeviceWithKeys> AddDeviceAsync(dynamic device)
         {
             // Validation logic throws an exception if it finds a validation error
             await ValidateDevice(device);
@@ -188,9 +189,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     //simulated device from table storage do not roll back the changes.
                     Trace.TraceError("Failed to remove simulated device : {0}", ex.Message);
                 }
+
+                await _deviceRulesLogic.RemoveAllRulesForDeviceAsync(deviceId);
             }
-            
-            if (capturedException != null)
+            else
             {
                 // The "rollback" is an attempt to add the device back in to the Identity Registry
                 // It is assumed that if an exception has occured in the Device Registry, the device
@@ -235,10 +237,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             // Save the command history and the original created date of the existing device
             if (DeviceSchemaHelper.GetDeviceProperties(existingDevice) != null)
             {
-                dynamic deviceProperties = 
-                    DeviceSchemaHelper.GetDeviceProperties(device);
-                deviceProperties.CreatedTime = 
-                    DeviceSchemaHelper.GetCreatedTime(existingDevice);
+                dynamic deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
+                deviceProperties.CreatedTime = DeviceSchemaHelper.GetCreatedTime(existingDevice);
             }
 
             device.CommandHistory = existingDevice.CommandHistory;
@@ -382,30 +382,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
             if (object.ReferenceEquals(deviceProperties, null))
             {
-                throw new ArgumentException(
-                    "device.DeviceProperties is a null reference.",
-                    "device");
+                throw new ArgumentException("device.DeviceProperties is a null reference.", "device");
             }
 
-            if ((dynamicMetaObjectProvider = 
-                    deviceProperties as IDynamicMetaObjectProvider) != null)
+            if ((dynamicMetaObjectProvider = deviceProperties as IDynamicMetaObjectProvider) != null)
             {
-                ApplyPropertyValueModels(
-                    dynamicMetaObjectProvider,
-                    devicePropertyValueModels);
+                ApplyPropertyValueModels(dynamicMetaObjectProvider, devicePropertyValueModels);
             }
-            else if ((typeDescriptor =
-                deviceProperties as ICustomTypeDescriptor) != null)
+            else if ((typeDescriptor = deviceProperties as ICustomTypeDescriptor) != null)
             {
-                ApplyPropertyValueModels(
-                    typeDescriptor,
-                    devicePropertyValueModels);
+                ApplyPropertyValueModels(typeDescriptor, devicePropertyValueModels);
             }
             else
             {
-                ApplyPropertyValueModels(
-                    (object)deviceProperties,
-                    devicePropertyValueModels);
+                ApplyPropertyValueModels((object)deviceProperties, devicePropertyValueModels);
             }
         }
 
@@ -437,18 +427,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
             if (object.ReferenceEquals(deviceProperties, null))
             {
-                throw new ArgumentException(
-                    "device.DeviceProperties is a null reference.",
-                    "device");
+                throw new ArgumentException("device.DeviceProperties is a null reference.", "device");
             }
 
-            if ((dynamicMetaObjectProvider = 
-                deviceProperties as IDynamicMetaObjectProvider) != null)
+            if ((dynamicMetaObjectProvider = deviceProperties as IDynamicMetaObjectProvider) != null)
             {
                 propValModels = ExtractPropertyValueModels(dynamicMetaObjectProvider);
             }
-            else if ((typeDescriptor = 
-                deviceProperties as ICustomTypeDescriptor) != null)
+            else if ((typeDescriptor = deviceProperties as ICustomTypeDescriptor) != null)
             {
                 propValModels = ExtractPropertyValueModels(typeDescriptor);
             }
@@ -457,13 +443,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 propValModels = ExtractPropertyValueModels((object)deviceProperties);
             }
 
-            hostNameValue = 
-                _configProvider.GetConfigurationSettingValue("iotHub.HostName");
+            hostNameValue = _configProvider.GetConfigurationSettingValue("iotHub.HostName");
 
             if (!string.IsNullOrEmpty(hostNameValue))
             {
-                propValModels =
-                    propValModels.Concat(
+                propValModels = propValModels.Concat(
                         new DevicePropertyValueModel[]
                         {
                             new DevicePropertyValueModel()
@@ -481,8 +465,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return propValModels;
         }
 
-
-        #region Static Method: ApplyPropertyValueModels
         private static void ApplyPropertyValueModels(
             object deviceProperties,
             IEnumerable<DevicePropertyValueModel> devicePropertyValueModels)
@@ -496,20 +478,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             DevicePropertyMetadata propMetadata;
             MethodInfo setter;
 
-            Debug.Assert(
-                deviceProperties != null, 
-                "deviceProperties is a null reference.");
+            Debug.Assert(deviceProperties != null, "deviceProperties is a null reference.");
 
-            Debug.Assert(
-                devicePropertyValueModels != null,
-                "devicePropertyValueModels is a null reference.");
+            Debug.Assert(devicePropertyValueModels != null, "devicePropertyValueModels is a null reference.");
 
             devicePropertyIndex = GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
 
             devicePropertiesType = deviceProperties.GetType();
-            propIndex =
-                devicePropertiesType.GetProperties().ToDictionary(
-                    t => t.Name);
+            propIndex = devicePropertiesType.GetProperties().ToDictionary(t => t.Name);
 
             args = new object[1];
             foreach (DevicePropertyValueModel propVal in devicePropertyValueModels)
@@ -522,19 +498,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                 // Pass through properties that don't have a specified 
                 // configuration.
-                if (devicePropertyIndex.TryGetValue(
-                        propVal.Name,
-                        out propMetadata) &&
-                    !propMetadata.IsEditable)
+                if (devicePropertyIndex.TryGetValue(propVal.Name, out propMetadata) && !propMetadata.IsEditable)
                 {
                     continue;
                 }
 
                 if (!propIndex.TryGetValue(propVal.Name, out propInfo) ||
                     ((setter = propInfo.GetSetMethod()) == null) ||
-                    ((converter =
-                        TypeDescriptor.GetConverter(propInfo.PropertyType)) ==
-                            null))
+                    ((converter = TypeDescriptor.GetConverter(propInfo.PropertyType)) == null))
                 {
                     continue;
                 }
@@ -547,7 +518,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 {
                     throw new InvalidOperationException(
                         string.Format(
-                            CultureInfo.CurrentCulture,
+                            CultureInfo.InvariantCulture,
                             "Unable to assign value, \"{0},\" to Device property, {1}.",
                             propVal.Value,
                             propInfo.Name),
@@ -567,16 +538,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             PropertyDescriptor propDesc;
             DevicePropertyMetadata propMetadata;
 
-            Debug.Assert(
-                deviceProperties != null, 
-                "deviceProperties is a null reference.");
+            Debug.Assert(deviceProperties != null, "deviceProperties is a null reference.");
 
-            Debug.Assert(
-                devicePropertyValueModels != null,
-                "devicePropertyValueModels is a null reference.");
+            Debug.Assert(devicePropertyValueModels != null, "devicePropertyValueModels is a null reference.");
 
-            devicePropertyIndex = 
-                GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
+            devicePropertyIndex = GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
 
             propIndex = new Dictionary<string, PropertyDescriptor>();
             foreach (PropertyDescriptor pd in deviceProperties.GetProperties())
@@ -586,24 +552,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             foreach (DevicePropertyValueModel propVal in devicePropertyValueModels)
             {
-                if ((propVal == null) ||
-                    string.IsNullOrEmpty(propVal.Name))
+                if ((propVal == null) || string.IsNullOrEmpty(propVal.Name))
                 {
                     continue;
                 }
 
                 // Pass through properties that don't have a specified 
                 // configuration.
-                if (devicePropertyIndex.TryGetValue(
-                        propVal.Name,
-                        out propMetadata) &&
-                    !propMetadata.IsEditable)
+                if (devicePropertyIndex.TryGetValue(propVal.Name, out propMetadata) && !propMetadata.IsEditable)
                 {
                     continue;
                 }
 
-                if (!propIndex.TryGetValue(propVal.Name, out propDesc) ||
-                    propDesc.IsReadOnly)
+                if (!propIndex.TryGetValue(propVal.Name, out propDesc) || propDesc.IsReadOnly)
                 {
                     continue;
                 }
@@ -650,10 +611,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                 // Pass through properties that don't have a specified 
                 // configuration.
-                if (devicePropertyIndex.TryGetValue(
-                        propVal.Name,
-                        out propMetadata) &&
-                    !propMetadata.IsEditable)
+                if (devicePropertyIndex.TryGetValue(propVal.Name, out propMetadata) && !propMetadata.IsEditable)
                 {
                     continue;
                 }
@@ -664,9 +622,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     propVal.Value);
             }
         }
-        #endregion
 
-        #region Static Method: ExtractPropertyValueModels
 
         private static IEnumerable<DevicePropertyValueModel> ExtractPropertyValueModels(
             ICustomTypeDescriptor deviceProperties)
@@ -681,12 +637,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             int nonediableOrdering;
             DevicePropertyMetadata propertyMetadata;
 
-            Debug.Assert(
-                deviceProperties != null,
-                "deviceProperties is a null reference.");
+            Debug.Assert(deviceProperties != null, "deviceProperties is a null reference.");
 
-            devicePropertyIndex =
-                GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
+            devicePropertyIndex = GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
 
             // For now, display r/o properties first.
             editableOrdering = 1;
@@ -694,16 +647,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             foreach (PropertyDescriptor prop in deviceProperties.GetProperties())
             {
-                if (devicePropertyIndex.TryGetValue(
-                    prop.Name,
-                    out propertyMetadata))
+                if (devicePropertyIndex.TryGetValue(prop.Name, out propertyMetadata))
                 {
-                    isDisplayedRegistered = 
-                        propertyMetadata.IsDisplayedForRegisteredDevices;
-                    isDisplayedUnregistered =
-                        propertyMetadata.IsDisplayedForUnregisteredDevices;
-                    isEditable =
-                        propertyMetadata.IsEditable;
+                    isDisplayedRegistered = propertyMetadata.IsDisplayedForRegisteredDevices;
+                    isDisplayedUnregistered = propertyMetadata.IsDisplayedForUnregisteredDevices;
+                    isEditable = propertyMetadata.IsEditable;
 
                 }
                 else
@@ -740,8 +688,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     currentData.DisplayOrder = nonediableOrdering++;
                 }
 
-                currentData.IsIncludedWithUnregisteredDevices =
-                    isDisplayedUnregistered;
+                currentData.IsIncludedWithUnregisteredDevices = isDisplayedUnregistered;
 
                 currentValue = prop.GetValue(deviceProperties);
                 if (currentValue == null)
@@ -750,7 +697,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
                 else
                 {
-                    currentData.Value = currentValue.ToString();
+                    currentData.Value = string.Format(CultureInfo.InvariantCulture, "{0}", currentValue);
                 }
 
                 yield return currentData;
@@ -772,12 +719,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             int nonediableOrdering;
             DevicePropertyMetadata propertyMetadata;
 
-            Debug.Assert(
-                deviceProperties != null,
-                "deviceProperties is a null reference.");
+            Debug.Assert(deviceProperties != null, "deviceProperties is a null reference.");
 
-            devicePropertyIndex =
-                GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
+            devicePropertyIndex = GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
 
             // For now, display r/o properties first.
             editableOrdering = 1;
@@ -790,12 +734,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     prop.Name,
                     out propertyMetadata))
                 {
-                    isDisplayedRegistered =
-                        propertyMetadata.IsDisplayedForRegisteredDevices;
-                    isDisplayedUnregistered =
-                        propertyMetadata.IsDisplayedForUnregisteredDevices;
-                    isEditable =
-                        propertyMetadata.IsEditable;
+                    isDisplayedRegistered = propertyMetadata.IsDisplayedForRegisteredDevices;
+                    isDisplayedUnregistered = propertyMetadata.IsDisplayedForUnregisteredDevices;
+                    isEditable = propertyMetadata.IsEditable;
                 }
                 else
                 {
@@ -836,8 +777,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     currentData.DisplayOrder = nonediableOrdering++;
                 }
 
-                currentData.IsIncludedWithUnregisteredDevices =
-                    isDisplayedUnregistered;
+                currentData.IsIncludedWithUnregisteredDevices = isDisplayedUnregistered;
 
                 currentValue = getMethod.Invoke(deviceProperties, ReflectionHelper.EmptyArray);
                 if (currentValue == null)
@@ -846,7 +786,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
                 else
                 {
-                    currentData.Value = currentValue.ToString();
+                    currentData.Value = string.Format(CultureInfo.InvariantCulture, "{0}", currentValue);
                 }
 
                 yield return currentData;
@@ -867,12 +807,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             DevicePropertyMetadata propertyMetadata;
             PropertyType propertyType;
 
-            Debug.Assert(
-                deviceProperties != null,
-                "deviceProperties is a null reference.");
+            Debug.Assert(deviceProperties != null, "deviceProperties is a null reference.");
 
-            devicePropertyIndex =
-                GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
+            devicePropertyIndex = GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
 
             // For now, display r/o properties first.
             editableOrdering = 1;
@@ -880,16 +817,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             foreach (string propertyName in D.Dynamic.GetMemberNames(deviceProperties, true))
             {
-                if (devicePropertyIndex.TryGetValue(
-                    propertyName,
-                    out propertyMetadata))
+                if (devicePropertyIndex.TryGetValue(propertyName, out propertyMetadata))
                 {
-                    isDisplayedRegistered =
-                        propertyMetadata.IsDisplayedForRegisteredDevices;
-                    isDisplayedUnregistered =
-                        propertyMetadata.IsDisplayedForUnregisteredDevices;
-                    isEditable =
-                        propertyMetadata.IsEditable;
+                    isDisplayedRegistered = propertyMetadata.IsDisplayedForRegisteredDevices;
+                    isDisplayedUnregistered = propertyMetadata.IsDisplayedForUnregisteredDevices;
+                    isEditable = propertyMetadata.IsEditable;
 
                     propertyType = propertyMetadata.PropertyType;
                 }
@@ -933,16 +865,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
                 else
                 {
-                    currentData.Value = currentValue.ToString();
+                    currentData.Value = string.Format(CultureInfo.InvariantCulture, "{0}", currentValue);
                 }
 
                 yield return currentData;
             }
         }
-
-        #endregion
-
-        #region Static Method: GetDevicePropertyConfiguration
 
         private static IEnumerable<DevicePropertyMetadata> GetDevicePropertyConfiguration()
         {
@@ -1005,9 +933,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             };
         }
 
-        #endregion
-
-        #region Device Validation Logic
         private async Task ValidateDevice(dynamic device)
         {
             List<string> validationErrors = new List<string>();
@@ -1019,7 +944,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             if (validationErrors.Count > 0)
             {
-                ValidationException validationException = new ValidationException(DeviceSchemaHelper.GetDeviceProperties(device) != null ? DeviceSchemaHelper.GetDeviceID(device) : null);
+                var validationException =
+                    new ValidationException(DeviceSchemaHelper.GetDeviceProperties(device) != null ? DeviceSchemaHelper.GetDeviceID(device) : null);
 
                 foreach (string error in validationErrors)
                 {
@@ -1049,15 +975,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             return true;
         }
-        #endregion
 
-        #region Temporary Device Generation Code for Testing
         /// <summary>
         /// Generates N devices with random data and properties for testing
         /// NOTE: Adds the devices to both the device registry and device identity repository
         /// </summary>
         /// <param name="deviceCount">Number of devices to generate</param>
         /// <returns></returns>
+        /// <remarks>TEMPORARY DEVICE GENERATION CODE FOR TESTING PURPOSES!</remarks>
         public async Task GenerateNDevices(int deviceCount)
         {
             Random randomNumber = new Random();
@@ -1069,7 +994,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 await AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             }   
         }
-        #endregion
 
         public async Task<List<string>> BootstrapDefaultDevices()
         {
@@ -1087,17 +1011,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var result = new DeviceListLocationsModel();
 
-            //Initialize defaults around Seattle
-            double minLat = 47.6;
-            double maxLat = 47.6;
-            double minLong = -122.3;
-            double maxLong = -122.3;
+            // Initialize defaults to opposite extremes to ensure mins and maxes are beyond any actual values
+            double minLat = double.MaxValue;
+            double maxLat = double.MinValue;
+            double minLong = double.MaxValue;
+            double maxLong = double.MinValue;
 
             var locationList = new List<DeviceLocationModel>();
             foreach(dynamic device in devices)
             {
                 dynamic props = DeviceSchemaHelper.GetDeviceProperties(device);
-                if(props.Longitude == null || props.Latitude == null)
+                if (props.Longitude == null || props.Latitude == null)
                 {
                     continue;
                 }
@@ -1141,7 +1065,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             }
 
-            var offset = 0.05;
+            if (locationList.Count == 0)
+            {
+                // reinitialize bounds to center on Seattle area if no devices
+                minLat = 47.6;
+                maxLat = 47.6;
+                minLong = -122.3;
+                maxLong = -122.3;
+            }
+
+            double offset = 0.05;
 
             result.DeviceLocationList = locationList;
             result.MinimumLatitude = minLat - offset;

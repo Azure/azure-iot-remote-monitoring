@@ -27,7 +27,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             }
 
             // check for default values that will cause app to fail to startup with an unhelpful 404 exception
-            if (federationMetadataAddress.StartsWith("-- ") || federationRealm.StartsWith("-- "))
+            if (federationMetadataAddress.StartsWith("-- ", StringComparison.Ordinal) || 
+                federationRealm.StartsWith("-- ", StringComparison.Ordinal))
             {
                 throw new ApplicationException("Config issue: Default federation values from web.config need to be overridden or replaced.");
             }
@@ -48,7 +49,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             }
 
             // check for default values that will cause failure
-            if (aadTenant.StartsWith("-- ") || aadAudience.StartsWith("-- "))
+            if (aadTenant.StartsWith("-- ", StringComparison.Ordinal) || 
+                aadAudience.StartsWith("-- ", StringComparison.Ordinal))
             {
                 throw new ApplicationException("Config issue: Default AAD values from web.config need to be overridden or replaced.");
             }
@@ -61,7 +63,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
                     TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidAudience = aadAudience,
-                        RoleClaimType = "roles" // Used to unwrap token roles and provide them to [Authorize(Roles="")] attributes
+                        RoleClaimType = "http://schemas.microsoft.com/identity/claims/scope" // Used to unwrap token roles and provide them to [Authorize(Roles="")] attributes
                     },
                 });
         }

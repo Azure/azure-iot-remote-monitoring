@@ -118,7 +118,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     if (exception.Errors != null && exception.Errors.Any())
                     {
-                        exception.Errors.ForEach(error => ModelState.AddModelError(string.Empty, error));
+                        exception.Errors.ToList<string>().ForEach(error => ModelState.AddModelError(string.Empty, error));
                     }
                 }
                 catch (Exception)
@@ -137,7 +137,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 model.DeviceType != null, 
                 "model.DeviceType is a null reference.");
 
-            dynamic deviceWithKeys = await AddDeviceAsync(model, User.Identity.Name);
+            dynamic deviceWithKeys = await AddDeviceAsync(model);
 
             var newDevice = new RegisteredDeviceModel
             { 
@@ -257,10 +257,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View("Index");
         }
 
-        #region Private Methods
-
-        #region Static Method: ApplyDevicePropertyOrdering
-
         private static IEnumerable<DevicePropertyValueModel> ApplyDevicePropertyOrdering(
             IEnumerable<DevicePropertyValueModel> devicePropertyModels)
         {
@@ -274,13 +270,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         v => v.Name);
         }
 
-        #endregion
-
-        #region Instance Method: AddDeviceAsync
-
-        private async Task<dynamic> AddDeviceAsync(
-            UnregisteredDeviceModel unregisteredDeviceModel,
-            string userName)
+        private async Task<dynamic> AddDeviceAsync(UnregisteredDeviceModel unregisteredDeviceModel)
         {
             dynamic device;
 
@@ -292,13 +282,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 unregisteredDeviceModel.DeviceType != null,
                 "unregisteredDeviceModel.DeviceType is a null reference.");
 
-            Debug.Assert(
-                !string.IsNullOrEmpty(userName),
-                "userName is a null reference or empty string.");
-
             device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId, unregisteredDeviceModel.DeviceType.IsSimulatedDevice);
 
-            return await this._deviceLogic.AddDeviceAsync(device, userName);
+            return await this._deviceLogic.AddDeviceAsync(device);
         }
 
         private async Task<bool> GetDeviceExistsAsync(string deviceId)
@@ -309,9 +295,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             return !object.ReferenceEquals(existingDevice, null);
         }
-
-        #endregion
-
-        #endregion
     }
 }

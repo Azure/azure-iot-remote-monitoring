@@ -81,7 +81,7 @@
             "dom": "<'dataTables_header'ip>lrt?",
             "ajax": onDataTableAjaxCalled,
             "language": {
-                "info": "Actions (_TOTAL_)"
+                "info": resources.actionsList + " (_TOTAL_)"
             },
             "columns": [
                 {
@@ -182,7 +182,7 @@
         // Even though we're working with actions, we still use the no_device_selected class
         // So we don't have to duplicate a bunch of styling for now
         var noActionSelected = resources.noActionSelected;
-        $('#details_grid_container').html('<div class="no_device_selected">' + noActionSelected + '</div>');
+        $('#details_grid_container').html('<div class="details_grid__no_selection">' + noActionSelected + '</div>');
     }
 
     var setGridWidth = function () {

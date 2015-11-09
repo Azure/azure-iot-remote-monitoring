@@ -1,4 +1,6 @@
-﻿@using System.Collections.Generic
+﻿@using System.Globalization
+@using System.Collections.Generic
+@using System.Globalization
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
@@ -7,9 +9,10 @@
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceDetailModel
 <div class="header_grid header_grid_general">
     <h3 class="grid_subheadhead_detail">@Strings.DeviceProperties</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DevicePropertiesFormattedAsStored" />
     @if (Model.IsDeviceEditEnabled)
     {
-        @Html.ActionLink("Edit", "EditDeviceProperties", "Device", new { deviceId = Model.DeviceID }, new
+        @Html.ActionLink(@Strings.Edit, "EditDeviceProperties", "Device", new { deviceId = Model.DeviceID }, new
         {
             id = "edit_metadata_link",
             @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.HubEnabledState == false ? "hidden" : string.Empty).Trim()
@@ -22,17 +25,20 @@
     @{ DateTime? resolvedDate; }
     @foreach (var propVal in Model.DevicePropertyValueModels)
     {
-        <h4 class="grid_subhead_detail_label">@propVal.Name</h4>
+        <h4 class="grid_subhead_detail_label">@DeviceDisplayHelper.GetDevicePropertyFieldLocalName(propVal.Name)</h4>
         if (DeviceDisplayHelper.GetIsCopyControlPropertyName(propVal.Name))
         {
-            @IoTHelpers.TextCopy(propVal.Name, propVal.Name, propVal.Value)    ;
+            string classname = "text_copy_container__input--details_grid";
+            string class_styles_modifier = "text_copy_container--details_grid";
+            string button_style_modifier = "details_grid_general__copy_button";
+            @IoTHelpers.TextCopy(propVal.Name, classname, propVal.Value, class_styles_modifier, button_style_modifier);
         }
         else
         {
             if ((propVal.PropertyType == PropertyType.DateTime) &&
-                (resolvedDate = DynamicValuesHelper.ConvertToDateTime(propVal.Value)).HasValue)
+                (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, propVal.Value)).HasValue)
             {
-                <p class="grid_detail_value" name="deviceField_@propVal.Name">@Html.DisplayFor(t => resolvedDate)</p>
+                <p class="grid_detail_value" name="deviceField_@propVal.Name">@resolvedDate.Value.ToString(CultureInfo.InvariantCulture)</p>
             }
             else
             {

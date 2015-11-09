@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.IdentityModel.Claims;
+using System.Threading;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -24,6 +27,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
         // Require HTTPS for all requests processed by ASP.NET
         protected void Application_BeginRequest(Object sender, EventArgs e)
         {
+            Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = GetSelectedCulture();
+
             if (Context.Request.IsSecureConnection)
             {
                 // HSTS blocks access to sites with invalid certs
@@ -50,11 +55,32 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             // with MVC and ajax requests. The code below modifies the status code
             // to 401 if the status is 302 and the request is ajax based.
             var context = new HttpContextWrapper(Context);
-            if (context.Response.StatusCode == 302 && context.Request.IsAjaxRequest())
+            if (context.Response.StatusCode == 302 && GetIsServiceCall(context))
             {
                 context.Response.Clear();
                 context.Response.StatusCode = 401;
             }
+        }
+
+        private CultureInfo GetSelectedCulture()
+        {
+            // Add custom logic here for getting a user-specified culture.
+
+            // Default to server-selected one.
+            return CultureInfo.CurrentCulture;
+        }
+
+        private bool GetIsServiceCall(HttpContextWrapper contextWrapper)
+        {
+            Debug.Assert(contextWrapper != null, "contextWrapper is a null reference.");
+
+            if (contextWrapper.Request.IsAjaxRequest())
+            {
+                return true;
+            }
+
+            string apiPath = VirtualPathUtility.ToAbsolute("~/api/");
+            return contextWrapper.Request.Url.LocalPath.StartsWith(apiPath, StringComparison.Ordinal);
         }
     }
 }

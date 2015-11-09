@@ -9,13 +9,13 @@
 
 <header class="header_main">
 
-    <button class="button_back" type="button"></button>
+    <button class="header_main__button_back" type="button"></button>
     @{ string firstString = @Strings.Edit; }
     @{if(!string.IsNullOrWhiteSpace(Request.Params["createRule"]))
     {
     firstString = @Strings.Create;
     }}
-    <h2 class="header_main_subhead header_main_subhead_large">@string.Format(Strings.EditDeviceRuleFormatted, firstString, Model.DeviceID)</h2>
+    <h2 class="header_main__subhead header_main__subhead--large">@string.Format(Strings.EditDeviceRuleFormatted, firstString, Model.DeviceID)</h2>
 </header>
 <div class="content_outer">
     <div class="content_inner">
@@ -38,40 +38,40 @@
                     @Html.HiddenFor(m => m.EnabledState)
                     @Html.HiddenFor(m => m.DeviceID)
 
-    <fieldset class="fieldset_content fieldset_textbox">
+    <fieldset class="edit_form">
         @{ string state = @Strings.Enabled; }
         @{if (!Model.EnabledState)
         {
             state = @Strings.Disabled;
         }
         }
-        <label>@Strings.RuleStatus</label>
-        @Html.TextBoxFor(m => state, new { @readonly = "readonly" })
+        <label class="edit_form__label">@Strings.RuleStatus</label>
+        @Html.TextBoxFor(m => state, new { @readonly = "readonly", @class = "input_text--readonly" })
 
-        <label>@Strings.DataFieldHeader</label>
-        @Html.DropDownListFor(m => m.DataField, Model.AvailableDataFields)
+        <label class="edit_form__label">@Strings.DataFieldHeader</label>
+        @Html.DropDownListFor(m => m.DataField, Model.AvailableDataFields, new { @class = "edit_form__select" })
 
-        <label>@Strings.OperatorHeader</label>
+        <label class="edit_form__label">@Strings.OperatorHeader</label>
         @Html.HiddenFor(m => m.Operator)
-        <p class="edit_rule_value_display">@Model.Operator</p>
+        <p class="edit_form__edit_rule_value_display">@Model.Operator</p>
 
-        <label>@Strings.ThresholdHeader</label>
-        @Html.TextBoxFor(m => m.Threshold, new { @Title = Strings.DoubleCommandHint })
+        <label class="edit_form__label">@Strings.ThresholdHeader</label>
+        @Html.TextBoxFor(m => m.Threshold, new { @Title = Strings.DoubleCommandHint, @class = "edit_form__text" })
 
-        <label>@Strings.RuleOutputHeader</label>
+        <label class="edit_form__label">@Strings.RuleOutputHeader</label>
         @{
-        object htmlAttributes = null;
-        if (Model.AvailableRuleOutputs.Count < 2)
-        {
-            htmlAttributes = new { @disabled = "disabled" };
-            @Html.HiddenFor(m => m.RuleOutput);
-        }
+            object htmlAttributes = new { @class = "edit_form__select" };
+            if (Model.AvailableRuleOutputs.Count < 2)
+            {
+                htmlAttributes = new { @disabled = "disabled", @class = "edit_form__select" };
+                @Html.HiddenFor(m => m.RuleOutput);
+            }
         }
         @Html.DropDownListFor(m => m.RuleOutput, Model.AvailableRuleOutputs, htmlAttributes)
     </fieldset>
 
                     <fieldset class="fieldset_button">
-                        <button class="update_rule_properties" type="submit">@Strings.SaveAndViewRules</button>
+                        <button class="button_base update_rule_properties" type="submit">@Strings.SaveAndViewRules</button>
                     </fieldset>
                 }
             </div>
@@ -84,7 +84,9 @@
 
     var resources = {
         redirectUrl: '@Url.Action("Index", "DeviceRules")',
-        ruleUpdateError: '@Strings.RuleUpdateError'
+        ruleUpdateError: '@Strings.RuleUpdateError',
+        enabledString: '@Strings.Enabled',
+        disabledString: '@Strings.Disabled'
     }
 </script>
 

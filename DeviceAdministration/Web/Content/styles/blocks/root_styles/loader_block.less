@@ -1,0 +1,114 @@
+﻿/* ##### Progress animation ("spinner") ##### */
+
+@progress-size: 16px;
+
+/* h-shadow v-shadow blur spread color */
+@progress-box-shadow-1: 0em -2.6em 0 0em;
+@progress-box-shadow-2: 1.8em -1.8em 0 0em;
+@progress-box-shadow-3: 2.5em 0em 0 0em;
+@progress-box-shadow-4: 1.7em 1.75em 0 0em;
+@progress-box-shadow-5: 0em 2.5em 0 0em;
+@progress-box-shadow-6: -1.8em 1.8em 0 0em;
+@progress-box-shadow-7: -2.6em 0em 0 0em;
+@progress-box-shadow-8: -1.8em -1.8em 0 0em;
+
+@progress-opacity-1: rgba(0, 0, 0, 1);
+@progress-opacity-2: rgba(0, 0, 0, 0.7);
+@progress-opacity-3: rgba(0, 0, 0, 0.5);
+@progress-opacity-4: rgba(0, 0, 0, 0.2);
+
+
+.loader_container {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 200;
+    background-color: @loader-background-color;
+}
+
+.loader_container__loader {
+    margin: 20% auto 0 auto;
+    font-size: @progress-size;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    position: relative;
+    text-indent: -9999em;
+    -webkit-animation: load5 1.1s infinite ease;
+    animation: load5 1.1s infinite ease;
+}
+
+.loader_container__loader--large_top_margin {
+    margin-top: 50%;
+}
+
+@-webkit-keyframes load5 {
+    0%, 100% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-1, @progress-box-shadow-2 @progress-opacity-4, @progress-box-shadow-3 @progress-opacity-4, @progress-box-shadow-4 @progress-opacity-4, @progress-box-shadow-5 @progress-opacity-4, @progress-box-shadow-6 @progress-opacity-4, @progress-box-shadow-7 @progress-opacity-3, @progress-box-shadow-8 @progress-opacity-2;
+    }
+
+    12.5% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-2, @progress-box-shadow-2 @progress-opacity-1, @progress-box-shadow-3 @progress-opacity-4, @progress-box-shadow-4 @progress-opacity-4, @progress-box-shadow-5 @progress-opacity-4, @progress-box-shadow-6 @progress-opacity-4, @progress-box-shadow-7 @progress-opacity-4, @progress-box-shadow-8 @progress-opacity-3;
+    }
+
+    25% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-3, @progress-box-shadow-2 @progress-opacity-2, @progress-box-shadow-3 @progress-opacity-1, @progress-box-shadow-4 @progress-opacity-4, @progress-box-shadow-5 @progress-opacity-4, @progress-box-shadow-6 @progress-opacity-4, @progress-box-shadow-7 @progress-opacity-4, @progress-box-shadow-8 @progress-opacity-4;
+    }
+
+    37.5% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-4, @progress-box-shadow-2 @progress-opacity-3, @progress-box-shadow-3 @progress-opacity-2, @progress-box-shadow-4 @progress-opacity-4, @progress-box-shadow-5 @progress-opacity-4, @progress-box-shadow-6 @progress-opacity-4, @progress-box-shadow-7 @progress-opacity-4, @progress-box-shadow-8 @progress-opacity-4;
+    }
+
+    50% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-4, @progress-box-shadow-2 @progress-opacity-4, @progress-box-shadow-3 @progress-opacity-3, @progress-box-shadow-4 @progress-opacity-2, @progress-box-shadow-5 @progress-opacity-1, @progress-box-shadow-6 @progress-opacity-4, @progress-box-shadow-7 @progress-opacity-4, @progress-box-shadow-8 @progress-opacity-4;
+    }
+
+    62.5% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-4, @progress-box-shadow-2 @progress-opacity-4, @progress-box-shadow-3 @progress-opacity-4, @progress-box-shadow-4 @progress-opacity-3, @progress-box-shadow-5 @progress-opacity-2, @progress-box-shadow-6 @progress-opacity-1, @progress-box-shadow-7 @progress-opacity-4, @progress-box-shadow-8 @progress-opacity-4;
+    }
+
+    75% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-4, @progress-box-shadow-2 @progress-opacity-4, @progress-box-shadow-3 @progress-opacity-4, @progress-box-shadow-4 @progress-opacity-4, @progress-box-shadow-5 @progress-opacity-3, @progress-box-shadow-6 @progress-opacity-2, @progress-box-shadow-7 @progress-opacity-1, @progress-box-shadow-8 @progress-opacity-4;
+    }
+
+    87.5% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-4, @progress-box-shadow-2 @progress-opacity-4, @progress-box-shadow-3 @progress-opacity-4, @progress-box-shadow-4 @progress-opacity-4, @progress-box-shadow-5 @progress-opacity-4, @progress-box-shadow-6 @progress-opacity-3, @progress-box-shadow-7 @progress-opacity-2, @progress-box-shadow-8 @progress-opacity-1;
+    }
+}
+
+@keyframes load5 {
+    0%, 100% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-1, @progress-box-shadow-2 @progress-opacity-4, @progress-box-shadow-3 @progress-opacity-4, @progress-box-shadow-4 @progress-opacity-4, @progress-box-shadow-5 @progress-opacity-4, @progress-box-shadow-6 @progress-opacity-4, @progress-box-shadow-7 @progress-opacity-3, @progress-box-shadow-8 @progress-opacity-2;
+    }
+
+    12.5% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-2, @progress-box-shadow-2 @progress-opacity-1, @progress-box-shadow-3 @progress-opacity-4, @progress-box-shadow-4 @progress-opacity-4, @progress-box-shadow-5 @progress-opacity-4, @progress-box-shadow-6 @progress-opacity-4, @progress-box-shadow-7 @progress-opacity-4, @progress-box-shadow-8 @progress-opacity-3;
+    }
+
+    25% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-3, @progress-box-shadow-2 @progress-opacity-2, @progress-box-shadow-3 @progress-opacity-1, @progress-box-shadow-4 @progress-opacity-4, @progress-box-shadow-5 @progress-opacity-4, @progress-box-shadow-6 @progress-opacity-4, @progress-box-shadow-7 @progress-opacity-4, @progress-box-shadow-8 @progress-opacity-4;
+    }
+
+    37.5% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-4, @progress-box-shadow-2 @progress-opacity-3, @progress-box-shadow-3 @progress-opacity-2, @progress-box-shadow-4 @progress-opacity-4, @progress-box-shadow-5 @progress-opacity-4, @progress-box-shadow-6 @progress-opacity-4, @progress-box-shadow-7 @progress-opacity-4, @progress-box-shadow-8 @progress-opacity-4;
+    }
+
+    50% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-4, @progress-box-shadow-2 @progress-opacity-4, @progress-box-shadow-3 @progress-opacity-3, @progress-box-shadow-4 @progress-opacity-2, @progress-box-shadow-5 @progress-opacity-1, @progress-box-shadow-6 @progress-opacity-4, @progress-box-shadow-7 @progress-opacity-4, @progress-box-shadow-8 @progress-opacity-4;
+    }
+
+    62.5% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-4, @progress-box-shadow-2 @progress-opacity-4, @progress-box-shadow-3 @progress-opacity-4, @progress-box-shadow-4 @progress-opacity-3, @progress-box-shadow-5 @progress-opacity-2, @progress-box-shadow-6 @progress-opacity-1, @progress-box-shadow-7 @progress-opacity-4, @progress-box-shadow-8 @progress-opacity-4;
+    }
+
+    75% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-4, @progress-box-shadow-2 @progress-opacity-4, @progress-box-shadow-3 @progress-opacity-4, @progress-box-shadow-4 @progress-opacity-4, @progress-box-shadow-5 @progress-opacity-3, @progress-box-shadow-6 @progress-opacity-2, @progress-box-shadow-7 @progress-opacity-1, @progress-box-shadow-8 @progress-opacity-4;
+    }
+
+    87.5% {
+        box-shadow: @progress-box-shadow-1 @progress-opacity-4, @progress-box-shadow-2 @progress-opacity-4, @progress-box-shadow-3 @progress-opacity-4, @progress-box-shadow-4 @progress-opacity-4, @progress-box-shadow-5 @progress-opacity-4, @progress-box-shadow-6 @progress-opacity-3, @progress-box-shadow-7 @progress-opacity-2, @progress-box-shadow-8 @progress-opacity-1;
+    }
+}

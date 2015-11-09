@@ -1,0 +1,47 @@
+﻿@base-image-path: "/Content/img";
+
+/*
+If any of the included files are moved, missing, or contain Less syntax errors,
+the .less compilation will fail. In this case, the request for this file will
+return an HTTP 404 error.
+
+To troubleshoot, use an HTTP debugger (like Fiddler or Charles) and look at the
+raw HTTP 404 response, which will include a detailed error message of the compilation
+error and can be *very* helpful.
+*/
+
+@import "variables.less";
+
+@import "blocks/root_styles/root_style_values_block.less";
+@import "blocks/root_styles/root_containers_block.less";
+@import "blocks/root_styles/navigation_block.less";
+@import "blocks/root_styles/root_grid_block.less";
+@import "blocks/root_styles/loader_block.less";
+
+@import "blocks/headers/main_header_block.less";
+@import "blocks/headers/inner_page_header_block.less";
+
+@import "blocks/edit_view/edit_form_block.less";
+@import "blocks/remove_view/remove_block.less";
+
+@import "blocks/command_view/commands_block.less";
+
+@import "blocks/dashboard_view/dashboard_block.less";
+
+@import "blocks/device_view/search_devices_block.less";
+@import "blocks/device_view/device_details_block.less";
+
+@import "blocks/rules_view/rules_block.less";
+@import "blocks/rules_view/edit_rule_form_block.less";
+
+@import "blocks/actions_view/actions_block.less";
+
+@import "blocks/add_device_views/add_device_select_type_block.less";
+@import "blocks/add_device_views/add_device_create_block.less";
+@import "blocks/add_device_views/add_device_copy_block.less";
+
+@import "blocks/text_copy/text_copy_block.less";
+
+@import "elements/buttons.less";
+@import "elements/error_reporting.less";
+@import "elements/ui_styles.less";

@@ -1,0 +1,63 @@
+﻿.button { /* anchor version */
+    text-align: center;
+    line-height: 32px;
+}
+
+.button:hover {
+    color: @button-color;
+    text-decoration: none;
+}
+
+.fieldset_button {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.button_secondary {
+    background-color: @button-secondary-background-color;
+    border: 1px solid @button-secondary-border-color;
+    color: @text-color;
+    margin-left: 1.8em;
+}
+
+.button_copy {
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+    background-color: @button-copy-background-color;
+    background-image: url("@{base-image-path}/button_copy.svg");
+    background-repeat: no-repeat;
+    background-size: 15px auto;
+    background-position: center center;
+    text-indent: -9999px;
+    border: 0;
+    margin: 6px 0 0 6px;
+    padding: 0;
+}
+
+/*
+    Keeping this here in buttons instead of in root_grid_block with the details_grid_general style because
+    this file is imported after the other and that will make this top margin take precedence over the other
+    button_copy styles. Otherwise the margin gets overridden
+*/
+.details_grid_general__copy_button {
+    margin-top: 4px;
+}
+
+.button_details_grid {
+    cursor: pointer;
+}
+
+.button_filter {
+    position: absolute;
+    bottom: 20px;
+    width: 260px;
+}
+
+.button_credentials {
+    margin-bottom: 2em;
+}
+
+.button_execute {
+    clear: both;
+}

@@ -8,16 +8,16 @@
 
 <noscript>
     <div class="error_noscript">
-        <h1>@Strings.NoscriptHeader</h1>
+        <h1 class="error_noscript__header">@Strings.NoscriptHeader</h1>
         <p>@Strings.NoscriptP1</p>
         <p>@Strings.NoscriptP2</p>
     </div>
 </noscript>
 
 
-<div class="content_outer content_grid">
+<div class="content_outer content_outer--background_color content_grid">
 
-    <div class="content_inner">
+    <div class="content_inner content_inner--inherit_max_width_no_margin">
 
         <div class="grid_container height_fixed">
 
@@ -42,21 +42,21 @@
         </div>
 
         <div class="details_grid_closed height_fixed button_details_grid">
-            <h2 class="grid_subhead">@Strings.RulePropertiesPaneLabel</h2>
+            <h2 class="details_grid_closed__grid_subhead">@Strings.RulePropertiesPaneLabel</h2>
         </div>
 
         <div class="details_grid height_fixed">
 
-            <h2 class="grid_subhead button_details_grid">@Strings.Properties</h2>
+            <h2 class="details_grid__grid_subhead button_details_grid">@Strings.Properties</h2>
 
             <div id="details_grid_container">
-                <div class="no_device_selected">
+                <div class="details_grid__no_selection">
                     @Strings.NoRuleSelectedLabel
                 </div>
             </div>
 
             <div id="loadingElement" class="loader_container loader_container_details">
-                <div class="loader"></div>
+                <div class="loader_container__loader loader_container__loader--large_top_margin"></div>
             </div>
 
         </div>
@@ -77,7 +77,10 @@
         enabled: '@Strings.Enabled',
         failedToRetrieveRules: '@Strings.FailedToRetrieveRules',
         noRuleSelected: '@Strings.NoRuleSelectedLabel',
-        ruleUpdateError: '@Strings.RuleUpdateError'
+        ruleUpdateError: '@Strings.RuleUpdateError',
+        rulesList: '@Strings.Rules',
+        nextPage: '@Strings.Next',
+        previousPage: '@Strings.Previous'
     };
 </script>
 

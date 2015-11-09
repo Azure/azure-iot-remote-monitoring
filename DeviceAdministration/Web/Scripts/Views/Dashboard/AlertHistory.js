@@ -4,6 +4,9 @@
     var getDataUri;
     var refreshMilliseconds;
     var timerId;
+    var selectedDeviceId;
+    var deviceIdsByRow;
+    var deviceIdCellIndex = 1;
 
     var self = this;
 
@@ -22,12 +25,12 @@
 
     var init = function init(alertHistoryTableSettings) {
 
-        setId();
+        setAlertHistoryTypeClass();
         self.dataTableContainer = alertHistoryTableSettings.dataTable;
         getDataUri = alertHistoryTableSettings.getDataUri;
         refreshMilliseconds = alertHistoryTableSettings.refreshMilliseconds;
 
-       _initializeDatatable();
+        _initializeDatatable();
     };
 
     var _initializeDatatable = function () {
@@ -45,12 +48,14 @@
             "lengthChange": false,
             "processing": true,
             "serverSide": true,
-            "dom": "<'dataTables_header alertHeader'i>",
-            "ajax": { 
-                url: getDataUri, 
+            "dom": "<'dataTables_header dashboard_alert_history__alertHeader'i>",
+            "ajax": {
+                url: getDataUri,
                 error: onError,
-                cache: false
+                cache: false,
+                "fnDrawCallback": onTableDrawn,
             },
+            "fnDrawCallback": onTableDrawn,
             "language": {
                 "info": resources.alarmHistory,
                 "infoEmpty": resources.alarmHistory,
@@ -81,7 +86,7 @@
                 {
                     "data": "value",
                     "mRender": function (data) {
-                        return htmlEncode(data);
+                        return htmlEncode(IoTApp.Helpers.Numbers.localizeFromInvariant(data));
                     },
                     "name": "value"
                 },
@@ -115,8 +120,18 @@
         }
     };
 
-    var onXhr = function onXhr(e, settings) {
+    var onXhr = function onXhr(e, settings, data) {
         if (handleRequestError(settings)) {
+            if (typeof IoTApp.MapPane === "object" && data) {
+                IoTApp.MapPane.setDeviceLocationData(
+                    data.minLatitude,
+                    data.minLongitude,
+                    data.maxLatitude,
+                    data.maxLongitude,
+                    data.devices
+                );
+            }
+
             if (refreshMilliseconds) {
                 if (timerId) {
                     clearTimeout(timerId);
@@ -128,17 +143,58 @@
         }
     };
 
+    var onTableDrawn = function (settings) {
+        stashIdsByRow(settings);
+        updateSelectedRows();
+    }
+
+    var stashIdsByRow = function (settings) {
+        self.deviceIdsByRow = [];
+        if (settings.aoData !== null && settings.aoData.length > 0) {
+            var dataArray = settings.aoData;
+            var length = dataArray.length;
+            for (var i = 0; i < length; i++) {
+                if (dataArray[i].anCells !== null && dataArray[i].anCells.length > deviceIdCellIndex &&
+                    dataArray[i].anCells[deviceIdCellIndex] !== null) {
+                    var cell = dataArray[i].anCells[deviceIdCellIndex];
+                    self.deviceIdsByRow.push(cell.textContent);
+                }
+            }
+        }
+    }
+
+    var setSelectedDevice = function (deviceId) {
+        self.selectedDeviceId = deviceId;
+        updateSelectedRows();
+    }
+
+    var updateSelectedRows = function () {
+        if (self.selectedDeviceId && self.deviceIdsByRow) {
+            var length = self.deviceIdsByRow.length;
+            for (var i = 0; i < length; i++) {
+                var row = self.dataTable.row(i);
+                var idForRow = self.deviceIdsByRow[i];
+                if (self.deviceIdsByRow[i] === self.selectedDeviceId) {
+                    row.nodes().to$().addClass("selectedAlert");
+                } else {
+                    row.nodes().to$().removeClass("selectedAlert");
+                }
+            }
+        }
+    }
+
     var reloadGrid = function () {
         self.dataTable.ajax.reload();
     }
 
-    var setId = function () {
+    var setAlertHistoryTypeClass = function () {
         var alertHistoryType = resources.alertHistoryType;
-        $("div.dashboardAlertHistory").attr("id", alertHistoryType);
+        $("div.dashboard_alert_history").addClass(alertHistoryType);
     }
 
     return {
         init: init,
         reloadGrid: reloadGrid,
+        setSelectedDevice: setSelectedDevice
     }
-}, [jQuery, resources]);
+}, [jQuery, resources, IoTApp.MapPane]);

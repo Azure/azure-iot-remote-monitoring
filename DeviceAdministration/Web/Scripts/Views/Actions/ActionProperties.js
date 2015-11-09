@@ -92,7 +92,7 @@
     
     var setDetailsPaneLoaderHeight = function () {
         /* Set the height of the Device Details progress animation background to accommodate scrolling */
-        var progressAnimationHeight = $("#details_grid_container").height() + $(".grid_subhead.button_details_grid").outerHeight();
+        var progressAnimationHeight = $("#details_grid_container").height() + $(".details_grid__grid_subhead.button_details_grid").outerHeight();
 
         $(".loader_container_details").height(progressAnimationHeight);
     };
@@ -105,8 +105,9 @@
         $wrapper.append($paragraph);
         var node = document.createTextNode(errorMessage);
         $paragraph.append(node);
+        $paragraph.addClass('device_detail_error__information');
 
-        var button = $('<button>' + resources.retry + '</button>');
+        var button = $('<button class="button_base device_detail_error__retry_button">' + resources.retry + '</button>');
 
         button.on("click", function () {
             retryCallback();

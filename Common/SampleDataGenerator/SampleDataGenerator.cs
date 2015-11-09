@@ -30,13 +30,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.SampleDat
             double maxNonPeakValueToGenerate, double minPeakValueToGenerate, 
             int peakInterval, IRandomGenerator randomGenerator) 
         {
-            if (minValueToGenerate >= maxNonPeakValueToGenerate || 
-                (minPeakValueToGenerate != 0 && 
-                maxNonPeakValueToGenerate >= minPeakValueToGenerate))
+            if (minValueToGenerate >= maxNonPeakValueToGenerate)
             {
                 throw new ArgumentOutOfRangeException(
-                    "minPeakValueToGenerate must be greater than maxNonPeakValueToGenerate, " + 
-                    "and maxNonPeakValueToGenerate must be greater than minValueToGenerate");
+                    "maxNonPeakValueToGenerate",
+                    maxNonPeakValueToGenerate,
+                    "maxNonPeakValueToGenerate must be greater than minValueToGenerate.");
+            }
+
+            if ((minPeakValueToGenerate != 0) &&
+                (maxNonPeakValueToGenerate >= minPeakValueToGenerate))
+            {
+                throw new ArgumentOutOfRangeException(
+                    "minPeakValueToGenerate",
+                    minPeakValueToGenerate,
+                    "If not 0, minPeakValueToGenerate must be greater than maxNonPeakValueToGenerate.");
+
             }
 
             // minPeakValueToGenerate is zero when peaks are not generated
@@ -44,8 +53,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.SampleDat
             
             if (_generatePeaks && peakInterval == 0)
             {
-                throw new ArgumentOutOfRangeException("peakInterval cannot be 0");
+                throw new ArgumentOutOfRangeException("peakInterval", "peakInterval cannot be 0.");
             }
+
             if (randomGenerator == null)
             {
                 throw new ArgumentNullException("randomGenerator");

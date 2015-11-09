@@ -10,38 +10,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
     /// </summary>
     public static class FunctionalHelper
     {
-        #region Public Methods
-
-        #region Static Method: Memoize
-
         /// <summary>
         /// Saves the results of a single argument-function by argument value.
         /// </summary>
         /// <typeparam name="K">
-        /// The argument's <see cref="Type" />.
+        /// The argument's type.
         /// </typeparam>
         /// <typeparam name="R">
-        /// The cached function return value's <see cref="Type" />.
+        /// The cached function return value's type.
         /// </typeparam>
         /// <param name="getDataFunc">
-        /// A single-argument function that given a <c>K</c>, returns a 
-        /// <c>R</c>.
+        /// A single-argument function that given a K, returns an R.
         /// </param>
         /// <returns>
-        /// A memoized version of <paramref name="getDataFunc" />.  It will 
-        /// throw an <see cref="ArgumentNullException" /> if its argument is a 
+        /// A memoized version of getDataFunc.  It will 
+        /// throw an ArgumentNullException if its argument is a 
         /// null reference. The returned Func is *not* thread safe.
         /// </returns>
         public static Func<K, R> Memoize<K, R>(Func<K, R> getDataFunc)
         {
-            Dictionary<K, R> index;
-
             if (getDataFunc == null)
             {
                 throw new ArgumentNullException("getDataFunc");
             }
 
-            index = new Dictionary<K, R>();
+            var index = new Dictionary<K, R>();
 
             return (key) =>
             {
@@ -62,72 +55,56 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             };
         }
 
-        #endregion
-
-        #region Static Method: MemoizeInHttpContext
-
         /// <summary>
         /// Saves the results of a single-argument function in the current 
-        /// <see cref="HttpContext" />, for the duration of the current request.
+        /// HttpContext, for the duration of the current request.
         /// </summary>
         /// <typeparam name="K">
-        /// The argument's <see cref="Type" />.
+        /// The argument's type.
         /// </typeparam>
         /// <typeparam name="R">
-        /// The cached function return value's <see cref="Type" />.
+        /// The cached function return value's type.
         /// </typeparam>
         /// <param name="getDataFunc">
-        /// A single-argument function that given a <c>K</c>, returns a 
-        /// <c>R</c>.
+        /// A single-argument function that given a K, returns an R
         /// </param>
         /// <returns>
-        /// A memoized version of <paramref name="getDataFunc" />.  It will 
-        /// throw an <see cref="ArgumentNullException" /> if its argument is a 
-        /// null reference and an <see cref="InvalidOperationException" /> if 
-        /// <see cref="HttpContext.Current" /> is a null reference. The
+        /// A memoized version of getDataFunc. It will 
+        /// throw an ArgumentNullException if its argument is a 
+        /// null reference and an InvalidOperationException if 
+        /// HttpContext.Current is a null reference. The
         /// returned Func is thread-safe.
         /// </returns>
-        public static Func<K, R> MemoizeInHttpContext<K, R>(
-            Func<K, R> getDataFunc)
+        public static Func<K, R> MemoizeInHttpContext<K, R>(Func<K, R> getDataFunc)
         {
-            string contextItemsKey;
-            object sync;
-
             if (getDataFunc == null)
             {
                 throw new ArgumentNullException("getDataFunc");
             }
 
-            contextItemsKey = 
-                Guid.NewGuid().ToString(
-                    "S", 
-                    CultureInfo.InvariantCulture);
+            string contextItemsKey = Guid.NewGuid().ToString("S", CultureInfo.InvariantCulture);
 
-            sync = new object();
+            object sync = new object();
 
             return (key) =>
             {
-                HttpContext httpContext;
-                Dictionary<K, R> index;
-                R result;
-                Exception thrownException;
-
                 if (object.ReferenceEquals(key, null))
                 {
                     throw new ArgumentNullException("key");
                 }
 
+                HttpContext httpContext;
                 if ((httpContext = HttpContext.Current) == null)
                 {
-                    throw new InvalidOperationException(
-                        "HttpContext.Current is a null reference.");
+                    throw new InvalidOperationException("HttpContext.Current is a null reference.");
                 }
 
-                thrownException = null;
+                Dictionary<K, R> index;
+                R result;
+                Exception thrownException = null;
                 lock (sync)
                 {
-                    index = 
-                        httpContext.Items[contextItemsKey] as Dictionary<K, R>;
+                    index = httpContext.Items[contextItemsKey] as Dictionary<K, R>;
                     if (index == null)
                     {
                         index = new Dictionary<K, R>();
@@ -158,9 +135,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 return result;
             };
         }
-
-        #endregion
-
-        #endregion
     }
 }

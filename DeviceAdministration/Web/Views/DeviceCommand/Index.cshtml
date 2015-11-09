@@ -1,7 +1,8 @@
 ﻿@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @using GlobalResources
-@using Newtonsoft.Json;
+@using Newtonsoft.Json
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceCommandModel
 
 @{
@@ -9,24 +10,27 @@
     Layout = "~/Views/Shared/_LayoutNoNavigation.cshtml";
 
     DateTime? resolvedTime;
-    }
+
+    bool canSendCommands =
+        Model.SupportDeviceCommand &&
+        (Model.SendCommandModel != null) &&
+        Model.SendCommandModel.CanSendDeviceCommands;
+}
 
 <header class="header_main">
 
-    <button class="button_back" type="button"></button>
-    <h2 class="header_main_subhead header_main_subhead_large">@string.Format(Strings.DeviceCommandsHeader, Model.DeviceId)</h2>
+    <button class="header_main__button_back" type="button"></button>
+    <h2 class="header_main__subhead header_main__subhead--large">@string.Format(Strings.DeviceCommandsHeader, Model.DeviceId)</h2>
 
 </header>
 
-
-<div class="content_outer content_command">
+<div class="content_outer content_outer--inherit_overflow">
 
     <div class="content_inner">
         @if (Model.SupportDeviceCommand)
         {
             Html.RenderPartial("_SendCommand", Model.SendCommandModel);
         }
-
 
         <div class="command_container" id="content">
 
@@ -40,14 +44,17 @@
                         <th>@Strings.CommandValuesSent</th>
                         <th>@Strings.CommandTimeCreated</th>
                         <th>@Strings.CommandTimeUpdated</th>
-                        @if (Model.SupportDeviceCommand)
+                        @if (canSendCommands)
                         {
                             <th></th>
                         }
-                        
+
                     </tr>
                 </thead>
                 <tbody>
+                    @{
+                        var supportedCommandNames = DeviceDisplayHelper.BuildAvailableCommandNameSet(Model);
+                    }
                     @foreach (var commandHistoryItem in Model.CommandHistory)
                     {
                         <tr>
@@ -78,17 +85,22 @@
                                 }
 
                             </td>
-                            @if (Model.SupportDeviceCommand)
+                            @if (canSendCommands)
                             {
                                 <td>
-                                    <button class="resend-command"
-                                            data-command-name="@commandHistoryItem.Name"
-                                            data-command-json="@CommandHistorySchemaHelper.GetCommandParametersAsJsonString(commandHistoryItem)">
-                                        @Strings.Resend
-                                    </button>
+                                    @{
+                                    string commandName = commandHistoryItem.Name;
+                                    if (!string.IsNullOrWhiteSpace(commandName) && supportedCommandNames.Contains(commandName))
+                                    {
+                                        <button class="button_base resend_command"
+                                                data-command-name="@commandName"
+                                                data-command-json="@CommandHistorySchemaHelper.GetCommandParametersAsJsonString(commandHistoryItem)">
+                                            @Strings.Resend
+                                        </button>
+                                    }
+                                    }
                                 </td>
                             }
-
                         </tr>
                     }
                 </tbody>

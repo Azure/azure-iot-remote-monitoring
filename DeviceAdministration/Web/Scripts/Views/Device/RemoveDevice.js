@@ -3,7 +3,7 @@
 
     var self = this;
     var init = function() {
-        self.backButton = $(".button_back");
+        self.backButton = $(".header_main__button_back");
         self.removeDeviceCheckbox = $("#removeDeviceCheckbox");
         self.removeDevice = $("#removeDevice");
         self.cancelButton = $("#cancelButton");

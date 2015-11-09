@@ -17,6 +17,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <CodeAnalysisRuleSet>..\DeviceAdministration\DeviceAdministration.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -111,13 +113,14 @@
     <Compile Include="Helpers\AzureRetryHelper.cs" />
     <Compile Include="Helpers\AzureTableStorageHelper.cs" />
     <Compile Include="Helpers\BlobStorageHelper.cs" />
-    <Compile Include="Helpers\DocDbQueryResult.cs" />
+    <Compile Include="Utility\DocDbQueryResult.cs" />
     <Compile Include="Helpers\DynamicValuesHelper.cs" />
     <Compile Include="Helpers\FunctionalHelper.cs" />
-    <Compile Include="Helpers\DocDbRestHelper.cs" />
-    <Compile Include="Helpers\IDocDbRestHelper.cs" />
+    <Compile Include="Utility\DocDbResourceType.cs" />
+    <Compile Include="Utility\DocDbResourceTypeHelper.cs" />
+    <Compile Include="Utility\DocDbRestUtility.cs" />
+    <Compile Include="Utility\IDocDbRestUtility.cs" />
     <Compile Include="Helpers\ParsingHelper.cs" />
-    <Compile Include="Helpers\PropertySetterHelper.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Models\Commands\Command.cs" />
     <Compile Include="Models\Commands\DeviceCommandConstants.cs" />
@@ -140,20 +143,18 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Deployment\Application.json" />
-    <None Include="Deployment\AzureDeployment.json" />
     <None Include="Deployment\ConfigurationTemplate.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="Deployment\DeploymentLib.ps1" />
-    <None Include="Deployment\DeviceInfoFilterJob.json" />
     <None Include="Deployment\PrepareIoTSample.ps1" />
-    <None Include="Deployment\PublishIoTSample.ps1" />
+    <None Include="Deployment\LocalMonitoring.json" />
     <None Include="Deployment\RemoteMonitoring.json" />
-    <None Include="Deployment\TelemetryToBlobJob.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -3,21 +3,22 @@
 @using GlobalResources
 
 @model List<Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Navigation.NavigationMenuItem>
-<nav>
+<nav class="navigation">
     @foreach (var navigationMenuItem in Model)
     {
         if (navigationMenuItem.Selected)
         {
-            <a class="@navigationMenuItem.Class">@navigationMenuItem.Text</a>
+            <a class="navigation__link @navigationMenuItem.Class">@navigationMenuItem.Text</a>
         }
         else
         {
-            @Html.ActionLink(navigationMenuItem.Text, navigationMenuItem.Action, navigationMenuItem.Controller, null, new { @class = navigationMenuItem.Class })
+            var multipleClasses = "navigation__link " + navigationMenuItem.Class;
+            @Html.ActionLink(navigationMenuItem.Text, navigationMenuItem.Action, navigationMenuItem.Controller, null, new { @class = multipleClasses })
         }
     }
 
     @if (PermsChecker.HasPermission(Permission.AddDevices))
     {
-        <a class="nav_add_device" href="@Url.Action("AddDevice", "Device")">@Strings.AddDevice</a>
+        <a class="navigation__link navigation__link--add_device" href="@Url.Action("AddDevice", "Device")">@Strings.AddDevice</a>
     }
 </nav>

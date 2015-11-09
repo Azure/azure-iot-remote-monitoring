@@ -4,7 +4,7 @@
     var self = this;
 
     var init = function () {
-        self.backButton = $(".button_back");
+        self.backButton = $(".header_main__button_back");
         self.backButton.show();
         self.backButton.off("click").click(backButtonClicked);
     }

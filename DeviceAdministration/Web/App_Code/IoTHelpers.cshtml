@@ -1,16 +1,11 @@
 ﻿@using GlobalResources
-@helper TextCopy(string idPrefix, string classname, string content)
+@helper TextCopy(string idPrefix, string classname, string content, string class_styles_modifier = "", string button_style_modifier = "")
 {  
     var uniqueId = string.Format("{0}_{1}", idPrefix, Guid.NewGuid());
-        
-    <div id="textCopyDiv" class="text_copy_container">
-        <input class="input_credentials_value @classname" data-val="true" id="@uniqueId" readonly="readonly" type="text" value="@content">
-        <button class="button_copy"
-                title="@Strings.ClickToSelectAll"
-                type="button"
-                data-resource-copy="@Strings.ControlCToCopy"
-                data-resources-select-all="@Strings.ClickToSelectAll"
-                data-id="@uniqueId">
+    
+    <div class="text_copy_container @class_styles_modifier">
+        <input class="input_text--readonly text_copy_container__input @classname" data-val="true" id="@uniqueId" readonly="readonly" type="text" value="@content">
+        <button class="button_base button_copy @button_style_modifier" data-id="@uniqueId">
             @Strings.Copy
         </button>
     </div>

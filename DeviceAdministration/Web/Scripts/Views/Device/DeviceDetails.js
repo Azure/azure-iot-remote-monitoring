@@ -1,6 +1,7 @@
 ﻿IoTApp.createModule('IoTApp.DeviceDetails', function () {
     "use strict";
 
+    $.ajaxSetup({ cache: false });
     var self = this;
     var getDeviceDetailsView = function (deviceId) {
         $('#loadingElement').show();
@@ -76,17 +77,19 @@
 
     var setDetailsPaneLoaderHeight = function () {
         /* Set the height of the Device Details progress animation background to accommodate scrolling */
-        var progressAnimationHeight = $("#details_grid_container").height() + $(".grid_subhead.button_details_grid").outerHeight();
+        var progressAnimationHeight = $("#details_grid_container").height() + $(".details_grid__grid_subhead.button_details_grid").outerHeight();
 
         $(".loader_container_details").height(progressAnimationHeight);
     };
 
     var _enableDisableDetailsLinks = function (enabled) {
         if (enabled) {
+            $(".link_grid_subheadhead_detail").removeClass("hidden");
             $("#edit_metadata_link").show();
             $('#editConfigLink').show();
             $('#removeDeviceLink').hide();
         } else {
+            $(".link_grid_subheadhead_detail").addClass("hidden");
             $("#edit_metadata_link").hide();
             $('#editConfigLink').hide();
             $('#removeDeviceLink').show();
@@ -141,8 +144,9 @@
         $wrapper.append($paragraph);
         var node = document.createTextNode(errorMessage);
         $paragraph.append(node);
+        $paragraph.addClass('device_detail_error__information');
 
-        var button = $('<button>' + resources.retry + '</button>');
+        var button = $('<button class="button_base device_detail_error__retry_button">' + resources.retry + '</button>');
 
         button.on("click", function () {
             retryCallback();

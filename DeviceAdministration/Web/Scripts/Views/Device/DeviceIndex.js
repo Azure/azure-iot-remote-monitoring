@@ -9,7 +9,7 @@
         self.deviceGridClosed = $(".details_grid_closed");
         self.deviceGridContainer = $(".grid_container");
         self.buttonDetailsGrid = $(".button_details_grid");
-        self.buttonSearchPane = $(".search_subhead");
+        self.buttonSearchPane = $(".search_container__search_subhead");
         self.searchPane = $(".search_container");
         self.searchPaneClosed = $(".search_container_closed");
 
@@ -44,7 +44,7 @@
         });
 
         // reload devices with new search term and filters if ENTER pressed on any in search/filter pane
-        $('.search_details_container').on(
+        $('.search_container__search_details_container').on(
             'keypress',
             'input[type=text]',
             function (e) {
@@ -176,15 +176,15 @@
     var changeDeviceStatus = function() {
         var tableStatus = self.dataTable;
 
-        var cells_status_false = tableStatus.cells(".table_devices_status:contains('false')").nodes();
+        var cells_status_false = tableStatus.cells(".table_status:contains('false')").nodes();
         $(cells_status_false).addClass('status_false');
         $(cells_status_false).html(resources.disabled);
 
-        var cells_status_true = tableStatus.cells(".table_devices_status:contains('true')").nodes();
+        var cells_status_true = tableStatus.cells(".table_status:contains('true')").nodes();
         $(cells_status_true).addClass('status_true');
         $(cells_status_true).html(resources.running);
 
-        var cells_status_pending = tableStatus.cells(".table_devices_status:empty").nodes();
+        var cells_status_pending = tableStatus.cells(".table_status:empty").nodes();
         $(cells_status_pending).addClass('status_pending');
         $(cells_status_pending).html(resources.pending);
     }
@@ -236,7 +236,12 @@
             "dom": "<'dataTables_header'ip>lrt?",
             "ajax": onDataTableAjaxCalled,
             "language": {
-                "info": "Devices List (_TOTAL_)"
+                "info": resources.deviceList + " (_TOTAL_)",
+                "infoFiltered": resources.infoFiltered,
+                "paginate": {
+                    "previous": resources.previousPaging,
+                    "next": resources.nextPaging
+                }
             },
             "columns": [
                 {
@@ -309,7 +314,7 @@
                 }
             ],
             "columnDefs": [
-                { className: "table_devices_status", "targets": [0] },
+                { className: "table_status", "targets": [0] },
                 { "searchable": true, "targets": [1] }
             ],
             "order": cookieData.currentSortArray
@@ -413,20 +418,20 @@
 
         // set height of open search pane
         var fixedHeightSearchVal = $(window).height() -
-            $(".search_details_button_container").height() -
-            $(".search_subhead").height() -
+            $(".search_container__search_details_button_container").height() -
+            $(self.buttonSearchPane).height() -
             80;
 
-        $(".search_height_fixed").height(fixedHeightSearchVal);
+        $(".search_height--fixed").height(fixedHeightSearchVal);
 
         // set height of collapsed search pane
         var fixedHeightSearchClosedVal = $(window).height() - 51;
-        $(".search_height_closed_fixed").height(fixedHeightSearchClosedVal);
+        $(".search_height--closed_fixed").height(fixedHeightSearchClosedVal);
 
         // set height of scrolling filter container inside search pane
         var fixedHeightFilterVal = $(window).height() -
-            $(".search_details_button_container").height() -
-            $(".search_subhead").height() -
+            $(".search_container__search_details_button_container").height() -
+            $(self.buttonSearchPane).height() -
             270;
 
         $("#filter_holder").height(fixedHeightFilterVal);
@@ -450,7 +455,7 @@
 
         // clear the details pane (so it's clean!)
         var noDeviceSelected = resources.noDeviceSelected;
-        $('#details_grid_container').html('<div class="no_device_selected">' + noDeviceSelected + '</div>');
+        $('#details_grid_container').html('<div class="details_grid__no_selection">' + noDeviceSelected + '</div>');
     }
 
     var toggleSearchPane = function () {

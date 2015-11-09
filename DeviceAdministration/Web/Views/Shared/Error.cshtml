@@ -18,11 +18,11 @@
 <body>
 
     <header class="header_page">
-        <h1 class="header_page_head">@Strings.MicrosoftAzureIoTSuite</h1>
+        <h1 class="header_page__head">@Strings.MicrosoftAzureIoTSuite</h1>
         <a target="_blank" href="@Strings.InfoIconLink">
-            <img src="~/Content/img/icon_info_white.svg" alt="@Strings.Information" id="infoLinkImg" />
+            <img class="header_page__infoLinkImg" src="~/Content/img/icon_info_white.svg" alt="@Strings.Information" id="infoLinkImg" />
         </a>
-        <h2 class="header_solution_name">@HeaderHelper.GetHeaderTitle()</h2>
+        <h2 class="header_page__solution_name">@HeaderHelper.GetHeaderTitle()</h2>
     </header>
 
     <section class="page">
@@ -30,19 +30,19 @@
         <main>
 
             <div class="content_outer">
-                <div class="content_inner content_message">
+                <div class="content_inner content_inner_with_messages">
 
-                    <p>
-                    @Strings.Error
+                    <p class="content_inner_with_messages__mesage_text">
+                        @Strings.Error
                     </p>
 
-                    <p>
-                    @Strings.AnErrorOccurred
+                    <p class="content_inner_with_messages__mesage_text">
+                        @Strings.AnErrorOccurred
                     </p>
 
                 </div>
 
-                <input action="action" type="button" value="@Strings.GoBack" onclick="history.go(-1);" class="button" />
+                <input action="action" type="button" value="@Strings.GoBack" onclick="history.go(-1);" class="button_base button" />
 
             </div>
 

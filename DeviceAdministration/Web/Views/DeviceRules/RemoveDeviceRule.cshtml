@@ -1,0 +1,61 @@
+﻿@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.EditDeviceRuleModel
+
+@{
+    ViewBag.Title = @Strings.RemoveRule;
+    Layout = "~/Views/Shared/_LayoutNoNavigation.cshtml";
+}
+
+<header class="header_main">
+    <button class="header_main__button_back" type="button"></button>
+    <h2 class="header_main__subhead header_main__subhead--large">@String.Format(@Strings.RemoveRuleFormatted, @Model.DataField, @Model.DeviceID)</h2>
+</header>
+
+<div class="content_outer">
+
+    <div class="content_inner">
+        <div id="content">
+            @using (Ajax.BeginForm("DeleteDeviceRule", "DeviceRules", null,
+                    new AjaxOptions()
+                    {
+                        HttpMethod = "DELETE",
+                        OnFailure = "IoTApp.RemoveDeviceRule.onFailure",
+                        OnSuccess = "IoTApp.RemoveDeviceRule.onSuccess",
+                        LoadingElementId = "loadingElement"
+                    }))
+            {
+                @Html.AntiForgeryToken()
+                <div id="removeRuleContainer">
+
+                    <fieldset class="remove_form">
+                        <p class="remove_form__remove_confirmation">@Strings.RemoveRuleConfirmationPart1</p>
+                        <p class="remove_form__remove_confirmation">@Strings.RemoveRuleConfirmationPart2</p>
+                        <div class="remove_checkbox">
+                            <input type="checkbox" id="removeRuleCheckbox" />
+                            <label class="remove_checkbox__label" for="removeRuleCheckbox">@String.Format(@Strings.YesRemoveRuleFormatted, @Model.DataField, @Model.DeviceID)</label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="fieldset_button">
+                        @Html.HiddenFor(m => m.DeviceID)
+                        @Html.HiddenFor(m => m.RuleId)
+                        <button id="removeRule" disabled="disabled" class="button_base">@Strings.RemoveRule</button>
+                        <button id="cancelButton" type="button" class="button_base button_secondary">@Strings.Cancel</button>
+                    </fieldset>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<script>
+    "use strict";
+
+    var resources = {
+        redirectToIndexUrl: '@Url.Action("Index", "DeviceRules")',
+        errorRemoveRule: '@Strings.ErrorRemoveRule'
+    };
+</script>
+
+<script type="text/javascript" src="~/Scripts/Views/DeviceRules/RemoveDeviceRule.js"></script>

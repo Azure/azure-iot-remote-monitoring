@@ -2,7 +2,7 @@
 @model List<Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models.DeviceType>
 
 <div id="test">
-    <ul class="list_select_device">
+    <ul class="select_device__list">
         @for (int i = 0; i < Model.Count; i++)
         {
             using (Ajax.BeginForm("SelectType", "Device",
@@ -15,12 +15,12 @@
                     OnFailure = "IoTApp.DeviceSelectType.onFailure"
                 }))
             {
-                <li class="list_item_select_device">
-                    <h2 class="select_device_subhead">@Model[i].Name</h2>
-                    <p class="select_device_description">
+                <li class="list__item">
+                    <h2 class="item__name">@Model[i].Name</h2>
+                    <p class="item__description">
                         @Model[i].Description
                     </p>
-                    <button class="button_selectDevice" type="submit">
+                    <button class="button_base item__add_new_button" type="submit">
                         @Strings.AddNew
                     </button>
                     <input type="hidden" name="Name" value="@Model[i].Name" />

@@ -4,44 +4,48 @@
 
 @if (Model.DeviceType.IsSimulatedDevice)
 {
-    <h2 class="manage_subhead">@Strings.SimulatorCredentialHeader</h2>
+    <h2 class="device_credentials_header">@Strings.SimulatorCredentialHeader</h2>
 }
 else
 {
-    <h2 class="manage_subhead">@Strings.CopyCredentials</h2>
+    <h2 class="device_credentials_header">@Strings.CopyCredentials</h2>
 }
+
+@{
+    string classname = "text_copy_container__input--add_device_copy_table";
 
 <table class="table_credentials">
     <tbody>
         <tr>
-            <td class="table_credentials_label">
+            <td class="table_credentials__label">
                 @Strings.DeviceIdColon
             </td>
-            <td class="table_credentials_value">
-                @IoTHelpers.TextCopy("DeviceId", "input_credentials_device_id", @Model.DeviceId)
+            <td class="table_credentials__value">
+                @IoTHelpers.TextCopy("DeviceId", classname, @Model.DeviceId)
             </td>
         </tr>
         <tr>
-            <td class="table_credentials_label">
+            <td class="table_credentials__label">
                 @Strings.AzureDevicesHostnameColon
             </td>
-            <td class="table_credentials_value">
-                @IoTHelpers.TextCopy("AzureDevicesHostname", "input_credentials_hostname", @Model.HostName)
+            <td class="table_credentials__value">
+                @IoTHelpers.TextCopy("AzureDevicesHostname", classname, @Model.HostName)
             </td>
         </tr>
         <tr>
-            <td class="table_credentials_label">
+            <td class="table_credentials__label">
                 @Strings.DeviceKeyColon
             </td>
-            <td class="table_credentials_value">
-                @IoTHelpers.TextCopy("PrimaryKey", "input_credentials_auth_1", @Model.PrimaryKey)
+            <td class="table_credentials__value">
+                @IoTHelpers.TextCopy("PrimaryKey", classname, @Model.PrimaryKey)
             </td>
         </tr>
     </tbody>
 </table>
+}
 
 
-<button type="button" class="button_credentials" onclick="location.href = '@Url.Action("Index", "Device")' ">@Strings.Done</button>
+<button type="button" class="button_base button_credentials" onclick="location.href = '@Url.Action("Index", "Device")' ">@Strings.Done</button>
 
 @if (!string.IsNullOrWhiteSpace(Model.InstructionsUrl)) {
 <div class="content_instructions">

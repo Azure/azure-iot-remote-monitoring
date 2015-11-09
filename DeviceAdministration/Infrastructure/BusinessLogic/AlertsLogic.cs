@@ -12,13 +12,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </summary>
     public class AlertsLogic : IAlertsLogic
     {
-        #region Instance Variables
-
         private readonly IAlertsRepository alertsRepository;
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the AlertsLogic class.
@@ -36,32 +30,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             this.alertsRepository = alertsRepository;
         }
 
-        #endregion
-
-        #region Public Methods
-
         /// <summary>
         /// Loads the latest Device Alert History items.
         /// </summary>
-        /// <param name="maxItems">
-        /// The maximum number of Device Alert History items to return.
+        /// <param name="minTime">
+        /// The cutoff time for Device Alert History items that should be returned.
+        /// </param>
+        /// <param name="minResults">
+        /// The minimum number of items that should be returned, if possible, 
+        /// after <paramref name="minTime"/> or otherwise.
         /// </param>
         /// <returns>
         /// The latest Device Alert History items.
         /// </returns>
-        public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(
-            int maxItems)
+        public async Task<IEnumerable<AlertHistoryItemModel>> LoadLatestAlertHistoryAsync(DateTime minTime, int minResults)
         {
-            if (maxItems <= 0)
+            if (minResults <= 0)
             {
                 throw new ArgumentOutOfRangeException(
-                    "maxItems",
-                    "maxItems is not a positive integer.");
+                    "minResults",
+                    minResults,
+                    "minResults must be a positive integer.");
             }
 
-            return await this.alertsRepository.LoadLatestAlertHistoryAsync(maxItems);
+            return await this.alertsRepository.LoadLatestAlertHistoryAsync(minTime, minResults);
         }
-
-        #endregion
     }
 }

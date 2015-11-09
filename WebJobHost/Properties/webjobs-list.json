@@ -1,0 +1,11 @@
+﻿{
+  "$schema": "http://schemastore.org/schemas/json/webjobs-list.json",
+  "WebJobs": [
+    {
+      "filePath": "../EventProcessor/EventProcessor.WebJob/EventProcessor.WebJob.csproj"
+    },
+    {
+      "filePath": "../Simulator/Simulator.WebJob/Simulator.WebJob.csproj"
+    }
+  ]
+}

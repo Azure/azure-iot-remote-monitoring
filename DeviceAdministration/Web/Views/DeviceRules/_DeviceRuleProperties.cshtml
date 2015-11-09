@@ -35,27 +35,34 @@
         @Html.HiddenFor(m => m.DataField)
         @Html.HiddenFor(m => m.RuleId)
         @Html.HiddenFor(m => m.EnabledState, new { @Value = !Model.EnabledState })
-        <section class="details_grid_rules" id="ruleStatusGrid">
-            <div class="rule_status_container">
-                @{if (Model.EnabledState)
+    <section class="grid_rules_details" id="ruleStatusGrid">
+        <div class="grid_rules_details__rule_status_container">
+            @{if (Model.EnabledState)
+            {
+                <button type="submit" class="button_base rule_status_container___rule_status_button" id="rule_status_enabled">
+                    @Strings.DisableRule
+                </button>
+            }
+            else
+            {
+                <button type="submit" class="button_base rule_status_container___rule_status_button" id="rule_status_disabled">
+                    @Strings.EnableRule
+                </button>
+
+                if (PermsChecker.HasPermission(Permission.DeleteRules))
                 {
-                    <button type="submit" class="button_rule_status" id="rule_status_enabled">
-                        @Strings.DisableRule
+                    <button type="button" class="button_base rule_status_container___rule_status_button" id="remove_rule_button">
+                        @Strings.RemoveRuleButtonLabel
                     </button>
                 }
-                else
-                {
-                    <button type="submit" class="button_rule_status" id="rule_status_disabled">
-                        @Strings.EnableRule
-                    </button>
-                }
-                }
-            </div>
-        </section>
+            }
+}
+        </div>
+    </section>
     }
 }
-else
-{
+  else
+  {
     <section class="details_grid_general" id="deviceDetailsGrid">
         <p class="grid_detail_value" name="ruleField_enabledState">
             @{if (Model.EnabledState)
@@ -76,7 +83,7 @@ else
     <h3 class="grid_subheadhead_detail">@Strings.RuleProperties</h3>
     @if (PermsChecker.HasPermission(Permission.EditRules))
     {
-        @Html.ActionLink("Edit", "EditRuleProperties", "DeviceRules",
+        @Html.ActionLink(@Strings.Edit, "EditRuleProperties", "DeviceRules",
             new { deviceId = Model.DeviceID, ruleId = Model.RuleId },
             new { id = "edit_metadata_link", @class = "link_grid_subheadhead_detail" })
     }
