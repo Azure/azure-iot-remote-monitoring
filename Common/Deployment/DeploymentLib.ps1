@@ -810,7 +810,7 @@ $global:timeStampFormat = "o"
 $global:resourceNotFound = "ResourceNotFound"
 $global:serviceNameToken = "ServiceName"
 $global:azurePath = Split-Path $MyInvocation.MyCommand.Path
-$global:version = "0.9"
+$global:version = "v1.0.0"
 
 # Load System.Web
 Add-Type -AssemblyName System.Web
