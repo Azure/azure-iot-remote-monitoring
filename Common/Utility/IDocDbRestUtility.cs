@@ -8,11 +8,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
     public interface IDocDbRestUtility
     {
         Task InitializeDatabase();
-        Task InitializeDeviceCollection();
-        Task<DocDbRestQueryResult> QueryDeviceManagementCollectionAsync(
+        Task InitializeCollection();
+        Task<DocDbRestQueryResult> QueryCollectionAsync(
             string queryString, Dictionary<string, Object> queryParams, int pageSize = -1, string continuationToken = null);
-        Task<JObject> SaveNewDeviceAsync(dynamic device);
-        Task<JObject> UpdateDeviceAsync(dynamic updatedDevice);
-        Task DeleteDeviceAsync(dynamic device);
+        Task<JObject> SaveNewDocumentAsync(dynamic document);
+        Task<JObject> UpdateDocumentAsync(dynamic updatedDocument);
+        Task DeleteDocumentAsync(dynamic document);
     }
 }
