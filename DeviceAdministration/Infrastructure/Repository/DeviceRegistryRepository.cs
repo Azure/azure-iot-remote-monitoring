@@ -39,7 +39,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             _docDbRestUtil = docDbRestUtil;
             Task.Run(() => _docDbRestUtil.InitializeDatabase()).Wait();
-            Task.Run(() => _docDbRestUtil.InitializeDeviceCollection()).Wait();
+            Task.Run(() => _docDbRestUtil.InitializeCollection()).Wait();
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             int pageSize = 500;
             do
             {
-                DocDbRestQueryResult result = await _docDbRestUtil.QueryDeviceManagementCollectionAsync(query, null, pageSize, continuationToken);
+                DocDbRestQueryResult result = await _docDbRestUtil.QueryCollectionAsync(query, null, pageSize, continuationToken);
 
                 docs =
                     ReflectionHelper.GetNamedPropertyValue(
@@ -94,7 +94,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             Dictionary<string, Object> queryParams = new Dictionary<string, Object>();
             queryParams.Add("@id", deviceId);
-            DocDbRestQueryResult response = await _docDbRestUtil.QueryDeviceManagementCollectionAsync("SELECT VALUE root FROM root WHERE (root.DeviceProperties.DeviceID = @id)", queryParams);
+            DocDbRestQueryResult response = await _docDbRestUtil.QueryCollectionAsync("SELECT VALUE root FROM root WHERE (root.DeviceProperties.DeviceID = @id)", queryParams);
             JArray foundDevices = response.ResultSet;
 
             if (foundDevices != null && foundDevices.Count > 0)
@@ -121,7 +121,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceAlreadyRegisteredException(deviceId);
             }
 
-            device = await _docDbRestUtil.SaveNewDeviceAsync(device);
+            device = await _docDbRestUtil.SaveNewDocumentAsync(device);
 
             return device;
         }
@@ -135,7 +135,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceNotRegisteredException(deviceId);
             }
 
-            await _docDbRestUtil.DeleteDeviceAsync(existingDevice);
+            await _docDbRestUtil.DeleteDocumentAsync(existingDevice);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             string incomingRid = DeviceSchemaHelper.GetDocDbRid(device);
 
-            if (string.IsNullOrWhiteSpace(incomingRid)) 
+            if (string.IsNullOrWhiteSpace(incomingRid))
             {
                 // copy the existing _rid onto the incoming data if needed
                 var existingRid = DeviceSchemaHelper.GetDocDbRid(existingDevice);
@@ -183,7 +183,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             DeviceSchemaHelper.UpdateUpdatedTime(device);
 
-            device = await _docDbRestUtil.UpdateDeviceAsync(device);
+            device = await _docDbRestUtil.UpdateDocumentAsync(device);
 
             return device;
         }
@@ -201,7 +201,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             deviceProps.HubEnabledState = isEnabled;
             DeviceSchemaHelper.UpdateUpdatedTime(existingDevice);
 
-            existingDevice = await _docDbRestUtil.UpdateDeviceAsync(existingDevice);
+            existingDevice = await _docDbRestUtil.UpdateDocumentAsync(existingDevice);
 
             return existingDevice;
         }
@@ -234,7 +234,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         /// <summary>
-        /// Searches the DeviceProperties of the provided device list for the given search term 
+        /// Searches the DeviceProperties of the provided device list for the given search term
         /// (case insensitive)
         /// </summary>
         /// <param name="deviceList">List to searcn</param>
@@ -269,7 +269,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             // if the device or its system properties are null then
             // there's nothing that can be searched on
-            if ((device == null) || 
+            if ((device == null) ||
                 ((devProps = DeviceSchemaHelper.GetDeviceProperties(device)) == null))
             {
                 return false;
