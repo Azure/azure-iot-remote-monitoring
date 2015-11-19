@@ -1,6 +1,5 @@
 ﻿IoTApp.createModule('IoTApp.AddDeviceCreate', (function () {
-    "use strict";
-
+    "use strict"; 
     var init = function() {
         $(".header_main__head").text(resources.addDevice);
         $(".header_main__subhead").text(resources.stepTwoHeader);
@@ -10,6 +9,9 @@
         $(".header_main__button_back").off("click").click(function () {
             location.href = resources.redirectToIndexUrl;
         });
+
+   
+        $("#availableIccidList").hide();
 
         //show or hide the device Id box based upon what
         //was selected when the partial loads/reloads
@@ -34,7 +36,31 @@
                 $("#deviceId").focus();
             }
         });
+
+        $('#iccidFlagCheckbox').bind("click", function () {
+            if ($('#iccidFlagCheckbox').is(":checked") === true) {
+                if (resources.canHaveIccid === "True") {
+                    $('#availableIccidList').show();
+                    $("#hiddenIccidSelection").val(
+                        $("#availableIccidList option:selected").text()
+                    );
+                } else {
+                    $('#iccidFlagCheckbox').attr('checked', false);
+                    $("#noRegistration").show();
+                }                                                   
+            } else {
+                $("#availableIccidList").hide();
+                $("#hiddenIccidSelection").val(null);
+            }       
+        });
+
+        $("#availableIccidList").change(function () {
+            $("#hiddenIccidSelection").val($("#availableIccidList option:selected").text());
+        });
     }
+
+
+ 
 
     var onFailure = function () {
         IoTApp.Helpers.Dialog.displayError(resources.createDeviceError);

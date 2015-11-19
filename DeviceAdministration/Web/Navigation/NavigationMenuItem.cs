@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
+﻿using System.Collections.Generic;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Navigation
 {
@@ -9,7 +10,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public string Controller { get; set; }
         public bool Selected { get; set; }
         public string Class { get; set; }
-        
+        public List<NavigationMenuItem> Children { get; set; }
+
         /// <summary>
         /// Most basic permission user would need to display menu item
         /// </summary>

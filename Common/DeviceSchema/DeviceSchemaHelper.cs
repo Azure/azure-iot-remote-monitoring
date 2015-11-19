@@ -265,9 +265,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// Build a valid device representation in the dynamic format used throughout the app.
         /// </summary>
         /// <param name="deviceId"></param>
+        /// <param name="iccid"></param>
         /// <param name="isSimulated"></param>
         /// <returns></returns>
-        public static dynamic BuildDeviceStructure(string deviceId, bool isSimulated)
+        public static dynamic BuildDeviceStructure(string deviceId, bool isSimulated, string iccid = null )
         {
             JObject device = new JObject();
 
@@ -277,6 +278,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             deviceProps.Add(DevicePropertiesConstants.CREATED_TIME, DateTime.UtcNow);
             deviceProps.Add(DevicePropertiesConstants.DEVICE_STATE, "normal");
             deviceProps.Add(DevicePropertiesConstants.UPDATED_TIME, null);
+            deviceProps.Add(DevicePropertiesConstants.ICCID, iccid);
 
             device.Add(DeviceModelConstants.DEVICE_PROPERTIES, deviceProps);
             device.Add(DeviceModelConstants.COMMANDS, new JArray());

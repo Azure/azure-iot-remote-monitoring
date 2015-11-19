@@ -22,6 +22,8 @@
 
 .unique_device_id {
     margin-left: 1.7em;
+    display: inline;
+    padding-bottom :1em;
 }
 
 .unique_device_id__input {
@@ -68,4 +70,41 @@
     color: @error-color;
     background-image: url("@{base-image-path}/icon_error.svg");
     background-size: 18px 18px;
+}
+
+
+.api_registration_not_available {
+    clear: both;
+    margin-top: 1.5em;
+    font-size: 16px;
+    padding-left: 25px;
+    background-repeat: no-repeat;
+    background-position: center left;
+    background-size: 18px 18px;
+    display: none;
+    color: @error-color;
+    background-image: url(img/icon_error.svg);
+
+    &.iccid_association {
+        display:block;
+    }
+}
+
+.add_device_dropdown {
+    display: block;
+    float: left;
+    margin: .25em 1em 1.4em 0;
+    border-color: @form-textbox-border;
+    background-color: @form-textbox-background;
+    border-width: 1px;
+    font-size: .85em;
+    padding: 0 5px;
+    min-height: 30px;
+    box-sizing: content-box;
+    margin-top: 1.5em;
+}
+
+.add_iccid {
+    margin: 15px 0;
+    margin-top: 2em;
 }

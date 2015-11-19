@@ -1,4 +1,5 @@
-﻿@using GlobalResources
+﻿@using System.Collections
+@using GlobalResources
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.UnregisteredDeviceModel
 
 @using (Ajax.BeginForm("AddDeviceCreate", "Device",
@@ -8,7 +9,8 @@
         HttpMethod = "POST",
         InsertionMode = InsertionMode.Replace,
         LoadingElementId = "loadingElement",
-        OnFailure = "IoTApp.AddDeviceCreate.onFailure"
+        OnFailure = "IoTApp.AddDeviceCreate.onFailure",
+
     }))
 {
     @Html.AntiForgeryToken()
@@ -20,7 +22,7 @@
 
         <div class="radio_button">
             @Html.RadioButtonFor(m => m.IsDeviceIdSystemGenerated, "true", new { id = "deviceGeneratedBySystemYes" })
-            @Html.LabelFor(m => m.IsDeviceIdSystemGenerated, @Strings.GenerateADeviceId, new { @for = "deviceGeneratedBySystemYes", @class="radio_button__label" })
+            @Html.LabelFor(m => m.IsDeviceIdSystemGenerated, @Strings.GenerateADeviceId, new { @for = "deviceGeneratedBySystemYes", @class = "radio_button__label" })
         </div>
         <div class="radio_button">
             @Html.RadioButtonFor(m => m.IsDeviceIdSystemGenerated, "false", new { id = "deviceGeneratedBySystemNo" })
@@ -28,13 +30,13 @@
         </div>
         <div class="unique_device_id" id="deviceIdInput">
             @Html.TextBoxFor(model => model.DeviceId,
-            new
-            {
-                @class = "unique_device_id__input",
-                id = "deviceId",
-                @Value = @Model.DeviceId ?? "",
-                @placeholder = @Strings.EnterDeviceId
-            })
+                new
+                {
+                    @class = "unique_device_id__input",
+                    id = "deviceId",
+                    @Value = @Model.DeviceId ?? "",
+                    @placeholder = @Strings.EnterDeviceId
+                })
 
             <button class="button_base unique_device_id__check_id" id="checkIdButton" name="button" value="check" type="submit">@Strings.CheckId</button>
 
@@ -46,8 +48,31 @@
             }
 
             @Html.DisplayFor(m => ViewData.ModelState)
-
         </div>
+        <div class="add_iccid">
+            <div>
+
+                @Html.CheckBox("iccidFlagCheckbox")
+                @Html.Label("iccidCheckBoxLabel", @Strings.AttachIccidToDevice, new { @for = "iccidFlagCheckbox" })
+
+            </div>
+            <div class="api_registration_not_available" id="noRegistration">
+                @Strings.ApiRegistrationNotAvailable
+            </div>
+            <div>
+                @if (ViewBag.CanHaveIccid)
+                {
+                    @Html.DropDownList("availableIccidList",
+                new SelectList((IEnumerable)ViewBag.AvailableIccids, null, null), new
+                {
+                    id = "availableIccidList",
+                    @class = "add_device_dropdown"
+
+                })
+                }
+            </div>
+        </div>
+
     </fieldset>
     <fieldset class="fieldset_button">
         @Html.HiddenFor(m => m.DeviceType.Name)
@@ -55,6 +80,9 @@
         @Html.HiddenFor(m => m.DeviceType.Description)
         @Html.HiddenFor(m => m.DeviceType.InstructionsUrl)
         @Html.HiddenFor(m => m.DeviceType.IsSimulatedDevice)
+        @Html.HiddenFor(m => m.Iccid, new { id = "hiddenIccidSelection" })
+        @Html.Hidden("availableList")
+
 
         <button class="button_base" id="nextButton" type="submit">@Strings.Create</button>
         <button class="button_base button_secondary" type="button" onclick="location.href = '@Url.Action("Index", "Device")' ">@Strings.Cancel</button>
@@ -67,7 +95,9 @@
         redirectToIndexUrl: '@Url.Action("AddDevice", "Device")',
         stepTwoHeader: '@Strings.StepTwoHeader',
         enterDeviceId: '@Strings.EnterDeviceId',
-        createDeviceError: '@Strings.DeviceAddError'
+        createDeviceError: '@Strings.DeviceAddError',
+        canHaveIccid: '@ViewBag.CanHaveIccid'
+
     }
 
 </script>

@@ -122,6 +122,8 @@
     <Compile Include="Utility\IDocDbRestUtility.cs" />
     <Compile Include="Helpers\ParsingHelper.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
+    <Compile Include="Models\ApiRegistrationModel.cs" />
+    <Compile Include="Models\ApiRegistrationTableEntity.cs" />
     <Compile Include="Models\Commands\Command.cs" />
     <Compile Include="Models\Commands\DeviceCommandConstants.cs" />
     <Compile Include="Models\DeviceListEntity.cs" />

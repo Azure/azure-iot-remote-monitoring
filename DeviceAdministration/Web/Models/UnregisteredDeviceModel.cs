@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
@@ -24,5 +25,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public bool IsDeviceIdSystemGenerated { get; set; }
 
         public bool IsDeviceIdUnique { get; set; }
+
+        public string Iccid { get; set; }
+
     }
 }

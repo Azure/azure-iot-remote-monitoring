@@ -124,6 +124,7 @@
     <Compile Include="Models\ActionMapping.cs" />
     <Compile Include="Models\ActionMappingExtended.cs" />
     <Compile Include="Models\AlertHistoryItemModel.cs" />
+    <Compile Include="Models\ApiRegistrationModel.cs" />
     <Compile Include="Models\DeviceListQuery.cs" />
     <Compile Include="Models\DeviceListQueryResult.cs" />
     <Compile Include="Models\DeviceListLocationsModel.cs" />
@@ -152,12 +153,14 @@
     <Compile Include="Repository\ActionMappingRepository.cs" />
     <Compile Include="Repository\ActionRepository.cs" />
     <Compile Include="Repository\AlertsRepository.cs" />
+    <Compile Include="Repository\ApiRegistrationRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepository.cs" />
     <Compile Include="Repository\IActionMappingRepository.cs" />
     <Compile Include="Repository\IActionRepository.cs" />
     <Compile Include="Repository\DeviceRulesRepository.cs" />
     <Compile Include="Repository\DeviceTelemetryRepository.cs" />
     <Compile Include="Repository\IAlertsRepository.cs" />
+    <Compile Include="Repository\IApiRegistrationRepository.cs" />
     <Compile Include="Repository\IDeviceRegistryCrudRepository.cs" />
     <Compile Include="Repository\IDeviceRegistryListRepository.cs" />
     <Compile Include="Repository\IDeviceRulesRepository.cs" />

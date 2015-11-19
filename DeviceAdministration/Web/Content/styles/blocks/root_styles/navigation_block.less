@@ -56,6 +56,10 @@
     background-size: 30px;
 }
 
+.nav_advanced {
+    background-image: url("@{base-image-path}/icon_advanced.svg");
+    background-size:30px 30px;
+}
 
 .navigation__link--add_device {
     position: absolute;
@@ -64,3 +68,54 @@
     background-image: url("@{base-image-path}/icon_add.svg");
     background-size: 20px 20px;
 }
+
+.nav_subnav {
+    left: 95px;
+    border-left-color: @background-color;
+    border-left-width: 1px;
+    border-left-style: solid;
+
+    a {
+        background-position:center center;
+        line-height: 77px;
+    }
+}
+
+nav {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 95px;
+    height: 100%;
+    z-index:300;
+    background-color: @primary-color;
+
+    a {
+        display: block;
+        width: 95px;
+        height: 77px;
+        font-size: .6em;
+        color: @text-secondary-color;
+        text-align: center;
+        line-height: 110px;
+        text-decoration: none;
+        text-transform: uppercase;
+        background-repeat: no-repeat;
+        background-position:center 17px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:hover {
+            color:@anchor-nav-hover-color;
+            background-color:@anchor-nav-hover-background-color;
+            text-decoration:none;
+            }
+
+        }
+
+    .selected {
+        background-color: @anchor-nav-background-color;
+        }
+
+    }

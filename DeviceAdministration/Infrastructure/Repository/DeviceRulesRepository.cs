@@ -119,7 +119,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             DeviceRuleTableEntity incomingEntity = BuildTableEntityFromRule(updatedRule);
 
             TableStorageResponse<DeviceRule> result = 
-                await AzureTableStorageHelper.DoTableInsertOrReplaceAsync<DeviceRule, DeviceRuleTableEntity>(incomingEntity, BuildRuleFromTableEntity, 
+                await AzureTableStorageHelper.DoTableInsertOrReplace<DeviceRule, DeviceRuleTableEntity>(incomingEntity, BuildRuleFromTableEntity, 
                 _storageAccountConnectionString, _deviceRulesNormalizedTableName);
 
             if (result.Status == TableStorageResponseStatus.Successful)

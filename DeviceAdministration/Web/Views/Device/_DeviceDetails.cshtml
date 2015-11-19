@@ -68,6 +68,26 @@
     </section>
 }
 
+@if (Model.IsCellular)
+{
+    // save this to cache to save having to load device again if user decides to retrieve SIM
+    <script>
+        $(function() {
+            IoTApp.Helpers.IccidState.saveIccidToCookie("@Model.Iccid");
+        });
+    </script>
+    @Html.Partial("_DeviceDetailsCellular", Model);
+}
+else
+{
+    // clear any existing sim information is this device does not have any SIM information
+    <script>
+        $(function() {
+            IoTApp.Helpers.IccidState.saveIccidToCookie(null);
+        });
+    </script>
+}
+
 
 @(Model.HubEnabledState != null ? 
     Html.Partial("_DeviceDetailsDeviceProperties", Model) : 

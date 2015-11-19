@@ -81,6 +81,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Dynamitey.1.0.2.0\lib\net40\Dynamitey.dll</HintPath>
     </Reference>
+    <Reference Include="Infrastructure.Connectivity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IoTSuite.Infrastructure.Connectivity.1.0.0\lib\Infrastructure.Connectivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Azure.Amqp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Azure.Amqp.1.0.0-preview-001-000-000\lib\net451\Microsoft.Azure.Amqp.dll</HintPath>
       <Private>True</Private>
@@ -252,6 +256,7 @@
     <Compile Include="Bundling\LessTransform.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActionsController.cs" />
+    <Compile Include="Controllers\AdvancedController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DeviceCommandController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
@@ -262,12 +267,15 @@
     <Compile Include="DataTables\Search.cs" />
     <Compile Include="DataTables\SortColumn.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Helpers\JasperCredentialsProvider.cs" />
     <Compile Include="Filters\ErrorHandlingFilter.cs" />
+    <Compile Include="Helpers\CellularExtensions.cs" />
     <Compile Include="Helpers\DeviceDisplayHelper.cs" />
     <Compile Include="Helpers\MvcDataHelper.cs" />
     <Compile Include="Models\ActionPropertiesModel.cs" />
     <Compile Include="Models\AlertHistoryDeviceModel.cs" />
     <Compile Include="Models\EditDeviceRuleModel.cs" />
+    <Compile Include="Models\SimInformationViewModel.cs" />
     <Compile Include="Models\UpdateActionModel.cs" />
     <Compile Include="Models\AlertHistoryResultsModel.cs" />
     <Compile Include="Models\DashboardDevicePaneDataModel.cs" />
@@ -287,6 +295,7 @@
     <Compile Include="Models\SendCommandModel.cs" />
     <Compile Include="Models\UpdateKeyModel.cs" />
     <Compile Include="Models\UpdateKeysModel.cs" />
+    <Compile Include="Helpers\NavigationHelper.cs" />
     <Compile Include="Security\PrincipalHelper.cs" />
     <Compile Include="Security\Permission.cs" />
     <Compile Include="Security\PermsChecker.cs" />
@@ -386,6 +395,7 @@
     <Content Include="Content\styles\blocks\device_view\device_details_block.less" />
     <Content Include="Content\styles\elements\error_reporting.less" />
     <Content Include="Content\styles\blocks\text_copy\text_copy_block.less" />
+    <Content Include="Content\styles\blocks\advanced_view\advanced_block.less" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery-ui-i18n.min.js" />
@@ -399,6 +409,7 @@
     <Content Include="Scripts\Views\Actions\ActionProperties.js" />
     <Content Include="Scripts\Views\Actions\ActionsIndex.js" />
     <Content Include="Scripts\powerbi-visuals.all.min.js" />
+    <Content Include="Scripts\Views\Advanced\Advanced.js" />
     <Content Include="Scripts\Views\Dashboard\AlertHistory.js" />
     <Content Include="Scripts\Views\Dashboard\DashboardDevicePane.js" />
     <Content Include="Scripts\Views\Dashboard\MapPane.js" />
@@ -535,6 +546,16 @@
     <Content Include="Views\Dashboard\_TelemetryHistorySummary.cshtml" />
     <Content Include="Views\Dashboard\_AlertHistory.cshtml" />
     <Content Include="Views\DeviceRules\RemoveDeviceRule.cshtml" />
+    <Content Include="Views\Device\_CellularInformation.cshtml" />
+    <Content Include="Views\Device\_DeviceDetailsCellular.cshtml" />
+    <Content Include="Views\Advanced\CellularConn.cshtml" />
+    <Content Include="Views\Advanced\HealthBeat.cshtml" />
+    <Content Include="Views\Advanced\LogicApps.cshtml" />
+    <Content Include="Views\Advanced\_ApiRegistration.cshtml" />
+    <Content Include="Views\Advanced\_DeviceAssociation.cshtml" />
+    <Content Include="Views\Advanced\_SelectAdvancedProcess.cshtml" />
+    <Content Include="Views\Shared\_NavigationSubmenu.cshtml" />
+    <Content Include="Views\Advanced\_IccidAssociation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

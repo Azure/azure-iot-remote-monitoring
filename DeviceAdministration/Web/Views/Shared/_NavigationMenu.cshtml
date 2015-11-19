@@ -1,6 +1,7 @@
 ﻿@using System.Collections.Generic
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security
 @using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Navigation
 
 @model List<Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Navigation.NavigationMenuItem>
 <nav class="navigation">
@@ -22,3 +23,21 @@
         <a class="navigation__link navigation__link--add_device" href="@Url.Action("AddDevice", "Device")">@Strings.AddDevice</a>
     }
 </nav>
+
+@foreach (var navigationMenuItem in Model.Where(navigationMenuItem => navigationMenuItem.Selected && navigationMenuItem.Children != null))
+{
+    <nav class="navigation">
+        @foreach (var childNavigationItem in navigationMenuItem.Children)
+        {
+            if (childNavigationItem.Selected)
+            {
+                <a class="@childNavigationItem.Class">@childNavigationItem.Text</a>
+            }
+            else
+            {
+                @Html.ActionLink(childNavigationItem.Text, childNavigationItem.Action, childNavigationItem.Controller, null, new { @class = childNavigationItem.Class })
+            }
+        }
+    </nav>
+}
+
