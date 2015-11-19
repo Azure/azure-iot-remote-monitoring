@@ -1077,7 +1077,7 @@
   <data name="RemoveDeviceConfirmation" xml:space="preserve">
     <value>Remove Device</value>
   </data>
- <data name="CellularConnectivityManagement" xml:space="preserve">
+  <data name="CellularConnectivityManagement" xml:space="preserve">
     <value>Cellular Connectivity Management</value>
   </data>
   <data name="SimInformation" xml:space="preserve">
@@ -1203,7 +1203,7 @@
   <data name="CellularInvalidCreds" xml:space="preserve">
     <value>400200</value>
   </data>
- <data name="DeviceList" xml:space="preserve">
+  <data name="DeviceList" xml:space="preserve">
     <value>Device List</value>
   </data>
   <data name="Previous" xml:space="preserve">
@@ -1245,5 +1245,8 @@
   </data>
   <data name="LocalTime" xml:space="preserve">
     <value>Local Time</value>
+  </data>
+  <data name="RemoteNameNotResolved" xml:space="preserve">
+    <value>The remote name could not be resolved</value>
   </data>
 </root>

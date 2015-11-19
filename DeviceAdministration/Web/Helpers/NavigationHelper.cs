@@ -109,31 +109,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private static List<NavigationMenuItem> GetAdvancedControllerSubmenuItems()
         {
-            var items = new List<NavigationMenuItem>();
-
-            items.Add(new NavigationMenuItem()
+            var items = new List<NavigationMenuItem>
             {
-                Action = "HealthBeat",
-                Controller ="Advanced",
-                MinimumPermission = Permission.HealthBeat,
-                Text = Strings.HealthBeat
-            });
-
-            items.Add(new NavigationMenuItem()
-            {
-                Action = "LogicApps",
-                Controller = "Advanced",
-                MinimumPermission = Permission.LogicApps,
-                Text = Strings.LogicApps
-            });
-
-            items.Add(new NavigationMenuItem()
-            {
-                Action = "CellularConn",
-                Controller = "Advanced",
-                MinimumPermission = Permission.CellularConn,
-                Text = Strings.CellularConn
-            });
+                new NavigationMenuItem()
+                {
+                    Action = "CellularConn",
+                    Controller = "Advanced",
+                    MinimumPermission = Permission.CellularConn,
+                    Text = Strings.CellularConn,
+                    Selected = true
+                }
+            };
 
             return items;
         }

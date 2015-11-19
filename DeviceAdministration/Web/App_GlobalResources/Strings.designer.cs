@@ -2546,6 +2546,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The remote name could not be resolved.
+        /// </summary>
+        public static string RemoteNameNotResolved {
+            get {
+                return ResourceManager.GetString("RemoteNameNotResolved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove Device....
         /// </summary>
         public static string RemoveDevice {

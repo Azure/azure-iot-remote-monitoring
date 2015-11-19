@@ -54,7 +54,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 new NavigationMenuItem
                 {
                     Text = Strings.NavigationMenuItemsAdvanced,
-                    Action = "HealthBeat",
+                    Action = "CellularConn",
                     Controller = "Advanced",
                     Selected = false,
                     Class = "nav_advanced",

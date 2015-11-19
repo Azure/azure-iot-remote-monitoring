@@ -96,14 +96,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             //use a simple call to verify creds
             try
             {
-                _cellularService.GetTerminals();
-               
+                _cellularService.GetTerminals();           
             }
-            catch (CellularConnectivityException)
+            catch (CellularConnectivityException exception)
             {
-                //clear registration
-                _apiRegistrationRepository.DeleteApiDetails();
-                return false;  
+                //API does not give error code for the remote name. 
+                if (exception.Message.Contains(Strings.RemoteNameNotResolved) ||
+                    exception.Message == Strings.CellularInvalidCreds)
+                {
+                    _apiRegistrationRepository.DeleteApiDetails();
+                    return false;  
+                }
+              
+              //the user may have valid creds but no devices. Which throws exception from API this is ok.
             }          
             return true;
         }
