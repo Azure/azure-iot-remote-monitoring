@@ -322,11 +322,18 @@ function StopExistingStreamAnalyticsJobs()
         return $false
     }
     Write-Host "Stopping existing Stream Analytics jobs..."
+    $returnValue = $true
     foreach ($sasJob in $sasJobs)
     {
         $null = Stop-AzureStreamAnalyticsJob -Name $sasJob.ResourceName -ResourceGroupName $resourceGroupName
+        $job = Get-AzureStreamAnalyticsJob -Name $sasJob.ResourceName -ResourceGroupName $resourceGroupName
+        if ($job.Properties.LastOutputEventTime -eq $null)
+        {
+            # If the job never has seen data, use JobStartTime
+            $returnValue = $false
+        }
     }
-    return $true
+    return $returnValue
 }
 
 function UploadFile()
