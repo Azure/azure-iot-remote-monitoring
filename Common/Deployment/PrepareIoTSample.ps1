@@ -31,6 +31,15 @@ if ($environmentName -ne "local")
     #[string]$branch = "$(git symbolic-ref --short -q HEAD)"
     $cloudDeploy = $true
 }
+else
+{
+    $legacyNameExists = (Get-AzureResourceGroup -Tag @{Name="IotSuiteType";Value=$suiteType} | ?{$_.ResourceGroupName -eq "IotSuiteLocal"}) -ne $null
+    if ($legacyNameExists)
+    {
+        $suiteName = "IotSuiteLocal"
+    }
+}
+
 $suiteExists = (Get-AzureResourceGroup -Tag @{Name="IotSuiteType";Value=$suiteType} | ?{$_.ResourceGroupName -eq $suiteName}) -ne $null
 $resourceGroupName = (GetResourceGroup -Name $suiteName -Type $suiteType).ResourceGroupName
 $storageAccount = GetAzureStorageAccount $suiteName $resourceGroupName
