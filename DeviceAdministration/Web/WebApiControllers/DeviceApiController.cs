@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public DeviceApiController(IDeviceLogic deviceLogic)
         {
-            _deviceLogic = deviceLogic;            
+            _deviceLogic = deviceLogic;
         }
 
         // POST: api/v1/devices/sample/5

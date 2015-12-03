@@ -124,7 +124,6 @@
     <Compile Include="Models\ActionMapping.cs" />
     <Compile Include="Models\ActionMappingExtended.cs" />
     <Compile Include="Models\AlertHistoryItemModel.cs" />
-    <Compile Include="Models\ApiRegistrationModel.cs" />
     <Compile Include="Models\DeviceListQuery.cs" />
     <Compile Include="Models\DeviceListQueryResult.cs" />
     <Compile Include="Models\DeviceListLocationsModel.cs" />

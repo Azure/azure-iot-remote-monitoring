@@ -9,6 +9,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public string LicenceKey { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-
     }
 }

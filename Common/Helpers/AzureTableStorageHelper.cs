@@ -21,18 +21,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             return table;
         }
 
-
-	    public static CloudTable GetTable(string storageConnectionString, string tableName)
-        {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            CloudTable devicesTable = tableClient.GetTableReference(tableName);
-            devicesTable.CreateIfNotExistsAsync();
-            return devicesTable;
-        }
-        
-
-        public static async Task<TableStorageResponse<TResult>> DoTableInsertOrReplace<TResult, TInput>(TInput incomingEntity, 
+        public static async Task<TableStorageResponse<TResult>> DoTableInsertOrReplaceAsync<TResult, TInput>(TInput incomingEntity, 
             Func<TInput, TResult> tableEntityToModelConverter, string storageAccountConnectionString, string tableName) where TInput : TableEntity
         {
             var table = await AzureTableStorageHelper.GetTableAsync(storageAccountConnectionString, tableName);

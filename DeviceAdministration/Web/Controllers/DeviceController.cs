@@ -31,7 +31,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly IDeviceTypeLogic _deviceTypeLogic;
 
 
-        private readonly string iotHubName = string.Empty;
+        private readonly string _iotHubName = string.Empty;
 
         public DeviceController(IDeviceLogic deviceLogic, IDeviceTypeLogic deviceTypeLogic,
             IConfigurationProvider configProvider,
@@ -43,7 +43,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             _cellularService = cellularService;
             _apiRegistrationRepository = apiRegistrationRepository;
 
-            iotHubName = configProvider.GetConfigurationSettingValue("iotHub.HostName");
+            _iotHubName = configProvider.GetConfigurationSettingValue("iotHub.HostName");
         }
 
         [RequirePermission(Permission.ViewDevices)]
@@ -94,8 +94,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddDeviceCreate(string button, UnregisteredDeviceModel model)
         {
-            var isModelValid = ModelState.IsValid;
-            var onlyValidating = (button != null && button.ToLower().Trim() == "check");
+            bool isModelValid = ModelState.IsValid;
+            bool onlyValidating = (button != null && button.ToLower().Trim() == "check");
 
             if (ReferenceEquals(null, model) ||
                 (model.GetType() == typeof (object)))
@@ -138,7 +138,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             if (isModelValid)
             {
-                var deviceExists = await GetDeviceExistsAsync(model.DeviceId);
+                bool deviceExists = await GetDeviceExistsAsync(model.DeviceId);
 
                 model.IsDeviceIdUnique = !deviceExists;
 
@@ -196,7 +196,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             var newDevice = new RegisteredDeviceModel
             {
-                HostName = iotHubName,
+                HostName = _iotHubName,
                 DeviceType = model.DeviceType,
                 DeviceId = DeviceSchemaHelper.GetDeviceID(deviceWithKeys.Device),
                 PrimaryKey = deviceWithKeys.SecurityKeys.PrimaryKey,
@@ -261,7 +261,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 throw new InvalidOperationException("Unable to load device with deviceId " + deviceId);
             }
 
-            var deviceModel = new DeviceDetailModel
+            DeviceDetailModel deviceModel = new DeviceDetailModel
             {
                 DeviceID = deviceId,
                 HubEnabledState = DeviceSchemaHelper.GetHubEnabledState(device),
@@ -286,7 +286,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.ViewDevices)]
-        public async Task<ActionResult> GetDeviceCellularDetails(string iccid)
+        public ActionResult GetDeviceCellularDetails(string iccid)
         {
             var viewModel = new SimInformationViewModel();
             viewModel.TerminalDevice = _cellularService.GetSingleTerminalDetails(new Iccid(iccid));
@@ -316,7 +316,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             var device = new RegisteredDeviceModel
             {
-                HostName = iotHubName,
+                HostName = _iotHubName,
                 DeviceId = deviceId
             };
 
@@ -358,7 +358,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 "unregisteredDeviceModel.DeviceType is a null reference.");
 
             
-	       device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
+	        device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
                 unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
 
             return await this._deviceLogic.AddDeviceAsync(device);

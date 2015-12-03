@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using DeviceManagement.Infrustructure.Connectivity.Models.Jasper;
+﻿using DeviceManagement.Infrustructure.Connectivity.Models.Jasper;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 

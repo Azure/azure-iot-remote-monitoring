@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
@@ -17,8 +14,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         // when more providers are available take as param
         public ApiRegistrationTableEntity()
         {
-            PartitionKey = Convert.ToString((int) ApiRegistrationProviderType.Jasper);
-            RowKey = Enum.GetName(typeof (ApiRegistrationProviderType), ApiRegistrationProviderType.Jasper);
+            PartitionKey = GetPartitionKey(ApiRegistrationProviderType.Jasper);
+            RowKey = GetRowKey(ApiRegistrationProviderType.Jasper);
+        }
+
+        public static string GetPartitionKey(ApiRegistrationProviderType providerType)
+        {
+            return Convert.ToString((int)providerType, CultureInfo.InvariantCulture);
+        }
+
+        public static string GetRowKey(ApiRegistrationProviderType providerType)
+        {
+            return Enum.GetName(typeof(ApiRegistrationProviderType), providerType);
         }
     }
 
@@ -26,5 +33,4 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
     {
         Jasper
     }
-    
 }

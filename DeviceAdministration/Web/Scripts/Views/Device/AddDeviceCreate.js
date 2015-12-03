@@ -1,5 +1,6 @@
 ﻿IoTApp.createModule('IoTApp.AddDeviceCreate', (function () {
-    "use strict"; 
+    "use strict";
+
     var init = function() {
         $(".header_main__head").text(resources.addDevice);
         $(".header_main__subhead").text(resources.stepTwoHeader);
@@ -10,7 +11,6 @@
             location.href = resources.redirectToIndexUrl;
         });
 
-   
         $("#availableIccidList").hide();
 
         //show or hide the device Id box based upon what
@@ -58,9 +58,6 @@
             $("#hiddenIccidSelection").val($("#availableIccidList option:selected").text());
         });
     }
-
-
- 
 
     var onFailure = function () {
         IoTApp.Helpers.Dialog.displayError(resources.createDeviceError);

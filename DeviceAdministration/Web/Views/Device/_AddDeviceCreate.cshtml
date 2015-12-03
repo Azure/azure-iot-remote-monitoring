@@ -9,8 +9,7 @@
         HttpMethod = "POST",
         InsertionMode = InsertionMode.Replace,
         LoadingElementId = "loadingElement",
-        OnFailure = "IoTApp.AddDeviceCreate.onFailure",
-
+        OnFailure = "IoTApp.AddDeviceCreate.onFailure"
     }))
 {
     @Html.AntiForgeryToken()
@@ -83,7 +82,6 @@
         @Html.HiddenFor(m => m.Iccid, new { id = "hiddenIccidSelection" })
         @Html.Hidden("availableList")
 
-
         <button class="button_base" id="nextButton" type="submit">@Strings.Create</button>
         <button class="button_base button_secondary" type="button" onclick="location.href = '@Url.Action("Index", "Device")' ">@Strings.Cancel</button>
     </fieldset>
@@ -97,7 +95,6 @@
         enterDeviceId: '@Strings.EnterDeviceId',
         createDeviceError: '@Strings.DeviceAddError',
         canHaveIccid: '@ViewBag.CanHaveIccid'
-
     }
 
 </script>

@@ -4,7 +4,6 @@
     $.ajaxSetup({ cache: false });
     var self = this;
     
-
     var getDeviceDetailsView = function (deviceId) {
         $('#loadingElement').show();
         self.deviceId = deviceId;
@@ -63,7 +62,6 @@
         IoTApp.Helpers.Dates.localizeDates();
 
         setDetailsPaneLoaderHeight();
-
 
         $("#deviceExplorer_cellInformation").on("click", function () {
             $('#details_grid_container').empty();
