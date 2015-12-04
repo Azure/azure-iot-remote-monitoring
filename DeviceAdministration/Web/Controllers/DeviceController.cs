@@ -30,7 +30,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly IDeviceLogic _deviceLogic;
         private readonly IDeviceTypeLogic _deviceTypeLogic;
 
-
         private readonly string _iotHubName = string.Empty;
 
         public DeviceController(IDeviceLogic deviceLogic, IDeviceTypeLogic deviceTypeLogic,
@@ -357,7 +356,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 unregisteredDeviceModel.DeviceType != null,
                 "unregisteredDeviceModel.DeviceType is a null reference.");
 
-            
 	        device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
                 unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
 
@@ -372,7 +370,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             return !object.ReferenceEquals(existingDevice, null);
         }
-
 
         private async Task<List<dynamic>> GetDevices()
         {

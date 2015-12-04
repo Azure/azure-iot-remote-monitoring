@@ -34,8 +34,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             return PartialView("_NavigationSubmenu", menuItems);
         }
-      
     }
-
- 
 }

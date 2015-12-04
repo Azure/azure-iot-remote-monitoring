@@ -62,12 +62,11 @@
                 @if (ViewBag.CanHaveIccid)
                 {
                     @Html.DropDownList("availableIccidList",
-                new SelectList((IEnumerable)ViewBag.AvailableIccids, null, null), new
-                {
-                    id = "availableIccidList",
-                    @class = "add_device_dropdown"
-
-                })
+                        new SelectList((IEnumerable)ViewBag.AvailableIccids, null, null), new
+                        {
+                            id = "availableIccidList",
+                            @class = "add_device_dropdown"
+                        })
                 }
             </div>
         </div>

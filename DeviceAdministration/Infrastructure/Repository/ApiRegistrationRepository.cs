@@ -8,7 +8,6 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
-
     public class ApiRegistrationRepository : IApiRegistrationRepository
     {    
         private readonly CloudTable _table;
@@ -32,8 +31,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     LicenceKey = apiRegistrationModel.LicenceKey
                 };
 
-                var insertOperation = TableOperation.InsertOrMerge(incomingEntity);
-                _table.Execute(insertOperation);
+                _table.Execute(TableOperation.InsertOrMerge(incomingEntity));
             }
             catch (StorageException)
             {
@@ -42,11 +40,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return true;     
         }
 
-        public  ApiRegistrationModel RecieveDetails()
+        public ApiRegistrationModel RecieveDetails()
         {                   
             var query = new TableQuery<ApiRegistrationTableEntity>().
-                 Where(TableQuery.GenerateFilterCondition("PartitionKey", 
-                    QueryComparisons.Equal, ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationProviderType.Jasper)));
+                Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal,
+                    ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationProviderType.Jasper)));
 
             var response = _table.ExecuteQuery(query);
             if (response == null) return new ApiRegistrationModel();
@@ -69,7 +67,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public bool IsApiRegisteredInAzure()
         {            
             var retrieveOperation = TableOperation.Retrieve<ApiRegistrationTableEntity>(ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationProviderType.Jasper),
-                                            ApiRegistrationTableEntity.GetRowKey(ApiRegistrationProviderType.Jasper));
+                                        ApiRegistrationTableEntity.GetRowKey(ApiRegistrationProviderType.Jasper));
             var retrievedResult = _table.Execute(retrieveOperation);
             return retrievedResult.Result != null;
         }
@@ -82,7 +80,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _table.Execute(TableOperation.Delete(entity));
             return true;
         }
-        
-
     }
 }

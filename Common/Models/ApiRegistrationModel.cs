@@ -1,8 +1,5 @@
-﻿using Microsoft.WindowsAzure.Storage.Table;
-
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
+﻿namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 {
-
     public class ApiRegistrationModel
     {
         public string BaseUrl { get; set; }

@@ -119,6 +119,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             get;
             set;
         }
-
     }
 }

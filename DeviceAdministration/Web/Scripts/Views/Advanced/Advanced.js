@@ -60,7 +60,6 @@
         return valOk;
     }
 
-
     var init = function init(config) {
         backButtonId = config.backButtonId;
         contentId = config.contentId;

@@ -18,7 +18,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         private readonly IApiRegistrationRepository _apiRegistrationRepository;
         private readonly IExternalCellularService _cellularService;
-
         private readonly IDeviceLogic _deviceLogic;
 
         public AdvancedController(IDeviceLogic deviceLogic,
@@ -29,7 +28,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             _cellularService = cellularService;
             _apiRegistrationRepository = apiRegistrationRepository;
         }
-
 
         [RequirePermission(Permission.CellularConn)]
         public ActionResult CellularConn()

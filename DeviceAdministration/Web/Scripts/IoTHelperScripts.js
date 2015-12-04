@@ -12,7 +12,6 @@
     return highlight;
 }, [jQuery]);
 
-
 IoTApp.createModule("IoTApp.Helpers.Dates", function () {
     "use strict";
 
@@ -106,7 +105,6 @@ IoTApp.createModule("IoTApp.Helpers.Numbers", function () {
         localizeNumber: localizeNumber
     };
 }, [jQuery, Globalize, cultureInfo]);
-
 
 IoTApp.createModule("IoTApp.Helpers.IccidState", function () {
     "use strict";

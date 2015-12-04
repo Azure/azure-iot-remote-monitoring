@@ -7,7 +7,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 {
     public static class CellularExtensions
     {
-
         public static IEnumerable<string> GetListOfAvailableIccids(this IExternalCellularService cellularService, List<dynamic> devices)
         {
             var fullIccidList = cellularService.GetTerminals().Select(i => i.Id);
@@ -27,6 +26,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return (from d in devices where d.DeviceProperties != null && d.DeviceProperties.ICCID != null &&
                         d.DeviceProperties.DeviceID != null select new Iccid(d.DeviceProperties.ICCID.Value)).ToList();
         }
-
     }
 }
