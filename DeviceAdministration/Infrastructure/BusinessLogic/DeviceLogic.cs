@@ -235,10 +235,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             dynamic existingDevice = await GetDeviceAsync(DeviceSchemaHelper.GetDeviceID(device));
 
             // Save the command history and the original created date of the existing device
-            if (DeviceSchemaHelper.GetDeviceProperties(existingDevice) != null)
+            dynamic existingDeviceProperties = DeviceSchemaHelper.GetDeviceProperties(existingDevice);
+            if (existingDeviceProperties != null)
             {
                 dynamic deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
                 deviceProperties.CreatedTime = DeviceSchemaHelper.GetCreatedTime(existingDevice);
+
+                // Save existing external properties to the updated device
+                foreach (string ext in DevicePropertiesConstants.External)
+                {
+                    D.Dynamic.InvokeSet(deviceProperties, ext, D.Dynamic.InvokeGet(existingDeviceProperties, ext));
+                }
             }
 
             device.CommandHistory = existingDevice.CommandHistory;

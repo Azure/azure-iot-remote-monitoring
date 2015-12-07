@@ -33,6 +33,11 @@
         public const string UPDATED_TIME = "UpdatedTime";
         public const string HOST_NAME = "HostName";
         public const string ICCID = "ICCID";
+
+        /// <summary>
+        /// The list of properties not owned by the device.
+        /// </summary>
+        public static readonly string[] External = { ICCID };
     }
 
     public static class CommandModelConstants
