@@ -143,9 +143,12 @@
                 success: function () {
                     $("#UnassignedDeviceIds option:contains('" + deviceId + "')").remove();
                     $("#UnassignedIccids option:contains('" + iccid + "')").remove();
+                    $("#associateSucceeded").show().delay(2000).fadeOut(1000);
                 }
             });
         });
+
+        $("#associateSucceeded").hide();
     }
   
     return {

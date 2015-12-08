@@ -3059,6 +3059,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The association succeeded..
+        /// </summary>
+        public static string SimAssociationSucceeded {
+            get {
+                return ResourceManager.GetString("SimAssociationSucceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SIM ICCID.
         /// </summary>
         public static string SimIccid {

@@ -1252,4 +1252,7 @@
   <data name="RemoveSimAssociation" xml:space="preserve">
     <value>Remove SIM Association</value>
   </data>
+  <data name="SimAssociationSucceeded" xml:space="preserve">
+    <value>The association succeeded.</value>
+  </data>
 </root>
