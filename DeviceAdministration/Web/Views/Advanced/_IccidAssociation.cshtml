@@ -16,9 +16,16 @@
     <div class="fieldset_button">
         <button id="associateButton" class="add_new_button" type="button">@Strings.Associate</button>
     </div>
-    <div id="associateSucceeded" class="registration_textbox">
-        <h2 class="registration_succeeded">&#10004; @Strings.SimAssociationSucceeded</h2>
+    <div id="associateSucceeded" class="registration_succeeded">
+        <h2>&#10004; <span id="associateSucceededText"></span></h2>
     </div>
+
+    <script>
+        "use strict";
+        var resources = {
+            simAssociationSucceeded: '@Strings.SimAssociationSucceeded'
+        };
+    </script>
 }
 else
 {

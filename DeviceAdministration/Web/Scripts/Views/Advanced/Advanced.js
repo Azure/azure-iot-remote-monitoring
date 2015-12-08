@@ -143,7 +143,10 @@
                 success: function () {
                     $("#UnassignedDeviceIds option:contains('" + deviceId + "')").remove();
                     $("#UnassignedIccids option:contains('" + iccid + "')").remove();
-                    $("#associateSucceeded").show().delay(2000).fadeOut(1000);
+
+                    $("#associateSucceeded").fadeOut(250, function () {
+                        $("#associateSucceededText").text(resources.simAssociationSucceeded.replace("{0}", deviceId).replace("{1}", iccid));
+                    }).fadeIn(250);
                 }
             });
         });

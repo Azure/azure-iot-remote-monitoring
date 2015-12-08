@@ -3059,7 +3059,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The association succeeded..
+        ///   Looks up a localized string similar to The association succeeded for device {0} with ICCID {1}..
         /// </summary>
         public static string SimAssociationSucceeded {
             get {
