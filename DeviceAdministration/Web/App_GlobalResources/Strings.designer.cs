@@ -2645,6 +2645,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove SIM Association.
+        /// </summary>
+        public static string RemoveSimAssociation {
+            get {
+                return ResourceManager.GetString("RemoveSimAssociation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Either the {0} parameter is missing or the value was not recognized as a valid {1}.
         /// </summary>
         public static string RequestFormatError {

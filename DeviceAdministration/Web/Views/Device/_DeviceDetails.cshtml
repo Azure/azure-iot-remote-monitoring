@@ -65,6 +65,16 @@
                     null)
             </p>
         }
+
+        @if (Model.IsCellular)
+        {
+            <p class="grid_detail_value">
+                <a id="deviceExplorer_removeSimAssociation"
+                   class="not_disable">
+                    @Strings.RemoveSimAssociation
+                </a>
+            </p>
+        }
     </section>
 }
 

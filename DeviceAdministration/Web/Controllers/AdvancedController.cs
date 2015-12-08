@@ -68,7 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public async Task AssociateIccidWithDevice(string deviceId, string iccid)
         {
-            if (string.IsNullOrEmpty(iccid) || string.IsNullOrEmpty(deviceId))
+            if (string.IsNullOrEmpty(iccid))
             {
                 throw new ArgumentNullException();
             }
@@ -76,9 +76,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             await UpdateDeviceAssociation(deviceId, iccid);
         }
 
+        public async Task RemoveIccidFromDevice(string deviceId)
+        {
+            await UpdateDeviceAssociation(deviceId, null);
+        }
+
         private async Task UpdateDeviceAssociation(string deviceId, string iccid)
         {
-            if (string.IsNullOrEmpty(iccid) || string.IsNullOrEmpty(deviceId))
+            if (string.IsNullOrEmpty(deviceId))
             {
                 throw new ArgumentNullException();
             }

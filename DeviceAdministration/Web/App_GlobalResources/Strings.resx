@@ -1249,4 +1249,7 @@
   <data name="RemoteNameNotResolved" xml:space="preserve">
     <value>The remote name could not be resolved</value>
   </data>
+  <data name="RemoveSimAssociation" xml:space="preserve">
+    <value>Remove SIM Association</value>
+  </data>
 </root>

@@ -114,6 +114,18 @@
 
             return false;
         });
+
+        $("#deviceExplorer_removeSimAssociation").on("click", function () {
+            $.ajax({
+                url: '/Advanced/RemoveIccidFromDevice',
+                data: { deviceId: self.deviceId },
+                async: true,
+                type: "post",
+                success: function () {
+                    getDeviceDetailsView(self.deviceId);
+                }
+            });
+        });
     }
 
     var setDetailsPaneLoaderHeight = function () {
