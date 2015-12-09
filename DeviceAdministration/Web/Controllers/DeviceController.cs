@@ -273,13 +273,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             deviceModel.DevicePropertyValueModels.AddRange(propModels);
 
             // check if value is cellular by checking iccid property
-            var iccid = deviceModel.DevicePropertyValueModels.Find(i => i.Name == DevicePropertiesConstants.ICCID);
-
-            if (iccid != null && !string.IsNullOrEmpty(iccid.Value))
-            {
-                deviceModel.IsCellular = true;
-                deviceModel.Iccid = iccid.Value; // todo: try get rid of null checks
-            }
+            deviceModel.IsCellular = device.SystemProperties.ICCID != null;
+            deviceModel.Iccid = device.SystemProperties.ICCID; // todo: try get rid of null checks
 
             return PartialView("_DeviceDetails", deviceModel);
         }

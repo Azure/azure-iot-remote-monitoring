@@ -89,7 +89,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
 
             var device = await _deviceLogic.GetDeviceAsync(deviceId);
-            device.DeviceProperties.ICCID = iccid;
+            device.SystemProperties.ICCID = iccid;
             await _deviceLogic.UpdateDeviceAsync(device);
         }
 
