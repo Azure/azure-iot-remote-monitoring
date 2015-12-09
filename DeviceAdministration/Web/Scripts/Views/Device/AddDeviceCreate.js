@@ -47,11 +47,11 @@
                 } else {
                     $('#iccidFlagCheckbox').attr('checked', false);
                     $("#noRegistration").show();
-                }                                                   
+                }
             } else {
                 $("#availableIccidList").hide();
                 $("#hiddenIccidSelection").val(null);
-            }       
+            }
         });
 
         $("#availableIccidList").change(function () {

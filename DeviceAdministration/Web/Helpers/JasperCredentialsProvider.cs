@@ -14,7 +14,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         public ICredentials Provide()
-        {          
+        {
             var apiRegistration = _registrationRepository.RecieveDetails();
             return new JasperCredentials()
             {

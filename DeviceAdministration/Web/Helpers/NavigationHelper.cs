@@ -28,7 +28,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         /// </param>
         public static void ApplySelection(
             IEnumerable<NavigationMenuItem> menuItems,
-            string controllerName, 
+            string controllerName,
             string actionName)
         {
             if (menuItems == null)
@@ -83,7 +83,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         /// <summary>
-        /// Gets the NavigationMenuItem that describe a controller's 
+        /// Gets the NavigationMenuItem that describe a controller's
         /// subnavigation items.
         /// </summary>
         /// <param name="controllerName">

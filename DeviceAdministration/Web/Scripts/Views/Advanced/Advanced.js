@@ -49,7 +49,7 @@
             if (!$("#" + this.id).val()) {
                 $("#" + this.id + "Required").show();
                 valOk = false;
-            } 
+            }
         });
         $("input[type=password]").each(function () {
             if (!$("#" + this.id).val()) {
@@ -153,7 +153,7 @@
 
         $("#associateSucceeded").hide();
     }
-  
+
     return {
         init : init,
         initSubView: initSubView,

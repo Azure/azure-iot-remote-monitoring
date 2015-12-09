@@ -3,7 +3,7 @@
 
     $.ajaxSetup({ cache: false });
     var self = this;
-    
+
     var getDeviceDetailsView = function (deviceId) {
         $('#loadingElement').show();
         self.deviceId = deviceId;
@@ -23,7 +23,7 @@
     var getCellularDetailsView = function () {
         $('#loadingElement').show();
 
-        var iccid = IoTApp.Helpers.IccidState.getIccidFromCookie();     
+        var iccid = IoTApp.Helpers.IccidState.getIccidFromCookie();
         if (iccid == null) {
             renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
             return;
