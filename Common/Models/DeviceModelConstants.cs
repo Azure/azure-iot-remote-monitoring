@@ -32,6 +32,7 @@
         public const string CREATED_TIME = "CreatedTime";
         public const string UPDATED_TIME = "UpdatedTime";
         public const string HOST_NAME = "HostName";
+        public const string ICCID = "ICCID";
     }
 
     public static class CommandModelConstants

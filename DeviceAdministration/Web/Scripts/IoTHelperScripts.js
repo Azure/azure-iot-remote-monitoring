@@ -107,6 +107,37 @@ IoTApp.createModule("IoTApp.Helpers.Numbers", function () {
     };
 }, [jQuery, Globalize, cultureInfo]);
 
+
+IoTApp.createModule("IoTApp.Helpers.IccidState", function () {
+    "use strict";
+
+    Cookies.json = true;
+
+    var cookieOptions = {
+        "path": '/',
+        "secure": true
+    };
+
+    var saveIccidToCookie = function (iccid) {
+        Cookies.set('iccid-id', { "iccid": iccid }, cookieOptions);
+    }
+    var getIccidFromCookie = function () {
+        var c = Cookies.get('iccid-id');
+
+        if (!c || !c.iccid) {
+            return null;
+        }
+
+        return c.iccid;
+    }
+
+    return {
+        cookieOptions: cookieOptions,
+        saveIccidToCookie: saveIccidToCookie,
+        getIccidFromCookie: getIccidFromCookie
+    };
+});
+
 IoTApp.createModule("IoTApp.Helpers.QueryString", function () {
 
     // returns a single parameter from the current query string

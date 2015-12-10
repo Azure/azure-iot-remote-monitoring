@@ -1,0 +1,41 @@
+﻿@using GlobalResources
+@{
+    ViewBag.Title = @Strings.CellularConnViewTitle;
+}
+
+<noscript>
+    <div class="error_noscript">
+        <h1>@Strings.NoscriptHeader</h1>
+        <p>@Strings.NoscriptP1</p>
+        <p>@Strings.NoscriptP2</p>
+    </div>
+</noscript>
+<script type="text/javascript" src="~/Scripts/Views/Advanced/Advanced.js"></script>
+<div class="advanced_content">
+    <header class="header_main">
+        <h1 class="header_main__head">@Strings.CellularConnViewTitle</h1>
+        <button class="header_main__button_back" type="button"></button>
+        <h2 class="header_main__subhead"></h2>
+    </header>
+    <div class="content_outer">
+        <div class="content_inner">
+            <div id="content">
+                @Html.Partial("_SelectAdvancedProcess")
+            </div>
+        </div>
+    </div>
+</div>
+@*The scripts below runs when the view loads but not for partials.*@
+<script type="text/javascript">
+    (function () {
+        'use strict';
+
+        var config = {
+            backButtonId: '.header_main__button_back',
+            contentId: '#content',
+            subheadId: '.header_main__subhead',
+        };
+
+        IoTApp.Advanced.init(config);
+    })();
+</script>

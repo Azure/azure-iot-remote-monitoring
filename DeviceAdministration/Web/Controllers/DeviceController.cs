@@ -4,12 +4,17 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DeviceManagement.Infrustructure.Connectivity.Exceptions;
+using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
+using DeviceManagement.Infrustructure.Connectivity.Services;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
@@ -20,21 +25,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     [OutputCache(CacheProfile = "NoCacheProfile")]
     public class DeviceController : Controller
     {
-        readonly IDeviceLogic _deviceLogic;
-        readonly IDeviceTypeLogic _deviceTypeLogic;
-        string iotHubName = string.Empty;
+        private readonly IApiRegistrationRepository _apiRegistrationRepository;
+        private readonly IExternalCellularService _cellularService;
+        private readonly IDeviceLogic _deviceLogic;
+        private readonly IDeviceTypeLogic _deviceTypeLogic;
+
+
+        private readonly string iotHubName = string.Empty;
+
+        public DeviceController(IDeviceLogic deviceLogic, IDeviceTypeLogic deviceTypeLogic,
+            IConfigurationProvider configProvider,
+            IExternalCellularService cellularService,
+            IApiRegistrationRepository apiRegistrationRepository)
+        {
+            _deviceLogic = deviceLogic;
+            _deviceTypeLogic = deviceTypeLogic;
+            _cellularService = cellularService;
+            _apiRegistrationRepository = apiRegistrationRepository;
+
+            iotHubName = configProvider.GetConfigurationSettingValue("iotHub.HostName");
+        }
 
         [RequirePermission(Permission.ViewDevices)]
         public ActionResult Index()
         {
             return View();
-        }
-
-        public DeviceController(IDeviceLogic deviceLogic, IDeviceTypeLogic deviceTypeLogic, IConfigurationProvider configProvider)
-        {
-            _deviceLogic = deviceLogic;
-            _deviceTypeLogic = deviceTypeLogic;
-            this.iotHubName = configProvider.GetConfigurationSettingValue("iotHub.HostName");
         }
 
         [RequirePermission(Permission.AddDevices)]
@@ -45,10 +60,32 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.AddDevices)]
-        public ActionResult SelectType(DeviceType deviceType)
+        public async Task<ActionResult> SelectType(DeviceType deviceType)
         {
+            if (_apiRegistrationRepository.IsApiRegisteredInAzure())
+            {
+                try
+                {
+                    var devices = await GetDevices();
+                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccids(devices);
+                    ViewBag.CanHaveIccid = true;
+                }
+                catch (CellularConnectivityException)
+                {
+                    ViewBag.CanHaveIccid = false;
+                }
+            }
+            else
+            {
+                ViewBag.CanHaveIccid = false;
+            }
+
             // device type logic getdevicetypeasync
-            var device = new UnregisteredDeviceModel { DeviceType = deviceType, IsDeviceIdSystemGenerated = true };
+            var device = new UnregisteredDeviceModel
+            {
+                DeviceType = deviceType,
+                IsDeviceIdSystemGenerated = true
+            };
             return PartialView("_AddDeviceCreate", device);
         }
 
@@ -57,13 +94,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddDeviceCreate(string button, UnregisteredDeviceModel model)
         {
-            bool isModelValid = ModelState.IsValid;
-            bool onlyValidating = (button != null && button.ToLower().Trim() == "check");
+            var isModelValid = ModelState.IsValid;
+            var onlyValidating = (button != null && button.ToLower().Trim() == "check");
 
-            if (object.ReferenceEquals(null, model) ||
-                (model.GetType() == typeof(object)))
+            if (ReferenceEquals(null, model) ||
+                (model.GetType() == typeof (object)))
             {
                 model = new UnregisteredDeviceModel();
+            }
+
+            if (_apiRegistrationRepository.IsApiRegisteredInAzure())
+            {
+                try
+                {
+                    var devices = await GetDevices();
+                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccids(devices);
+                    ViewBag.CanHaveIccid = true;
+                }
+                catch (CellularConnectivityException)
+                {
+                    ViewBag.CanHaveIccid = false;
+                }
+            }
+            else
+            {
+                ViewBag.CanHaveIccid = false;
             }
 
             //reset flag
@@ -83,13 +138,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             if (isModelValid)
             {
-                bool deviceExists = await GetDeviceExistsAsync(model.DeviceId);
+                var deviceExists = await GetDeviceExistsAsync(model.DeviceId);
 
                 model.IsDeviceIdUnique = !deviceExists;
 
                 if (model.IsDeviceIdUnique)
                 {
-                    if (!onlyValidating) 
+                    if (!onlyValidating)
                     {
                         return await Add(model);
                     }
@@ -134,21 +189,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             Debug.Assert(model != null, "model is a null reference.");
             Debug.Assert(
-                model.DeviceType != null, 
+                model.DeviceType != null,
                 "model.DeviceType is a null reference.");
 
             dynamic deviceWithKeys = await AddDeviceAsync(model);
 
             var newDevice = new RegisteredDeviceModel
-            { 
-                HostName = this.iotHubName,
+            {
+                HostName = iotHubName,
                 DeviceType = model.DeviceType,
                 DeviceId = DeviceSchemaHelper.GetDeviceID(deviceWithKeys.Device),
                 PrimaryKey = deviceWithKeys.SecurityKeys.PrimaryKey,
                 SecondaryKey = deviceWithKeys.SecurityKeys.SecondaryKey,
                 InstructionsUrl = model.DeviceType.InstructionsUrl
             };
-            
+
             return PartialView("_AddDeviceCopy", newDevice);
         }
 
@@ -158,7 +213,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             EditDevicePropertiesModel model;
             IEnumerable<DevicePropertyValueModel> propValModels;
 
-            model = new EditDevicePropertiesModel()
+            model = new EditDevicePropertiesModel
             {
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>()
             };
@@ -185,7 +240,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 if (!object.ReferenceEquals(device, null))
                 {
                     _deviceLogic.ApplyDevicePropertyValueModels(
-                        device, 
+                        device,
                         model.DevicePropertyValueModels);
 
                     await _deviceLogic.UpdateDeviceAsync(device);
@@ -206,7 +261,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 throw new InvalidOperationException("Unable to load device with deviceId " + deviceId);
             }
 
-            DeviceDetailModel deviceModel = new DeviceDetailModel()
+            var deviceModel = new DeviceDetailModel
             {
                 DeviceID = deviceId,
                 HubEnabledState = DeviceSchemaHelper.GetHubEnabledState(device),
@@ -218,7 +273,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             deviceModel.DevicePropertyValueModels.AddRange(propModels);
 
+            // check if value is cellular by checking iccid property
+            var iccid = deviceModel.DevicePropertyValueModels.Find(i => i.Name == DevicePropertiesConstants.ICCID);
+
+            if (iccid != null && !string.IsNullOrEmpty(iccid.Value))
+            {
+                deviceModel.IsCellular = true;
+                deviceModel.Iccid = iccid.Value; // todo: try get rid of null checks
+            }
+
             return PartialView("_DeviceDetails", deviceModel);
+        }
+
+        [RequirePermission(Permission.ViewDevices)]
+        public async Task<ActionResult> GetDeviceCellularDetails(string iccid)
+        {
+            var viewModel = new SimInformationViewModel();
+            viewModel.TerminalDevice = _cellularService.GetSingleTerminalDetails(new Iccid(iccid));
+            viewModel.SessionInfo = _cellularService.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ??
+                                    new SessionInfo();
+
+            return PartialView("_CellularInformation", viewModel);
         }
 
         [RequirePermission(Permission.ViewDeviceSecurityKeys)]
@@ -241,7 +316,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             var device = new RegisteredDeviceModel
             {
-                HostName = this.iotHubName,
+                HostName = iotHubName,
                 DeviceId = deviceId
             };
 
@@ -275,14 +350,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             dynamic device;
 
             Debug.Assert(
-                unregisteredDeviceModel != null, 
+                unregisteredDeviceModel != null,
                 "unregisteredDeviceModel is a null reference.");
 
             Debug.Assert(
                 unregisteredDeviceModel.DeviceType != null,
                 "unregisteredDeviceModel.DeviceType is a null reference.");
 
-            device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId, unregisteredDeviceModel.DeviceType.IsSimulatedDevice);
+            
+	       device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
+                unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
 
             return await this._deviceLogic.AddDeviceAsync(device);
         }
@@ -291,9 +368,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             dynamic existingDevice;
 
-            existingDevice = await this._deviceLogic.GetDeviceAsync(deviceId);
+            existingDevice = await _deviceLogic.GetDeviceAsync(deviceId);
 
             return !object.ReferenceEquals(existingDevice, null);
         }
+
+
+        private async Task<List<dynamic>> GetDevices()
+        {
+            var query = new DeviceListQuery
+            {
+                Take = 1000
+            };
+
+            var devices = await _deviceLogic.GetDevices(query);
+            return devices.Results;
+        }
+
     }
 }
