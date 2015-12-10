@@ -1,15 +1,16 @@
 ﻿using System;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Schema;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema
 {
     /// <summary>
     /// Helper class to encapsulate interactions with the device schema.
-    /// 
+    ///
     /// Elsewhere in the app we try to always deal with this flexible schema as dynamic,
-    /// but here we take a dependency on Json.Net where necessary to populate the objects 
+    /// but here we take a dependency on Json.Net where necessary to populate the objects
     /// behind the schema.
     /// </summary>
     public static class DeviceSchemaHelper
@@ -103,7 +104,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// The Device instance from which to extract an Updated Time value.
         /// </param>
         /// <returns>
-        /// The Updated Time value, extracted from <paramref name="device" />, or 
+        /// The Updated Time value, extracted from <paramref name="device" />, or
         /// null if it is null or does not exist.
         /// </returns>
         public static DateTime? GetUpdatedTime(dynamic device)
@@ -140,7 +141,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// Extracts a Hub Enabled State value from a Device instance.
         /// </summary>
         /// <param name="device">
-        /// The Device instance from which to extract a Hub Enabled State 
+        /// The Device instance from which to extract a Hub Enabled State
         /// value.
         /// </param>
         /// <returns>
@@ -162,7 +163,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
-        /// Several aspects of the device schema can be modified after passing through and ASA Event Stream 
+        /// Several aspects of the device schema can be modified after passing through and ASA Event Stream
         /// or some other process. Fix up the schema to keep it clean.
         /// </summary>
         /// <param name="device"></param>
@@ -173,7 +174,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
-        /// Verify that the hub enabled state is stored in the correct format, 
+        /// Verify that the hub enabled state is stored in the correct format,
         /// and try to fix incorrect formats if possible.
         /// </summary>
         /// <param name="device"></param>
@@ -191,15 +192,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
-        /// Running the device through ASA can add certain unwanted properties that will persist in 
-        /// non-strongly typed schemas like Json. Remove those unwanted properties. It may be necessary 
-        /// to check the type of data we are working with and pass the object on to another private 
+        /// Running the device through ASA can add certain unwanted properties that will persist in
+        /// non-strongly typed schemas like Json. Remove those unwanted properties. It may be necessary
+        /// to check the type of data we are working with and pass the object on to another private
         /// helper method to handle that specific type of data.
         /// </summary>
         /// <param name="device"></param>
         private static void RemoveUnwantedAsaEventProperties(dynamic device)
         {
-            if(device.GetType() == typeof(JObject))
+            if (device.GetType() == typeof(JObject))
             {
                 RemoveUnwantedAsaEventPropertiesFromJObject((JObject)device);
             }
@@ -224,19 +225,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <returns>_rid property value as string, or empty string if not found</returns>
         public static string GetDocDbRid(dynamic device)
         {
-            if (device == null)
-            {
-                throw new ArgumentNullException("device");
-            }
-
-            dynamic rid = device._rid;
-
-            if (rid == null)
-            {
-                return "";
-            }
-
-            return rid.ToString();
+            return SchemaHelper.GetDocDbRid(device);
         }
 
         /// <summary>
@@ -246,19 +235,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <returns>Value of the id, or empty string if not found</returns>
         public static string GetDocDbId(dynamic device)
         {
-            if (device == null)
-            {
-                throw new ArgumentNullException("device");
-            }
-
-            dynamic id = device.id;
-
-            if (id == null)
-            {
-                return "";
-            }
-
-            return id.ToString();
+            return SchemaHelper.GetDocDbId(device);
         }
 
         /// <summary>

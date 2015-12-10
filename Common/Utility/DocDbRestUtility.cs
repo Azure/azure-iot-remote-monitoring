@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Schema;
 using Newtonsoft.Json.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 
@@ -45,18 +45,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         private const string GET_VERB = "GET";
         private const string DELETE_VERB = "DELETE";
 
-        public DocDbRestUtility(IConfigurationProvider configProvider)
+        public DocDbRestUtility(string docDbEndpoint,
+            string docDbKey, string dbName, string collectionName)
         {
-            if (configProvider == null)
-            {
-                throw new ArgumentNullException("configProvider");
-            }
-
-            _docDbEndpoint = configProvider.GetConfigurationSettingValue("docdb.EndpointUrl");
-            _docDbKey = configProvider.GetConfigurationSettingValue("docdb.PrimaryAuthorizationKey");
-            _dbName = configProvider.GetConfigurationSettingValue("docdb.DatabaseId");
-            _collectionName = configProvider.GetConfigurationSettingValue("docdb.DocumentCollectionId");
+            _docDbEndpoint = docDbEndpoint;
+            _docDbKey = docDbKey;
+            _dbName = dbName;
+            _collectionName = collectionName;
         }
+
+        public DocDbRestUtility(IConfigurationProvider configProvider)
+            : this(configProvider.GetConfigurationSettingValue("docdb.EndpointUrl"),
+                configProvider.GetConfigurationSettingValue("docdb.PrimaryAuthorizationKey"),
+                configProvider.GetConfigurationSettingValue("docdb.DatabaseId"),
+                configProvider.GetConfigurationSettingValue("docdb.DocumentCollectionId"))
+        { }
 
         public async Task InitializeDatabase()
         {
@@ -92,7 +95,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             if (string.IsNullOrWhiteSpace(_dbId))
             {
                 await CreateDatabase();
-                await CreateDeviceCollection();
+                await CreateCollection();
             }
         }
 
@@ -108,7 +111,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             _dbId = ReflectionHelper.GetNamedPropertyValue(json, "_rid", true, false).ToString();
         }
 
-        public async Task InitializeDeviceCollection()
+        public async Task InitializeCollection()
         {
             string endpoint = string.Format("{0}dbs/{1}/colls", _docDbEndpoint, _dbId);
             string queryString = "SELECT * FROM colls c WHERE (c.id = @id)";
@@ -139,11 +142,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 
             if (string.IsNullOrWhiteSpace(_collectionId))
             {
-                await CreateDeviceCollection();
+                await CreateCollection();
             }
         }
 
-        private async Task CreateDeviceCollection()
+        private async Task CreateCollection()
         {
             string endpoint = string.Format("{0}dbs/{1}/colls", _docDbEndpoint, _dbId);
             var body = new JObject();
@@ -156,13 +159,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         }
 
         /// <summary>
-        /// Queries the device collection
+        /// Queries the collection
         /// https://msdn.microsoft.com/en-us/library/azure/dn783363.aspx
         /// </summary>
         /// <param name="queryString"></param>
         /// <param name="queryParameters"></param>
-        /// <returns>One page of device results, with metadata</returns>
-        public async Task<DocDbRestQueryResult> QueryDeviceManagementCollectionAsync(
+        /// <returns>One page of results, with metadata</returns>
+        public async Task<DocDbRestQueryResult> QueryCollectionAsync(
             string queryString, Dictionary<string, Object> queryParams, int pageSize = -1, string continuationToken = null)
         {
             if (string.IsNullOrWhiteSpace(queryString))
@@ -173,7 +176,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             return await QueryDocDbInternal(endpoint, queryString, queryParams, DocDbResourceType.Document, _collectionId, pageSize, continuationToken);
         }
 
-        private async Task<DocDbRestQueryResult> QueryDocDbInternal(string endpoint, string queryString, Dictionary<string, Object> queryParams, 
+        private async Task<DocDbRestQueryResult> QueryDocDbInternal(string endpoint, string queryString, Dictionary<string, Object> queryParams,
             DocDbResourceType resourceType, string resourceId, int pageSize = -1, string continuationToken = null)
         {
             if (string.IsNullOrWhiteSpace(endpoint))
@@ -243,60 +246,60 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
                 }
                 result.ContinuationToken = responseHeaders[CONTINUATION_HEADER_KEY];
 
-                return result; 
+                return result;
             }
         }
 
-        public async Task<JObject> SaveNewDeviceAsync(dynamic device)
+        public async Task<JObject> SaveNewDocumentAsync(dynamic document)
         {
-            if (device == null)
+            if (document == null)
             {
-                throw new ArgumentNullException("device");
+                throw new ArgumentNullException("document");
             }
 
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
-            if (device.id == null)
+            if (document.id == null)
             {
-                device.id = Guid.NewGuid().ToString();
+                document.id = Guid.NewGuid().ToString();
             }
-            string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceType.Document, _collectionId, device.ToString());
+            string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceType.Document, _collectionId, document.ToString());
 
             return JObject.Parse(response);
         }
 
         /// <summary>
-        /// Update the record for an existing device.
+        /// Update the record for an existing document.
         /// </summary>
-        /// <param name="updatedDevice"></param>
+        /// <param name="updatedDocument"></param>
         /// <returns></returns>
-        public async Task<JObject> UpdateDeviceAsync(dynamic updatedDevice)
+        public async Task<JObject> UpdateDocumentAsync(dynamic updatedDocument)
         {
-            if (updatedDevice == null)
+            if (updatedDocument == null)
             {
-                throw new ArgumentNullException("updatedDevice");
+                throw new ArgumentNullException("updatedDocument");
             }
 
-            string rid = DeviceSchemaHelper.GetDocDbRid(updatedDevice);
+            string rid = SchemaHelper.GetDocDbRid(updatedDocument);
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
-            string response = await PerformRestCallAsync(endpoint, PUT_VERB, DocDbResourceType.Document, rid, updatedDevice.ToString());
+            string response = await PerformRestCallAsync(endpoint, PUT_VERB, DocDbResourceType.Document, rid, updatedDocument.ToString());
 
             return JObject.Parse(response);
         }
 
         /// <summary>
-        /// Remove a device from the DocumentDB. If it succeeds the method will return asynchronously.
+        /// Remove a document from the DocumentDB. If it succeeds the method will return asynchronously.
         /// If it fails for any reason it will let any exception thrown bubble up.
         /// </summary>
-        /// <param name="device"></param>
+        /// <param name="document"></param>
         /// <returns></returns>
-        public async Task DeleteDeviceAsync(dynamic device)
+        public async Task DeleteDocumentAsync(dynamic document)
         {
-            if (device == null)
+            if (document == null)
             {
-                throw new ArgumentNullException("device");
+                throw new ArgumentNullException("document");
             }
 
-            string rid = DeviceSchemaHelper.GetDocDbRid(device);
+            string rid = SchemaHelper.GetDocDbRid(document);
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
             await PerformRestCallAsync(endpoint, DELETE_VERB, DocDbResourceType.Document, rid, "");
         }
@@ -332,12 +335,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         /// very short hash-looking string similar to jNHDTMVaDgB=</param>
         /// <returns></returns>
         [SuppressMessage(
-            "Microsoft.Globalization", 
+            "Microsoft.Globalization",
             "CA1308:NormalizeStringsToUppercase",
             Justification = "Token signatures are base on lower-case strings.")]
         private string GetAuthorizationToken(string requestVerb, string resourceType, string resourceId, string formattedTimeString)
         {
-            string signatureRaw = 
+            string signatureRaw =
                 string.Format(CultureInfo.InvariantCulture, "{0}\n{1}\n{2}\n{3}\n\n", requestVerb, resourceType, resourceId, formattedTimeString)
                 .ToLowerInvariant();
 
