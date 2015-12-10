@@ -11,6 +11,8 @@
             location.href = resources.redirectToIndexUrl;
         });
 
+        $("#availableIccidList").hide();
+
         //show or hide the device Id box based upon what
         //was selected when the partial loads/reloads
         if ($('#deviceGeneratedBySystemYes').is(':checked')) {
@@ -33,6 +35,27 @@
                 $("#deviceId").val("");
                 $("#deviceId").focus();
             }
+        });
+
+        $('#iccidFlagCheckbox').bind("click", function () {
+            if ($('#iccidFlagCheckbox').is(":checked") === true) {
+                if (resources.canHaveIccid === "True") {
+                    $('#availableIccidList').show();
+                    $("#hiddenIccidSelection").val(
+                        $("#availableIccidList option:selected").text()
+                    );
+                } else {
+                    $('#iccidFlagCheckbox').attr('checked', false);
+                    $("#noRegistration").show();
+                }
+            } else {
+                $("#availableIccidList").hide();
+                $("#hiddenIccidSelection").val(null);
+            }
+        });
+
+        $("#availableIccidList").change(function () {
+            $("#hiddenIccidSelection").val($("#availableIccidList option:selected").text());
         });
     }
 

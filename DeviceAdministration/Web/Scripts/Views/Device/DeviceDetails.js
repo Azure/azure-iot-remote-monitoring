@@ -3,6 +3,7 @@
 
     $.ajaxSetup({ cache: false });
     var self = this;
+
     var getDeviceDetailsView = function (deviceId) {
         $('#loadingElement').show();
         self.deviceId = deviceId;
@@ -19,13 +20,53 @@
 
     }
 
-    var onDeviceDetailsDone = function (html) {
+    var getCellularDetailsView = function () {
+        $('#loadingElement').show();
+
+        var iccid = IoTApp.Helpers.IccidState.getIccidFromCookie();
+        if (iccid == null) {
+            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
+            return;
+        }
+
+        $.get('/Device/GetDeviceCellularDetails', { iccid: iccid }, function (response) {
+            onCellularDetailsDone(response);
+        }).fail(function (response) {
+            $('#loadingElement').hide();
+            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
+        });
+
+    }
+
+    var onCellularDetailsDone = function (html) {
         $('#loadingElement').hide();
         $('#details_grid_container').empty();
         $('#details_grid_container').html(html);
+
+        $("#deviceExplorer_CellInformationBack").on("click", function () {
+            $('#details_grid_container').empty();
+            onDeviceDetailsDone(self.cachedDeviceHtml);
+        });
+    }
+
+    var onDeviceDetailsDone = function (html) {
+
+        if (self.cachedDeviceHtml  == null) {
+            self.cachedDeviceHtml = html;
+        }
+
+        $('#loadingElement').hide();
+        $('#details_grid_container').empty();
+        $('#details_grid_container').html(html);
+
         IoTApp.Helpers.Dates.localizeDates();
 
         setDetailsPaneLoaderHeight();
+
+        $("#deviceExplorer_cellInformation").on("click", function () {
+            $('#details_grid_container').empty();
+            getCellularDetailsView();
+        });
 
         $('#deviceExplorer_authKeys').on('click', function () {
             getDeviceKeys(self.deviceId);
@@ -72,6 +113,18 @@
             });
 
             return false;
+        });
+
+        $("#deviceExplorer_removeSimAssociation").on("click", function () {
+            $.ajax({
+                url: '/Advanced/RemoveIccidFromDevice',
+                data: { deviceId: self.deviceId },
+                async: true,
+                type: "post",
+                success: function () {
+                    getDeviceDetailsView(self.deviceId);
+                }
+            });
         });
     }
 

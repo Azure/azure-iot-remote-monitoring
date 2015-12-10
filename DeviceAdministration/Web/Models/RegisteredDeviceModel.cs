@@ -44,5 +44,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public string HostName { get; set; }
 
         public string InstructionsUrl { get; set; }
+
+        public string IsCellular { get; set; }
     }
 }

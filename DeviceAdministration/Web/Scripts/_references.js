@@ -37,3 +37,4 @@
 /// <reference path="views/devicerules/removedevicerule.js" />
 /// <reference path="moment-with-locales.min.js" />
 /// <reference path="jquery-ui-i18n.min.js" />
+/// <reference path="views/advanced/advanced.js" />

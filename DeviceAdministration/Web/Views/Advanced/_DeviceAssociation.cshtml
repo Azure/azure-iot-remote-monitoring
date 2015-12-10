@@ -1,0 +1,18 @@
+﻿@using GlobalResources
+<div class="dashboardLeftColumn">
+    @Html.Partial("_IccidAssociation")
+</div>
+<script type="text/javascript">
+    $(window).ready(
+        function () {
+            'use strict';
+            var config = {
+                subheadContent: '@Strings.DeviceAssociationTitle',
+                goBackUrl: '@Url.Action("SelectAdvancedProcess")'
+            };
+
+            IoTApp.Advanced.initSubView(config);
+            IoTApp.Advanced.initAssociation();
+        }
+    );
+</script>

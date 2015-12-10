@@ -7,7 +7,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 {
     public class UnregisteredDeviceModel
     {
-
         public const int MinimumDeviceIdLength = 2;
         public const int MaximumDeviceIdLength = 128;
 
@@ -24,5 +23,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public bool IsDeviceIdSystemGenerated { get; set; }
 
         public bool IsDeviceIdUnique { get; set; }
+
+        public string Iccid { get; set; }
     }
 }

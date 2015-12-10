@@ -102,5 +102,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the described property's current value.
+        /// </summary>
+        public bool IsCellular
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the described property's current value.
+        /// </summary>
+        public string Iccid
+        {
+            get;
+            set;
+        }
     }
 }

@@ -10,6 +10,7 @@
 @section Main
 {
     <main>
+        @{ Html.RenderAction("NavigationSubmenu", "Navigation"); }
         @RenderBody()
     </main>
 }
