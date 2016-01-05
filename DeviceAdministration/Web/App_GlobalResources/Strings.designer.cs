@@ -215,7 +215,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to API Registration.
+        ///   Looks up a localized string similar to Jasper API Registration.
         /// </summary>
         public static string ApiRegistration {
             get {
@@ -224,7 +224,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please click here to authenticate your credentials on the cellular platform and link it to your Azure IoT solution..
+        ///   Looks up a localized string similar to Register this solution with your Jasper Control Center platform credentials to authenticate Jasper API use..
         /// </summary>
         public static string ApiRegistrationDescription {
             get {
@@ -260,7 +260,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to API Registration.
+        ///   Looks up a localized string similar to Jasper API Registration.
         /// </summary>
         public static string ApiRegistrationTitle {
             get {
@@ -872,7 +872,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please click here to associate your IoT device with its mobile configuration and associated details from your cellular provider..
+        ///   Looks up a localized string similar to Associate your Azure IoT devices deployed on &lt;a href=&quot;http://www.jasper.com/iot-service-platform/control-center&quot;&gt;Control Center&lt;/a&gt; to this solution..
         /// </summary>
         public static string DeviceAssociationDescription {
             get {

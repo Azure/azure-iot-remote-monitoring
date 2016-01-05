@@ -1120,7 +1120,7 @@
     <value>Advanced</value>
   </data>
   <data name="ApiRegistration" xml:space="preserve">
-    <value>API Registration</value>
+    <value>Jasper API Registration</value>
   </data>
   <data name="CheckIccid" xml:space="preserve">
     <value>Check ICCID</value>
@@ -1168,16 +1168,16 @@
     <value>Logic Apps</value>
   </data>
   <data name="ApiRegistrationDescription" xml:space="preserve">
-    <value>Please click here to authenticate your credentials on the cellular platform and link it to your Azure IoT solution.</value>
+    <value>Register this solution with your Jasper Control Center platform credentials to authenticate Jasper API use.</value>
   </data>
   <data name="ApiRegistrationTitle" xml:space="preserve">
-    <value>API Registration</value>
+    <value>Jasper API Registration</value>
   </data>
   <data name="CellularConnViewTitle" xml:space="preserve">
     <value>Cellular Conn</value>
   </data>
   <data name="DeviceAssociationDescription" xml:space="preserve">
-    <value>Please click here to associate your IoT device with its mobile configuration and associated details from your cellular provider.</value>
+    <value>Associate your Azure IoT devices deployed on &lt;a href="http://www.jasper.com/iot-service-platform/control-center"&gt;Control Center&lt;/a&gt; to this solution.</value>
   </data>
   <data name="DeviceAssociationTitle" xml:space="preserve">
     <value>Device Association</value>
