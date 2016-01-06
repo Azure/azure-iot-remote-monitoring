@@ -3,7 +3,7 @@
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
 
 <header class="header_grid">
-    <a href="#" id="deviceExplorer_CellInformationBack" class="sim_information_back">@Strings.SimInformationBackText</a>
+    <a href="#" id="deviceExplorer_CellInformationBack" class="details_grid__button_back grid_subheadhead_detail">@Strings.SimInformationBackText</a>
 </header>
 
 <section class="details_grid_general">
@@ -17,3 +17,5 @@
     <p class="grid_detail_value"><strong>@Strings.ICCID</strong> @Model.TerminalDevice.Iccid.Id</p>
     <p class="grid_detail_value"><strong>@Strings.AccountId</strong> @Model.TerminalDevice.AccountId</p>
 </section>
+
+<div class="jasper_info_text details_grid_margin">@Strings.SimInformationInfoText</div>

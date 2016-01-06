@@ -21,11 +21,29 @@
     font-weight: bold;
 }
 
+.details_grid__button_back {
+    background-image: url("@{base-image-path}/button_back.svg");
+    background-position: 2px center;
+    background-repeat: no-repeat;
+    background-size: 15px 12px;
+    padding-left: 20px;
+    min-height: 12px;
+}
+
+.details_grid__button_back:hover {
+    text-decoration: none;
+}
+
 .details_grid_general {
     overflow: auto;
     background-color: @background-color;
     margin: 5px 20px 20px 20px;
     padding: 20px 13px 0 20px;
+}
+
+.details_grid_margin {
+    overflow: auto;
+    margin: 5px 20px 20px 20px;
 }
 
 .details_grid__no_selection {

@@ -3131,11 +3131,20 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  &lt;BACK.
+        ///   Looks up a localized string similar to SIM Information.
         /// </summary>
         public static string SimInformationBackText {
             get {
                 return ResourceManager.GetString("SimInformationBackText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delivered through the Jasper Control Center platform.
+        /// </summary>
+        public static string SimInformationInfoText {
+            get {
+                return ResourceManager.GetString("SimInformationInfoText", resourceCulture);
             }
         }
         

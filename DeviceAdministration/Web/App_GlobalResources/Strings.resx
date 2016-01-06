@@ -1114,7 +1114,7 @@
     <value>Account ID: </value>
   </data>
   <data name="SimInformationBackText" xml:space="preserve">
-    <value> &lt;BACK</value>
+    <value>SIM Information</value>
   </data>
   <data name="NavigationMenuItemAdvanced" xml:space="preserve">
     <value>Advanced</value>
@@ -1269,6 +1269,9 @@
   </data>
   <data name="PasswordLabel" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="SimInformationInfoText" xml:space="preserve">
+    <value>Delivered through the Jasper Control Center platform</value>
   </data>
   <data name="UsernameLabel" xml:space="preserve">
     <value>Username</value>
