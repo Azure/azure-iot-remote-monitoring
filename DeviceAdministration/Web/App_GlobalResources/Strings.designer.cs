@@ -1817,6 +1817,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ICCID.
+        /// </summary>
+        public static string IccidLabel {
+            get {
+                return ResourceManager.GetString("IccidLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IMEI: .
         /// </summary>
         public static string IMEI {

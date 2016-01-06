@@ -1261,6 +1261,9 @@
   <data name="BaseUrlLabel" xml:space="preserve">
     <value>Base URL</value>
   </data>
+  <data name="IccidLabel" xml:space="preserve">
+    <value>ICCID</value>
+  </data>
   <data name="LicenseKeyLabel" xml:space="preserve">
     <value>License Key</value>
   </data>
