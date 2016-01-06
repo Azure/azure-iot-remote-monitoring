@@ -242,6 +242,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To activate the Jasper integration to view and control your Control Center devices through IoT Suite please enter the following credentials:.
+        /// </summary>
+        public static string ApiRegistrationInfoText {
+            get {
+                return ResourceManager.GetString("ApiRegistrationInfoText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No API currently registered for this account.
         /// </summary>
         public static string ApiRegistrationNotAvailable {
@@ -395,7 +404,16 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The base URL of your API.
+        ///   Looks up a localized string similar to Base URL.
+        /// </summary>
+        public static string BaseUrlLabel {
+            get {
+                return ResourceManager.GetString("BaseUrlLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;ll find this just below the API key on the API page in Control Center..
         /// </summary>
         public static string BaseUrlToolTip {
             get {
@@ -2015,11 +2033,20 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The licence key from your API provider.
+        ///   Looks up a localized string similar to License Key.
         /// </summary>
-        public static string LicenceKeyToolTip {
+        public static string LicenseKeyLabel {
             get {
-                return ResourceManager.GetString("LicenceKeyToolTip", resourceCulture);
+                return ResourceManager.GetString("LicenseKeyLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;ll find this at the top left of the API page in Control Center..
+        /// </summary>
+        public static string LicenseKeyToolTip {
+            get {
+                return ResourceManager.GetString("LicenseKeyToolTip", resourceCulture);
             }
         }
         
@@ -2384,7 +2411,16 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The password to authenticate your username.
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string PasswordLabel {
+            get {
+                return ResourceManager.GetString("PasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is the password you use to log into Control Center..
         /// </summary>
         public static string PasswordToolTip {
             get {
@@ -3347,7 +3383,16 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The username you want to use to connect to the API.
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        public static string UsernameLabel {
+            get {
+                return ResourceManager.GetString("UsernameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is the username you use to log into Control Center..
         /// </summary>
         public static string UsernameToolTip {
             get {

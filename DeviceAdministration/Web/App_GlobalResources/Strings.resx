@@ -1138,16 +1138,16 @@
     <value>(Optional)</value>
   </data>
   <data name="BaseUrlToolTip" xml:space="preserve">
-    <value>The base URL of your API</value>
+    <value>You'll find this just below the API key on the API page in Control Center.</value>
   </data>
-  <data name="LicenceKeyToolTip" xml:space="preserve">
-    <value>The licence key from your API provider</value>
+  <data name="LicenseKeyToolTip" xml:space="preserve">
+    <value>You'll find this at the top left of the API page in Control Center.</value>
   </data>
   <data name="PasswordToolTip" xml:space="preserve">
-    <value>The password to authenticate your username</value>
+    <value>This is the password you use to log into Control Center.</value>
   </data>
   <data name="UsernameToolTip" xml:space="preserve">
-    <value>The username you want to use to connect to the API</value>
+    <value>This is the username you use to log into Control Center.</value>
   </data>
   <data name="AttachIccidToDevice" xml:space="preserve">
     <value>Attach a SIM ICCID to the device</value>
@@ -1254,5 +1254,20 @@
   </data>
   <data name="SimAssociationSucceeded" xml:space="preserve">
     <value>The association succeeded for device {0} with ICCID {1}.</value>
+  </data>
+  <data name="ApiRegistrationInfoText" xml:space="preserve">
+    <value>To activate the Jasper integration to view and control your Control Center devices through IoT Suite please enter the following credentials:</value>
+  </data>
+  <data name="BaseUrlLabel" xml:space="preserve">
+    <value>Base URL</value>
+  </data>
+  <data name="LicenseKeyLabel" xml:space="preserve">
+    <value>License Key</value>
+  </data>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="UsernameLabel" xml:space="preserve">
+    <value>Username</value>
   </data>
 </root>
