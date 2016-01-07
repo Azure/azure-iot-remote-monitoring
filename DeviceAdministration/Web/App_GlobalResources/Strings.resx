@@ -1114,13 +1114,13 @@
     <value>Account ID: </value>
   </data>
   <data name="SimInformationBackText" xml:space="preserve">
-    <value> &lt;BACK</value>
+    <value>SIM Information</value>
   </data>
   <data name="NavigationMenuItemAdvanced" xml:space="preserve">
     <value>Advanced</value>
   </data>
   <data name="ApiRegistration" xml:space="preserve">
-    <value>API Registration</value>
+    <value>Jasper API Registration</value>
   </data>
   <data name="CheckIccid" xml:space="preserve">
     <value>Check ICCID</value>
@@ -1138,16 +1138,16 @@
     <value>(Optional)</value>
   </data>
   <data name="BaseUrlToolTip" xml:space="preserve">
-    <value>The base URL of your API</value>
+    <value>You'll find this just below the API key on the API page in Control Center.</value>
   </data>
-  <data name="LicenceKeyToolTip" xml:space="preserve">
-    <value>The licence key from your API provider</value>
+  <data name="LicenseKeyToolTip" xml:space="preserve">
+    <value>You'll find this at the top left of the API page in Control Center.</value>
   </data>
   <data name="PasswordToolTip" xml:space="preserve">
-    <value>The password to authenticate your username</value>
+    <value>This is the password you use to log into Control Center.</value>
   </data>
   <data name="UsernameToolTip" xml:space="preserve">
-    <value>The username you want to use to connect to the API</value>
+    <value>This is the username you use to log into Control Center.</value>
   </data>
   <data name="AttachIccidToDevice" xml:space="preserve">
     <value>Attach a SIM ICCID to the device</value>
@@ -1168,16 +1168,16 @@
     <value>Logic Apps</value>
   </data>
   <data name="ApiRegistrationDescription" xml:space="preserve">
-    <value>Please click here to authenticate your credentials on the cellular platform and link it to your Azure IoT solution.</value>
+    <value>Register this solution with your Jasper Control Center platform credentials to authenticate Jasper API use.</value>
   </data>
   <data name="ApiRegistrationTitle" xml:space="preserve">
-    <value>API Registration</value>
+    <value>Jasper API Registration</value>
   </data>
   <data name="CellularConnViewTitle" xml:space="preserve">
     <value>Cellular Conn</value>
   </data>
   <data name="DeviceAssociationDescription" xml:space="preserve">
-    <value>Please click here to associate your IoT device with its mobile configuration and associated details from your cellular provider.</value>
+    <value>Associate your Azure IoT devices deployed on &lt;a href="http://www.jasper.com/iot-service-platform/control-center"&gt;Control Center&lt;/a&gt; to this solution.</value>
   </data>
   <data name="DeviceAssociationTitle" xml:space="preserve">
     <value>Device Association</value>
@@ -1254,5 +1254,26 @@
   </data>
   <data name="SimAssociationSucceeded" xml:space="preserve">
     <value>The association succeeded for device {0} with ICCID {1}.</value>
+  </data>
+  <data name="ApiRegistrationInfoText" xml:space="preserve">
+    <value>To activate the Jasper integration to view and control your Control Center devices through IoT Suite please enter the following credentials:</value>
+  </data>
+  <data name="BaseUrlLabel" xml:space="preserve">
+    <value>Base URL</value>
+  </data>
+  <data name="IccidLabel" xml:space="preserve">
+    <value>ICCID</value>
+  </data>
+  <data name="LicenseKeyLabel" xml:space="preserve">
+    <value>License Key</value>
+  </data>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="SimInformationInfoText" xml:space="preserve">
+    <value>Delivered through the Jasper Control Center platform</value>
+  </data>
+  <data name="UsernameLabel" xml:space="preserve">
+    <value>Username</value>
   </data>
 </root>
