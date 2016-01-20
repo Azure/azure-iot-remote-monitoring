@@ -117,10 +117,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             device.Version = SampleDeviceFactory.VERSION_1_0;
             device.ObjectType = SampleDeviceFactory.OBJECT_TYPE_DEVICE_INFO;
 
-            // Devices typically will not (and should not) be sending system properties;
-            // since our simulated devices share the structure code with the rest of the
-            // system, we need to explicitly handle this case to emulate real devices
-            device.SystemProperties = null;
+            DeviceSchemaHelper.RemoveSystemPropertiesForSimulatedDeviceInfo(device);
 
             return device;
         }

@@ -243,9 +243,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             device.CommandHistory = existingDevice.CommandHistory;
 
+            // Copy the existing system properties, or initialize them if they do not exist
             if (existingDevice.SystemProperties != null)
             {
                 device.SystemProperties = existingDevice.SystemProperties;
+            }
+            else
+            {
+                DeviceSchemaHelper.InitializeSystemProperties(device);
             }
 
             return await _deviceRegistryCrudRepository.UpdateDeviceAsync(device);
