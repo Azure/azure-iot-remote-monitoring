@@ -250,7 +250,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
             else
             {
-                DeviceSchemaHelper.InitializeSystemProperties(device);
+                DeviceSchemaHelper.InitializeSystemProperties(device, null);
             }
 
             return await _deviceRegistryCrudRepository.UpdateDeviceAsync(device);
@@ -1010,7 +1010,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             List<string> sampleIds = SampleDeviceFactory.GetDefaultDeviceNames();
             foreach(string id in sampleIds)
             {
-                dynamic device = DeviceSchemaHelper.BuildDeviceStructure(id, true);
+                dynamic device = DeviceSchemaHelper.BuildDeviceStructure(id, true, null);
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
                 await AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             }

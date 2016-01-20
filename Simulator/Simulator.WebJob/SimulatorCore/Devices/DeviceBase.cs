@@ -111,12 +111,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// <returns></returns>
         public virtual dynamic GetDeviceInfo()
         {
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(DeviceID, true);
+            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(DeviceID, true, null);
             device.DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(this);
             device.Commands = CommandSchemaHelper.GetSupportedCommands(this);
             device.Version = SampleDeviceFactory.VERSION_1_0;
             device.ObjectType = SampleDeviceFactory.OBJECT_TYPE_DEVICE_INFO;
 
+            // Remove the system properties from a device, to better emulate the behavior of real devices when sending device info messages.
             DeviceSchemaHelper.RemoveSystemPropertiesForSimulatedDeviceInfo(device);
 
             return device;
