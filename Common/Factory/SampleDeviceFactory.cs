@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         public static dynamic GetSampleSimulatedDevice(string deviceId, string key)
         {
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, true);
+            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, true, null);
 
             AssignDeviceProperties(deviceId, device);
             device.ObjectType = OBJECT_TYPE_DEVICE_INFO;
@@ -69,7 +69,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
                     randomNumber.Next(99999),
                     randomNumber.Next(99999));
 
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, false);
+            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, false, null);
             device.ObjectName = "IoT Device Description";
 
             AssignDeviceProperties(deviceId, device);

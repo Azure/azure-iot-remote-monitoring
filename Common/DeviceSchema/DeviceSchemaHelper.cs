@@ -242,13 +242,32 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// Build a valid device representation in the dynamic format used throughout the app.
         /// </summary>
         /// <param name="deviceId"></param>
-        /// <param name="iccid"></param>
         /// <param name="isSimulated"></param>
+        /// <param name="iccid"></param>
         /// <returns></returns>
-        public static dynamic BuildDeviceStructure(string deviceId, bool isSimulated, string iccid = null)
+        public static dynamic BuildDeviceStructure(string deviceId, bool isSimulated, string iccid)
         {
             JObject device = new JObject();
 
+            InitializeDeviceProperties(device, deviceId, isSimulated);
+            InitializeSystemProperties(device, iccid);
+
+            device.Add(DeviceModelConstants.COMMANDS, new JArray());
+            device.Add(DeviceModelConstants.COMMAND_HISTORY, new JArray());
+            device.Add(DeviceModelConstants.IS_SIMULATED_DEVICE, isSimulated);
+
+            return device;
+        }
+
+        /// <summary>
+        /// Initialize the device properties for a new device.
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="deviceId"></param>
+        /// <param name="isSimulated"></param>
+        /// <returns></returns>
+        public static void InitializeDeviceProperties(dynamic device, string deviceId, bool isSimulated)
+        {
             JObject deviceProps = new JObject();
             deviceProps.Add(DevicePropertiesConstants.DEVICE_ID, deviceId);
             deviceProps.Add(DevicePropertiesConstants.HUB_ENABLED_STATE, null);
@@ -256,16 +275,37 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             deviceProps.Add(DevicePropertiesConstants.DEVICE_STATE, "normal");
             deviceProps.Add(DevicePropertiesConstants.UPDATED_TIME, null);
 
+            (device as JObject).Add(DeviceModelConstants.DEVICE_PROPERTIES, deviceProps);
+        }
+
+        /// <summary>
+        /// Initialize the system properties for a new device.
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="iccid"></param>
+        /// <returns></returns>
+        public static void InitializeSystemProperties(dynamic device, string iccid)
+        {
             JObject systemProps = new JObject();
             systemProps.Add(SystemPropertiesConstants.ICCID, iccid);
 
-            device.Add(DeviceModelConstants.DEVICE_PROPERTIES, deviceProps);
-            device.Add(DeviceModelConstants.SYSTEM_PROPERTIES, systemProps);
-            device.Add(DeviceModelConstants.COMMANDS, new JArray());
-            device.Add(DeviceModelConstants.COMMAND_HISTORY, new JArray());
-            device.Add(DeviceModelConstants.IS_SIMULATED_DEVICE, isSimulated);
+            (device as JObject).Add(DeviceModelConstants.SYSTEM_PROPERTIES, systemProps);
+        }
 
-            return device;
+        /// <summary>
+        /// Remove the system properties from a device, to better emulate the behavior of real devices when sending device info messages.
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <param name="iccid"></param>
+        /// <param name="isSimulated"></param>
+        /// <returns></returns>
+        public static void RemoveSystemPropertiesForSimulatedDeviceInfo(dynamic device)
+        {
+            // Our simulated devices share the structure code with the rest of the system,
+            // so we need to explicitly handle this case; since this is only an issue when
+            // the code is shared in this way, this special case is kept separate from the
+            // rest of the initialization code which would be present in a non-simulated system
+            (device as JObject).Remove(DeviceModelConstants.SYSTEM_PROPERTIES);
         }
     }
 }

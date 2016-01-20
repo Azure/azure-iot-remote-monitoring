@@ -587,7 +587,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private void TestNullDeviceProperties(FilterType filterType)
         {
-            var device = DeviceSchemaHelper.BuildDeviceStructure(Guid.NewGuid().ToString(), true);
+            var device = DeviceSchemaHelper.BuildDeviceStructure(Guid.NewGuid().ToString(), true, null);
 
             device.DeviceProperties = null;
 
@@ -741,7 +741,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private static dynamic GetDefaultTestDevice()
         {
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure("DeviceID-Test", true);
+            dynamic device = DeviceSchemaHelper.BuildDeviceStructure("DeviceID-Test", true, null);
             dynamic props = DeviceSchemaHelper.GetDeviceProperties(device);
             props.AvailablePowerSources = 123;
             props.BatteryLevel = 12;
