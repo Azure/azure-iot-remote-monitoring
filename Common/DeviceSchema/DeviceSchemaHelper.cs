@@ -1,15 +1,16 @@
 ﻿using System;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Schema;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema
 {
     /// <summary>
     /// Helper class to encapsulate interactions with the device schema.
-    /// 
+    ///
     /// Elsewhere in the app we try to always deal with this flexible schema as dynamic,
-    /// but here we take a dependency on Json.Net where necessary to populate the objects 
+    /// but here we take a dependency on Json.Net where necessary to populate the objects
     /// behind the schema.
     /// </summary>
     public static class DeviceSchemaHelper
@@ -103,7 +104,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// The Device instance from which to extract an Updated Time value.
         /// </param>
         /// <returns>
-        /// The Updated Time value, extracted from <paramref name="device" />, or 
+        /// The Updated Time value, extracted from <paramref name="device" />, or
         /// null if it is null or does not exist.
         /// </returns>
         public static DateTime? GetUpdatedTime(dynamic device)
@@ -140,7 +141,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// Extracts a Hub Enabled State value from a Device instance.
         /// </summary>
         /// <param name="device">
-        /// The Device instance from which to extract a Hub Enabled State 
+        /// The Device instance from which to extract a Hub Enabled State
         /// value.
         /// </param>
         /// <returns>
@@ -162,7 +163,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
-        /// Several aspects of the device schema can be modified after passing through and ASA Event Stream 
+        /// Several aspects of the device schema can be modified after passing through and ASA Event Stream
         /// or some other process. Fix up the schema to keep it clean.
         /// </summary>
         /// <param name="device"></param>
@@ -173,7 +174,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
-        /// Verify that the hub enabled state is stored in the correct format, 
+        /// Verify that the hub enabled state is stored in the correct format,
         /// and try to fix incorrect formats if possible.
         /// </summary>
         /// <param name="device"></param>
@@ -191,15 +192,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
-        /// Running the device through ASA can add certain unwanted properties that will persist in 
-        /// non-strongly typed schemas like Json. Remove those unwanted properties. It may be necessary 
-        /// to check the type of data we are working with and pass the object on to another private 
+        /// Running the device through ASA can add certain unwanted properties that will persist in
+        /// non-strongly typed schemas like Json. Remove those unwanted properties. It may be necessary
+        /// to check the type of data we are working with and pass the object on to another private
         /// helper method to handle that specific type of data.
         /// </summary>
         /// <param name="device"></param>
         private static void RemoveUnwantedAsaEventProperties(dynamic device)
         {
-            if(device.GetType() == typeof(JObject))
+            if (device.GetType() == typeof(JObject))
             {
                 RemoveUnwantedAsaEventPropertiesFromJObject((JObject)device);
             }
@@ -224,19 +225,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <returns>_rid property value as string, or empty string if not found</returns>
         public static string GetDocDbRid(dynamic device)
         {
-            if (device == null)
-            {
-                throw new ArgumentNullException("device");
-            }
-
-            dynamic rid = device._rid;
-
-            if (rid == null)
-            {
-                return "";
-            }
-
-            return rid.ToString();
+            return SchemaHelper.GetDocDbRid(device);
         }
 
         /// <summary>
@@ -246,19 +235,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <returns>Value of the id, or empty string if not found</returns>
         public static string GetDocDbId(dynamic device)
         {
-            if (device == null)
-            {
-                throw new ArgumentNullException("device");
-            }
-
-            dynamic id = device.id;
-
-            if (id == null)
-            {
-                return "";
-            }
-
-            return id.ToString();
+            return SchemaHelper.GetDocDbId(device);
         }
 
         /// <summary>
@@ -266,11 +243,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="deviceId"></param>
         /// <param name="isSimulated"></param>
+        /// <param name="iccid"></param>
         /// <returns></returns>
-        public static dynamic BuildDeviceStructure(string deviceId, bool isSimulated)
+        public static dynamic BuildDeviceStructure(string deviceId, bool isSimulated, string iccid)
         {
             JObject device = new JObject();
 
+            InitializeDeviceProperties(device, deviceId, isSimulated);
+            InitializeSystemProperties(device, iccid);
+
+            device.Add(DeviceModelConstants.COMMANDS, new JArray());
+            device.Add(DeviceModelConstants.COMMAND_HISTORY, new JArray());
+            device.Add(DeviceModelConstants.IS_SIMULATED_DEVICE, isSimulated);
+
+            return device;
+        }
+
+        /// <summary>
+        /// Initialize the device properties for a new device.
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="deviceId"></param>
+        /// <param name="isSimulated"></param>
+        /// <returns></returns>
+        public static void InitializeDeviceProperties(dynamic device, string deviceId, bool isSimulated)
+        {
             JObject deviceProps = new JObject();
             deviceProps.Add(DevicePropertiesConstants.DEVICE_ID, deviceId);
             deviceProps.Add(DevicePropertiesConstants.HUB_ENABLED_STATE, null);
@@ -278,12 +275,37 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             deviceProps.Add(DevicePropertiesConstants.DEVICE_STATE, "normal");
             deviceProps.Add(DevicePropertiesConstants.UPDATED_TIME, null);
 
-            device.Add(DeviceModelConstants.DEVICE_PROPERTIES, deviceProps);
-            device.Add(DeviceModelConstants.COMMANDS, new JArray());
-            device.Add(DeviceModelConstants.COMMAND_HISTORY, new JArray());
-            device.Add(DeviceModelConstants.IS_SIMULATED_DEVICE, isSimulated);
+            (device as JObject).Add(DeviceModelConstants.DEVICE_PROPERTIES, deviceProps);
+        }
 
-            return device;
+        /// <summary>
+        /// Initialize the system properties for a new device.
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="iccid"></param>
+        /// <returns></returns>
+        public static void InitializeSystemProperties(dynamic device, string iccid)
+        {
+            JObject systemProps = new JObject();
+            systemProps.Add(SystemPropertiesConstants.ICCID, iccid);
+
+            (device as JObject).Add(DeviceModelConstants.SYSTEM_PROPERTIES, systemProps);
+        }
+
+        /// <summary>
+        /// Remove the system properties from a device, to better emulate the behavior of real devices when sending device info messages.
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <param name="iccid"></param>
+        /// <param name="isSimulated"></param>
+        /// <returns></returns>
+        public static void RemoveSystemPropertiesForSimulatedDeviceInfo(dynamic device)
+        {
+            // Our simulated devices share the structure code with the rest of the system,
+            // so we need to explicitly handle this case; since this is only an issue when
+            // the code is shared in this way, this special case is kept separate from the
+            // rest of the initialization code which would be present in a non-simulated system
+            (device as JObject).Remove(DeviceModelConstants.SYSTEM_PROPERTIES);
         }
     }
 }

@@ -7,6 +7,7 @@
         public const string VERSION = "Version";
         public const string IS_SIMULATED_DEVICE = "IsSimulatedDevice";
         public const string DEVICE_PROPERTIES = "DeviceProperties";
+        public const string SYSTEM_PROPERTIES = "SystemProperties";
         public const string COMMANDS = "Commands";
         public const string COMMAND_HISTORY = "CommandHistory";
         public const string ID = "id";
@@ -32,6 +33,11 @@
         public const string CREATED_TIME = "CreatedTime";
         public const string UPDATED_TIME = "UpdatedTime";
         public const string HOST_NAME = "HostName";
+    }
+
+    public static class SystemPropertiesConstants
+    {
+        public const string ICCID = "ICCID";
     }
 
     public static class CommandModelConstants

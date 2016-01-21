@@ -62,6 +62,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account ID: .
+        /// </summary>
+        public static string AccountId {
+            get {
+                return ResourceManager.GetString("AccountId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Action.
         /// </summary>
         public static string ActionHeader {
@@ -161,6 +170,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aggregated Usage: .
+        /// </summary>
+        public static string AggregatedUsage {
+            get {
+                return ResourceManager.GetString("AggregatedUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Alarm.
         /// </summary>
         public static string Alarm {
@@ -197,6 +215,69 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Jasper API Registration.
+        /// </summary>
+        public static string ApiRegistration {
+            get {
+                return ResourceManager.GetString("ApiRegistration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register this solution with your Jasper Control Center platform credentials to authenticate Jasper API use..
+        /// </summary>
+        public static string ApiRegistrationDescription {
+            get {
+                return ResourceManager.GetString("ApiRegistrationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration failed:  Please check credentials.
+        /// </summary>
+        public static string ApiRegistrationFailed {
+            get {
+                return ResourceManager.GetString("ApiRegistrationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To activate the Jasper integration to view and control your Control Center devices through IoT Suite please enter the following credentials:.
+        /// </summary>
+        public static string ApiRegistrationInfoText {
+            get {
+                return ResourceManager.GetString("ApiRegistrationInfoText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No API currently registered for this account.
+        /// </summary>
+        public static string ApiRegistrationNotAvailable {
+            get {
+                return ResourceManager.GetString("ApiRegistrationNotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration successful.
+        /// </summary>
+        public static string ApiRegistrationSuccessful {
+            get {
+                return ResourceManager.GetString("ApiRegistrationSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jasper API Registration.
+        /// </summary>
+        public static string ApiRegistrationTitle {
+            get {
+                return ResourceManager.GetString("ApiRegistrationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to AppConfig.
         /// </summary>
         public static string AppConfig {
@@ -211,6 +292,24 @@ namespace GlobalResources {
         public static string AppConfigLength {
             get {
                 return ResourceManager.GetString("AppConfigLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Associate.
+        /// </summary>
+        public static string Associate {
+            get {
+                return ResourceManager.GetString("Associate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attach a SIM ICCID to the device.
+        /// </summary>
+        public static string AttachIccidToDevice {
+            get {
+                return ResourceManager.GetString("AttachIccidToDevice", resourceCulture);
             }
         }
         
@@ -305,6 +404,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base URL.
+        /// </summary>
+        public static string BaseUrlLabel {
+            get {
+                return ResourceManager.GetString("BaseUrlLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;ll find this just below the API key on the API page in Control Center..
+        /// </summary>
+        public static string BaseUrlToolTip {
+            get {
+                return ResourceManager.GetString("BaseUrlToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Battery level.
         /// </summary>
         public static string BatteryLevel {
@@ -346,6 +463,51 @@ namespace GlobalResources {
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cellular Conn.
+        /// </summary>
+        public static string CellularConn {
+            get {
+                return ResourceManager.GetString("CellularConn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cellular Connectivity Management.
+        /// </summary>
+        public static string CellularConnectivityManagement {
+            get {
+                return ResourceManager.GetString("CellularConnectivityManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cellular Conn.
+        /// </summary>
+        public static string CellularConnViewTitle {
+            get {
+                return ResourceManager.GetString("CellularConnViewTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 400200.
+        /// </summary>
+        public static string CellularInvalidCreds {
+            get {
+                return ResourceManager.GetString("CellularInvalidCreds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check ICCID.
+        /// </summary>
+        public static string CheckIccid {
+            get {
+                return ResourceManager.GetString("CheckIccid", resourceCulture);
             }
         }
         
@@ -566,6 +728,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connection Status: .
+        /// </summary>
+        public static string ConnectionStatus {
+            get {
+                return ResourceManager.GetString("ConnectionStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Control+C to Copy.
         /// </summary>
         public static string ControlCToCopy {
@@ -616,6 +787,24 @@ namespace GlobalResources {
         public static string Create {
             get {
                 return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Limit Reached: .
+        /// </summary>
+        public static string CurrentLimitReached {
+            get {
+                return ResourceManager.GetString("CurrentLimitReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Rate Plan: .
+        /// </summary>
+        public static string CurrentRatePlan {
+            get {
+                return ResourceManager.GetString("CurrentRatePlan", resourceCulture);
             }
         }
         
@@ -697,6 +886,24 @@ namespace GlobalResources {
         public static string DeviceAddSelectTypeError {
             get {
                 return ResourceManager.GetString("DeviceAddSelectTypeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Associate your Azure IoT devices deployed on &lt;a href=&quot;http://www.jasper.com/iot-service-platform/control-center&quot;&gt;Control Center&lt;/a&gt; to this solution..
+        /// </summary>
+        public static string DeviceAssociationDescription {
+            get {
+                return ResourceManager.GetString("DeviceAssociationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device Association.
+        /// </summary>
+        public static string DeviceAssociationTitle {
+            get {
+                return ResourceManager.GetString("DeviceAssociationTitle", resourceCulture);
             }
         }
         
@@ -1124,6 +1331,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter a Iccid from Cellular Provider.
+        /// </summary>
+        public static string EnterIccid {
+            get {
+                return ResourceManager.GetString("EnterIccid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string Error {
@@ -1547,6 +1763,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Health Beat.
+        /// </summary>
+        public static string HealthBeat {
+            get {
+                return ResourceManager.GetString("HealthBeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Health Beat.
+        /// </summary>
+        public static string HealthBeatViewTitle {
+            get {
+                return ResourceManager.GetString("HealthBeatViewTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IOT HUB HOSTNAME.
         /// </summary>
         public static string Hostname {
@@ -1574,11 +1808,47 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ICCID: .
+        /// </summary>
+        public static string ICCID {
+            get {
+                return ResourceManager.GetString("ICCID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ICCID.
+        /// </summary>
+        public static string IccidLabel {
+            get {
+                return ResourceManager.GetString("IccidLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IMEI: .
+        /// </summary>
+        public static string IMEI {
+            get {
+                return ResourceManager.GetString("IMEI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Implicit Read-Only.
         /// </summary>
         public static string ImplicitReadOnlyRole {
             get {
                 return ResourceManager.GetString("ImplicitReadOnlyRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IMSI: .
+        /// </summary>
+        public static string IMSI {
+            get {
+                return ResourceManager.GetString("IMSI", resourceCulture);
             }
         }
         
@@ -1736,6 +2006,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to http://www.jasper.com/microsoft-iot.
+        /// </summary>
+        public static string JasperHelpLink {
+            get {
+                return ResourceManager.GetString("JasperHelpLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This key is currently in use.
         /// </summary>
         public static string KeyInUse {
@@ -1745,11 +2024,38 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last Session Start: .
+        /// </summary>
+        public static string LastSessionStart {
+            get {
+                return ResourceManager.GetString("LastSessionStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Let me define my own Device ID.
         /// </summary>
         public static string LetMeDefineMyOwnDeviceId {
             get {
                 return ResourceManager.GetString("LetMeDefineMyOwnDeviceId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License Key.
+        /// </summary>
+        public static string LicenseKeyLabel {
+            get {
+                return ResourceManager.GetString("LicenseKeyLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;ll find this at the top left of the API page in Control Center..
+        /// </summary>
+        public static string LicenseKeyToolTip {
+            get {
+                return ResourceManager.GetString("LicenseKeyToolTip", resourceCulture);
             }
         }
         
@@ -1768,6 +2074,24 @@ namespace GlobalResources {
         public static string LocalTime {
             get {
                 return ResourceManager.GetString("LocalTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logic Apps.
+        /// </summary>
+        public static string LogicApps {
+            get {
+                return ResourceManager.GetString("LogicApps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logic Apps.
+        /// </summary>
+        public static string LogicAppsViewTitle {
+            get {
+                return ResourceManager.GetString("LogicAppsViewTitle", resourceCulture);
             }
         }
         
@@ -1889,6 +2213,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Advanced.
+        /// </summary>
+        public static string NavigationMenuItemAdvanced {
+            get {
+                return ResourceManager.GetString("NavigationMenuItemAdvanced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
         public static string NavigationMenuItemDashboard {
@@ -1912,6 +2245,15 @@ namespace GlobalResources {
         public static string NavigationMenuItemDevices {
             get {
                 return ResourceManager.GetString("NavigationMenuItemDevices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advanced.
+        /// </summary>
+        public static string NavigationMenuItemsAdvanced {
+            get {
+                return ResourceManager.GetString("NavigationMenuItemsAdvanced", resourceCulture);
             }
         }
         
@@ -2060,11 +2402,38 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (Optional).
+        /// </summary>
+        public static string OptionalBrackets {
+            get {
+                return ResourceManager.GetString("OptionalBrackets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameters.
         /// </summary>
         public static string ParametersHeader {
             get {
                 return ResourceManager.GetString("ParametersHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string PasswordLabel {
+            get {
+                return ResourceManager.GetString("PasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is the password you use to log into Control Center..
+        /// </summary>
+        public static string PasswordToolTip {
+            get {
+                return ResourceManager.GetString("PasswordToolTip", resourceCulture);
             }
         }
         
@@ -2222,6 +2591,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The remote name could not be resolved.
+        /// </summary>
+        public static string RemoteNameNotResolved {
+            get {
+                return ResourceManager.GetString("RemoteNameNotResolved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove Device....
         /// </summary>
         public static string RemoveDevice {
@@ -2308,6 +2686,15 @@ namespace GlobalResources {
         public static string RemoveRuleFormatted {
             get {
                 return ResourceManager.GetString("RemoveRuleFormatted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove SIM Association.
+        /// </summary>
+        public static string RemoveSimAssociation {
+            get {
+                return ResourceManager.GetString("RemoveSimAssociation", resourceCulture);
             }
         }
         
@@ -2708,6 +3095,69 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SIM Association.
+        /// </summary>
+        public static string SimAssociation {
+            get {
+                return ResourceManager.GetString("SimAssociation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The association succeeded for device {0} with ICCID {1}..
+        /// </summary>
+        public static string SimAssociationSucceeded {
+            get {
+                return ResourceManager.GetString("SimAssociationSucceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SIM ICCID.
+        /// </summary>
+        public static string SimIccid {
+            get {
+                return ResourceManager.GetString("SimIccid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SIM Information....
+        /// </summary>
+        public static string SimInformation {
+            get {
+                return ResourceManager.GetString("SimInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SIM Information.
+        /// </summary>
+        public static string SimInformationBackText {
+            get {
+                return ResourceManager.GetString("SimInformationBackText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delivered through the Jasper Control Center platform.
+        /// </summary>
+        public static string SimInformationInfoText {
+            get {
+                return ResourceManager.GetString("SimInformationInfoText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SIM Status: .
+        /// </summary>
+        public static string SimStatus {
+            get {
+                return ResourceManager.GetString("SimStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your simulated device has been created with these settings.
         /// </summary>
         public static string SimulatorCredentialHeader {
@@ -2947,6 +3397,24 @@ namespace GlobalResources {
         public static string UpdateActionsIsDisabled {
             get {
                 return ResourceManager.GetString("UpdateActionsIsDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        public static string UsernameLabel {
+            get {
+                return ResourceManager.GetString("UsernameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is the username you use to log into Control Center..
+        /// </summary>
+        public static string UsernameToolTip {
+            get {
+                return ResourceManager.GetString("UsernameToolTip", resourceCulture);
             }
         }
         

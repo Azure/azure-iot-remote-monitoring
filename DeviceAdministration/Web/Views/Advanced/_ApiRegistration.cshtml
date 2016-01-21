@@ -1,0 +1,78 @@
+﻿@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.ApiRegistrationModel
+
+<div class="advanced_left_column">
+    <div class="jasper_info_text">@Strings.ApiRegistrationInfoText</div>
+    <fieldset class="registration_content">
+        <div class="registration_textbox">
+            <h2 class="registration_description">@Strings.BaseUrlLabel</h2>
+            <div>
+                @Html.TextBoxFor(model => model.BaseUrl, new { id = "BaseUrl", title = Strings.BaseUrlToolTip, @class = "api_input" })
+            </div>
+            <div class="api_check_field" id="BaseUrlRequired">
+                @Strings.RequiredValue
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="registration_content">
+        <div class="registration_textbox">
+            <h2 class="registration_description">@Strings.LicenseKeyLabel</h2>
+            <div>
+                @Html.TextBoxFor(model => model.LicenceKey, new { id = "LicenceKey", title = Strings.LicenseKeyToolTip, @class = "api_input" })
+            </div>
+            <div class="api_check_field" id="LicenceKeyRequired">
+                @Strings.RequiredValue
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="registration_content">
+        <div class="registration_textbox">
+            <h2 class="registration_description">@Strings.UsernameLabel</h2>
+            <div>
+                @Html.TextBoxFor(model => model.Username, new { id = "Username", title = Strings.UsernameToolTip, @class = "api_input" })
+            </div>
+            <div class="api_check_field" id="UsernameRequired">
+                @Strings.RequiredValue
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="registration_content">
+        <div class="registration_textbox">
+            <h2 class="registration_description">@Strings.PasswordLabel</h2>
+            <div>
+                @Html.PasswordFor(model => model.Password, new { id = "Password", title = Strings.PasswordToolTip, @class = "api_input" })
+            </div>
+            <div class="api_check_field" id="PasswordRequired">
+                @Strings.RequiredValue
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="fieldset_button">
+        <button id="editButton" class="button_base registration_edit_input" type="button">@Strings.Edit</button>
+        <button id="saveButton" class="button_base registration_save_input" type="button">@Strings.Save</button>
+    </fieldset>
+    <div class="api_save_registration_failed" id="registrationFailed">
+        @Strings.ApiRegistrationFailed
+    </div>
+    <div class="api_save_registration_passed" id="registrationPassed">
+        @Strings.ApiRegistrationSuccessful
+    </div>
+</div>
+
+<div class="jasper_help_link">
+    <a href="@Strings.JasperHelpLink" target="_blank">Need Help?</a>
+</div>
+
+    <script type="text/javascript">
+        $(window).ready(
+            function () {
+                'use strict';
+                var config = {
+                    subheadContent: '@Strings.ApiRegistrationTitle',
+                    goBackUrl: '@Url.Action("SelectAdvancedProcess")'
+                };
+                IoTApp.Advanced.initSubView(config);
+                IoTApp.Advanced.initRegistration();
+            }
+        );
+    </script>

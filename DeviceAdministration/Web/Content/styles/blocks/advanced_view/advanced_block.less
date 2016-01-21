@@ -1,0 +1,213 @@
+﻿.advanced_content {
+    padding-left: 95px;
+}
+
+.list_select_select_advanced_process {
+    min-width:1130px;
+    list-style: none;
+}
+
+.list_item_select_advanced_process {
+    position: relative;
+    float: left;
+    width: 515px;
+    min-height: 150px;
+    margin: 10px 0;
+    padding: 15px;
+    background-color: @background-color;
+
+    &:nth-child(2n+1) {
+        margin-right: 20px;
+    }
+
+    &:nth-last-child(1),
+    &:nth-last-child(2) {
+        border: 0;
+    }
+}
+
+.select_advanced_process_subhead {
+    margin-bottom: 1em;
+}
+
+.select_advanced_process_description {
+    font-size: .85em;
+    color:@text-devicedetail-color;
+    margin-bottom: 1em;
+}
+
+.button_select_advanced_process {
+    margin-top: 30px;
+}
+
+.registration_description {
+    font-size: .85em;
+    color: @text-devicedetail-color;
+}
+
+.registration_secondary_button {
+    margin-left: 1.8em;
+}
+
+.registration_content {
+    padding-left: 10px;
+    background-color: @background-color;
+    font-size: 1.4em;
+    color: #4d4d4d;
+
+    p {
+        margin: .4em 0 .85em 0;
+    }
+}
+
+.registration_textbox {
+    margin: 15px 0;
+}
+
+.api_save_registration_failed {
+    clear: both;
+    margin-top: .5em;
+    font-size: 16px;
+    background-repeat: no-repeat;
+    background-position: center left;
+    background-size: 18px 18px;
+    display: none;
+    color: @error-color;
+    background-image: url(img/icon_error.svg);
+}
+
+.api_save_registration_passed {
+    clear: both;
+    margin-top: .5em;
+    font-size: 16px;
+    background-repeat: no-repeat;
+    background-position: center left;
+    background-size: 18px 18px;
+    display: none;
+    color: @error-validate-color;
+    background-image: url(img/icon_confirmed.svg);
+}
+
+.api_registration_not_available {
+    clear: both;
+    margin-top: .5em;
+    font-size: 16px;
+    padding-left: 2em;
+    background-repeat: no-repeat;
+    background-position: center left;
+    background-size: 18px 18px;
+    display: none;
+    color: @error-color;
+    background-image: url(img/icon_error.svg);
+
+    &.iccid_association {
+        display:block;
+    }
+}
+
+.advanced_dropdown {
+    display: block;
+    float: left;
+    margin: .25em 1em 1.4em 0;
+    border-color: @form-textbox-border;
+    background-color: @form-textbox-background;
+    border-width: 1px;
+    font-size: .85em;
+    padding: 0 5px;
+    min-height: 30px;
+    box-sizing: content-box;
+}
+
+.add_new_button {
+  display: block;
+    float: left;
+    color: @button-color;
+    background-color: @button-background-color;
+    border: 1px solid @button-border-color;
+    font-size: 16px;
+    min-width: 6.45em;
+    padding: 0 1em;
+    min-height: 32px;
+    cursor: pointer;
+
+    &:disabled {
+        background-color: @button-disabled-background-color;
+        border-color: @button-disabled-border-color;
+        color: @text-secondary-color;
+    }
+}
+
+.api_check_field {
+    font-size: 16px;
+    padding-top:10px;
+    color: @error-color;
+    display: none;
+    float: right;
+    padding-right: 3em;
+}
+
+.api_input {
+    margin-bottom: 0.4em;
+    display: block;
+    float: left;
+    width: 460px;
+    margin: .25em 1em 0.4em 0;
+    border: 1px solid @form-textbox-border;
+    background-color: @form-textbox-background;
+    font-size: .85em;
+    padding: 0 5px;
+    min-height: 30px;
+    box-sizing: content-box;
+}
+
+.api_input:disabled {
+    color: @form-textbox-disabled-color;
+    background-color: @form-textbox-disabled-background;
+    border-color: @form-textbox-disabled-border;
+    font-style: italic;
+}
+
+.advanced_left_column {
+    width: 50%;
+    height: 100%;
+    float: left;
+    padding: 14px 7px 14px 14px;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.registration_save_input:disabled {
+    color: @form-textbox-disabled-color;
+    background-color: @form-textbox-disabled-background;
+    border-color: @form-textbox-disabled-border;
+}
+
+.registration_edit_input {
+    margin-right: 1em;
+}
+
+.registration_succeeded {
+    color: @error-validate-color;
+    font-size: 1em;
+    clear: both;
+}
+
+.jasper_help_link {
+    width: 50%;
+    height: 100%;
+    float: left;
+    padding: 14px 7px 14px 14px;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.jasper_info_text {
+    background-image: url("@{base-image-path}/icon_jasper.svg");
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    padding-left: 30px;
+    min-height: 30px;
+    margin-bottom: 1em;
+    font-size: 0.8em;
+}

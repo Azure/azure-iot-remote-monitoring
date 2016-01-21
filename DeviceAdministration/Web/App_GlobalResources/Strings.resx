@@ -1077,6 +1077,132 @@
   <data name="RemoveDeviceConfirmation" xml:space="preserve">
     <value>Remove Device</value>
   </data>
+  <data name="CellularConnectivityManagement" xml:space="preserve">
+    <value>Cellular Connectivity Management</value>
+  </data>
+  <data name="SimInformation" xml:space="preserve">
+    <value>SIM Information...</value>
+  </data>
+  <data name="ConnectionStatus" xml:space="preserve">
+    <value>Connection Status: </value>
+  </data>
+  <data name="LastSessionStart" xml:space="preserve">
+    <value>Last Session Start: </value>
+  </data>
+  <data name="SimStatus" xml:space="preserve">
+    <value>SIM Status: </value>
+  </data>
+  <data name="CurrentRatePlan" xml:space="preserve">
+    <value>Current Rate Plan: </value>
+  </data>
+  <data name="AggregatedUsage" xml:space="preserve">
+    <value>Aggregated Usage: </value>
+  </data>
+  <data name="IMEI" xml:space="preserve">
+    <value>IMEI: </value>
+  </data>
+  <data name="IMSI" xml:space="preserve">
+    <value>IMSI: </value>
+  </data>
+  <data name="CurrentLimitReached" xml:space="preserve">
+    <value>Current Limit Reached: </value>
+  </data>
+  <data name="ICCID" xml:space="preserve">
+    <value>ICCID: </value>
+  </data>
+  <data name="AccountId" xml:space="preserve">
+    <value>Account ID: </value>
+  </data>
+  <data name="SimInformationBackText" xml:space="preserve">
+    <value>SIM Information</value>
+  </data>
+  <data name="NavigationMenuItemAdvanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="ApiRegistration" xml:space="preserve">
+    <value>Jasper API Registration</value>
+  </data>
+  <data name="CheckIccid" xml:space="preserve">
+    <value>Check ICCID</value>
+  </data>
+  <data name="EnterIccid" xml:space="preserve">
+    <value>Enter a Iccid from Cellular Provider</value>
+  </data>
+  <data name="Associate" xml:space="preserve">
+    <value>Associate</value>
+  </data>
+  <data name="SimAssociation" xml:space="preserve">
+    <value>SIM Association</value>
+  </data>
+  <data name="OptionalBrackets" xml:space="preserve">
+    <value>(Optional)</value>
+  </data>
+  <data name="BaseUrlToolTip" xml:space="preserve">
+    <value>You'll find this just below the API key on the API page in Control Center.</value>
+  </data>
+  <data name="LicenseKeyToolTip" xml:space="preserve">
+    <value>You'll find this at the top left of the API page in Control Center.</value>
+  </data>
+  <data name="PasswordToolTip" xml:space="preserve">
+    <value>This is the password you use to log into Control Center.</value>
+  </data>
+  <data name="UsernameToolTip" xml:space="preserve">
+    <value>This is the username you use to log into Control Center.</value>
+  </data>
+  <data name="AttachIccidToDevice" xml:space="preserve">
+    <value>Attach a SIM ICCID to the device</value>
+  </data>
+  <data name="SimIccid" xml:space="preserve">
+    <value>SIM ICCID</value>
+  </data>
+  <data name="NavigationMenuItemsAdvanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="CellularConn" xml:space="preserve">
+    <value>Cellular Conn</value>
+  </data>
+  <data name="HealthBeat" xml:space="preserve">
+    <value>Health Beat</value>
+  </data>
+  <data name="LogicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="ApiRegistrationDescription" xml:space="preserve">
+    <value>Register this solution with your Jasper Control Center platform credentials to authenticate Jasper API use.</value>
+  </data>
+  <data name="ApiRegistrationTitle" xml:space="preserve">
+    <value>Jasper API Registration</value>
+  </data>
+  <data name="CellularConnViewTitle" xml:space="preserve">
+    <value>Cellular Conn</value>
+  </data>
+  <data name="DeviceAssociationDescription" xml:space="preserve">
+    <value>Associate your Azure IoT devices deployed on &lt;a href="http://www.jasper.com/iot-service-platform/control-center"&gt;Control Center&lt;/a&gt; to this solution.</value>
+  </data>
+  <data name="DeviceAssociationTitle" xml:space="preserve">
+    <value>Device Association</value>
+  </data>
+  <data name="HealthBeatViewTitle" xml:space="preserve">
+    <value>Health Beat</value>
+  </data>
+  <data name="LogicAppsViewTitle" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="ApiRegistrationFailed" xml:space="preserve">
+    <value>Registration failed:  Please check credentials</value>
+  </data>
+  <data name="ApiRegistrationSuccessful" xml:space="preserve">
+    <value>Registration successful</value>
+  </data>
+  <data name="ApiRegistrationNotAvailable" xml:space="preserve">
+    <value>No API currently registered for this account</value>
+  </data>
+  <data name="JasperHelpLink" xml:space="preserve">
+    <value>http://www.jasper.com/microsoft-iot</value>
+  </data>
+  <data name="CellularInvalidCreds" xml:space="preserve">
+    <value>400200</value>
+  </data>
   <data name="DeviceList" xml:space="preserve">
     <value>Device List</value>
   </data>
@@ -1119,5 +1245,35 @@
   </data>
   <data name="LocalTime" xml:space="preserve">
     <value>Local Time</value>
+  </data>
+  <data name="RemoteNameNotResolved" xml:space="preserve">
+    <value>The remote name could not be resolved</value>
+  </data>
+  <data name="RemoveSimAssociation" xml:space="preserve">
+    <value>Remove SIM Association</value>
+  </data>
+  <data name="SimAssociationSucceeded" xml:space="preserve">
+    <value>The association succeeded for device {0} with ICCID {1}.</value>
+  </data>
+  <data name="ApiRegistrationInfoText" xml:space="preserve">
+    <value>To activate the Jasper integration to view and control your Control Center devices through IoT Suite please enter the following credentials:</value>
+  </data>
+  <data name="BaseUrlLabel" xml:space="preserve">
+    <value>Base URL</value>
+  </data>
+  <data name="IccidLabel" xml:space="preserve">
+    <value>ICCID</value>
+  </data>
+  <data name="LicenseKeyLabel" xml:space="preserve">
+    <value>License Key</value>
+  </data>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="SimInformationInfoText" xml:space="preserve">
+    <value>Delivered through the Jasper Control Center platform</value>
+  </data>
+  <data name="UsernameLabel" xml:space="preserve">
+    <value>Username</value>
   </data>
 </root>

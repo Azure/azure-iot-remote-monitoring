@@ -22,6 +22,9 @@
         ViewRules,
         EditRules,
         DeleteRules,
-        ViewTelemetry
+        ViewTelemetry,
+        HealthBeat,
+        LogicApps,
+        CellularConn
     }
 }

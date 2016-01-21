@@ -234,7 +234,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             dynamic existingDevice = await GetDeviceAsync(DeviceSchemaHelper.GetDeviceID(device));
 
-            // Save the command history and the original created date of the existing device
+            // Save the command history, original created date, and system properties (if any) of the existing device
             if (DeviceSchemaHelper.GetDeviceProperties(existingDevice) != null)
             {
                 dynamic deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
@@ -242,6 +242,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             device.CommandHistory = existingDevice.CommandHistory;
+
+            // Copy the existing system properties, or initialize them if they do not exist
+            if (existingDevice.SystemProperties != null)
+            {
+                device.SystemProperties = existingDevice.SystemProperties;
+            }
+            else
+            {
+                DeviceSchemaHelper.InitializeSystemProperties(device, null);
+            }
 
             return await _deviceRegistryCrudRepository.UpdateDeviceAsync(device);
         }
@@ -1000,7 +1010,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             List<string> sampleIds = SampleDeviceFactory.GetDefaultDeviceNames();
             foreach(string id in sampleIds)
             {
-                dynamic device = DeviceSchemaHelper.BuildDeviceStructure(id, true);
+                dynamic device = DeviceSchemaHelper.BuildDeviceStructure(id, true, null);
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
                 await AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             }

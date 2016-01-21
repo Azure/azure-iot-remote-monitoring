@@ -122,6 +122,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             AssignRolesToPermission(Permission.DeleteRules,
                 ADMIN_ROLE_NAME);
+
+            AssignRolesToPermission(Permission.HealthBeat,
+                ADMIN_ROLE_NAME);
+
+            AssignRolesToPermission(Permission.LogicApps,
+                ADMIN_ROLE_NAME);
+
+            AssignRolesToPermission(Permission.CellularConn,
+                ADMIN_ROLE_NAME);
         }
 
         /// <summary>

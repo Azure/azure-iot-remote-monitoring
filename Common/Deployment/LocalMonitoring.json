@@ -84,7 +84,8 @@
             "type": "string",
             "metadata": {
                 "description": "The start time for Stream Analytics jobs"
-            }
+            },
+            "defaultValue": "notused"
         }
     },
     "variables": {
@@ -105,7 +106,8 @@
         "iotHubKeyResource": "[resourceId('Microsoft.Devices/Iothubs/Iothubkeys', parameters('iotHubName'), variables('iotHubKeyName'))]",
         "rulesCGName": "rulescg",
         "deviceInfoCGName": "deviceinfocg",
-        "telemetryCGName": "telemetrycg"
+        "telemetryCGName": "telemetrycg",
+        "suiteType": "LocalMonitoring"
     },
     "resources": [
         {
@@ -113,6 +115,9 @@
             "type": "Microsoft.DocumentDb/databaseAccounts",
             "name": "[parameters('docDBName')]",
             "location": "[variables('location')]",
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
             "properties": {
                 "name": "[parameters('docDBName')]",
                 "databaseAccountOfferType": "[parameters('docDBSku')]"
@@ -136,6 +141,9 @@
                 "name": "[parameters('iotHubSku')]",
                 "tier": "[parameters('iotHubTier')]",
                 "capacity": 1
+            },
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
             },
             "properties": {
                 "location": "[variables('location')]"
@@ -170,6 +178,9 @@
             "name": "[parameters('sbName')]",
             "type": "Microsoft.Eventhub/namespaces",
             "location": "[variables('location')]",
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
             "properties": {
                 "messagingSku": "[parameters('sbSku')]",
                 "region": "[variables('location')]"
@@ -212,12 +223,14 @@
                 "[concat('Microsoft.Storage/storageAccounts/', parameters('storageName'))]",
                 "[concat('Microsoft.Devices/Iothubs/', parameters('iotHubName'))]"
             ],
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
             "properties": {
                 "sku": {
                     "name": "standard"
                 },
                 "OutputStartMode": "[parameters('asaStartBehavior')]",
-                "OutputStartTime": "[parameters('asaStartTime')]",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [
@@ -317,12 +330,14 @@
                 "[concat('Microsoft.Eventhub/namespaces/', parameters('sbName'))]",
                 "[concat('Microsoft.Devices/Iothubs/', parameters('iotHubName'))]"
             ],
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
             "properties": {
                 "sku": {
                     "name": "standard"
                 },
                 "OutputStartMode": "[parameters('asaStartBehavior')]",
-                "OutputStartTime": "[parameters('asaStartTime')]",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [
@@ -391,12 +406,14 @@
                 "[concat('Microsoft.Eventhub/namespaces/', parameters('sbName'))]",
                 "[concat('Microsoft.Devices/Iothubs/', parameters('iotHubName'))]"
             ],
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
             "properties": {
                 "sku": {
                     "name": "standard"
                 },
                 "OutputStartMode": "[parameters('asaStartBehavior')]",
-                "OutputStartTime": "[parameters('asaStartTime')]",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [

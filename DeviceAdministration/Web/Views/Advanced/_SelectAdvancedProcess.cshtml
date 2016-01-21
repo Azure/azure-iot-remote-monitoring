@@ -1,0 +1,51 @@
+﻿@using GlobalResources
+<div>
+    <ul class="list_select_select_advanced_process">
+        <li class="list_item_select_advanced_process">
+            <h2 class="select_advanced_process_subhead">@Strings.ApiRegistrationTitle</h2>
+            <p class="select_advanced_process_description">
+                @Strings.ApiRegistrationDescription
+            </p>
+            <p>
+                <button class="add_new_button" type="submit" id="apiRegistrationButton">
+                    @Strings.Create
+                </button>
+            </p>
+        </li>
+        <li class="list_item_select_advanced_process">
+            <h2 class="select_advanced_process_subhead">@Strings.DeviceAssociationTitle</h2>
+            <p class="select_advanced_process_description">
+                @Html.Raw(@Strings.DeviceAssociationDescription)
+            </p>
+            <button class="add_new_button" type="submit" id="deviceAssociationButton">
+                @Strings.Create
+            </button>
+        </li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $(window).ready(
+        function () {
+            'use strict';
+
+            var config = {
+                subheadContent: '',
+                goBackUrl: ''
+            };
+
+            IoTApp.Advanced.initSubView(config);
+
+            $('#apiRegistrationButton').click(
+                function () {
+                    IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistration")');
+                }
+            );
+
+            $('#deviceAssociationButton').click(
+                function () {
+                    IoTApp.Advanced.redirecToPartial('@Url.Action("DeviceAssociation")');
+                }
+            );
+        }
+    );
+</script>

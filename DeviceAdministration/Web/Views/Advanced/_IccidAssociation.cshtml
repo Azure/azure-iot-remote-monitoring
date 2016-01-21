@@ -1,0 +1,41 @@
+﻿@using GlobalResources
+@if (ViewBag.HasRegistration)
+{
+    <fieldset class="registration_content">
+        <div class="registration_textbox">
+            <h2 class="registration_description">@Strings.DeviceId</h2>
+            @Html.DropDownList("UnassignedDeviceIds", new SelectList(ViewBag.UnassignedDeviceIds, ViewBag.UnassignedDeviceIds), new { @class = "advanced_dropdown" })
+        </div>
+    </fieldset>
+    <fieldset class="registration_content">
+        <div class="registration_textbox">
+            <h2 class="registration_description">@Strings.IccidLabel</h2>
+                @Html.DropDownList("UnassignedIccids", new SelectList(ViewBag.UnassignedIccidList, ViewBag.UnassignedIccidList), new { @class = "advanced_dropdown" })         
+        </div>
+    </fieldset>
+    <div class="fieldset_button">
+        <button id="associateButton" class="add_new_button" type="button">@Strings.Associate</button>
+    </div>
+    <div id="associateSucceeded" class="registration_succeeded">
+        <h2>&#10004; <span id="associateSucceededText"></span></h2>
+    </div>
+
+    <script>
+        "use strict";
+        var resources = {
+            simAssociationSucceeded: '@Strings.SimAssociationSucceeded'
+        };
+    </script>
+}
+else
+{
+    <fieldset class="registration_content">
+        <div class="registration_textbox">
+            <div class="api_registration_not_available iccid_association" id="noRegistration">
+                @Strings.ApiRegistrationNotAvailable
+            </div>
+        </div>
+    </fieldset>
+}
+
+

@@ -15,7 +15,7 @@ ClearDNSCache
 InitializeEnvironment $environmentName
 
 # Set environment specific variables 
-$suitename = "IotSuiteLocal"
+$suitename = "LocalRM"
 $suiteType = "LocalMonitoring"
 $deploymentTemplatePath = "$(Split-Path $MyInvocation.MyCommand.Path)\LocalMonitoring.json"
 $global:site = "https://localhost:44305/"
@@ -31,6 +31,15 @@ if ($environmentName -ne "local")
     #[string]$branch = "$(git symbolic-ref --short -q HEAD)"
     $cloudDeploy = $true
 }
+else
+{
+    $legacyNameExists = (Get-AzureResourceGroup -Tag @{Name="IotSuiteType";Value=$suiteType} | ?{$_.ResourceGroupName -eq "IotSuiteLocal"}) -ne $null
+    if ($legacyNameExists)
+    {
+        $suiteName = "IotSuiteLocal"
+    }
+}
+
 $suiteExists = (Get-AzureResourceGroup -Tag @{Name="IotSuiteType";Value=$suiteType} | ?{$_.ResourceGroupName -eq $suiteName}) -ne $null
 $resourceGroupName = (GetResourceGroup -Name $suiteName -Type $suiteType).ResourceGroupName
 $storageAccount = GetAzureStorageAccount $suiteName $resourceGroupName
@@ -108,11 +117,11 @@ if ($cloudDeploy)
     }
 }
 
-# Stream analytics does not auto stop, and requires a start time for both create and update as well as stop if already exists
-[string]$startTime = (get-date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
-$null = StopExistingStreamAnalyticsJobs $resourceGroupName
-$params += @{asaStartBehavior='CustomTime'}
-$params += @{asaStartTime=$startTime}
+# Stream analytics does not auto stop, and if already exists should be set to LastOutputEventTime to not lose data
+if (StopExistingStreamAnalyticsJobs $resourceGroupName)
+{
+    $params += @{asaStartBehavior='LastOutputEventTime'}
+}
 
 Write-Host "Provisioning resources, if this is the first time, this operation can take up 10 minutes..."
 $result = New-AzureResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $deploymentTemplatePath -TemplateParameterObject $params -Verbose
