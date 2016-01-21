@@ -120,7 +120,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
 
         private async Task ProcessAction(dynamic eventData)
         {
-            if (eventData == null) 
+            if (eventData == null)
             {
                 Trace.TraceWarning("Action event is null");
                 return;
@@ -132,18 +132,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                 // https://social.msdn.microsoft.com/Forums/office/en-US/c79a662b-5db1-4775-ba1a-23df1310091d/azure-table-storage-account-output-property-names-are-lowercase?forum=AzureStreamAnalytics 
 
                 string deviceId = eventData.deviceid;
-                string temperatureRuleOutput = eventData.temperatureruleoutput;
-
-                if (!string.IsNullOrWhiteSpace(temperatureRuleOutput))
+                string ruleOutput = eventData.ruleoutput;
+                Guid eventToken = (Guid) eventData.eventtoken;
+                
+                if (ruleOutput.Equals("AlarmTemp", StringComparison.OrdinalIgnoreCase))
                 {
                     Trace.TraceInformation("ProcessAction: temperature rule triggered!");
-                    double tempReading = ExtractDouble(eventData.tempreading);
+                    
+                    double tempReading = ExtractDouble(eventData.reading);
 
-                    string tempActionId = await _actionMappingLogic.GetActionIdFromRuleOutputAsync(temperatureRuleOutput);
+                    string tempActionId = await _actionMappingLogic.GetActionIdFromRuleOutputAsync(ruleOutput);
 
                     if (!string.IsNullOrWhiteSpace(tempActionId))
                     {
                         await _actionLogic.ExecuteLogicAppAsync(
+                        _configurationProvider,
+                        eventToken,
                         tempActionId,
                         deviceId,
                         "Temperature",
@@ -151,21 +155,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                     }
                     else
                     {
-                        Trace.TraceError("ActionProcessor: tempActionId value is empty for temperatureRuleOutput '{0}'", temperatureRuleOutput);
+                        Trace.TraceError("ActionProcessor: tempActionId value is empty for temperatureRuleOutput '{0}'", ruleOutput);
                     }
                 }
 
-                string humidityRuleOutput = eventData.humidityruleoutput;
-                if (!string.IsNullOrWhiteSpace(humidityRuleOutput))
+                if (ruleOutput.Equals("AlarmHumidity", StringComparison.OrdinalIgnoreCase))
                 {
                     Trace.TraceInformation("ProcessAction: humidity rule triggered!");
-                    double humidityReading = ExtractDouble(eventData.humidityreading);
+                    double humidityReading = ExtractDouble(eventData.reading);
 
-                    string humidityActionId = await _actionMappingLogic.GetActionIdFromRuleOutputAsync(humidityRuleOutput);
+                    string humidityActionId = await _actionMappingLogic.GetActionIdFromRuleOutputAsync(ruleOutput);
 
                     if (!string.IsNullOrWhiteSpace(humidityActionId))
                     {
                         await _actionLogic.ExecuteLogicAppAsync(
+                            _configurationProvider,
+                            eventToken,
                             humidityActionId,
                             deviceId,
                             "Humidity",
@@ -173,7 +178,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                     }
                     else
                     {
-                        Trace.TraceError("ActionProcessor: humidityActionId value is empty for humidityRuleOutput '{0}'", humidityRuleOutput);
+                        Trace.TraceError("ActionProcessor: humidityActionId value is empty for humidityRuleOutput '{0}'", ruleOutput);
                     }
                 }
             }
@@ -183,7 +188,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                 Trace.TraceError(e.ToString());
             }
         }
-
+        
         private double ExtractDouble(dynamic value)
         {
             if (value == null)

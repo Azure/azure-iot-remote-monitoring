@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WebJob.Processors;
-using Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WebJob
 {
@@ -52,9 +51,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                 {
                     BuildContainer();
 
-                    StartEventProcessorHost();
                     StartActionProcessorHost();
-                    StartMessageFeedbackProcessorHost();
 
                     RunAsync().Wait();
                 }
@@ -81,25 +78,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             eventProcessorContainer = builder.Build();
         }
 
-        static void StartEventProcessorHost()
-        {
-            Trace.TraceInformation("Starting Event Processor");
-            var eventProcessor = eventProcessorContainer.Resolve<IDeviceEventProcessor>();
-            eventProcessor.Start(cancellationTokenSource.Token);
-        }
-
         static void StartActionProcessorHost()
         {
             Trace.TraceInformation("Starting action processor");
             var actionProcessor = eventProcessorContainer.Resolve<IActionEventProcessor>();
             actionProcessor.Start();
-        }
-
-        static void StartMessageFeedbackProcessorHost()
-        {
-            Trace.TraceInformation("Starting command feedback processor");
-            var feedbackProcessor = eventProcessorContainer.Resolve<IMessageFeedbackProcessor>();
-            feedbackProcessor.Start();
         }
 
         static async Task RunAsync()

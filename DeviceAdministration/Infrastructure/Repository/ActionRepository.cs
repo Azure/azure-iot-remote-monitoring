@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+using Microsoft.Crm.Sdk.Helper;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -21,11 +25,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return await Task.Run(() => { return _actionIds; });
         }
 
-        public async Task<bool> ExecuteLogicAppAsync(string actionId, string deviceId, string measurementName, double measuredValue)
+        public async Task<bool> ExecuteLogicAppAsync(IConfigurationProvider configurationProvider, Guid eventToken, string actionId, string deviceId, string measurementName, double measuredValue)
         {
-            Debug.WriteLine("ExecuteLogicAppAsync is not yet implemented");
+            Debug.WriteLine("Writing alert to CRM");
 
-            await Task.Run(() => { });
+            await Task.Run(() =>
+            {
+                CrmActionProcessor.CreateServiceAlert(configurationProvider, eventToken, deviceId, actionId);
+            });
             return false;
         }
     }

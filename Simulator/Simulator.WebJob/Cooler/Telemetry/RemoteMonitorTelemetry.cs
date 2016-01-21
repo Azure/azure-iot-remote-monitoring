@@ -47,6 +47,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             {
                 if (TelemetryActive)
                 {
+                    monitorData.EventToken = Guid.NewGuid();
                     monitorData.DeviceId = _deviceId;
                     monitorData.Temperature = _temperatureGenerator.GetNextValue();
                     monitorData.Humidity = _humidityGenerator.GetNextValue();

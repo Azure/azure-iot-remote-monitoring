@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{5959C109-5369-4FF7-8B55-605A79FDF200}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "DeviceAdministration\Web\Web.csproj", "{2101F5D8-84ED-47BC-8254-6505819E17C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "DeviceAdministration\Infrastructure\Infrastructure.csproj", "{54B5B211-B661-42E9-AF2D-87712A37D608}"
+	ProjectSection(ProjectDependencies) = postProject
+		{811F4323-C3AC-4992-ADC9-DC3BDDB5157E} = {811F4323-C3AC-4992-ADC9-DC3BDDB5157E}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventProcessor.WebJob", "EventProcessor\EventProcessor.WebJob\EventProcessor.WebJob.csproj", "{588C29C8-3BF8-4CF6-89A7-33D611388E0E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{811F4323-C3AC-4992-ADC9-DC3BDDB5157E} = {811F4323-C3AC-4992-ADC9-DC3BDDB5157E}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator.WebJob", "Simulator\Simulator.WebJob\Simulator.WebJob.csproj", "{8F0FF371-2306-4210-9C22-0D0657B595DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3E3CB1FA-112D-49FB-A60A-71085BF01992}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebJobHost", "WebJobHost\WebJobHost.csproj", "{350C5961-0778-45F8-9A59-D309FCD653DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{42031CBE-7F96-4B37-8DE8-FE30A3F2B0CB}"
+	ProjectSection(SolutionItems) = preProject
+		WebEssentials-Settings.json = WebEssentials-Settings.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMHelper", "CRMHelper\CRMHelper.csproj", "{811F4323-C3AC-4992-ADC9-DC3BDDB5157E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5959C109-5369-4FF7-8B55-605A79FDF200} = {5959C109-5369-4FF7-8B55-605A79FDF200}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5959C109-5369-4FF7-8B55-605A79FDF200}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5959C109-5369-4FF7-8B55-605A79FDF200}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5959C109-5369-4FF7-8B55-605A79FDF200}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5959C109-5369-4FF7-8B55-605A79FDF200}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2101F5D8-84ED-47BC-8254-6505819E17C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2101F5D8-84ED-47BC-8254-6505819E17C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2101F5D8-84ED-47BC-8254-6505819E17C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2101F5D8-84ED-47BC-8254-6505819E17C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54B5B211-B661-42E9-AF2D-87712A37D608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54B5B211-B661-42E9-AF2D-87712A37D608}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54B5B211-B661-42E9-AF2D-87712A37D608}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54B5B211-B661-42E9-AF2D-87712A37D608}.Release|Any CPU.Build.0 = Release|Any CPU
+		{588C29C8-3BF8-4CF6-89A7-33D611388E0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{588C29C8-3BF8-4CF6-89A7-33D611388E0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{588C29C8-3BF8-4CF6-89A7-33D611388E0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{588C29C8-3BF8-4CF6-89A7-33D611388E0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F0FF371-2306-4210-9C22-0D0657B595DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F0FF371-2306-4210-9C22-0D0657B595DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F0FF371-2306-4210-9C22-0D0657B595DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F0FF371-2306-4210-9C22-0D0657B595DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{350C5961-0778-45F8-9A59-D309FCD653DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{350C5961-0778-45F8-9A59-D309FCD653DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{350C5961-0778-45F8-9A59-D309FCD653DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{350C5961-0778-45F8-9A59-D309FCD653DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{811F4323-C3AC-4992-ADC9-DC3BDDB5157E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{811F4323-C3AC-4992-ADC9-DC3BDDB5157E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{811F4323-C3AC-4992-ADC9-DC3BDDB5157E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{811F4323-C3AC-4992-ADC9-DC3BDDB5157E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

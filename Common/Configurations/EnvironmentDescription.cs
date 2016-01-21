@@ -53,12 +53,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
                 }
             }
         }
-
-        public bool SettingExists(string settingName)
-        {
-            return !string.IsNullOrEmpty(this.GetSetting(settingName, false));
-        }
-
+        
         public string GetSetting(string settingName, bool errorOnNull = true)
         {
             if (string.IsNullOrEmpty(settingName))
@@ -88,20 +83,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
             return this.document.SelectSingleNode(xpath);
         }
 
-        public bool SetSetting(string settingName, string settingValue)
-        {
-            return this.SetSetting(this.GetSettingNode(settingName), settingValue);
-        }
-
-        public bool SetSetting(IXPathNavigable node, string settingValue)
-        {
-            if (node != null)
-            {
-                ((XmlNode)node).Attributes[ValueAttributeName].Value = settingValue;
-                this.updatedValuesCount++;
-                return true;
-            }
-            return false;
-        }
     }
 }
