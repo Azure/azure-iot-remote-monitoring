@@ -165,7 +165,8 @@
         "iotHubKeyResource": "[resourceId('Microsoft.Devices/Iothubs/Iothubkeys', parameters('iotHubName'), variables('iotHubKeyName'))]",
         "rulesCGName": "rulescg",
         "deviceInfoCGName": "deviceinfocg",
-        "telemetryCGName": "telemetrycg"
+        "telemetryCGName": "telemetrycg",
+        "suiteType": "RemoteMonitoring"
     },
     "resources": [
         {
@@ -173,6 +174,9 @@
             "type": "Microsoft.DocumentDb/databaseAccounts",
             "name": "[parameters('docDBName')]",
             "location": "[variables('location')]",
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
             "properties": {
                 "name": "[parameters('docDBName')]",
                 "databaseAccountOfferType": "[parameters('docDBSku')]"
@@ -188,6 +192,9 @@
                 "product": "mapapis",
                 "name": "internal1",
                 "promotionCode": null
+            },
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
             },
             "properties": { }
         },
@@ -209,6 +216,9 @@
                 "name": "[parameters('iotHubSku')]",
                 "tier": "[parameters('iotHubTier')]",
                 "capacity": 1
+            },
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
             },
             "properties": {
                 "location": "[variables('location')]"
@@ -243,6 +253,9 @@
             "name": "[parameters('sbName')]",
             "type": "Microsoft.Eventhub/namespaces",
             "location": "[variables('location')]",
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
             "properties": {
                 "messagingSku": "[parameters('sbSku')]",
                 "region": "[variables('location')]"
@@ -285,6 +298,9 @@
                 "[concat('Microsoft.Storage/storageAccounts/', parameters('storageName'))]",
                 "[concat('Microsoft.Devices/Iothubs/', parameters('iotHubName'))]"
             ],
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
             "properties": {
                 "sku": {
                     "name": "standard"
@@ -389,6 +405,9 @@
                 "[concat('Microsoft.Eventhub/namespaces/', parameters('sbName'))]",
                 "[concat('Microsoft.Devices/Iothubs/', parameters('iotHubName'))]"
             ],
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
             "properties": {
                 "sku": {
                     "name": "standard"
@@ -462,6 +481,9 @@
                 "[concat('Microsoft.Eventhub/namespaces/', parameters('sbName'))]",
                 "[concat('Microsoft.Devices/Iothubs/', parameters('iotHubName'))]"
             ],
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
             "properties": {
                 "sku": {
                     "name": "standard"
@@ -585,6 +607,9 @@
             "name": "[variables('webPlanName')]",
             "type": "Microsoft.Web/serverfarms",
             "location": "[variables('location')]",
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
             "properties": {
                 "name": "[variables('webPlanName')]",
                 "sku": "[parameters('webSku')]",
@@ -597,6 +622,9 @@
             "name": "[variables('webJobPlanName')]",
             "type": "Microsoft.Web/serverfarms",
             "location": "[variables('location')]",
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
             "properties": {
                 "name": "[variables('webJobPlanName')]",
                 "sku": "[parameters('webJobSku')]",
@@ -619,6 +647,9 @@
                 "[resourceId('Microsoft.Devices/Iothubs', parameters('iotHubName'))]",
                 "[resourceId('Microsoft.BingMaps/mapApis', variables('bingMapsName'))]"
             ],
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
             "properties": {
                 "serverFarmId": "[variables('webPlanName')]",
                 "siteConfig": {
@@ -730,6 +761,9 @@
                 "[resourceId('Microsoft.StreamAnalytics/streamingjobs', concat(parameters('suiteName'), '-DeviceInfo'))]",
                 "[resourceId('Microsoft.StreamAnalytics/streamingjobs', concat(parameters('suiteName'), '-Rules'))]"
             ],
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
             "properties": {
                 "serverFarmId": "[variables('webJobPlanName')]",
                 "siteConfig": {
