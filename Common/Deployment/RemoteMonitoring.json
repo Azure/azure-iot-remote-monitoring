@@ -305,7 +305,7 @@
                 "sku": {
                     "name": "standard"
                 },
-                "OutputStartMode": "[parameters('asaStartBehavior')]",
+                "OutputStartMode": "JobStartTime",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [
@@ -412,7 +412,7 @@
                 "sku": {
                     "name": "standard"
                 },
-                "OutputStartMode": "[parameters('asaStartBehavior')]",
+                "OutputStartMode": "JobStartTime",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [
@@ -488,7 +488,7 @@
                 "sku": {
                     "name": "standard"
                 },
-                "OutputStartMode": "[parameters('asaStartBehavior')]",
+                "OutputStartMode": "JobStartTime",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [
