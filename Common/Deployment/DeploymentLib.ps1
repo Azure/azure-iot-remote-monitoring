@@ -190,8 +190,12 @@ function UpdateResourceGroupState()
             {
                 $tag.Value = $state
                 $updated = $true
-                break
             }
+			if ($tag.Name -eq "IoTSuiteVersion" -and $tag.Value -ne $global:version)
+			{
+                $tag.Value = $global:version
+                $updated = $true
+			}
         }
         if (!$updated)
         {
