@@ -34,39 +34,43 @@ function LoadLibrary()
         [string]$dllName = $library
     )
     $success = $true
-    $packageDirectories = (Get-ChildItem -Path $nugetPath -Filter ("{0}*" -f $library) -Directory)
-    if($packageDirectories.Length -eq 0)
+    if (([appdomain]::CurrentDomain.GetAssemblies() | ?{$_.ManifestModule.Name -eq "$dllName.dll"}) -eq $null)
     {
-        Write-Host ("{0} Library Nuget doesn't exist. Downloading now ..." -f $library) -ForegroundColor Yellow
-        $nugetDownloadExpression = "& '$nugetPath\nuget.exe' install $library -OutputDirectory '$nugetPath' -Source https://www.nuget.org/api/v2 | out-null"
-        Invoke-Expression $nugetDownloadExpression
+        Write-Host ("Library {0} not found, loading..." -f $library)  -ForegroundColor Yellow
         $packageDirectories = (Get-ChildItem -Path $nugetPath -Filter ("{0}*" -f $library) -Directory)
-        if ($packageDirectories.Length -eq 0)
+        if($packageDirectories.Length -eq 0)
         {
-            Write-Error ("Unable to find package {0} on Nuget.org" -f $library)
+            Write-Host ("{0} Library Nuget doesn't exist. Downloading now ..." -f $library) -ForegroundColor Yellow
+            $nugetDownloadExpression = "& '$nugetPath\nuget.exe' install $library -OutputDirectory '$nugetPath' -Source https://www.nuget.org/api/v2 | out-null"
+            Invoke-Expression $nugetDownloadExpression
+            $packageDirectories = (Get-ChildItem -Path $nugetPath -Filter ("{0}*" -f $library) -Directory)
+            if ($packageDirectories.Length -eq 0)
+            {
+                Write-Error ("Unable to find package {0} on Nuget.org" -f $library)
+                return $false
+            }
+        }
+        $assemblies = (Get-ChildItem ("{0}.dll" -f $dllName) -Path ($packageDirectories |sort Name -desc)[0].FullName -Recurse)
+        if ($assemblies -eq $null)
+        {
+            Write-Error ("Unable to find {0}.dll assembly for {0} library, is the dll a different name?" -f $library)
             return $false
         }
-    }
-    $assemblies = (Get-ChildItem ("{0}.dll" -f $dllName) -Path ($packageDirectories |sort Name -desc)[0].FullName -Recurse)
-    if ($assemblies -eq $null)
-    {
-        Write-Error ("Unable to find {0}.dll assembly for {0} library, is the dll a different name?" -f $library)
-        return $false
-    }
 
-    # Should figure out how to get correct version
-    $assembly = $assemblies[0]
-    if($assembly.Length -gt 0)
-    {
-        Write-Host ("Loading {0} Assembly ..." -f $assembly.Name) -ForegroundColor Green
-        [System.Reflection.Assembly]::LoadFrom($assembly.FullName) | out-null
-    }
-    else
-    {
-        Write-Host ("Fixing {0} package directories ..." -f $library) -ForegroundColor Yellow
-        $packageDirectories | Remove-Item -Recurse -Force | Out-Null
-        Write-Error ("Not able to load {0} assembly. Restart PowerShell session and try again ..." -f $library)
-        $success = $false
+        # Should figure out how to get correct version
+        $assembly = $assemblies[0]
+        if($assembly.Length -gt 0)
+        {
+            Write-Host ("Loading {0} Assembly ..." -f $assembly.Name) -ForegroundColor Green
+            [System.Reflection.Assembly]::LoadFrom($assembly.FullName) | out-null
+        }
+        else
+        {
+            Write-Host ("Fixing {0} package directories ..." -f $library) -ForegroundColor Yellow
+            $packageDirectories | Remove-Item -Recurse -Force | Out-Null
+            Write-Error ("Not able to load {0} assembly. Restart PowerShell session and try again ..." -f $library)
+            $success = $false
+        }
     }
     return $success
 }
