@@ -76,16 +76,28 @@ Write-Host "Deployment template path: $deploymentTemplatePath"
 # Respect existing Sku values
 if ($suiteExists)
 {
-    $docDbSku = GetResourceObject $suitename $docDbName Microsoft.DocumentDb/databaseAccounts
-    $params += @{docDBSku=$($docDbSku.Properties.DatabaseAccountOfferType)}
-    $storageSku = GetResourceObject $suitename $storageAccount.Name Microsoft.Storage/storageAccounts
-    $params += @{storageAccountSku=$($storageSku.Properties.AccountType)}
+    if (ResourceObjectExists $suitename $docDbName Microsoft.DocumentDb/databaseAccounts)
+    {
+        $docDbSku = GetResourceObject $suitename $docDbName Microsoft.DocumentDb/databaseAccounts
+        $params += @{docDBSku=$($docDbSku.Properties.DatabaseAccountOfferType)}
+    }
+    if (ResourceObjectExists $suitename $storageAccount.Name Microsoft.Storage/storageAccounts)
+    {
+        $storageSku = GetResourceObject $suitename $storageAccount.Name Microsoft.Storage/storageAccounts
+        $params += @{storageAccountSku=$($storageSku.Properties.AccountType)}
+    }
     #IotHub uses new format for sku which requires Azure PS 1.0 - will switch later
-    #$iotHubSku = GetResourceObject $suitename $iotHubName Microsoft.Devices/IotHubs
-    #$params += @{iotHubSku=$($iotHubSku.Sku.Name)}
-    #$params += @{iotHubTier=$($iotHubSku.Sku.Tier)}
-    $servicebusSku = GetResourceObject $suitename $sevicebusName Microsoft.Eventhub/namespaces
-    $params += @{sbSku=$($servicebusSku.Properties.MessagingSku)}
+    #if (ResourceObjectExists $suitename $iotHubName Microsoft.Devices/IotHubs)
+    #{
+        #$iotHubSku = GetResourceObject $suitename $iotHubName Microsoft.Devices/IotHubs
+        #$params += @{iotHubSku=$($iotHubSku.Sku.Name)}
+        #$params += @{iotHubTier=$($iotHubSku.Sku.Tier)}
+    #}
+    if (ResourceObjectExists $suitename $sevicebusName Microsoft.Eventhub/namespaces)
+    {
+        $servicebusSku = GetResourceObject $suitename $sevicebusName Microsoft.Eventhub/namespaces
+        $params += @{sbSku=$($servicebusSku.Properties.MessagingSku)}
+    }
 }
 
 # Upload WebPackages
