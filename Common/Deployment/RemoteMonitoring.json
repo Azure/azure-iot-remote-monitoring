@@ -129,13 +129,6 @@
                 "description": "The start behavior for Stream Analytics jobs [LastStopTime | JobStartTime (default)]"
             },
             "defaultValue": "JobStartTime"
-        },
-        "asaStartTime": {
-            "type": "string",
-            "metadata": {
-                "description": "The start time for Stream Analytics jobs"
-            },
-            "defaultValue": "notused"
         }
     },
     "variables": {
@@ -143,8 +136,8 @@
         "storageVersion": "2015-05-01-preview",
         "storageId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
         "sbVersion": "[providers('Microsoft.Eventhub', 'namespaces').apiVersions[0]]",
-        "ehOutName": "[concat(parameters('suiteName'), '-ehout')]",
-        "ehRuleOutName": "[concat(parameters('suiteName'), '-ehruleout')]",
+        "ehOutName": "[concat(parameters('sbName'), '-ehout')]",
+        "ehRuleOutName": "[concat(parameters('sbName'), '-ehruleout')]",
         "sbKeyName": "RootManageSharedAccessKey",
         "sbResourceId": "[resourceId('Microsoft.Eventhub/namespaces/authorizationRules', parameters('sbName'), variables('sbKeyName'))]",
         "saVersion": "2015-10-01",
@@ -305,7 +298,7 @@
                 "sku": {
                     "name": "standard"
                 },
-                "OutputStartMode": "JobStartTime",
+                "OutputStartMode": "[parameters('asaStartBehavior')]",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [
@@ -412,7 +405,7 @@
                 "sku": {
                     "name": "standard"
                 },
-                "OutputStartMode": "JobStartTime",
+                "OutputStartMode": "[parameters('asaStartBehavior')]",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [
@@ -488,7 +481,7 @@
                 "sku": {
                     "name": "standard"
                 },
-                "OutputStartMode": "JobStartTime",
+                "OutputStartMode": "[parameters('asaStartBehavior')]",
                 "EventsOutOfOrderMaxDelayInSeconds": 10,
                 "EventsOutOfOrderPolicy": "adjust",
                 "Inputs": [
