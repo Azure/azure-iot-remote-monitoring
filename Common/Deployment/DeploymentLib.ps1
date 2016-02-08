@@ -196,19 +196,6 @@ function ValidateResourceName()
         [Parameter(Mandatory=$true,Position=2)] [string] $resourceGroupName
     )
 
-    # Return name for existing resource if exists
-    $resources = Find-AzureRmResource -ResourceGroupNameContains $resourceGroupName -ResourceType $resourceType -ResourceNameContains $resourceBaseName
-    if ($resources -ne $null)
-    {
-        foreach($resource in $resources)
-        {
-            if ($resource.ResourceGroupName -eq $resourceGroupName -and $resource.Name.ToLowerInvariant().StartsWith($resourceBaseName.ToLowerInvariant()))
-            {
-                return $resource.Name
-            }
-        }
-    }
-
     # Generate a unique name
     $resourceUrl = " "
     switch ($resourceType.ToLowerInvariant())
@@ -229,7 +216,7 @@ function ValidateResourceName()
         "microsoft.eventhub/namespaces"
         {
             $resourceUrl = "servicebus.windows.net"
-            $resourceBaseName = $resourceBaseName.Substring(0, [System.Math]::Min(40, $resourceBaseName.Length))
+            $resourceBaseName = $resourceBaseName.Substring(0, [System.Math]::Min(35, $resourceBaseName.Length))
         }
         "microsoft.web/sites"
         {
@@ -237,6 +224,20 @@ function ValidateResourceName()
         }
         default {}
     }
+    
+    # Return name for existing resource if exists
+    $resources = Find-AzureRmResource -ResourceGroupNameContains $resourceGroupName -ResourceType $resourceType -ResourceNameContains $resourceBaseName
+    if ($resources -ne $null)
+    {
+        foreach($resource in $resources)
+        {
+            if ($resource.ResourceGroupName -eq $resourceGroupName -and $resource.Name.ToLowerInvariant().StartsWith($resourceBaseName.ToLowerInvariant()))
+            {
+                return $resource.Name
+            }
+        }
+    }
+    
     return GetUniqueResourceName $resourceBaseName $resourceUrl
 }
 
