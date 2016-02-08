@@ -4,11 +4,10 @@
     [Parameter(Mandatory=$True,Position=1)]
     $configuration
     )
-
+    
 # Initialize library
 $environmentName = $environmentName.ToLowerInvariant()
 . "$(Split-Path $MyInvocation.MyCommand.Path)\DeploymentLib.ps1"
-SwitchAzureMode AzureResourceManager
 ClearDNSCache
 
 # Sets Azure Accounts, Region, Name validation, and AAD application
@@ -28,7 +27,6 @@ if ($environmentName -ne "local")
     $suiteType = "RemoteMonitoring"
     $deploymentTemplatePath = "$(Split-Path $MyInvocation.MyCommand.Path)\RemoteMonitoring.json"
     $global:site = "https://{0}.azurewebsites.net/" -f $environmentName
-    #[string]$branch = "$(git symbolic-ref --short -q HEAD)"
     $cloudDeploy = $true
 }
 else
@@ -40,7 +38,7 @@ else
     }
 }
 
-$suiteExists = (Get-AzureResourceGroup -Tag @{Name="IotSuiteType";Value=$suiteType} | ?{$_.ResourceGroupName -eq $suiteName}) -ne $null
+$suiteExists = (Find-AzureRmResourceGroup -Tag @{Name="IotSuiteType";Value=$suiteType} | ?{$_.ResourceGroupName -eq $suiteName}) -ne $null
 $resourceGroupName = (GetResourceGroup -Name $suiteName -Type $suiteType).ResourceGroupName
 $storageAccount = GetAzureStorageAccount $suiteName $resourceGroupName
 $iotHubName = GetAzureIotHubName $suitename $resourceGroupName
@@ -59,14 +57,14 @@ UpdateResourceGroupState $resourceGroupName ProvisionAzure
 $params = @{ `
     suiteName=$suitename; `
     docDBName=$docDbName; `
-    storageName=$($storageAccount.Name); `
+    storageName=$($storageAccount.StorageAccountName); `
     iotHubName=$iotHubName; `
     sbName=$sevicebusName; `
     aadTenant=$($global:AADTenant)}
 
 Write-Host "Suite name: $suitename"
 Write-Host "DocDb Name: $docDbName"
-Write-Host "Storage Name: $($storageAccount.Name)"
+Write-Host "Storage Name: $($storageAccount.StorageAccountName)"
 Write-Host "IotHub Name: $iotHubName"
 Write-Host "Servicebus Name: $sevicebusName"
 Write-Host "AAD Tenant: $($global:AADTenant)"
@@ -81,9 +79,9 @@ if ($suiteExists)
         $docDbSku = GetResourceObject $suitename $docDbName Microsoft.DocumentDb/databaseAccounts
         $params += @{docDBSku=$($docDbSku.Properties.DatabaseAccountOfferType)}
     }
-    if (ResourceObjectExists $suitename $storageAccount.Name Microsoft.Storage/storageAccounts)
+    if (ResourceObjectExists $suitename $storageAccount.StorageAccountName Microsoft.Storage/storageAccounts)
     {
-        $storageSku = GetResourceObject $suitename $storageAccount.Name Microsoft.Storage/storageAccounts
+        $storageSku = GetResourceObject $suitename $storageAccount.StorageAccountName Microsoft.Storage/storageAccounts
         $params += @{storageAccountSku=$($storageSku.Properties.AccountType)}
     }
     #IotHub uses new format for sku which requires Azure PS 1.0 - will switch later
@@ -104,10 +102,10 @@ if ($suiteExists)
 if ($cloudDeploy)
 {
     $projectRoot = Join-Path $PSScriptRoot "..\.." -Resolve
-    $webPackage = UploadFile ("$projectRoot\DeviceAdministration\Web\obj\{0}\Package\Web.zip" -f $configuration) $storageAccount.Name $resourceGroupName "WebDeploy"
+    $webPackage = UploadFile ("$projectRoot\DeviceAdministration\Web\obj\{0}\Package\Web.zip" -f $configuration) $storageAccount.StorageAccountName $resourceGroupName "WebDeploy" -secure $true
     $params += @{packageUri=$webPackage}
     FixWebJobZip ("$projectRoot\WebJobHost\obj\{0}\Package\WebJobHost.zip" -f $configuration)
-    $webJobPackage = UploadFile ("$projectRoot\WebJobHost\obj\{0}\Package\WebJobHost.zip" -f $configuration) $storageAccount.Name $resourceGroupName "WebDeploy"
+    $webJobPackage = UploadFile ("$projectRoot\WebJobHost\obj\{0}\Package\WebJobHost.zip" -f $configuration) $storageAccount.StorageAccountName $resourceGroupName "WebDeploy" -secure $true
     $params += @{webJobPackageUri=$webJobPackage}
     # Respect existing Sku values
     if ($suiteExists)
@@ -136,17 +134,17 @@ if (StopExistingStreamAnalyticsJobs $resourceGroupName)
 }
 
 Write-Host "Provisioning resources, if this is the first time, this operation can take up 10 minutes..."
-$result = New-AzureResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $deploymentTemplatePath -TemplateParameterObject $params -Verbose
+$result = New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $deploymentTemplatePath -TemplateParameterObject $params -Verbose
 
 if ($result.ProvisioningState -ne "Succeeded")
 {
     UpdateResourceGroupState $resourceGroupName Failed
-    throw "Provisioing failed"
+    throw "Provisioning failed"
 }
 
 # Set Config file variables
 UpdateResourceGroupState $resourceGroupName Complete
-UpdateEnvSetting "ServiceStoreAccountName" $storageAccount.Name
+UpdateEnvSetting "ServiceStoreAccountName" $storageAccount.StorageAccountName
 UpdateEnvSetting "ServiceStoreAccountConnectionString" $result.Outputs['storageConnectionString'].Value
 UpdateEnvSetting "ServiceSBName" $sevicebusName
 UpdateEnvSetting "ServiceSBConnectionString" $result.Outputs['ehConnectionString'].Value
