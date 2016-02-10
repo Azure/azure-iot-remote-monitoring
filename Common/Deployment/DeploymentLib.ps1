@@ -107,17 +107,39 @@ function GetAuthenticationResult()
 
 function GetSuiteLocation()
 {
-    $command = "Read-Host 'Enter Region to deploy resources (eg. East US)'"
-    Write-Host
-    Write-Host "Available Locations:";
+    Write-Host "Available locations:";
+    $regions = @();
+    $index = 1
     foreach ($loc in $locations)
     {
-        Write-Host $loc
+        $region = New-Object System.Object
+        $region | Add-Member -MemberType NoteProperty -Name "Option" -Value $index
+        $region | Add-Member -MemberType NoteProperty -Name "Region" -Value $loc
+        $regions += $region
+        $index += 1
     }
-    $region = Invoke-Expression $command
-    while (!(ValidateLocation $region))
+    
+    Write-Host ($regions | Out-String)
+    
+    $region = "notset"
+    while ($region -eq "notset" -or !(ValidateLocation $region))
     {
-        $region = Invoke-Expression $command
+        try 
+        {
+            [int]$selectedIndex = Read-Host 'Select an option from the above list'
+        }
+        catch 
+        {
+            Write-Host "Must be a number"
+            continue
+        }
+        
+        if ($selectedIndex -lt 1 -or $selectedIndex -ge $index)
+        {
+            continue
+        }
+        
+        $region = $locations[$selectedIndex - 1]
     }
     return $region
 }
@@ -125,6 +147,7 @@ function GetSuiteLocation()
 function ValidateLocation()
 {
     param ([Parameter(Mandatory=$true)][string]$location)
+        
     foreach ($loc in $global:locations)
     {
         if ($loc.Replace(' ', '').ToLowerInvariant() -eq $location.Replace(' ', '').ToLowerInvariant())
@@ -606,8 +629,9 @@ function GetAADTenant()
     else
     {
         # List Active directories associated with account
-        Write-Host "Available Active directories:"
+        Write-Host "Available Active Directories:"
         $directories = @()
+        $index = 1
         foreach ($tenantObj in $tenants)
         {
             $tenant = $tenantObj.TenantId
@@ -618,19 +642,28 @@ function GetAADTenant()
             if ($result -ne $null)
             {
                 $directory = New-Object System.Object
+                $directory | Add-Member -MemberType NoteProperty -Name "Option" -Value $index
                 $directory | Add-Member -MemberType NoteProperty -Name "Directory Name" -Value ($result.userPrincipalName.Split('@')[1])
                 $directory | Add-Member -MemberType NoteProperty -Name "Tenant Id" -Value $tenant
                 $directories += $directory
+                $index += 1
             }
         }
 
-        # Can't determine AADTenant, so prompt
-        [string]$tenantId = "notset"
+        [int]$selectedIndex = -1
         write-host ($directories | Out-String)
-        while (!(($tenants | ?{$_.TenantId -eq $tenantId}) -ne $null))
+        while ($selectedIndex -lt 1 -or $selectedIndex -ge $index)
         {
-            [string]$tenantId = Read-Host "Please select a valid TenantId from list"
+            try
+            {
+                [int]$selectedIndex = Read-Host "Select an option from the above list"
+            }
+            catch
+            {
+                Write-Host "Must be a number"
+            }
         }
+        $tenantId = $tenants[$selectedIndex - 1].TenantId
     }
     
     # Configure Application
@@ -735,26 +768,44 @@ function InitializeEnvironment()
         $global:envSettingsXml = [xml](cat $global:environmentSettingsFile)
     }
 
-    if (!(Test-Path variable:SubscriptionId))
+    if ([string]::IsNullOrEmpty($global:SubscriptionId))
     {
         $accounts = Get-AzureRmSubscription
         $global:SubscriptionId = GetEnvSetting "SubscriptionId"
+        
         if ([string]::IsNullOrEmpty($global:SubscriptionId))
         {
-            $global:SubscriptionId = "z"
-        }
-        while (!$accounts.SubscriptionId.Contains($global:SubscriptionId))
-        {
             Write-Host "Available subscriptions:"
-            $accounts |ft SubscriptionName, SubscriptionId -au
-            $global:SubscriptionId = Read-Host "Please select a valid SubscriptionId from list"
+                $global:index = 0
+                $selectedIndex = -1
+                $accounts | Format-Table -Property @{name="Option";expression={$global:index;$global:index+=1}},SubscriptionName, SubscriptionId -au
+            
+            while (!$accounts.SubscriptionId.Contains($global:SubscriptionId))
+            {
+                try
+                {
+                    [int]$selectedIndex = Read-Host "Select an option from the above list"
+                }
+                catch
+                {
+                    Write-Host "Must be a number"
+                    continue
+                }
+                
+                if ($selectedIndex -lt 1 -or $selectedIndex -gt $accounts.length)
+                {
+                    continue
+                }
+                
+                $global:SubscriptionId = $accounts[$selectedIndex - 1].SubscriptionId
+            }
+            UpdateEnvSetting "SubscriptionId" $global:SubscriptionId
         }
-        UpdateEnvSetting "SubscriptionId" $global:SubscriptionId
     }
     Select-AzureSubscription -SubscriptionId $global:SubscriptionId
     Select-AzureRmSubscription -SubscriptionId $global:SubscriptionId
 
-    if (!(Test-Path variable:AllocationRegion))
+    if ([string]::IsNullOrEmpty($global:AllocationRegion))
     {
         $global:AllocationRegion = GetOrSetEnvSetting "AllocationRegion" "GetSuiteLocation"
     }
@@ -805,10 +856,10 @@ $global:timeStampFormat = "o"
 $global:resourceNotFound = "ResourceNotFound"
 $global:serviceNameToken = "ServiceName"
 $global:azurePath = Split-Path $MyInvocation.MyCommand.Path
-$global:version = "v1.1.0"
+$global:version = Get-Content ("{0}\..\..\VERSION.txt" -f $global:azurePath)
 $global:azureVersion = "1.0.3"
 $global:aadLoginUrl = "https://login.windows.net/"
-$global:locations = @("East US", "North Europe", "East Asia")
+$global:locations = @("East US", "North Europe", "East Asia", "West US", "West Europe", "South East Asia")
 
 # Check version
 $module = Get-Module -ListAvailable | Where-Object{ $_.Name -eq 'Azure' }
