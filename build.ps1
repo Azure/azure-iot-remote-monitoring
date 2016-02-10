@@ -6,7 +6,7 @@
     [Parameter(Mandatory=$True,Position=2)]
     $environmentName,
     [Parameter(Mandatory=$False,Position=3)]
-    $msbuild = "${Env:ProgramFiles(x86)}\MSBuild\12.0\Bin\MSBuild.exe"
+    $msbuild = $null
     )
 
 If (!($environmentName -match '^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{3,49}[a-zA-Z0-9]{1,1}$')) { 
