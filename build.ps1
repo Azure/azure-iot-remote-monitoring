@@ -9,12 +9,26 @@
     $msbuild = "${Env:ProgramFiles(x86)}\MSBuild\12.0\Bin\MSBuild.exe"
     )
 
-if (!($environmentName -match '^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{3,49}[a-zA-Z0-9]{1,1}$')) { 
+If (!($environmentName -match '^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{3,49}[a-zA-Z0-9]{1,1}$')) { 
     throw 'Invalid EnvironmentName'
 }
 
+If ($msBuild -eq $null) {
+    $msBuildFallback = 
+        "${Env:ProgramFiles(x86)}\MSBuild\14.0\Bin\MSBuild.exe",
+        "${Env:ProgramFiles(x86)}\MSBuild\12.0\Bin\MSBuild.exe",
+        "${Env:ProgramFiles(x86)}\MSBuild\10.0\Bin\MSBuild.exe"
+    
+    $try = -1
+    
+    do {
+        $try += 1
+        $msbuild = $msBuildFallback[$try]
+    } while (!(Test-Path $msbuild))
+}
+
 If (!(Test-Path $msbuild)) {
-    Write-Warning "Use -msBuild to specify a custom msbuild path, or use the Visual Studio developer tools to run build.cmd"
+    Write-Warning "Use -msBuild to specify a custom msbuild path"
     throw "Couldn't find MSBuild at $msbuild"
 }
 

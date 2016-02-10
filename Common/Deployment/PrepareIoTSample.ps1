@@ -84,13 +84,12 @@ if ($suiteExists)
         $storageSku = GetResourceObject $suitename $storageAccount.StorageAccountName Microsoft.Storage/storageAccounts
         $params += @{storageAccountSku=$($storageSku.Properties.AccountType)}
     }
-    #IotHub uses new format for sku which requires Azure PS 1.0 - will switch later
-    #if (ResourceObjectExists $suitename $iotHubName Microsoft.Devices/IotHubs)
-    #{
-        #$iotHubSku = GetResourceObject $suitename $iotHubName Microsoft.Devices/IotHubs
-        #$params += @{iotHubSku=$($iotHubSku.Sku.Name)}
-        #$params += @{iotHubTier=$($iotHubSku.Sku.Tier)}
-    #}
+    if (ResourceObjectExists $suitename $iotHubName Microsoft.Devices/IotHubs)
+    {
+        $iotHubSku = GetResourceObject $suitename $iotHubName Microsoft.Devices/IotHubs
+        $params += @{iotHubSku=$($iotHubSku.Sku.Name)}
+        $params += @{iotHubTier=$($iotHubSku.Sku.Tier)}
+    }
     if (ResourceObjectExists $suitename $sevicebusName Microsoft.Eventhub/namespaces)
     {
         $servicebusSku = GetResourceObject $suitename $sevicebusName Microsoft.Eventhub/namespaces
