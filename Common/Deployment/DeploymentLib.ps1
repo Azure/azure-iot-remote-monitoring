@@ -859,7 +859,7 @@ $global:azurePath = Split-Path $MyInvocation.MyCommand.Path
 $global:version = Get-Content ("{0}\..\..\VERSION.txt" -f $global:azurePath)
 $global:azureVersion = "1.0.3"
 $global:aadLoginUrl = "https://login.windows.net/"
-$global:locations = @("East US", "North Europe", "East Asia", "West US", "West Europe", "South East Asia")
+$global:locations = @("East US", "North Europe", "East Asia", "West US", "West Europe", "Southeast Asia")
 
 # Check version
 $module = Get-Module -ListAvailable | Where-Object{ $_.Name -eq 'Azure' }
