@@ -31,7 +31,7 @@ if ($environmentName -ne "local")
 }
 else
 {
-    $legacyNameExists = (Get-AzureResourceGroup -Tag @{Name="IotSuiteType";Value=$suiteType} | ?{$_.ResourceGroupName -eq "IotSuiteLocal"}) -ne $null
+    $legacyNameExists = (Find-AzureRmResourceGroup -Tag @{Name="IotSuiteType";Value=$suiteType} | ?{$_.ResourceGroupName -eq "IotSuiteLocal"}) -ne $null
     if ($legacyNameExists)
     {
         $suiteName = "IotSuiteLocal"
