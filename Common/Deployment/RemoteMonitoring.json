@@ -83,7 +83,7 @@
         },
         "webSku": {
             "type": "string",
-            "defaultValue": "Standard",
+            "defaultValue": "Premium",
             "metadata": {
                 "description": "The Sku type of the webapp"
             }
