@@ -40,10 +40,10 @@ else
 
 $suiteExists = (Find-AzureRmResourceGroup -Tag @{Name="IotSuiteType";Value=$suiteType} | ?{$_.ResourceGroupName -eq $suiteName}) -ne $null
 $resourceGroupName = (GetResourceGroup -Name $suiteName -Type $suiteType).ResourceGroupName
-$storageAccount = GetAzureStorageAccount $suiteName $resourceGroupName
-$iotHubName = GetAzureIotHubName $suitename $resourceGroupName
-$sevicebusName = GetAzureServicebusName $suitename $resourceGroupName
-$docDbName = GetAzureDocumentDbName $suitename $resourceGroupName
+$storageAccount = GetAzureStorageAccount $suiteName $resourceGroupName $cloudDeploy
+$iotHubName = GetAzureIotHubName $suitename $resourceGroupName $cloudDeploy
+$sevicebusName = GetAzureServicebusName $suitename $resourceGroupName $cloudDeploy
+$docDbName = GetAzureDocumentDbName $suitename $resourceGroupName $cloudDeploy
 
 # Setup AAD for webservice
 UpdateResourceGroupState $resourceGroupName ProvisionAAD
