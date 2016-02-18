@@ -821,7 +821,7 @@ function InitializeEnvironment()
         }
         if ($webResource -eq $null)
         {
-            if(HostEntryExists ("{0}.azurewebsites.net" -f $environmentName))
+            if(Test-AzureName -Website $environmentName)
             {
                 throw ("HostName {0} is not available" -f $environmentName)
             }
