@@ -170,12 +170,15 @@ function GetResourceGroup()
         [Parameter(Mandatory=$true,Position=0)] [string] $name,
         [Parameter(Mandatory=$true,Position=1)] [string] $type
     )
-    $resourceGroup = Find-AzureRmResourceGroup -Tag @{Name="IotSuiteType";Value=$type} | ?{$_.ResourceGroupName -eq $name}
+    $resourceGroup = Find-AzureRmResourceGroup -Tag @{Name="IotSuiteType";Value=$type} | ?{$_.Name -eq $name}
     if ($resourceGroup -eq $null)
     {
-        $resourceGroup = New-AzureRmResourceGroup -Name $name -Location $global:AllocationRegion -Tag @{Name="IoTSuiteType";Value=$type}, @{Name="IoTSuiteVersion";Value=$global:version}, @{Name="IoTSuiteState";Value="Created"}
+        return New-AzureRmResourceGroup -Name $name -Location $global:AllocationRegion -Tag @{Name="IoTSuiteType";Value=$type}, @{Name="IoTSuiteVersion";Value=$global:version}, @{Name="IoTSuiteState";Value="Created"}
     }
-    return $resourceGroup
+    else
+    {
+    	return Get-AzureRmResourceGroup -Name $name -Location $global:AllocationRegion
+    }
 }
 
 function UpdateResourceGroupState()
@@ -816,7 +819,7 @@ function InitializeEnvironment()
             UpdateEnvSetting "SubscriptionId" $global:SubscriptionId
         }
     }
-    Select-AzureSubscription -SubscriptionId $global:SubscriptionId
+    
     Select-AzureRmSubscription -SubscriptionId $global:SubscriptionId
 
     if ([string]::IsNullOrEmpty($global:AllocationRegion))
@@ -835,7 +838,7 @@ function InitializeEnvironment()
         }
         if ($webResource -eq $null)
         {
-            if(HostEntryExists ("{0}.azurewebsites.net" -f $environmentName))
+            if(Test-AzureName -Website $environmentName)
             {
                 throw ("HostName {0} is not available" -f $environmentName)
             }
