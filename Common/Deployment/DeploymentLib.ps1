@@ -802,7 +802,7 @@ function InitializeEnvironment()
             UpdateEnvSetting "SubscriptionId" $global:SubscriptionId
         }
     }
-    Select-AzureSubscription -SubscriptionId $global:SubscriptionId
+    
     Select-AzureRmSubscription -SubscriptionId $global:SubscriptionId
 
     if ([string]::IsNullOrEmpty($global:AllocationRegion))
