@@ -173,9 +173,12 @@ function GetResourceGroup()
     $resourceGroup = Find-AzureRmResourceGroup -Tag @{Name="IotSuiteType";Value=$type} | ?{$_.Name -eq $name}
     if ($resourceGroup -eq $null)
     {
-        $resourceGroup = New-AzureRmResourceGroup -Name $name -Location $global:AllocationRegion -Tag @{Name="IoTSuiteType";Value=$type}, @{Name="IoTSuiteVersion";Value=$global:version}, @{Name="IoTSuiteState";Value="Created"}
+        return New-AzureRmResourceGroup -Name $name -Location $global:AllocationRegion -Tag @{Name="IoTSuiteType";Value=$type}, @{Name="IoTSuiteVersion";Value=$global:version}, @{Name="IoTSuiteState";Value="Created"}
     }
-    return $resourceGroup
+    else
+    {
+    	return Get-AzureRmResourceGroup -Name $name -Location $global:AllocationRegion
+    }
 }
 
 function UpdateResourceGroupState()
