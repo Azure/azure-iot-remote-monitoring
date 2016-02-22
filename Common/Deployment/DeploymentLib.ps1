@@ -170,12 +170,15 @@ function GetResourceGroup()
         [Parameter(Mandatory=$true,Position=0)] [string] $name,
         [Parameter(Mandatory=$true,Position=1)] [string] $type
     )
-    $resourceGroup = Find-AzureRmResourceGroup -Tag @{Name="IotSuiteType";Value=$type} | ?{$_.ResourceGroupName -eq $name}
+    $resourceGroup = Find-AzureRmResourceGroup -Tag @{Name="IotSuiteType";Value=$type} | ?{$_.Name -eq $name}
     if ($resourceGroup -eq $null)
     {
-        $resourceGroup = New-AzureRmResourceGroup -Name $name -Location $global:AllocationRegion -Tag @{Name="IoTSuiteType";Value=$type}, @{Name="IoTSuiteVersion";Value=$global:version}, @{Name="IoTSuiteState";Value="Created"}
+        return New-AzureRmResourceGroup -Name $name -Location $global:AllocationRegion -Tag @{Name="IoTSuiteType";Value=$type}, @{Name="IoTSuiteVersion";Value=$global:version}, @{Name="IoTSuiteState";Value="Created"}
     }
-    return $resourceGroup
+    else
+    {
+    	return Get-AzureRmResourceGroup -Name $name -Location $global:AllocationRegion
+    }
 }
 
 function UpdateResourceGroupState()
@@ -216,7 +219,8 @@ function ValidateResourceName()
     Param(
         [Parameter(Mandatory=$true,Position=0)] [string] $resourceBaseName,
         [Parameter(Mandatory=$true,Position=1)] [string] $resourceType,
-        [Parameter(Mandatory=$true,Position=2)] [string] $resourceGroupName
+        [Parameter(Mandatory=$true,Position=2)] [string] $resourceGroupName,
+        [Parameter(Mandatory=$true,Position=3)] [bool] $cloudDeploy
     )
 
     # Generate a unique name
@@ -261,16 +265,25 @@ function ValidateResourceName()
         }
     }
     
-    return GetUniqueResourceName $resourceBaseName $resourceUrl
+    return GetUniqueResourceName $resourceBaseName $resourceUrl $cloudDeploy
 }
 
 function GetUniqueResourceName()
 {
     Param(
         [Parameter(Mandatory=$true,Position=0)] [string] $resourceBaseName,
-        [Parameter(Mandatory=$true,Position=1)] [string] $resourceUrl
+        [Parameter(Mandatory=$true,Position=1)] [string] $resourceUrl,
+        [Parameter(Mandatory=$true,Position=2)] [bool] $cloudDeploy
     )
-    $name = $resourceBaseName
+
+    if ($cloudDeploy)
+    {
+        $name = $resourceBaseName
+    }
+    else
+    {
+        $name = "{0}{1:x5}" -f $resourceBaseName, (get-random -max 1048575)
+    }
     $max = 200
     while (HostEntryExists ("{0}.{1}" -f $name, $resourceUrl))
     {
@@ -289,10 +302,11 @@ function GetAzureStorageAccount()
     Param(
         [Parameter(Mandatory=$true,Position=0)] [string] $storageBaseName,
         [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName,
-        [Parameter(Mandatory=$false,Position=2)] [string] $location = $global:AllocationRegion
+        [Parameter(Mandatory=$true,Position=2)] [bool] $cloudDeploy,
+        [Parameter(Mandatory=$false,Position=3)] [string] $location = $global:AllocationRegion
     )
     $storageTempName = $storageBaseName.ToLowerInvariant().Replace('-','')
-    $storageAccountName = ValidateResourceName $storageTempName.Substring(0, [System.Math]::Min(19, $storageTempName.Length)) Microsoft.Storage/storageAccounts $resourceGroupName
+    $storageAccountName = ValidateResourceName $storageTempName.Substring(0, [System.Math]::Min(19, $storageTempName.Length)) Microsoft.Storage/storageAccounts $resourceGroupName $cloudDeploy
     $storage = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroupName -Name $storageAccountName -ErrorAction SilentlyContinue
     if ($storage -eq $null)
     {
@@ -306,27 +320,30 @@ function GetAzureDocumentDbName()
 {
     Param(
         [Parameter(Mandatory=$true,Position=0)] [string] $baseName,
-        [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName
+        [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName,
+        [Parameter(Mandatory=$true,Position=2)] [bool] $cloudDeploy
     )
-    return ValidateResourceName $baseName.ToLowerInvariant() Microsoft.DocumentDb/databaseAccounts $resourceGroupName
+    return ValidateResourceName $baseName.ToLowerInvariant() Microsoft.DocumentDb/databaseAccounts $resourceGroupName $cloudDeploy
 }
 
 function GetAzureIotHubName()
 {
     Param(
         [Parameter(Mandatory=$true,Position=0)] [string] $baseName,
-        [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName
+        [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName,
+        [Parameter(Mandatory=$true,Position=2)] [bool] $cloudDeploy
     )
-    return ValidateResourceName $baseName Microsoft.Devices/iotHubs $resourceGroupName
+    return ValidateResourceName $baseName Microsoft.Devices/iotHubs $resourceGroupName $cloudDeploy
 }
 
 function GetAzureServicebusName()
 {
     Param(
         [Parameter(Mandatory=$true,Position=0)] [string] $baseName,
-        [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName
+        [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName,
+        [Parameter(Mandatory=$true,Position=2)] [bool] $cloudDeploy
     )
-    return ValidateResourceName ($baseName.PadRight(6,"x")) Microsoft.Eventhub/namespaces $resourceGroupName
+    return ValidateResourceName ($baseName.PadRight(6,"x")) Microsoft.Eventhub/namespaces $resourceGroupName $cloudDeploy
 }
 
 function StopExistingStreamAnalyticsJobs()
@@ -802,7 +819,7 @@ function InitializeEnvironment()
             UpdateEnvSetting "SubscriptionId" $global:SubscriptionId
         }
     }
-    Select-AzureSubscription -SubscriptionId $global:SubscriptionId
+    
     Select-AzureRmSubscription -SubscriptionId $global:SubscriptionId
 
     if ([string]::IsNullOrEmpty($global:AllocationRegion))
@@ -821,7 +838,7 @@ function InitializeEnvironment()
         }
         if ($webResource -eq $null)
         {
-            if(HostEntryExists ("{0}.azurewebsites.net" -f $environmentName))
+            if(Test-AzureName -Website $environmentName)
             {
                 throw ("HostName {0} is not available" -f $environmentName)
             }
