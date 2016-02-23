@@ -79,6 +79,7 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
 
         private async Task RunProcess(CancellationToken token)
         {
+
             FeedbackBatch batch;
             FeedbackReceiver<FeedbackBatch> batchReceiver;
             dynamic device;

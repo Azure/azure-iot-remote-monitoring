@@ -78,8 +78,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var rawMappingsTask = _actionMappingRepository.GetAllMappingsAsync();
             var rulesTask = _rulesRepository.GetAllRulesAsync();
 
-            List<ActionMapping> mappings = await rawMappingsTask;
-            List<DeviceRule> rules = await rulesTask;
+            var mappings = await rawMappingsTask;
+            var rules = await rulesTask;
 
             var results = new List<ActionMappingExtended>();
             foreach(var mapping in mappings)

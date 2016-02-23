@@ -23,8 +23,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         // GET: api/v1/devicerules
         //
         // This endpoint is used for apps and other platforms to get a list of device rules (whereas endpoint below is used by jQuery DataTables grid)
-        //
-        // See, for example: http://stackoverflow.com/questions/9981330/how-to-pass-an-array-of-integers-to-a-asp-net-web-api-rest-service
         // Example: api/v1/devicerules
         [HttpGet]
         [Route("")]
@@ -60,8 +58,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         // GET: api/v1/devicerules/{id}/{ruleId}
         //
         // This endpoint is used for apps and other platforms to get a specific device rule based on the deviceId and the dataField
-        //
-        // See, for example: http://stackoverflow.com/questions/9981330/how-to-pass-an-array-of-integers-to-a-asp-net-web-api-rest-service
         // Example: api/v1/devicerules/4/123
         [HttpGet]
         [Route("{deviceId}/{ruleId}")]
@@ -74,8 +70,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         // GET: api/v1/devicerules/{id}/{ruleId}/availableFields
         //
         // This endpoint is used for apps and other platforms to get available fields for editing a device rule
-        //
-        // See, for example: http://stackoverflow.com/questions/9981330/how-to-pass-an-array-of-integers-to-a-asp-net-web-api-rest-service
         // Example: api/v1/devicerules/4/123/availableFields
         [HttpGet]
         [Route("{deviceId}/{ruleId}/availableFields")]
@@ -101,8 +95,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         //
         // This endpoint is used for apps and other platforms to get a new, mostly empty rule for a given device.
         // The user must then update and save the rule for it to be persisted
-        //
-        // See, for example: http://stackoverflow.com/questions/9981330/how-to-pass-an-array-of-integers-to-a-asp-net-web-api-rest-service
         // Example: api/v1/devicerules/4
         [HttpGet]
         [Route("{deviceId}")]
