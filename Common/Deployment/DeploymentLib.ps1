@@ -177,7 +177,7 @@ function GetResourceGroup()
     }
     else
     {
-    	return Get-AzureRmResourceGroup -Name $name -Location $global:AllocationRegion
+        return Get-AzureRmResourceGroup -Name $name -Location $global:AllocationRegion
     }
 }
 
@@ -199,12 +199,12 @@ function UpdateResourceGroupState()
             {
                 $tag.Value = $state
                 $updated = $true
-			}
-			if ($tag.Name -eq "IoTSuiteVersion" -and $tag.Value -ne $global:version)
-			{
+            }
+            if ($tag.Name -eq "IoTSuiteVersion" -and $tag.Value -ne $global:version)
+            {
                 $tag.Value = $global:version
                 $updated = $true
-			}
+            }
         }
         if (!$updated)
         {
@@ -545,7 +545,9 @@ function GetAzureAccountInfo()
     {
         Write-Host "Signed into Azure already"
     }
-    
+
+    $account = $account[0];
+
     $profilePath = Join-Path $PSScriptRoot "..\..\$($account.Id).user"
     $rmProfileLoaded = $false
     
