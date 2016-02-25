@@ -5,11 +5,10 @@ using System.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure
 {
     public static class SampleDeviceFactory
     {
-        public const string OBJECT_TYPE_DEVICE_INFO = "DeviceInfo";
 
         public const string VERSION_1_0 = "1.0";
 
@@ -43,20 +42,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             new Location(47.617025, -122.191285),  // 11111 NE 8th St, Bellevue, WA 98004
             new Location(47.583582, -122.130622)  // 3003 160th Ave SE Bellevue, WA 98008
         };
-
-        public static dynamic GetSampleSimulatedDevice(string deviceId, string key)
-        {
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, true, null);
-
-            AssignDeviceProperties(deviceId, device);
-            device.ObjectType = OBJECT_TYPE_DEVICE_INFO;
-            device.Version = VERSION_1_0;
-            device.IsSimulatedDevice = IS_SIMULATED_DEVICE;
-
-            AssignCommands(device);
-
-            return device;
-        }
 
         public static dynamic GetSampleDevice(Random randomNumber, SecurityKeys keys)
         {

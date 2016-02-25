@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Telemetry;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device.Telemetry;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
 {
     /// <summary>
     /// Represents a device. Implementors may be written in managed code, or a managed wrapper
@@ -22,17 +22,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         dynamic Commands { get; set; }
 
-        List<ITelemetry> TelemetryEvents { get; }
+        IReadOnlyList<ITelemetry> Telemetries { get; }
 
         bool RepeatEventListForever { get; set; }
 
         void Init(InitialDeviceConfig config);
-
 
         Task SendDeviceInfo();
 
         dynamic GetDeviceInfo();
 
         Task StartAsync(CancellationToken token);
+
+        Task PauseAsync();
+
+        Task ResumeAsync();
     }
 }

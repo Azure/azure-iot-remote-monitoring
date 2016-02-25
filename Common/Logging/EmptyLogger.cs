@@ -1,4 +1,4 @@
-﻿namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging
+﻿namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Logging
 {
     /// <summary>
     /// Basic implementation of a loger where all functions are noops.

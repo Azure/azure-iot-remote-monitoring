@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device.Transport;
+using System;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
 {
     public class PingDeviceProcessor : CommandProcessor
     {

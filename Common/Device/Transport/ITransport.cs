@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device.Transport
 {
     /// <summary>
     /// Interface to provide actions that can be performed against a cloud service such as IoT Hub

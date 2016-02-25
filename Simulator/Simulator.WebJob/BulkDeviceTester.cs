@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices.Factory;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Telemetry.Factory;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Logging;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device.Transport;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device.Telemetry;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 {
@@ -24,7 +23,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         private readonly ILogger _logger;
         private readonly ITransportFactory _transportFactory;
         private readonly IConfigurationProvider _configProvider;
-        private readonly ITelemetryFactory _telemetryFactory;
         private readonly IDeviceFactory _deviceFactory;
         private readonly IVirtualDeviceStorage _deviceStorage;
 
@@ -33,13 +31,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         private const int DEFAULT_DEVICE_POLL_INTERVAL_SECONDS = 120;
 
-        public BulkDeviceTester(ITransportFactory transportFactory, ILogger logger, IConfigurationProvider configProvider, 
-            ITelemetryFactory telemetryFactory, IDeviceFactory deviceFactory, IVirtualDeviceStorage virtualDeviceStorage)
+        public BulkDeviceTester(ITransportFactory transportFactory, ILogger logger, IConfigurationProvider configProvider, IDeviceFactory deviceFactory, IVirtualDeviceStorage virtualDeviceStorage)
         {
             _transportFactory = transportFactory;
             _logger = logger;
             _configProvider = configProvider;
-            _telemetryFactory = telemetryFactory;
             _deviceFactory = deviceFactory;
             _deviceStorage = virtualDeviceStorage;
             _deviceList = new List<InitialDeviceConfig>();
@@ -110,7 +106,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                         foreach (var deviceConfig in newDevices)
                         {
                             _logger.LogInfo("********** SETTING UP NEW DEVICE : {0} ********** ", deviceConfig.DeviceId);
-                            devicesToProcess.Add(_deviceFactory.CreateDevice(_logger, _transportFactory, _telemetryFactory, _configProvider, deviceConfig));
+                            devicesToProcess.Add(_deviceFactory.CreateDevice(_logger, _transportFactory, _configProvider, deviceConfig));
                         }
 
 #pragma warning disable 4014

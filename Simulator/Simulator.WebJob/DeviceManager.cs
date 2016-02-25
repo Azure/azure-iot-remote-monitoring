@@ -2,10 +2,9 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Logging;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
 {
     /// <summary>
     /// Manages and coordinates all devices

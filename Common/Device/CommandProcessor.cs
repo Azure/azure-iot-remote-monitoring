@@ -1,8 +1,7 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport;
+﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device.Transport;
+using System.Threading.Tasks;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
 {
     /// <summary>
     /// The CommandProcessor classes implement the Gang of Four's

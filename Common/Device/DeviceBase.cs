@@ -4,33 +4,31 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Telemetry;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Telemetry.Factory;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Logging;
 using Microsoft.Azure.Devices.Common.Exceptions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device.Telemetry;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device.Transport;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
 {
     /// <summary>
     /// Simulates a single IoT device that sends and recieves data from a transport
     /// </summary>
-    public class DeviceBase : IDevice
+    public abstract class DeviceBase : IDevice
     {
-        // pointer to the currently executing event group
-        private int _currentEventGroup = 0;
+        private const int REPORT_FREQUENCY_IN_SECONDS = 5;
+
+        public virtual string Version => "1.0";
 
         protected readonly ILogger Logger;
         protected readonly ITransportFactory TransportFactory;
-        protected readonly ITelemetryFactory TelemetryFactory;
         protected readonly IConfigurationProvider ConfigProvider;
         protected ITransport Transport;
         protected CommandProcessor RootCommandProcessor;
+
+        private readonly ManualResetEventSlim processing = new ManualResetEventSlim(true);
 
         public string DeviceID
         {
@@ -50,10 +48,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         public dynamic Commands { get; set; }
 
-        public List<ITelemetry> TelemetryEvents { get; private set; }
-        public bool RepeatEventListForever { get; set; }
+        private readonly List<ITelemetry> telemetries;
 
-        protected object _telemetryController;
+        public IReadOnlyList<ITelemetry> Telemetries { get { return telemetries; } }
+
+        public bool RepeatEventListForever { get; set; }
 
         /// <summary>
         /// 
@@ -61,30 +60,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// <param name="logger">Logger where this device will log information to</param>
         /// <param name="transport">Transport where the device will send and receive data to/from</param>
         /// <param name="config">Config to start this device with</param>
-        public DeviceBase(ILogger logger, ITransportFactory transportFactory, ITelemetryFactory telemetryFactory, IConfigurationProvider configurationProvider)
+        public DeviceBase(ILogger logger, ITransportFactory transportFactory, IConfigurationProvider configurationProvider)
         {
             ConfigProvider = configurationProvider;
             Logger = logger;
             TransportFactory = transportFactory;
-            TelemetryFactory = telemetryFactory;
-            TelemetryEvents = new List<ITelemetry>();
+            telemetries = new List<ITelemetry>();
         }
+
+        protected abstract void PopulateTelemetries(Action<ITelemetry> addTelemetry);
 
         public void Init(InitialDeviceConfig config)
         {
             InitDeviceInfo(config);
 
+            PopulateTelemetries(telemetry => telemetries.Add(telemetry));
+
             Transport = TransportFactory.CreateTransport(this);
-            _telemetryController = TelemetryFactory.PopulateDeviceWithTelemetryEvents(this);
 
             InitCommandProcessors();
         }
 
         protected virtual void InitDeviceInfo(InitialDeviceConfig config)
         {
-            dynamic initialDevice = SampleDeviceFactory.GetSampleSimulatedDevice(config.DeviceId, config.Key);
-            DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(initialDevice);
-            Commands = CommandSchemaHelper.GetSupportedCommands(initialDevice);
+            DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(this);
+            Commands = CommandSchemaHelper.GetSupportedCommands(this);
             HostName = config.HostName;
             PrimaryAuthKey = config.Key;
         }
@@ -114,8 +114,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             dynamic device = DeviceSchemaHelper.BuildDeviceStructure(DeviceID, true, null);
             device.DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(this);
             device.Commands = CommandSchemaHelper.GetSupportedCommands(this);
-            device.Version = SampleDeviceFactory.VERSION_1_0;
-            device.ObjectType = SampleDeviceFactory.OBJECT_TYPE_DEVICE_INFO;
+            device.Version = Version;
+            device.ObjectType = GetType().Name;
 
             // Remove the system properties from a device, to better emulate the behavior of real devices when sending device info messages.
             DeviceSchemaHelper.RemoveSystemPropertiesForSimulatedDeviceInfo(device);
@@ -135,14 +135,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             {
                 Transport.Open();
 
-                var loopTasks = new List<Task>
-            {
-                StartReceiveLoopAsync(token), 
-                StartSendLoopAsync(token)
-            };
+                var loopTasks = new []
+                {
+                    StartReceiveLoopAsync(token), 
+                    StartSendLoopAsync(token)
+                };
 
                 // Wait both the send and receive loops
-                await Task.WhenAll(loopTasks.ToArray());
+                await Task.WhenAll(loopTasks);
 
                 // once the code makes it here the token has been canceled
                 await Transport.CloseAsync();
@@ -151,6 +151,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             {
                 Logger.LogError("Unexpected Exception starting device: {0}", ex.ToString());
             }
+        }
+
+        public async Task PauseAsync()
+        {
+            await Task.Yield();
+            processing.Reset();
+        }
+
+        public async Task ResumeAsync()
+        {
+            await Task.Yield();
+            processing.Set();
         }
 
         /// <summary>
@@ -168,25 +180,29 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                 do
                 {
-                    _currentEventGroup = 0;
+                    processing.Wait(token);
+
+                    var telemetry = 0;
 
                     Logger.LogInfo("Starting events list for device {0}...", DeviceID);
 
-                    while (_currentEventGroup < TelemetryEvents.Count && !token.IsCancellationRequested)
+                    while (telemetry < Telemetries.Count && !token.IsCancellationRequested)
                     {
-                        Logger.LogInfo("Device {0} starting IEventGroup {1}...", DeviceID, _currentEventGroup);
+                        Logger.LogInfo("Device {0} starting IEventGroup {1}...", DeviceID, telemetry);
 
-                        var eventGroup = TelemetryEvents[_currentEventGroup];
+                        var eventGroup = Telemetries[telemetry];
 
                         await eventGroup.SendEventsAsync(token, async (object eventData) =>
                         {
                             await Transport.SendEventAsync(eventData);
                         });
 
-                        _currentEventGroup++;
+                        telemetry++;
                     }
 
                     Logger.LogInfo("Device {0} finished sending all events in list...", DeviceID);
+
+                    await Task.Delay(TimeSpan.FromSeconds(REPORT_FREQUENCY_IN_SECONDS), token);
 
                 } while (RepeatEventListForever && !token.IsCancellationRequested);
 

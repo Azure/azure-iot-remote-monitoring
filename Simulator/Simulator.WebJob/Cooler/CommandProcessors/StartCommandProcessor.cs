@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device.Transport;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.CommandProcessors
 {
@@ -27,7 +27,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 try
                 {
                     var device = Device as CoolerDevice;
-                    device.StartTelemetryData();
+                    await device.ResumeAsync();
                     return CommandProcessingResult.Success;
                 }
                 catch (Exception)

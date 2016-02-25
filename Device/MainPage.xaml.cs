@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
+using Windows.Devices.Gpio;
 using Windows.Devices.I2c;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -27,55 +28,119 @@ namespace Device
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        //A class which wraps the barometric sensor
-        BMP280 BMP280;
+        private BMP280 temperatureSensor;
+        private TCS34725 colorSensor;
+        private DispatcherTimer timer;
+        private const int LED_PIN = 12;
+        private const int BUTTON_PIN = 4;
+        private GpioPin led;
+        private GpioPinValue ledState;
+        private GpioPin button;
+
 
         public MainPage()
         {
             this.InitializeComponent();
+
         }
 
         //This method will be called by the application framework when the page is first loaded
         protected override async void OnNavigatedTo(NavigationEventArgs navArgs)
         {
-            Debug.WriteLine("MainPage::OnNavigatedTo");
+            timer = new DispatcherTimer();
 
             MakePinWebAPICall();
 
             try
             {
-                //Create a new object for our barometric sensor class
-                BMP280 = new BMP280();
-                //Initialize the sensor
-                await BMP280.Initialize();
+                await InitializeLedAndButton();
 
-                //Create variables to store the sensor data: temperature, pressure and altitude. 
-                //Initialize them to 0.
-                float temp = 0;
-                float pressure = 0;
-                float altitude = 0;
+                temperatureSensor = new BMP280();
+                await temperatureSensor.InitializeAsync();
 
-                //Create a constant for pressure at sea level. 
-                //This is based on your local sea level pressure (Unit: Hectopascal)
-                const float seaLevelPressure = 1013.25f;
+                colorSensor = new TCS34725(6);
+                await colorSensor.InitializeAsync();
+                colorSensor.LedState = LedState.Off;
 
-                //Read 10 samples of the data
-                for (int i = 0; i < 10; i++)
-                {
-                    temp = await BMP280.ReadTemperature();
-                    pressure = await BMP280.ReadPreasure();
-                    altitude = await BMP280.ReadAltitude(seaLevelPressure);
+                timer = new DispatcherTimer();
+                timer.Interval = TimeSpan.FromMilliseconds(500);
+                timer.Tick += ReadSensors;
+                timer.Start();
 
-                    //Write the values to your debug console
-                    Debug.WriteLine("Temperature: " + temp.ToString() + " deg C");
-                    Debug.WriteLine("Pressure: " + pressure.ToString() + " Pa");
-                    Debug.WriteLine("Altitude: " + altitude.ToString() + " m");
-                }
+
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
+        }
+        private async Task InitializeLedAndButton()
+        {
+            await Task.Yield();
+            var gpio = GpioController.GetDefault();
+
+            if (gpio == null)
+            {
+                return;
+            }
+
+            led = gpio.OpenPin(LED_PIN);
+            ledState = GpioPinValue.High;
+            led.Write(ledState);
+            led.SetDriveMode(GpioPinDriveMode.Output);
+
+            button = gpio.OpenPin(BUTTON_PIN);
+            button.DebounceTimeout = TimeSpan.FromMilliseconds(500);
+            button.SetDriveMode(GpioPinDriveMode.Input);
+            button.ValueChanged += ButtonChanged;
+        }
+
+        private void ButtonChanged(GpioPin sender, GpioPinValueChangedEventArgs args)
+        {
+            var buttonState = sender.Read();
+            if (buttonState == GpioPinValue.High)
+            {
+                Debug.WriteLine("Button high");
+            }
+            else
+            {
+                Debug.WriteLine("Button low");
+            }
+            if (args.Edge == GpioPinEdge.RisingEdge)
+            {
+                Debug.WriteLine("Button pressed");
+                colorSensor.LedState = colorSensor.LedState == LedState.Off ? LedState.On : LedState.Off;
+            }
+        }
+
+        private async void ReadSensors(object sender, object e)
+        {
+            float temp = 0;
+            float pressure = 0;
+            float altitude = 0;
+
+            //Create a constant for pressure at sea level. 
+            //This is based on your local sea level pressure (Unit: Hectopascal)
+            const float seaLevelPressure = 1013.25f;
+
+            temp = await temperatureSensor.ReadTemperature();
+            pressure = await temperatureSensor.ReadPreasure();
+            altitude = await temperatureSensor.ReadAltitude(seaLevelPressure);
+
+            //Write the values to your debug console
+            Debug.WriteLine("Temperature: " + temp.ToString() + " deg C");
+            Debug.WriteLine("Pressure: " + pressure.ToString() + " Pa");
+            Debug.WriteLine("Altitude: " + altitude.ToString() + " m");
+
+            //Read the approximate color from the sensor
+            var color = await colorSensor.GetClosestWindowsColor();
+            var rgb = await colorSensor.GetRgbData();
+            var lux = rgb.AsLux();
+            Debug.WriteLine("Detected color:" + color);
+
+            ledState = ledState == GpioPinValue.High ? GpioPinValue.Low : GpioPinValue.High;
+            led.Write(ledState);
+
         }
 
         /// <summary>

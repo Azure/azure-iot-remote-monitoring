@@ -1,30 +1,28 @@
 ﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Serialization;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Logging;
 using Microsoft.Azure.Devices.Client;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device.Transport
 {
     /// <summary>
     /// Implementation of ITransport that talks to IoT Hub.
     /// </summary>
     public class IoTHubTransport : ITransport
     {
-        private readonly ISerialize _serializer;
+        private readonly ISerializer _serializer;
         private readonly ILogger _logger;
         private readonly IConfigurationProvider _configurationProvider;
         private readonly IDevice _device;
         private DeviceClient _deviceClient;
         private bool _disposed = false;
 
-        public IoTHubTransport(ISerialize serializer, ILogger logger, IConfigurationProvider configurationProvider, IDevice device)
+        public IoTHubTransport(ISerializer serializer, ILogger logger, IConfigurationProvider configurationProvider, IDevice device)
         {
             _serializer = serializer;
             _logger = logger;

@@ -9,13 +9,10 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configuration
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices.Factory;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Telemetry.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.DataInitialization;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices.Factory;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Logging;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Repository;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Serialization;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device.Transport;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
 {
@@ -119,9 +116,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
             // Dependencies to inject into the Bulk Device Tester
             var logger = new TraceLogger();
             var configProvider = new ConfigurationProvider();
-            var telemetryFactory = new CoolerTelemetryFactory(logger);
 
-            var serializer = new JsonSerialize();
+            var serializer = new JsonSerializer();
             var transportFactory = new IotHubTransportFactory(serializer, logger, configProvider);
 
             IVirtualDeviceStorage deviceStorage = null;
@@ -136,11 +132,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
                 deviceStorage = new VirtualDeviceTableStorage(configProvider);
             }
 
-            IDeviceFactory deviceFactory = new CoolerDeviceFactory();
+            var deviceFactory = new CoolerDeviceFactory();
 
             // Start Simulator
             Trace.TraceInformation("Starting Simulator");
-            var tester = new BulkDeviceTester(transportFactory, logger, configProvider, telemetryFactory, deviceFactory, deviceStorage);
+            var tester = new BulkDeviceTester(transportFactory, logger, configProvider, deviceFactory, deviceStorage);
             Task.Run(() => tester.ProcessDevicesAsync(cancellationTokenSource.Token), cancellationTokenSource.Token);
         }
 

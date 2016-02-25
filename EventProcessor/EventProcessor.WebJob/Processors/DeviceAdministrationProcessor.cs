@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.ServiceBus.Messaging;
 using Newtonsoft.Json;
@@ -126,49 +124,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                 return;
             }
 
-            string objectType = eventData.ObjectType.ToString();
-            
-            var objectTypePrefix = _configurationProvider.GetConfigurationSettingValue("ObjectTypePrefix");
-            if (string.IsNullOrWhiteSpace(objectTypePrefix))
-            {
-                objectTypePrefix = "";
-            }
 
-
-            if (objectType == objectTypePrefix + SampleDeviceFactory.OBJECT_TYPE_DEVICE_INFO)
-            {
-                await ProcessDeviceInfo(eventData);
-            }
-            else
-            {
-                Trace.TraceWarning("Unknown ObjectType in event.");
-            }
+            await ProcessDeviceInfo(eventData);
         }
 
 
         private async Task ProcessDeviceInfo(dynamic deviceInfo)
         {
-            string versionAsString = "";
+            string version = "";
             if(deviceInfo.Version != null)
             {
-                dynamic version = deviceInfo.Version;
-                versionAsString = version.ToString();
+                version = deviceInfo.Version.ToString();
             }
-            switch(versionAsString)
+
+            string objectType = "";
+            if (deviceInfo.ObjectType != null)
             {
-                case SampleDeviceFactory.VERSION_1_0:
-                    //Data coming in from the simulator can sometimes turn a boolean into 0 or 1.
-                    //Check the HubEnabledState since this is actually displayed and make sure it's in a good format
-                    DeviceSchemaHelper.FixDeviceSchema(deviceInfo);
-
-                    Trace.TraceInformation("ProcessEventAsync -- DeviceInfo");
-                    await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(deviceInfo);
-
-                    break;
-                default:
-                    Trace.TraceInformation("Unknown version {0} provided in Device Info packet", versionAsString);
-                    break;
+                objectType = deviceInfo.ObjectType.ToString();
             }
+
+            var objectTypePrefix = _configurationProvider.GetConfigurationSettingValue("ObjectTypePrefix");
+            if (String.IsNullOrWhiteSpace(objectTypePrefix))
+            {
+                objectTypePrefix = "";
+            }
+
+            DeviceSchemaHelper.FixDeviceSchema(deviceInfo);
+
+            Trace.TraceInformation("Processing device info {0} v{1}", objectType, version);
+            await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(deviceInfo);
         }
 
         public Task CloseAsync(PartitionContext context, CloseReason reason)

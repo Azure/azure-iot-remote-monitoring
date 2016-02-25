@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Serialization;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Logging;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device.Transport
 {
     public class EmptyTransport : ITransport
     {
         private readonly ILogger _logger;
-        private readonly ISerialize _serializer;
+        private readonly ISerializer _serializer;
 
-        public EmptyTransport(ILogger logger, ISerialize serializer)
+        public EmptyTransport(ILogger logger, ISerializer serializer)
         {
             _logger = logger;
             _serializer = serializer;

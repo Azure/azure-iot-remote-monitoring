@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -82,10 +81,8 @@ namespace Device
         bool init = false;
 
         //Method to initialize the BMP280 sensor
-        public async Task Initialize()
+        public async Task InitializeAsync()
         {
-            Debug.WriteLine("BMP280::Initialize");
-
             try
             {
                 //Instantiate the I2CConnectionSettings using the device address of the BMP280
@@ -101,30 +98,26 @@ namespace Device
                 //Check if device was found
                 if (bmp280 == null)
                 {
-                    Debug.WriteLine("Device not found");
+                    throw new Exception("Device not found");
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Debug.WriteLine("Exception: " + e.Message + "\n" + e.StackTrace);
                 throw;
             }
 
         }
         private async Task Begin()
         {
-            Debug.WriteLine("BMP280::Begin");
             byte[] WriteBuffer = new byte[] { (byte)eRegisters.BMP280_REGISTER_CHIPID };
             byte[] ReadBuffer = new byte[] { 0xFF };
 
             //Read the device signature
             bmp280.WriteRead(WriteBuffer, ReadBuffer);
-            Debug.WriteLine("BMP280 Signature: " + ReadBuffer[0].ToString());
 
             //Verify the device signature
             if (ReadBuffer[0] != BMP280_Signature)
             {
-                Debug.WriteLine("BMP280::Begin Signature Mismatch.");
                 return;
             }
 
@@ -249,7 +242,6 @@ namespace Device
             var1 = (((((Int64)1 << 47) + var1)) * (Int64)CalibrationData.dig_P1) >> 33;
             if (var1 == 0)
             {
-                Debug.WriteLine("BMP280_compensate_P_Int64 Jump out to avoid / 0");
                 return 0; //Avoid exception caused by division by zero
             }
             //Perform calibration operations as per datasheet: http://www.adafruit.com/datasheets/BST-BMP280-DS001-11.pdf

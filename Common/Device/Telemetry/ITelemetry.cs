@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Telemetry
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device.Telemetry
 {
     /// <summary>
     /// Represents a group of one or more events that a simulated device will send to the cloud.

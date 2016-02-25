@@ -190,7 +190,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         //GET: api/v1/devices/5/hub-keys
         [HttpGet]
-		[Route("{id}/hub-keys")]
+        [Route("{id}/hub-keys")]
         [WebApiRequirePermission(Permission.ViewDeviceSecurityKeys)]
         public async Task<HttpResponseMessage> GetDeviceKeysAsync(string id)
         {

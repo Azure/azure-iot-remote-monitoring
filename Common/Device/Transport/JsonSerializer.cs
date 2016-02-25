@@ -1,22 +1,22 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Serialization
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device.Transport
 {
     /// <summary>
     /// JSON implementation of the ISerialize interface that serializes/deserializes
     /// objects into JSON data that is encoded as a UTF8 byte array
     /// </summary>
-    public class JsonSerialize : ISerialize
+    public class JsonSerializer : ISerializer
     {
         /// <summary>
         /// Converts the provided object into a JSON string then a UTF8 encoded byte array
         /// </summary>
-        /// <param name="objectToSerialize">Object to convert into an encoded byte array</param>
+        /// <param name="object">Object to convert into an encoded byte array</param>
         /// <returns></returns>
-        public byte[] SerializeObject(object objectToSerialize)
+        public byte[] SerializeObject(object @object)
         {
-            return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(objectToSerialize));
+            return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(@object));
         }
 
         /// <summary>

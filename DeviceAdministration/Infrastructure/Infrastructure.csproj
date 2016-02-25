@@ -202,6 +202,7 @@
     <Compile Include="Repository\IDeviceTypeRepository.cs" />
     <Compile Include="Repository\IIotHubRepository.cs" />
     <Compile Include="Repository\UserSettingsRepository.cs" />
+    <Compile Include="SampleDeviceFactory.cs" />
     <Compile Include="Strings.tt.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
