@@ -151,13 +151,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewDevices)]
         public async Task<HttpResponseMessage> SendSMS([FromBody]JObject requestData)
         {
-            JObject requestPayload = new JObject();
-            requestPayload.Add("To", "+17038638414");
-            requestPayload.Add("From", "+12064881483");
-            requestPayload.Add("Body", "this is a test");
+            List<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>>;
+			parameters.Add(new KeyValuePair<string, string>("To", "+17038638414"));
+			parameters.Add(new KeyValuePair<string, string>("From", "+12064881483"));
+			parameters.Add(new KeyValuePair<string, string>("Body", "This is a test from the application"));
 
-            HttpContent content = new ByteArrayContent(System.Text.UTF8Encoding.UTF8.GetBytes(requestPayload.ToString()));
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpContent content = new FormUrlEncodedContent(parameters);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
             return await new HttpClient().PostAsync("https://AC2314c6031b641c3b877d84ee0d58a021:ffd9483b5d66b68d9dbac234fe771952@api.twilio.com/2010-04-01/Accounts/AC2314c6031b641c3b877d84ee0d58a021/Messages", content);
         }
