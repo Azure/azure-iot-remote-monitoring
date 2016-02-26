@@ -85,6 +85,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
+        /// Create a new Telemetry type
+        /// </summary>
+        /// <param name="name">Name of telemetry object</param>
+        /// <param name="type">Value type of telemetry object</param>
+        /// <returns></returns>
+        public static dynamic CreateNewTelemetry(string name, string type)
+        {
+            JObject result = new JObject();
+
+            result.Add("name", name);
+            result.Add("type", type);
+
+            return result;
+        }
+
+        /// <summary>
         /// Add a parameter value definition to an existing command. This is not the use of a parameter for a command being sent to the
         /// device, but the definition of a parameter with its names and the data type that it is meant to accept
         /// </summary>
@@ -156,6 +172,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// This method will add the provided telemetry to the provided device.
+        /// </summary>
+        /// <param name="device">device object</param>
+        /// <param name="telemetry">telemetry to add</param>
+        public static void AddTelemetryToDevice(dynamic device, dynamic telemetry)
+        {
+            dynamic telemetryCollection = device.Telemetry;
+
+            if (telemetryCollection == null)
+            {
+                telemetryCollection = new JArray();
+                device.Telemetry = telemetryCollection;
+            }
+            telemetryCollection.Add(telemetry);
         }
 
         /// <summary>

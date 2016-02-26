@@ -53,6 +53,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             device.Version = VERSION_1_0;
             device.IsSimulatedDevice = IS_SIMULATED_DEVICE;
 
+            AssignTelemetry(device);
             AssignCommands(device);
 
             return device;
@@ -73,6 +74,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             device.ObjectName = "IoT Device Description";
 
             AssignDeviceProperties(deviceId, device);
+            AssignTelemetry(device);
             AssignCommands(device);
 
             return device;
@@ -107,6 +109,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             }
 
             return hash % maxValueExclusive;
+        }
+
+        private static void AssignTelemetry(dynamic device)
+        {
+            dynamic telemetry = CommandSchemaHelper.CreateNewTelemetry("Temperature", "double");
+            CommandSchemaHelper.AddTelemetryToDevice(device, telemetry);
+
+            telemetry = CommandSchemaHelper.CreateNewTelemetry("Humidity", "double");
+            CommandSchemaHelper.AddTelemetryToDevice(device, telemetry);
         }
 
         private static void AssignCommands(dynamic device)
