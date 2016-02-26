@@ -19,6 +19,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using D = Dynamitey;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic
 {
@@ -232,6 +233,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new ArgumentNullException("device");
             }
 
+            // Get original device document
             dynamic existingDevice = await GetDeviceAsync(DeviceSchemaHelper.GetDeviceID(device));
 
             // Save the command history, original created date, and system properties (if any) of the existing device
@@ -253,7 +255,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 DeviceSchemaHelper.InitializeSystemProperties(device, null);
             }
 
-            return await _deviceRegistryCrudRepository.UpdateDeviceAsync(device);
+            // Merge device back to existing so we don't drop missing data
+            ((JObject)existingDevice).Merge(device);
+
+            return await _deviceRegistryCrudRepository.UpdateDeviceAsync(existingDevice);
         }
 
         /// <summary>
