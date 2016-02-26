@@ -11,6 +11,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.DataTables;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
@@ -143,6 +144,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             }, false);
         }
+
+        // POST: api/v1/devices/sendSMS
+        [HttpPost]
+        [Route("sendSMS")]
+        [WebApiRequirePermission(Permission.ViewDevices)]
+        public async Task<HttpResponseMessage> SendSMS([FromBody]JObject requestData)
+        {
+            JObject requestPayload = new JObject();
+            requestPayload.Add("To", "+17038638414");
+            requestPayload.Add("From", "+12064881483");
+            requestPayload.Add("Body", "this is a test");
+
+            HttpContent content = new ByteArrayContent(System.Text.UTF8Encoding.UTF8.GetBytes(requestPayload.ToString()));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            return await new HttpClient().PostAsync("https://AC2314c6031b641c3b877d84ee0d58a021:ffd9483b5d66b68d9dbac234fe771952@api.twilio.com/2010-04-01/Accounts/AC2314c6031b641c3b877d84ee0d58a021/Messages", content);
+        }
+
 
         // DELETE: api/v1/devices/5
         [HttpDelete]

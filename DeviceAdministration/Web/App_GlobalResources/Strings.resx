@@ -1276,4 +1276,7 @@
   <data name="UsernameLabel" xml:space="preserve">
     <value>Username</value>
   </data>
+  <data name="SendSMS" xml:space="preserve">
+    <value>Send SMS to Phone</value>
+  </data>
 </root>
