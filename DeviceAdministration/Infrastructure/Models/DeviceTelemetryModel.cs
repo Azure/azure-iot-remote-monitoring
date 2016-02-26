@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 {
@@ -7,6 +9,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </summary>
     public class DeviceTelemetryModel
     {
+    
         /// <summary>
         /// Gets or sets the ID of the Device for which telemetry applies.
         /// </summary>
@@ -41,6 +44,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// value.
         /// </summary>
         public double? Temperature
+        {
+            get;
+            set;
+        }
+
+        public double? HeartRate
+        {
+            get;
+            set;
+        }
+
+        public double? SkinTemperature
         {
             get;
             set;

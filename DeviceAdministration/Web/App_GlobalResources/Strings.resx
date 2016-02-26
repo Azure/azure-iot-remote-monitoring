@@ -981,6 +981,12 @@
   <data name="Temperature" xml:space="preserve">
     <value>Temperature</value>
   </data>
+  <data name="HeartRate" xml:space="preserve">
+    <value>HeartRate</value>
+  </data>
+  <data name="SkinTemperature" xml:space="preserve">
+    <value>SkinTemperature</value>
+  </data>
   <data name="Active" xml:space="preserve">
     <value>Active</value>
   </data>

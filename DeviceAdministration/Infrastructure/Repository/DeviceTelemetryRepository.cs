@@ -287,6 +287,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         model.Temperature = number;
                     }
 
+                    if (strdict.TryGetValue("HeartRate", out str) &&
+                        double.TryParse(
+                            str,
+                            NumberStyles.Float,
+                            CultureInfo.InvariantCulture,
+                            out number))
+                    {
+                        model.HeartRate = number;
+                    }
+
+                    if (strdict.TryGetValue("SkinTemperature", out str) &&
+                        double.TryParse(
+                            str,
+                            NumberStyles.Float,
+                            CultureInfo.InvariantCulture,
+                            out number))
+                    {
+                        model.SkinTemperature = number;
+                    }
+
                     DateTime date;
                     if (strdict.TryGetValue("EventEnqueuedUtcTime", out str) &&
                         DateTime.TryParse(

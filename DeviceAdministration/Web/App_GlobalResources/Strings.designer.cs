@@ -1781,6 +1781,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to HeartRate.
+        /// </summary>
+        public static string HeartRate {
+            get {
+                return ResourceManager.GetString("HeartRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IOT HUB HOSTNAME.
         /// </summary>
         public static string Hostname {
@@ -3181,6 +3190,15 @@ namespace GlobalResources {
         public static string SingleCommandHint {
             get {
                 return ResourceManager.GetString("SingleCommandHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SkinTemperature.
+        /// </summary>
+        public static string SkinTemperature {
+            get {
+                return ResourceManager.GetString("SkinTemperature", resourceCulture);
             }
         }
         
