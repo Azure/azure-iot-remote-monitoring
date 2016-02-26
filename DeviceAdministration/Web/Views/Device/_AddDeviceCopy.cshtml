@@ -20,7 +20,7 @@ else
             <td class="table_credentials__label">
                 @Strings.DeviceIdColon
             </td>
-            <td class="table_credentials__value">
+            <td class="table_credentials__value js-new_device_id">
                 @IoTHelpers.TextCopy("DeviceId", classname, @Model.DeviceId)
             </td>
         </tr>
@@ -28,7 +28,7 @@ else
             <td class="table_credentials__label">
                 @Strings.AzureDevicesHostnameColon
             </td>
-            <td class="table_credentials__value">
+            <td class="table_credentials__value js-new_device_provider">
                 @IoTHelpers.TextCopy("AzureDevicesHostname", classname, @Model.HostName)
             </td>
         </tr>
@@ -36,7 +36,7 @@ else
             <td class="table_credentials__label">
                 @Strings.DeviceKeyColon
             </td>
-            <td class="table_credentials__value">
+            <td class="table_credentials__value js-new_device_key">
                 @IoTHelpers.TextCopy("PrimaryKey", classname, @Model.PrimaryKey)
             </td>
         </tr>
@@ -46,6 +46,14 @@ else
 
 
 <button type="button" class="button_base button_credentials" onclick="location.href = '@Url.Action("Index", "Device")' ">@Strings.Done</button>
+
+<div>
+    Send Device info SMS To:
+
+    <input class="js-send_sms_phone_number" type="text" />
+
+    <button type="button" class="button_base button_send_sms">@Strings.SendSMS</button>
+</div>
 
 @if (!string.IsNullOrWhiteSpace(Model.InstructionsUrl)) {
 <div class="content_instructions">

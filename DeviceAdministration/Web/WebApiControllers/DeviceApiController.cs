@@ -10,7 +10,13 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.DataTables;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
+using System.Security.Cryptography;
 using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
+using Twilio;
+using System.Security.Cryptography;
+using System.Text;
+using System.IO;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
@@ -27,7 +33,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         // POST: api/v1/devices/sample/5
         [HttpPost]
         [Route("sample/{count}")]
-        [WebApiRequirePermission(Permission.AddDevices)]
+        [WebApiRequirePermission(Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security.Permission.AddDevices)]
         public async Task<HttpResponseMessage> GenerateSampleDevicesAsync(int count)
         {
             ValidatePositiveValue("count", count);
@@ -42,7 +48,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         // GET: api/v1/devices/5
         [HttpGet]
         [Route("{id}")]
-        [WebApiRequirePermission(Permission.ViewDevices)]
+        [WebApiRequirePermission(Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security.Permission.ViewDevices)]
         public async Task<HttpResponseMessage> GetDeviceAsync(string id)
         {
             ValidateArgumentNotNullOrWhitespace("id", id);
@@ -62,7 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         // Example: api/v1/devices?filterColumn=DeviceID&filterType=StartsWithCaseSensitive&filterValue=000&filterColumn=FirmwareVersion&filterType=ContainsCaseInsensitive&filterValue=564
         [HttpGet]
         [Route("")]
-        [WebApiRequirePermission(Permission.ViewDevices)]
+        [WebApiRequirePermission(Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security.Permission.ViewDevices)]
         public async Task<HttpResponseMessage> GetDevicesAsync(
             [FromUri]string search = null,
             [FromUri]string sortColumn = null,
@@ -108,7 +114,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         // This endpoint is used by the jQuery DataTables grid to get data (and accepts an unusual data format based on that grid)
         [HttpPost]
         [Route("list")]
-        [WebApiRequirePermission(Permission.ViewDevices)]
+        [WebApiRequirePermission(Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security.Permission.ViewDevices)]
         public async Task<HttpResponseMessage> GetDevices([FromBody]JObject requestData)
         {
             return await GetServiceResponseAsync<DataTablesResponse>(async () =>
@@ -144,10 +150,33 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }, false);
         }
 
+        // POST: api/v1/devices/sendSMS
+        [HttpPost]
+        [Route("sendSMS")]
+        [WebApiRequirePermission(Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security.Permission.ViewDevices)]
+        public HttpResponseMessage SendSMS([FromBody]JObject requestData)
+        {
+
+            // Download the twilio-csharp library from twilio.com/docs/csharp/install 
+
+ 	        // Find your Account Sid and Auth Token at twilio.com/user/account 
+ 	        string AccountSid = "AC2314c6031b641c3b877d84ee0d58a021"; 
+ 	        string AuthToken = "ffd9483b5d66b68d9dbac234fe771952"; 
+ 	        var twilio = new TwilioRestClient(AccountSid, AuthToken);
+
+            string messageBody = requestData["domain"].ToString() + ';' + requestData["deviceId"].ToString() + ';' + requestData["deviceKey"].ToString();
+              
+            var message = twilio.SendMessage("+12064881483", requestData["phoneNumber"].ToString(), messageBody);
+ 	        Console.WriteLine(message.Sid);
+
+            return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+       }
+
+
         // DELETE: api/v1/devices/5
         [HttpDelete]
         [Route("{id}")]
-        [WebApiRequirePermission(Permission.RemoveDevices)]
+        [WebApiRequirePermission(Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security.Permission.RemoveDevices)]
         public async Task<HttpResponseMessage> RemoveDeviceAsync(string id)
         {
             ValidateArgumentNotNullOrWhitespace("id", id);
@@ -162,7 +191,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         // POST: api/v1/devices
         [HttpPost]
         [Route("")]
-        [WebApiRequirePermission(Permission.AddDevices)]
+        [WebApiRequirePermission(Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security.Permission.AddDevices)]
         public async Task<HttpResponseMessage> AddDeviceAsync(dynamic device)
         {
             ValidateArgumentNotNull("device", device);
@@ -176,7 +205,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         //PUT: api/v1/devices
         [HttpPut]
         [Route("")]
-        [WebApiRequirePermission(Permission.EditDeviceMetadata)]
+        [WebApiRequirePermission(Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security.Permission.EditDeviceMetadata)]
         public async Task<HttpResponseMessage> UpdateDeviceAsync(dynamic device)
         {
             ValidateArgumentNotNull("device", device);
@@ -191,7 +220,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         //GET: api/v1/devices/5/hub-keys
         [HttpGet]
 		[Route("{id}/hub-keys")]
-        [WebApiRequirePermission(Permission.ViewDeviceSecurityKeys)]
+        [WebApiRequirePermission(Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security.Permission.ViewDeviceSecurityKeys)]
         public async Task<HttpResponseMessage> GetDeviceKeysAsync(string id)
         {
             ValidateArgumentNotNullOrWhitespace("id", id);
@@ -205,7 +234,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         //PUT: api/v1/devices/5/enabledstatus
         [HttpPut]
         [Route("{deviceId}/enabledstatus")]
-        [WebApiRequirePermission(Permission.DisableEnableDevices)]
+        [WebApiRequirePermission(Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security.Permission.DisableEnableDevices)]
         public async Task<HttpResponseMessage> UpdateDeviceEnabledStatus(string deviceId, [FromBody]JObject request)
         {
             bool isEnabled;
@@ -241,7 +270,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         // POST: api/v1/devices/5/commands/{commandName}
         [HttpPost]
         [Route("{deviceId}/commands/{commandName}")]
-        [WebApiRequirePermission(Permission.SendCommandToDevices)]
+        [WebApiRequirePermission(Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security.Permission.SendCommandToDevices)]
         public async Task<HttpResponseMessage> SendCommand(string deviceId, string commandName, [FromBody]dynamic parameters)
         {
             ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
@@ -260,7 +289,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         // DELETE: api/v1/all-devices
         [HttpDelete]
         [Route("~/api/v1/all-devices")]
-        [WebApiRequirePermission(Permission.RemoveDevices)]
+        [WebApiRequirePermission(Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security.Permission.RemoveDevices)]
         public async Task<HttpResponseMessage> DeleteAllDevices()
         {
             return await GetServiceResponseAsync(async () =>
@@ -293,4 +322,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 #endif
 
     }
+
 }

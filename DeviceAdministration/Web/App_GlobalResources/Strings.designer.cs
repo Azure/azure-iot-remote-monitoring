@@ -3023,6 +3023,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Send SMS to Phone.
+        /// </summary>
+        public static string SendSMS {
+            get {
+                return ResourceManager.GetString("SendSMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send Update Key To Device.
         /// </summary>
         public static string SendUpdateKeyToDevice {
