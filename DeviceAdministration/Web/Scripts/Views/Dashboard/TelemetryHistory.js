@@ -1,4 +1,4 @@
-﻿IoTApp.createModule(
+IoTApp.createModule(
     'IoTApp.Dashboard.TelemetryHistory',
     function initTelemetryHistory() {
         'use strict';
@@ -11,6 +11,13 @@
         var targetControlTitle;
         var visual;
         var width;
+        var hasVisualBeenInitialized = false;
+        
+        var reservedDataColumns = [
+            "timestamp",
+            "deviceId",
+            "externalTemperature" // TODO: remove this
+        ];
 
         var createDataView = function createDataView(data) {
 
@@ -46,42 +53,39 @@
                                 powerbi.data.SQExprBuilder.text(value));
                         return powerbi.data.createDataViewScopeIdentity(expr);
                     });
-
-            graphMetadata = {
-                columns: [
-                    {
-                        displayName: 'Time',
-                        isMeasure: true,
-                        queryName: 'timestamp',
-                        type: powerbi.ValueType.fromDescriptor({ dateTime: true })
-                    },
-                    {
-                        displayName: 'Humidity',
-                        isMeasure: true,
-                        format: "0.00",
-                        queryName: 'humidity',
-                        type: powerbi.ValueType.fromDescriptor({ numeric: true }),
-                    },
-                    {
-                        displayName: 'Temperature',
-                        isMeasure: true,
-                        format: "0.0",
-                        queryName: 'temperature',
-                        type: powerbi.ValueType.fromDescriptor({ numeric: true })
-                    }
-                ],
-            };
-
-            columns = [
+                    
+            var graphMetadataColumns = [
                 {
-                    source: graphMetadata.columns[1],
-                    values: graphData.humidities
-                },
-                {
-                    source: graphMetadata.columns[2],
-                    values: graphData.temperatures
+                    displayName: 'Time',
+                    isMeasure: true,
+                    queryName: 'timestamp',
+                    type: powerbi.ValueType.fromDescriptor({ dateTime: true })
                 }
             ];
+            
+            columns = [];
+            
+            // Create a new column for non-reserved values
+            for (var field in data[0]) {
+                if (reservedDataColumns.indexOf(field) === -1) {
+                    graphMetadataColumns.push({
+                        displayName: field,
+                        isMeasure: true,
+                        format: "0.0",
+                        queryName: field,
+                        type: powerbi.ValueType.fromDescriptor({ numeric: true })
+                    });
+                    
+                    columns.push({
+                        source: graphMetadataColumns[graphMetadataColumns.length - 1],
+                        values: graphData[field]
+                    })
+                }
+            }
+
+            graphMetadata = {
+                columns: graphMetadataColumns
+            };
 
             dataValues = dataViewTransform.createValueColumns(columns);
 
@@ -135,7 +139,7 @@
             var width;
 
             pluginService = powerbi.visuals.visualPluginFactory.create();
-            singleVisualHostServices = powerbi.visuals.singleVisualHostServices;
+            singleVisualHostServices = powerbi.visuals.defaultVisualHostServices;
 
             height = $(targetControl).height();
             width = $(targetControl).width();
@@ -157,6 +161,8 @@
                 interactivity: { isInteractiveLegend: false, selection: false },
                 animation: { transitionImmediate: true }
             });
+            
+            hasVisualBeenInitialized = true;
         };
 
         var init = function init(telemetryHistorySettings) {
@@ -182,15 +188,22 @@
             var results;
 
             results = {
-                humidities: [],
-                temperatures: [],
                 timestamps: []
             };
+            
+            for (var field in data[0]) {
+                if (reservedDataColumns.indexOf(field) === -1) {
+                    results[field] = [];
+                }
+            }
 
             for (i = 0 ; i < data.length ; ++i) {
                 item = data[i];
-                results.humidities.push(item.humidity);
-                results.temperatures.push(item.temperature);
+                for (var field in item) {
+                    if (reservedDataColumns.indexOf(field) === -1) {
+                        results[field].push(item[field]);
+                    }
+                }
 
                 dateTime = new Date(item.timestamp);
                 if (!dateTime.replace) {
@@ -215,7 +228,7 @@
             height = $(targetControl).height();
             width = $(targetControl).width();
 
-            if (lastData) {
+            if (lastData && hasVisualBeenInitialized) {
                 visual.update({
                     dataViews: [createDataView(lastData)],
                     viewport: {
