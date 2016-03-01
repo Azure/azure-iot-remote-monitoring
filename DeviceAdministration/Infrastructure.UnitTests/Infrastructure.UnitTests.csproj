@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogic\CommandParameterTypeLogicTests.cs" />
     <Compile Include="DeviceSchemaHelperTests.cs" />
     <Compile Include="ExceptionSerializationTests.cs" />
     <Compile Include="FilterHelperTests.cs" />

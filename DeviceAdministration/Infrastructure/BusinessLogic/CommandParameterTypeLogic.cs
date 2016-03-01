@@ -211,6 +211,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 new Dictionary<string, Type>
                 {
                     {"int16", typeof (Int16)},
+                    {"int", typeof (Int32)},
                     {"int32", typeof (Int32)},
                     {"int64", typeof (Int64)},
                     {"sbyte", typeof (sbyte)},
