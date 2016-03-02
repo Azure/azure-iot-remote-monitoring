@@ -10,6 +10,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     {
         private readonly ILogger _logger;
         private readonly IDevice _device;
+        private bool sent = false;
         
         public StartupTelemetry(ILogger logger, IDevice device)
         {
@@ -19,8 +20,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         public async Task SendEventsAsync(System.Threading.CancellationToken token, Func<object, Task> sendMessageAsync)
         {
-            if (!token.IsCancellationRequested)
+            if (!token.IsCancellationRequested && !sent)
             {
+                sent = true;
                 _logger.LogInfo("Sending initial data for device {0}", _device.DeviceID);
                 await sendMessageAsync(_device.GetDeviceInfo());
             }

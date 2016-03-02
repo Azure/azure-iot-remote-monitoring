@@ -24,8 +24,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
 
         IReadOnlyList<ITelemetry> Telemetries { get; }
 
-        bool RepeatEventListForever { get; set; }
-
         void Init(InitialDeviceConfig config);
 
         Task SendDeviceInfo();

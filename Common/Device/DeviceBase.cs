@@ -16,7 +16,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
     /// <summary>
     /// Simulates a single IoT device that sends and recieves data from a transport
     /// </summary>
-    public abstract class DeviceBase : IDevice
+    public abstract class DeviceBase : IDevice, IDisposable
     {
         private const int REPORT_FREQUENCY_IN_SECONDS = 5;
 
@@ -28,7 +28,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
         protected ITransport Transport;
         protected CommandProcessor RootCommandProcessor;
 
-        private readonly ManualResetEventSlim processing = new ManualResetEventSlim(true);
+        private ManualResetEventSlim processing = new ManualResetEventSlim(true);
 
         public string DeviceID
         {
@@ -48,11 +48,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
 
         public dynamic Commands { get; set; }
 
+        public virtual bool IsSimulated => true;
+
         private readonly List<ITelemetry> telemetries;
 
         public IReadOnlyList<ITelemetry> Telemetries { get { return telemetries; } }
-
-        public bool RepeatEventListForever { get; set; }
 
         /// <summary>
         /// 
@@ -83,8 +83,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
 
         protected virtual void InitDeviceInfo(InitialDeviceConfig config)
         {
-            DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(this);
-            Commands = CommandSchemaHelper.GetSupportedCommands(this);
+            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(config.DeviceId, IsSimulated, null);
+            DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
+            Commands = CommandSchemaHelper.GetSupportedCommands(device);
             HostName = config.HostName;
             PrimaryAuthKey = config.Key;
         }
@@ -111,7 +112,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
         /// <returns></returns>
         public virtual dynamic GetDeviceInfo()
         {
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(DeviceID, true, null);
+            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(DeviceID, IsSimulated, null);
             device.DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(this);
             device.Commands = CommandSchemaHelper.GetSupportedCommands(this);
             device.Version = Version;
@@ -155,12 +156,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
 
         public async Task PauseAsync()
         {
+            if (disposed)
+                throw new ObjectDisposedException(this.DeviceID);
             await Task.Yield();
             processing.Reset();
         }
 
         public async Task ResumeAsync()
         {
+            if (disposed)
+                throw new ObjectDisposedException(this.DeviceID);
             await Task.Yield();
             processing.Set();
         }
@@ -180,33 +185,36 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
 
                 do
                 {
-                    processing.Wait(token);
-
-                    var telemetry = 0;
-
-                    Logger.LogInfo("Starting events list for device {0}...", DeviceID);
-
-                    while (telemetry < Telemetries.Count && !token.IsCancellationRequested)
+                    if (!disposed)
                     {
-                        Logger.LogInfo("Device {0} starting IEventGroup {1}...", DeviceID, telemetry);
+                        processing.Wait(token);
 
-                        var eventGroup = Telemetries[telemetry];
+                        var telemetry = 0;
 
-                        await eventGroup.SendEventsAsync(token, async (object eventData) =>
+                        Logger.LogInfo("Starting events list for device {0}...", DeviceID);
+
+                        while (telemetry < Telemetries.Count && !token.IsCancellationRequested)
                         {
-                            await Transport.SendEventAsync(eventData);
-                        });
+                            Logger.LogInfo("Device {0} starting IEventGroup {1}...", DeviceID, telemetry);
 
-                        telemetry++;
+                            var eventGroup = Telemetries[telemetry];
+
+                            await eventGroup.SendEventsAsync(token, async (object eventData) =>
+                            {
+                                await Transport.SendEventAsync(eventData);
+                            });
+
+                            telemetry++;
+                        }
+
+                        Logger.LogInfo("Device {0} finished sending all events in list...", DeviceID);
+
+                        await Task.Delay(TimeSpan.FromSeconds(REPORT_FREQUENCY_IN_SECONDS), token);
                     }
 
-                    Logger.LogInfo("Device {0} finished sending all events in list...", DeviceID);
+                } while (!token.IsCancellationRequested && !disposed);
 
-                    await Task.Delay(TimeSpan.FromSeconds(REPORT_FREQUENCY_IN_SECONDS), token);
-
-                } while (RepeatEventListForever && !token.IsCancellationRequested);
-
-                Logger.LogWarning("Device {0} sent all events and is shutting down send loop. (Set RepeatEventListForever = true on the device to loop forever.)", DeviceID);
+                Logger.LogWarning("Device {0} event loop finished", DeviceID);
 
             }
             catch (TaskCanceledException) 
@@ -236,7 +244,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
 
             try
             {
-                while (!token.IsCancellationRequested)
+                while (!token.IsCancellationRequested && !disposed)
                 {
                     command = null;
                     exception = null;
@@ -324,6 +332,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Device
             }
 
             Logger.LogInfo("********** Processing Device {0} has been cancelled - StartReceiveLoopAsync Ending. **********", DeviceID);
+        }
+
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if(!disposed)
+            {
+                disposed = true;
+                if(disposing)
+                {
+                    if(processing != null)
+                    {
+                        processing.Dispose();
+                        processing = null;
+                    }
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~DeviceBase()
+        {
+            Dispose(false);
         }
     }
 }

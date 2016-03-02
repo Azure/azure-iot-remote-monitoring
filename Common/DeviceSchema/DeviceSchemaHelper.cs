@@ -249,7 +249,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         {
             JObject device = new JObject();
 
-            InitializeDeviceProperties(device, deviceId, isSimulated);
+            InitializeDeviceProperties(device, deviceId);
             InitializeSystemProperties(device, iccid);
 
             device.Add(DeviceModelConstants.COMMANDS, new JArray());
@@ -264,9 +264,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="device"></param>
         /// <param name="deviceId"></param>
-        /// <param name="isSimulated"></param>
         /// <returns></returns>
-        public static void InitializeDeviceProperties(dynamic device, string deviceId, bool isSimulated)
+        public static void InitializeDeviceProperties(dynamic device, string deviceId)
         {
             JObject deviceProps = new JObject();
             deviceProps.Add(DevicePropertiesConstants.DEVICE_ID, deviceId);
