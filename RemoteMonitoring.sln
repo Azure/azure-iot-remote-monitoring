@@ -27,6 +27,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{42031CBE-7F96-4B37-8DE8-FE30A3F2B0CB}"
 	ProjectSection(SolutionItems) = preProject
 		Common_Props.proj = Common_Props.proj
+		device.fzz = device.fzz
 		WebEssentials-Settings.json = WebEssentials-Settings.json
 	EndProjectSection
 EndProject
