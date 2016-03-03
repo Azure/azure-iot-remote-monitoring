@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "Microsoft.AspNet.WebApi.Client": "5.2.3",
     "Microsoft.Azure.Devices.Client": "1.0.2",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
   },

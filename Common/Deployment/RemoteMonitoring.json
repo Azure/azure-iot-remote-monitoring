@@ -434,7 +434,7 @@
         "Transformation": {
           "Name": "DeviceInfoFilter",
           "Properties": {
-            "Query": "SELECT * FROM DeviceDataStream Partition By PartitionId WHERE  ObjectType = 'DeviceInfo'",
+            "Query": "SELECT * FROM DeviceDataStream Partition By PartitionId WHERE  ObjectType LIKE '%DeviceInfo'",
             "StreamingUnits": 1
           }
         }

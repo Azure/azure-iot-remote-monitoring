@@ -9,11 +9,10 @@ using Windows.Devices.Gpio;
 using Windows.Devices.I2c;
 using Windows.UI;
 
-namespace Device
+namespace TestDevice
 {
-    public enum LedState { On, Off };
 
-    public class ColorData
+    internal class ColorData
     {
         public ushort Red { get; set; }
         public ushort Green { get; set; }
@@ -21,7 +20,7 @@ namespace Device
         public ushort Clear { get; set; }
     }
 
-    public class RgbData
+    internal class RgbData
     {
         public int Red { get; set; }
         public int Green { get; set; }
@@ -34,7 +33,7 @@ namespace Device
         }
     }
 
-    class TCS34725
+    internal class TCS34725
     {
         #region TCS34725 Data Channels & Byte Addresses
         const byte TCS34725_Address = 0x29;

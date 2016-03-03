@@ -7,9 +7,9 @@ using Windows.Devices.Enumeration;
 using Windows.Devices.Gpio;
 using Windows.Devices.I2c;
 
-namespace Device
+namespace TestDevice
 {
-    public class BMP280_CalibrationData
+    internal sealed class BMP280_CalibrationData
     {
         //BMP280 Registers
         public UInt16 dig_T1 { get; set; }
@@ -27,7 +27,7 @@ namespace Device
         public Int16 dig_P9 { get; set; }
     }
 
-    public class BMP280
+    internal sealed class BMP280
     {
         //The BMP280 register addresses according the the datasheet: http://www.adafruit.com/datasheets/BST-BMP280-DS001-11.pdf
         const byte BMP280_Address = 0x77;
