@@ -155,7 +155,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
                     for (int i = 0; (i < row.Length) &&(i < firstRow.Length); ++i)
                     {
-                        currentItem[firstRow[i]] = row[i];
+                        currentItem[firstRow[i].ToLowerInvariant()] = row[i];
                     }
 
                     yield return currentItem;
