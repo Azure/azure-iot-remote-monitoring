@@ -33,9 +33,9 @@ namespace TestDevice
             var deviceFactory = new TestDeviceFactory();
             var deviceConfig = new InitialDeviceConfig()
             {
-                DeviceId = "391d6e32-bb08-40a0-a027-abb7d3a54b2c",
-                HostName = "mshudxiot.azure-devices.net",
-                Key = "+oHpQCwpRdfNPd1AP34vQA==",
+                DeviceId = "",
+                HostName = ".azure-devices.net",
+                Key = "",
             };
             var device = await deviceFactory.CreateDevice(logger, transportFactory, configProvider, deviceConfig);
 

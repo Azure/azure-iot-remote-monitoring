@@ -311,7 +311,7 @@ function GetAzureStorageAccount()
     if ($storage -eq $null)
     {
         Write-Host "$(Get-Date –f $timeStampFormat) - Creating new storage account: $storageAccountName"
-        $storage = New-AzureRmStorageAccount -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -Location $location -Type Standard_GRS
+        $storage = New-AzureRmStorageAccount -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -Location $location -Type Standard_LRS
     }
     return $storage
 }

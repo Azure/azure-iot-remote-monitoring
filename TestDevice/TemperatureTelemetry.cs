@@ -31,8 +31,6 @@ namespace TestDevice
             monitorData.DeviceId = deviceId;
             monitorData.Temperature = await temperatureSensor.ReadTemperature();
             monitorData.Pressure = await temperatureSensor.ReadPreasure();
-            var messageBody = $"Temperature: {Math.Round(monitorData.Temperature, 2)} Pressure: {Math.Round(monitorData.Pressure, 2)}";
-
             await sendMessageAsync(monitorData);
         }
     }
