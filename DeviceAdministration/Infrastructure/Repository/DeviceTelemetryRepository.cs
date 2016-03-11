@@ -252,12 +252,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 {
                     model = new DeviceTelemetryModel();
 
-                    if (strdict.TryGetValue("DeviceId", out str))
+                    if (strdict.TryGetValue("deviceid", out str))
                     {
                         model.DeviceId = str;
                     }
 
-                    if (strdict.TryGetValue("ExternalTemperature", out str) &&
+                    if (strdict.TryGetValue("externaltemperature", out str) &&
                         double.TryParse(
                             str,
                             NumberStyles.Float,
@@ -267,7 +267,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         model.ExternalTemperature = number;
                     }
 
-                    if (strdict.TryGetValue("Humidity", out str) &&
+                    if (strdict.TryGetValue("humidity", out str) &&
                         double.TryParse(
                             str,
                             NumberStyles.Float,
@@ -277,7 +277,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         model.Humidity = number;
                     }
 
-                    if (strdict.TryGetValue("Temperature", out str) &&
+                    if (strdict.TryGetValue("temperature", out str) &&
                         double.TryParse(
                             str,
                             NumberStyles.Float,
@@ -288,7 +288,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     }
 
                     DateTime date;
-                    if (strdict.TryGetValue("EventEnqueuedUtcTime", out str) &&
+                    if (strdict.TryGetValue("eventenqueuedutctime", out str) &&
                         DateTime.TryParse(
                             str, 
                             CultureInfo.InvariantCulture,

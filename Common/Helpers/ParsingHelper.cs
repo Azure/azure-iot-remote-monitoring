@@ -151,7 +151,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 }
                 else
                 {
-                    var currentItem = new Dictionary<string, string>();
+                    var currentItem = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
                     for (int i = 0; (i < row.Length) &&(i < firstRow.Length); ++i)
                     {
