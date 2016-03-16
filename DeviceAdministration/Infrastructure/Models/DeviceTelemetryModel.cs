@@ -20,6 +20,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         /// <summary>
+        /// Values for telemetry data associated with individual fields
+        /// </summary>
+        private IDictionary<string, double> values = new Dictionary<string, double>();
+        public IDictionary<string, double> Values
+        {
+            get { return values; }
+            set { values = value; }
+        }
+
+        /// <summary>
         /// Gets or sets the represented telemetry recording's external 
         /// temperature value.
         /// </summary>

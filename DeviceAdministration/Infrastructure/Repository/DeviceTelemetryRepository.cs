@@ -257,56 +257,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         model.DeviceId = str;
                     }
 
-                    if (strdict.TryGetValue("ExternalTemperature", out str) &&
-                        double.TryParse(
-                            str,
-                            NumberStyles.Float,
-                            CultureInfo.InvariantCulture,
-                            out number))
-                    {
-                        model.ExternalTemperature = number;
-                    }
-
-                    if (strdict.TryGetValue("Humidity", out str) &&
-                        double.TryParse(
-                            str,
-                            NumberStyles.Float,
-                            CultureInfo.InvariantCulture,
-                            out number))
-                    {
-                        model.Humidity = number;
-                    }
-
-                    if (strdict.TryGetValue("Temperature", out str) &&
-                        double.TryParse(
-                            str,
-                            NumberStyles.Float,
-                            CultureInfo.InvariantCulture,
-                            out number))
-                    {
-                        model.Temperature = number;
-                    }
-
-                    if (strdict.TryGetValue("HeartRate", out str) &&
-                        double.TryParse(
-                            str,
-                            NumberStyles.Float,
-                            CultureInfo.InvariantCulture,
-                            out number))
-                    {
-                        model.HeartRate = number;
-                    }
-
-                    if (strdict.TryGetValue("SkinTemperature", out str) &&
-                        double.TryParse(
-                            str,
-                            NumberStyles.Float,
-                            CultureInfo.InvariantCulture,
-                            out number))
-                    {
-                        model.SkinTemperature = number;
-                    }
-
                     DateTime date;
                     if (strdict.TryGetValue("EventEnqueuedUtcTime", out str) &&
                         DateTime.TryParse(
@@ -316,6 +266,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                             out date))
                     {
                         model.Timestamp = date;
+                    }
+
+                    List<string> reservedColumns = new List<string>
+                    {
+                        "DeviceId",
+                        "EventEnqueuedUtcTime"
+                    };
+
+                    foreach (string field in strdict.Keys.Where((key) => !reservedColumns.Contains(key)))
+                    {
+                        if (strdict.TryGetValue(field, out str) &&
+                            double.TryParse(
+                                str,
+                                NumberStyles.Float,
+                                CultureInfo.InvariantCulture,
+                                out number))
+                        {
+                            model.Values.Add(field, number);
+                        }
                     }
 
                     models.Add(model);

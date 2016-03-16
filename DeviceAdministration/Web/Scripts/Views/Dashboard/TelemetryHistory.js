@@ -13,12 +13,6 @@
         var width;
         var hasVisualBeenInitialized = false;
         
-        var reservedDataColumns = [
-            "timestamp",
-            "deviceId",
-            "externalTemperature" // TODO: remove this
-        ];
-        
         var createDataView = function createDataView(data) {
             
             var categoryIdentities;
@@ -65,21 +59,19 @@
 
             columns = [];
 
-            // Create a new column for non-reserved values
-            for (var field in data[0]) {
-                if (reservedDataColumns.indexOf(field) === -1) {
-                    graphMetadataColumns.push({
-                        displayName: field,
-                        isMeasure: true,
-                        format: "0.0",
-                        queryName: field,
-                        type: powerbi.ValueType.fromDescriptor({ numeric: true })
-                    });  
-                    columns.push({
-                        source: graphMetadataColumns[graphMetadataColumns.length - 1],
-                        values: graphData[field]
-                    })
-                }
+            // Create a new column for values
+            for (var field in data[0].values) {
+                graphMetadataColumns.push({
+                    displayName: field,
+                    isMeasure: true,
+                    format: "0.0",
+                    queryName: field,
+                    type: powerbi.ValueType.fromDescriptor({ numeric: true })
+                });  
+                columns.push({
+                    source: graphMetadataColumns[graphMetadataColumns.length - 1],
+                    values: graphData[field]
+                });
             }
             
             graphMetadata = {
@@ -190,17 +182,13 @@
                 timestamps: []
             };
             
-            for (var field in data[0]) {
-                if (reservedDataColumns.indexOf(field) === -1) {
-                    results[field] = [];
-                }
+            for (var field in data[0].values) {
+                results[field] = [];
             }            
             for (i = 0 ; i < data.length ; ++i) {
                 item = data[i];
-                for (var field in item) {
-                    if (reservedDataColumns.indexOf(field) === -1) {
-                        results[field].push(item[field]);
-                    }
+                for (var field in item.values) {
+                    results[field].push(item.values[field]);
                 }
                 
                 dateTime = new Date(item.timestamp);
