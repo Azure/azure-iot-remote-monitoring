@@ -30,48 +30,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         /// <summary>
-        /// Gets or sets the represented telemetry recording's external 
-        /// temperature value.
-        /// </summary>
-        public double? ExternalTemperature
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets the represented telemetry recording's humidity 
-        /// value.
-        /// </summary>
-        public double? Humidity
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets the represented telemetry recording's temperature 
-        /// value.
-        /// </summary>
-        public double? Temperature
-        {
-            get;
-            set;
-        }
-
-        public double? HeartRate
-        {
-            get;
-            set;
-        }
-
-        public double? SkinTemperature
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Gets or sets the time of record for the represented telemetry 
         /// recording.
         /// </summary>
