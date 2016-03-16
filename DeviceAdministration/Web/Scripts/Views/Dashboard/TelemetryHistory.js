@@ -62,7 +62,7 @@
             // Create a new column for values
             for (var field in data[0].values) {
                 graphMetadataColumns.push({
-                    displayName: field,
+                    displayName: convertToDisplayName(field),
                     isMeasure: true,
                     format: "0.0",
                     queryName: field,
@@ -259,6 +259,14 @@
             lastData = newData;
             redraw();
         };
+
+        var convertToDisplayName = function (fieldName) {
+            return fieldName
+                .replace(/([A-Z])/g, ' $1') // Spaces in front of capitals
+                .replace(/^([a-z])/g, function (match, firstLetter) { // Make first letter upper case
+                    return firstLetter.toUpperCase();
+                });
+        }
         
         return {
             init: init,
