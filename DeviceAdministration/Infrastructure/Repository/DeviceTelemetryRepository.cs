@@ -271,7 +271,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     List<string> reservedColumns = new List<string>
                     {
                         "DeviceId",
-                        "EventEnqueuedUtcTime"
+                        "EventEnqueuedUtcTime",
+                        "EventProcessedUtcTime",
+                        "IoTHub",
+                        "PartitionId"
                     };
 
                     foreach (string field in strdict.Keys.Where((key) => !reservedColumns.Contains(key)))
