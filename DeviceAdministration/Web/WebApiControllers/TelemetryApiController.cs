@@ -94,27 +94,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Func<Task<DashboardDevicePaneDataModel>> getTelemetry =
                 async () =>
                 {
+                    // Get Telemetry Summary
                     DeviceTelemetrySummaryModel summaryModel;
 
                     result.DeviceTelemetrySummaryModel = summaryModel =
                         await _deviceTelemetryLogic.LoadLatestDeviceTelemetrySummaryAsync(
                             deviceId, DateTime.Now.AddMinutes(-MAX_DEVICE_SUMMARY_AGE_MINUTES));
 
-                    IEnumerable<DeviceTelemetryModel> telemetryModels;
-                    if ((summaryModel != null) && summaryModel.Timestamp.HasValue && summaryModel.TimeFrameMinutes.HasValue)
+                    if (summaryModel == null)
                     {
-                        DateTime minTime = summaryModel.Timestamp.Value.AddMinutes(-summaryModel.TimeFrameMinutes.Value);
-
-                        telemetryModels = await _deviceTelemetryLogic.LoadLatestDeviceTelemetryAsync(deviceId, minTime);
-
-                    }
-                    else
-                    {
-                        telemetryModels = null;
-
                         result.DeviceTelemetrySummaryModel =
                             new DeviceTelemetrySummaryModel();
                     }
+
+                    // Get Telemetry History
+                    IEnumerable<DeviceTelemetryModel> telemetryModels;
+                    DateTime minTime = DateTime.Now.AddMinutes(-MAX_DEVICE_SUMMARY_AGE_MINUTES);
+                    telemetryModels = await _deviceTelemetryLogic.LoadLatestDeviceTelemetryAsync(deviceId, minTime);
 
                     if (telemetryModels == null)
                     {
