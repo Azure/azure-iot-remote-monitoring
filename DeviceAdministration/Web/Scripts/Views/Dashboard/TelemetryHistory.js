@@ -60,18 +60,20 @@
             columns = [];
 
             // Create a new column for values
-            for (var field in data[0].values) {
-                graphMetadataColumns.push({
-                    displayName: convertToDisplayName(field),
-                    isMeasure: true,
-                    format: "0.0",
-                    queryName: field,
-                    type: powerbi.ValueType.fromDescriptor({ numeric: true })
-                });  
-                columns.push({
-                    source: graphMetadataColumns[graphMetadataColumns.length - 1],
-                    values: graphData[field]
-                });
+            if (data[0]) {
+                for (var field in data[0].values) {
+                    graphMetadataColumns.push({
+                        displayName: convertToDisplayName(field),
+                        isMeasure: true,
+                        format: "0.0",
+                        queryName: field,
+                        type: powerbi.ValueType.fromDescriptor({ numeric: true })
+                    });
+                    columns.push({
+                        source: graphMetadataColumns[graphMetadataColumns.length - 1],
+                        values: graphData[field]
+                    });
+                }
             }
             
             graphMetadata = {
@@ -182,21 +184,23 @@
                 timestamps: []
             };
             
-            for (var field in data[0].values) {
-                results[field] = [];
-            }            
-            for (i = 0 ; i < data.length ; ++i) {
-                item = data[i];
-                for (var field in item.values) {
-                    results[field].push(item.values[field]);
+            if (data[0]) {
+                for (var field in data[0].values) {
+                    results[field] = [];
+                }            
+                for (i = 0 ; i < data.length ; ++i) {
+                    item = data[i];
+                    for (var field in item.values) {
+                        results[field].push(item.values[field]);
+                    }
+                    
+                    dateTime = new Date(item.timestamp);
+                    if (!dateTime.replace) {
+                        dateTime.replace = ('' + this).replace;
+                    }
+                    
+                    results.timestamps.push(dateTime);
                 }
-                
-                dateTime = new Date(item.timestamp);
-                if (!dateTime.replace) {
-                    dateTime.replace = ('' + this).replace;
-                }
-                
-                results.timestamps.push(dateTime);
             }
             
             return results;
@@ -214,7 +218,7 @@
             height = $(targetControl).height();
             width = $(targetControl).width();
             
-            if (lastData && (!Array.isArray(lastData) || lastData.length) && hasVisualBeenInitialized) {
+            if (lastData && hasVisualBeenInitialized) {
                 visual.update({
                     dataViews: [createDataView(lastData)],
                     viewport: {
