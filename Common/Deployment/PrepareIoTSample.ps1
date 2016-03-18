@@ -14,7 +14,13 @@ ClearDNSCache
 InitializeEnvironment $environmentName
 
 # Get Custom values
-$iothubFqdn = GetEnvSetting "IotEventNameFQDN"
+$iotSBnamespace = GetEnvSetting "IotSBNamespace"
+if ([string]::IsNullOrEmpty($iotSBnamespace))
+{
+    throw "Must provide IotSBNamespace"
+}
+
+$iothubFqdn = GetEnvSetting "IotHubFqdn"
 if ([string]::IsNullOrEmpty($iothubFqdn))
 {
     throw "Must provide IotHubFqdn"
@@ -24,12 +30,12 @@ if ($parts.length -ne 3)
 {
     throw ("Invalid Fqdn: {0}, expects three parts" -f $iothubFqdn)
 }
-$iotHubNamespace = $parts[0]
+$iotEventHub = $parts[0]
 
-$iothubKey = GetEnvSetting "IotEventKey"
+$iothubKey = GetEnvSetting "IotHubKey"
 if ([string]::IsNullOrEmpty($iothubKey))
 {
-    throw "Must provide IotEventKey"
+    throw "Must provide IotHubKey"
 }
 
 # Set environment specific variables 
@@ -76,7 +82,8 @@ $params = @{ `
     suiteName=$suitename; `
     docDBName=$docDbName; `
     storageName=$($storageAccount.StorageAccountName); `
-    iotHubNamespace=$iotHubNamespace; `
+    iotEventName=$iotEventHub; `
+	iotSBNamespace=$iotSBnamespace; `
 	iotHubHostName=$iothubFqdn; `
 	iotHubKey=$iothubKey; `
     sbName=$sevicebusName; `

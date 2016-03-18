@@ -2,133 +2,139 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
   "parameters": {
-    "aadTenant": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the service Tenant"
-      }
-    },
-    "suiteName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the suite"
-      }
-    },
-    "docDBName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the documentDB"
-      }
-    },
-    "docDBSku": {
-      "type": "string",
-      "defaultValue": "Standard",
-      "metadata": {
-        "description": "The DocumentDB Sku"
-      }
-    },
-    "storageName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the storageAccount"
-      }
-    },
-    "storageAccountSku": {
-      "type": "string",
-      "defaultValue": "Standard_GRS",
-      "metadata": {
-        "description": "The storage Sku"
-      }
-    },
-    "iotHubNamespace": {
-      "type": "string",
-      "metadata": {
-        "description": "The namespace of the iotHub"
-      }
-    },
-    "iotHubHostName": {
-      "type": "string",
-      "metadata": {
-        "description": "The Iothub FQDN hostname"
-      }
-    },
-    "iotHubKey": {
-      "type": "string",
-      "metadata": {
-        "description": "The Iothub Key"
-      }
-    },
-    "sbName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the serviceBus"
-      }
-    },
-    "sbSku": {
-      "type": "int",
-      "defaultValue": 1,
-      "metadata": {
-        "description": "The servicebus Sku"
-      }
-    },
-    "packageUri": {
-      "type": "string",
-      "defaultValue": "http://aka.ms/azureiot/remotemonitoring/web"
-    },
-    "webJobPackageUri": {
-      "type": "string",
-      "defaultValue": "http://aka.ms/azureiot/remotemonitoring/webjob"
-    },
-    "webSku": {
-      "type": "string",
-      "defaultValue": "Premium",
-      "metadata": {
-        "description": "The Sku type of the webapp"
-      }
-    },
-    "webWorkerSize": {
-      "type": "int",
-      "defaultValue": 0,
-      "metadata": {
-        "description": "The size of the webapp"
-      }
-    },
-    "webWorkerCount": {
-      "type": "int",
-      "defaultValue": 2,
-      "metadata": {
-        "description": "The webapp worker count"
-      }
-    },
-    "webJobSku": {
-      "type": "string",
-      "defaultValue": "Standard",
-      "metadata": {
-        "description": "The Sku type of the webjob"
-      }
-    },
-    "webJobWorkerSize": {
-      "type": "int",
-      "defaultValue": 0,
-      "metadata": {
-        "description": "The size of the webjob"
-      }
-    },
-    "webJobWorkerCount": {
-      "type": "int",
-      "defaultValue": 2,
-      "metadata": {
-        "description": "The webjob worker count"
-      }
-    },
-    "asaStartBehavior": {
-      "type": "string",
-      "metadata": {
-        "description": "The start behavior for Stream Analytics jobs [LastStopTime | JobStartTime (default)]"
+      "aadTenant": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the service Tenant"
+        }
       },
-      "defaultValue": "JobStartTime"
-    }
-  },
+      "suiteName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the suite"
+        }
+      },
+      "docDBName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the documentDB"
+        }
+      },
+      "docDBSku": {
+        "type": "string",
+        "defaultValue": "Standard",
+        "metadata": {
+          "description": "The DocumentDB Sku"
+        }
+      },
+      "storageName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the storageAccount"
+        }
+      },
+      "storageAccountSku": {
+        "type": "string",
+        "defaultValue": "Standard_GRS",
+        "metadata": {
+          "description": "The storage Sku"
+        }
+      },
+      "iotEventName": {
+        "type": "string",
+        "metadata": {
+          "description": "The namespace of the iotHub"
+        }
+      },
+      "iotSBNamespace": {
+        "type": "string",
+        "metadata": {
+          "description": "The namespace of the iotHub"
+        }
+      },
+      "iotHubHostName": {
+        "type": "string",
+        "metadata": {
+          "description": "The Iothub FQDN hostname"
+        }
+      },
+      "iotHubKey": {
+        "type": "string",
+        "metadata": {
+          "description": "The Iothub Key"
+        }
+      },
+      "sbName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the serviceBus"
+        }
+      },
+      "sbSku": {
+        "type": "int",
+        "defaultValue": 1,
+        "metadata": {
+          "description": "The servicebus Sku"
+        }
+      },
+      "packageUri": {
+        "type": "string",
+        "defaultValue": "http://aka.ms/azureiot/remotemonitoring/web"
+      },
+      "webJobPackageUri": {
+        "type": "string",
+        "defaultValue": "http://aka.ms/azureiot/remotemonitoring/webjob"
+      },
+      "webSku": {
+        "type": "string",
+        "defaultValue": "Premium",
+        "metadata": {
+          "description": "The Sku type of the webapp"
+        }
+      },
+      "webWorkerSize": {
+        "type": "int",
+        "defaultValue": 0,
+        "metadata": {
+          "description": "The size of the webapp"
+        }
+      },
+      "webWorkerCount": {
+        "type": "int",
+        "defaultValue": 2,
+        "metadata": {
+          "description": "The webapp worker count"
+        }
+      },
+      "webJobSku": {
+        "type": "string",
+        "defaultValue": "Standard",
+        "metadata": {
+          "description": "The Sku type of the webjob"
+        }
+      },
+      "webJobWorkerSize": {
+        "type": "int",
+        "defaultValue": 0,
+        "metadata": {
+          "description": "The size of the webjob"
+        }
+      },
+      "webJobWorkerCount": {
+        "type": "int",
+        "defaultValue": 2,
+        "metadata": {
+          "description": "The webjob worker count"
+        }
+      },
+      "asaStartBehavior": {
+        "type": "string",
+        "metadata": {
+          "description": "The start behavior for Stream Analytics jobs [LastStopTime | JobStartTime (default)]"
+        },
+        "defaultValue": "JobStartTime"
+      }
+    },
     "variables": {
         "location": "[resourceGroup().location]",
         "storageVersion": "2015-05-01-preview",
@@ -261,7 +267,8 @@
                             "DataSource": {
                               "Properties": {
                                 "consumerGroupName": "[variables('telemetryCGName')]",
-                                "EventHubName": "[parameters('iotHubNamespace')]",
+                                "EventHubName": "[parameters('iotEventName')]",
+                                "ServiceBusNamespace": "[parameters('iotSBNamespace')]",
                                 "sharedAccessPolicyKey": "[parameters('iotHubKey')]",
                                 "sharedAccessPolicyName": "[variables('iotHubKeyName')]",
                                 "PartitionKey": "PartitionId"
@@ -368,7 +375,8 @@
                             "DataSource": {
                               "Properties": {
                                 "consumerGroupName": "[variables('deviceInfoCGName')]",
-                                "EventHubName": "[parameters('iotHubNamespace')]",
+                                "EventHubName": "[parameters('iotEventName')]",
+                                "ServiceBusNamespace": "[parameters('iotSBNamespace')]",
                                 "sharedAccessPolicyKey": "[parameters('iotHubKey')]",
                                 "sharedAccessPolicyName": "[variables('iotHubKeyName')]",
                                 "PartitionKey": "PartitionId"
@@ -472,7 +480,8 @@
                             "DataSource": {
                               "Properties": {
                                 "consumerGroupName": "[variables('rulesCGName')]",
-                                "EventHubName": "[parameters('iotHubNamespace')]",
+                                "EventHubName": "[parameters('iotEventName')]",
+                                "ServiceBusNamespace": "[parameters('iotSBNamespace')]",
                                 "sharedAccessPolicyKey": "[parameters('iotHubKey')]",
                                 "sharedAccessPolicyName": "[variables('iotHubKeyName')]",
                                 "PartitionKey": "PartitionId"
@@ -627,11 +636,11 @@
                     },
                     {
                       "name": "iotHub.HostName",
-                      "value": "[parameters('iotHubHostname')]"
+                      "value": "[parameters('iotHubHostName')]"
                     },
                     {
                       "name": "iotHub.ConnectionString",
-                      "value": "[concat('HostName=', parameters('iotHubHostname'), ';SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', parameters('iotHubKey'))]"
+                      "value": "[concat('HostName=', parameters('iotHubHostName'), ';SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', parameters('iotHubKey'))]"
                     },
                     {
                       "name": "device.StorageConnectionString",
@@ -740,11 +749,11 @@
                         },
                         {
                           "name": "iotHub.HostName",
-                          "value": "[parameters('iotHubHostname')]"
+                          "value": "[parameters('iotHubHostName')]"
                         },
                         {
                           "name": "iotHub.ConnectionString",
-                          "value": "[concat('HostName=', parameters('iotHubHostname'), ';SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', parameters('iotHubKey'))]"
+                          "value": "[concat('HostName=', parameters('iotHubHostName'), ';SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', parameters('iotHubKey'))]"
                         },
                         {
                             "name": "device.StorageConnectionString",
@@ -809,11 +818,11 @@
   "outputs": {
     "iotHubHostName": {
       "type": "string",
-      "value": "[parameters('iotHubHostname')]"
+      "value": "[parameters('iotHubHostName')]"
     },
     "iotHubConnectionString": {
       "type": "string",
-      "value": "[concat('HostName=', parameters('iotHubHostname'), ';SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', parameters('iotHubKey'))]"
+      "value": "[concat('HostName=', parameters('iotHubHostName'), ';SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', parameters('iotHubKey'))]"
     },
     "docDbURI": {
       "type": "string",
