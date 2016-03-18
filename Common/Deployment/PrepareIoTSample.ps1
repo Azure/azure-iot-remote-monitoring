@@ -13,6 +13,25 @@ ClearDNSCache
 # Sets Azure Accounts, Region, Name validation, and AAD application
 InitializeEnvironment $environmentName
 
+# Get Custom values
+$iothubFqdn = GetEnvSetting "IotEventNameFQDN"
+if ([string]::IsNullOrEmpty($iothubFqdn))
+{
+    throw "Must provide IotHubFqdn"
+}
+$parts = $iothubFqdn.Split(".")
+if ($parts.length -ne 3)
+{
+    throw ("Invalid Fqdn: {0}, expects three parts" -f $iothubFqdn)
+}
+$iotHubNamespace = $parts[0]
+
+$iothubKey = GetEnvSetting "IotEventKey"
+if ([string]::IsNullOrEmpty($iothubKey))
+{
+    throw "Must provide IotEventKey"
+}
+
 # Set environment specific variables 
 $suitename = "LocalRM"
 $suiteType = "LocalMonitoring"
@@ -41,7 +60,6 @@ else
 $suiteExists = (Find-AzureRmResourceGroup -Tag @{Name="IotSuiteType";Value=$suiteType} | ?{$_.ResourceGroupName -eq $suiteName}) -ne $null
 $resourceGroupName = (GetResourceGroup -Name $suiteName -Type $suiteType).ResourceGroupName
 $storageAccount = GetAzureStorageAccount $suiteName $resourceGroupName $cloudDeploy
-$iotHubName = GetAzureIotHubName $suitename $resourceGroupName $cloudDeploy
 $sevicebusName = GetAzureServicebusName $suitename $resourceGroupName $cloudDeploy
 $docDbName = GetAzureDocumentDbName $suitename $resourceGroupName $cloudDeploy
 
@@ -58,14 +76,16 @@ $params = @{ `
     suiteName=$suitename; `
     docDBName=$docDbName; `
     storageName=$($storageAccount.StorageAccountName); `
-    iotHubName=$iotHubName; `
+    iotHubNamespace=$iotHubNamespace; `
+	iotHubHostName=$iothubFqdn; `
+	iotHubKey=$iothubKey; `
     sbName=$sevicebusName; `
     aadTenant=$($global:AADTenant)}
 
 Write-Host "Suite name: $suitename"
 Write-Host "DocDb Name: $docDbName"
 Write-Host "Storage Name: $($storageAccount.StorageAccountName)"
-Write-Host "IotHub Name: $iotHubName"
+Write-Host "IotHub Name: $iothubFqdn"
 Write-Host "Servicebus Name: $sevicebusName"
 Write-Host "AAD Tenant: $($global:AADTenant)"
 Write-Host "ResourceGroup Name: $resourceGroupName"
@@ -83,12 +103,6 @@ if ($suiteExists)
     {
         $storageSku = GetResourceObject $suitename $storageAccount.StorageAccountName Microsoft.Storage/storageAccounts
         $params += @{storageAccountSku=$($storageSku.Properties.AccountType)}
-    }
-    if (ResourceObjectExists $suitename $iotHubName Microsoft.Devices/IotHubs)
-    {
-        $iotHubSku = GetResourceObject $suitename $iotHubName Microsoft.Devices/IotHubs
-        $params += @{iotHubSku=$($iotHubSku.Sku.Name)}
-        $params += @{iotHubTier=$($iotHubSku.Sku.Tier)}
     }
     if (ResourceObjectExists $suitename $sevicebusName Microsoft.Eventhub/namespaces)
     {
