@@ -80,7 +80,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                             null);
                     });
 
-            blobs = blobs.OrderByDescending(t => BlobStorageHelper.ExtractBlobItemDate(t));
+            blobs = blobs
+                .OrderByDescending(t => BlobStorageHelper.ExtractBlobItemDate(t));
 
             CloudBlockBlob blockBlob;
             IEnumerable<DeviceTelemetryModel> blobModels;
@@ -89,6 +90,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 if ((blockBlob = blob as CloudBlockBlob) == null)
                 {
                     continue;
+                }
+
+                // Translate LastModified to local time zone.  DateTimeOffsets 
+                // don't do this automatically.  This is for equivalent behavior 
+                // with parsed DateTimes.
+                if ((blockBlob.Properties != null) &&
+                    blockBlob.Properties.LastModified.HasValue &&
+                    (blockBlob.Properties.LastModified.Value.LocalDateTime < minTime))
+                {
+                    break;
                 }
 
                 try
@@ -120,11 +131,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
 
                 result = result.Concat(blobModels);
-
-                if (preFilterCount != blobModels.Count())
-                {
-                    break;
-                }
             }
 
             if (!string.IsNullOrEmpty(deviceId))
@@ -252,13 +258,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 {
                     model = new DeviceTelemetryModel();
 
-                    if (strdict.TryGetValue("DeviceId", out str))
+                    if (strdict.TryGetValue("deviceid", out str))
                     {
                         model.DeviceId = str;
                     }
 
                     DateTime date;
-                    if (strdict.TryGetValue("EventEnqueuedUtcTime", out str) &&
+                    if (strdict.TryGetValue("eventenqueuedutctime", out str) &&
                         DateTime.TryParse(
                             str, 
                             CultureInfo.InvariantCulture,
