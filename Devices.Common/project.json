@@ -1,8 +1,8 @@
 ﻿{
   "dependencies": {
-    "Microsoft.Azure.Devices.Client": "1.0.2",
+    "Microsoft.Azure.Devices.Client": "1.0.4",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
-    "Newtonsoft.Json": "8.0.2"
+    "Newtonsoft.Json": "8.0.3"
   },
   "frameworks": {
     "uap10.0": {}
