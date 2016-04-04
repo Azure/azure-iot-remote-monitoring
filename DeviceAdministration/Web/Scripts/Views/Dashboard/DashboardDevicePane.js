@@ -53,9 +53,9 @@
 
                         if (telemetryGridRefreshData) {
                             if (data.deviceTelemetryModels) {
-                                telemetryGridRefreshData(data.deviceTelemetryModels);
+                                telemetryGridRefreshData(data.deviceTelemetryModels, data.deviceTelemetryFields);
                             } else {
-                                telemetryGridRefreshData([]);
+                                telemetryGridRefreshData([], data.deviceTelemetryFields);
                             }
                         }
 
@@ -97,7 +97,7 @@
             if (deviceId === '') {
 
                 currentDeviceId = '';
-                telemetryGridRefreshData([]);
+                telemetryGridRefreshData([], null);
                 telemetryHistoryRefreshData(0.0, 0.0, 0.0);
                 $('#loadingElement').hide();
 

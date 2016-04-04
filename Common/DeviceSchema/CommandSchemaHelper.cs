@@ -38,6 +38,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             return commands;
         }
 
+        public static dynamic GetTelemetrySchema(dynamic device)
+        {
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
+            dynamic telemetry = device.Telemetry;
+
+            if (telemetry == null)
+            {
+                telemetry = new JArray();
+                device.Telemetry = telemetry;
+            }
+
+            return telemetry;
+        }
+
         /// <summary>
         /// Build up a new dynamic command object based on the provided name.
         /// </summary>
@@ -90,12 +108,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <param name="name">Name of telemetry object</param>
         /// <param name="type">Value type of telemetry object</param>
         /// <returns></returns>
-        public static dynamic CreateNewTelemetry(string name, string type)
+        public static dynamic CreateNewTelemetry(string name, string displayName, string type)
         {
             JObject result = new JObject();
 
-            result.Add("name", name);
-            result.Add("type", type);
+            result.Add("Name", name);
+            result.Add("DisplayName", displayName);
+            result.Add("Type", type);
 
             return result;
         }

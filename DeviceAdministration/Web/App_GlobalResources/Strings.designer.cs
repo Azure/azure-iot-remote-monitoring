@@ -1781,15 +1781,6 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to HeartRate.
-        /// </summary>
-        public static string HeartRate {
-            get {
-                return ResourceManager.GetString("HeartRate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to IOT HUB HOSTNAME.
         /// </summary>
         public static string Hostname {
@@ -1948,6 +1939,15 @@ namespace GlobalResources {
         public static string int64CommandErrorMessage {
             get {
                 return ResourceManager.GetString("int64CommandErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device {0} has an invalid Telemetry specification on its DeviceInfo.
+        /// </summary>
+        public static string InvalidDeviceTelemetryFormat {
+            get {
+                return ResourceManager.GetString("InvalidDeviceTelemetryFormat", resourceCulture);
             }
         }
         
@@ -3023,15 +3023,6 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Send SMS to Phone.
-        /// </summary>
-        public static string SendSMS {
-            get {
-                return ResourceManager.GetString("SendSMS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Send Update Key To Device.
         /// </summary>
         public static string SendUpdateKeyToDevice {
@@ -3199,15 +3190,6 @@ namespace GlobalResources {
         public static string SingleCommandHint {
             get {
                 return ResourceManager.GetString("SingleCommandHint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SkinTemperature.
-        /// </summary>
-        public static string SkinTemperature {
-            get {
-                return ResourceManager.GetString("SkinTemperature", resourceCulture);
             }
         }
         

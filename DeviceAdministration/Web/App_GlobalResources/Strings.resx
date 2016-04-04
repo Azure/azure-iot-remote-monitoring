@@ -981,12 +981,6 @@
   <data name="Temperature" xml:space="preserve">
     <value>Temperature</value>
   </data>
-  <data name="HeartRate" xml:space="preserve">
-    <value>HeartRate</value>
-  </data>
-  <data name="SkinTemperature" xml:space="preserve">
-    <value>SkinTemperature</value>
-  </data>
   <data name="Active" xml:space="preserve">
     <value>Active</value>
   </data>
@@ -1282,7 +1276,7 @@
   <data name="UsernameLabel" xml:space="preserve">
     <value>Username</value>
   </data>
-  <data name="SendSMS" xml:space="preserve">
-    <value>Send SMS to Phone</value>
+  <data name="InvalidDeviceTelemetryFormat" xml:space="preserve">
+    <value>Device {0} has an invalid Telemetry specification on its DeviceInfo</value>
   </data>
 </root>

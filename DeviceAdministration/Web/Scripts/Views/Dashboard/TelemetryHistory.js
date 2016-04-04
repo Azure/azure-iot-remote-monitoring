@@ -4,6 +4,7 @@
         'use strict';
 
         var lastData;
+        var telemetryFields;
         var height;
         var targetControl;
         var targetControlContainer;
@@ -60,18 +61,33 @@
             columns = [];
 
             // Create a new column for values
-            if (data[0]) {
+            if (Array.isArray(telemetryFields) && telemetryFields.length > 0) {
+                for (var i = 0; i < telemetryFields.length; i++) {
+                    graphMetadataColumns.push({
+                        displayName: telemetryFields[i].displayName || convertToDisplayName(telemetryFields[i].name),
+                        isMeasure: true,
+                        format: "0.0",
+                        queryName: telemetryFields[i].name.toLowerCase(),
+                        type: powerbi.ValueType.fromDescriptor({ numeric: true })
+                    });
+
+                    columns.push({
+                        source: graphMetadataColumns[graphMetadataColumns.length - 1],
+                        values: graphData[telemetryFields[i].name.toLowerCase()] || []
+                    })
+                }
+            } else if (data[0]) {
                 for (var field in data[0].values) {
                     graphMetadataColumns.push({
                         displayName: convertToDisplayName(field),
                         isMeasure: true,
                         format: "0.0",
-                        queryName: field,
+                        queryName: field.toLowerCase(),
                         type: powerbi.ValueType.fromDescriptor({ numeric: true })
                     });
                     columns.push({
                         source: graphMetadataColumns[graphMetadataColumns.length - 1],
-                        values: graphData[field]
+                        values: graphData[field.toLowerCase()] || []
                     });
                 }
             }
@@ -186,12 +202,12 @@
             
             if (data[0]) {
                 for (var field in data[0].values) {
-                    results[field] = [];
+                    results[field.toLowerCase()] = [];
                 }            
                 for (i = 0 ; i < data.length ; ++i) {
                     item = data[i];
                     for (var field in item.values) {
-                        results[field].push(item.values[field]);
+                        results[field.toLowerCase()].push(item.values[field]);
                     }
                     
                     dateTime = new Date(item.timestamp);
@@ -259,8 +275,9 @@
                 redraw();
             };
         
-        var updateTelemetryHistoryGridData = function updateTelemetryHistoryGridData(newData) {
+        var updateTelemetryHistoryGridData = function updateTelemetryHistoryGridData(newData, fields) {
             lastData = newData;
+            telemetryFields = fields;
             redraw();
         };
 

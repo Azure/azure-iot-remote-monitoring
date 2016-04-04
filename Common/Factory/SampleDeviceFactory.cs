@@ -113,10 +113,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         private static void AssignTelemetry(dynamic device)
         {
-            dynamic telemetry = CommandSchemaHelper.CreateNewTelemetry("Temperature", "double");
+            dynamic telemetry = CommandSchemaHelper.CreateNewTelemetry("Temperature", "Temperature", "double");
             CommandSchemaHelper.AddTelemetryToDevice(device, telemetry);
 
-            telemetry = CommandSchemaHelper.CreateNewTelemetry("Humidity", "double");
+            telemetry = CommandSchemaHelper.CreateNewTelemetry("Humidity", "Humidity", "double");
             CommandSchemaHelper.AddTelemetryToDevice(device, telemetry);
         }
 

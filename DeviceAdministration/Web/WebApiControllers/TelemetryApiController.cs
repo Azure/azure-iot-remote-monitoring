@@ -11,10 +11,10 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+using GlobalResources;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
-    using StringPair = KeyValuePair<string, string>;
 
     /// <summary>
     /// A WebApiControllerBase-derived class for telemetry-related end points.
@@ -94,6 +94,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Func<Task<DashboardDevicePaneDataModel>> getTelemetry =
                 async () =>
                 {
+                    dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
+
+                    IList<DeviceTelemetryFieldModel> telemetryFields = null;
+
+                    try
+                    {
+                        telemetryFields = _deviceLogic.ExtractTelemetry(device);
+                        result.DeviceTelemetryFields = telemetryFields != null ?
+                            telemetryFields.ToArray() :
+                            null;
+                    }
+                    catch
+                    {
+                        HttpResponseMessage message = new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);
+                        message.Content = new StringContent(
+                            string.Format(Strings.InvalidDeviceTelemetryFormat, deviceId));
+                        throw new HttpResponseException(message);
+                    }
+
                     // Get Telemetry Summary
                     DeviceTelemetrySummaryModel summaryModel;
 
@@ -110,7 +129,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     // Get Telemetry History
                     IEnumerable<DeviceTelemetryModel> telemetryModels;
                     DateTime minTime = DateTime.Now.AddMinutes(-MAX_DEVICE_SUMMARY_AGE_MINUTES);
-                    telemetryModels = await _deviceTelemetryLogic.LoadLatestDeviceTelemetryAsync(deviceId, minTime);
+                    telemetryModels = await _deviceTelemetryLogic.LoadLatestDeviceTelemetryAsync(deviceId, telemetryFields, minTime);
 
                     if (telemetryModels == null)
                     {
@@ -142,9 +161,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Func<Task<DeviceTelemetryModel[]>> getTelemetry =
                 async () =>
                 {
+                    dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
+
+                    IList<DeviceTelemetryFieldModel> telemetryFields = null;
+
+                    try
+                    {
+                        telemetryFields = _deviceLogic.ExtractTelemetry(device);
+                    }
+                    catch
+                    {
+                        HttpResponseMessage message = new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);
+                        message.Content = new StringContent(
+                            string.Format(Strings.InvalidDeviceTelemetryFormat, deviceId));
+                        throw new HttpResponseException(message);
+                    }
+
                     IEnumerable<DeviceTelemetryModel> telemetryModels =
                         await _deviceTelemetryLogic.LoadLatestDeviceTelemetryAsync(
-                            deviceId, 
+                            deviceId,
+                            telemetryFields, 
                             minTime);
 
                     if (telemetryModels == null)

@@ -37,5 +37,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             get;
             set;
         }
+
+        public DeviceTelemetryFieldModel[] DeviceTelemetryFields
+        {
+            get;
+            set;
+        }
     }
 }

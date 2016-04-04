@@ -50,6 +50,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         public dynamic Commands { get; set; }
 
+        public dynamic Telemetry { get; set; }
+
         public List<ITelemetry> TelemetryEvents { get; private set; }
         public bool RepeatEventListForever { get; set; }
 
@@ -85,6 +87,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             dynamic initialDevice = SampleDeviceFactory.GetSampleSimulatedDevice(config.DeviceId, config.Key);
             DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(initialDevice);
             Commands = CommandSchemaHelper.GetSupportedCommands(initialDevice);
+            Telemetry = CommandSchemaHelper.GetTelemetrySchema(initialDevice);
             HostName = config.HostName;
             PrimaryAuthKey = config.Key;
         }
@@ -114,6 +117,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             dynamic device = DeviceSchemaHelper.BuildDeviceStructure(DeviceID, true, null);
             device.DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(this);
             device.Commands = CommandSchemaHelper.GetSupportedCommands(this);
+            device.Telemetry = CommandSchemaHelper.GetTelemetrySchema(this);
             device.Version = SampleDeviceFactory.VERSION_1_0;
             device.ObjectType = SampleDeviceFactory.OBJECT_TYPE_DEVICE_INFO;
 
