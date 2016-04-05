@@ -1111,6 +1111,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return result;
         }
 
+        /// <summary>
+        /// Converts the telemetry schema data in a device into a strongly-typed model
+        /// </summary>
+        /// <param name="device">Device with telemetry schema</param>
+        /// <returns>Converted telemetry schema, or null if there is none</returns>
         public IList<DeviceTelemetryFieldModel> ExtractTelemetry(dynamic device)
         {
             // Get Telemetry Fields

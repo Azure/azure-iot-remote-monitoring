@@ -38,6 +38,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             return commands;
         }
 
+        /// <summary>
+        /// Gets the schema for the device's telemetry
+        /// </summary>
+        /// <param name="device">Device</param>
+        /// <returns></returns>
         public static dynamic GetTelemetrySchema(dynamic device)
         {
             if (device == null)
@@ -106,6 +111,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// Create a new Telemetry type
         /// </summary>
         /// <param name="name">Name of telemetry object</param>
+        /// <param name="displayName">Name to display when referencing the telemetry field to the end user</param>
         /// <param name="type">Value type of telemetry object</param>
         /// <returns></returns>
         public static dynamic CreateNewTelemetry(string name, string displayName, string type)
