@@ -114,7 +114,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <param name="displayName">Name to display when referencing the telemetry field to the end user</param>
         /// <param name="type">Value type of telemetry object</param>
         /// <returns></returns>
-        public static dynamic CreateNewTelemetry(string name, string displayName, string type)
+        public static JObject CreateNewTelemetry(string name, string displayName, string type)
         {
             JObject result = new JObject();
 

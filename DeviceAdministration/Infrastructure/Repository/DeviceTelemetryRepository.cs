@@ -263,16 +263,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         model.DeviceId = str;
                     }
 
-                    DateTime date;
-                    if (strdict.TryGetValue("eventenqueuedutctime", out str) &&
-                        DateTime.TryParse(
-                            str, 
-                            CultureInfo.InvariantCulture,
-                            DateTimeStyles.AllowWhiteSpaces,
-                            out date))
-                    {
-                        model.Timestamp = date;
-                    }
+                    model.Timestamp = DateTime.Parse(
+                        strdict["eventenqueuedutctime"],
+                        CultureInfo.InvariantCulture,
+                        DateTimeStyles.AllowWhiteSpaces);
 
                     IEnumerable<DeviceTelemetryFieldModel> fields;
 
@@ -307,27 +301,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                             switch (field.Type)
                             {
                                 case "int":
-                                case "integer":
+                                case "int16":
+                                case "int32":
+                                case "int64":
+                                case "sbyte":
+                                case "byte":
                                     int intValue;
                                     if (
                                         int.TryParse(
                                             str,
                                             NumberStyles.Integer,
                                             CultureInfo.InvariantCulture,
-                                            out intValue))
+                                            out intValue) &&
+                                        !model.Values.ContainsKey(field.Name))
                                     {
                                         model.Values.Add(field.Name, intValue);
                                     }
                                     break;
 
                                 case "double":
+                                case "decimal":
+                                case "single":
                                     double dblValue;
                                     if (
                                         double.TryParse(
                                             str,
                                             NumberStyles.Float,
                                             CultureInfo.InvariantCulture,
-                                            out dblValue))
+                                            out dblValue) &&
+                                        !model.Values.ContainsKey(field.Name))
                                     {
                                         model.Values.Add(field.Name, dblValue);
                                     }
