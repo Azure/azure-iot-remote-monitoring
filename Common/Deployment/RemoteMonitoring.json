@@ -35,7 +35,7 @@
         },
         "storageAccountSku": {
             "type": "string",
-            "defaultValue": "Standard_GRS",
+            "defaultValue": "Standard_LRS",
             "metadata": {
                 "description": "The storage Sku"
             }
@@ -48,14 +48,14 @@
         },
         "iotHubSku": {
             "type": "string",
-            "defaultValue": "S2",
+            "defaultValue": "F1",
             "metadata": {
                 "description": "The Iothub Sku"
             }
         },
         "iotHubTier": {
             "type": "string",
-            "defaultValue": "Standard",
+            "defaultValue": "Free",
             "metadata": {
                 "description": "The Iothub tier"
             }
@@ -83,7 +83,7 @@
         },
         "webSku": {
             "type": "string",
-            "defaultValue": "Premium",
+            "defaultValue": "Free",
             "metadata": {
                 "description": "The Sku type of the webapp"
             }
@@ -97,14 +97,14 @@
         },
         "webWorkerCount": {
             "type": "int",
-            "defaultValue": 2,
+            "defaultValue": 1,
             "metadata": {
                 "description": "The webapp worker count"
             }
         },
         "webJobSku": {
             "type": "string",
-            "defaultValue": "Standard",
+            "defaultValue": "Free",
             "metadata": {
                 "description": "The Sku type of the webjob"
             }
@@ -118,7 +118,7 @@
         },
         "webJobWorkerCount": {
             "type": "int",
-            "defaultValue": 2,
+            "defaultValue": 1,
             "metadata": {
                 "description": "The webjob worker count"
             }
