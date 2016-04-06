@@ -55,7 +55,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             if (telemetry == null)
             {
                 telemetry = new JArray();
-                device.Telemetry = telemetry;
             }
 
             return telemetry;
