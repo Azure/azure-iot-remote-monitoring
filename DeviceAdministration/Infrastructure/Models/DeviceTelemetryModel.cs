@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 {
@@ -7,6 +9,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </summary>
     public class DeviceTelemetryModel
     {
+    
         /// <summary>
         /// Gets or sets the ID of the Device for which telemetry applies.
         /// </summary>
@@ -17,33 +20,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         /// <summary>
-        /// Gets or sets the represented telemetry recording's external 
-        /// temperature value.
+        /// Values for telemetry data associated with individual fields
         /// </summary>
-        public double? ExternalTemperature
+        private IDictionary<string, double> values = new Dictionary<string, double>();
+        public IDictionary<string, double> Values
         {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets the represented telemetry recording's humidity 
-        /// value.
-        /// </summary>
-        public double? Humidity
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets the represented telemetry recording's temperature 
-        /// value.
-        /// </summary>
-        public double? Temperature
-        {
-            get;
-            set;
+            get { return values; }
+            set { values = value; }
         }
 
         /// <summary>

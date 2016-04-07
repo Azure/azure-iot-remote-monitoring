@@ -19,6 +19,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using D = Dynamitey;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic
 {
@@ -232,6 +233,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new ArgumentNullException("device");
             }
 
+            // Get original device document
             dynamic existingDevice = await GetDeviceAsync(DeviceSchemaHelper.GetDeviceID(device));
 
             // Save the command history, original created date, and system properties (if any) of the existing device
@@ -253,7 +255,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 DeviceSchemaHelper.InitializeSystemProperties(device, null);
             }
 
-            return await _deviceRegistryCrudRepository.UpdateDeviceAsync(device);
+            // Merge device back to existing so we don't drop missing data
+            if (existingDevice is JObject)
+            {
+                existingDevice.Merge(device);
+            }
+
+            // If there is Telemetry or Command objects from device, replace instead of merge
+            if (device.Telemetry != null)
+            {
+                existingDevice.Telemetry = device.Telemetry;
+            }
+            if (device.Commands != null)
+            {
+                existingDevice.Commands = device.Commands;
+            }
+
+
+            return await _deviceRegistryCrudRepository.UpdateDeviceAsync(existingDevice);
         }
 
         /// <summary>
@@ -1093,6 +1112,41 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             result.MaximumLongitude = maxLong + offset;
 
             return result;
+        }
+
+        /// <summary>
+        /// Converts the telemetry schema data in a device into a strongly-typed model
+        /// </summary>
+        /// <param name="device">Device with telemetry schema</param>
+        /// <returns>Converted telemetry schema, or null if there is none</returns>
+        public IList<DeviceTelemetryFieldModel> ExtractTelemetry(dynamic device)
+        {
+            // Get Telemetry Fields
+            if (device.Telemetry != null)
+            {
+                var deviceTelemetryFields = new List<DeviceTelemetryFieldModel>(); 
+
+                foreach (JObject field in device.Telemetry)
+                {
+                    // Default displayName to null if not present
+                    string displayName = field.GetValue("DisplayName", StringComparison.InvariantCultureIgnoreCase) != null ?
+                        field.GetValue("DisplayName", StringComparison.InvariantCultureIgnoreCase).ToString() :
+                        null;
+
+                    deviceTelemetryFields.Add(new DeviceTelemetryFieldModel
+                    {
+                        DisplayName = displayName,
+                        Name = field.GetValue("Name", StringComparison.InvariantCultureIgnoreCase).ToString(),
+                        Type = field.GetValue("Type", StringComparison.InvariantCultureIgnoreCase).ToString()
+                    });
+                }
+
+                return deviceTelemetryFields;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

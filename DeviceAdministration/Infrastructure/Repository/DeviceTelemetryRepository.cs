@@ -59,6 +59,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </returns>
         public async Task<IEnumerable<DeviceTelemetryModel>> LoadLatestDeviceTelemetryAsync(
             string deviceId,
+            IList<DeviceTelemetryFieldModel> telemetryFields, 
             DateTime minTime)
         {
             IEnumerable<DeviceTelemetryModel> result = new DeviceTelemetryModel[0];
@@ -104,7 +105,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                 try
                 {
-                    blobModels = await LoadBlobTelemetryModelsAsync(blockBlob);
+                    blobModels = await LoadBlobTelemetryModelsAsync(blockBlob, telemetryFields);
                 }
                 catch
                 {
@@ -235,7 +236,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return summaryModel;
         }
 
-        private async static Task<List<DeviceTelemetryModel>> LoadBlobTelemetryModelsAsync(CloudBlockBlob blob)
+        private async static Task<List<DeviceTelemetryModel>> LoadBlobTelemetryModelsAsync(CloudBlockBlob blob, IList<DeviceTelemetryFieldModel> telemetryFields)
         {
             Debug.Assert(blob != null, "blob is a null reference.");
 
@@ -253,7 +254,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 IEnumerable<StrDict> strdicts = ParsingHelper.ParseCsv(reader).ToDictionaries();
                 DeviceTelemetryModel model;
                 string str;
-                double number;
                 foreach (StrDict strdict in strdicts)
                 {
                     model = new DeviceTelemetryModel();
@@ -263,45 +263,79 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         model.DeviceId = str;
                     }
 
-                    if (strdict.TryGetValue("externaltemperature", out str) &&
-                        double.TryParse(
-                            str,
-                            NumberStyles.Float,
-                            CultureInfo.InvariantCulture,
-                            out number))
+                    model.Timestamp = DateTime.Parse(
+                        strdict["eventenqueuedutctime"],
+                        CultureInfo.InvariantCulture,
+                        DateTimeStyles.AllowWhiteSpaces);
+
+                    IEnumerable<DeviceTelemetryFieldModel> fields;
+
+                    if (telemetryFields != null && telemetryFields.Count > 0)
                     {
-                        model.ExternalTemperature = number;
+                        fields = telemetryFields;
+                    }
+                    else
+                    {
+                        List<string> reservedColumns = new List<string>
+                        {
+                            "DeviceId",
+                            "EventEnqueuedUtcTime",
+                            "EventProcessedUtcTime",
+                            "IoTHub",
+                            "PartitionId"
+                        };
+
+                        fields = strdict.Keys
+                            .Where((key) => !reservedColumns.Contains(key))
+                            .Select((name) => new DeviceTelemetryFieldModel
+                            {
+                                Name = name,
+                                Type = "double"
+                            });
                     }
 
-                    if (strdict.TryGetValue("humidity", out str) &&
-                        double.TryParse(
-                            str,
-                            NumberStyles.Float,
-                            CultureInfo.InvariantCulture,
-                            out number))
+                    foreach (var field in fields)
                     {
-                        model.Humidity = number;
-                    }
+                        if (strdict.TryGetValue(field.Name, out str))
+                        {
+                            switch (field.Type)
+                            {
+                                case "int":
+                                case "int16":
+                                case "int32":
+                                case "int64":
+                                case "sbyte":
+                                case "byte":
+                                    int intValue;
+                                    if (
+                                        int.TryParse(
+                                            str,
+                                            NumberStyles.Integer,
+                                            CultureInfo.InvariantCulture,
+                                            out intValue) &&
+                                        !model.Values.ContainsKey(field.Name))
+                                    {
+                                        model.Values.Add(field.Name, intValue);
+                                    }
+                                    break;
 
-                    if (strdict.TryGetValue("temperature", out str) &&
-                        double.TryParse(
-                            str,
-                            NumberStyles.Float,
-                            CultureInfo.InvariantCulture,
-                            out number))
-                    {
-                        model.Temperature = number;
-                    }
-
-                    DateTime date;
-                    if (strdict.TryGetValue("eventenqueuedutctime", out str) &&
-                        DateTime.TryParse(
-                            str, 
-                            CultureInfo.InvariantCulture,
-                            DateTimeStyles.AllowWhiteSpaces,
-                            out date))
-                    {
-                        model.Timestamp = date;
+                                case "double":
+                                case "decimal":
+                                case "single":
+                                    double dblValue;
+                                    if (
+                                        double.TryParse(
+                                            str,
+                                            NumberStyles.Float,
+                                            CultureInfo.InvariantCulture,
+                                            out dblValue) &&
+                                        !model.Values.ContainsKey(field.Name))
+                                    {
+                                        model.Values.Add(field.Name, dblValue);
+                                    }
+                                    break;
+                            }
+                        }
                     }
 
                     models.Add(model);

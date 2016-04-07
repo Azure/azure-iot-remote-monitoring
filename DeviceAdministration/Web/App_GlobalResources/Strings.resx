@@ -1276,4 +1276,7 @@
   <data name="UsernameLabel" xml:space="preserve">
     <value>Username</value>
   </data>
+  <data name="InvalidDeviceTelemetryFormat" xml:space="preserve">
+    <value>Device {0} has an invalid Telemetry specification on its DeviceInfo</value>
+  </data>
 </root>

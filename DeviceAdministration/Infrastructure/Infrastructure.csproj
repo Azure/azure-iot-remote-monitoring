@@ -137,6 +137,7 @@
     <Compile Include="Models\DeviceState.cs" />
     <Compile Include="Exceptions\DeviceAlreadyRegisteredException.cs" />
     <Compile Include="Models\DeviceTelemetryModel.cs" />
+    <Compile Include="Models\DeviceTelemetryFieldModel.cs" />
     <Compile Include="Models\DeviceTelemetrySummaryModel.cs" />
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\DeviceWithKeys.cs" />

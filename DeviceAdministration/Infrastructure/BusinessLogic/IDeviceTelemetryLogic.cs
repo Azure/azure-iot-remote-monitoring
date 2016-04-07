@@ -9,6 +9,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     {
         Task<IEnumerable<DeviceTelemetryModel>> LoadLatestDeviceTelemetryAsync(
             string deviceId,
+            IList<DeviceTelemetryFieldModel> telemetryFields,
             DateTime minTime);
 
         Task<DeviceTelemetrySummaryModel> LoadLatestDeviceTelemetrySummaryAsync(

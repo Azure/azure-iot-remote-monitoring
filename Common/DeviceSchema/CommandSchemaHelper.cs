@@ -39,6 +39,28 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
+        /// Gets the schema for the device's telemetry
+        /// </summary>
+        /// <param name="device">Device</param>
+        /// <returns></returns>
+        public static dynamic GetTelemetrySchema(dynamic device)
+        {
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
+            dynamic telemetry = device.Telemetry;
+
+            if (telemetry == null)
+            {
+                telemetry = new JArray();
+            }
+
+            return telemetry;
+        }
+
+        /// <summary>
         /// Build up a new dynamic command object based on the provided name.
         /// </summary>
         /// <param name="command"></param>
@@ -80,6 +102,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
                     result.Add(parameter);
                 }
             }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Create a new Telemetry type
+        /// </summary>
+        /// <param name="name">Name of telemetry object</param>
+        /// <param name="displayName">Name to display when referencing the telemetry field to the end user</param>
+        /// <param name="type">Value type of telemetry object</param>
+        /// <returns></returns>
+        public static JObject CreateNewTelemetry(string name, string displayName, string type)
+        {
+            JObject result = new JObject();
+
+            result.Add("Name", name);
+            result.Add("DisplayName", displayName);
+            result.Add("Type", type);
 
             return result;
         }
@@ -156,6 +196,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// This method will add the provided telemetry to the provided device.
+        /// </summary>
+        /// <param name="device">device object</param>
+        /// <param name="telemetry">telemetry to add</param>
+        public static void AddTelemetryToDevice(dynamic device, dynamic telemetry)
+        {
+            dynamic telemetryCollection = device.Telemetry;
+
+            if (telemetryCollection == null)
+            {
+                telemetryCollection = new JArray();
+                device.Telemetry = telemetryCollection;
+            }
+            telemetryCollection.Add(telemetry);
         }
 
         /// <summary>

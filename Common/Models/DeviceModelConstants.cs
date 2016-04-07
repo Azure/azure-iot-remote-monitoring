@@ -9,6 +9,7 @@
         public const string DEVICE_PROPERTIES = "DeviceProperties";
         public const string SYSTEM_PROPERTIES = "SystemProperties";
         public const string COMMANDS = "Commands";
+        public const string TELEMETRY = "Telemetry";
         public const string COMMAND_HISTORY = "CommandHistory";
         public const string ID = "id";
         public const string SELF_LINK = "_self";

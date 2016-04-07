@@ -1943,6 +1943,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Device {0} has an invalid Telemetry specification on its DeviceInfo.
+        /// </summary>
+        public static string InvalidDeviceTelemetryFormat {
+            get {
+                return ResourceManager.GetString("InvalidDeviceTelemetryFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid key.
         /// </summary>
         public static string InvalidKeyType {

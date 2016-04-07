@@ -161,7 +161,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                     //Check the HubEnabledState since this is actually displayed and make sure it's in a good format
                     DeviceSchemaHelper.FixDeviceSchema(deviceInfo);
 
-                    Trace.TraceInformation("ProcessEventAsync -- DeviceInfo");
+                    dynamic id = deviceInfo.DeviceProperties.DeviceID;
+                    string name = id.ToString();
+                    Trace.TraceInformation("ProcessEventAsync -- DeviceInfo: {0}", name);
                     await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(deviceInfo);
 
                     break;
