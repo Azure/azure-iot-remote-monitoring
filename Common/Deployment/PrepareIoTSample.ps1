@@ -48,9 +48,6 @@ $docDbName = GetAzureDocumentDbName $suitename $resourceGroupName $cloudDeploy
 # Setup AAD for webservice
 UpdateResourceGroupState $resourceGroupName ProvisionAAD
 $global:AADTenant = GetOrSetEnvSetting "AADTenant" "GetAADTenant"
-UpdateEnvSetting "AADMetadataAddress" ("https://login.windows.net/{0}/FederationMetadata/2007-06/FederationMetadata.xml" -f $global:AADTenant)
-UpdateEnvSetting "AADAudience" ($global:site + $global:appName)
-UpdateEnvSetting "AADRealm" ($global:site + $global:appName)
 
 # Deploy via Template
 UpdateResourceGroupState $resourceGroupName ProvisionAzure
@@ -60,7 +57,8 @@ $params = @{ `
     storageName=$($storageAccount.StorageAccountName); `
     iotHubName=$iotHubName; `
     sbName=$sevicebusName; `
-    aadTenant=$($global:AADTenant)}
+    aadTenant=$($global:AADTenant); `
+	aadClientId=$($global:AADClientId)}
 
 Write-Host "Suite name: $suitename"
 Write-Host "DocDb Name: $docDbName"

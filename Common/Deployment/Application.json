@@ -1,31 +1,42 @@
 ﻿{
-    "odata.type":"Microsoft.DirectoryServices.Application",
-    "displayName":"{1}App",
-    "homepage":"{0}",
-    "availableToOtherTenants":false,
-    "identifierUris@odata.type":"Collection(Edm.String)",
-    "identifierUris":["{0}iotsuite"],
-    "replyUrls@odata.type":"Collection(Edm.String)",
-    "replyUrls":["{0}"],
-    "appRoles@odata.type":"Collection(AppRole)",
+    "odata.type": "Microsoft.DirectoryServices.Application",
+    "displayName": "{1}App",
+    "homepage": "{0}",
+    "availableToOtherTenants": false,
+    "identifierUris@odata.type": "Collection(Edm.String)",
+    "identifierUris": [ "{0}iotsuite" ],
+    "replyUrls@odata.type": "Collection(Edm.String)",
+    "replyUrls": [ "{0}" ],
+    "appRoles@odata.type": "Collection(AppRole)",
+    "requiredResourceAccess": [
+        {
+            "resourceAppId": "00000002-0000-0000-c000-000000000000",
+            "resourceAccess": [
+                {
+                    "id": "311a71cc-e848-46a1-bdf8-97ff7156d8e6",
+                    "type": "Scope"
+                }
+            ]
+        }
+    ],
     "appRoles": [
-    {
-        "allowedMemberTypes@odata.type":"Collection(Edm.String)",
-        "allowedMemberTypes": ["User"],
-        "description": "Read only access to device information",
-        "displayName": "Read Only",
-        "id": "e5bbd0f5-128e-4362-9dd1-8f253c6082d7",
-        "isEnabled": true,
-        "value": "ReadOnly"
-    },
-    {
-        "allowedMemberTypes@odata.type":"Collection(Edm.String)",
-        "allowedMemberTypes": ["User"],
-        "description": "Administrator access to the application",
-        "displayName": "Admin",
-        "id": "a400a00b-f67c-42b7-ba9a-f73d8c67e433",
-        "isEnabled": true,
-        "value": "Admin"
-    }
-  ]
+        {
+            "allowedMemberTypes@odata.type": "Collection(Edm.String)",
+            "allowedMemberTypes": [ "User" ],
+            "description": "Read only access to device information",
+            "displayName": "Read Only",
+            "id": "e5bbd0f5-128e-4362-9dd1-8f253c6082d7",
+            "isEnabled": true,
+            "value": "ReadOnly"
+        },
+        {
+            "allowedMemberTypes@odata.type": "Collection(Edm.String)",
+            "allowedMemberTypes": [ "User" ],
+            "description": "Administrator access to the application",
+            "displayName": "Admin",
+            "id": "a400a00b-f67c-42b7-ba9a-f73d8c67e433",
+            "isEnabled": true,
+            "value": "Admin"
+        }
+    ]
 }

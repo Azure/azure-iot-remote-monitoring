@@ -708,6 +708,9 @@ function GetAADTenant()
         $applicationId = $result.value[0].appId
     }
 
+	$global:AADClientId = $applicationId
+	UpdateEnvSetting "AADClientId" $applicationId
+
     # Check for ServicePrincipal
     $uri = "https://graph.windows.net/{0}/servicePrincipals?api-version=1.6" -f $tenantId
     $searchUri = "{0}&`$filter=appId%20eq%20'{1}'" -f $uri, $applicationId
