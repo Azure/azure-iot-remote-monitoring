@@ -8,6 +8,40 @@
                 "description": "The name of the service Tenant"
             }
         },
+        "aadInstance": {
+            "type": "string",
+            "defaultValue": "https://login.microsoftonline.com/{0}",
+            "metadata": {
+                "description": "Url of the AAD login page (example: https://login.microsoftonline.de/{0})"
+            }
+        },
+        "aadClientId": {
+            "type": "string",
+            "metadata": {
+                "description": "AAD application identifier (GUID)"
+            }
+        },
+        "websiteSuffix": {
+            "type": "string",
+            "defaultValue": "azurewebsites.net",
+            "metadata": {
+                "description": "Suffix added to Azure Websites hostname (examples: azurewebsites.net, azurewebsites.de)"
+            }
+        },
+        "storageEndpointSuffix": {
+            "type": "string",
+            "defaultValue": "core.windows.net",
+            "metadata": {
+                "description": "Suffix added to Azure Storage hostname (examples: core.windows.net, core.cloudapi.de)"
+            }
+        },
+        "bingMapsLocation": {
+            "type": "string",
+            "defaultValue": "westus",
+            "metadata": {
+                "description": "Bing Maps region"
+            }
+        },
         "suiteName": {
             "type": "string",
             "metadata": {
@@ -69,7 +103,7 @@
         "sbSku": {
             "type": "int",
             "defaultValue": 1,
-            "metadata": { 
+            "metadata": {
                 "description": "The servicebus Sku"
             }
         },
@@ -148,8 +182,10 @@
         "webJobSiteName": "[concat(parameters('suiteName'), '-jobhost')]",
         "webPlanName": "[concat(parameters('suiteName'), '-plan')]",
         "webSiteName": "[parameters('suiteName')]",
-        "AADMetadataAddress": "[concat('https://login.windows.net/' , parameters('AADTenant'), '/FederationMetadata/2007-06/FederationMetadata.xml')]",
-        "AADRealm": "[toLower(concat('https://', variables('webSiteName'), '.azurewebsites.net/iotsuite'))]",
+        "aadInstance": "[parameters('aadInstance')]",
+        "aadClientId": "[parameters('aadClientId')]",
+        "websiteSuffix": "[parameters('websiteSuffix')]",
+        "storageEndpointSuffix": "[parameters('storageEndpointSuffix')]",
         "docDBVersion": "2015-04-08",
         "docDBResourceId": "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
         "iotHubVersion": "2015-08-15-preview",
@@ -179,7 +215,7 @@
             "apiVersion": "[variables('bingMapsVersion')]",
             "type": "Microsoft.BingMaps/mapApis",
             "name": "[variables('bingMapsName')]",
-            "location": "westus",
+            "location": "[parameters('bingMapsLocation')]",
             "plan": {
                 "publisher": "bingmaps",
                 "product": "mapapis",
@@ -264,7 +300,7 @@
                     ],
                     "properties": {
                         "path": "[variables('ehOutName')]",
-                        "MessageRetentionInDays" : 1
+                        "MessageRetentionInDays": 1
                     }
                 },
                 {
@@ -277,7 +313,7 @@
                     ],
                     "properties": {
                         "path": "[variables('ehRuleOutName')]",
-                        "MessageRetentionInDays" : 1
+                        "MessageRetentionInDays": 1
                     }
                 }
             ]
@@ -653,16 +689,12 @@
                             "value": "[parameters('AADTenant')]"
                         },
                         {
-                            "name": "ida.AADAudience",
-                            "value": "[variables('AADRealm')]"
+                            "name": "ida.AADInstance",
+                            "value": "[parameters('aadInstance')]"
                         },
                         {
-                            "name": "ida.FederationMetadataAddress",
-                            "value": "[variables('AADMetadataAddress')]"
-                        },
-                        {
-                            "name": "ida.FederationRealm",
-                            "value": "[variables('AADRealm')]"
+                            "name": "ida.AADClientId",
+                            "value": "[parameters('aadClientId')]"
                         },
                         {
                             "name": "docdb.EndpointUrl",
@@ -682,7 +714,7 @@
                         },
                         {
                             "name": "device.StorageConnectionString",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
+                            "value": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
                         },
                         {
                             "name": "device.TableName",
@@ -698,7 +730,7 @@
                         },
                         {
                             "name": "eventHub.StorageConnectionString",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
+                            "value": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
                         },
                         {
                             "name": "RulesEventHub.Name",
@@ -767,16 +799,12 @@
                             "value": "[parameters('AADTenant')]"
                         },
                         {
-                            "name": "ida.AADAudience",
-                            "value": "[variables('AADRealm')]"
+                            "name": "ida.AADInstance",
+                            "value": "[parameters('aadInstance')]"
                         },
                         {
-                            "name": "ida.FederationMetadataAddress",
-                            "value": "[variables('AADMetadataAddress')]"
-                        },
-                        {
-                            "name": "ida.FederationRealm",
-                            "value": "[variables('AADRealm')]"
+                            "name": "ida.AADClientId",
+                            "value": "[parameters('aadClientId')]"
                         },
                         {
                             "name": "docdb.EndpointUrl",
@@ -796,7 +824,7 @@
                         },
                         {
                             "name": "device.StorageConnectionString",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
+                            "value": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
                         },
                         {
                             "name": "device.TableName",
@@ -812,7 +840,7 @@
                         },
                         {
                             "name": "eventHub.StorageConnectionString",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
+                            "value": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
                         },
                         {
                             "name": "RulesEventHub.Name",
