@@ -21,13 +21,6 @@
                 "description": "AAD application identifier (GUID)"
             }
         },
-        "websiteSuffix": {
-            "type": "string",
-            "defaultValue": "azurewebsites.net",
-            "metadata": {
-                "description": "Suffix added to Azure Websites hostname (examples: azurewebsites.net, azurewebsites.de)"
-            }
-        },
         "storageEndpointSuffix": {
             "type": "string",
             "defaultValue": "core.windows.net",
@@ -182,9 +175,6 @@
         "webJobSiteName": "[concat(parameters('suiteName'), '-jobhost')]",
         "webPlanName": "[concat(parameters('suiteName'), '-plan')]",
         "webSiteName": "[parameters('suiteName')]",
-        "aadInstance": "[parameters('aadInstance')]",
-        "aadClientId": "[parameters('aadClientId')]",
-        "websiteSuffix": "[parameters('websiteSuffix')]",
         "storageEndpointSuffix": "[parameters('storageEndpointSuffix')]",
         "docDBVersion": "2015-04-08",
         "docDBResourceId": "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
