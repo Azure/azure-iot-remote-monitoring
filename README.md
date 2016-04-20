@@ -8,23 +8,25 @@ Each preconfigured solution implements a common IoT scenario and is a complete, 
 ##Remote Monitoring preconfigured solution
 The remote monitoring preconfigured solution illustrates how you can perform end-to-end monitoring. It brings together key Azure IoT services to enable the following features: data ingestion, device identiy, command and control, rules and actions.
 
-#### Wiki: 
-* Do you want to know how to deploy this preconfigured solution locally and to the cloud? Take a look at our [Wiki](https://github.com/Azure/azure-iot-remote-monitoring/wiki) for answers.
-* Have ideas for how we can improve Azure IoT? Give us [Feedback](http://feedback.azure.com/forums/321918-azure-iot).
-
 ##Contents of this repository
-#### Web folder:
-  * ASP.NET MVC 5 website containing user dashboard and device portal to manage IoT devices (add, remove, view, etc)
 
-#### Infrastructure folder:
-  * APIs and application logic to support telemetry and device operations
- 
-### Simulator folder:
-  * Simulator (Azure Web Job) that simulates one or more devices that send data to the IoT Hub for testing and troubleshooting
-
+### Docs folder:
+  * [Set up development environment (Windows)](Docs/dev-setup.md) outlines the prerequisites for deploying the remote monitoring preconfigured solution.
+  * [Local deployment and debugging](Docs/local-deployment.md) describes how to deploy locally and basic debugging.
+  * [Cloud deployment](Docs/cloud-deployment.md) describes building and deploying the remote monitoring preconfigured solution fully on Azure.
+  * [Manually setting up roles and assigning permissions in Azure Active Directory (AAD)](Docs/roles-and-permissions.md).
+  
+Other useful [IoT Suite documentation](https://azure.microsoft.com/documentation/suites/iot-suite/):
+  * [Frequently asked questions for IoT Suite](https://azure.microsoft.com/documentation/articles/iot-suite-faq/)
+  * [Permissions on the azureiotsuite.com site](https://azure.microsoft.com/documentation/articles/iot-suite-permissions/). This includes instructions for adding co-administrators to your preconfigured solution.
+  
 ### EventProcessor folder:
   * Azure Worker Role that hosts an Event Hub **EventProcessorHost** instance to handle the event data from the devices forwarding event data to other back-end services or to the remote monitoring site
 
 ### Visual Studio solution:
-  * **RemoteMonitoring:** contains both the Dashboard web app, the EventProcessor worker role, and the Simulator worker role.
+  * **RemoteMonitoring:** contains the source code for the complete preconfigured solution, including the solution portal web app, the EventProcessor web job, and the Simulator web job.
+  
+## Feedback
+
+Have ideas for how we can improve Azure IoT? Give us [Feedback](http://feedback.azure.com/forums/321918-azure-iot).
 
