@@ -14,8 +14,7 @@ The remote monitoring preconfigured solution illustrates how you can perform end
   * [Set up development environment (Windows)](Docs/dev-setup.md) outlines the prerequisites for deploying the remote monitoring preconfigured solution.
   * [Local deployment and debugging](Docs/local-deployment.md) describes how to deploy locally and basic debugging.
   * [Cloud deployment](Docs/cloud-deployment.md) describes building and deploying the remote monitoring preconfigured solution fully on Azure.
-  * [Manually setting up roles and assigning permissions in Azure Active Directory (AAD)](Docs/roles-and-permissions.md).
-  
+
 Other useful [IoT Suite documentation](https://azure.microsoft.com/documentation/suites/iot-suite/):
   * [Frequently asked questions for IoT Suite](https://azure.microsoft.com/documentation/articles/iot-suite-faq/)
   * [Permissions on the azureiotsuite.com site](https://azure.microsoft.com/documentation/articles/iot-suite-permissions/). This includes instructions for adding co-administrators to your preconfigured solution.
