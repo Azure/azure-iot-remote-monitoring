@@ -229,25 +229,25 @@ function ValidateResourceName()
     {
         "microsoft.devices/iothubs"
         {
-            $resourceUrl = "azure-devices.net"
+            $resourceUrl = $global:iotHubSuffix
         }
         "microsoft.storage/storageaccounts"
         {
-            $resourceUrl = "blob.core.windows.net"
+            $resourceUrl = "blob.{0}" -f $global:azureEnvironment.StorageEndpointSuffix
             $resourceBaseName = $resourceBaseName.Substring(0, [System.Math]::Min(19, $resourceBaseName.Length))
         }
         "microsoft.documentdb/databaseaccounts"
         {
-            $resourceUrl = "documents.azure.com"
+            $resourceUrl = $global:docdbSuffix
         }
-        "microsoft.eventhub/namespaces"
+        "microsoft.servicebus/namespaces"
         {
-            $resourceUrl = "servicebus.windows.net"
+            $resourceUrl = $global:servicebusSuffix
             $resourceBaseName = $resourceBaseName.Substring(0, [System.Math]::Min(35, $resourceBaseName.Length))
         }
         "microsoft.web/sites"
         {
-            $resourceUrl = "azurewebsites.net"
+            $resourceUrl = $global:websiteSuffix
         }
         default {}
     }
@@ -343,7 +343,7 @@ function GetAzureServicebusName()
         [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName,
         [Parameter(Mandatory=$true,Position=2)] [bool] $cloudDeploy
     )
-    return ValidateResourceName ($baseName.PadRight(6,"x")) Microsoft.Eventhub/namespaces $resourceGroupName $cloudDeploy
+    return ValidateResourceName ($baseName.PadRight(6,"x")) Microsoft.Servicebus/namespaces $resourceGroupName $cloudDeploy
 }
 
 function StopExistingStreamAnalyticsJobs()
@@ -370,6 +370,7 @@ function StopExistingStreamAnalyticsJobs()
             }
         }
     }
+    Write-Host "$(Get-Date –f $timeStampFormat) - Stream Analytics jobs stopped"
     return $returnValue
 }
 
@@ -390,7 +391,7 @@ function UploadFile()
     $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageAccountKey
     if (!(HostEntryExists $context.StorageAccount.BlobEndpoint.Host))
     {
-        Write-Host "$(Get-Date –f $timeStampFormat) - Waiting for storage account url to resolve." -NoNewline
+        Write-Host "$(Get-Date –f $timeStampFormat) - Waiting for storage account $($context.StorageAccount.BlobEndpoint.Host) url to resolve." -NoNewline
         while (!(HostEntryExists $context.StorageAccount.BlobEndpoint.Host))
         {
             Write-Host "." -NoNewline
@@ -403,7 +404,7 @@ function UploadFile()
     $null = Set-AzureStorageBlobContent -Blob $fileName -Container $ContainerName -File $file.FullName -Context $context -Force
 
     # Generate Uri with sas token
-    $storageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse(("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}" -f $storageAccountName, $storageAccountKey))
+    $storageAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse(("DefaultEndpointsProtocol=https;EndpointSuffix={0};AccountName={1};AccountKey={2}" -f $global:azureEnvironment.StorageEndpointSuffix, $storageAccountName, $storageAccountKey))
     $blobClient = $storageAccount.CreateCloudBlobClient()
     $container = $blobClient.GetContainerReference($containerName)
     Write-Host ("$(Get-Date –f $timeStampFormat) - Checking container '{0}'." -f $containerName) -NoNewline
@@ -534,34 +535,77 @@ function LoadAzureAssembly()
 
 function GetAzureAccountInfo()
 {
-    $account = Get-AzureAccount
+    $accounts = Get-AzureAccount
     
-    if ($account -eq $null)
+    if ($accounts -eq $null)
     {
         Write-Host "Signing you into Azure..."
         $account = Add-AzureAccount
     }
     else 
     {
-        Write-Host "Signed into Azure already"
+        Write-Host "Signed into Azure already, select account"
+        $global:index = 0
+        $selectedIndex = -1
+        Write-Host (($accounts | Format-Table -Property @{name="Option";expression={$global:index;$global:index+=1}}, Id, Subscriptions -au | Out-String).Trim())
+        Write-Host (("{0}" -f $global:index).PadLeft(6) + " Use another account")
+        Write-Host
+        while ($true)
+        {
+            try
+            {
+                [int]$selectedIndex = Read-Host "Select an option from the above list"
+            }
+            catch
+            {
+                Write-Host "Must be a number"
+                continue
+            }
+
+            if ($selectedIndex -eq $accounts.length + 1)
+            {
+                $account = Add-AzureAccount
+                break;
+            }
+                
+            if ($selectedIndex -lt 1 -or $selectedIndex -gt $accounts.length)
+            {
+                continue
+            }
+                
+            $account = $accounts[$selectedIndex - 1]
+            break;
+        }
+    }
+    return $account.Id
+}
+
+function ValidateLoginCredentials()
+{
+    # Validate Azure RDFE
+    $account = Get-AzureAccount -Name $global:AzureAccountName
+    if ($account -eq $null)
+    {
+        $account = Add-AzureAccount -Environment $global:azureEnvironment.Name
+    }
+    if ((Get-AzureSubscription -SubscriptionId ($account.Subscriptions -replace '(?:\r\n)',',').split(",")[0]) -eq $null)
+    {
+        Add-AzureAccount -Environment $global:azureEnvironment.Name | Out-Null
     }
     
-    $profilePath = Join-Path $PSScriptRoot "..\..\$($account.Id).user"
-    $rmProfileLoaded = $false
-    
+    # Validate Azure RM
+    $profilePath = Join-Path $PSScriptRoot "..\..\$($global:AzureAccountName).user"
     if (test-path $profilePath) {
         Write-Host "Trying to use saved profile $($profilePath)"
-        $rmProfileLoaded = (Select-AzureRmProfile -Path $profilePath) -ne $null
+        $rmProfile = Select-AzureRmProfile -Path $profilePath
+        $rmProfileLoaded = ($rmProfile -ne $null) -and ($rmProfile.Context -ne $null) -and ((Get-AzureRmSubscription) -ne $null)
     }
     
     if ($rmProfileLoaded -ne $true) {
         Write-Host "Logging in"
-        Login-AzureRmAccount | Out-Null
+        Login-AzureRmAccount -EnvironmentName $global:azureEnvironment.Name | Out-Null
         Save-AzureRmProfile -Path $profilePath
     }
-    
-    $id = $account.Id
-    return $id
 }
 
 function HostEntryExists()
@@ -652,8 +696,8 @@ function GetAADTenant()
         foreach ($tenantObj in $tenants)
         {
             $tenant = $tenantObj.TenantId
-            $uri = "https://graph.windows.net/{0}/me?api-version=1.6" -f $tenant
-            $authResult = GetAuthenticationResult $tenant $global:aadLoginUrl "https://graph.windows.net/" $global:AzureAccountName -Prompt "Auto"
+            $uri = "{0}{1}/me?api-version=1.6" -f $global:azureEnvironment.GraphUrl, $tenant
+            $authResult = GetAuthenticationResult $tenant $global:azureEnvironment.ActiveDirectoryAuthority $global:azureEnvironment.GraphUrl $global:AzureAccountName -Prompt "Auto"
             $header = $authResult.CreateAuthorizationHeader()
             $result = Invoke-RestMethod -Method "GET" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"}
             if ($result -ne $null)
@@ -684,9 +728,9 @@ function GetAADTenant()
     }
     
     # Configure Application
-    $uri = "https://graph.windows.net/{0}/applications?api-version=1.6" -f $tenantId
+    $uri = "{0}{1}/applications?api-version=1.6" -f $global:azureEnvironment.GraphUrl, $tenantId
     $searchUri = "{0}&`$filter=identifierUris/any(uri:uri%20eq%20'{1}{2}')" -f $uri, [System.Web.HttpUtility]::UrlEncode($global:site), $global:appName
-    $authResult = GetAuthenticationResult $tenantId $global:aadLoginUrl "https://graph.windows.net/" $global:AzureAccountName
+    $authResult = GetAuthenticationResult $tenantId $global:azureEnvironment.ActiveDirectoryAuthority $global:azureEnvironment.GraphUrl $global:AzureAccountName
     $header = $authResult.CreateAuthorizationHeader()
 
     # Check for application
@@ -708,8 +752,11 @@ function GetAADTenant()
         $applicationId = $result.value[0].appId
     }
 
+	$global:AADClientId = $applicationId
+	UpdateEnvSetting "AADClientId" $applicationId
+
     # Check for ServicePrincipal
-    $uri = "https://graph.windows.net/{0}/servicePrincipals?api-version=1.6" -f $tenantId
+    $uri = "{0}{1}/servicePrincipals?api-version=1.6" -f $global:azureEnvironment.GraphUrl, $tenantId
     $searchUri = "{0}&`$filter=appId%20eq%20'{1}'" -f $uri, $applicationId
     $result = Invoke-RestMethod -Method "GET" -Uri $searchUri -Headers @{"Authorization"=$header;"Content-Type"="application/json"}
     if ($result.value.Count -eq 0)
@@ -732,7 +779,7 @@ function GetAADTenant()
     }
 
     # Check for Assigned User
-    $uri = "https://graph.windows.net/{0}/users/{1}/appRoleAssignments?api-version=1.6" -f $tenantId, $authResult.UserInfo.UniqueId
+    $uri = "{0}{1}/users/{2}/appRoleAssignments?api-version=1.6" -f $global:azureEnvironment.GraphUrl, $tenantId, $authResult.UserInfo.UniqueId
     $result = Invoke-RestMethod -Method "GET" -Uri $uri -Headers @{"Authorization"=$header;"Content-Type"="application/json"}
     if (($result.value | ?{$_.ResourceId -eq $resourceId}) -eq $null)
     {
@@ -770,10 +817,35 @@ function InitializeEnvironment()
         throw "Failed to load dependent libraries"
     }
     $global:environmentName = $environmentName
-    $global:AzureAccountName = GetAzureAccountInfo
 
     # Validate environment variables
     $global:environmentSettingsFile = "{0}\..\..\{1}.config.user" -f $global:azurePath, $environmentName
+
+    if ($environmentName -eq "local" -and (Test-Path $global:environmentSettingsFile))
+    {
+        $title = "Existing local config"
+        $message = "Local config already exists in {0}.  How would you like to proceed?" -f $global:azureEnvironment.Name
+        $use = New-Object System.Management.Automation.Host.ChoiceDescription "&Use existing", `
+            "Use existing config in existing cloud"
+        $new = New-Object System.Management.Automation.Host.ChoiceDescription "&New", `
+            "Delete existing config and deploy to new cloud environment"
+        $save = New-Object System.Management.Automation.Host.ChoiceDescription "&Save and Create New", `
+            "Rename existing config and deploy to new cloud environment"
+        $options = [System.Management.Automation.Host.ChoiceDescription[]]($use, $new, $save)
+        $result = $Host.UI.PromptForChoice($title, $message, $options, 0)
+        switch ($result)
+        {
+            0 {}
+            1 {Remove-Item $global:environmentSettingsFile}
+            2 {
+                $newFileName = "{0}\..\..\{1}-{2}.config.user" -f $global:azurePath, $environmentName, (get-date -Format "yyyy-MM-dd")
+                Rename-Item $global:environmentSettingsFile $newFileName
+                Write-Host ("Existing config saved as {0}" -f $newFileName)
+            }
+        }
+
+    }
+
     if (!(Test-Path $global:environmentSettingsFile))
     {
         copy ("{0}\ConfigurationTemplate.config" -f $global:azurePath) $global:environmentSettingsFile
@@ -785,19 +857,23 @@ function InitializeEnvironment()
         $global:envSettingsXml = [xml](cat $global:environmentSettingsFile)
     }
 
+    $global:AzureAccountName = GetOrSetEnvSetting "AzureAccountName" "GetAzureAccountInfo"
+    ValidateLoginCredentials
+
     if ([string]::IsNullOrEmpty($global:SubscriptionId))
     {
-        $accounts = Get-AzureRmSubscription
         $global:SubscriptionId = GetEnvSetting "SubscriptionId"
         
         if ([string]::IsNullOrEmpty($global:SubscriptionId))
         {
+            $global:SubscriptionId = "not set"
+            $subscriptions = Get-AzureRMSubscription
             Write-Host "Available subscriptions:"
-                $global:index = 0
-                $selectedIndex = -1
-                $accounts | Format-Table -Property @{name="Option";expression={$global:index;$global:index+=1}},SubscriptionName, SubscriptionId -au
+            $global:index = 0
+            $selectedIndex = -1
+            Write-Host ($subscriptions | Format-Table -Property @{name="Option";expression={$global:index;$global:index+=1}},SubscriptionName, SubscriptionId -au | Out-String)
             
-            while (!$accounts.SubscriptionId.Contains($global:SubscriptionId))
+            while (!$subscriptions.SubscriptionId.Contains($global:SubscriptionId))
             {
                 try
                 {
@@ -809,17 +885,18 @@ function InitializeEnvironment()
                     continue
                 }
                 
-                if ($selectedIndex -lt 1 -or $selectedIndex -gt $accounts.length)
+                if ($selectedIndex -lt 1 -or $selectedIndex -gt $subscriptions.length)
                 {
                     continue
                 }
                 
-                $global:SubscriptionId = $accounts[$selectedIndex - 1].SubscriptionId
+                $global:SubscriptionId = $subscriptions[$selectedIndex - 1].SubscriptionId
             }
             UpdateEnvSetting "SubscriptionId" $global:SubscriptionId
         }
     }
     
+    Select-AzureSubscription -SubscriptionId $global:SubscriptionId
     Select-AzureRmSubscription -SubscriptionId $global:SubscriptionId
 
     if ([string]::IsNullOrEmpty($global:AllocationRegion))
@@ -834,7 +911,11 @@ function InitializeEnvironment()
         $resourceGroup = Get-AzureRmResourceGroup -Name $environmentName -ErrorAction SilentlyContinue
         if ($resourceGroup -ne $null)
         {
-            $webResource = Get-AzureRmResource -ResourceType Microsoft.Web/sites -ResourceGroupName $environmentName -ResourceName $environmentName -ErrorAction SilentlyContinue
+            try
+            {
+                $webResource = Get-AzureRmResource -ResourceType Microsoft.Web/sites -ResourceGroupName $environmentName -ResourceName $environmentName -ErrorAction SilentlyContinue
+            }
+            catch {}
         }
         if ($webResource -eq $null)
         {
@@ -875,8 +956,6 @@ $global:serviceNameToken = "ServiceName"
 $global:azurePath = Split-Path $MyInvocation.MyCommand.Path
 $global:version = Get-Content ("{0}\..\..\VERSION.txt" -f $global:azurePath)
 $global:azureVersion = "1.0.3"
-$global:aadLoginUrl = "https://login.windows.net/"
-$global:locations = @("East US", "North Europe", "East Asia", "West US", "West Europe", "Southeast Asia")
 
 # Check version
 $module = Get-Module -ListAvailable | Where-Object{ $_.Name -eq 'Azure' }
@@ -889,8 +968,11 @@ if ($comparison -eq 1)
 }
 elseif ($comparison -eq -1)
 {
-    Write-Warning "This script Azure Cmdlets was tested with $($global:azureVersion)"
-    Write-Warning "Found $($module.Version.Major).$($module.Version.Minor).$($module.Version.Build) installed; continuing, but errors might occur"
+    if ($module.Version.Major -ne $expected.Major)
+    {
+        Write-Warning "This script Azure Cmdlets was tested with $($global:azureVersion)"
+        Write-Warning "Found $($module.Version.Major).$($module.Version.Minor).$($module.Version.Build) installed; continuing, but errors might occur"
+    }
 }
 
 # Load System.Web
@@ -898,22 +980,3 @@ Add-Type -AssemblyName System.Web
 
 # Load System.IO.Compression.FileSystem
 Add-Type -AssemblyName  System.IO.Compression.FileSystem
-
-# Make sure Azure PowerShell modules are loaded
-if ((Get-Module | where {$_.Name -match "Azure"}) -eq $Null)
-{
-    $programFiles = ${Env:ProgramFiles(x86)}
-    if ($programFiles -eq $null)
-    {
-        $programFiles = ${Env:ProgramFiles}
-    }
-    $modulePath = "$programFiles\Microsoft SDKs\Azure\PowerShell\ServiceManagement\Azure\Azure.psd1"
-    if (Test-Path $modulePath)
-    {
-        Get-ChildItem $modulePath | Import-Module
-    }
-    else
-    {
-        throw "Unable to find Azure.psd1 modules. Please install Azure Powershell 2.5.1 or later"
-    }
-}

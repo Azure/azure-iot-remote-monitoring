@@ -103,7 +103,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 }
             }
 
-            model.MapApiQueryKey = _configProvider.GetConfigurationSettingValue("MapApiQueryKey");
+            // Set key to empty if passed value 0 from arm template
+            string key = _configProvider.GetConfigurationSettingValue("MapApiQueryKey");
+            model.MapApiQueryKey = key.Equals("0") ? string.Empty : key;
 
             return View(model);
         }
