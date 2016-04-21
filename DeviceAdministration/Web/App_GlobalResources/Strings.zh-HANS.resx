@@ -118,359 +118,359 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddDevice" xml:space="preserve">
-    <value>Add a Device</value>
+    <value>添加设备</value>
     <comment>Button label.</comment>
   </data>
   <data name="AddADeviceFormatted" xml:space="preserve">
-    <value>Add a {0}</value>
+    <value>添加 {0}</value>
     <comment>Button label.</comment>
   </data>
   <data name="AddNew" xml:space="preserve">
-    <value>Add New</value>
+    <value>新增</value>
     <comment>Button label.</comment>
   </data>
   <data name="AuthenticationKey" xml:space="preserve">
-    <value>Authentication Key</value>
+    <value>身份验证密钥</value>
     <comment>(Unused)</comment>
   </data>
   <data name="AuthKey1" xml:space="preserve">
-    <value>Key 1</value>
+    <value>密钥 1</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="AuthKey2" xml:space="preserve">
-    <value>Key 2</value>
+    <value>密钥 2</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>取消</value>
     <comment>Button label.</comment>
   </data>
   <data name="Complete" xml:space="preserve">
-    <value>Complete</value>
+    <value>完成</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ConfirmOrCustomizeTheMetadata" xml:space="preserve">
-    <value>Confirm or customize the device metadata</value>
+    <value>确认或自定义设备元数据</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>复制</value>
     <comment>Button label.</comment>
   </data>
   <data name="CopyCredentialsIntoFile" xml:space="preserve">
-    <value>Copy credentials into the configuration file on the device</value>
+    <value>将凭据复制到设备上的配置文件中</value>
     <comment>(Unused)</comment>
   </data>
   <data name="CopyDeviceIdAndAuthKeyLabel" xml:space="preserve">
-    <value>Copy the Device ID and Authentication Key</value>
+    <value>复制设备 ID 和身份验证密钥</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Create</value>
+    <value>创建</value>
     <comment>Button label.</comment>
   </data>
   <data name="GenerateADeviceId" xml:space="preserve">
-    <value>Generate a Device ID for me</value>
+    <value>为我生成设备 ID</value>
     <comment>Radio button label.</comment>
   </data>
   <data name="DeviceId" xml:space="preserve">
-    <value>Device ID</value>
+    <value>设备 ID</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="EnterDeviceId" xml:space="preserve">
-    <value>Enter a Device ID</value>
+    <value>输入设备 ID</value>
     <comment>Input label.</comment>
   </data>
   <data name="Instructions" xml:space="preserve">
-    <value>Instructions</value>
+    <value>说明</value>
     <comment>(Unused)</comment>
   </data>
   <data name="InstructionsForYourDeviceFormatted" xml:space="preserve">
-    <value>Instructions for your {0}</value>
+    <value>你的 {0} 的说明</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="EnterDeviceMetadata" xml:space="preserve">
-    <value>Enter device metadata</value>
+    <value>输入设备元数据</value>
     <comment>(Unused)</comment>
   </data>
   <data name="NavigationMenuItemActions" xml:space="preserve">
-    <value>Actions</value>
+    <value>操作</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="NavigationMenuItemDashboard" xml:space="preserve">
-    <value>Dashboard</value>
+    <value>仪表板</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="NavigationMenuItemDeviceExplorer" xml:space="preserve">
-    <value>Device Explorer</value>
+    <value>设备资源管理器</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="NavigationMenuItemDevices" xml:space="preserve">
-    <value>Devices</value>
+    <value>设备</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>Next</value>
+    <value>下一步</value>
     <comment>Button label.</comment>
   </data>
   <data name="StepOneHeader" xml:space="preserve">
-    <value>STEP 1 of 3</value>
+    <value>步骤 1/3</value>
     <comment>Wizard step heading.</comment>
   </data>
   <data name="StepThreeHeader" xml:space="preserve">
-    <value>STEP 3 of 3</value>
+    <value>步骤 3/3</value>
     <comment>Wizard step heading.</comment>
   </data>
   <data name="StepTwoHeader" xml:space="preserve">
-    <value>STEP 2 of 3</value>
+    <value>步骤 2/3</value>
     <comment>Wizard step heading.</comment>
   </data>
   <data name="YouChose" xml:space="preserve">
-    <value>You Chose:</value>
+    <value>你选择了:</value>
     <comment>(Unused)</comment>
   </data>
   <data name="YourDeviceIsCompleteFormatted" xml:space="preserve">
-    <value>Your {0} is complete</value>
+    <value>你的 {0} 已完成</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DeviceIdCreationPrompt" xml:space="preserve">
-    <value>How would you like to define the Device ID? </value>
+    <value>你希望如果定义设备 ID?</value>
     <comment>Confirmation message.</comment>
   </data>
   <data name="FirmwareVersion" xml:space="preserve">
-    <value>FIRMWARE VERSION</value>
+    <value>固件版本</value>
     <comment>(Unused)</comment>
   </data>
   <data name="LetMeDefineMyOwnDeviceId" xml:space="preserve">
-    <value>Let me define my own Device ID</value>
+    <value>让我定义我自己的设备 ID</value>
     <comment>Radio button label.</comment>
   </data>
   <data name="Manufacturer" xml:space="preserve">
-    <value>MANUFACTURER</value>
+    <value>制造商</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ObjectName" xml:space="preserve">
-    <value>OBJECT NAME</value>
+    <value>对象名称</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SerialNumber" xml:space="preserve">
-    <value>SERIAL NUMBER</value>
+    <value>序列号</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>VERSION</value>
+    <value>版本</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ModelNumber" xml:space="preserve">
-    <value>MODEL NUMBER</value>
+    <value>型号</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ShowInstructions" xml:space="preserve">
-    <value>Show Instructions</value>
+    <value>显示说明</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Done</value>
+    <value>完成</value>
     <comment>Button label.</comment>
   </data>
   <data name="DeviceIdInUse" xml:space="preserve">
-    <value>DeviceID already in use.</value>
+    <value>DeviceID 正在使用中。</value>
     <comment>Error message.</comment>
   </data>
   <data name="EnableDevice" xml:space="preserve">
-    <value>Enable Device</value>
+    <value>启用设备</value>
     <comment>Button label.</comment>
   </data>
   <data name="AuthenticationKeys" xml:space="preserve">
-    <value>Authentication Keys</value>
+    <value>身份验证密钥</value>
     <comment>Device details section heading.</comment>
   </data>
   <data name="AvailableActions" xml:space="preserve">
-    <value>Available Actions</value>
+    <value>可用操作</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="AvailablePowerSources" xml:space="preserve">
-    <value>Available Power Sources</value>
+    <value>可用电源</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="BatteryLevel" xml:space="preserve">
-    <value>Battery level</value>
+    <value>电池剩余电量</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DisableDevice" xml:space="preserve">
-    <value>Disable Device</value>
+    <value>禁用设备</value>
     <comment>Button label.</comment>
   </data>
   <data name="AzureDevicesHostname" xml:space="preserve">
-    <value>IoT Hub Hostname</value>
+    <value>IoT 中心主机名</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="General" xml:space="preserve">
-    <value>General</value>
+    <value>常规</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Metadata" xml:space="preserve">
-    <value>Metadata</value>
+    <value>元数据</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Ok" xml:space="preserve">
-    <value>OK</value>
+    <value>可用</value>
     <comment>Success message.</comment>
   </data>
   <data name="PowerSourceVoltage" xml:space="preserve">
-    <value>Power Source Voltage</value>
+    <value>电源电压</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Retry" xml:space="preserve">
-    <value>Retry</value>
+    <value>重试</value>
     <comment>Button label.</comment>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>保存</value>
     <comment>Button label.</comment>
   </data>
   <data name="ServiceUnavailable" xml:space="preserve">
-    <value>Service Unavailable</value>
+    <value>服务不可用</value>
     <comment>Error message.</comment>
   </data>
   <data name="Command" xml:space="preserve">
-    <value>Command</value>
+    <value>命令</value>
     <comment>(Unsused)</comment>
   </data>
   <data name="CommandHistory" xml:space="preserve">
-    <value>Command History</value>
+    <value>命令历史记录</value>
     <comment>Table heading.</comment>
   </data>
   <data name="CommandName" xml:space="preserve">
-    <value>COMMAND NAME</value>
+    <value>命令名</value>
     <comment>Table column header.</comment>
   </data>
   <data name="CommandResult" xml:space="preserve">
-    <value>RESULT</value>
+    <value>结果</value>
     <comment>Table column header.</comment>
   </data>
   <data name="CommandTimeCreated" xml:space="preserve">
-    <value>LOCAL TIME CREATED</value>
+    <value>已创建本地时间</value>
     <comment>Table column header.</comment>
   </data>
   <data name="CommandTimeUpdated" xml:space="preserve">
-    <value>LOCAL TIME UPDATED</value>
+    <value>已更新本地时间</value>
     <comment>Table column header.</comment>
   </data>
   <data name="CommandValuesSent" xml:space="preserve">
-    <value>VALUES SENT</value>
+    <value>已发送值</value>
     <comment>Table column header.</comment>
   </data>
   <data name="DeviceCommands" xml:space="preserve">
-    <value>Commands</value>
+    <value>命令</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="DeviceCommandsHeader" xml:space="preserve">
-    <value>Commands for {0}</value>
+    <value>{0} 的命令</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ParametersHeader" xml:space="preserve">
-    <value>Parameters</value>
+    <value>参数</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Pending" xml:space="preserve">
-    <value>Pending</value>
+    <value>挂起</value>
     <comment>Device command status.</comment>
   </data>
   <data name="Price" xml:space="preserve">
-    <value>Price</value>
+    <value>价格</value>
     <comment>(Unused)</comment>
   </data>
   <data name="PriceRange" xml:space="preserve">
-    <value>Price must be higher than 0</value>
+    <value>价格必须高于 0</value>
     <comment>Error message.</comment>
   </data>
   <data name="Product" xml:space="preserve">
-    <value>Product</value>
+    <value>产品</value>
     <comment>(Unused)</comment>
   </data>
   <data name="PropertiesPaneLabel" xml:space="preserve">
-    <value>Properties</value>
+    <value>属性</value>
     <comment>Section heading.</comment>
   </data>
   <data name="SelectAProduct" xml:space="preserve">
-    <value>Select a Product</value>
+    <value>选择产品</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Send" xml:space="preserve">
-    <value>Send</value>
+    <value>发送</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SendCommand" xml:space="preserve">
-    <value>Send Command</value>
+    <value>发送命令</value>
     <comment>Button label.</comment>
   </data>
   <data name="CheckId" xml:space="preserve">
-    <value>Check ID</value>
+    <value>检查 ID</value>
     <comment>Button label.</comment>
   </data>
   <data name="DeviceIdAvailable" xml:space="preserve">
-    <value>Device ID is available</value>
+    <value>设备 ID 可用</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="RegisteredButNotPresent" xml:space="preserve">
-    <value>Registered But Not Present</value>
+    <value>已注册但不存在</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="TimeRegistered" xml:space="preserve">
-    <value>Time Registered</value>
+    <value>已注册时间</value>
     <comment>(Unused)</comment>
   </data>
   <data name="NoCommandsAvailable" xml:space="preserve">
-    <value>Device {0} has no available commands</value>
+    <value>设备 {0} 没有可用命令</value>
     <comment>Error message.</comment>
   </data>
   <data name="EditDeviceConfiguration" xml:space="preserve">
-    <value>Edit Configuration for {0}</value>
+    <value>编辑 {0} 的配置</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Hostname" xml:space="preserve">
-    <value>IOT HUB HOSTNAME</value>
+    <value>IoT 中心主机名</value>
     <comment>(Unused)</comment>
   </data>
   <data name="HostnameLength" xml:space="preserve">
-    <value>Hostname cannot be longer than 1024 characters</value>
+    <value>主机名的长度不能超过 1024 个字符</value>
     <comment>Error message.</comment>
   </data>
   <data name="PrimaryKey" xml:space="preserve">
-    <value>PRIMARY KEY</value>
+    <value>主密钥</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SecondaryKey" xml:space="preserve">
-    <value>SECONDARY KEY</value>
+    <value>辅助密钥</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SendConfiguration" xml:space="preserve">
-    <value>Send Configuration To Device</value>
+    <value>将配置发送到设备</value>
     <comment>(Unused)</comment>
   </data>
   <data name="RequestFormatError" xml:space="preserve">
-    <value>Either the {0} parameter is missing or the value was not recognized as a valid {1}</value>
+    <value>缺少 {0} 参数或该值无法识别为有效的 {1}</value>
     <comment>Error message.</comment>
   </data>
   <data name="RequestNullError" xml:space="preserve">
-    <value>JSON request data was null or unable to be parsed.  Please ensure the data is sent in the body of the request and correctly formatted.</value>
+    <value>JSON 请求数据为 Null 或无法进行分析。请确保数据以请求的正文形式发送并确保格式正确。</value>
     <comment>Error message.</comment>
   </data>
   <data name="AnErrorOccurred" xml:space="preserve">
-    <value>An error occurred while processing your request.</value>
+    <value>处理你的请求时出错。</value>
     <comment>Error message.</comment>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>错误</value>
     <comment>Page title.</comment>
   </data>
   <data name="IoTDeviceAdministrationPortal" xml:space="preserve">
-    <value>IoT Device Administration Portal</value>
+    <value>IoT 设备管理门户</value>
     <comment>(Unused)</comment>
   </data>
   <data name="IoTDevicePortalSignIn" xml:space="preserve">
-    <value>IoT Device Portal - Sign In</value>
+    <value>IoT 设备门户 - 登陆</value>
     <comment>Page title.</comment>
   </data>
   <data name="MicrosoftAzure" xml:space="preserve">
@@ -478,75 +478,75 @@
     <comment>(Unused)</comment>
   </data>
   <data name="MicrosoftAzureIoTSuite" xml:space="preserve">
-    <value>Microsoft Azure IoT Suite</value>
+    <value>Microsoft Azure IoT 套件</value>
     <comment>Section heading.</comment>
   </data>
   <data name="SignIn" xml:space="preserve">
-    <value>Sign In</value>
+    <value>登录</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="YouMustBeSignedIn" xml:space="preserve">
-    <value>You must be signed in to continue.</value>
+    <value>你必须登录才能继续。</value>
     <comment>Error message.</comment>
   </data>
   <data name="YourSessionMayHaveExpired" xml:space="preserve">
-    <value>If you were signed in, your session may have expired.</value>
+    <value>如果你已登录，那么你的会话可能已过期。</value>
     <comment>Error message.</comment>
   </data>
   <data name="OpensInNewTab" xml:space="preserve">
-    <value>(opens in new tab)</value>
+    <value>(在新的选项卡中打开)</value>
     <comment>Hyperlink hint.</comment>
   </data>
   <data name="DeviceIdInvalidCharactersError" xml:space="preserve">
-    <value>The Device ID can only contain letters, numbers and the following special characters: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
+    <value>设备 ID 只能包含字母、数字和以下特殊字符: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceIdLengthError" xml:space="preserve">
-    <value>The Device ID must be between 2 and 128 characters long.</value>
+    <value>设备 ID 的长度必须介于 2 到 128 个字符之间。</value>
     <comment>Error message.</comment>
   </data>
   <data name="GoBack" xml:space="preserve">
-    <value>Go Back</value>
+    <value>回退</value>
     <comment>Button label.</comment>
   </data>
   <data name="ConfirmRegenKeyPart1" xml:space="preserve">
-    <value>Are you sure? This will regenerate the </value>
+    <value>是否确定? 此操作将会重新生成</value>
     <comment>Part of confirmation message. (Unused)</comment>
   </data>
   <data name="ConfirmRegenKeyPart2" xml:space="preserve">
-    <value>key.</value>
+    <value>密钥。</value>
     <comment>Part of confirmation message. (Unused)</comment>
   </data>
   <data name="ViewAuthenticationKeys" xml:space="preserve">
-    <value>View Authentication Keys</value>
+    <value>查看身份验证密钥</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="DeviceUpdateError" xml:space="preserve">
-    <value>Unable to update the device. An unexpected error occurred.</value>
+    <value>无法更新设备。发生了意外错误。</value>
     <comment>Error message.</comment>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>编辑</value>
     <comment>Button label.</comment>
   </data>
   <data name="RemoveDevice" xml:space="preserve">
-    <value>Remove Device...</value>
+    <value>删除设备...</value>
     <comment>Button label.</comment>
   </data>
   <data name="RemoveDeviceConfirmationPart1" xml:space="preserve">
-    <value>Are you sure? This will remove this device from your IoT solution.</value>
+    <value>是否确定? 此操作将从你的 IoT 解决方案中删除此设备。</value>
     <comment>Part of confirmation message.</comment>
   </data>
   <data name="RemoveDeviceConfirmationPart2" xml:space="preserve">
-    <value>This action is permanent.</value>
+    <value>此操作是永久性操作。</value>
     <comment>Part of confirmation message.</comment>
   </data>
   <data name="RemoveDeviceFormatted" xml:space="preserve">
-    <value>Remove device '{0}'</value>
+    <value>删除设备“{0}”</value>
     <comment>Section heading.</comment>
   </data>
   <data name="YesRemoveDeviceFormatted" xml:space="preserve">
-    <value>Yes, remove device {0}</value>
+    <value>是，删除设备 {0}</value>
     <comment>Checkbox label.</comment>
   </data>
   <data name="AppConfig" xml:space="preserve">
@@ -554,91 +554,91 @@
     <comment>(Unused)</comment>
   </data>
   <data name="InstalledRam" xml:space="preserve">
-    <value>Installed RAM</value>
+    <value>已安装 RAM</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="Platform" xml:space="preserve">
-    <value>Platform</value>
+    <value>平台</value>
     <comment>Device property. (Unused)</comment>
   </data>
   <data name="Processor" xml:space="preserve">
-    <value>Processor</value>
+    <value>处理器</value>
     <comment>(Unused)</comment>
   </data>
   <data name="MaxLengthPrice" xml:space="preserve">
-    <value>Price cannot be longer than 1024 characters.</value>
+    <value>价格的长度不能超过 1024 个字符。</value>
     <comment>Error message.</comment>
   </data>
   <data name="MaxLengthProductId" xml:space="preserve">
-    <value>Product Id cannot be longer than 1024 characters.</value>
+    <value>产品 ID 的长度不能超过 1024 个字符。</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceIdHeader" xml:space="preserve">
-    <value>Device ID</value>
+    <value>设备 ID</value>
     <comment>Table column header.</comment>
   </data>
   <data name="FirmwareHeader" xml:space="preserve">
-    <value>Firmware</value>
+    <value>固件</value>
     <comment>Table column header.</comment>
   </data>
   <data name="InstalledRamHeader" xml:space="preserve">
-    <value>Installed RAM</value>
+    <value>已安装 RAM</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ManufactureHeader" xml:space="preserve">
-    <value>Manufacturer</value>
+    <value>制造商</value>
     <comment>Table column header</comment>
   </data>
   <data name="ModelNumberHeader" xml:space="preserve">
-    <value>Model Number</value>
+    <value>型号</value>
     <comment>Table column header.</comment>
   </data>
   <data name="PlatformHeader" xml:space="preserve">
-    <value>Platform</value>
+    <value>平台</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ProcessorHeader" xml:space="preserve">
-    <value>Processor</value>
+    <value>处理器</value>
     <comment>Table column header.</comment>
   </data>
   <data name="SerialNumberHeader" xml:space="preserve">
-    <value>Serial Number</value>
+    <value>序列号</value>
     <comment>Table column header.</comment>
   </data>
   <data name="StatusHeader" xml:space="preserve">
-    <value>Status</value>
+    <value>状态</value>
     <comment>Table column header.</comment>
   </data>
   <data name="AppConfigLength" xml:space="preserve">
-    <value>AppConfig cannot be longer than 1024 characters</value>
+    <value>AppConfig 的长度不能超过 1024 个字符</value>
     <comment>Error message.</comment>
   </data>
   <data name="ClickToSelectAll" xml:space="preserve">
-    <value>Click to select all</value>
+    <value>单击以全选</value>
     <comment>Button label.</comment>
   </data>
   <data name="CopyCredentials" xml:space="preserve">
-    <value>Copy credentials into the configuration file on the device</value>
+    <value>将凭据复制到设备上的配置文件中</value>
     <comment>Table heading.</comment>
   </data>
   <data name="EditDeviceProperties" xml:space="preserve">
-    <value>Edit a Device</value>
+    <value>编辑设备</value>
     <comment>Page heading.</comment>
   </data>
   <data name="ErrorWhileRetrievingKeys" xml:space="preserve">
-    <value>There was an error while retrieving the keys.</value>
+    <value>检索密钥时出错。</value>
     <comment>Error message.</comment>
   </data>
   <data name="FailedToUpdateDeviceStatus" xml:space="preserve">
-    <value>Failed to update device status</value>
+    <value>更新设备状态失败</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnableToRetrieveActionFromService" xml:space="preserve">
-    <value>Unable to retrieve action from service</value>
+    <value>无法从服务中检索操作</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnableToRetrieveDeviceFromService" xml:space="preserve">
-    <value>Unable to retrieve device from service</value>
+    <value>无法从服务中检索设备</value>
     <comment>Error message.</comment>
   </data>
   <data name="ControlCToCopy" xml:space="preserve">
@@ -646,242 +646,242 @@
     <comment>{StrContains=i"Ctrl+C"}</comment>
   </data>
   <data name="DeviceKeysError" xml:space="preserve">
-    <value>An error occurred while trying to update keys</value>
+    <value>尝试更新密钥时出错</value>
     <comment>Error message.</comment>
   </data>
   <data name="RolloverKeys" xml:space="preserve">
-    <value>Rollover Keys</value>
+    <value>滚动更新密钥</value>
     <comment>Button label.</comment>
   </data>
   <data name="RolloverKeysConfirmation" xml:space="preserve">
-    <value>yes, I want to rollover the keys.</value>
+    <value>是，我想滚动更新此密钥。</value>
     <comment>Confirmation message.</comment>
   </data>
   <data name="RolloverKeysFor" xml:space="preserve">
-    <value>Rollover keys for {0}</value>
+    <value>滚动更新 {0} 的密钥</value>
   </data>
   <data name="RolloverKeysText" xml:space="preserve">
-    <value>Are you sure? This will rollover the keys.</value>
+    <value>是否确定? 此操作将滚动更新此密钥。</value>
     <comment>Confirmation message.</comment>
   </data>
   <data name="ConfigurationHeader" xml:space="preserve">
-    <value>Configuration</value>
+    <value>配置</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SelectACommand" xml:space="preserve">
-    <value>Select A Command</value>
+    <value>选择命令</value>
     <comment>Dropdown unselected option label.</comment>
   </data>
   <data name="SelectAnAction" xml:space="preserve">
-    <value>Select An Action</value>
+    <value>选择操作</value>
     <comment>(Unused)</comment>
   </data>
   <data name="CommandError" xml:space="preserve">
-    <value>An error occurred while retrieving the selected command</value>
+    <value>检索所选命令时出错</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandSendError" xml:space="preserve">
-    <value>An error occurred while sending the command</value>
+    <value>发送命令时出错</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceKeys" xml:space="preserve">
-    <value>Device Keys</value>
+    <value>设备密钥</value>
     <comment>(Unused)</comment>
   </data>
   <data name="EmptyKey" xml:space="preserve">
-    <value>(empty)</value>
+    <value>(空)</value>
     <comment>(Unused)</comment>
   </data>
   <data name="FalseEnabledDevice" xml:space="preserve">
-    <value>Enable Device</value>
+    <value>启用设备</value>
     <comment>(Unused)</comment>
   </data>
   <data name="TrueEnabledDevice" xml:space="preserve">
-    <value>Disable Device</value>
+    <value>禁用设备</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ActionHeader" xml:space="preserve">
-    <value>Action</value>
+    <value>操作</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ActionIDHeader" xml:space="preserve">
-    <value>Action ID</value>
+    <value>操作 ID</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ActionIDProperties" xml:space="preserve">
-    <value>Action ID Properties</value>
+    <value>操作 ID 属性</value>
     <comment>Update action dialog heading.</comment>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value>Actions</value>
+    <value>操作</value>
     <comment>Heading.</comment>
   </data>
   <data name="DeviceNotRegisteredInIoTHub" xml:space="preserve">
-    <value>Device Not Registered in IoT Hub</value>
+    <value>未在 IoT 中心中注册设备</value>
     <comment>Error message.</comment>
   </data>
   <data name="IoTHub" xml:space="preserve">
-    <value>IoT Hub</value>
+    <value>IoT 中心</value>
     <comment>Section heading.</comment>
   </data>
   <data name="IoTSuite" xml:space="preserve">
-    <value>IoT Suite</value>
+    <value>IoT 套件</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DeviceProperties" xml:space="preserve">
-    <value>Device Properties</value>
+    <value>设备属性</value>
     <comment>Section heading.</comment>
   </data>
   <data name="AuthenticationKeyFor" xml:space="preserve">
-    <value>Authentication key for {0}</value>
+    <value>{0} 的身份验证密钥</value>
     <comment>(Unused)</comment>
   </data>
   <data name="KeyInUse" xml:space="preserve">
-    <value>This key is currently in use</value>
+    <value>此密钥当前正在使用中</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SendUpdateKeyToDevice" xml:space="preserve">
-    <value>Send Update Key To Device</value>
+    <value>将更新密钥发送到设备</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ThisIsTheCurrentDeviceKey" xml:space="preserve">
-    <value>This is the current device key</value>
+    <value>这是当前的设备密钥</value>
     <comment>(Unused)</comment>
   </data>
   <data name="AzureDevicesHostnameColon" xml:space="preserve">
-    <value>IoT Hub Hostname:</value>
+    <value>IoT 中心主机名:</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="DeviceKeyColon" xml:space="preserve">
-    <value>Device Key:</value>
+    <value>设备密钥:</value>
     <comment>Table column header.</comment>
   </data>
   <data name="SaveChangesToDevice" xml:space="preserve">
-    <value>Save Changes to Device Registry</value>
+    <value>保存对设备注册表的更改</value>
     <comment>Button label.</comment>
   </data>
   <data name="RuleOutputHeader" xml:space="preserve">
-    <value>Rule Output</value>
+    <value>规则输出</value>
     <comment>Table column header.</comment>
   </data>
   <data name="Running" xml:space="preserve">
-    <value>Running</value>
+    <value>正在运行</value>
     <comment>Device state.</comment>
   </data>
   <data name="Enabled" xml:space="preserve">
-    <value>Enabled</value>
+    <value>已启用</value>
     <comment>Device state.</comment>
   </data>
   <data name="Disabled" xml:space="preserve">
-    <value>Disabled</value>
+    <value>已禁用</value>
     <comment>Device state.</comment>
   </data>
   <data name="CommandValueCannotBeLongerThan1024" xml:space="preserve">
-    <value>A command value cannot be longer than 1024 characters</value>
+    <value>命令值的长度不能超过 1024 个字符</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceIdContainsLettersNumbersSpecialCharacters" xml:space="preserve">
-    <value>The Device ID can only contain letters, numbers and the following special characters: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
+    <value>设备 ID 只能包含字母、数字和以下特殊字符: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceIDMustBeBetween2And128Characters" xml:space="preserve">
-    <value>The Device ID must be between 2 and 128 characters long.</value>
+    <value>设备 ID 的长度必须介于 2 到 128 个字符之间。</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceCommandIsDisabled" xml:space="preserve">
-    <value>Cannot send commands to this device currently</value>
+    <value>当前无法将命令发送到此设备</value>
     <comment>Error message.</comment>
   </data>
   <data name="FirmwareVersionMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Firmware Version must be less than 200 characters long.</value>
+    <value>固件版本的长度必须少于 200 个字符。</value>
     <comment>Error message.</comment>
   </data>
   <data name="InstalledRAMFieldMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Installed RAM field must be less than 200 characters long.</value>
+    <value>已安装 RMA 字段的长度必须小于 200 个字符。</value>
     <comment>Error message.</comment>
   </data>
   <data name="ModelNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Model Number must be less than 200 characters long.</value>
+    <value>型号的长度必须小于 200 个字符。</value>
     <comment>Error message.</comment>
   </data>
   <data name="ObjectNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Object Name must be less than 200 characters long.</value>
+    <value>对象名称的长度必须小于 200 个字符。</value>
     <comment>Error message.</comment>
   </data>
   <data name="PlatformNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Platform Name must be less than 200 characters long.</value>
+    <value>平台名称的长度必须小于 200 个字符。</value>
     <comment>Error message.</comment>
   </data>
   <data name="ProcessorNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Processor Name must be less than 200 characters long.</value>
+    <value>处理器名称的长度必须小于 200 个字符。</value>
     <comment>Error message.</comment>
   </data>
   <data name="SerialNumberMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Serial Number must be less than 200 characters long.</value>
+    <value>序列号的长度必须小于 200 个字符。</value>
     <comment>Error message.</comment>
   </data>
   <data name="VersionMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Version must be less than 200 characters long.</value>
+    <value>版本的长度必须小于 200 个字符。</value>
     <comment>Error message.</comment>
   </data>
   <data name="ClickToDisplayError" xml:space="preserve">
-    <value>Click to View</value>
+    <value>单击以查看</value>
     <comment>Button label.</comment>
   </data>
   <data name="Update" xml:space="preserve">
-    <value>Update</value>
+    <value>更新</value>
     <comment>Button label.</comment>
   </data>
   <data name="UpdateActionsIsDisabled" xml:space="preserve">
-    <value>Update Actions is disabled</value>
+    <value>禁用更新操作</value>
     <comment>(Unsued)</comment>
   </data>
   <data name="EditDevicePropertiesFor" xml:space="preserve">
-    <value>Edit Device Properties for {0}</value>
+    <value>编辑 {0} 的设备属性</value>
     <comment>Section heading.</comment>
   </data>
   <data name="NoscriptHeader" xml:space="preserve">
-    <value>JavaScript Required</value>
+    <value>JavaScript 为必需</value>
     <comment>Error message. {StrContains="JavaScript"}</comment>
   </data>
   <data name="NoscriptP1" xml:space="preserve">
-    <value>Your browser is currently set to block JavaScript. You need to allow JavaScript to use this service.</value>
+    <value>你的浏览器当前被设置为阻止 JavaScript。你需要允许 JavaScript 才能使用此服务。</value>
     <comment>Error message. {StrContains="JavaScript"}</comment>
   </data>
   <data name="NoscriptP2" xml:space="preserve">
-    <value>To learn how to allow JavaScript or to find out whether your browser supports JavaScript, check the online help in your web browser.</value>
+    <value>若要了解有关如何允许 JavaScript 或查看你的浏览器是否支持 JavaScript，请参阅 Web 浏览器中的联机帮助。 </value>
     <comment>Informational text block. {StrContains="JavaScript"}</comment>
   </data>
   <data name="DeviceIdColon" xml:space="preserve">
-    <value>Device ID:</value>
+    <value>设备 ID:</value>
     <comment>Table column header.</comment>
   </data>
   <data name="DeviceAddError" xml:space="preserve">
-    <value>Unable to add device. An unexpected error occurred.</value>
+    <value>无法添加设备。发生了意外错误。</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceAddSelectTypeError" xml:space="preserve">
-    <value>Unable to create device. An unexpected error occurred.</value>
+    <value>无法创建设备。发生了意外错误。</value>
     <comment>Error message.</comment>
   </data>
   <data name="Sent" xml:space="preserve">
-    <value>Sent</value>
+    <value>已发送</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DateTimeValidationMessage" xml:space="preserve">
-    <value>Invalid Date</value>
+    <value>日期无效</value>
     <comment>Error message.</comment>
   </data>
   <data name="StringValidationMessage" xml:space="preserve">
-    <value>Invalid string</value>
+    <value>字符串无效</value>
     <comment>Error message.</comment>
   </data>
   <data name="RequiredValue" xml:space="preserve">
-    <value>This field is required</value>
+    <value>此字段为必填字段</value>
     <comment>Error message.</comment>
   </data>
   <data name="Local" xml:space="preserve">
-    <value>Local</value>
+    <value>本地</value>
     <comment>Time Zone dropdown option.</comment>
   </data>
   <data name="UTC" xml:space="preserve">
@@ -889,175 +889,175 @@
     <comment>Time Zone dropdown option. {Locked="UTC"}</comment>
   </data>
   <data name="binaryCommandErrorMessage" xml:space="preserve">
-    <value>Invalid base64 binary; expected a format like 'Zm9vYmFy' or 'Zm9vYg=='</value>
+    <value>无效的 Base64 二进制；格式应类似于 "Zm9vYmFy" 或 "Zm9vYg=="</value>
     <comment>Error message.</comment>
   </data>
   <data name="byteCommandErrorMessage" xml:space="preserve">
-    <value>Invalid byte; expected a format like '24' (between 0 and 255)</value>
+    <value>无效的字节；格式应类似于 "24" (0 到 255 之间)</value>
     <comment>Error message.</comment>
   </data>
   <data name="dateCommandErrorMessage" xml:space="preserve">
-    <value>Invalid date; expected a date 'YYYY-MM-DD' format</value>
+    <value>无效的日期；日期格式应为 "YYYY-MM-DD"</value>
     <comment>Error message.</comment>
   </data>
   <data name="datetimeoffsetCommandErrorMessage" xml:space="preserve">
-    <value>Invalid datetime; expected a date 'YYYY-MM-DD HH:mm:ss' format</value>
+    <value>无效的日期/时间；日期格式应为 "YYYY-MM-DD HH:mm:ss"</value>
     <comment>Error message.</comment>
   </data>
   <data name="decimalCommandErrorMessage" xml:space="preserve">
-    <value>Invalid decimal; expected a format like '-12.3456' or '98765.43'</value>
+    <value>无效的小数；格式应类似于 "-12.3456" 或 "98765.43"</value>
     <comment>Error message.</comment>
   </data>
   <data name="DecimalCommandHint" xml:space="preserve">
-    <value>Data type: decimal (like '3.14')</value>
+    <value>数据类型: 小数(如 "3.14")</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="doubleCommandErrorMessage" xml:space="preserve">
-    <value>Invalid double; expected a format like '3.14' or '6.02e+23'</value>
+    <value>无效的双精度型值；格式应类似于 "3.14" 或 "6.02e+23"</value>
     <comment>Error message.</comment>
   </data>
   <data name="DoubleCommandHint" xml:space="preserve">
-    <value>Data type: double (like '3.14', '6.02e+23', etc)</value>
+    <value>数据类型: 双精度型(如 "3.14"、"6.02e+23" 等)</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="guidCommandErrorMessage" xml:space="preserve">
-    <value>Invalid GUID; expected a format like '5d9ff9f7-ca82-4657-97f7-569dc8591af7'</value>
+    <value>无效的 GUID；格式应类似于 "5d9ff9f7-ca82-4657-97f7-569dc8591af7"</value>
     <comment>Error message. {Locked="GUID"}</comment>
   </data>
   <data name="GuidCommandHint" xml:space="preserve">
-    <value>Data type: GUID (with format like 'd51ce656-b765-4dce-ba17-67961cbc111d')</value>
+    <value>数据类型: GUID (类似 "d51ce656-b765-4dce-ba17-67961cbc111d" 的格式)</value>
     <comment>Tooltip.  {Locked="GUID"}</comment>
   </data>
   <data name="int16CommandErrorMessage" xml:space="preserve">
-    <value>Invalid Int16; expected a format like '-2000' or '4500' (between -32768 and 32767)</value>
+    <value>无效的 Int16；格式应类似于 "-2000" 或 "4500" (-32768 到 32767 之间)</value>
     <comment>Error message.</comment>
   </data>
   <data name="int32CommandErrorMessage" xml:space="preserve">
-    <value>Invalid Int32; expected a format like '-2000' or '4500' (between -2147483648 and 2147483647)</value>
+    <value>无效的 Int32；格式应类似于 "-2000" 或 "4500" (-2147483648 到 2147483647 之间)</value>
     <comment>Error message.</comment>
   </data>
   <data name="int64CommandErrorMessage" xml:space="preserve">
-    <value>Invalid Int64; expected a format like '-2000' or '4500'</value>
+    <value>无效的 Int64；格式应类似于 "-2000" 或 "4500"</value>
     <comment>Error message.</comment>
   </data>
   <data name="NumberCommandHint" xml:space="preserve">
-    <value>Data type: {0} (an integer between {1} and {2})</value>
+    <value>数据类型: {0} (介于 {1} 和 {2} 之间的一个整数)</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="NumberOfDevicesHeader" xml:space="preserve">
-    <value>No. of Devices</value>
+    <value>设备编号</value>
     <comment>Table column header.</comment>
   </data>
   <data name="sbyteCommandErrorMessage" xml:space="preserve">
-    <value>Invalid SByte; expected a format like '-43' or '12' (between -128 and 127)</value>
+    <value>无效的 SByte; 格式应类似于 "-43" 或 "12" (-128 到 127 之间)</value>
     <comment>Error message.</comment>
   </data>
   <data name="singleCommandErrorMessage" xml:space="preserve">
-    <value>Invalid single; expected a format like '3.14' or '6.02e+23'</value>
+    <value>无效的单精度型值；格式应类似于 "3.14" 或 "6.02e+23"</value>
     <comment>Error message.</comment>
   </data>
   <data name="SingleCommandHint" xml:space="preserve">
-    <value>Data type: single (like '3.14', '4.29e09', etc)</value>
+    <value>数据类型: 单精度型(如 "3.14"、"4.29e09" 等)</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="ErrorRemoveDevice" xml:space="preserve">
-    <value>Unable to remove device. An unexpected error occurred.</value>
+    <value>无法删除设备。发生了意外错误。</value>
     <comment>Error message.</comment>
   </data>
   <data name="ErrorSendingConfig" xml:space="preserve">
-    <value>Unable to send configuration. An unexpected error occurred.</value>
+    <value>无法发送配置。发生了意外错误。</value>
     <comment>Error message.</comment>
   </data>
   <data name="InvalidKeyType" xml:space="preserve">
-    <value>Invalid key</value>
+    <value>密钥无效</value>
     <comment>Error message.</comment>
   </data>
   <data name="Resend" xml:space="preserve">
-    <value>Resend</value>
+    <value>重新发送</value>
     <comment>Button label.</comment>
   </data>
   <data name="ResendCommandError" xml:space="preserve">
-    <value>An error occurred while resending the command</value>
+    <value>重新发送命令时出错</value>
     <comment>Error message.</comment>
   </data>
   <data name="FailedToUpdateActionId" xml:space="preserve">
-    <value>Failed to Update ActionId</value>
+    <value>更新 ActionId 失败</value>
     <comment>Error message.</comment>
   </data>
   <data name="FailedToRetrieveActions" xml:space="preserve">
-    <value>An error occurred while retrieving the list of actions.</value>
+    <value>检索操作列表时出错。</value>
     <comment>Error message.</comment>
   </data>
   <data name="FailedToRetrieveDevices" xml:space="preserve">
-    <value>An error occurred while retrieving the list of devices.</value>
+    <value>检索设备列表时出错。</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnknownCommandParameterType" xml:space="preserve">
-    <value>Unknown command parameter type: '{0}'</value>
+    <value>未知命令参数类型:“{0}”</value>
     <comment>Error message.</comment>
   </data>
   <data name="BinaryCommandHint" xml:space="preserve">
-    <value>Data type: base64 string (like 'Zm9vYmFy' or 'Zm9vYg==')</value>
+    <value>数据类型: Base64 字符串(如 "Zm9vYmFy" 或 "Zm9vYg==")</value>
     <comment>Input field tooltip.</comment>
   </data>
   <data name="StringCommandHint" xml:space="preserve">
-    <value>Data type: string (like 'Welcome, user!')</value>
+    <value>数据类型: 字符串(如“欢迎使用，亲爱的用户!”)</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="FindDevices" xml:space="preserve">
-    <value>FIND DEVICES</value>
+    <value>查找设备</value>
     <comment>Section heading.</comment>
   </data>
   <data name="FindLabel" xml:space="preserve">
-    <value>Find</value>
+    <value>查找</value>
     <comment>Button label.</comment>
   </data>
   <data name="ResetLabel" xml:space="preserve">
-    <value>Reset</value>
+    <value>重置</value>
     <comment>Button label.</comment>
   </data>
   <data name="SearchDevices" xml:space="preserve">
-    <value>SEARCH DEVICES</value>
+    <value>搜索设备</value>
     <comment>Input label.</comment>
   </data>
   <data name="AddNewClause" xml:space="preserve">
-    <value>+ ADD NEW CLAUSE</value>
+    <value>+ 添加新子句</value>
     <comment>Button label.</comment>
   </data>
   <data name="FilterDevices" xml:space="preserve">
-    <value>FILTER DEVICES</value>
+    <value>筛选设备</value>
     <comment>Section heading.</comment>
   </data>
   <data name="FilterFieldLabel" xml:space="preserve">
-    <value>FIELD</value>
+    <value>字段</value>
     <comment>Label.</comment>
   </data>
   <data name="FilterOperatorContainsInsensitive" xml:space="preserve">
-    <value>Contains (case insensitive)</value>
+    <value>包含(不区分大小写)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorContainsSensitive" xml:space="preserve">
-    <value>Contains (case sensitive)</value>
+    <value>包含(区分大小写)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorExactInsensitive" xml:space="preserve">
-    <value>Exact match (case insensitive)</value>
+    <value>完全匹配(不区分大小写)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorExactSensitive" xml:space="preserve">
-    <value>Exact match (case sensitive)</value>
+    <value>完全匹配(区分大小写)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorLabel" xml:space="preserve">
-    <value>OPERATOR</value>
+    <value>运算符</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="FilterOperatorStartsWithInsensitive" xml:space="preserve">
-    <value>Starts with (case insensitive)</value>
+    <value>开头为(不区分大小写)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorStartsWithSensitive" xml:space="preserve">
-    <value>Starts with (case sensitive)</value>
+    <value>开头为(区分大小写)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionDeviceId" xml:space="preserve">
@@ -1065,195 +1065,195 @@
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionFirmwareVersion" xml:space="preserve">
-    <value>Firmware Version</value>
+    <value>固件版本</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionInstalledRam" xml:space="preserve">
-    <value>Installed RAM</value>
+    <value>已安装 RAM</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionManufacturer" xml:space="preserve">
-    <value>Manufacturer</value>
+    <value>制造商</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionModelNumber" xml:space="preserve">
-    <value>Model Number</value>
+    <value>型号</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionPlatform" xml:space="preserve">
-    <value>Platform</value>
+    <value>平台</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionProcessor" xml:space="preserve">
-    <value>Processor</value>
+    <value>处理器</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionSerialNumber" xml:space="preserve">
-    <value>Serial Number</value>
+    <value>序列号</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterValueLabel" xml:space="preserve">
-    <value>VALUE</value>
+    <value>值</value>
     <comment>Textbox label.</comment>
   </data>
   <data name="FilterOptionStatus" xml:space="preserve">
-    <value>Status</value>
+    <value>状态</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterStatusDisabled" xml:space="preserve">
-    <value>Disabled</value>
+    <value>已禁用</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterStatusLabel" xml:space="preserve">
-    <value>STATUS</value>
+    <value>状态</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="FilterStatusPending" xml:space="preserve">
-    <value>Pending</value>
+    <value>挂起</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterStatusRunning" xml:space="preserve">
-    <value>Running</value>
+    <value>正在运行</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="DeviceIdCaseSensitiveWarning" xml:space="preserve">
-    <value>(DeviceID is case-sensitive)</value>
+    <value>(DeviceID 区分大小写)</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="FindDevicesLabelCollapsed" xml:space="preserve">
-    <value>FIND DEVICES</value>
+    <value>查找设备</value>
     <comment>Section heading.</comment>
   </data>
   <data name="DeviceDetailsPaneLabel" xml:space="preserve">
-    <value>DEVICE DETAILS</value>
+    <value>设备详细信息</value>
     <comment>Section heading.</comment>
   </data>
   <data name="NoActionSelectedLabel" xml:space="preserve">
-    <value>No action selected</value>
+    <value>没有选择任何操作</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="NoDeviceSelectedLabel" xml:space="preserve">
-    <value>No device selected</value>
+    <value>没有选择任何设备</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="DeviceRules" xml:space="preserve">
-    <value>Device Rules</value>
+    <value>设备规则</value>
     <comment>Page title.</comment>
   </data>
   <data name="Rules" xml:space="preserve">
-    <value>Rules</value>
+    <value>规则</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="RulesHeaderFormatted" xml:space="preserve">
-    <value>Rules({0})</value>
+    <value>规则({0})</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DataFieldHeader" xml:space="preserve">
-    <value>Data Field</value>
+    <value>数据字段</value>
     <comment>Table column header.</comment>
   </data>
   <data name="NoRuleSelected" xml:space="preserve">
-    <value>No Rule Selected</value>
+    <value>没有选择任何规则</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="NoRuleSelectedLabel" xml:space="preserve">
-    <value>No Rule Selected</value>
+    <value>没有选择任何规则</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="OperatorHeader" xml:space="preserve">
-    <value>Operator</value>
+    <value>运算符</value>
     <comment>Table column header.</comment>
   </data>
   <data name="RuleIdHeader" xml:space="preserve">
-    <value>Rule ID</value>
+    <value>规则 ID</value>
     <comment>Table column header.</comment>
   </data>
   <data name="RuleNameHeader" xml:space="preserve">
-    <value>Rule Name</value>
+    <value>规则名称</value>
     <comment>(Unused)</comment>
   </data>
   <data name="RulePropertiesPaneLabel" xml:space="preserve">
-    <value>Properties</value>
+    <value>属性</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ThresholdHeader" xml:space="preserve">
-    <value>Threshold</value>
+    <value>阈值</value>
     <comment>Table column header.</comment>
   </data>
   <data name="FailedToRetrieveRules" xml:space="preserve">
-    <value>An error occurred while retrieving the list of rules.</value>
+    <value>检索规则列表时出错。</value>
     <comment>Error message.</comment>
   </data>
   <data name="FilterStatusEnabled" xml:space="preserve">
-    <value>Enabled</value>
+    <value>已启用</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>属性</value>
     <comment>Section heading.</comment>
   </data>
   <data name="UnableToRetrieveRuleFromService" xml:space="preserve">
-    <value>Unable to retrieve rule from service</value>
+    <value>无法从服务中检索规则</value>
     <comment>Error message.</comment>
   </data>
   <data name="Disable" xml:space="preserve">
-    <value>Disable</value>
+    <value>禁用</value>
     <comment>Button label.</comment>
   </data>
   <data name="Enable" xml:space="preserve">
-    <value>Enable</value>
+    <value>启用</value>
     <comment>(Unused)</comment>
   </data>
   <data name="RuleProperties" xml:space="preserve">
-    <value>Rule Properties</value>
+    <value>规则属性</value>
     <comment>Section heading.</comment>
   </data>
   <data name="RuleStatus" xml:space="preserve">
-    <value>Rule Status</value>
+    <value>规则状态</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ValueHeader" xml:space="preserve">
-    <value>Value</value>
+    <value>值</value>
     <comment>(Unused)</comment>
   </data>
   <data name="AddRule" xml:space="preserve">
-    <value>Add Rule...</value>
+    <value>添加规则...</value>
     <comment>Button label.</comment>
   </data>
   <data name="RuleUpdateError" xml:space="preserve">
-    <value>There was an error updating the rule.</value>
+    <value>更新规则时出错。</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceRulesFullError" xml:space="preserve">
-    <value>All available data fields have rules defined for this device. Please modify an existing rule instead.</value>
+    <value>所有可用数据字段均针对此设备定义了规则。请改为修改现有规则。</value>
     <comment>Error message.</comment>
   </data>
   <data name="DisableRule" xml:space="preserve">
-    <value>Disable Rule</value>
+    <value>禁用规则</value>
     <comment>Button label.</comment>
   </data>
   <data name="EnableRule" xml:space="preserve">
-    <value>Enable Rule</value>
+    <value>启用规则</value>
     <comment>Button label.</comment>
   </data>
   <data name="AllDevices" xml:space="preserve">
-    <value>All Devices</value>
+    <value>所有设备</value>
     <comment>(Unused)</comment>
   </data>
   <data name="AverageOfDeviceHumidity" xml:space="preserve">
-    <value>Average of device humidity</value>
+    <value>设备湿度的平均值</value>
     <comment>Tile heading.</comment>
   </data>
   <data name="Humidity" xml:space="preserve">
-    <value>Humidity</value>
+    <value>湿度</value>
     <comment>Label.</comment>
   </data>
   <data name="MaxOfDevicesHumidity" xml:space="preserve">
-    <value>Max of device humidity</value>
+    <value>设备湿度的最大值</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="MinOfDevicesHumidity" xml:space="preserve">
-    <value>Min of device humidity</value>
+    <value>设备湿度的最小值</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="TelemetryGaugeNumericFormat" xml:space="preserve">
@@ -1261,94 +1261,94 @@
     <comment>Guge format string.</comment>
   </data>
   <data name="TelemetryHistory" xml:space="preserve">
-    <value>Telemetry History</value>
+    <value>遥测历史记录</value>
     <comment>Chart heading.</comment>
   </data>
   <data name="Temperature" xml:space="preserve">
-    <value>Temperature</value>
+    <value>温度</value>
     <comment>Label.</comment>
   </data>
   <data name="Active" xml:space="preserve">
-    <value>Active</value>
+    <value>活动</value>
     <comment>Device state.</comment>
   </data>
   <data name="Alarm" xml:space="preserve">
-    <value>Alarm</value>
+    <value>警报</value>
     <comment>Label.</comment>
   </data>
   <data name="AlarmHistory" xml:space="preserve">
-    <value>Alarm History</value>
+    <value>警报历史记录</value>
     <comment>Table heading.</comment>
   </data>
   <data name="Closed" xml:space="preserve">
-    <value>Closed</value>
+    <value>已关闭</value>
     <comment>Label.</comment>
   </data>
   <data name="Information" xml:space="preserve">
-    <value>Information</value>
+    <value>信息</value>
   </data>
   <data name="IssueNumberHeader" xml:space="preserve">
-    <value>Issue No.</value>
+    <value>问题编号</value>
     <comment>(Unused)</comment>
   </data>
   <data name="IssueTypeHeader" xml:space="preserve">
-    <value>Issue Type</value>
+    <value>问题类型</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DefaultSolutionName" xml:space="preserve">
-    <value>Remote Monitoring Solution</value>
+    <value>远程监控解决方案</value>
     <comment>Section heading.</comment>
   </data>
   <data name="EditDeviceRuleFormatted" xml:space="preserve">
-    <value>{0} Rule for Device {1}</value>
+    <value>设备 {1} 的 {0} 规则</value>
     <comment>Section heading.</comment>
   </data>
   <data name="SaveAndViewRules" xml:space="preserve">
-    <value>Save and View Rules</value>
+    <value>保存并查看规则</value>
     <comment>Button label.</comment>
   </data>
   <data name="ViewRules" xml:space="preserve">
-    <value>View Rules</value>
+    <value>查看规则</value>
     <comment>Button label.</comment>
   </data>
   <data name="RuleOutput" xml:space="preserve">
-    <value>Rule Output</value>
+    <value>规则输出</value>
     <comment>Table column header.</comment>
   </data>
   <data name="Value" xml:space="preserve">
-    <value>Value</value>
+    <value>值</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ThresholdFormatError" xml:space="preserve">
-    <value>The Threshold must be a valid double.</value>
+    <value>该阈值必须为有效的双精度型值。</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnableToRetrieveAlertsHistoryFromService" xml:space="preserve">
-    <value>Unable to retrieve alerts history from service</value>
+    <value>无法从服务中检索警报历史记录</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnableToRetrieveDeviceTelemetryFromService" xml:space="preserve">
-    <value>Unable to retrieve device telemetry from service</value>
+    <value>无法从服务中检索设备遥测</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandDeliveryCountExceeded" xml:space="preserve">
-    <value>Delivery Count Exceeded</value>
+    <value>已超出发送数</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandExpired" xml:space="preserve">
-    <value>Expired</value>
+    <value>已过期</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandRejected" xml:space="preserve">
-    <value>Rejected</value>
+    <value>已拒绝</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandSuccess" xml:space="preserve">
-    <value>Success</value>
+    <value>成功</value>
     <comment>Success message.</comment>
   </data>
   <data name="Time" xml:space="preserve">
-    <value>Time</value>
+    <value>时间</value>
     <comment>(Unused)</comment>
   </data>
   <data name="InfoIconLink" xml:space="preserve">
@@ -1356,71 +1356,71 @@
     <comment>Link to a documentation.</comment>
   </data>
   <data name="RuleAlreadyAddedError" xml:space="preserve">
-    <value>A rule for this data field already exists for this device. Only one rule can be defined on a field for a given device. Either try to create a rule for a different data field, or edit the existing rule.</value>
+    <value>此设备已存在用于此数据字段的规则。仅可以在给定设备的一个字段中定义一条规则。可以尝试创建另一个数据字段的规则，或编辑现有规则。</value>
     <comment>Error message.</comment>
   </data>
   <data name="TableDataSaveConflictErrorMessage" xml:space="preserve">
-    <value>There was a conflict while saving the data. Please verify the data and try again.</value>
+    <value>保存数据时发生冲突。请验证数据，然后重试。</value>
     <comment>Error message.</comment>
   </data>
   <data name="SimulatorCredentialHeader" xml:space="preserve">
-    <value>Your simulated device has been created with these settings</value>
+    <value>你的模拟设备已创建完成并具有这些设置</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ErrorRemoveRule" xml:space="preserve">
-    <value>Unable to remove rule. An unexpected error occurred.</value>
+    <value>无法删除规则。发生了意外错误。</value>
     <comment>Error message.</comment>
   </data>
   <data name="RemoveRule" xml:space="preserve">
-    <value>Remove Rule</value>
+    <value>删除规则</value>
     <comment>Button label.</comment>
   </data>
   <data name="RemoveRuleConfirmationPart1" xml:space="preserve">
-    <value>Are you sure? This will remove this rule from your IoT solution.</value>
+    <value>是否确定? 此操作将从你的 IoT 解决方案中删除此规则。</value>
     <comment>Part of confirmation message.</comment>
   </data>
   <data name="RemoveRuleConfirmationPart2" xml:space="preserve">
-    <value>This action is permanent.</value>
+    <value>此操作是永久性操作。</value>
     <comment>Part of confirmation message.</comment>
   </data>
   <data name="RemoveRuleFormatted" xml:space="preserve">
-    <value>Remove Rule for {0} on Device {1}</value>
+    <value>删除设备 {1} 上的 {0} 的规则</value>
     <comment>Section heading.</comment>
   </data>
   <data name="YesRemoveRuleFormatted" xml:space="preserve">
-    <value>Yes, remove the rule for {0} on device {1}</value>
+    <value>是，删除设备 {1} 上的 {0} 的规则</value>
     <comment>Checkbox label.</comment>
   </data>
   <data name="RemoveDeviceConfirmation" xml:space="preserve">
-    <value>Remove Device</value>
+    <value>删除设备</value>
     <comment>Button label.</comment>
   </data>
   <data name="CellularConnectivityManagement" xml:space="preserve">
-    <value>Cellular Connectivity Management</value>
+    <value>手机网络连接管理</value>
     <comment>Panel heading.</comment>
   </data>
   <data name="SimInformation" xml:space="preserve">
-    <value>SIM Information...</value>
+    <value>SIM 卡信息...</value>
     <comment>Hyperlink label. {Locked="SIM"}</comment>
   </data>
   <data name="ConnectionStatus" xml:space="preserve">
-    <value>Connection Status: </value>
+    <value>连接状态: </value>
     <comment>(Unused)</comment>
   </data>
   <data name="LastSessionStart" xml:space="preserve">
-    <value>Last Session Start: </value>
+    <value>上一次会话开始: </value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="SimStatus" xml:space="preserve">
-    <value>SIM Status: </value>
+    <value>SIM 卡状态: </value>
     <comment>Read-only field label. {Locked="SIM"}</comment>
   </data>
   <data name="CurrentRatePlan" xml:space="preserve">
-    <value>Current Rate Plan: </value>
+    <value>当前的费率计划: </value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="AggregatedUsage" xml:space="preserve">
-    <value>Aggregated Usage: </value>
+    <value>聚合使用情况: </value>
     <comment>Label on cellular information details panel.</comment>
   </data>
   <data name="IMEI" xml:space="preserve">
@@ -1432,7 +1432,7 @@
     <comment>Read-only field label.</comment>
   </data>
   <data name="CurrentLimitReached" xml:space="preserve">
-    <value>Current Limit Reached: </value>
+    <value>已达到当前限制: </value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="ICCID" xml:space="preserve">
@@ -1440,59 +1440,59 @@
     <comment>Read-only field label.</comment>
   </data>
   <data name="AccountId" xml:space="preserve">
-    <value>Account ID: </value>
+    <value>帐户 ID: </value>
     <comment>Label on cellular information details panel.</comment>
   </data>
   <data name="SimInformationBackText" xml:space="preserve">
-    <value>SIM Information</value>
+    <value>SIM 卡信息</value>
     <comment>Hyperlink label. {Locked="SIM"}</comment>
   </data>
   <data name="NavigationMenuItemAdvanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>高级</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="ApiRegistration" xml:space="preserve">
-    <value>Jasper API Registration</value>
+    <value>Jasper API 注册</value>
     <comment>Tile heading.</comment>
   </data>
   <data name="CheckIccid" xml:space="preserve">
-    <value>Check ICCID</value>
+    <value>检查 ICCID</value>
     <comment>(Unsused)</comment>
   </data>
   <data name="EnterIccid" xml:space="preserve">
-    <value>Enter a Iccid from Cellular Provider</value>
+    <value>输入移动运营商提供的 ICCID</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Associate" xml:space="preserve">
-    <value>Associate</value>
+    <value>关联</value>
     <comment>Button label.</comment>
   </data>
   <data name="SimAssociation" xml:space="preserve">
-    <value>SIM Association</value>
+    <value>SIM 卡关联项</value>
     <comment>(Unused)</comment>
   </data>
   <data name="OptionalBrackets" xml:space="preserve">
-    <value>(Optional)</value>
+    <value>(可选)</value>
     <comment>(Unused)</comment>
   </data>
   <data name="BaseUrlToolTip" xml:space="preserve">
-    <value>You'll find this just below the API key on the API page in Control Center.</value>
+    <value>位于控制中心 API 页面上的 API 密钥正下方。</value>
     <comment>Input field tooltip.</comment>
   </data>
   <data name="LicenseKeyToolTip" xml:space="preserve">
-    <value>You'll find this at the top left of the API page in Control Center.</value>
+    <value>位于控制中心 API 页面的左上角。</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="PasswordToolTip" xml:space="preserve">
-    <value>This is the password you use to log into Control Center.</value>
+    <value>这是用于登陆控制中心的密码。</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="UsernameToolTip" xml:space="preserve">
-    <value>This is the username you use to log into Control Center.</value>
+    <value>这是用于登陆控制中心的密码。</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="AttachIccidToDevice" xml:space="preserve">
-    <value>Attach a SIM ICCID to the device</value>
+    <value>将 SIM ICCID 附加到设备</value>
     <comment>Checkbox label. {Locked="SIM ICCID"}</comment>
   </data>
   <data name="SimIccid" xml:space="preserve">
@@ -1500,11 +1500,11 @@
     <comment>(Unused)</comment>
   </data>
   <data name="NavigationMenuItemsAdvanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>高级</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="CellularConn" xml:space="preserve">
-    <value>Cellular Conn</value>
+    <value>手机网络连接</value>
     <comment>(Unused)</comment>
   </data>
   <data name="HealthBeat" xml:space="preserve">
@@ -1516,23 +1516,23 @@
     <comment>(Unused)</comment>
   </data>
   <data name="ApiRegistrationDescription" xml:space="preserve">
-    <value>Register this solution with your Jasper Control Center platform credentials to authenticate Jasper API use.</value>
+    <value>使用 Jasper 控制中心平台凭据注册此解决方案以验证 Jasper API 使用。</value>
     <comment>Tile subheading.</comment>
   </data>
   <data name="ApiRegistrationTitle" xml:space="preserve">
-    <value>Jasper API Registration</value>
+    <value>Jasper API 注册</value>
     <comment>Panel heading. {Locked="Jasper API"}</comment>
   </data>
   <data name="CellularConnViewTitle" xml:space="preserve">
-    <value>Cellular Conn</value>
+    <value>手机网络连接</value>
     <comment>Panel heading.</comment>
   </data>
   <data name="DeviceAssociationDescription" xml:space="preserve">
-    <value>Associate your Azure IoT devices deployed on &lt;a href="http://www.jasper.com/iot-service-platform/control-center"&gt;Control Center&lt;/a&gt; to this solution.</value>
+    <value>将你部署在&lt;a href="http://www.jasper.com/iot-service-platform/control-center"&gt;控制中心&lt;/a&gt;上的 Azure IoT 设备关联到此解决方案。</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="DeviceAssociationTitle" xml:space="preserve">
-    <value>Device Association</value>
+    <value>设备关联</value>
     <comment>Section heading.</comment>
   </data>
   <data name="HealthBeatViewTitle" xml:space="preserve">
@@ -1544,15 +1544,15 @@
     <comment>Section heading.</comment>
   </data>
   <data name="ApiRegistrationFailed" xml:space="preserve">
-    <value>Registration failed:  Please check credentials</value>
+    <value>注册失败: 请检查凭据</value>
     <comment>Error message.</comment>
   </data>
   <data name="ApiRegistrationSuccessful" xml:space="preserve">
-    <value>Registration successful</value>
+    <value>注册成功</value>
     <comment>Success message.</comment>
   </data>
   <data name="ApiRegistrationNotAvailable" xml:space="preserve">
-    <value>No API currently registered for this account</value>
+    <value>当前没有为此帐户注册 API</value>
     <comment>Error message.</comment>
   </data>
   <data name="JasperHelpLink" xml:space="preserve">
@@ -1564,43 +1564,43 @@
     <comment>Error message.</comment>
   </data>
   <data name="DeviceList" xml:space="preserve">
-    <value>Device List</value>
+    <value>设备列表</value>
     <comment>Label.</comment>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>上一步</value>
     <comment>Button label.</comment>
   </data>
   <data name="FilterInfo" xml:space="preserve">
-    <value>(filtered from _MAX_ total records)</value>
+    <value>(从 _MAX_ 总记录数中筛选)</value>
     <comment>Do not translate the substring "_MAX_"--it is programmatically replaced with the total number of records.</comment>
   </data>
   <data name="RemoveRuleButtonLabel" xml:space="preserve">
-    <value>Remove Rule...</value>
+    <value>删除规则...</value>
     <comment>Button label.</comment>
   </data>
   <data name="AdministratorRole" xml:space="preserve">
-    <value>Administrator</value>
+    <value>管理员</value>
     <comment>User role name.</comment>
   </data>
   <data name="ImplicitReadOnlyRole" xml:space="preserve">
-    <value>Implicit Read-Only</value>
+    <value>隐式只读</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ReadOnlyRole" xml:space="preserve">
-    <value>Read-Only</value>
+    <value>只读</value>
     <comment>User role name.</comment>
   </data>
   <data name="DeviceToView" xml:space="preserve">
-    <value>Device to View:</value>
+    <value>要查看的设备:</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="SignOut" xml:space="preserve">
-    <value>Sign Out</value>
+    <value>注销</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="CommandCToCopy" xml:space="preserve">
-    <value>Command+C to copy</value>
+    <value>Command+C 以复制</value>
     <comment>Button label.</comment>
   </data>
   <data name="DeviceProperty_CreatedTime" xml:space="preserve">
@@ -1612,31 +1612,31 @@
     <comment>{Locked="UTC"}</comment>
   </data>
   <data name="DevicePropertiesFormattedAsStored" xml:space="preserve">
-    <value>Device Properties are displayed as stored.</value>
+    <value>设备属性显示为已存储。</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="LocalTime" xml:space="preserve">
-    <value>Local Time</value>
+    <value>本地时间</value>
     <comment>Table column header.</comment>
   </data>
   <data name="RemoteNameNotResolved" xml:space="preserve">
-    <value>The remote name could not be resolved</value>
+    <value>无法解析远程名称</value>
     <comment>Error message.</comment>
   </data>
   <data name="RemoveSimAssociation" xml:space="preserve">
-    <value>Remove SIM Association</value>
+    <value>删除 SIM 卡关联项</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="SimAssociationSucceeded" xml:space="preserve">
-    <value>The association succeeded for device {0} with ICCID {1}.</value>
+    <value>已成功将设备 {0} 与 ICCID {1} 相关联。</value>
     <comment>Success message.</comment>
   </data>
   <data name="ApiRegistrationInfoText" xml:space="preserve">
-    <value>To activate the Jasper integration to view and control your Control Center devices through IoT Suite please enter the following credentials:</value>
+    <value>若要激活 Jasper 集成以通过 IoT 套件查看并控制控制中心设备，请输入以下凭据:</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="BaseUrlLabel" xml:space="preserve">
-    <value>Base URL</value>
+    <value>基本 URL</value>
     <comment>Input field label.</comment>
   </data>
   <data name="IccidLabel" xml:space="preserve">
@@ -1644,30 +1644,19 @@
     <comment>Section heading.</comment>
   </data>
   <data name="LicenseKeyLabel" xml:space="preserve">
-    <value>License Key</value>
+    <value>许可证密钥</value>
     <comment>Section heading.</comment>
   </data>
   <data name="PasswordLabel" xml:space="preserve">
-    <value>Password</value>
+    <value>密码</value>
     <comment>Section heading.</comment>
   </data>
   <data name="SimInformationInfoText" xml:space="preserve">
-    <value>Delivered through the Jasper Control Center platform</value>
+    <value>已通过 Jasper 控制中心平台送达</value>
     <comment>{Locked="Jasper"}</comment>
   </data>
   <data name="UsernameLabel" xml:space="preserve">
-    <value>Username</value>
+    <value>用户名</value>
     <comment>Input label.</comment>
-  </data>
-  <data name="LinkLabelHelpAndSupport" xml:space="preserve">
-    <value>Help &amp; Support</value>
-    <comment>Hyperlink label.</comment>
-  </data>
-  <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
-    <value>Give feedback</value>
-    <comment>Hyperlink label.</comment>
-  </data>
-  <data name="InvalidDeviceTelemetryFormat" xml:space="preserve">
-    <value>Device {0} has an invalid Telemetry specification on its DeviceInfo</value>
   </data>
 </root>

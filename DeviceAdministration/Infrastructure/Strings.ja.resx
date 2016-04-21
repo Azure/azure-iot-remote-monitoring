@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CustomDeviceDescription" xml:space="preserve">
-    <value>A physical hardware device.</value>
+    <value>物理ハードウェア デバイスです。</value>
     <comment>Description of a device.</comment>
   </data>
   <data name="CustomDeviceInstructionsUrl" xml:space="preserve">
@@ -126,51 +126,51 @@
     <comment>URL pointing to a documentaiton article describing how to connect devices to IOT Suite.</comment>
   </data>
   <data name="CustomDeviceName" xml:space="preserve">
-    <value>Custom Device</value>
+    <value>カスタム デバイス</value>
     <comment>Name of a device.</comment>
   </data>
   <data name="DeviceAlreadyRegisteredExceptionMessage" xml:space="preserve">
-    <value>Device {0} is already registered.</value>
+    <value>デバイス {0} は既に登録されています。</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceNotRegisteredExceptionMessage" xml:space="preserve">
-    <value>Device {0} is not registered.</value>
+    <value>デバイス {0} は登録されていません。</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceRegistrationExceptionMessage" xml:space="preserve">
-    <value>There was an error while registering device {0}.</value>
+    <value>デバイス {0} の登録中にエラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
   <data name="EnabledStateNotSetError" xml:space="preserve">
-    <value>The Enabled State must be set. Please select Enabled or Disabled.</value>
+    <value>有効化の状態を設定する必要があります。[有効] と [無効] のどちらかを選んでください。</value>
     <comment>Error message.</comment>
   </data>
   <data name="SimulatedDeviceDescription" xml:space="preserve">
-    <value>Software to simulate a device. Easily extensible for arbitrary events and commands; can run in a Windows Azure worker role. To create a simulated device, please follow the cooler sample instructions.</value>
+    <value>ソフトウェアでデバイスをシミュレートします。シミュレートされたデバイスは、任意のイベントとコマンドに合わせて簡単に拡張できるほか、Microsoft Azure worker ロールで実行できます。シミュレートされたデバイスを作成する方法については、冷却器のサンプルの手順に従ってください。</value>
     <comment>Description of a device.</comment>
   </data>
   <data name="SimulatedDeviceName" xml:space="preserve">
-    <value>Simulated Device</value>
+    <value>シミュレートされたデバイス</value>
     <comment>Name of a device.</comment>
   </data>
   <data name="UnexpectedErrorOccurred" xml:space="preserve">
-    <value>An unexpected error occurred.</value>
+    <value>予期しないエラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnsupportedCommandExceptionMessage" xml:space="preserve">
-    <value>Device {0} does not support the command {1}.</value>
+    <value>デバイス {0} がコマンド {1} をサポートしていません。</value>
     <comment>Error message.</comment>
   </data>
   <data name="ValidationDeviceExists" xml:space="preserve">
-    <value>Device already exists in the device registry</value>
+    <value>デバイス レジストリにデバイスが既に存在します</value>
     <comment>Error message.</comment>
   </data>
   <data name="ValidationDeviceIdMissing" xml:space="preserve">
-    <value>DeviceID cannot be empty or null</value>
+    <value>DeviceID を空または null にすることはできません</value>
     <comment>Error message.</comment>
   </data>
   <data name="ValidationExceptionMessage" xml:space="preserve">
-    <value>One or more validation errors occured for device {0}.</value>
+    <value>デバイス {0} に検証エラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
 </root>

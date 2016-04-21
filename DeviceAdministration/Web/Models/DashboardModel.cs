@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models
 {
@@ -29,5 +28,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         public string MapApiQueryKey { get; set; }
+
+        public string Username { get; set; }
+
+        public string AppInsightsKey { get; set; }
+
+        public IEnumerable<LanguageModel> AvailableLanguages { get; set; }
+
+        public string CurrentLanguageNameIso { get; set; }
+
+        public string CurrentLanguageName { get; set; }
+
+        public string CurrentLanguageTextDirection { get; set; }
     }
 }

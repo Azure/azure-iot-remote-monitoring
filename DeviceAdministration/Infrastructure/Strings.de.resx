@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CustomDeviceDescription" xml:space="preserve">
-    <value>A physical hardware device.</value>
+    <value>Ein physisches Hardwaregerät.</value>
     <comment>Description of a device.</comment>
   </data>
   <data name="CustomDeviceInstructionsUrl" xml:space="preserve">
@@ -126,51 +126,51 @@
     <comment>URL pointing to a documentaiton article describing how to connect devices to IOT Suite.</comment>
   </data>
   <data name="CustomDeviceName" xml:space="preserve">
-    <value>Custom Device</value>
+    <value>Benutzerdefiniertes Gerät</value>
     <comment>Name of a device.</comment>
   </data>
   <data name="DeviceAlreadyRegisteredExceptionMessage" xml:space="preserve">
-    <value>Device {0} is already registered.</value>
+    <value>Gerät "{0}" ist bereits registriert.</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceNotRegisteredExceptionMessage" xml:space="preserve">
-    <value>Device {0} is not registered.</value>
+    <value>Gerät "{0}" ist nicht registriert.</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceRegistrationExceptionMessage" xml:space="preserve">
-    <value>There was an error while registering device {0}.</value>
+    <value>Fehler beim Registrieren von Gerät "{0}".</value>
     <comment>Error message.</comment>
   </data>
   <data name="EnabledStateNotSetError" xml:space="preserve">
-    <value>The Enabled State must be set. Please select Enabled or Disabled.</value>
+    <value>Der Aktivierungszustand muss festgelegt werden. Wählen Sie "Aktiviert" oder "Deaktiviert".</value>
     <comment>Error message.</comment>
   </data>
   <data name="SimulatedDeviceDescription" xml:space="preserve">
-    <value>Software to simulate a device. Easily extensible for arbitrary events and commands; can run in a Windows Azure worker role. To create a simulated device, please follow the cooler sample instructions.</value>
+    <value>Software zum Simulieren eines Geräts. Kann auf einfache Weise für beliebige Ereignisse und Befehle erweitert und in einer Microsoft Azure-Workerrolle ausgeführt werden. Folgen Sie den Beispielanweisungen, um ein simuliertes Gerät zu erstellen.</value>
     <comment>Description of a device.</comment>
   </data>
   <data name="SimulatedDeviceName" xml:space="preserve">
-    <value>Simulated Device</value>
+    <value>Simuliertes Gerät</value>
     <comment>Name of a device.</comment>
   </data>
   <data name="UnexpectedErrorOccurred" xml:space="preserve">
-    <value>An unexpected error occurred.</value>
+    <value>Unerwarteter Fehler.</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnsupportedCommandExceptionMessage" xml:space="preserve">
-    <value>Device {0} does not support the command {1}.</value>
+    <value>Gerät "{0}" unterstützt den Befehl "{1}" nicht.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ValidationDeviceExists" xml:space="preserve">
-    <value>Device already exists in the device registry</value>
+    <value>Das Gerät ist bereits in der Geräteregistrierung vorhanden.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ValidationDeviceIdMissing" xml:space="preserve">
-    <value>DeviceID cannot be empty or null</value>
+    <value>DeviceID darf nicht leer oder NULL sein.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ValidationExceptionMessage" xml:space="preserve">
-    <value>One or more validation errors occured for device {0}.</value>
+    <value>Mindestens ein Überprüfungsfehler für Gerät "{0}".</value>
     <comment>Error message.</comment>
   </data>
 </root>

@@ -118,45 +118,59 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CustomDeviceDescription" xml:space="preserve">
-    <value>[Å pĥyşįčäľ ĥäřđŵäřę đęvįčę. !!! !!!]</value>
+    <value>En fysisk maskinvaruenhet.</value>
+    <comment>Description of a device.</comment>
   </data>
   <data name="CustomDeviceInstructionsUrl" xml:space="preserve">
     <value>https://azure.microsoft.com/documentation/articles/iot-suite-connecting-devices/</value>
+    <comment>URL pointing to a documentaiton article describing how to connect devices to IOT Suite.</comment>
   </data>
   <data name="CustomDeviceName" xml:space="preserve">
-    <value>[Cūşŧőm Đęvįčę !!! !!!]</value>
+    <value>Anpassad enhet</value>
+    <comment>Name of a device.</comment>
   </data>
   <data name="DeviceAlreadyRegisteredExceptionMessage" xml:space="preserve">
-    <value>[Đęvįčę {0} įş äľřęäđy řęģįşŧęřęđ. !!! !!!]</value>
+    <value>Enheten {0} är redan registrerad.</value>
+    <comment>Error message.</comment>
   </data>
   <data name="DeviceNotRegisteredExceptionMessage" xml:space="preserve">
-    <value>[Đęvįčę {0} įş ŉőŧ řęģįşŧęřęđ. !!! !!!]</value>
+    <value>Enheten {0} är inte registrerad.</value>
+    <comment>Error message.</comment>
   </data>
   <data name="DeviceRegistrationExceptionMessage" xml:space="preserve">
-    <value>[Ŧĥęřę ŵäş äŉ ęřřőř ŵĥįľę řęģįşŧęřįŉģ đęvįčę {0}. !!! !!! !!!]</value>
+    <value>Det uppstod ett fel när enheten {0} skulle registreras.</value>
+    <comment>Error message.</comment>
   </data>
   <data name="EnabledStateNotSetError" xml:space="preserve">
-    <value>[Ŧĥę Ēŉäþľęđ Ŝŧäŧę mūşŧ þę şęŧ. Pľęäşę şęľęčŧ Ēŉäþľęđ őř Đįşäþľęđ. !!! !!! !!! !!!]</value>
+    <value>Aktiveringstillståndet måste anges. Ange Aktiverad eller Inaktiverad.</value>
+    <comment>Error message.</comment>
   </data>
   <data name="SimulatedDeviceDescription" xml:space="preserve">
-    <value>[Ŝőƒŧŵäřę ŧő şįmūľäŧę ä đęvįčę. Ēäşįľy ęχŧęŉşįþľę ƒőř äřþįŧřäřy ęvęŉŧş äŉđ čőmmäŉđş; čäŉ řūŉ įŉ ä Ŵįŉđőŵş Åžūřę ŵőřĸęř řőľę. Ŧő čřęäŧę ä şįmūľäŧęđ đęvįčę, pľęäşę ƒőľľőŵ ŧĥę čőőľęř şämpľę įŉşŧřūčŧįőŉş. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+    <value>Programvara för att simulera en enhet. Kan enkelt utökas för egna händelser och kommandon. Kan köras i en Windows Azure-arbetsroll. Om du vill skapa en simulerad enhet följer du exempelinstruktionerna.</value>
+    <comment>Description of a device.</comment>
   </data>
   <data name="SimulatedDeviceName" xml:space="preserve">
-    <value>[Ŝįmūľäŧęđ Đęvįčę !!! !!!]</value>
+    <value>Simulerad enhet</value>
+    <comment>Name of a device.</comment>
   </data>
   <data name="UnexpectedErrorOccurred" xml:space="preserve">
-    <value>[Åŉ ūŉęχpęčŧęđ ęřřőř őččūřřęđ. !!! !!!]</value>
+    <value>Ett oväntat fel inträffade.</value>
+    <comment>Error message.</comment>
   </data>
   <data name="UnsupportedCommandExceptionMessage" xml:space="preserve">
-    <value>[Đęvįčę {0} đőęş ŉőŧ şūppőřŧ ŧĥę čőmmäŉđ {1}. !!! !!!]</value>
+    <value>Enheten {0} stöder inte kommandot {1}.</value>
+    <comment>Error message.</comment>
   </data>
   <data name="ValidationDeviceExists" xml:space="preserve">
-    <value>[Đęvįčę äľřęäđy ęχįşŧş įŉ ŧĥę đęvįčę řęģįşŧřy !!! !!!]</value>
+    <value>Enheten finns redan i enhetsregistret</value>
+    <comment>Error message.</comment>
   </data>
   <data name="ValidationDeviceIdMissing" xml:space="preserve">
-    <value>[ĐęvįčęĨĐ čäŉŉőŧ þę ęmpŧy őř ŉūľľ !!! !!!]</value>
+    <value>DeviceID får inte vara tomt eller null</value>
+    <comment>Error message.</comment>
   </data>
   <data name="ValidationExceptionMessage" xml:space="preserve">
-    <value>[Øŉę őř mőřę väľįđäŧįőŉ ęřřőřş őččūřęđ ƒőř đęvįčę {0}. !!! !!! !!!]</value>
+    <value>Ett eller flera verifieringsfel inträffade för enheten {0}.</value>
+    <comment>Error message.</comment>
   </data>
 </root>

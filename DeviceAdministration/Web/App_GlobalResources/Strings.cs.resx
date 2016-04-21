@@ -118,195 +118,195 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddDevice" xml:space="preserve">
-    <value>Add a Device</value>
+    <value>Přidat zařízení</value>
     <comment>Button label.</comment>
   </data>
   <data name="AddADeviceFormatted" xml:space="preserve">
-    <value>Add a {0}</value>
+    <value>Přidat {0}</value>
     <comment>Button label.</comment>
   </data>
   <data name="AddNew" xml:space="preserve">
-    <value>Add New</value>
+    <value>Přidat novou</value>
     <comment>Button label.</comment>
   </data>
   <data name="AuthenticationKey" xml:space="preserve">
-    <value>Authentication Key</value>
+    <value>Ověřovací klíč</value>
     <comment>(Unused)</comment>
   </data>
   <data name="AuthKey1" xml:space="preserve">
-    <value>Key 1</value>
+    <value>Klíč 1</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="AuthKey2" xml:space="preserve">
-    <value>Key 2</value>
+    <value>Klíč 2</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Zrušit</value>
     <comment>Button label.</comment>
   </data>
   <data name="Complete" xml:space="preserve">
-    <value>Complete</value>
+    <value>Dokončit</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ConfirmOrCustomizeTheMetadata" xml:space="preserve">
-    <value>Confirm or customize the device metadata</value>
+    <value>Potvrdit nebo upravit metadata zařízení</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>Kopírovat</value>
     <comment>Button label.</comment>
   </data>
   <data name="CopyCredentialsIntoFile" xml:space="preserve">
-    <value>Copy credentials into the configuration file on the device</value>
+    <value>Zkopírovat přihlašovací údaje do konfiguračního souboru na zařízení</value>
     <comment>(Unused)</comment>
   </data>
   <data name="CopyDeviceIdAndAuthKeyLabel" xml:space="preserve">
-    <value>Copy the Device ID and Authentication Key</value>
+    <value>Zkopírovat ID zařízení a ověřovací klíč</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Create</value>
+    <value>Vytvořit</value>
     <comment>Button label.</comment>
   </data>
   <data name="GenerateADeviceId" xml:space="preserve">
-    <value>Generate a Device ID for me</value>
+    <value>Vygenerovat moje ID zařízení</value>
     <comment>Radio button label.</comment>
   </data>
   <data name="DeviceId" xml:space="preserve">
-    <value>Device ID</value>
+    <value>ID zařízení</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="EnterDeviceId" xml:space="preserve">
-    <value>Enter a Device ID</value>
+    <value>Zadat ID zařízení</value>
     <comment>Input label.</comment>
   </data>
   <data name="Instructions" xml:space="preserve">
-    <value>Instructions</value>
+    <value>Pokyny</value>
     <comment>(Unused)</comment>
   </data>
   <data name="InstructionsForYourDeviceFormatted" xml:space="preserve">
-    <value>Instructions for your {0}</value>
+    <value>Pokyny pro vaše {0}</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="EnterDeviceMetadata" xml:space="preserve">
-    <value>Enter device metadata</value>
+    <value>Zadat metadata zařízení</value>
     <comment>(Unused)</comment>
   </data>
   <data name="NavigationMenuItemActions" xml:space="preserve">
-    <value>Actions</value>
+    <value>Akce</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="NavigationMenuItemDashboard" xml:space="preserve">
-    <value>Dashboard</value>
+    <value>Řídicí panel</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="NavigationMenuItemDeviceExplorer" xml:space="preserve">
-    <value>Device Explorer</value>
+    <value>Průzkumník zařízení</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="NavigationMenuItemDevices" xml:space="preserve">
-    <value>Devices</value>
+    <value>Zařízení</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>Next</value>
+    <value>Další</value>
     <comment>Button label.</comment>
   </data>
   <data name="StepOneHeader" xml:space="preserve">
-    <value>STEP 1 of 3</value>
+    <value>KROK 1 z 3</value>
     <comment>Wizard step heading.</comment>
   </data>
   <data name="StepThreeHeader" xml:space="preserve">
-    <value>STEP 3 of 3</value>
+    <value>KROK 3 z 3</value>
     <comment>Wizard step heading.</comment>
   </data>
   <data name="StepTwoHeader" xml:space="preserve">
-    <value>STEP 2 of 3</value>
+    <value>KROK 2 z 3</value>
     <comment>Wizard step heading.</comment>
   </data>
   <data name="YouChose" xml:space="preserve">
-    <value>You Chose:</value>
+    <value>Vaše volba:</value>
     <comment>(Unused)</comment>
   </data>
   <data name="YourDeviceIsCompleteFormatted" xml:space="preserve">
-    <value>Your {0} is complete</value>
+    <value>Váš {0} je kompletní.</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DeviceIdCreationPrompt" xml:space="preserve">
-    <value>How would you like to define the Device ID? </value>
+    <value>Jak chcete definovat ID zařízení? </value>
     <comment>Confirmation message.</comment>
   </data>
   <data name="FirmwareVersion" xml:space="preserve">
-    <value>FIRMWARE VERSION</value>
+    <value>VERZE FIRMWARU</value>
     <comment>(Unused)</comment>
   </data>
   <data name="LetMeDefineMyOwnDeviceId" xml:space="preserve">
-    <value>Let me define my own Device ID</value>
+    <value>Definovat vlastní ID zařízení</value>
     <comment>Radio button label.</comment>
   </data>
   <data name="Manufacturer" xml:space="preserve">
-    <value>MANUFACTURER</value>
+    <value>VÝROBCE</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ObjectName" xml:space="preserve">
-    <value>OBJECT NAME</value>
+    <value>NÁZEV OBJEKTU</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SerialNumber" xml:space="preserve">
-    <value>SERIAL NUMBER</value>
+    <value>SÉRIOVÉ ČÍSLO</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>VERSION</value>
+    <value>VERZE</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ModelNumber" xml:space="preserve">
-    <value>MODEL NUMBER</value>
+    <value>ČÍSLO MODELU</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ShowInstructions" xml:space="preserve">
-    <value>Show Instructions</value>
+    <value>Zobrazit pokyny</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Done</value>
+    <value>Hotovo</value>
     <comment>Button label.</comment>
   </data>
   <data name="DeviceIdInUse" xml:space="preserve">
-    <value>DeviceID already in use.</value>
+    <value>ID zařízení se už používá.</value>
     <comment>Error message.</comment>
   </data>
   <data name="EnableDevice" xml:space="preserve">
-    <value>Enable Device</value>
+    <value>Povolit zařízení</value>
     <comment>Button label.</comment>
   </data>
   <data name="AuthenticationKeys" xml:space="preserve">
-    <value>Authentication Keys</value>
+    <value>Ověřovací klíče</value>
     <comment>Device details section heading.</comment>
   </data>
   <data name="AvailableActions" xml:space="preserve">
-    <value>Available Actions</value>
+    <value>Dostupné akce</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="AvailablePowerSources" xml:space="preserve">
-    <value>Available Power Sources</value>
+    <value>Dostupné zdroje napájení</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="BatteryLevel" xml:space="preserve">
-    <value>Battery level</value>
+    <value>Stav baterie</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DisableDevice" xml:space="preserve">
-    <value>Disable Device</value>
+    <value>Zakázat zařízení</value>
     <comment>Button label.</comment>
   </data>
   <data name="AzureDevicesHostname" xml:space="preserve">
-    <value>IoT Hub Hostname</value>
+    <value>Název hostitele služby IoT Hub</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="General" xml:space="preserve">
-    <value>General</value>
+    <value>Obecné</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Metadata" xml:space="preserve">
@@ -318,159 +318,159 @@
     <comment>Success message.</comment>
   </data>
   <data name="PowerSourceVoltage" xml:space="preserve">
-    <value>Power Source Voltage</value>
+    <value>Napětí zdroje napájení</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Retry" xml:space="preserve">
-    <value>Retry</value>
+    <value>Zkusit znovu</value>
     <comment>Button label.</comment>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Uložit</value>
     <comment>Button label.</comment>
   </data>
   <data name="ServiceUnavailable" xml:space="preserve">
-    <value>Service Unavailable</value>
+    <value>Služba není dostupná</value>
     <comment>Error message.</comment>
   </data>
   <data name="Command" xml:space="preserve">
-    <value>Command</value>
+    <value>Příkaz</value>
     <comment>(Unsused)</comment>
   </data>
   <data name="CommandHistory" xml:space="preserve">
-    <value>Command History</value>
+    <value>Historie příkazů</value>
     <comment>Table heading.</comment>
   </data>
   <data name="CommandName" xml:space="preserve">
-    <value>COMMAND NAME</value>
+    <value>NÁZEV PŘÍKAZU</value>
     <comment>Table column header.</comment>
   </data>
   <data name="CommandResult" xml:space="preserve">
-    <value>RESULT</value>
+    <value>VÝSLEDEK</value>
     <comment>Table column header.</comment>
   </data>
   <data name="CommandTimeCreated" xml:space="preserve">
-    <value>LOCAL TIME CREATED</value>
+    <value>MÍSTNÍ ČAS VYTVOŘENÍ</value>
     <comment>Table column header.</comment>
   </data>
   <data name="CommandTimeUpdated" xml:space="preserve">
-    <value>LOCAL TIME UPDATED</value>
+    <value>MÍSTNÍ ČAS AKTUALIZACE</value>
     <comment>Table column header.</comment>
   </data>
   <data name="CommandValuesSent" xml:space="preserve">
-    <value>VALUES SENT</value>
+    <value>POSLANÉ HODNOTY</value>
     <comment>Table column header.</comment>
   </data>
   <data name="DeviceCommands" xml:space="preserve">
-    <value>Commands</value>
+    <value>Příkazy</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="DeviceCommandsHeader" xml:space="preserve">
-    <value>Commands for {0}</value>
+    <value>Příkazy pro {0}</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ParametersHeader" xml:space="preserve">
-    <value>Parameters</value>
+    <value>Parametry</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Pending" xml:space="preserve">
-    <value>Pending</value>
+    <value>Čeká na vyřízení</value>
     <comment>Device command status.</comment>
   </data>
   <data name="Price" xml:space="preserve">
-    <value>Price</value>
+    <value>Cena</value>
     <comment>(Unused)</comment>
   </data>
   <data name="PriceRange" xml:space="preserve">
-    <value>Price must be higher than 0</value>
+    <value>Cena musí být vyšší než 0.</value>
     <comment>Error message.</comment>
   </data>
   <data name="Product" xml:space="preserve">
-    <value>Product</value>
+    <value>Produkt</value>
     <comment>(Unused)</comment>
   </data>
   <data name="PropertiesPaneLabel" xml:space="preserve">
-    <value>Properties</value>
+    <value>Vlastnosti</value>
     <comment>Section heading.</comment>
   </data>
   <data name="SelectAProduct" xml:space="preserve">
-    <value>Select a Product</value>
+    <value>Vybrat produkt</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Send" xml:space="preserve">
-    <value>Send</value>
+    <value>Poslat</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SendCommand" xml:space="preserve">
-    <value>Send Command</value>
+    <value>Poslat příkaz</value>
     <comment>Button label.</comment>
   </data>
   <data name="CheckId" xml:space="preserve">
-    <value>Check ID</value>
+    <value>ID kontroly</value>
     <comment>Button label.</comment>
   </data>
   <data name="DeviceIdAvailable" xml:space="preserve">
-    <value>Device ID is available</value>
+    <value>Je dostupné ID zařízení.</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="RegisteredButNotPresent" xml:space="preserve">
-    <value>Registered But Not Present</value>
+    <value>Zaregistrované, ale není k dispozici</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="TimeRegistered" xml:space="preserve">
-    <value>Time Registered</value>
+    <value>Čas registrace</value>
     <comment>(Unused)</comment>
   </data>
   <data name="NoCommandsAvailable" xml:space="preserve">
-    <value>Device {0} has no available commands</value>
+    <value>Zařízení {0} nemá žádné dostupné příkazy.</value>
     <comment>Error message.</comment>
   </data>
   <data name="EditDeviceConfiguration" xml:space="preserve">
-    <value>Edit Configuration for {0}</value>
+    <value>Upravit konfiguraci pro {0}</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Hostname" xml:space="preserve">
-    <value>IOT HUB HOSTNAME</value>
+    <value>NÁZEV HOSTITELE SLUŽBY IOT HUB</value>
     <comment>(Unused)</comment>
   </data>
   <data name="HostnameLength" xml:space="preserve">
-    <value>Hostname cannot be longer than 1024 characters</value>
+    <value>Název hostitele nemůže být delší než 1024 znaků.</value>
     <comment>Error message.</comment>
   </data>
   <data name="PrimaryKey" xml:space="preserve">
-    <value>PRIMARY KEY</value>
+    <value>PRIMÁRNÍ KLÍČ</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SecondaryKey" xml:space="preserve">
-    <value>SECONDARY KEY</value>
+    <value>SEKUNDÁRNÍ KLÍČ</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SendConfiguration" xml:space="preserve">
-    <value>Send Configuration To Device</value>
+    <value>Poslat konfiguraci do zařízení</value>
     <comment>(Unused)</comment>
   </data>
   <data name="RequestFormatError" xml:space="preserve">
-    <value>Either the {0} parameter is missing or the value was not recognized as a valid {1}</value>
+    <value>Parametr {0} chybí nebo hodnota není rozpoznaná jako platná {1}.</value>
     <comment>Error message.</comment>
   </data>
   <data name="RequestNullError" xml:space="preserve">
-    <value>JSON request data was null or unable to be parsed.  Please ensure the data is sent in the body of the request and correctly formatted.</value>
+    <value>Data žádosti JSON měla hodnotu null nebo se je nepovedlo parsovat. Zkontrolujte prosím, že se data poslala v těle žádosti a mají správný formát.</value>
     <comment>Error message.</comment>
   </data>
   <data name="AnErrorOccurred" xml:space="preserve">
-    <value>An error occurred while processing your request.</value>
+    <value>Při zpracování vaší žádosti došlo k chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>Chyba</value>
     <comment>Page title.</comment>
   </data>
   <data name="IoTDeviceAdministrationPortal" xml:space="preserve">
-    <value>IoT Device Administration Portal</value>
+    <value>Portál pro správu zařízení IoT</value>
     <comment>(Unused)</comment>
   </data>
   <data name="IoTDevicePortalSignIn" xml:space="preserve">
-    <value>IoT Device Portal - Sign In</value>
+    <value>Portál zařízení IoT – přihlášení</value>
     <comment>Page title.</comment>
   </data>
   <data name="MicrosoftAzure" xml:space="preserve">
@@ -482,71 +482,71 @@
     <comment>Section heading.</comment>
   </data>
   <data name="SignIn" xml:space="preserve">
-    <value>Sign In</value>
+    <value>Přihlásit se</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="YouMustBeSignedIn" xml:space="preserve">
-    <value>You must be signed in to continue.</value>
+    <value>Abyste mohli pokračovat, musíte být přihlášení.</value>
     <comment>Error message.</comment>
   </data>
   <data name="YourSessionMayHaveExpired" xml:space="preserve">
-    <value>If you were signed in, your session may have expired.</value>
+    <value>Pokud jste byli přihlášení, je možné, že vypršela platnost vaší relace.</value>
     <comment>Error message.</comment>
   </data>
   <data name="OpensInNewTab" xml:space="preserve">
-    <value>(opens in new tab)</value>
+    <value>(otevře se na nové kartě)</value>
     <comment>Hyperlink hint.</comment>
   </data>
   <data name="DeviceIdInvalidCharactersError" xml:space="preserve">
-    <value>The Device ID can only contain letters, numbers and the following special characters: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
+    <value>ID zařízení může obsahovat jenom písmena, čísla a následující speciální znaky: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceIdLengthError" xml:space="preserve">
-    <value>The Device ID must be between 2 and 128 characters long.</value>
+    <value>Délka ID zařízení musí být mezi 2 a 128 znaky.</value>
     <comment>Error message.</comment>
   </data>
   <data name="GoBack" xml:space="preserve">
-    <value>Go Back</value>
+    <value>Přejít zpět</value>
     <comment>Button label.</comment>
   </data>
   <data name="ConfirmRegenKeyPart1" xml:space="preserve">
-    <value>Are you sure? This will regenerate the </value>
+    <value>Určitě to chcete udělat? Tímto krokem se znovu vytvoří </value>
     <comment>Part of confirmation message. (Unused)</comment>
   </data>
   <data name="ConfirmRegenKeyPart2" xml:space="preserve">
-    <value>key.</value>
+    <value>klíč.</value>
     <comment>Part of confirmation message. (Unused)</comment>
   </data>
   <data name="ViewAuthenticationKeys" xml:space="preserve">
-    <value>View Authentication Keys</value>
+    <value>Zobrazit ověřovací klíče</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="DeviceUpdateError" xml:space="preserve">
-    <value>Unable to update the device. An unexpected error occurred.</value>
+    <value>Nepovedlo se aktualizovat zařízení. Došlo k neočekávané chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>Upravit</value>
     <comment>Button label.</comment>
   </data>
   <data name="RemoveDevice" xml:space="preserve">
-    <value>Remove Device...</value>
+    <value>Odebrat zařízení...</value>
     <comment>Button label.</comment>
   </data>
   <data name="RemoveDeviceConfirmationPart1" xml:space="preserve">
-    <value>Are you sure? This will remove this device from your IoT solution.</value>
+    <value>Určitě to chcete udělat? Tímto krokem se toto zařízení odebere z vašeho řešení IoT.</value>
     <comment>Part of confirmation message.</comment>
   </data>
   <data name="RemoveDeviceConfirmationPart2" xml:space="preserve">
-    <value>This action is permanent.</value>
+    <value>Tato akce se nedá vrátit.</value>
     <comment>Part of confirmation message.</comment>
   </data>
   <data name="RemoveDeviceFormatted" xml:space="preserve">
-    <value>Remove device '{0}'</value>
+    <value>Odebrat zařízení {0}</value>
     <comment>Section heading.</comment>
   </data>
   <data name="YesRemoveDeviceFormatted" xml:space="preserve">
-    <value>Yes, remove device {0}</value>
+    <value>Ano, odebrat zařízení {0}</value>
     <comment>Checkbox label.</comment>
   </data>
   <data name="AppConfig" xml:space="preserve">
@@ -554,27 +554,27 @@
     <comment>(Unused)</comment>
   </data>
   <data name="InstalledRam" xml:space="preserve">
-    <value>Installed RAM</value>
+    <value>Instalovaná RAM</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="Platform" xml:space="preserve">
-    <value>Platform</value>
+    <value>Platforma</value>
     <comment>Device property. (Unused)</comment>
   </data>
   <data name="Processor" xml:space="preserve">
-    <value>Processor</value>
+    <value>Procesor</value>
     <comment>(Unused)</comment>
   </data>
   <data name="MaxLengthPrice" xml:space="preserve">
-    <value>Price cannot be longer than 1024 characters.</value>
+    <value>Cena nemůže být delší než 1024 znaků.</value>
     <comment>Error message.</comment>
   </data>
   <data name="MaxLengthProductId" xml:space="preserve">
-    <value>Product Id cannot be longer than 1024 characters.</value>
+    <value>ID produktu nemůže být delší než 1024 znaků.</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceIdHeader" xml:space="preserve">
-    <value>Device ID</value>
+    <value>ID zařízení</value>
     <comment>Table column header.</comment>
   </data>
   <data name="FirmwareHeader" xml:space="preserve">
@@ -582,63 +582,63 @@
     <comment>Table column header.</comment>
   </data>
   <data name="InstalledRamHeader" xml:space="preserve">
-    <value>Installed RAM</value>
+    <value>Instalovaná RAM</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ManufactureHeader" xml:space="preserve">
-    <value>Manufacturer</value>
+    <value>Výrobce</value>
     <comment>Table column header</comment>
   </data>
   <data name="ModelNumberHeader" xml:space="preserve">
-    <value>Model Number</value>
+    <value>Číslo modelu</value>
     <comment>Table column header.</comment>
   </data>
   <data name="PlatformHeader" xml:space="preserve">
-    <value>Platform</value>
+    <value>Platforma</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ProcessorHeader" xml:space="preserve">
-    <value>Processor</value>
+    <value>Procesor</value>
     <comment>Table column header.</comment>
   </data>
   <data name="SerialNumberHeader" xml:space="preserve">
-    <value>Serial Number</value>
+    <value>Sériové číslo</value>
     <comment>Table column header.</comment>
   </data>
   <data name="StatusHeader" xml:space="preserve">
-    <value>Status</value>
+    <value>Stav</value>
     <comment>Table column header.</comment>
   </data>
   <data name="AppConfigLength" xml:space="preserve">
-    <value>AppConfig cannot be longer than 1024 characters</value>
+    <value>AppConfig nemůže být delší než 1024 znaků.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ClickToSelectAll" xml:space="preserve">
-    <value>Click to select all</value>
+    <value>Kliknutím vyberte vše</value>
     <comment>Button label.</comment>
   </data>
   <data name="CopyCredentials" xml:space="preserve">
-    <value>Copy credentials into the configuration file on the device</value>
+    <value>Zkopírovat přihlašovací údaje do konfiguračního souboru na zařízení</value>
     <comment>Table heading.</comment>
   </data>
   <data name="EditDeviceProperties" xml:space="preserve">
-    <value>Edit a Device</value>
+    <value>Upravit zařízení</value>
     <comment>Page heading.</comment>
   </data>
   <data name="ErrorWhileRetrievingKeys" xml:space="preserve">
-    <value>There was an error while retrieving the keys.</value>
+    <value>Při načítání klíčů došlo k chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="FailedToUpdateDeviceStatus" xml:space="preserve">
-    <value>Failed to update device status</value>
+    <value>Nepovedlo se aktualizovat stav zařízení.</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnableToRetrieveActionFromService" xml:space="preserve">
-    <value>Unable to retrieve action from service</value>
+    <value>Nepovedlo se načíst akci ze služby.</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnableToRetrieveDeviceFromService" xml:space="preserve">
-    <value>Unable to retrieve device from service</value>
+    <value>Nepovedlo se načíst zařízení ze služby.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ControlCToCopy" xml:space="preserve">
@@ -646,78 +646,78 @@
     <comment>{StrContains=i"Ctrl+C"}</comment>
   </data>
   <data name="DeviceKeysError" xml:space="preserve">
-    <value>An error occurred while trying to update keys</value>
+    <value>Při pokusu o aktualizaci klíčů došlo k chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="RolloverKeys" xml:space="preserve">
-    <value>Rollover Keys</value>
+    <value>Vyměnit klíče</value>
     <comment>Button label.</comment>
   </data>
   <data name="RolloverKeysConfirmation" xml:space="preserve">
-    <value>yes, I want to rollover the keys.</value>
+    <value>Ano, chci vyměnit klíče.</value>
     <comment>Confirmation message.</comment>
   </data>
   <data name="RolloverKeysFor" xml:space="preserve">
-    <value>Rollover keys for {0}</value>
+    <value>Vyměnit klíče pro {0}</value>
   </data>
   <data name="RolloverKeysText" xml:space="preserve">
-    <value>Are you sure? This will rollover the keys.</value>
+    <value>Určitě to chcete udělat? Tímto krokem se vymění klíče.</value>
     <comment>Confirmation message.</comment>
   </data>
   <data name="ConfigurationHeader" xml:space="preserve">
-    <value>Configuration</value>
+    <value>Konfigurace</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SelectACommand" xml:space="preserve">
-    <value>Select A Command</value>
+    <value>Vybrat příkaz</value>
     <comment>Dropdown unselected option label.</comment>
   </data>
   <data name="SelectAnAction" xml:space="preserve">
-    <value>Select An Action</value>
+    <value>Vybrat akci</value>
     <comment>(Unused)</comment>
   </data>
   <data name="CommandError" xml:space="preserve">
-    <value>An error occurred while retrieving the selected command</value>
+    <value>Při načítání vybraného příkazu došlo k chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandSendError" xml:space="preserve">
-    <value>An error occurred while sending the command</value>
+    <value>Při posílání příkazu došlo k chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceKeys" xml:space="preserve">
-    <value>Device Keys</value>
+    <value>Klíče zařízení</value>
     <comment>(Unused)</comment>
   </data>
   <data name="EmptyKey" xml:space="preserve">
-    <value>(empty)</value>
+    <value>(prázdné)</value>
     <comment>(Unused)</comment>
   </data>
   <data name="FalseEnabledDevice" xml:space="preserve">
-    <value>Enable Device</value>
+    <value>Povolit zařízení</value>
     <comment>(Unused)</comment>
   </data>
   <data name="TrueEnabledDevice" xml:space="preserve">
-    <value>Disable Device</value>
+    <value>Zakázat zařízení</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ActionHeader" xml:space="preserve">
-    <value>Action</value>
+    <value>Akce</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ActionIDHeader" xml:space="preserve">
-    <value>Action ID</value>
+    <value>ID akce</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ActionIDProperties" xml:space="preserve">
-    <value>Action ID Properties</value>
+    <value>Vlastnosti ID akce</value>
     <comment>Update action dialog heading.</comment>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value>Actions</value>
+    <value>Akce</value>
     <comment>Heading.</comment>
   </data>
   <data name="DeviceNotRegisteredInIoTHub" xml:space="preserve">
-    <value>Device Not Registered in IoT Hub</value>
+    <value>Zařízení není zaregistrované ve službě IoT Hub.</value>
     <comment>Error message.</comment>
   </data>
   <data name="IoTHub" xml:space="preserve">
@@ -729,123 +729,123 @@
     <comment>(Unused)</comment>
   </data>
   <data name="DeviceProperties" xml:space="preserve">
-    <value>Device Properties</value>
+    <value>Vlastnosti zařízení</value>
     <comment>Section heading.</comment>
   </data>
   <data name="AuthenticationKeyFor" xml:space="preserve">
-    <value>Authentication key for {0}</value>
+    <value>Ověřovací klíč pro {0}</value>
     <comment>(Unused)</comment>
   </data>
   <data name="KeyInUse" xml:space="preserve">
-    <value>This key is currently in use</value>
+    <value>Tento klíč se aktuálně používá.</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SendUpdateKeyToDevice" xml:space="preserve">
-    <value>Send Update Key To Device</value>
+    <value>Poslat aktualizační klíč do zařízení</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ThisIsTheCurrentDeviceKey" xml:space="preserve">
-    <value>This is the current device key</value>
+    <value>Toto je aktuální klíč zařízení.</value>
     <comment>(Unused)</comment>
   </data>
   <data name="AzureDevicesHostnameColon" xml:space="preserve">
-    <value>IoT Hub Hostname:</value>
+    <value>Název hostitele služby IoT Hub:</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="DeviceKeyColon" xml:space="preserve">
-    <value>Device Key:</value>
+    <value>Klíč zařízení:</value>
     <comment>Table column header.</comment>
   </data>
   <data name="SaveChangesToDevice" xml:space="preserve">
-    <value>Save Changes to Device Registry</value>
+    <value>Uložit změny do registru zařízení</value>
     <comment>Button label.</comment>
   </data>
   <data name="RuleOutputHeader" xml:space="preserve">
-    <value>Rule Output</value>
+    <value>Výstup pravidla</value>
     <comment>Table column header.</comment>
   </data>
   <data name="Running" xml:space="preserve">
-    <value>Running</value>
+    <value>Běží</value>
     <comment>Device state.</comment>
   </data>
   <data name="Enabled" xml:space="preserve">
-    <value>Enabled</value>
+    <value>Povoleno</value>
     <comment>Device state.</comment>
   </data>
   <data name="Disabled" xml:space="preserve">
-    <value>Disabled</value>
+    <value>Zakázáno</value>
     <comment>Device state.</comment>
   </data>
   <data name="CommandValueCannotBeLongerThan1024" xml:space="preserve">
-    <value>A command value cannot be longer than 1024 characters</value>
+    <value>Hodnota příkazu nemůže být delší než 1024 znaků.</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceIdContainsLettersNumbersSpecialCharacters" xml:space="preserve">
-    <value>The Device ID can only contain letters, numbers and the following special characters: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
+    <value>ID zařízení může obsahovat jenom písmena, čísla a následující speciální znaky: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceIDMustBeBetween2And128Characters" xml:space="preserve">
-    <value>The Device ID must be between 2 and 128 characters long.</value>
+    <value>Délka ID zařízení musí být mezi 2 a 128 znaky.</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceCommandIsDisabled" xml:space="preserve">
-    <value>Cannot send commands to this device currently</value>
+    <value>Do tohoto zařízení teď nejde posílat příkazy.</value>
     <comment>Error message.</comment>
   </data>
   <data name="FirmwareVersionMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Firmware Version must be less than 200 characters long.</value>
+    <value>Verze firmwaru musí být kratší než 200 znaků.</value>
     <comment>Error message.</comment>
   </data>
   <data name="InstalledRAMFieldMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Installed RAM field must be less than 200 characters long.</value>
+    <value>Pole Instalovaná RAM musí být kratší než 200 znaků.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ModelNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Model Number must be less than 200 characters long.</value>
+    <value>Číslo modelu musí být kratší než 200 znaků.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ObjectNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Object Name must be less than 200 characters long.</value>
+    <value>Název objektu musí být kratší než 200 znaků.</value>
     <comment>Error message.</comment>
   </data>
   <data name="PlatformNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Platform Name must be less than 200 characters long.</value>
+    <value>Název platformy musí být kratší než 200 znaků.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ProcessorNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Processor Name must be less than 200 characters long.</value>
+    <value>Název procesoru musí být kratší než 200 znaků.</value>
     <comment>Error message.</comment>
   </data>
   <data name="SerialNumberMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Serial Number must be less than 200 characters long.</value>
+    <value>Sériové číslo musí být kratší než 200 znaků.</value>
     <comment>Error message.</comment>
   </data>
   <data name="VersionMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Version must be less than 200 characters long.</value>
+    <value>Verze musí být kratší než 200 znaků.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ClickToDisplayError" xml:space="preserve">
-    <value>Click to View</value>
+    <value>Klikněte na Zobrazit</value>
     <comment>Button label.</comment>
   </data>
   <data name="Update" xml:space="preserve">
-    <value>Update</value>
+    <value>Aktualizovat</value>
     <comment>Button label.</comment>
   </data>
   <data name="UpdateActionsIsDisabled" xml:space="preserve">
-    <value>Update Actions is disabled</value>
+    <value>Aktualizace akcí je zakázaná.</value>
     <comment>(Unsued)</comment>
   </data>
   <data name="EditDevicePropertiesFor" xml:space="preserve">
-    <value>Edit Device Properties for {0}</value>
+    <value>Upravit vlastnosti zařízení pro {0}</value>
     <comment>Section heading.</comment>
   </data>
   <data name="NoscriptHeader" xml:space="preserve">
-    <value>JavaScript Required</value>
+    <value>Požaduje se JavaScript.</value>
     <comment>Error message. {StrContains="JavaScript"}</comment>
   </data>
   <data name="NoscriptP1" xml:space="preserve">
-    <value>Your browser is currently set to block JavaScript. You need to allow JavaScript to use this service.</value>
+    <value>Váš prohlížeč je aktuálně nastavený na blokování JavaScriptu. Pokud chcete používat tuto službu, musíte JavaScript povolit.</value>
     <comment>Error message. {StrContains="JavaScript"}</comment>
   </data>
   <data name="NoscriptP2" xml:space="preserve">
@@ -853,35 +853,35 @@
     <comment>Informational text block. {StrContains="JavaScript"}</comment>
   </data>
   <data name="DeviceIdColon" xml:space="preserve">
-    <value>Device ID:</value>
+    <value>ID zařízení:</value>
     <comment>Table column header.</comment>
   </data>
   <data name="DeviceAddError" xml:space="preserve">
-    <value>Unable to add device. An unexpected error occurred.</value>
+    <value>Nepovedlo se přidat zařízení. Došlo k neočekávané chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceAddSelectTypeError" xml:space="preserve">
-    <value>Unable to create device. An unexpected error occurred.</value>
+    <value>Nepovedlo se vytvořit zařízení. Došlo k neočekávané chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="Sent" xml:space="preserve">
-    <value>Sent</value>
+    <value>Poslat</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DateTimeValidationMessage" xml:space="preserve">
-    <value>Invalid Date</value>
+    <value>Neplatné datum</value>
     <comment>Error message.</comment>
   </data>
   <data name="StringValidationMessage" xml:space="preserve">
-    <value>Invalid string</value>
+    <value>Neplatný řetězec</value>
     <comment>Error message.</comment>
   </data>
   <data name="RequiredValue" xml:space="preserve">
-    <value>This field is required</value>
+    <value>Toto pole je povinné.</value>
     <comment>Error message.</comment>
   </data>
   <data name="Local" xml:space="preserve">
-    <value>Local</value>
+    <value>Místní</value>
     <comment>Time Zone dropdown option.</comment>
   </data>
   <data name="UTC" xml:space="preserve">
@@ -889,466 +889,466 @@
     <comment>Time Zone dropdown option. {Locked="UTC"}</comment>
   </data>
   <data name="binaryCommandErrorMessage" xml:space="preserve">
-    <value>Invalid base64 binary; expected a format like 'Zm9vYmFy' or 'Zm9vYg=='</value>
+    <value>Neplatný typ base64 binary. Očekávaný formát byl např. Zm9vYmFy nebo Zm9vYg==.</value>
     <comment>Error message.</comment>
   </data>
   <data name="byteCommandErrorMessage" xml:space="preserve">
-    <value>Invalid byte; expected a format like '24' (between 0 and 255)</value>
+    <value>Neplatný typ byte. Očekávaný formát byl např. 24 (mezi 0 a 255).</value>
     <comment>Error message.</comment>
   </data>
   <data name="dateCommandErrorMessage" xml:space="preserve">
-    <value>Invalid date; expected a date 'YYYY-MM-DD' format</value>
+    <value>Neplatný typ date. Očekával se formát kalendářního data RRRR-MM-DD.</value>
     <comment>Error message.</comment>
   </data>
   <data name="datetimeoffsetCommandErrorMessage" xml:space="preserve">
-    <value>Invalid datetime; expected a date 'YYYY-MM-DD HH:mm:ss' format</value>
+    <value>Neplatný typ datetime. Očekával se formát kalendářního data RRRR-MM-DD HH:mm:ss.</value>
     <comment>Error message.</comment>
   </data>
   <data name="decimalCommandErrorMessage" xml:space="preserve">
-    <value>Invalid decimal; expected a format like '-12.3456' or '98765.43'</value>
+    <value>Neplatný typ decimal. Očekávaný formát byl např. -12,3456 nebo 98765,43.</value>
     <comment>Error message.</comment>
   </data>
   <data name="DecimalCommandHint" xml:space="preserve">
-    <value>Data type: decimal (like '3.14')</value>
+    <value>Datový typ: decimal (např. 3,14)</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="doubleCommandErrorMessage" xml:space="preserve">
-    <value>Invalid double; expected a format like '3.14' or '6.02e+23'</value>
+    <value>Neplatný typ double. Očekávaný formát byl např. 3,14 nebo 6,02e+23.</value>
     <comment>Error message.</comment>
   </data>
   <data name="DoubleCommandHint" xml:space="preserve">
-    <value>Data type: double (like '3.14', '6.02e+23', etc)</value>
+    <value>Datový typ: double (např. 3,14, 6,02e+23, atd.)</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="guidCommandErrorMessage" xml:space="preserve">
-    <value>Invalid GUID; expected a format like '5d9ff9f7-ca82-4657-97f7-569dc8591af7'</value>
+    <value>Neplatný identifikátor GUID. Očekávaný formát byl např. 5d9ff9f7-ca82-4657-97f7-569dc8591af7.</value>
     <comment>Error message. {Locked="GUID"}</comment>
   </data>
   <data name="GuidCommandHint" xml:space="preserve">
-    <value>Data type: GUID (with format like 'd51ce656-b765-4dce-ba17-67961cbc111d')</value>
+    <value>Datový typ: GUID (s formátem např. d51ce656-b765-4dce-ba17-67961cbc111d)</value>
     <comment>Tooltip.  {Locked="GUID"}</comment>
   </data>
   <data name="int16CommandErrorMessage" xml:space="preserve">
-    <value>Invalid Int16; expected a format like '-2000' or '4500' (between -32768 and 32767)</value>
+    <value>Neplatný typ Int16. Očekávaný formát byl např. -2000 nebo 4500 (mezi -32768 a 32767).</value>
     <comment>Error message.</comment>
   </data>
   <data name="int32CommandErrorMessage" xml:space="preserve">
-    <value>Invalid Int32; expected a format like '-2000' or '4500' (between -2147483648 and 2147483647)</value>
+    <value>Neplatný typ Int32. Očekávaný formát byl např. -2000 nebo 4500 (mezi -2147483648 a 2147483647).</value>
     <comment>Error message.</comment>
   </data>
   <data name="int64CommandErrorMessage" xml:space="preserve">
-    <value>Invalid Int64; expected a format like '-2000' or '4500'</value>
+    <value>Neplatný typ Int64. Očekávaný formát byl např. -2000 nebo 4500.</value>
     <comment>Error message.</comment>
   </data>
   <data name="NumberCommandHint" xml:space="preserve">
-    <value>Data type: {0} (an integer between {1} and {2})</value>
+    <value>Datový typ: {0} (celé číslo mezi {1} a {2})</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="NumberOfDevicesHeader" xml:space="preserve">
-    <value>No. of Devices</value>
+    <value>Počet zařízení</value>
     <comment>Table column header.</comment>
   </data>
   <data name="sbyteCommandErrorMessage" xml:space="preserve">
-    <value>Invalid SByte; expected a format like '-43' or '12' (between -128 and 127)</value>
+    <value>Neplatný typ SByte. Očekávaný formát byl např. -43 nebo 12 (mezi -128 a 127).</value>
     <comment>Error message.</comment>
   </data>
   <data name="singleCommandErrorMessage" xml:space="preserve">
-    <value>Invalid single; expected a format like '3.14' or '6.02e+23'</value>
+    <value>Neplatný typ single. Očekávaný formát byl např. 3,14 nebo 6,02e+23.</value>
     <comment>Error message.</comment>
   </data>
   <data name="SingleCommandHint" xml:space="preserve">
-    <value>Data type: single (like '3.14', '4.29e09', etc)</value>
+    <value>Datový typ: single (např. 3.14, 4.29e09, atd.)</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="ErrorRemoveDevice" xml:space="preserve">
-    <value>Unable to remove device. An unexpected error occurred.</value>
+    <value>Nepovedlo se odebrat zařízení. Došlo k neočekávané chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ErrorSendingConfig" xml:space="preserve">
-    <value>Unable to send configuration. An unexpected error occurred.</value>
+    <value>Nepovedlo se poslat konfiguraci. Došlo k neočekávané chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="InvalidKeyType" xml:space="preserve">
-    <value>Invalid key</value>
+    <value>Neplatný klíč</value>
     <comment>Error message.</comment>
   </data>
   <data name="Resend" xml:space="preserve">
-    <value>Resend</value>
+    <value>Poslat znovu</value>
     <comment>Button label.</comment>
   </data>
   <data name="ResendCommandError" xml:space="preserve">
-    <value>An error occurred while resending the command</value>
+    <value>Při opakovaném posílání příkazu došlo k chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="FailedToUpdateActionId" xml:space="preserve">
-    <value>Failed to Update ActionId</value>
+    <value>Nepovedlo se aktualizovat ID akce.</value>
     <comment>Error message.</comment>
   </data>
   <data name="FailedToRetrieveActions" xml:space="preserve">
-    <value>An error occurred while retrieving the list of actions.</value>
+    <value>Při načítání seznamu akcí došlo k chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="FailedToRetrieveDevices" xml:space="preserve">
-    <value>An error occurred while retrieving the list of devices.</value>
+    <value>Při načítání seznamu zařízení došlo k chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnknownCommandParameterType" xml:space="preserve">
-    <value>Unknown command parameter type: '{0}'</value>
+    <value>Neznámý typ parametru příkazu: {0}</value>
     <comment>Error message.</comment>
   </data>
   <data name="BinaryCommandHint" xml:space="preserve">
-    <value>Data type: base64 string (like 'Zm9vYmFy' or 'Zm9vYg==')</value>
+    <value>Datový typ: base64 string (např. Zm9vYmFy nebo Zm9vYg==)</value>
     <comment>Input field tooltip.</comment>
   </data>
   <data name="StringCommandHint" xml:space="preserve">
-    <value>Data type: string (like 'Welcome, user!')</value>
+    <value>Datový typ: string (např. Vítáme vás)</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="FindDevices" xml:space="preserve">
-    <value>FIND DEVICES</value>
+    <value>NAJÍT ZAŘÍZENÍ</value>
     <comment>Section heading.</comment>
   </data>
   <data name="FindLabel" xml:space="preserve">
-    <value>Find</value>
+    <value>Najít</value>
     <comment>Button label.</comment>
   </data>
   <data name="ResetLabel" xml:space="preserve">
-    <value>Reset</value>
+    <value>Resetovat</value>
     <comment>Button label.</comment>
   </data>
   <data name="SearchDevices" xml:space="preserve">
-    <value>SEARCH DEVICES</value>
+    <value>HLEDAT ZAŘÍZENÍ</value>
     <comment>Input label.</comment>
   </data>
   <data name="AddNewClause" xml:space="preserve">
-    <value>+ ADD NEW CLAUSE</value>
+    <value>+ PŘIDAT NOVOU KLAUZULI</value>
     <comment>Button label.</comment>
   </data>
   <data name="FilterDevices" xml:space="preserve">
-    <value>FILTER DEVICES</value>
+    <value>FILTROVAT ZAŘÍZENÍ</value>
     <comment>Section heading.</comment>
   </data>
   <data name="FilterFieldLabel" xml:space="preserve">
-    <value>FIELD</value>
+    <value>POLE</value>
     <comment>Label.</comment>
   </data>
   <data name="FilterOperatorContainsInsensitive" xml:space="preserve">
-    <value>Contains (case insensitive)</value>
+    <value>Obsahuje (nerozlišují se malá a velká písmena)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorContainsSensitive" xml:space="preserve">
-    <value>Contains (case sensitive)</value>
+    <value>Obsahuje (rozlišují se malá a velká písmena)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorExactInsensitive" xml:space="preserve">
-    <value>Exact match (case insensitive)</value>
+    <value>Přesná shoda (nerozlišují se malá a velká písmena)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorExactSensitive" xml:space="preserve">
-    <value>Exact match (case sensitive)</value>
+    <value>Přesná shoda (rozlišují se malá a velká písmena)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorLabel" xml:space="preserve">
-    <value>OPERATOR</value>
+    <value>OPERÁTOR</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="FilterOperatorStartsWithInsensitive" xml:space="preserve">
-    <value>Starts with (case insensitive)</value>
+    <value>Začíná na (nerozlišují se malá a velká písmena)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorStartsWithSensitive" xml:space="preserve">
-    <value>Starts with (case sensitive)</value>
+    <value>Začíná na (rozlišují se malá a velká písmena)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionDeviceId" xml:space="preserve">
-    <value>DeviceID</value>
+    <value>ID zařízení</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionFirmwareVersion" xml:space="preserve">
-    <value>Firmware Version</value>
+    <value>Verze firmwaru</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionInstalledRam" xml:space="preserve">
-    <value>Installed RAM</value>
+    <value>Instalovaná RAM</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionManufacturer" xml:space="preserve">
-    <value>Manufacturer</value>
+    <value>Výrobce</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionModelNumber" xml:space="preserve">
-    <value>Model Number</value>
+    <value>Číslo modelu</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionPlatform" xml:space="preserve">
-    <value>Platform</value>
+    <value>Platforma</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionProcessor" xml:space="preserve">
-    <value>Processor</value>
+    <value>Procesor</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionSerialNumber" xml:space="preserve">
-    <value>Serial Number</value>
+    <value>Sériové číslo</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterValueLabel" xml:space="preserve">
-    <value>VALUE</value>
+    <value>HODNOTA</value>
     <comment>Textbox label.</comment>
   </data>
   <data name="FilterOptionStatus" xml:space="preserve">
-    <value>Status</value>
+    <value>Stav</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterStatusDisabled" xml:space="preserve">
-    <value>Disabled</value>
+    <value>Zakázáno</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterStatusLabel" xml:space="preserve">
-    <value>STATUS</value>
+    <value>STAV</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="FilterStatusPending" xml:space="preserve">
-    <value>Pending</value>
+    <value>Čeká na vyřízení</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterStatusRunning" xml:space="preserve">
-    <value>Running</value>
+    <value>Běží</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="DeviceIdCaseSensitiveWarning" xml:space="preserve">
-    <value>(DeviceID is case-sensitive)</value>
+    <value>(ID zařízení rozlišuje velká a malá písmena.)</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="FindDevicesLabelCollapsed" xml:space="preserve">
-    <value>FIND DEVICES</value>
+    <value>NAJÍT ZAŘÍZENÍ</value>
     <comment>Section heading.</comment>
   </data>
   <data name="DeviceDetailsPaneLabel" xml:space="preserve">
-    <value>DEVICE DETAILS</value>
+    <value>PODROBNOSTI ZAŘÍZENÍ</value>
     <comment>Section heading.</comment>
   </data>
   <data name="NoActionSelectedLabel" xml:space="preserve">
-    <value>No action selected</value>
+    <value>Není vybraná žádná akce.</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="NoDeviceSelectedLabel" xml:space="preserve">
-    <value>No device selected</value>
+    <value>Není vybrané žádné zařízení.</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="DeviceRules" xml:space="preserve">
-    <value>Device Rules</value>
+    <value>Pravidla zařízení</value>
     <comment>Page title.</comment>
   </data>
   <data name="Rules" xml:space="preserve">
-    <value>Rules</value>
+    <value>Pravidla</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="RulesHeaderFormatted" xml:space="preserve">
-    <value>Rules({0})</value>
+    <value>Pravidla ({0})</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DataFieldHeader" xml:space="preserve">
-    <value>Data Field</value>
+    <value>Datové pole</value>
     <comment>Table column header.</comment>
   </data>
   <data name="NoRuleSelected" xml:space="preserve">
-    <value>No Rule Selected</value>
+    <value>Není vybrané žádné pravidlo.</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="NoRuleSelectedLabel" xml:space="preserve">
-    <value>No Rule Selected</value>
+    <value>Není vybrané žádné pravidlo.</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="OperatorHeader" xml:space="preserve">
-    <value>Operator</value>
+    <value>Operátor</value>
     <comment>Table column header.</comment>
   </data>
   <data name="RuleIdHeader" xml:space="preserve">
-    <value>Rule ID</value>
+    <value>ID pravidla</value>
     <comment>Table column header.</comment>
   </data>
   <data name="RuleNameHeader" xml:space="preserve">
-    <value>Rule Name</value>
+    <value>Název pravidla</value>
     <comment>(Unused)</comment>
   </data>
   <data name="RulePropertiesPaneLabel" xml:space="preserve">
-    <value>Properties</value>
+    <value>Vlastnosti</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ThresholdHeader" xml:space="preserve">
-    <value>Threshold</value>
+    <value>Mezní hodnota</value>
     <comment>Table column header.</comment>
   </data>
   <data name="FailedToRetrieveRules" xml:space="preserve">
-    <value>An error occurred while retrieving the list of rules.</value>
+    <value>Při načítání seznamu pravidel došlo k chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="FilterStatusEnabled" xml:space="preserve">
-    <value>Enabled</value>
+    <value>Povoleno</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>Vlastnosti</value>
     <comment>Section heading.</comment>
   </data>
   <data name="UnableToRetrieveRuleFromService" xml:space="preserve">
-    <value>Unable to retrieve rule from service</value>
+    <value>Nepovedlo se načíst pravidlo ze služby.</value>
     <comment>Error message.</comment>
   </data>
   <data name="Disable" xml:space="preserve">
-    <value>Disable</value>
+    <value>Zakázat</value>
     <comment>Button label.</comment>
   </data>
   <data name="Enable" xml:space="preserve">
-    <value>Enable</value>
+    <value>Povolit</value>
     <comment>(Unused)</comment>
   </data>
   <data name="RuleProperties" xml:space="preserve">
-    <value>Rule Properties</value>
+    <value>Vlastnosti pravidla</value>
     <comment>Section heading.</comment>
   </data>
   <data name="RuleStatus" xml:space="preserve">
-    <value>Rule Status</value>
+    <value>Stav pravidla</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ValueHeader" xml:space="preserve">
-    <value>Value</value>
+    <value>Hodnota</value>
     <comment>(Unused)</comment>
   </data>
   <data name="AddRule" xml:space="preserve">
-    <value>Add Rule...</value>
+    <value>Přidat pravidlo...</value>
     <comment>Button label.</comment>
   </data>
   <data name="RuleUpdateError" xml:space="preserve">
-    <value>There was an error updating the rule.</value>
+    <value>Při aktualizaci pravidla došlo k chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceRulesFullError" xml:space="preserve">
-    <value>All available data fields have rules defined for this device. Please modify an existing rule instead.</value>
+    <value>Všechna dostupná datová pole mají definovaná pravidla pro toto zařízení. Upravte prosím stávající pravidlo.</value>
     <comment>Error message.</comment>
   </data>
   <data name="DisableRule" xml:space="preserve">
-    <value>Disable Rule</value>
+    <value>Zakázat pravidlo</value>
     <comment>Button label.</comment>
   </data>
   <data name="EnableRule" xml:space="preserve">
-    <value>Enable Rule</value>
+    <value>Povolit pravidlo</value>
     <comment>Button label.</comment>
   </data>
   <data name="AllDevices" xml:space="preserve">
-    <value>All Devices</value>
+    <value>Všechna zařízení</value>
     <comment>(Unused)</comment>
   </data>
   <data name="AverageOfDeviceHumidity" xml:space="preserve">
-    <value>Average of device humidity</value>
+    <value>Průměrná vlhkost v zařízení</value>
     <comment>Tile heading.</comment>
   </data>
   <data name="Humidity" xml:space="preserve">
-    <value>Humidity</value>
+    <value>Vlhkost</value>
     <comment>Label.</comment>
   </data>
   <data name="MaxOfDevicesHumidity" xml:space="preserve">
-    <value>Max of device humidity</value>
+    <value>Maximální vlhkost v zařízení</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="MinOfDevicesHumidity" xml:space="preserve">
-    <value>Min of device humidity</value>
+    <value>Minimální vlhkost v zařízení</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="TelemetryGaugeNumericFormat" xml:space="preserve">
-    <value>0.00</value>
+    <value>0,00</value>
     <comment>Guge format string.</comment>
   </data>
   <data name="TelemetryHistory" xml:space="preserve">
-    <value>Telemetry History</value>
+    <value>Historie telemetrie</value>
     <comment>Chart heading.</comment>
   </data>
   <data name="Temperature" xml:space="preserve">
-    <value>Temperature</value>
+    <value>Teplota</value>
     <comment>Label.</comment>
   </data>
   <data name="Active" xml:space="preserve">
-    <value>Active</value>
+    <value>Aktivní</value>
     <comment>Device state.</comment>
   </data>
   <data name="Alarm" xml:space="preserve">
-    <value>Alarm</value>
+    <value>Varování</value>
     <comment>Label.</comment>
   </data>
   <data name="AlarmHistory" xml:space="preserve">
-    <value>Alarm History</value>
+    <value>Historie varování</value>
     <comment>Table heading.</comment>
   </data>
   <data name="Closed" xml:space="preserve">
-    <value>Closed</value>
+    <value>Zavřeno</value>
     <comment>Label.</comment>
   </data>
   <data name="Information" xml:space="preserve">
-    <value>Information</value>
+    <value>Informace</value>
   </data>
   <data name="IssueNumberHeader" xml:space="preserve">
-    <value>Issue No.</value>
+    <value>Číslo vydání</value>
     <comment>(Unused)</comment>
   </data>
   <data name="IssueTypeHeader" xml:space="preserve">
-    <value>Issue Type</value>
+    <value>Typ vydání</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DefaultSolutionName" xml:space="preserve">
-    <value>Remote Monitoring Solution</value>
+    <value>Řešení vzdáleného monitorování</value>
     <comment>Section heading.</comment>
   </data>
   <data name="EditDeviceRuleFormatted" xml:space="preserve">
-    <value>{0} Rule for Device {1}</value>
+    <value>Pravidlo {0} pro zařízení {1}</value>
     <comment>Section heading.</comment>
   </data>
   <data name="SaveAndViewRules" xml:space="preserve">
-    <value>Save and View Rules</value>
+    <value>Uložit a zobrazit pravidla</value>
     <comment>Button label.</comment>
   </data>
   <data name="ViewRules" xml:space="preserve">
-    <value>View Rules</value>
+    <value>Zobrazit pravidla</value>
     <comment>Button label.</comment>
   </data>
   <data name="RuleOutput" xml:space="preserve">
-    <value>Rule Output</value>
+    <value>Výstup pravidla</value>
     <comment>Table column header.</comment>
   </data>
   <data name="Value" xml:space="preserve">
-    <value>Value</value>
+    <value>Hodnota</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ThresholdFormatError" xml:space="preserve">
-    <value>The Threshold must be a valid double.</value>
+    <value>Mezní hodnota musí být platný typ double.</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnableToRetrieveAlertsHistoryFromService" xml:space="preserve">
-    <value>Unable to retrieve alerts history from service</value>
+    <value>Nepovedlo se načíst historii výstrah ze služby.</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnableToRetrieveDeviceTelemetryFromService" xml:space="preserve">
-    <value>Unable to retrieve device telemetry from service</value>
+    <value>Nepovedlo se načíst telemetrii zařízení ze služby.</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandDeliveryCountExceeded" xml:space="preserve">
-    <value>Delivery Count Exceeded</value>
+    <value>Překročení počtu doručených položek</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandExpired" xml:space="preserve">
-    <value>Expired</value>
+    <value>Platnost vypršela</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandRejected" xml:space="preserve">
-    <value>Rejected</value>
+    <value>Odmítnuto</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandSuccess" xml:space="preserve">
-    <value>Success</value>
+    <value>Úspěch</value>
     <comment>Success message.</comment>
   </data>
   <data name="Time" xml:space="preserve">
-    <value>Time</value>
+    <value>Čas</value>
     <comment>(Unused)</comment>
   </data>
   <data name="InfoIconLink" xml:space="preserve">
@@ -1356,71 +1356,71 @@
     <comment>Link to a documentation.</comment>
   </data>
   <data name="RuleAlreadyAddedError" xml:space="preserve">
-    <value>A rule for this data field already exists for this device. Only one rule can be defined on a field for a given device. Either try to create a rule for a different data field, or edit the existing rule.</value>
+    <value>Pro toto zařízení už existuje pravidlo pro toto datové pole. Pro dané zařízení může být definované jenom jedno pravidlo pro jedno pole. Zkuste vytvořit pravidlo pro jiné datové pole nebo upravte stávající pravidlo.</value>
     <comment>Error message.</comment>
   </data>
   <data name="TableDataSaveConflictErrorMessage" xml:space="preserve">
-    <value>There was a conflict while saving the data. Please verify the data and try again.</value>
+    <value>Při ukládání dat došlo ke konfliktu. Ověřte prosím data a zkuste to znovu.</value>
     <comment>Error message.</comment>
   </data>
   <data name="SimulatorCredentialHeader" xml:space="preserve">
-    <value>Your simulated device has been created with these settings</value>
+    <value>Vaše simulované zařízení je vytvořené s tímto nastavením</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ErrorRemoveRule" xml:space="preserve">
-    <value>Unable to remove rule. An unexpected error occurred.</value>
+    <value>Nepovedlo se odebrat pravidlo. Došlo k neočekávané chybě.</value>
     <comment>Error message.</comment>
   </data>
   <data name="RemoveRule" xml:space="preserve">
-    <value>Remove Rule</value>
+    <value>Odebrat pravidlo</value>
     <comment>Button label.</comment>
   </data>
   <data name="RemoveRuleConfirmationPart1" xml:space="preserve">
-    <value>Are you sure? This will remove this rule from your IoT solution.</value>
+    <value>Určitě to chcete udělat? Tímto krokem se toto pravidlo odebere z vašeho řešení IoT.</value>
     <comment>Part of confirmation message.</comment>
   </data>
   <data name="RemoveRuleConfirmationPart2" xml:space="preserve">
-    <value>This action is permanent.</value>
+    <value>Tato akce se nedá vrátit.</value>
     <comment>Part of confirmation message.</comment>
   </data>
   <data name="RemoveRuleFormatted" xml:space="preserve">
-    <value>Remove Rule for {0} on Device {1}</value>
+    <value>Odebrat pravidlo pro {0} na zařízení {1}</value>
     <comment>Section heading.</comment>
   </data>
   <data name="YesRemoveRuleFormatted" xml:space="preserve">
-    <value>Yes, remove the rule for {0} on device {1}</value>
+    <value>Ano, odebrat pravidlo pro {0} na zařízení {1}</value>
     <comment>Checkbox label.</comment>
   </data>
   <data name="RemoveDeviceConfirmation" xml:space="preserve">
-    <value>Remove Device</value>
+    <value>Odebrat zařízení</value>
     <comment>Button label.</comment>
   </data>
   <data name="CellularConnectivityManagement" xml:space="preserve">
-    <value>Cellular Connectivity Management</value>
+    <value>Správa mobilního připojení</value>
     <comment>Panel heading.</comment>
   </data>
   <data name="SimInformation" xml:space="preserve">
-    <value>SIM Information...</value>
+    <value>Informace SIM...</value>
     <comment>Hyperlink label. {Locked="SIM"}</comment>
   </data>
   <data name="ConnectionStatus" xml:space="preserve">
-    <value>Connection Status: </value>
+    <value>Stav připojení: </value>
     <comment>(Unused)</comment>
   </data>
   <data name="LastSessionStart" xml:space="preserve">
-    <value>Last Session Start: </value>
+    <value>Začátek poslední relace: </value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="SimStatus" xml:space="preserve">
-    <value>SIM Status: </value>
+    <value>Stav SIM: </value>
     <comment>Read-only field label. {Locked="SIM"}</comment>
   </data>
   <data name="CurrentRatePlan" xml:space="preserve">
-    <value>Current Rate Plan: </value>
+    <value>Aktuální sazebník: </value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="AggregatedUsage" xml:space="preserve">
-    <value>Aggregated Usage: </value>
+    <value>Agregované využití: </value>
     <comment>Label on cellular information details panel.</comment>
   </data>
   <data name="IMEI" xml:space="preserve">
@@ -1432,7 +1432,7 @@
     <comment>Read-only field label.</comment>
   </data>
   <data name="CurrentLimitReached" xml:space="preserve">
-    <value>Current Limit Reached: </value>
+    <value>Je dosažený aktuální limit: </value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="ICCID" xml:space="preserve">
@@ -1440,59 +1440,59 @@
     <comment>Read-only field label.</comment>
   </data>
   <data name="AccountId" xml:space="preserve">
-    <value>Account ID: </value>
+    <value>ID účtu: </value>
     <comment>Label on cellular information details panel.</comment>
   </data>
   <data name="SimInformationBackText" xml:space="preserve">
-    <value>SIM Information</value>
+    <value>Informace SIM</value>
     <comment>Hyperlink label. {Locked="SIM"}</comment>
   </data>
   <data name="NavigationMenuItemAdvanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Upřesnit</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="ApiRegistration" xml:space="preserve">
-    <value>Jasper API Registration</value>
+    <value>Registrace Jasper API</value>
     <comment>Tile heading.</comment>
   </data>
   <data name="CheckIccid" xml:space="preserve">
-    <value>Check ICCID</value>
+    <value>ICCID kontroly</value>
     <comment>(Unsused)</comment>
   </data>
   <data name="EnterIccid" xml:space="preserve">
-    <value>Enter a Iccid from Cellular Provider</value>
+    <value>Zadat ICCID od poskytovatele mobilní sítě</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Associate" xml:space="preserve">
-    <value>Associate</value>
+    <value>Přidružit</value>
     <comment>Button label.</comment>
   </data>
   <data name="SimAssociation" xml:space="preserve">
-    <value>SIM Association</value>
+    <value>Přidružení SIM</value>
     <comment>(Unused)</comment>
   </data>
   <data name="OptionalBrackets" xml:space="preserve">
-    <value>(Optional)</value>
+    <value>(Nepovinné)</value>
     <comment>(Unused)</comment>
   </data>
   <data name="BaseUrlToolTip" xml:space="preserve">
-    <value>You'll find this just below the API key on the API page in Control Center.</value>
+    <value>Najdete to přímo pod klíčem API na stránce API v Control Centeru.</value>
     <comment>Input field tooltip.</comment>
   </data>
   <data name="LicenseKeyToolTip" xml:space="preserve">
-    <value>You'll find this at the top left of the API page in Control Center.</value>
+    <value>Najdete ho v levém horním rohu stránky API v Control Centeru.</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="PasswordToolTip" xml:space="preserve">
-    <value>This is the password you use to log into Control Center.</value>
+    <value>Toto je heslo, které používáte k přihlášení do Control Centeru.</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="UsernameToolTip" xml:space="preserve">
-    <value>This is the username you use to log into Control Center.</value>
+    <value>Toto je uživatelské jméno, které používáte k přihlášení do Control Centeru.</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="AttachIccidToDevice" xml:space="preserve">
-    <value>Attach a SIM ICCID to the device</value>
+    <value>Připojit SIM ICCID k zařízení</value>
     <comment>Checkbox label. {Locked="SIM ICCID"}</comment>
   </data>
   <data name="SimIccid" xml:space="preserve">
@@ -1500,11 +1500,11 @@
     <comment>(Unused)</comment>
   </data>
   <data name="NavigationMenuItemsAdvanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Upřesnit</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="CellularConn" xml:space="preserve">
-    <value>Cellular Conn</value>
+    <value>Mobilní připojení</value>
     <comment>(Unused)</comment>
   </data>
   <data name="HealthBeat" xml:space="preserve">
@@ -1516,23 +1516,23 @@
     <comment>(Unused)</comment>
   </data>
   <data name="ApiRegistrationDescription" xml:space="preserve">
-    <value>Register this solution with your Jasper Control Center platform credentials to authenticate Jasper API use.</value>
+    <value>Zaregistrujte toto řešení pomocí přihlašovacích údajů platformy Jasper Control Center pro ověření použití Jasper API.</value>
     <comment>Tile subheading.</comment>
   </data>
   <data name="ApiRegistrationTitle" xml:space="preserve">
-    <value>Jasper API Registration</value>
+    <value>Registrace Jasper API</value>
     <comment>Panel heading. {Locked="Jasper API"}</comment>
   </data>
   <data name="CellularConnViewTitle" xml:space="preserve">
-    <value>Cellular Conn</value>
+    <value>Mobilní připojení</value>
     <comment>Panel heading.</comment>
   </data>
   <data name="DeviceAssociationDescription" xml:space="preserve">
-    <value>Associate your Azure IoT devices deployed on &lt;a href="http://www.jasper.com/iot-service-platform/control-center"&gt;Control Center&lt;/a&gt; to this solution.</value>
+    <value>Přidružte zařízení Azure IoT nasazené na platformě &lt;a href="http://www.jasper.com/iot-service-platform/control-center"&gt;Control Center&lt;/a&gt; k tomuto řešení.</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="DeviceAssociationTitle" xml:space="preserve">
-    <value>Device Association</value>
+    <value>Přidružení zařízení</value>
     <comment>Section heading.</comment>
   </data>
   <data name="HealthBeatViewTitle" xml:space="preserve">
@@ -1544,15 +1544,15 @@
     <comment>Section heading.</comment>
   </data>
   <data name="ApiRegistrationFailed" xml:space="preserve">
-    <value>Registration failed:  Please check credentials</value>
+    <value>Registrace se nepovedla: Zkontrolujte prosím své přihlašovací údaje.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ApiRegistrationSuccessful" xml:space="preserve">
-    <value>Registration successful</value>
+    <value>Registrace byla úspěšná.</value>
     <comment>Success message.</comment>
   </data>
   <data name="ApiRegistrationNotAvailable" xml:space="preserve">
-    <value>No API currently registered for this account</value>
+    <value>Pro tento účet není aktuálně zaregistrované žádné zařízení.</value>
     <comment>Error message.</comment>
   </data>
   <data name="JasperHelpLink" xml:space="preserve">
@@ -1564,79 +1564,79 @@
     <comment>Error message.</comment>
   </data>
   <data name="DeviceList" xml:space="preserve">
-    <value>Device List</value>
+    <value>Seznam zařízení</value>
     <comment>Label.</comment>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>Předchozí</value>
     <comment>Button label.</comment>
   </data>
   <data name="FilterInfo" xml:space="preserve">
-    <value>(filtered from _MAX_ total records)</value>
+    <value>(filtrováno z _MAXIMÁLNÍHO_ celkového počtu záznamů)</value>
     <comment>Do not translate the substring "_MAX_"--it is programmatically replaced with the total number of records.</comment>
   </data>
   <data name="RemoveRuleButtonLabel" xml:space="preserve">
-    <value>Remove Rule...</value>
+    <value>Odebrat pravidlo...</value>
     <comment>Button label.</comment>
   </data>
   <data name="AdministratorRole" xml:space="preserve">
-    <value>Administrator</value>
+    <value>Správce</value>
     <comment>User role name.</comment>
   </data>
   <data name="ImplicitReadOnlyRole" xml:space="preserve">
-    <value>Implicit Read-Only</value>
+    <value>Implicitně jen pro čtení</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ReadOnlyRole" xml:space="preserve">
-    <value>Read-Only</value>
+    <value>Jen pro čtení</value>
     <comment>User role name.</comment>
   </data>
   <data name="DeviceToView" xml:space="preserve">
-    <value>Device to View:</value>
+    <value>Zobrazit zařízení:</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="SignOut" xml:space="preserve">
-    <value>Sign Out</value>
+    <value>Odhlásit se</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="CommandCToCopy" xml:space="preserve">
-    <value>Command+C to copy</value>
+    <value>Zkopírujte stisknutím kláves Apple+C</value>
     <comment>Button label.</comment>
   </data>
   <data name="DeviceProperty_CreatedTime" xml:space="preserve">
-    <value>CreatedTime (UTC)</value>
+    <value>Čas vytvoření (UTC)</value>
     <comment>{Locked="UTC"}</comment>
   </data>
   <data name="DeviceProperty_UpdatedTime" xml:space="preserve">
-    <value>UpdatedTime (UTC)</value>
+    <value>Čas aktualizace (UTC)</value>
     <comment>{Locked="UTC"}</comment>
   </data>
   <data name="DevicePropertiesFormattedAsStored" xml:space="preserve">
-    <value>Device Properties are displayed as stored.</value>
+    <value>Vlastnosti zařízení jsou zobrazené jako uložené.</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="LocalTime" xml:space="preserve">
-    <value>Local Time</value>
+    <value>Místní čas</value>
     <comment>Table column header.</comment>
   </data>
   <data name="RemoteNameNotResolved" xml:space="preserve">
-    <value>The remote name could not be resolved</value>
+    <value>Vzdálený název se nedá rozpoznat.</value>
     <comment>Error message.</comment>
   </data>
   <data name="RemoveSimAssociation" xml:space="preserve">
-    <value>Remove SIM Association</value>
+    <value>Odebrat přidružení SIM</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="SimAssociationSucceeded" xml:space="preserve">
-    <value>The association succeeded for device {0} with ICCID {1}.</value>
+    <value>Přidružení bylo úspěšné pro zařízení {0} s ICCID {1}.</value>
     <comment>Success message.</comment>
   </data>
   <data name="ApiRegistrationInfoText" xml:space="preserve">
-    <value>To activate the Jasper integration to view and control your Control Center devices through IoT Suite please enter the following credentials:</value>
+    <value>Pokud chcete aktivovat integraci Jasperu pro zobrazení a ovládání svých zařízení platformy Control Center prostřednictvím sady IoT Suite, zadejte prosím následující přihlašovací údaje:</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="BaseUrlLabel" xml:space="preserve">
-    <value>Base URL</value>
+    <value>Základní adresa URL</value>
     <comment>Input field label.</comment>
   </data>
   <data name="IccidLabel" xml:space="preserve">
@@ -1644,30 +1644,19 @@
     <comment>Section heading.</comment>
   </data>
   <data name="LicenseKeyLabel" xml:space="preserve">
-    <value>License Key</value>
+    <value>Licenční kód</value>
     <comment>Section heading.</comment>
   </data>
   <data name="PasswordLabel" xml:space="preserve">
-    <value>Password</value>
+    <value>Heslo</value>
     <comment>Section heading.</comment>
   </data>
   <data name="SimInformationInfoText" xml:space="preserve">
-    <value>Delivered through the Jasper Control Center platform</value>
+    <value>Dodáno prostřednictvím platformy Jasper Control Center</value>
     <comment>{Locked="Jasper"}</comment>
   </data>
   <data name="UsernameLabel" xml:space="preserve">
-    <value>Username</value>
+    <value>Uživatelské jméno</value>
     <comment>Input label.</comment>
-  </data>
-  <data name="LinkLabelHelpAndSupport" xml:space="preserve">
-    <value>Help &amp; Support</value>
-    <comment>Hyperlink label.</comment>
-  </data>
-  <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
-    <value>Give feedback</value>
-    <comment>Hyperlink label.</comment>
-  </data>
-  <data name="InvalidDeviceTelemetryFormat" xml:space="preserve">
-    <value>Device {0} has an invalid Telemetry specification on its DeviceInfo</value>
   </data>
 </root>

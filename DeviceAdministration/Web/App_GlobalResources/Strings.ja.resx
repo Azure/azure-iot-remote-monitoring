@@ -118,199 +118,199 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddDevice" xml:space="preserve">
-    <value>Add a Device</value>
+    <value>デバイスの追加</value>
     <comment>Button label.</comment>
   </data>
   <data name="AddADeviceFormatted" xml:space="preserve">
-    <value>Add a {0}</value>
+    <value>{0} の追加</value>
     <comment>Button label.</comment>
   </data>
   <data name="AddNew" xml:space="preserve">
-    <value>Add New</value>
+    <value>新規追加</value>
     <comment>Button label.</comment>
   </data>
   <data name="AuthenticationKey" xml:space="preserve">
-    <value>Authentication Key</value>
+    <value>認証キー</value>
     <comment>(Unused)</comment>
   </data>
   <data name="AuthKey1" xml:space="preserve">
-    <value>Key 1</value>
+    <value>キー 1</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="AuthKey2" xml:space="preserve">
-    <value>Key 2</value>
+    <value>キー 2</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>キャンセル</value>
     <comment>Button label.</comment>
   </data>
   <data name="Complete" xml:space="preserve">
-    <value>Complete</value>
+    <value>完了</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ConfirmOrCustomizeTheMetadata" xml:space="preserve">
-    <value>Confirm or customize the device metadata</value>
+    <value>デバイス メタデータの確認またはカスタマイズ</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>コピー</value>
     <comment>Button label.</comment>
   </data>
   <data name="CopyCredentialsIntoFile" xml:space="preserve">
-    <value>Copy credentials into the configuration file on the device</value>
+    <value>資格情報をデバイスの構成ファイルにコピーします</value>
     <comment>(Unused)</comment>
   </data>
   <data name="CopyDeviceIdAndAuthKeyLabel" xml:space="preserve">
-    <value>Copy the Device ID and Authentication Key</value>
+    <value>デバイス ID と認証キーをコピーします</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Create</value>
+    <value>作成</value>
     <comment>Button label.</comment>
   </data>
   <data name="GenerateADeviceId" xml:space="preserve">
-    <value>Generate a Device ID for me</value>
+    <value>デバイス ID を自動で生成</value>
     <comment>Radio button label.</comment>
   </data>
   <data name="DeviceId" xml:space="preserve">
-    <value>Device ID</value>
+    <value>デバイス ID</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="EnterDeviceId" xml:space="preserve">
-    <value>Enter a Device ID</value>
+    <value>デバイス ID の入力</value>
     <comment>Input label.</comment>
   </data>
   <data name="Instructions" xml:space="preserve">
-    <value>Instructions</value>
+    <value>手順</value>
     <comment>(Unused)</comment>
   </data>
   <data name="InstructionsForYourDeviceFormatted" xml:space="preserve">
-    <value>Instructions for your {0}</value>
+    <value>{0} 向けの手順</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="EnterDeviceMetadata" xml:space="preserve">
-    <value>Enter device metadata</value>
+    <value>デバイス メタデータの入力</value>
     <comment>(Unused)</comment>
   </data>
   <data name="NavigationMenuItemActions" xml:space="preserve">
-    <value>Actions</value>
+    <value>アクション</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="NavigationMenuItemDashboard" xml:space="preserve">
-    <value>Dashboard</value>
+    <value>ダッシュボード</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="NavigationMenuItemDeviceExplorer" xml:space="preserve">
-    <value>Device Explorer</value>
+    <value>デバイス エクスプローラー</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="NavigationMenuItemDevices" xml:space="preserve">
-    <value>Devices</value>
+    <value>デバイス</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>Next</value>
+    <value>次へ</value>
     <comment>Button label.</comment>
   </data>
   <data name="StepOneHeader" xml:space="preserve">
-    <value>STEP 1 of 3</value>
+    <value>ステップ 1 / 3</value>
     <comment>Wizard step heading.</comment>
   </data>
   <data name="StepThreeHeader" xml:space="preserve">
-    <value>STEP 3 of 3</value>
+    <value>ステップ 3 / 3</value>
     <comment>Wizard step heading.</comment>
   </data>
   <data name="StepTwoHeader" xml:space="preserve">
-    <value>STEP 2 of 3</value>
+    <value>ステップ 2 / 3</value>
     <comment>Wizard step heading.</comment>
   </data>
   <data name="YouChose" xml:space="preserve">
-    <value>You Chose:</value>
+    <value>選択内容:</value>
     <comment>(Unused)</comment>
   </data>
   <data name="YourDeviceIsCompleteFormatted" xml:space="preserve">
-    <value>Your {0} is complete</value>
+    <value>{0} が完了しました</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DeviceIdCreationPrompt" xml:space="preserve">
-    <value>How would you like to define the Device ID? </value>
+    <value>デバイス ID を定義しますか? </value>
     <comment>Confirmation message.</comment>
   </data>
   <data name="FirmwareVersion" xml:space="preserve">
-    <value>FIRMWARE VERSION</value>
+    <value>ファームウェアのバージョン</value>
     <comment>(Unused)</comment>
   </data>
   <data name="LetMeDefineMyOwnDeviceId" xml:space="preserve">
-    <value>Let me define my own Device ID</value>
+    <value>デバイス ID を自分で定義する</value>
     <comment>Radio button label.</comment>
   </data>
   <data name="Manufacturer" xml:space="preserve">
-    <value>MANUFACTURER</value>
+    <value>製造元</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ObjectName" xml:space="preserve">
-    <value>OBJECT NAME</value>
+    <value>オブジェクト名</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SerialNumber" xml:space="preserve">
-    <value>SERIAL NUMBER</value>
+    <value>シリアル番号</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>VERSION</value>
+    <value>バージョン</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ModelNumber" xml:space="preserve">
-    <value>MODEL NUMBER</value>
+    <value>モデル番号</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ShowInstructions" xml:space="preserve">
-    <value>Show Instructions</value>
+    <value>手順の表示</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Done</value>
+    <value>完了</value>
     <comment>Button label.</comment>
   </data>
   <data name="DeviceIdInUse" xml:space="preserve">
-    <value>DeviceID already in use.</value>
+    <value>使用中の DeviceID です。</value>
     <comment>Error message.</comment>
   </data>
   <data name="EnableDevice" xml:space="preserve">
-    <value>Enable Device</value>
+    <value>デバイスの有効化</value>
     <comment>Button label.</comment>
   </data>
   <data name="AuthenticationKeys" xml:space="preserve">
-    <value>Authentication Keys</value>
+    <value>認証キー</value>
     <comment>Device details section heading.</comment>
   </data>
   <data name="AvailableActions" xml:space="preserve">
-    <value>Available Actions</value>
+    <value>利用可能なアクション</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="AvailablePowerSources" xml:space="preserve">
-    <value>Available Power Sources</value>
+    <value>利用可能な電源</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="BatteryLevel" xml:space="preserve">
-    <value>Battery level</value>
+    <value>バッテリ レベル</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DisableDevice" xml:space="preserve">
-    <value>Disable Device</value>
+    <value>デバイスの無効化</value>
     <comment>Button label.</comment>
   </data>
   <data name="AzureDevicesHostname" xml:space="preserve">
-    <value>IoT Hub Hostname</value>
+    <value>IoT Hub ホスト名</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="General" xml:space="preserve">
-    <value>General</value>
+    <value>全般</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Metadata" xml:space="preserve">
-    <value>Metadata</value>
+    <value>メタデータ</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Ok" xml:space="preserve">
@@ -318,159 +318,159 @@
     <comment>Success message.</comment>
   </data>
   <data name="PowerSourceVoltage" xml:space="preserve">
-    <value>Power Source Voltage</value>
+    <value>電源の電圧</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Retry" xml:space="preserve">
-    <value>Retry</value>
+    <value>再試行</value>
     <comment>Button label.</comment>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>保存</value>
     <comment>Button label.</comment>
   </data>
   <data name="ServiceUnavailable" xml:space="preserve">
-    <value>Service Unavailable</value>
+    <value>サービスを利用できません</value>
     <comment>Error message.</comment>
   </data>
   <data name="Command" xml:space="preserve">
-    <value>Command</value>
+    <value>コマンド</value>
     <comment>(Unsused)</comment>
   </data>
   <data name="CommandHistory" xml:space="preserve">
-    <value>Command History</value>
+    <value>コマンド履歴</value>
     <comment>Table heading.</comment>
   </data>
   <data name="CommandName" xml:space="preserve">
-    <value>COMMAND NAME</value>
+    <value>コマンド名</value>
     <comment>Table column header.</comment>
   </data>
   <data name="CommandResult" xml:space="preserve">
-    <value>RESULT</value>
+    <value>結果</value>
     <comment>Table column header.</comment>
   </data>
   <data name="CommandTimeCreated" xml:space="preserve">
-    <value>LOCAL TIME CREATED</value>
+    <value>作成時刻 (ローカル)</value>
     <comment>Table column header.</comment>
   </data>
   <data name="CommandTimeUpdated" xml:space="preserve">
-    <value>LOCAL TIME UPDATED</value>
+    <value>更新時刻 (ローカル)</value>
     <comment>Table column header.</comment>
   </data>
   <data name="CommandValuesSent" xml:space="preserve">
-    <value>VALUES SENT</value>
+    <value>送信された値</value>
     <comment>Table column header.</comment>
   </data>
   <data name="DeviceCommands" xml:space="preserve">
-    <value>Commands</value>
+    <value>コマンド</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="DeviceCommandsHeader" xml:space="preserve">
-    <value>Commands for {0}</value>
+    <value>{0} のコマンド</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ParametersHeader" xml:space="preserve">
-    <value>Parameters</value>
+    <value>パラメーター</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Pending" xml:space="preserve">
-    <value>Pending</value>
+    <value>保留中</value>
     <comment>Device command status.</comment>
   </data>
   <data name="Price" xml:space="preserve">
-    <value>Price</value>
+    <value>価格</value>
     <comment>(Unused)</comment>
   </data>
   <data name="PriceRange" xml:space="preserve">
-    <value>Price must be higher than 0</value>
+    <value>価格には 0 より大きい値を指定する必要があります</value>
     <comment>Error message.</comment>
   </data>
   <data name="Product" xml:space="preserve">
-    <value>Product</value>
+    <value>製品</value>
     <comment>(Unused)</comment>
   </data>
   <data name="PropertiesPaneLabel" xml:space="preserve">
-    <value>Properties</value>
+    <value>プロパティ</value>
     <comment>Section heading.</comment>
   </data>
   <data name="SelectAProduct" xml:space="preserve">
-    <value>Select a Product</value>
+    <value>製品の選択</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Send" xml:space="preserve">
-    <value>Send</value>
+    <value>送信</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SendCommand" xml:space="preserve">
-    <value>Send Command</value>
+    <value>コマンドの送信</value>
     <comment>Button label.</comment>
   </data>
   <data name="CheckId" xml:space="preserve">
-    <value>Check ID</value>
+    <value>ID の確認</value>
     <comment>Button label.</comment>
   </data>
   <data name="DeviceIdAvailable" xml:space="preserve">
-    <value>Device ID is available</value>
+    <value>デバイス ID が利用可能です</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="RegisteredButNotPresent" xml:space="preserve">
-    <value>Registered But Not Present</value>
+    <value>登録されていますが、存在しません</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="TimeRegistered" xml:space="preserve">
-    <value>Time Registered</value>
+    <value>登録時刻</value>
     <comment>(Unused)</comment>
   </data>
   <data name="NoCommandsAvailable" xml:space="preserve">
-    <value>Device {0} has no available commands</value>
+    <value>デバイス {0} には利用可能なコマンドがありません</value>
     <comment>Error message.</comment>
   </data>
   <data name="EditDeviceConfiguration" xml:space="preserve">
-    <value>Edit Configuration for {0}</value>
+    <value>{0} の構成を編集</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Hostname" xml:space="preserve">
-    <value>IOT HUB HOSTNAME</value>
+    <value>IoT Hub ホスト名</value>
     <comment>(Unused)</comment>
   </data>
   <data name="HostnameLength" xml:space="preserve">
-    <value>Hostname cannot be longer than 1024 characters</value>
+    <value>ホスト名を 1024 文字より長くすることはできません</value>
     <comment>Error message.</comment>
   </data>
   <data name="PrimaryKey" xml:space="preserve">
-    <value>PRIMARY KEY</value>
+    <value>主キー</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SecondaryKey" xml:space="preserve">
-    <value>SECONDARY KEY</value>
+    <value>2 次キー</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SendConfiguration" xml:space="preserve">
-    <value>Send Configuration To Device</value>
+    <value>デバイスに構成を送信</value>
     <comment>(Unused)</comment>
   </data>
   <data name="RequestFormatError" xml:space="preserve">
-    <value>Either the {0} parameter is missing or the value was not recognized as a valid {1}</value>
+    <value>パラメーター {0} がないか、値が有効な {1} であると認識されませんでした</value>
     <comment>Error message.</comment>
   </data>
   <data name="RequestNullError" xml:space="preserve">
-    <value>JSON request data was null or unable to be parsed.  Please ensure the data is sent in the body of the request and correctly formatted.</value>
+    <value>JSON 要求のデータが null であるか、解析できませんでした。送信したデータが要求の本文にあり、正しい形式であるかどうかを確認してください。</value>
     <comment>Error message.</comment>
   </data>
   <data name="AnErrorOccurred" xml:space="preserve">
-    <value>An error occurred while processing your request.</value>
+    <value>要求の処理中にエラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>エラー</value>
     <comment>Page title.</comment>
   </data>
   <data name="IoTDeviceAdministrationPortal" xml:space="preserve">
-    <value>IoT Device Administration Portal</value>
+    <value>IoT デバイス管理ポータル</value>
     <comment>(Unused)</comment>
   </data>
   <data name="IoTDevicePortalSignIn" xml:space="preserve">
-    <value>IoT Device Portal - Sign In</value>
+    <value>IoT デバイス ポータル - サインイン</value>
     <comment>Page title.</comment>
   </data>
   <data name="MicrosoftAzure" xml:space="preserve">
@@ -482,71 +482,71 @@
     <comment>Section heading.</comment>
   </data>
   <data name="SignIn" xml:space="preserve">
-    <value>Sign In</value>
+    <value>サインイン</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="YouMustBeSignedIn" xml:space="preserve">
-    <value>You must be signed in to continue.</value>
+    <value>続行するには、サインインする必要があります。</value>
     <comment>Error message.</comment>
   </data>
   <data name="YourSessionMayHaveExpired" xml:space="preserve">
-    <value>If you were signed in, your session may have expired.</value>
+    <value>サインインしていた場合には、セッションが期限切れになっている可能性があります。</value>
     <comment>Error message.</comment>
   </data>
   <data name="OpensInNewTab" xml:space="preserve">
-    <value>(opens in new tab)</value>
+    <value>(新しいタブで開きます)</value>
     <comment>Hyperlink hint.</comment>
   </data>
   <data name="DeviceIdInvalidCharactersError" xml:space="preserve">
-    <value>The Device ID can only contain letters, numbers and the following special characters: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
+    <value>デバイス ID には、英字、数字、および次の特殊文字のみ使用できます: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceIdLengthError" xml:space="preserve">
-    <value>The Device ID must be between 2 and 128 characters long.</value>
+    <value>デバイス ID の長さは 2 から 128 文字にする必要があります。</value>
     <comment>Error message.</comment>
   </data>
   <data name="GoBack" xml:space="preserve">
-    <value>Go Back</value>
+    <value>戻る</value>
     <comment>Button label.</comment>
   </data>
   <data name="ConfirmRegenKeyPart1" xml:space="preserve">
-    <value>Are you sure? This will regenerate the </value>
+    <value>キーを再生成します。実行してもよろしいですか</value>
     <comment>Part of confirmation message. (Unused)</comment>
   </data>
   <data name="ConfirmRegenKeyPart2" xml:space="preserve">
-    <value>key.</value>
+    <value>?</value>
     <comment>Part of confirmation message. (Unused)</comment>
   </data>
   <data name="ViewAuthenticationKeys" xml:space="preserve">
-    <value>View Authentication Keys</value>
+    <value>認証キーの表示</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="DeviceUpdateError" xml:space="preserve">
-    <value>Unable to update the device. An unexpected error occurred.</value>
+    <value>デバイスを更新できません。予期しないエラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>編集</value>
     <comment>Button label.</comment>
   </data>
   <data name="RemoveDevice" xml:space="preserve">
-    <value>Remove Device...</value>
+    <value>デバイスの削除...</value>
     <comment>Button label.</comment>
   </data>
   <data name="RemoveDeviceConfirmationPart1" xml:space="preserve">
-    <value>Are you sure? This will remove this device from your IoT solution.</value>
+    <value>IoT ソリューションからこのデバイスを削除してもよろしいですか?</value>
     <comment>Part of confirmation message.</comment>
   </data>
   <data name="RemoveDeviceConfirmationPart2" xml:space="preserve">
-    <value>This action is permanent.</value>
+    <value>この操作は、元に戻すことができません。</value>
     <comment>Part of confirmation message.</comment>
   </data>
   <data name="RemoveDeviceFormatted" xml:space="preserve">
-    <value>Remove device '{0}'</value>
+    <value>デバイス '{0}' の削除</value>
     <comment>Section heading.</comment>
   </data>
   <data name="YesRemoveDeviceFormatted" xml:space="preserve">
-    <value>Yes, remove device {0}</value>
+    <value>はい。デバイス {0} を削除します</value>
     <comment>Checkbox label.</comment>
   </data>
   <data name="AppConfig" xml:space="preserve">
@@ -554,91 +554,91 @@
     <comment>(Unused)</comment>
   </data>
   <data name="InstalledRam" xml:space="preserve">
-    <value>Installed RAM</value>
+    <value>インストールされている RAM</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="Platform" xml:space="preserve">
-    <value>Platform</value>
+    <value>プラットフォーム</value>
     <comment>Device property. (Unused)</comment>
   </data>
   <data name="Processor" xml:space="preserve">
-    <value>Processor</value>
+    <value>プロセッサ</value>
     <comment>(Unused)</comment>
   </data>
   <data name="MaxLengthPrice" xml:space="preserve">
-    <value>Price cannot be longer than 1024 characters.</value>
+    <value>価格を 1024 文字より長くすることはできません。</value>
     <comment>Error message.</comment>
   </data>
   <data name="MaxLengthProductId" xml:space="preserve">
-    <value>Product Id cannot be longer than 1024 characters.</value>
+    <value>製品 ID を 1024 文字より長くすることはできません。</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceIdHeader" xml:space="preserve">
-    <value>Device ID</value>
+    <value>デバイス ID</value>
     <comment>Table column header.</comment>
   </data>
   <data name="FirmwareHeader" xml:space="preserve">
-    <value>Firmware</value>
+    <value>ファームウェア</value>
     <comment>Table column header.</comment>
   </data>
   <data name="InstalledRamHeader" xml:space="preserve">
-    <value>Installed RAM</value>
+    <value>インストールされている RAM</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ManufactureHeader" xml:space="preserve">
-    <value>Manufacturer</value>
+    <value>製造元</value>
     <comment>Table column header</comment>
   </data>
   <data name="ModelNumberHeader" xml:space="preserve">
-    <value>Model Number</value>
+    <value>モデル番号</value>
     <comment>Table column header.</comment>
   </data>
   <data name="PlatformHeader" xml:space="preserve">
-    <value>Platform</value>
+    <value>プラットフォーム</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ProcessorHeader" xml:space="preserve">
-    <value>Processor</value>
+    <value>プロセッサ</value>
     <comment>Table column header.</comment>
   </data>
   <data name="SerialNumberHeader" xml:space="preserve">
-    <value>Serial Number</value>
+    <value>シリアル番号</value>
     <comment>Table column header.</comment>
   </data>
   <data name="StatusHeader" xml:space="preserve">
-    <value>Status</value>
+    <value>状態</value>
     <comment>Table column header.</comment>
   </data>
   <data name="AppConfigLength" xml:space="preserve">
-    <value>AppConfig cannot be longer than 1024 characters</value>
+    <value>AppConfig を 1024 文字より長くすることはできません</value>
     <comment>Error message.</comment>
   </data>
   <data name="ClickToSelectAll" xml:space="preserve">
-    <value>Click to select all</value>
+    <value>クリックしてすべてを選択</value>
     <comment>Button label.</comment>
   </data>
   <data name="CopyCredentials" xml:space="preserve">
-    <value>Copy credentials into the configuration file on the device</value>
+    <value>資格情報をデバイスの構成ファイルにコピーします</value>
     <comment>Table heading.</comment>
   </data>
   <data name="EditDeviceProperties" xml:space="preserve">
-    <value>Edit a Device</value>
+    <value>デバイスの編集</value>
     <comment>Page heading.</comment>
   </data>
   <data name="ErrorWhileRetrievingKeys" xml:space="preserve">
-    <value>There was an error while retrieving the keys.</value>
+    <value>キーの取得中にエラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
   <data name="FailedToUpdateDeviceStatus" xml:space="preserve">
-    <value>Failed to update device status</value>
+    <value>デバイスの状態を更新できませんでした</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnableToRetrieveActionFromService" xml:space="preserve">
-    <value>Unable to retrieve action from service</value>
+    <value>サービスからアクションを取得できません</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnableToRetrieveDeviceFromService" xml:space="preserve">
-    <value>Unable to retrieve device from service</value>
+    <value>サービスからデバイスを取得できません</value>
     <comment>Error message.</comment>
   </data>
   <data name="ControlCToCopy" xml:space="preserve">
@@ -646,78 +646,78 @@
     <comment>{StrContains=i"Ctrl+C"}</comment>
   </data>
   <data name="DeviceKeysError" xml:space="preserve">
-    <value>An error occurred while trying to update keys</value>
+    <value>キーの更新中にエラーが発生しました</value>
     <comment>Error message.</comment>
   </data>
   <data name="RolloverKeys" xml:space="preserve">
-    <value>Rollover Keys</value>
+    <value>キーのロールオーバー</value>
     <comment>Button label.</comment>
   </data>
   <data name="RolloverKeysConfirmation" xml:space="preserve">
-    <value>yes, I want to rollover the keys.</value>
+    <value>はい。キーをロールオーバーします。</value>
     <comment>Confirmation message.</comment>
   </data>
   <data name="RolloverKeysFor" xml:space="preserve">
-    <value>Rollover keys for {0}</value>
+    <value>{0} のキーのロールオーバー</value>
   </data>
   <data name="RolloverKeysText" xml:space="preserve">
-    <value>Are you sure? This will rollover the keys.</value>
+    <value>キーをロールオーバーしてもよろしいですか?</value>
     <comment>Confirmation message.</comment>
   </data>
   <data name="ConfigurationHeader" xml:space="preserve">
-    <value>Configuration</value>
+    <value>構成</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SelectACommand" xml:space="preserve">
-    <value>Select A Command</value>
+    <value>コマンドの選択</value>
     <comment>Dropdown unselected option label.</comment>
   </data>
   <data name="SelectAnAction" xml:space="preserve">
-    <value>Select An Action</value>
+    <value>アクションの選択</value>
     <comment>(Unused)</comment>
   </data>
   <data name="CommandError" xml:space="preserve">
-    <value>An error occurred while retrieving the selected command</value>
+    <value>選択したコマンドの取得中にエラーが発生しました</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandSendError" xml:space="preserve">
-    <value>An error occurred while sending the command</value>
+    <value>コマンドの送信中にエラーが発生しました</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceKeys" xml:space="preserve">
-    <value>Device Keys</value>
+    <value>デバイス キー</value>
     <comment>(Unused)</comment>
   </data>
   <data name="EmptyKey" xml:space="preserve">
-    <value>(empty)</value>
+    <value>(空)</value>
     <comment>(Unused)</comment>
   </data>
   <data name="FalseEnabledDevice" xml:space="preserve">
-    <value>Enable Device</value>
+    <value>デバイスの有効化</value>
     <comment>(Unused)</comment>
   </data>
   <data name="TrueEnabledDevice" xml:space="preserve">
-    <value>Disable Device</value>
+    <value>デバイスの無効化</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ActionHeader" xml:space="preserve">
-    <value>Action</value>
+    <value>アクション</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ActionIDHeader" xml:space="preserve">
-    <value>Action ID</value>
+    <value>アクション ID</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ActionIDProperties" xml:space="preserve">
-    <value>Action ID Properties</value>
+    <value>アクション ID のプロパティ</value>
     <comment>Update action dialog heading.</comment>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value>Actions</value>
+    <value>アクション</value>
     <comment>Heading.</comment>
   </data>
   <data name="DeviceNotRegisteredInIoTHub" xml:space="preserve">
-    <value>Device Not Registered in IoT Hub</value>
+    <value>IoT Hub に登録されていないデバイス</value>
     <comment>Error message.</comment>
   </data>
   <data name="IoTHub" xml:space="preserve">
@@ -729,159 +729,159 @@
     <comment>(Unused)</comment>
   </data>
   <data name="DeviceProperties" xml:space="preserve">
-    <value>Device Properties</value>
+    <value>デバイスのプロパティ</value>
     <comment>Section heading.</comment>
   </data>
   <data name="AuthenticationKeyFor" xml:space="preserve">
-    <value>Authentication key for {0}</value>
+    <value>{0} の認証キー</value>
     <comment>(Unused)</comment>
   </data>
   <data name="KeyInUse" xml:space="preserve">
-    <value>This key is currently in use</value>
+    <value>このキーは現在使用されています</value>
     <comment>(Unused)</comment>
   </data>
   <data name="SendUpdateKeyToDevice" xml:space="preserve">
-    <value>Send Update Key To Device</value>
+    <value>デバイスに更新キーを送信</value>
     <comment>(Unused)</comment>
   </data>
   <data name="ThisIsTheCurrentDeviceKey" xml:space="preserve">
-    <value>This is the current device key</value>
+    <value>現在のデバイス キーです</value>
     <comment>(Unused)</comment>
   </data>
   <data name="AzureDevicesHostnameColon" xml:space="preserve">
-    <value>IoT Hub Hostname:</value>
+    <value>IoT Hub ホスト名:</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="DeviceKeyColon" xml:space="preserve">
-    <value>Device Key:</value>
+    <value>デバイス キー:</value>
     <comment>Table column header.</comment>
   </data>
   <data name="SaveChangesToDevice" xml:space="preserve">
-    <value>Save Changes to Device Registry</value>
+    <value>変更をデバイス レジストリに保存</value>
     <comment>Button label.</comment>
   </data>
   <data name="RuleOutputHeader" xml:space="preserve">
-    <value>Rule Output</value>
+    <value>ルールの出力</value>
     <comment>Table column header.</comment>
   </data>
   <data name="Running" xml:space="preserve">
-    <value>Running</value>
+    <value>実行中</value>
     <comment>Device state.</comment>
   </data>
   <data name="Enabled" xml:space="preserve">
-    <value>Enabled</value>
+    <value>有効</value>
     <comment>Device state.</comment>
   </data>
   <data name="Disabled" xml:space="preserve">
-    <value>Disabled</value>
+    <value>無効</value>
     <comment>Device state.</comment>
   </data>
   <data name="CommandValueCannotBeLongerThan1024" xml:space="preserve">
-    <value>A command value cannot be longer than 1024 characters</value>
+    <value>コマンドの値を 1024 文字より長くすることはできません</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceIdContainsLettersNumbersSpecialCharacters" xml:space="preserve">
-    <value>The Device ID can only contain letters, numbers and the following special characters: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
+    <value>デバイス ID には、英字、数字、および次の特殊文字のみ使用できます: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceIDMustBeBetween2And128Characters" xml:space="preserve">
-    <value>The Device ID must be between 2 and 128 characters long.</value>
+    <value>デバイス ID の長さは 2 から 128 文字にする必要があります。</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceCommandIsDisabled" xml:space="preserve">
-    <value>Cannot send commands to this device currently</value>
+    <value>このデバイスには現在、コマンドを送信できません</value>
     <comment>Error message.</comment>
   </data>
   <data name="FirmwareVersionMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Firmware Version must be less than 200 characters long.</value>
+    <value>ファームウェアのバージョンは 200 文字未満にする必要があります。</value>
     <comment>Error message.</comment>
   </data>
   <data name="InstalledRAMFieldMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Installed RAM field must be less than 200 characters long.</value>
+    <value>[インストールされている RAM] フィールドは 200 文字未満で入力する必要があります。</value>
     <comment>Error message.</comment>
   </data>
   <data name="ModelNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Model Number must be less than 200 characters long.</value>
+    <value>モデル番号は 200 文字未満にする必要があります。</value>
     <comment>Error message.</comment>
   </data>
   <data name="ObjectNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Object Name must be less than 200 characters long.</value>
+    <value>オブジェクト名は 200 文字未満にする必要があります。</value>
     <comment>Error message.</comment>
   </data>
   <data name="PlatformNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Platform Name must be less than 200 characters long.</value>
+    <value>プラットフォーム名は 200 文字未満にする必要があります。</value>
     <comment>Error message.</comment>
   </data>
   <data name="ProcessorNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Processor Name must be less than 200 characters long.</value>
+    <value>プロセッサ名は 200 文字未満にする必要があります。</value>
     <comment>Error message.</comment>
   </data>
   <data name="SerialNumberMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Serial Number must be less than 200 characters long.</value>
+    <value>シリアル番号は 200 文字未満にする必要があります。</value>
     <comment>Error message.</comment>
   </data>
   <data name="VersionMustBeLessThan200Characters" xml:space="preserve">
-    <value>The Version must be less than 200 characters long.</value>
+    <value>バージョンは 200 文字未満にする必要があります。</value>
     <comment>Error message.</comment>
   </data>
   <data name="ClickToDisplayError" xml:space="preserve">
-    <value>Click to View</value>
+    <value>クリックして表示</value>
     <comment>Button label.</comment>
   </data>
   <data name="Update" xml:space="preserve">
-    <value>Update</value>
+    <value>更新</value>
     <comment>Button label.</comment>
   </data>
   <data name="UpdateActionsIsDisabled" xml:space="preserve">
-    <value>Update Actions is disabled</value>
+    <value>更新アクションが無効になっています</value>
     <comment>(Unsued)</comment>
   </data>
   <data name="EditDevicePropertiesFor" xml:space="preserve">
-    <value>Edit Device Properties for {0}</value>
+    <value>{0} のデバイス プロパティを編集</value>
     <comment>Section heading.</comment>
   </data>
   <data name="NoscriptHeader" xml:space="preserve">
-    <value>JavaScript Required</value>
+    <value>JavaScript が必要です</value>
     <comment>Error message. {StrContains="JavaScript"}</comment>
   </data>
   <data name="NoscriptP1" xml:space="preserve">
-    <value>Your browser is currently set to block JavaScript. You need to allow JavaScript to use this service.</value>
+    <value>お使いのブラウザーは現在、JavaScript をブロックする設定になっています。このサービスを利用するには、JavaScript を許可する必要があります。</value>
     <comment>Error message. {StrContains="JavaScript"}</comment>
   </data>
   <data name="NoscriptP2" xml:space="preserve">
-    <value>To learn how to allow JavaScript or to find out whether your browser supports JavaScript, check the online help in your web browser.</value>
+    <value>JavaScript を許可する方法や、お使いのブラウザーが JavaScript をサポートしているかどうかを確認するには、Web ブラウザーのオンライン ヘルプをご覧ください。</value>
     <comment>Informational text block. {StrContains="JavaScript"}</comment>
   </data>
   <data name="DeviceIdColon" xml:space="preserve">
-    <value>Device ID:</value>
+    <value>デバイス ID:</value>
     <comment>Table column header.</comment>
   </data>
   <data name="DeviceAddError" xml:space="preserve">
-    <value>Unable to add device. An unexpected error occurred.</value>
+    <value>デバイスを追加できません。予期しないエラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceAddSelectTypeError" xml:space="preserve">
-    <value>Unable to create device. An unexpected error occurred.</value>
+    <value>デバイスを作成できません。予期しないエラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
   <data name="Sent" xml:space="preserve">
-    <value>Sent</value>
+    <value>送信済み</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DateTimeValidationMessage" xml:space="preserve">
-    <value>Invalid Date</value>
+    <value>日付が無効です</value>
     <comment>Error message.</comment>
   </data>
   <data name="StringValidationMessage" xml:space="preserve">
-    <value>Invalid string</value>
+    <value>文字列が無効です</value>
     <comment>Error message.</comment>
   </data>
   <data name="RequiredValue" xml:space="preserve">
-    <value>This field is required</value>
+    <value>このフィールドは必須項目です</value>
     <comment>Error message.</comment>
   </data>
   <data name="Local" xml:space="preserve">
-    <value>Local</value>
+    <value>ローカル</value>
     <comment>Time Zone dropdown option.</comment>
   </data>
   <data name="UTC" xml:space="preserve">
@@ -889,175 +889,175 @@
     <comment>Time Zone dropdown option. {Locked="UTC"}</comment>
   </data>
   <data name="binaryCommandErrorMessage" xml:space="preserve">
-    <value>Invalid base64 binary; expected a format like 'Zm9vYmFy' or 'Zm9vYg=='</value>
+    <value>base64 バイナリが無効です。'Zm9vYmFy' や 'Zm9vYg==' のような形式にする必要があります</value>
     <comment>Error message.</comment>
   </data>
   <data name="byteCommandErrorMessage" xml:space="preserve">
-    <value>Invalid byte; expected a format like '24' (between 0 and 255)</value>
+    <value>バイトが無効です。(0 から 255 までの数字で) '24' のような形式にする必要があります </value>
     <comment>Error message.</comment>
   </data>
   <data name="dateCommandErrorMessage" xml:space="preserve">
-    <value>Invalid date; expected a date 'YYYY-MM-DD' format</value>
+    <value>日付が無効です。'YYYY-MM-DD' の形式にする必要があります</value>
     <comment>Error message.</comment>
   </data>
   <data name="datetimeoffsetCommandErrorMessage" xml:space="preserve">
-    <value>Invalid datetime; expected a date 'YYYY-MM-DD HH:mm:ss' format</value>
+    <value>日時が無効です。'YYYY-MM-DD HH:mm:ss' の形式にする必要があります</value>
     <comment>Error message.</comment>
   </data>
   <data name="decimalCommandErrorMessage" xml:space="preserve">
-    <value>Invalid decimal; expected a format like '-12.3456' or '98765.43'</value>
+    <value>10 進数が無効です。'-12.3456' や '98765.43' のような形式にする必要があります</value>
     <comment>Error message.</comment>
   </data>
   <data name="DecimalCommandHint" xml:space="preserve">
-    <value>Data type: decimal (like '3.14')</value>
+    <value>データ型: 10 進数 ('3.14' など)</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="doubleCommandErrorMessage" xml:space="preserve">
-    <value>Invalid double; expected a format like '3.14' or '6.02e+23'</value>
+    <value>倍精度値が無効です。'3.14' や '6.02e+23' のような形式にする必要があります</value>
     <comment>Error message.</comment>
   </data>
   <data name="DoubleCommandHint" xml:space="preserve">
-    <value>Data type: double (like '3.14', '6.02e+23', etc)</value>
+    <value>データ型: 倍精度 ('3.14'、'6.02e+23' など)</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="guidCommandErrorMessage" xml:space="preserve">
-    <value>Invalid GUID; expected a format like '5d9ff9f7-ca82-4657-97f7-569dc8591af7'</value>
+    <value>GUID が無効です。'5d9ff9f7-ca82-4657-97f7-569dc8591af7' のような形式にする必要があります</value>
     <comment>Error message. {Locked="GUID"}</comment>
   </data>
   <data name="GuidCommandHint" xml:space="preserve">
-    <value>Data type: GUID (with format like 'd51ce656-b765-4dce-ba17-67961cbc111d')</value>
+    <value>データ型: GUID ('d51ce656-b765-4dce-ba17-67961cbc111d' のような形式)</value>
     <comment>Tooltip.  {Locked="GUID"}</comment>
   </data>
   <data name="int16CommandErrorMessage" xml:space="preserve">
-    <value>Invalid Int16; expected a format like '-2000' or '4500' (between -32768 and 32767)</value>
+    <value>Int16 の値が無効です。(-32768 から 32767 までの数字で) '-2000' や '4500' のような形式にする必要があります</value>
     <comment>Error message.</comment>
   </data>
   <data name="int32CommandErrorMessage" xml:space="preserve">
-    <value>Invalid Int32; expected a format like '-2000' or '4500' (between -2147483648 and 2147483647)</value>
+    <value>Int32 の値が無効です。(-2147483648 から 2147483647 までの数字で) '-2000' や '4500' のような形式にする必要があります </value>
     <comment>Error message.</comment>
   </data>
   <data name="int64CommandErrorMessage" xml:space="preserve">
-    <value>Invalid Int64; expected a format like '-2000' or '4500'</value>
+    <value>Int64 の値が無効です。'-2000' や '4500' のような形式にする必要があります</value>
     <comment>Error message.</comment>
   </data>
   <data name="NumberCommandHint" xml:space="preserve">
-    <value>Data type: {0} (an integer between {1} and {2})</value>
+    <value>データ型: {0} ({1} から {2} までの整数)</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="NumberOfDevicesHeader" xml:space="preserve">
-    <value>No. of Devices</value>
+    <value>デバイス数</value>
     <comment>Table column header.</comment>
   </data>
   <data name="sbyteCommandErrorMessage" xml:space="preserve">
-    <value>Invalid SByte; expected a format like '-43' or '12' (between -128 and 127)</value>
+    <value>SByte が無効です。(-128 から 127 までの数字で) '-43' や '12' のような形式にする必要があります</value>
     <comment>Error message.</comment>
   </data>
   <data name="singleCommandErrorMessage" xml:space="preserve">
-    <value>Invalid single; expected a format like '3.14' or '6.02e+23'</value>
+    <value>単精度値が無効です。'3.14' や '6.02e+23' のような形式にする必要があります</value>
     <comment>Error message.</comment>
   </data>
   <data name="SingleCommandHint" xml:space="preserve">
-    <value>Data type: single (like '3.14', '4.29e09', etc)</value>
+    <value>データ型: 単精度 ('3.14'、'4.29e09' など)</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="ErrorRemoveDevice" xml:space="preserve">
-    <value>Unable to remove device. An unexpected error occurred.</value>
+    <value>デバイスを削除できません。予期しないエラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
   <data name="ErrorSendingConfig" xml:space="preserve">
-    <value>Unable to send configuration. An unexpected error occurred.</value>
+    <value>構成を送信できません。予期しないエラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
   <data name="InvalidKeyType" xml:space="preserve">
-    <value>Invalid key</value>
+    <value>キーが無効です</value>
     <comment>Error message.</comment>
   </data>
   <data name="Resend" xml:space="preserve">
-    <value>Resend</value>
+    <value>再送信</value>
     <comment>Button label.</comment>
   </data>
   <data name="ResendCommandError" xml:space="preserve">
-    <value>An error occurred while resending the command</value>
+    <value>コマンドの再送信中にエラーが発生しました</value>
     <comment>Error message.</comment>
   </data>
   <data name="FailedToUpdateActionId" xml:space="preserve">
-    <value>Failed to Update ActionId</value>
+    <value>ActionId を更新できませんでした</value>
     <comment>Error message.</comment>
   </data>
   <data name="FailedToRetrieveActions" xml:space="preserve">
-    <value>An error occurred while retrieving the list of actions.</value>
+    <value>アクション一覧の取得中にエラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
   <data name="FailedToRetrieveDevices" xml:space="preserve">
-    <value>An error occurred while retrieving the list of devices.</value>
+    <value>デバイス一覧の取得中にエラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnknownCommandParameterType" xml:space="preserve">
-    <value>Unknown command parameter type: '{0}'</value>
+    <value>コマンドのパラメーターの型が不明です: '{0}' </value>
     <comment>Error message.</comment>
   </data>
   <data name="BinaryCommandHint" xml:space="preserve">
-    <value>Data type: base64 string (like 'Zm9vYmFy' or 'Zm9vYg==')</value>
+    <value>データ型: base64 文字列 ('Zm9vYmFy'、'Zm9vYg==' など)</value>
     <comment>Input field tooltip.</comment>
   </data>
   <data name="StringCommandHint" xml:space="preserve">
-    <value>Data type: string (like 'Welcome, user!')</value>
+    <value>データ型: 文字列 ('Welcome, user!' など)</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="FindDevices" xml:space="preserve">
-    <value>FIND DEVICES</value>
+    <value>デバイスの検索</value>
     <comment>Section heading.</comment>
   </data>
   <data name="FindLabel" xml:space="preserve">
-    <value>Find</value>
+    <value>検索</value>
     <comment>Button label.</comment>
   </data>
   <data name="ResetLabel" xml:space="preserve">
-    <value>Reset</value>
+    <value>リセット</value>
     <comment>Button label.</comment>
   </data>
   <data name="SearchDevices" xml:space="preserve">
-    <value>SEARCH DEVICES</value>
+    <value>デバイスの検索</value>
     <comment>Input label.</comment>
   </data>
   <data name="AddNewClause" xml:space="preserve">
-    <value>+ ADD NEW CLAUSE</value>
+    <value>+ 新しい区の追加</value>
     <comment>Button label.</comment>
   </data>
   <data name="FilterDevices" xml:space="preserve">
-    <value>FILTER DEVICES</value>
+    <value>デバイスにフィルターを適用</value>
     <comment>Section heading.</comment>
   </data>
   <data name="FilterFieldLabel" xml:space="preserve">
-    <value>FIELD</value>
+    <value>フィールド</value>
     <comment>Label.</comment>
   </data>
   <data name="FilterOperatorContainsInsensitive" xml:space="preserve">
-    <value>Contains (case insensitive)</value>
+    <value>次の文字を含む (大文字と小文字を区別しない)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorContainsSensitive" xml:space="preserve">
-    <value>Contains (case sensitive)</value>
+    <value>次の文字を含む (大文字と小文字を区別する)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorExactInsensitive" xml:space="preserve">
-    <value>Exact match (case insensitive)</value>
+    <value>完全一致 (大文字と小文字を区別しない)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorExactSensitive" xml:space="preserve">
-    <value>Exact match (case sensitive)</value>
+    <value>完全一致 (大文字と小文字を区別する)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorLabel" xml:space="preserve">
-    <value>OPERATOR</value>
+    <value>演算子</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="FilterOperatorStartsWithInsensitive" xml:space="preserve">
-    <value>Starts with (case insensitive)</value>
+    <value>次の文字で始まる (大文字と小文字を区別しない)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOperatorStartsWithSensitive" xml:space="preserve">
-    <value>Starts with (case sensitive)</value>
+    <value>次の文字で始まる (大文字と小文字を区別する)</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionDeviceId" xml:space="preserve">
@@ -1065,195 +1065,195 @@
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionFirmwareVersion" xml:space="preserve">
-    <value>Firmware Version</value>
+    <value>ファームウェアのバージョン</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionInstalledRam" xml:space="preserve">
-    <value>Installed RAM</value>
+    <value>インストールされている RAM</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionManufacturer" xml:space="preserve">
-    <value>Manufacturer</value>
+    <value>製造元</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionModelNumber" xml:space="preserve">
-    <value>Model Number</value>
+    <value>モデル番号</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionPlatform" xml:space="preserve">
-    <value>Platform</value>
+    <value>プラットフォーム</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionProcessor" xml:space="preserve">
-    <value>Processor</value>
+    <value>プロセッサ</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterOptionSerialNumber" xml:space="preserve">
-    <value>Serial Number</value>
+    <value>シリアル番号</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterValueLabel" xml:space="preserve">
-    <value>VALUE</value>
+    <value>値</value>
     <comment>Textbox label.</comment>
   </data>
   <data name="FilterOptionStatus" xml:space="preserve">
-    <value>Status</value>
+    <value>状態</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterStatusDisabled" xml:space="preserve">
-    <value>Disabled</value>
+    <value>無効</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterStatusLabel" xml:space="preserve">
-    <value>STATUS</value>
+    <value>状態</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="FilterStatusPending" xml:space="preserve">
-    <value>Pending</value>
+    <value>保留中</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="FilterStatusRunning" xml:space="preserve">
-    <value>Running</value>
+    <value>実行中</value>
     <comment>Dropdown option.</comment>
   </data>
   <data name="DeviceIdCaseSensitiveWarning" xml:space="preserve">
-    <value>(DeviceID is case-sensitive)</value>
+    <value>(DeviceID では、大文字と小文字を区別します)</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="FindDevicesLabelCollapsed" xml:space="preserve">
-    <value>FIND DEVICES</value>
+    <value>デバイスの検索</value>
     <comment>Section heading.</comment>
   </data>
   <data name="DeviceDetailsPaneLabel" xml:space="preserve">
-    <value>DEVICE DETAILS</value>
+    <value>デバイスの詳細</value>
     <comment>Section heading.</comment>
   </data>
   <data name="NoActionSelectedLabel" xml:space="preserve">
-    <value>No action selected</value>
+    <value>アクションが選択されていません</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="NoDeviceSelectedLabel" xml:space="preserve">
-    <value>No device selected</value>
+    <value>デバイスが選択されていません</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="DeviceRules" xml:space="preserve">
-    <value>Device Rules</value>
+    <value>デバイス ルール</value>
     <comment>Page title.</comment>
   </data>
   <data name="Rules" xml:space="preserve">
-    <value>Rules</value>
+    <value>ルール</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="RulesHeaderFormatted" xml:space="preserve">
-    <value>Rules({0})</value>
+    <value>ルール ({0})</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DataFieldHeader" xml:space="preserve">
-    <value>Data Field</value>
+    <value>データ フィールド</value>
     <comment>Table column header.</comment>
   </data>
   <data name="NoRuleSelected" xml:space="preserve">
-    <value>No Rule Selected</value>
+    <value>ルールが選択されていません</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="NoRuleSelectedLabel" xml:space="preserve">
-    <value>No Rule Selected</value>
+    <value>ルールが選択されていません</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="OperatorHeader" xml:space="preserve">
-    <value>Operator</value>
+    <value>演算子</value>
     <comment>Table column header.</comment>
   </data>
   <data name="RuleIdHeader" xml:space="preserve">
-    <value>Rule ID</value>
+    <value>ルール ID</value>
     <comment>Table column header.</comment>
   </data>
   <data name="RuleNameHeader" xml:space="preserve">
-    <value>Rule Name</value>
+    <value>ルール名</value>
     <comment>(Unused)</comment>
   </data>
   <data name="RulePropertiesPaneLabel" xml:space="preserve">
-    <value>Properties</value>
+    <value>プロパティ</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ThresholdHeader" xml:space="preserve">
-    <value>Threshold</value>
+    <value>しきい値</value>
     <comment>Table column header.</comment>
   </data>
   <data name="FailedToRetrieveRules" xml:space="preserve">
-    <value>An error occurred while retrieving the list of rules.</value>
+    <value>ルール一覧の取得中にエラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
   <data name="FilterStatusEnabled" xml:space="preserve">
-    <value>Enabled</value>
+    <value>有効</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>プロパティ</value>
     <comment>Section heading.</comment>
   </data>
   <data name="UnableToRetrieveRuleFromService" xml:space="preserve">
-    <value>Unable to retrieve rule from service</value>
+    <value>サービスからルールを取得できません</value>
     <comment>Error message.</comment>
   </data>
   <data name="Disable" xml:space="preserve">
-    <value>Disable</value>
+    <value>無効化</value>
     <comment>Button label.</comment>
   </data>
   <data name="Enable" xml:space="preserve">
-    <value>Enable</value>
+    <value>有効化</value>
     <comment>(Unused)</comment>
   </data>
   <data name="RuleProperties" xml:space="preserve">
-    <value>Rule Properties</value>
+    <value>ルールのプロパティ</value>
     <comment>Section heading.</comment>
   </data>
   <data name="RuleStatus" xml:space="preserve">
-    <value>Rule Status</value>
+    <value>ルールの状態</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ValueHeader" xml:space="preserve">
-    <value>Value</value>
+    <value>値</value>
     <comment>(Unused)</comment>
   </data>
   <data name="AddRule" xml:space="preserve">
-    <value>Add Rule...</value>
+    <value>ルールの追加...</value>
     <comment>Button label.</comment>
   </data>
   <data name="RuleUpdateError" xml:space="preserve">
-    <value>There was an error updating the rule.</value>
+    <value>ルールの更新中にエラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceRulesFullError" xml:space="preserve">
-    <value>All available data fields have rules defined for this device. Please modify an existing rule instead.</value>
+    <value>このデバイスでは、利用可能なデータ フィールドすべてにルールが定義されています。既存のルールを変更してください。</value>
     <comment>Error message.</comment>
   </data>
   <data name="DisableRule" xml:space="preserve">
-    <value>Disable Rule</value>
+    <value>ルールの無効化</value>
     <comment>Button label.</comment>
   </data>
   <data name="EnableRule" xml:space="preserve">
-    <value>Enable Rule</value>
+    <value>ルールの有効化</value>
     <comment>Button label.</comment>
   </data>
   <data name="AllDevices" xml:space="preserve">
-    <value>All Devices</value>
+    <value>すべてのデバイス</value>
     <comment>(Unused)</comment>
   </data>
   <data name="AverageOfDeviceHumidity" xml:space="preserve">
-    <value>Average of device humidity</value>
+    <value>デバイスの湿度の平均</value>
     <comment>Tile heading.</comment>
   </data>
   <data name="Humidity" xml:space="preserve">
-    <value>Humidity</value>
+    <value>湿度</value>
     <comment>Label.</comment>
   </data>
   <data name="MaxOfDevicesHumidity" xml:space="preserve">
-    <value>Max of device humidity</value>
+    <value>デバイスの湿度の最大値</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="MinOfDevicesHumidity" xml:space="preserve">
-    <value>Min of device humidity</value>
+    <value>デバイスの湿度の最小値</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="TelemetryGaugeNumericFormat" xml:space="preserve">
@@ -1261,94 +1261,94 @@
     <comment>Guge format string.</comment>
   </data>
   <data name="TelemetryHistory" xml:space="preserve">
-    <value>Telemetry History</value>
+    <value>テレメトリ履歴</value>
     <comment>Chart heading.</comment>
   </data>
   <data name="Temperature" xml:space="preserve">
-    <value>Temperature</value>
+    <value>温度</value>
     <comment>Label.</comment>
   </data>
   <data name="Active" xml:space="preserve">
-    <value>Active</value>
+    <value>アクティブ</value>
     <comment>Device state.</comment>
   </data>
   <data name="Alarm" xml:space="preserve">
-    <value>Alarm</value>
+    <value>アラーム</value>
     <comment>Label.</comment>
   </data>
   <data name="AlarmHistory" xml:space="preserve">
-    <value>Alarm History</value>
+    <value>アラーム履歴</value>
     <comment>Table heading.</comment>
   </data>
   <data name="Closed" xml:space="preserve">
-    <value>Closed</value>
+    <value>終了</value>
     <comment>Label.</comment>
   </data>
   <data name="Information" xml:space="preserve">
-    <value>Information</value>
+    <value>情報</value>
   </data>
   <data name="IssueNumberHeader" xml:space="preserve">
-    <value>Issue No.</value>
+    <value>問題番号</value>
     <comment>(Unused)</comment>
   </data>
   <data name="IssueTypeHeader" xml:space="preserve">
-    <value>Issue Type</value>
+    <value>問題の種類</value>
     <comment>(Unused)</comment>
   </data>
   <data name="DefaultSolutionName" xml:space="preserve">
-    <value>Remote Monitoring Solution</value>
+    <value>リモート監視ソリューション</value>
     <comment>Section heading.</comment>
   </data>
   <data name="EditDeviceRuleFormatted" xml:space="preserve">
-    <value>{0} Rule for Device {1}</value>
+    <value>デバイス {1} の {0} ルール</value>
     <comment>Section heading.</comment>
   </data>
   <data name="SaveAndViewRules" xml:space="preserve">
-    <value>Save and View Rules</value>
+    <value>ルールを保存して表示</value>
     <comment>Button label.</comment>
   </data>
   <data name="ViewRules" xml:space="preserve">
-    <value>View Rules</value>
+    <value>ルールの表示</value>
     <comment>Button label.</comment>
   </data>
   <data name="RuleOutput" xml:space="preserve">
-    <value>Rule Output</value>
+    <value>ルールの出力</value>
     <comment>Table column header.</comment>
   </data>
   <data name="Value" xml:space="preserve">
-    <value>Value</value>
+    <value>値</value>
     <comment>Table column header.</comment>
   </data>
   <data name="ThresholdFormatError" xml:space="preserve">
-    <value>The Threshold must be a valid double.</value>
+    <value>しきい値は有効な倍精度値にする必要があります。</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnableToRetrieveAlertsHistoryFromService" xml:space="preserve">
-    <value>Unable to retrieve alerts history from service</value>
+    <value>サービスからアラート履歴を取得できません</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnableToRetrieveDeviceTelemetryFromService" xml:space="preserve">
-    <value>Unable to retrieve device telemetry from service</value>
+    <value>サービスからデバイスのテレメトリを取得できません</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandDeliveryCountExceeded" xml:space="preserve">
-    <value>Delivery Count Exceeded</value>
+    <value>配信数を超過しました</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandExpired" xml:space="preserve">
-    <value>Expired</value>
+    <value>期限切れ</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandRejected" xml:space="preserve">
-    <value>Rejected</value>
+    <value>拒否されました</value>
     <comment>Error message.</comment>
   </data>
   <data name="CommandSuccess" xml:space="preserve">
-    <value>Success</value>
+    <value>成功</value>
     <comment>Success message.</comment>
   </data>
   <data name="Time" xml:space="preserve">
-    <value>Time</value>
+    <value>時刻</value>
     <comment>(Unused)</comment>
   </data>
   <data name="InfoIconLink" xml:space="preserve">
@@ -1356,71 +1356,71 @@
     <comment>Link to a documentation.</comment>
   </data>
   <data name="RuleAlreadyAddedError" xml:space="preserve">
-    <value>A rule for this data field already exists for this device. Only one rule can be defined on a field for a given device. Either try to create a rule for a different data field, or edit the existing rule.</value>
+    <value>このデバイスには、このデータ フィールドに関するルールが既に存在します。デバイスで 1 つのフィールドに定義できるルールは 1 つまでです。別のデータ フィールドに関するルールを作成するか、既存のルールを編集してください。</value>
     <comment>Error message.</comment>
   </data>
   <data name="TableDataSaveConflictErrorMessage" xml:space="preserve">
-    <value>There was a conflict while saving the data. Please verify the data and try again.</value>
+    <value>データの保存中に競合が発生しました。データを確認して、もう一度お試しください。</value>
     <comment>Error message.</comment>
   </data>
   <data name="SimulatorCredentialHeader" xml:space="preserve">
-    <value>Your simulated device has been created with these settings</value>
+    <value>シミュレートされたデバイスをこの設定で作成しました。</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ErrorRemoveRule" xml:space="preserve">
-    <value>Unable to remove rule. An unexpected error occurred.</value>
+    <value>ルールを削除できません。予期しないエラーが発生しました。</value>
     <comment>Error message.</comment>
   </data>
   <data name="RemoveRule" xml:space="preserve">
-    <value>Remove Rule</value>
+    <value>ルールの削除</value>
     <comment>Button label.</comment>
   </data>
   <data name="RemoveRuleConfirmationPart1" xml:space="preserve">
-    <value>Are you sure? This will remove this rule from your IoT solution.</value>
+    <value>IoT ソリューションからこのルールを削除してもよろしいですか?</value>
     <comment>Part of confirmation message.</comment>
   </data>
   <data name="RemoveRuleConfirmationPart2" xml:space="preserve">
-    <value>This action is permanent.</value>
+    <value>この操作は、元に戻すことができません。</value>
     <comment>Part of confirmation message.</comment>
   </data>
   <data name="RemoveRuleFormatted" xml:space="preserve">
-    <value>Remove Rule for {0} on Device {1}</value>
+    <value>デバイス {1} の {0} に関するルールの削除</value>
     <comment>Section heading.</comment>
   </data>
   <data name="YesRemoveRuleFormatted" xml:space="preserve">
-    <value>Yes, remove the rule for {0} on device {1}</value>
+    <value>はい。デバイス {1} の {0} に関するルールを削除します</value>
     <comment>Checkbox label.</comment>
   </data>
   <data name="RemoveDeviceConfirmation" xml:space="preserve">
-    <value>Remove Device</value>
+    <value>デバイスの削除</value>
     <comment>Button label.</comment>
   </data>
   <data name="CellularConnectivityManagement" xml:space="preserve">
-    <value>Cellular Connectivity Management</value>
+    <value>携帯ネットワーク接続管理</value>
     <comment>Panel heading.</comment>
   </data>
   <data name="SimInformation" xml:space="preserve">
-    <value>SIM Information...</value>
+    <value>SIM 情報...</value>
     <comment>Hyperlink label. {Locked="SIM"}</comment>
   </data>
   <data name="ConnectionStatus" xml:space="preserve">
-    <value>Connection Status: </value>
+    <value>接続の状態: </value>
     <comment>(Unused)</comment>
   </data>
   <data name="LastSessionStart" xml:space="preserve">
-    <value>Last Session Start: </value>
+    <value>最後のセッションの開始: </value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="SimStatus" xml:space="preserve">
-    <value>SIM Status: </value>
+    <value>SIM の状態: </value>
     <comment>Read-only field label. {Locked="SIM"}</comment>
   </data>
   <data name="CurrentRatePlan" xml:space="preserve">
-    <value>Current Rate Plan: </value>
+    <value>現在の料金プラン: </value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="AggregatedUsage" xml:space="preserve">
-    <value>Aggregated Usage: </value>
+    <value>利用状況の集計データ: </value>
     <comment>Label on cellular information details panel.</comment>
   </data>
   <data name="IMEI" xml:space="preserve">
@@ -1432,7 +1432,7 @@
     <comment>Read-only field label.</comment>
   </data>
   <data name="CurrentLimitReached" xml:space="preserve">
-    <value>Current Limit Reached: </value>
+    <value>現在の上限に達しました: </value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="ICCID" xml:space="preserve">
@@ -1440,59 +1440,59 @@
     <comment>Read-only field label.</comment>
   </data>
   <data name="AccountId" xml:space="preserve">
-    <value>Account ID: </value>
+    <value>アカウント ID: </value>
     <comment>Label on cellular information details panel.</comment>
   </data>
   <data name="SimInformationBackText" xml:space="preserve">
-    <value>SIM Information</value>
+    <value>SIM 情報</value>
     <comment>Hyperlink label. {Locked="SIM"}</comment>
   </data>
   <data name="NavigationMenuItemAdvanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>詳細設定</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="ApiRegistration" xml:space="preserve">
-    <value>Jasper API Registration</value>
+    <value>Jasper API の登録</value>
     <comment>Tile heading.</comment>
   </data>
   <data name="CheckIccid" xml:space="preserve">
-    <value>Check ICCID</value>
+    <value>ICCID の確認</value>
     <comment>(Unsused)</comment>
   </data>
   <data name="EnterIccid" xml:space="preserve">
-    <value>Enter a Iccid from Cellular Provider</value>
+    <value>携帯電話会社から支給された ICCID を入力</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Associate" xml:space="preserve">
-    <value>Associate</value>
+    <value>関連付け</value>
     <comment>Button label.</comment>
   </data>
   <data name="SimAssociation" xml:space="preserve">
-    <value>SIM Association</value>
+    <value>SIM の関連付け</value>
     <comment>(Unused)</comment>
   </data>
   <data name="OptionalBrackets" xml:space="preserve">
-    <value>(Optional)</value>
+    <value>(オプション)</value>
     <comment>(Unused)</comment>
   </data>
   <data name="BaseUrlToolTip" xml:space="preserve">
-    <value>You'll find this just below the API key on the API page in Control Center.</value>
+    <value>この情報は、Control Center の API ページの API キーのすぐ下にあります。</value>
     <comment>Input field tooltip.</comment>
   </data>
   <data name="LicenseKeyToolTip" xml:space="preserve">
-    <value>You'll find this at the top left of the API page in Control Center.</value>
+    <value>この情報は、Control Center の API ページの左上にあります。</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="PasswordToolTip" xml:space="preserve">
-    <value>This is the password you use to log into Control Center.</value>
+    <value>Control Center へのログインに使用するパスワードです。</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="UsernameToolTip" xml:space="preserve">
-    <value>This is the username you use to log into Control Center.</value>
+    <value>Control Center へのログインに使用するユーザー名です。</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="AttachIccidToDevice" xml:space="preserve">
-    <value>Attach a SIM ICCID to the device</value>
+    <value>デバイスに SIM ICCID を割り当てる</value>
     <comment>Checkbox label. {Locked="SIM ICCID"}</comment>
   </data>
   <data name="SimIccid" xml:space="preserve">
@@ -1500,15 +1500,15 @@
     <comment>(Unused)</comment>
   </data>
   <data name="NavigationMenuItemsAdvanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>詳細設定</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="CellularConn" xml:space="preserve">
-    <value>Cellular Conn</value>
+    <value>携帯ネットワーク接続</value>
     <comment>(Unused)</comment>
   </data>
   <data name="HealthBeat" xml:space="preserve">
-    <value>Health Beat</value>
+    <value>ヘルス ビート</value>
     <comment>(Unused)</comment>
   </data>
   <data name="LogicApps" xml:space="preserve">
@@ -1516,27 +1516,27 @@
     <comment>(Unused)</comment>
   </data>
   <data name="ApiRegistrationDescription" xml:space="preserve">
-    <value>Register this solution with your Jasper Control Center platform credentials to authenticate Jasper API use.</value>
+    <value>Jasper API を使用するには、Jasper Control Center プラットフォームの資格情報を使ってこのソリューションを登録する必要があります。</value>
     <comment>Tile subheading.</comment>
   </data>
   <data name="ApiRegistrationTitle" xml:space="preserve">
-    <value>Jasper API Registration</value>
+    <value>Jasper API の登録</value>
     <comment>Panel heading. {Locked="Jasper API"}</comment>
   </data>
   <data name="CellularConnViewTitle" xml:space="preserve">
-    <value>Cellular Conn</value>
+    <value>携帯ネットワーク接続</value>
     <comment>Panel heading.</comment>
   </data>
   <data name="DeviceAssociationDescription" xml:space="preserve">
-    <value>Associate your Azure IoT devices deployed on &lt;a href="http://www.jasper.com/iot-service-platform/control-center"&gt;Control Center&lt;/a&gt; to this solution.</value>
+    <value>&lt;a href="http://www.jasper.com/iot-service-platform/control-center"&gt;Control Center&lt;/a&gt; にデプロイした Azure IoT デバイスをこのソリューションに関連付けます。</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="DeviceAssociationTitle" xml:space="preserve">
-    <value>Device Association</value>
+    <value>デバイスの関連付け</value>
     <comment>Section heading.</comment>
   </data>
   <data name="HealthBeatViewTitle" xml:space="preserve">
-    <value>Health Beat</value>
+    <value>ヘルス ビート</value>
     <comment>Section heading.</comment>
   </data>
   <data name="LogicAppsViewTitle" xml:space="preserve">
@@ -1544,15 +1544,15 @@
     <comment>Section heading.</comment>
   </data>
   <data name="ApiRegistrationFailed" xml:space="preserve">
-    <value>Registration failed:  Please check credentials</value>
+    <value>登録に失敗しました: 資格情報を確認してください</value>
     <comment>Error message.</comment>
   </data>
   <data name="ApiRegistrationSuccessful" xml:space="preserve">
-    <value>Registration successful</value>
+    <value>登録成功</value>
     <comment>Success message.</comment>
   </data>
   <data name="ApiRegistrationNotAvailable" xml:space="preserve">
-    <value>No API currently registered for this account</value>
+    <value>このアカウントには現在、登録されている API がありません</value>
     <comment>Error message.</comment>
   </data>
   <data name="JasperHelpLink" xml:space="preserve">
@@ -1564,43 +1564,43 @@
     <comment>Error message.</comment>
   </data>
   <data name="DeviceList" xml:space="preserve">
-    <value>Device List</value>
+    <value>デバイス一覧</value>
     <comment>Label.</comment>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>前へ</value>
     <comment>Button label.</comment>
   </data>
   <data name="FilterInfo" xml:space="preserve">
-    <value>(filtered from _MAX_ total records)</value>
+    <value>(合計 _MAX_ 件のレコードにフィルター適用済み)</value>
     <comment>Do not translate the substring "_MAX_"--it is programmatically replaced with the total number of records.</comment>
   </data>
   <data name="RemoveRuleButtonLabel" xml:space="preserve">
-    <value>Remove Rule...</value>
+    <value>ルールの削除...</value>
     <comment>Button label.</comment>
   </data>
   <data name="AdministratorRole" xml:space="preserve">
-    <value>Administrator</value>
+    <value>管理者</value>
     <comment>User role name.</comment>
   </data>
   <data name="ImplicitReadOnlyRole" xml:space="preserve">
-    <value>Implicit Read-Only</value>
+    <value>読み取り専用 (暗黙)</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ReadOnlyRole" xml:space="preserve">
-    <value>Read-Only</value>
+    <value>読み取り専用</value>
     <comment>User role name.</comment>
   </data>
   <data name="DeviceToView" xml:space="preserve">
-    <value>Device to View:</value>
+    <value>表示するデバイス:</value>
     <comment>Dropdown label.</comment>
   </data>
   <data name="SignOut" xml:space="preserve">
-    <value>Sign Out</value>
+    <value>サインアウト</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="CommandCToCopy" xml:space="preserve">
-    <value>Command+C to copy</value>
+    <value>command + C でコピー</value>
     <comment>Button label.</comment>
   </data>
   <data name="DeviceProperty_CreatedTime" xml:space="preserve">
@@ -1612,31 +1612,31 @@
     <comment>{Locked="UTC"}</comment>
   </data>
   <data name="DevicePropertiesFormattedAsStored" xml:space="preserve">
-    <value>Device Properties are displayed as stored.</value>
+    <value>保存されているデバイス プロパティが表示されます。</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="LocalTime" xml:space="preserve">
-    <value>Local Time</value>
+    <value>ローカル時刻</value>
     <comment>Table column header.</comment>
   </data>
   <data name="RemoteNameNotResolved" xml:space="preserve">
-    <value>The remote name could not be resolved</value>
+    <value>リモート名を解決できませんでした</value>
     <comment>Error message.</comment>
   </data>
   <data name="RemoveSimAssociation" xml:space="preserve">
-    <value>Remove SIM Association</value>
+    <value>SIM の関連付けの削除</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="SimAssociationSucceeded" xml:space="preserve">
-    <value>The association succeeded for device {0} with ICCID {1}.</value>
+    <value>デバイス {0} と ICCID {1} の関連付けに成功しました。</value>
     <comment>Success message.</comment>
   </data>
   <data name="ApiRegistrationInfoText" xml:space="preserve">
-    <value>To activate the Jasper integration to view and control your Control Center devices through IoT Suite please enter the following credentials:</value>
+    <value>Jasper の統合をアクティブにして IoT Suite で Control Center デバイスを表示およびコントロールするには、次の資格情報を入力してください:</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="BaseUrlLabel" xml:space="preserve">
-    <value>Base URL</value>
+    <value>ベース URL</value>
     <comment>Input field label.</comment>
   </data>
   <data name="IccidLabel" xml:space="preserve">
@@ -1644,30 +1644,19 @@
     <comment>Section heading.</comment>
   </data>
   <data name="LicenseKeyLabel" xml:space="preserve">
-    <value>License Key</value>
+    <value>ライセンス キー</value>
     <comment>Section heading.</comment>
   </data>
   <data name="PasswordLabel" xml:space="preserve">
-    <value>Password</value>
+    <value>パスワード</value>
     <comment>Section heading.</comment>
   </data>
   <data name="SimInformationInfoText" xml:space="preserve">
-    <value>Delivered through the Jasper Control Center platform</value>
+    <value>Jasper Control Center プラットフォームから配信済み</value>
     <comment>{Locked="Jasper"}</comment>
   </data>
   <data name="UsernameLabel" xml:space="preserve">
-    <value>Username</value>
+    <value>ユーザー名</value>
     <comment>Input label.</comment>
-  </data>
-  <data name="LinkLabelHelpAndSupport" xml:space="preserve">
-    <value>Help &amp; Support</value>
-    <comment>Hyperlink label.</comment>
-  </data>
-  <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
-    <value>Give feedback</value>
-    <comment>Hyperlink label.</comment>
-  </data>
-  <data name="InvalidDeviceTelemetryFormat" xml:space="preserve">
-    <value>Device {0} has an invalid Telemetry specification on its DeviceInfo</value>
   </data>
 </root>

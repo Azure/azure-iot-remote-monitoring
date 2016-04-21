@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CustomDeviceDescription" xml:space="preserve">
-    <value>A physical hardware device.</value>
+    <value>실제 하드웨어 장치입니다.</value>
     <comment>Description of a device.</comment>
   </data>
   <data name="CustomDeviceInstructionsUrl" xml:space="preserve">
@@ -126,51 +126,51 @@
     <comment>URL pointing to a documentaiton article describing how to connect devices to IOT Suite.</comment>
   </data>
   <data name="CustomDeviceName" xml:space="preserve">
-    <value>Custom Device</value>
+    <value>사용자 지정 장치</value>
     <comment>Name of a device.</comment>
   </data>
   <data name="DeviceAlreadyRegisteredExceptionMessage" xml:space="preserve">
-    <value>Device {0} is already registered.</value>
+    <value>{0} 장치가 이미 등록되었습니다.</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceNotRegisteredExceptionMessage" xml:space="preserve">
-    <value>Device {0} is not registered.</value>
+    <value>{0} 장치가 등록되지 않았습니다.</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceRegistrationExceptionMessage" xml:space="preserve">
-    <value>There was an error while registering device {0}.</value>
+    <value>{0} 장치를 등록하는 동안 오류가 발생했습니다.</value>
     <comment>Error message.</comment>
   </data>
   <data name="EnabledStateNotSetError" xml:space="preserve">
-    <value>The Enabled State must be set. Please select Enabled or Disabled.</value>
+    <value>사용 상태를 설정해야 합니다. [사용] 또는 [사용 안 함]을 선택하세요.</value>
     <comment>Error message.</comment>
   </data>
   <data name="SimulatedDeviceDescription" xml:space="preserve">
-    <value>Software to simulate a device. Easily extensible for arbitrary events and commands; can run in a Windows Azure worker role. To create a simulated device, please follow the cooler sample instructions.</value>
+    <value>장치를 시뮬레이션하는 소프트웨어입니다. 임의의 이벤트 및 명령에 대해 쉽게 확장 가능하며 Microsoft Azure 작업자 역할에서 실행할 수 있습니다. 시뮬레이션된 장치를 만들려면 냉각기 샘플 지침을 따르세요.</value>
     <comment>Description of a device.</comment>
   </data>
   <data name="SimulatedDeviceName" xml:space="preserve">
-    <value>Simulated Device</value>
+    <value>시뮬레이션된 장치</value>
     <comment>Name of a device.</comment>
   </data>
   <data name="UnexpectedErrorOccurred" xml:space="preserve">
-    <value>An unexpected error occurred.</value>
+    <value>예기치 않은 오류가 발생했습니다.</value>
     <comment>Error message.</comment>
   </data>
   <data name="UnsupportedCommandExceptionMessage" xml:space="preserve">
-    <value>Device {0} does not support the command {1}.</value>
+    <value>{0} 장치에서 {1} 명령을 지원하지 않습니다.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ValidationDeviceExists" xml:space="preserve">
-    <value>Device already exists in the device registry</value>
+    <value>장치가 장치 레지스트리에 이미 있습니다.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ValidationDeviceIdMissing" xml:space="preserve">
-    <value>DeviceID cannot be empty or null</value>
+    <value>DeviceID는 비어 있거나 null일 수 없습니다.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ValidationExceptionMessage" xml:space="preserve">
-    <value>One or more validation errors occured for device {0}.</value>
+    <value>{0} 장치에 대해 하나 이상의 유효성 검사 오류가 발생했습니다.</value>
     <comment>Error message.</comment>
   </data>
 </root>
