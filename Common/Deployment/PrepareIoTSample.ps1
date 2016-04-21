@@ -25,7 +25,7 @@ switch($azureEnvironmentName)
         $global:docdbSuffix = "documents.azure.com"
         $global:servicebusSuffix = "servicebus.windows.net"
         $global:websiteSuffix = "azurewebsites.net"
-        $global:locations = @("East US", "North Europe", "East Asia", "West US", "West Europe", "Southeast Asia")
+        $global:locations = @("East US", "North Europe", "East Asia", "West US", "West Europe", "Southeast Asia", "Japan East", "Japan West", "Australia East", "Australia Southeast")
     }
     "AzureGermanyCloud" {
         if ((Get-AzureEnvironment AzureGermanyCloud) -eq $null)
@@ -42,7 +42,7 @@ switch($azureEnvironmentName)
         $global:docdbSuffix = "documents.microsoftazure.de"
         $global:servicebusSuffix = "servicebus.cloudapi.de​"
         $global:websiteSuffix = "azurewebsites.de"
-        $global:locations = @("Germany Central")
+        $global:locations = @("Germany Central", "Germany Northeast")
     }
     default {throw ("'{0}' is not a supported Azure Cloud environment" -f $azureEnvironmentName)}
 }
