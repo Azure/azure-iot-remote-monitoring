@@ -141,7 +141,8 @@ if ($cloudDeploy)
         packageUri=$webPackage; `
         webJobPackageUri=$webJobPackage; `
         aadTenant=$($global:AADTenant); `
-	    aadClientId=$($global:AADClientId)}
+        aadInstance=$($global:azureEnvironment.ActiveDirectoryAuthority + "{0}"); `
+        aadClientId=$($global:AADClientId)}
 
     # Respect existing Sku values for cloud resources
     if ($suiteExists)
