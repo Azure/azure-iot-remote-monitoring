@@ -23,7 +23,6 @@
         },
         "storageEndpointSuffix": {
             "type": "string",
-            "defaultValue": "core.windows.net",
             "metadata": {
                 "description": "Suffix added to Azure Storage hostname (examples: core.windows.net, core.cloudapi.de)"
             }
@@ -895,7 +894,7 @@
         },
         "storageConnectionString": {
             "type": "string",
-            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
+            "value": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
         },
         "ehOutName": {
             "type": "string",
