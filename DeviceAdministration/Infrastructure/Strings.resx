@@ -119,44 +119,58 @@
   </resheader>
   <data name="CustomDeviceDescription" xml:space="preserve">
     <value>A physical hardware device.</value>
+    <comment>Description of a device.</comment>
   </data>
   <data name="CustomDeviceInstructionsUrl" xml:space="preserve">
     <value>https://azure.microsoft.com/documentation/articles/iot-suite-connecting-devices/</value>
+    <comment>URL pointing to a documentaiton article describing how to connect devices to IOT Suite.</comment>
   </data>
   <data name="CustomDeviceName" xml:space="preserve">
     <value>Custom Device</value>
+    <comment>Name of a device.</comment>
   </data>
   <data name="DeviceAlreadyRegisteredExceptionMessage" xml:space="preserve">
     <value>Device {0} is already registered.</value>
+    <comment>Error message.</comment>
   </data>
   <data name="DeviceNotRegisteredExceptionMessage" xml:space="preserve">
     <value>Device {0} is not registered.</value>
+    <comment>Error message.</comment>
   </data>
   <data name="DeviceRegistrationExceptionMessage" xml:space="preserve">
     <value>There was an error while registering device {0}.</value>
+    <comment>Error message.</comment>
   </data>
   <data name="EnabledStateNotSetError" xml:space="preserve">
     <value>The Enabled State must be set. Please select Enabled or Disabled.</value>
+    <comment>Error message.</comment>
   </data>
   <data name="SimulatedDeviceDescription" xml:space="preserve">
     <value>Software to simulate a device. Easily extensible for arbitrary events and commands; can run in a Windows Azure worker role. To create a simulated device, please follow the cooler sample instructions.</value>
+    <comment>Description of a device.</comment>
   </data>
   <data name="SimulatedDeviceName" xml:space="preserve">
     <value>Simulated Device</value>
+    <comment>Name of a device.</comment>
   </data>
   <data name="UnexpectedErrorOccurred" xml:space="preserve">
     <value>An unexpected error occurred.</value>
+    <comment>Error message.</comment>
   </data>
   <data name="UnsupportedCommandExceptionMessage" xml:space="preserve">
     <value>Device {0} does not support the command {1}.</value>
+    <comment>Error message.</comment>
   </data>
   <data name="ValidationDeviceExists" xml:space="preserve">
     <value>Device already exists in the device registry</value>
+    <comment>Error message.</comment>
   </data>
   <data name="ValidationDeviceIdMissing" xml:space="preserve">
     <value>DeviceID cannot be empty or null</value>
+    <comment>Error message.</comment>
   </data>
   <data name="ValidationExceptionMessage" xml:space="preserve">
     <value>One or more validation errors occured for device {0}.</value>
+    <comment>Error message.</comment>
   </data>
 </root>

@@ -13,9 +13,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
     {
         public void ConfigureAuth(IAppBuilder app, IConfigurationProvider configProvider)
         {
-            string aadClientId = ConfigurationManager.AppSettings["ida.AADClientId"];
-            string aadInstance = ConfigurationManager.AppSettings["ida.AADInstance"];
-            string aadTenant = ConfigurationManager.AppSettings["ida.AADTenant"];
+            string aadClientId = configProvider.GetConfigurationSettingValue("ida.AADClientId");
+            string aadInstance = configProvider.GetConfigurationSettingValue("ida.AADInstance");
+            string aadTenant = configProvider.GetConfigurationSettingValue("ida.AADTenant");
             string authority = string.Format(CultureInfo.InvariantCulture, aadInstance, aadTenant);
 
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);

@@ -737,7 +737,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Control+C to Copy.
+        ///   Looks up a localized string similar to Ctrl+C to Copy.
         /// </summary>
         public static string ControlCToCopy {
             get {
@@ -2065,6 +2065,24 @@ namespace GlobalResources {
         public static string LicenseKeyToolTip {
             get {
                 return ResourceManager.GetString("LicenseKeyToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help &amp; Support.
+        /// </summary>
+        public static string LinkLabelHelpAndSupport {
+            get {
+                return ResourceManager.GetString("LinkLabelHelpAndSupport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Give feedback.
+        /// </summary>
+        public static string LinkLabelHelpGiveFeedback {
+            get {
+                return ResourceManager.GetString("LinkLabelHelpGiveFeedback", resourceCulture);
             }
         }
         

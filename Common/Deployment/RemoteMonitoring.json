@@ -21,16 +21,8 @@
                 "description": "AAD application identifier (GUID)"
             }
         },
-        "websiteSuffix": {
-            "type": "string",
-            "defaultValue": "azurewebsites.net",
-            "metadata": {
-                "description": "Suffix added to Azure Websites hostname (examples: azurewebsites.net, azurewebsites.de)"
-            }
-        },
         "storageEndpointSuffix": {
             "type": "string",
-            "defaultValue": "core.windows.net",
             "metadata": {
                 "description": "Suffix added to Azure Storage hostname (examples: core.windows.net, core.cloudapi.de)"
             }
@@ -182,9 +174,6 @@
         "webJobSiteName": "[concat(parameters('suiteName'), '-jobhost')]",
         "webPlanName": "[concat(parameters('suiteName'), '-plan')]",
         "webSiteName": "[parameters('suiteName')]",
-        "aadInstance": "[parameters('aadInstance')]",
-        "aadClientId": "[parameters('aadClientId')]",
-        "websiteSuffix": "[parameters('websiteSuffix')]",
         "storageEndpointSuffix": "[parameters('storageEndpointSuffix')]",
         "docDBVersion": "2015-04-08",
         "docDBResourceId": "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
@@ -431,7 +420,7 @@
             "name": "[concat(parameters('suiteName'), '-DeviceInfo')]",
             "location": "[variables('location')]",
             "dependsOn": [
-                "[concat('Microsoft.Servicebus/namespaces/', parameters('sbName'))]",
+                "[concat('Microsoft.Servicebus/namespaces/', parameters('sbName'), 'eventHubs', variables('ehOutName'))]",
                 "[concat('Microsoft.Devices/Iothubs/', parameters('iotHubName'))]"
             ],
             "tags": {
@@ -507,7 +496,7 @@
             "location": "[variables('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Storage/storageAccounts/', parameters('storageName'))]",
-                "[concat('Microsoft.Servicebus/namespaces/', parameters('sbName'))]",
+                "[concat('Microsoft.Servicebus/namespaces/', parameters('sbName'), 'eventHubs', variables('ehRuleOutName'))]",
                 "[concat('Microsoft.Devices/Iothubs/', parameters('iotHubName'))]"
             ],
             "tags": {
@@ -905,7 +894,7 @@
         },
         "storageConnectionString": {
             "type": "string",
-            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
+            "value": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
         },
         "ehOutName": {
             "type": "string",
