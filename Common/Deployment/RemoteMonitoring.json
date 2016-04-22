@@ -420,7 +420,7 @@
             "name": "[concat(parameters('suiteName'), '-DeviceInfo')]",
             "location": "[variables('location')]",
             "dependsOn": [
-                "[concat('Microsoft.Servicebus/namespaces/', parameters('sbName'))]",
+                "[concat('Microsoft.Servicebus/namespaces/', parameters('sbName'), 'eventHubs', variables('ehOutName'))]",
                 "[concat('Microsoft.Devices/Iothubs/', parameters('iotHubName'))]"
             ],
             "tags": {
@@ -496,7 +496,7 @@
             "location": "[variables('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Storage/storageAccounts/', parameters('storageName'))]",
-                "[concat('Microsoft.Servicebus/namespaces/', parameters('sbName'))]",
+                "[concat('Microsoft.Servicebus/namespaces/', parameters('sbName'), 'eventHubs', variables('ehRuleOutName'))]",
                 "[concat('Microsoft.Devices/Iothubs/', parameters('iotHubName'))]"
             ],
             "tags": {
