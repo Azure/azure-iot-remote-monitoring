@@ -98,11 +98,11 @@ msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package
 @REM ----------------------------------------------
 @REM Help on errors
 @REM ----------------------------------------------
-@ECHO Arguments: build.cmd "Command" "Configuration" "EnvironmentName" "ActionType"
+@ECHO Arguments: build.cmd "Command" "Configuration" "EnvironmentName" "AzureEnvironment"
 @ECHO   Command: build (just builds); local (config local); cloud (config cloud, build, and deploy)
 @ECHO   Configuration: build configuration either Debug or Release; default is Debug
 @ECHO   EnvironmentName: Name of cloud environment to deploy - default is local
-@ECHO   ActionType: "Clean" flag indicating to clean before build/config - default is not to clean
+@ECHO   AzureEnvironment: Name of the Azure Environment to deploy to - default is AzureCloud
 @ECHO
 @ECHO eg.
 @ECHO   build - build.cmd build
