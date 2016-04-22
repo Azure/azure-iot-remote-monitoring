@@ -393,6 +393,36 @@
     <Content Include="Content\styles\bootstrap\navs.less" />
     <Content Include="Content\styles\bootstrap\grid.less" />
     <Content Include="Content\styles\bootstrap\component-animations.less" />
+    <Content Include="Content\styles\bootstrap\mixins\alerts.less" />
+    <Content Include="Content\styles\bootstrap\mixins\background-variant.less" />
+    <Content Include="Content\styles\bootstrap\mixins\border-radius.less" />
+    <Content Include="Content\styles\bootstrap\mixins\buttons.less" />
+    <Content Include="Content\styles\bootstrap\mixins\center-block.less" />
+    <Content Include="Content\styles\bootstrap\mixins\clearfix.less" />
+    <Content Include="Content\styles\bootstrap\mixins\forms.less" />
+    <Content Include="Content\styles\bootstrap\mixins\gradients.less" />
+    <Content Include="Content\styles\bootstrap\mixins\grid-framework.less" />
+    <Content Include="Content\styles\bootstrap\mixins\grid.less" />
+    <Content Include="Content\styles\bootstrap\mixins\hide-text.less" />
+    <Content Include="Content\styles\bootstrap\mixins\image.less" />
+    <Content Include="Content\styles\bootstrap\mixins\labels.less" />
+    <Content Include="Content\styles\bootstrap\mixins\list-group.less" />
+    <Content Include="Content\styles\bootstrap\mixins\nav-divider.less" />
+    <Content Include="Content\styles\bootstrap\mixins\nav-vertical-align.less" />
+    <Content Include="Content\styles\bootstrap\mixins\opacity.less" />
+    <Content Include="Content\styles\bootstrap\mixins\pagination.less" />
+    <Content Include="Content\styles\bootstrap\mixins\panels.less" />
+    <Content Include="Content\styles\bootstrap\mixins\progress-bar.less" />
+    <Content Include="Content\styles\bootstrap\mixins\reset-filter.less" />
+    <Content Include="Content\styles\bootstrap\mixins\reset-text.less" />
+    <Content Include="Content\styles\bootstrap\mixins\resize.less" />
+    <Content Include="Content\styles\bootstrap\mixins\responsive-visibility.less" />
+    <Content Include="Content\styles\bootstrap\mixins\size.less" />
+    <Content Include="Content\styles\bootstrap\mixins\tab-focus.less" />
+    <Content Include="Content\styles\bootstrap\mixins\table-row.less" />
+    <Content Include="Content\styles\bootstrap\mixins\text-emphasis.less" />
+    <Content Include="Content\styles\bootstrap\mixins\text-overflow.less" />
+    <Content Include="Content\styles\bootstrap\mixins\vendor-prefixes.less" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
@@ -673,9 +703,6 @@
       <Project>{54b5b211-b661-42e9-af2d-87712a37d608}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\styles\bootstrap\mixins\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
