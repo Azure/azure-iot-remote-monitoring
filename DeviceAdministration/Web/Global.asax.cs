@@ -11,6 +11,8 @@ using System.Web.Routing;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
 {
+    using Helpers;
+
     public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
@@ -64,10 +66,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
 
         private CultureInfo GetSelectedCulture()
         {
-            // Add custom logic here for getting a user-specified culture.
+            string cultureName;
 
-            // Default to server-selected one.
-            return CultureInfo.CurrentCulture;
+            // Attempt to read the culture cookie from Request
+            HttpCookie cultureCookie = this.Request.Cookies["_culture"];
+
+            if (cultureCookie != null)
+            {
+                cultureName = cultureCookie.Value;
+            }
+            else
+            {
+                // Obtain it from HTTP header AcceptLanguages
+                cultureName = this.Request.UserLanguages != null && this.Request.UserLanguages.Length > 0 ? this.Request.UserLanguages[0] : null;
+            }
+
+            // Validate culture name
+            var culture = CultureHelper.GetClosestCulture(cultureName);
+
+            // Modify current thread's cultures            
+            return culture;
         }
 
         private bool GetIsServiceCall(HttpContextWrapper contextWrapper)

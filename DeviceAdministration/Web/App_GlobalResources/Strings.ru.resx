@@ -1,0 +1,1670 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddDevice" xml:space="preserve">
+    <value>Добавить устройство</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AddADeviceFormatted" xml:space="preserve">
+    <value>Добавить {0}</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AddNew" xml:space="preserve">
+    <value>Добавить новое</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AuthenticationKey" xml:space="preserve">
+    <value>Ключ проверки подлинности</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AuthKey1" xml:space="preserve">
+    <value>Ключ 1</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="AuthKey2" xml:space="preserve">
+    <value>Ключ 2</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отмена</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Завершено</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ConfirmOrCustomizeTheMetadata" xml:space="preserve">
+    <value>Подтвердить или настроить метаданные устройства</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Копировать</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CopyCredentialsIntoFile" xml:space="preserve">
+    <value>Копировать учетные данные в файл конфигурации на устройстве</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="CopyDeviceIdAndAuthKeyLabel" xml:space="preserve">
+    <value>Копировать идентификатор устройства и ключ проверки подлинности</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Создать</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="GenerateADeviceId" xml:space="preserve">
+    <value>Создать идентификатор устройства для меня</value>
+    <comment>Radio button label.</comment>
+  </data>
+  <data name="DeviceId" xml:space="preserve">
+    <value>Идентификатор устройства</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="EnterDeviceId" xml:space="preserve">
+    <value>Укажите идентификатор устройства</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="Instructions" xml:space="preserve">
+    <value>Инструкции</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="InstructionsForYourDeviceFormatted" xml:space="preserve">
+    <value>Инструкции для {0}</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="EnterDeviceMetadata" xml:space="preserve">
+    <value>Укажите метаданные устройства</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="NavigationMenuItemActions" xml:space="preserve">
+    <value>Действия</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="NavigationMenuItemDashboard" xml:space="preserve">
+    <value>Панель мониторинга</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="NavigationMenuItemDeviceExplorer" xml:space="preserve">
+    <value>Обозреватель устройств</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="NavigationMenuItemDevices" xml:space="preserve">
+    <value>Устройства</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Далее</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="StepOneHeader" xml:space="preserve">
+    <value>ШАГ 1 из 3</value>
+    <comment>Wizard step heading.</comment>
+  </data>
+  <data name="StepThreeHeader" xml:space="preserve">
+    <value>ШАГ 3 из 3</value>
+    <comment>Wizard step heading.</comment>
+  </data>
+  <data name="StepTwoHeader" xml:space="preserve">
+    <value>ШАГ 2 из 3</value>
+    <comment>Wizard step heading.</comment>
+  </data>
+  <data name="YouChose" xml:space="preserve">
+    <value>Выбрано:</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="YourDeviceIsCompleteFormatted" xml:space="preserve">
+    <value>Обработка вашего {0} выполнена</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DeviceIdCreationPrompt" xml:space="preserve">
+    <value>Как вы хотите определить идентификатор устройства? </value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="FirmwareVersion" xml:space="preserve">
+    <value>ВЕРСИЯ ВСТРОЕННОГО ПО</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="LetMeDefineMyOwnDeviceId" xml:space="preserve">
+    <value>Позвольте мне определить собственный идентификатор устройства</value>
+    <comment>Radio button label.</comment>
+  </data>
+  <data name="Manufacturer" xml:space="preserve">
+    <value>ПРОИЗВОДИТЕЛЬ</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ObjectName" xml:space="preserve">
+    <value>ИМЯ ОБЪЕКТА</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>СЕРИЙНЫЙ НОМЕР</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>ВЕРСИЯ</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ModelNumber" xml:space="preserve">
+    <value>НОМЕР МОДЕЛИ</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ShowInstructions" xml:space="preserve">
+    <value>Показать инструкции</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Готово</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceIdInUse" xml:space="preserve">
+    <value>Идентификатор устройства уже используется.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="EnableDevice" xml:space="preserve">
+    <value>Включить устройство</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AuthenticationKeys" xml:space="preserve">
+    <value>Ключи проверки подлинности</value>
+    <comment>Device details section heading.</comment>
+  </data>
+  <data name="AvailableActions" xml:space="preserve">
+    <value>Доступные действия</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="AvailablePowerSources" xml:space="preserve">
+    <value>Доступные источники питания</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="BatteryLevel" xml:space="preserve">
+    <value>Уровень заряда батареи</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DisableDevice" xml:space="preserve">
+    <value>Отключить устройство</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AzureDevicesHostname" xml:space="preserve">
+    <value>Имя узла центра IoT</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Общие</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Metadata" xml:space="preserve">
+    <value>Метаданные</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>ОК</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="PowerSourceVoltage" xml:space="preserve">
+    <value>Напряжение источника питания</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Повторить</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ServiceUnavailable" xml:space="preserve">
+    <value>Служба недоступна</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>Command</value>
+    <comment>(Unsused)</comment>
+  </data>
+  <data name="CommandHistory" xml:space="preserve">
+    <value>Журнал команд</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="CommandName" xml:space="preserve">
+    <value>ИМЯ КОМАНДЫ</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandResult" xml:space="preserve">
+    <value>РЕЗУЛЬТАТ</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandTimeCreated" xml:space="preserve">
+    <value>МЕСТНОЕ ВРЕМЯ СОЗДАНИЯ</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandTimeUpdated" xml:space="preserve">
+    <value>МЕСТНОЕ ВРЕМЯ ОБНОВЛЕНИЯ</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandValuesSent" xml:space="preserve">
+    <value>ЗНАЧЕНИЯ ОТПРАВЛЕНЫ</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="DeviceCommands" xml:space="preserve">
+    <value>Команды</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="DeviceCommandsHeader" xml:space="preserve">
+    <value>Команды для {0}</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ParametersHeader" xml:space="preserve">
+    <value>Параметры</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Ожидает</value>
+    <comment>Device command status.</comment>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Цена</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="PriceRange" xml:space="preserve">
+    <value>Цена должна быть больше 0</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Продукт</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="PropertiesPaneLabel" xml:space="preserve">
+    <value>Свойства</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SelectAProduct" xml:space="preserve">
+    <value>Выбрать продукт</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Отправить</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SendCommand" xml:space="preserve">
+    <value>Отправить команду</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CheckId" xml:space="preserve">
+    <value>Проверить идентификатор</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceIdAvailable" xml:space="preserve">
+    <value>Идентификатор устройства доступен</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="RegisteredButNotPresent" xml:space="preserve">
+    <value>Зарегистрировано, но отсутствует</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="TimeRegistered" xml:space="preserve">
+    <value>Время регистрации</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="NoCommandsAvailable" xml:space="preserve">
+    <value>Устройство {0} не имеет доступных команд</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="EditDeviceConfiguration" xml:space="preserve">
+    <value>Изменить конфигурацию для {0}</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Hostname" xml:space="preserve">
+    <value>ИМЯ УЗЛА ЦЕНТРА IOT</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="HostnameLength" xml:space="preserve">
+    <value>Длина имени узла не может быть больше 1024 символов</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="PrimaryKey" xml:space="preserve">
+    <value>ПЕРВИЧНЫЙ КЛЮЧ</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SecondaryKey" xml:space="preserve">
+    <value>ВТОРИЧНЫЙ КЛЮЧ</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SendConfiguration" xml:space="preserve">
+    <value>Отправить конфигурацию на устройство</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="RequestFormatError" xml:space="preserve">
+    <value>Отсутствует параметр {0}, или значение не распознано в качестве допустимого {1}</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RequestNullError" xml:space="preserve">
+    <value>Данные запроса JSON имели значение NULL, или их не удалось проанализировать. Убедитесь, что данные отправлены в тексте запроса и имеют правильный формат.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="AnErrorOccurred" xml:space="preserve">
+    <value>Произошла ошибка при обработке запроса.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Ошибка</value>
+    <comment>Page title.</comment>
+  </data>
+  <data name="IoTDeviceAdministrationPortal" xml:space="preserve">
+    <value>Портал администрирования устройств IoT</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="IoTDevicePortalSignIn" xml:space="preserve">
+    <value>Портал устройств IoT — войти</value>
+    <comment>Page title.</comment>
+  </data>
+  <data name="MicrosoftAzure" xml:space="preserve">
+    <value>Microsoft Azure</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="MicrosoftAzureIoTSuite" xml:space="preserve">
+    <value>Microsoft Azure IoT Suite</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Войти</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="YouMustBeSignedIn" xml:space="preserve">
+    <value>Необходимо войти для продолжения.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="YourSessionMayHaveExpired" xml:space="preserve">
+    <value>Если вы выполняли вход, возможно, срок действия сеанса истек.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="OpensInNewTab" xml:space="preserve">
+    <value>(открывается в новой вкладке)</value>
+    <comment>Hyperlink hint.</comment>
+  </data>
+  <data name="DeviceIdInvalidCharactersError" xml:space="preserve">
+    <value>Идентификатор устройства может содержать только буквы, цифры и следующие специальные символы: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIdLengthError" xml:space="preserve">
+    <value>Длина идентификатора устройства должна быть от 2 до 128 символов.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Вернуться</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ConfirmRegenKeyPart1" xml:space="preserve">
+    <value>Вы уверены? Будет создан </value>
+    <comment>Part of confirmation message. (Unused)</comment>
+  </data>
+  <data name="ConfirmRegenKeyPart2" xml:space="preserve">
+    <value>ключ.</value>
+    <comment>Part of confirmation message. (Unused)</comment>
+  </data>
+  <data name="ViewAuthenticationKeys" xml:space="preserve">
+    <value>Просмотреть ключи проверки подлинности</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="DeviceUpdateError" xml:space="preserve">
+    <value>Не удалось обновить устройство. Произошла неожиданная ошибка.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Изменить</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RemoveDevice" xml:space="preserve">
+    <value>Удалить устройство...</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RemoveDeviceConfirmationPart1" xml:space="preserve">
+    <value>Вы уверены? Это устройство будет удалено из вашего решения IoT.</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveDeviceConfirmationPart2" xml:space="preserve">
+    <value>Это действие необратимо.</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveDeviceFormatted" xml:space="preserve">
+    <value>Удалить устройство "{0}"</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="YesRemoveDeviceFormatted" xml:space="preserve">
+    <value>Да, удалить устройство {0}</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="AppConfig" xml:space="preserve">
+    <value>AppConfig</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="InstalledRam" xml:space="preserve">
+    <value>Установлено ОЗУ</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="Platform" xml:space="preserve">
+    <value>Платформа</value>
+    <comment>Device property. (Unused)</comment>
+  </data>
+  <data name="Processor" xml:space="preserve">
+    <value>Процессор</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="MaxLengthPrice" xml:space="preserve">
+    <value>Длина цены не может быть больше 1024 символов.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="MaxLengthProductId" xml:space="preserve">
+    <value>Длина идентификатора продукта не может быть больше 1024 символов.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIdHeader" xml:space="preserve">
+    <value>Идентификатор устройства</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FirmwareHeader" xml:space="preserve">
+    <value>Встроенное ПО</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="InstalledRamHeader" xml:space="preserve">
+    <value>Установлено ОЗУ</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ManufactureHeader" xml:space="preserve">
+    <value>Производитель</value>
+    <comment>Table column header</comment>
+  </data>
+  <data name="ModelNumberHeader" xml:space="preserve">
+    <value>Номер модели</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="PlatformHeader" xml:space="preserve">
+    <value>Платформа</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ProcessorHeader" xml:space="preserve">
+    <value>Процессор</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="SerialNumberHeader" xml:space="preserve">
+    <value>Серийный номер</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="StatusHeader" xml:space="preserve">
+    <value>Состояние</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="AppConfigLength" xml:space="preserve">
+    <value>Длина AppConfig не может быть больше 1024 символов</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ClickToSelectAll" xml:space="preserve">
+    <value>Нажмите, чтобы выбрать все</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CopyCredentials" xml:space="preserve">
+    <value>Копировать учетные данные в файл конфигурации на устройстве</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="EditDeviceProperties" xml:space="preserve">
+    <value>Изменить устройство</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="ErrorWhileRetrievingKeys" xml:space="preserve">
+    <value>Произошла ошибка при получении ключей.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToUpdateDeviceStatus" xml:space="preserve">
+    <value>Не удалось обновить состояние устройства</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveActionFromService" xml:space="preserve">
+    <value>Не удалось получить действие из службы</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveDeviceFromService" xml:space="preserve">
+    <value>Не удалось получить устройство из службы</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ControlCToCopy" xml:space="preserve">
+    <value>Ctrl+C to Copy</value>
+    <comment>{StrContains=i"Ctrl+C"}</comment>
+  </data>
+  <data name="DeviceKeysError" xml:space="preserve">
+    <value>Произошла ошибка при попытке обновить ключи</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RolloverKeys" xml:space="preserve">
+    <value>Сменить ключи</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RolloverKeysConfirmation" xml:space="preserve">
+    <value>да, я хочу сменить ключи.</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="RolloverKeysFor" xml:space="preserve">
+    <value>Сменить ключи для {0}</value>
+  </data>
+  <data name="RolloverKeysText" xml:space="preserve">
+    <value>Вы уверены? Это действие приведет к смене ключей.</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="ConfigurationHeader" xml:space="preserve">
+    <value>Конфигурация</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SelectACommand" xml:space="preserve">
+    <value>Выбрать команду</value>
+    <comment>Dropdown unselected option label.</comment>
+  </data>
+  <data name="SelectAnAction" xml:space="preserve">
+    <value>Выбрать действие</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="CommandError" xml:space="preserve">
+    <value>Произошла ошибка при получении выбранной команды</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandSendError" xml:space="preserve">
+    <value>Произошла ошибка при отправке команды</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceKeys" xml:space="preserve">
+    <value>Ключи устройства</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="EmptyKey" xml:space="preserve">
+    <value>(пусто)</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="FalseEnabledDevice" xml:space="preserve">
+    <value>Включить устройство</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="TrueEnabledDevice" xml:space="preserve">
+    <value>Отключить устройство</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ActionHeader" xml:space="preserve">
+    <value>Действие</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ActionIDHeader" xml:space="preserve">
+    <value>Идентификатор действия</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ActionIDProperties" xml:space="preserve">
+    <value>Свойства идентификатора действия</value>
+    <comment>Update action dialog heading.</comment>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Действия</value>
+    <comment>Heading.</comment>
+  </data>
+  <data name="DeviceNotRegisteredInIoTHub" xml:space="preserve">
+    <value>Устройство не зарегистрировано в центре IoT</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="IoTHub" xml:space="preserve">
+    <value>Центр IoT</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="IoTSuite" xml:space="preserve">
+    <value>IoT Suite</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DeviceProperties" xml:space="preserve">
+    <value>Свойства устройства</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="AuthenticationKeyFor" xml:space="preserve">
+    <value>Ключ проверки подлинности для {0}</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="KeyInUse" xml:space="preserve">
+    <value>Этот ключ сейчас используется</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SendUpdateKeyToDevice" xml:space="preserve">
+    <value>Отправить ключ обновления на устройство</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ThisIsTheCurrentDeviceKey" xml:space="preserve">
+    <value>Это текущий ключ устройства</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AzureDevicesHostnameColon" xml:space="preserve">
+    <value>Имя узла центра IoT:</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="DeviceKeyColon" xml:space="preserve">
+    <value>Ключ устройства:</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="SaveChangesToDevice" xml:space="preserve">
+    <value>Сохранить изменения в реестре устройства</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RuleOutputHeader" xml:space="preserve">
+    <value>Вывод правила</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="Running" xml:space="preserve">
+    <value>Работает</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Включено</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Отключено</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="CommandValueCannotBeLongerThan1024" xml:space="preserve">
+    <value>Значение команды не может иметь больше 1024 символов</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIdContainsLettersNumbersSpecialCharacters" xml:space="preserve">
+    <value>Идентификатор устройства может содержать только буквы, цифры и следующие специальные символы: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIDMustBeBetween2And128Characters" xml:space="preserve">
+    <value>Длина идентификатора устройства должна быть от 2 до 128 символов.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceCommandIsDisabled" xml:space="preserve">
+    <value>Сейчас невозможно отправить команды на устройство</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FirmwareVersionMustBeLessThan200Characters" xml:space="preserve">
+    <value>Длина версии встроенного ПО должна быть менее 200 символов.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="InstalledRAMFieldMustBeLessThan200Characters" xml:space="preserve">
+    <value>Длина поля "Установлено ОЗУ" должна быть менее 200 символов.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ModelNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>Длина номера модели должна быть меньше 200 символов.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ObjectNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>Длина имени объекта должна быть меньше 200 символов.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="PlatformNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>Длина имени платформы должна быть меньше 200 символов.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ProcessorNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>Длина имени процессора должна быть меньше 200 символов.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SerialNumberMustBeLessThan200Characters" xml:space="preserve">
+    <value>Длина серийного номер должна быть меньше 200 символов.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="VersionMustBeLessThan200Characters" xml:space="preserve">
+    <value>Длина версии должна быть меньше 200 символов.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ClickToDisplayError" xml:space="preserve">
+    <value>Нажмите для просмотра</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Обновить</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="UpdateActionsIsDisabled" xml:space="preserve">
+    <value>Обновление действий отключено</value>
+    <comment>(Unsued)</comment>
+  </data>
+  <data name="EditDevicePropertiesFor" xml:space="preserve">
+    <value>Изменить свойства устройства для {0}</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoscriptHeader" xml:space="preserve">
+    <value>Требуется JavaScript</value>
+    <comment>Error message. {StrContains="JavaScript"}</comment>
+  </data>
+  <data name="NoscriptP1" xml:space="preserve">
+    <value>Ваш браузер сейчас блокирует JavaScript. Разрешите JavaScript, чтобы использовать эту службу.</value>
+    <comment>Error message. {StrContains="JavaScript"}</comment>
+  </data>
+  <data name="NoscriptP2" xml:space="preserve">
+    <value>Ознакомьтесь со справкой по вашему браузеру, чтобы узнать о том, как разрешить JavaScript, и о том, поддерживает ли браузер JavaScript.</value>
+    <comment>Informational text block. {StrContains="JavaScript"}</comment>
+  </data>
+  <data name="DeviceIdColon" xml:space="preserve">
+    <value>Идентификатор устройства:</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="DeviceAddError" xml:space="preserve">
+    <value>Не удалось добавить устройство. Произошла неожиданная ошибка.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceAddSelectTypeError" xml:space="preserve">
+    <value>Не удалось создать устройство. Произошла неожиданная ошибка.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Sent" xml:space="preserve">
+    <value>Отправлено</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DateTimeValidationMessage" xml:space="preserve">
+    <value>Недопустимая дата</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="StringValidationMessage" xml:space="preserve">
+    <value>Недопустимая строка</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RequiredValue" xml:space="preserve">
+    <value>Поле является обязательным</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Local" xml:space="preserve">
+    <value>Местное</value>
+    <comment>Time Zone dropdown option.</comment>
+  </data>
+  <data name="UTC" xml:space="preserve">
+    <value>Время в формате UTC</value>
+    <comment>Time Zone dropdown option. {Locked="UTC"}</comment>
+  </data>
+  <data name="binaryCommandErrorMessage" xml:space="preserve">
+    <value>Недопустимое двоичное значение base64; требуется формат вида "Zm9vYmFy" или "Zm9vYg=="</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="byteCommandErrorMessage" xml:space="preserve">
+    <value>Недопустимый байт; требуется формат вида "24" (от 0 до 255)</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="dateCommandErrorMessage" xml:space="preserve">
+    <value>Недопустимая дата; требуется формат вида "ГГГГ-ММ-ДД"</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="datetimeoffsetCommandErrorMessage" xml:space="preserve">
+    <value>Недопустимое значение даты и времени; требуется формат вида "ГГГГ-ММ-ДД ЧЧ:сс:сс"</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="decimalCommandErrorMessage" xml:space="preserve">
+    <value>Недопустимое десятичное значение; требуется формат вида "–12,3456" или "98765,43"</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DecimalCommandHint" xml:space="preserve">
+    <value>Тип данных: десятичные (например, "3,14")</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="doubleCommandErrorMessage" xml:space="preserve">
+    <value>Недопустимое значение типа double; требуется формат вида "3,14" или "6,02e+23"</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DoubleCommandHint" xml:space="preserve">
+    <value>Тип данных: double (например, "3,14", "6,02e+23" и т. д.)</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="guidCommandErrorMessage" xml:space="preserve">
+    <value>Недопустимый GUID; требуется формат вида "5d9ff9f7-ca82-4657-97f7-569dc8591af7"</value>
+    <comment>Error message. {Locked="GUID"}</comment>
+  </data>
+  <data name="GuidCommandHint" xml:space="preserve">
+    <value>Тип данных: GUID (в формате вида: "d51ce656-b765-4dce-ba17-67961cbc111d")</value>
+    <comment>Tooltip.  {Locked="GUID"}</comment>
+  </data>
+  <data name="int16CommandErrorMessage" xml:space="preserve">
+    <value>Недопустимое значение Int16; требуется формат вида "–2000" или "4500" (от –32768 до 32767)</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="int32CommandErrorMessage" xml:space="preserve">
+    <value>Недопустимое значение Int32; требуется формат вида "–2000" или "4500" (от –2147483648 до 2147483647)</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="int64CommandErrorMessage" xml:space="preserve">
+    <value>Недопустимое значение Int64; требуется формат вида "–2000" или "4500"</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="NumberCommandHint" xml:space="preserve">
+    <value>Тип данных: {0} (целое число от {1} до {2})</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="NumberOfDevicesHeader" xml:space="preserve">
+    <value>Число устройств</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="sbyteCommandErrorMessage" xml:space="preserve">
+    <value>Недопустимое значение SByte; требуется формат вида "–43" или "12" (от –128 до 127)</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="singleCommandErrorMessage" xml:space="preserve">
+    <value>Недопустимое значение типа Single; требуется формат вида "3,14" или "6,02e+23"</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SingleCommandHint" xml:space="preserve">
+    <value>Тип данных: Single (например, "3,14", "4.29e09" и т. д.)</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ErrorRemoveDevice" xml:space="preserve">
+    <value>Не удалось удалить устройство. Произошла неожиданная ошибка.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ErrorSendingConfig" xml:space="preserve">
+    <value>Не удалось отправить конфигурацию. Произошла неожиданная ошибка.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="InvalidKeyType" xml:space="preserve">
+    <value>Недопустимый ключ</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Resend" xml:space="preserve">
+    <value>Повторно отправить</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ResendCommandError" xml:space="preserve">
+    <value>Произошла ошибка при повторной отправке команды</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToUpdateActionId" xml:space="preserve">
+    <value>Не удалось обновить ActionId</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToRetrieveActions" xml:space="preserve">
+    <value>Произошла ошибка при получении списка действий.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToRetrieveDevices" xml:space="preserve">
+    <value>Произошла ошибка при получении списка устройств.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnknownCommandParameterType" xml:space="preserve">
+    <value>Неизвестный тип параметра команды: "{0}"</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="BinaryCommandHint" xml:space="preserve">
+    <value>Тип данных: строка base64 (например, "Zm9vYmFy" или "Zm9vYg==")</value>
+    <comment>Input field tooltip.</comment>
+  </data>
+  <data name="StringCommandHint" xml:space="preserve">
+    <value>Тип данных: строковый (например, "Добро пожаловать, пользователь!")</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="FindDevices" xml:space="preserve">
+    <value>НАЙТИ УСТРОЙСТВА</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FindLabel" xml:space="preserve">
+    <value>Найти</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ResetLabel" xml:space="preserve">
+    <value>Сбросить</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="SearchDevices" xml:space="preserve">
+    <value>ПОИСК УСТРОЙСТВ</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="AddNewClause" xml:space="preserve">
+    <value>+ ДОБАВИТЬ НОВОЕ ПРЕДЛОЖЕНИЕ</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FilterDevices" xml:space="preserve">
+    <value>ФИЛЬТРОВАТЬ УСТРОЙСТВА</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FilterFieldLabel" xml:space="preserve">
+    <value>ПОЛЕ</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="FilterOperatorContainsInsensitive" xml:space="preserve">
+    <value>Содержит (без учета регистра)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorContainsSensitive" xml:space="preserve">
+    <value>Содержит (с учетом регистра)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorExactInsensitive" xml:space="preserve">
+    <value>Точное соответствие (без учета регистра)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorExactSensitive" xml:space="preserve">
+    <value>Точное соответствие (с учетом регистра)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorLabel" xml:space="preserve">
+    <value>ОПЕРАТОР</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="FilterOperatorStartsWithInsensitive" xml:space="preserve">
+    <value>Начинается с (без учета регистра)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorStartsWithSensitive" xml:space="preserve">
+    <value>Начинается с (с учетом регистра)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionDeviceId" xml:space="preserve">
+    <value>Идентификатор устройства</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionFirmwareVersion" xml:space="preserve">
+    <value>Версия встроенного ПО</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionInstalledRam" xml:space="preserve">
+    <value>Установлено ОЗУ</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionManufacturer" xml:space="preserve">
+    <value>Производитель</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionModelNumber" xml:space="preserve">
+    <value>Номер модели</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionPlatform" xml:space="preserve">
+    <value>Платформа</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionProcessor" xml:space="preserve">
+    <value>Процессор</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionSerialNumber" xml:space="preserve">
+    <value>Серийный номер</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterValueLabel" xml:space="preserve">
+    <value>ЗНАЧЕНИЕ</value>
+    <comment>Textbox label.</comment>
+  </data>
+  <data name="FilterOptionStatus" xml:space="preserve">
+    <value>Состояние</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterStatusDisabled" xml:space="preserve">
+    <value>Отключено</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterStatusLabel" xml:space="preserve">
+    <value>СОСТОЯНИЕ</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="FilterStatusPending" xml:space="preserve">
+    <value>Ожидает</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterStatusRunning" xml:space="preserve">
+    <value>Работает</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="DeviceIdCaseSensitiveWarning" xml:space="preserve">
+    <value>(Идентификатор устройства задается с учетом регистра)</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="FindDevicesLabelCollapsed" xml:space="preserve">
+    <value>НАЙТИ УСТРОЙСТВА</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="DeviceDetailsPaneLabel" xml:space="preserve">
+    <value>СВЕДЕНИЯ ОБ УСТРОЙСТВЕ</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoActionSelectedLabel" xml:space="preserve">
+    <value>Действия не выбраны</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="NoDeviceSelectedLabel" xml:space="preserve">
+    <value>Устройства не выбраны</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="DeviceRules" xml:space="preserve">
+    <value>Правила устройства</value>
+    <comment>Page title.</comment>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>Правила</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="RulesHeaderFormatted" xml:space="preserve">
+    <value>Правила ({0})</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DataFieldHeader" xml:space="preserve">
+    <value>Поле данных</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="NoRuleSelected" xml:space="preserve">
+    <value>Правила не выбраны</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="NoRuleSelectedLabel" xml:space="preserve">
+    <value>Правила не выбраны</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="OperatorHeader" xml:space="preserve">
+    <value>Оператор</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="RuleIdHeader" xml:space="preserve">
+    <value>Идентификатор правила</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="RuleNameHeader" xml:space="preserve">
+    <value>Имя правила</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="RulePropertiesPaneLabel" xml:space="preserve">
+    <value>Свойства</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ThresholdHeader" xml:space="preserve">
+    <value>Порог</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FailedToRetrieveRules" xml:space="preserve">
+    <value>Произошла ошибка при получении списка правил.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FilterStatusEnabled" xml:space="preserve">
+    <value>Включено</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Свойства</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="UnableToRetrieveRuleFromService" xml:space="preserve">
+    <value>Не удалось получить правило из службы</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Отключить</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>Включить</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="RuleProperties" xml:space="preserve">
+    <value>Свойства правила</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="RuleStatus" xml:space="preserve">
+    <value>Состояние правила</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ValueHeader" xml:space="preserve">
+    <value>Значение</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AddRule" xml:space="preserve">
+    <value>Добавить правило...</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RuleUpdateError" xml:space="preserve">
+    <value>Произошла ошибка при обновлении правила.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceRulesFullError" xml:space="preserve">
+    <value>Все доступные поля данных имеют правила, определенные для этого устройства. Измените существующее правило.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DisableRule" xml:space="preserve">
+    <value>Отключить правило</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="EnableRule" xml:space="preserve">
+    <value>Включить правило</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AllDevices" xml:space="preserve">
+    <value>Все устройства</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AverageOfDeviceHumidity" xml:space="preserve">
+    <value>Среднее значение влажности устройства</value>
+    <comment>Tile heading.</comment>
+  </data>
+  <data name="Humidity" xml:space="preserve">
+    <value>Влажность</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="MaxOfDevicesHumidity" xml:space="preserve">
+    <value>Максимальное значение влажности устройства</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="MinOfDevicesHumidity" xml:space="preserve">
+    <value>Минимальное значение влажности устройства</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="TelemetryGaugeNumericFormat" xml:space="preserve">
+    <value>0,00</value>
+    <comment>Guge format string.</comment>
+  </data>
+  <data name="TelemetryHistory" xml:space="preserve">
+    <value>Журнал телеметрии</value>
+    <comment>Chart heading.</comment>
+  </data>
+  <data name="Temperature" xml:space="preserve">
+    <value>Температура</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Активно</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="Alarm" xml:space="preserve">
+    <value>Оповещение</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="AlarmHistory" xml:space="preserve">
+    <value>Журнал оповещений</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="Closed" xml:space="preserve">
+    <value>Закрыто</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Сведения</value>
+  </data>
+  <data name="IssueNumberHeader" xml:space="preserve">
+    <value>Номер проблемы</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="IssueTypeHeader" xml:space="preserve">
+    <value>Тип проблемы</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DefaultSolutionName" xml:space="preserve">
+    <value>Решение удаленного мониторинга</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="EditDeviceRuleFormatted" xml:space="preserve">
+    <value>Правило {0} для устройства {1}</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SaveAndViewRules" xml:space="preserve">
+    <value>Сохранить и просмотреть правила</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ViewRules" xml:space="preserve">
+    <value>Просмотреть правила</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RuleOutput" xml:space="preserve">
+    <value>Вывод правила</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Значение</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ThresholdFormatError" xml:space="preserve">
+    <value>Порог должен быть допустимым значением типа double.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveAlertsHistoryFromService" xml:space="preserve">
+    <value>Не удалось получить журнал оповещений из службы</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveDeviceTelemetryFromService" xml:space="preserve">
+    <value>Не удалось получить телеметрию устройства из службы</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandDeliveryCountExceeded" xml:space="preserve">
+    <value>Превышено максимальное число доставок</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandExpired" xml:space="preserve">
+    <value>Просрочено</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandRejected" xml:space="preserve">
+    <value>Отклонено</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandSuccess" xml:space="preserve">
+    <value>Успешно</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Время</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="InfoIconLink" xml:space="preserve">
+    <value>https://azure.microsoft.com/solutions/iot-suite/</value>
+    <comment>Link to a documentation.</comment>
+  </data>
+  <data name="RuleAlreadyAddedError" xml:space="preserve">
+    <value>Правило для этого поля данных уже существует для этого устройства. Только одно правило может быть определено для поля конкретного устройства. Либо создайте правило для другого поля данных, либо измените существующее правило.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="TableDataSaveConflictErrorMessage" xml:space="preserve">
+    <value>Произошел конфликт при сохранении данных. Проверьте данные и повторите попытку.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SimulatorCredentialHeader" xml:space="preserve">
+    <value>Имитированное устройство создано с этими настройками</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ErrorRemoveRule" xml:space="preserve">
+    <value>Не удалось удалить правило. Произошла неожиданная ошибка.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RemoveRule" xml:space="preserve">
+    <value>Удалить правило</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RemoveRuleConfirmationPart1" xml:space="preserve">
+    <value>Вы уверены? Это правило будет удалено из вашего решения IoT.</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveRuleConfirmationPart2" xml:space="preserve">
+    <value>Это действие необратимо.</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveRuleFormatted" xml:space="preserve">
+    <value>Удалить правило для {0} на устройстве {1}</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="YesRemoveRuleFormatted" xml:space="preserve">
+    <value>Да, удалить правило для {0} на устройстве {1}</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="RemoveDeviceConfirmation" xml:space="preserve">
+    <value>Удалить устройство</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CellularConnectivityManagement" xml:space="preserve">
+    <value>Управление мобильной связью</value>
+    <comment>Panel heading.</comment>
+  </data>
+  <data name="SimInformation" xml:space="preserve">
+    <value>Сведения о SIM...</value>
+    <comment>Hyperlink label. {Locked="SIM"}</comment>
+  </data>
+  <data name="ConnectionStatus" xml:space="preserve">
+    <value>Состояние подключения: </value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="LastSessionStart" xml:space="preserve">
+    <value>Начало последнего сеанса: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="SimStatus" xml:space="preserve">
+    <value>Состояние SIM: </value>
+    <comment>Read-only field label. {Locked="SIM"}</comment>
+  </data>
+  <data name="CurrentRatePlan" xml:space="preserve">
+    <value>Текущий тарифный план: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="AggregatedUsage" xml:space="preserve">
+    <value>Сводное использование: </value>
+    <comment>Label on cellular information details panel.</comment>
+  </data>
+  <data name="IMEI" xml:space="preserve">
+    <value>IMEI: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="IMSI" xml:space="preserve">
+    <value>IMSI: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="CurrentLimitReached" xml:space="preserve">
+    <value>Достигнут текущий лимит: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="ICCID" xml:space="preserve">
+    <value>ICCID: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="AccountId" xml:space="preserve">
+    <value>Идентификатор учетной записи: </value>
+    <comment>Label on cellular information details panel.</comment>
+  </data>
+  <data name="SimInformationBackText" xml:space="preserve">
+    <value>Сведения о SIM</value>
+    <comment>Hyperlink label. {Locked="SIM"}</comment>
+  </data>
+  <data name="NavigationMenuItemAdvanced" xml:space="preserve">
+    <value>Дополнительно</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="ApiRegistration" xml:space="preserve">
+    <value>Регистрация Jasper API</value>
+    <comment>Tile heading.</comment>
+  </data>
+  <data name="CheckIccid" xml:space="preserve">
+    <value>Проверить ICCID</value>
+    <comment>(Unsused)</comment>
+  </data>
+  <data name="EnterIccid" xml:space="preserve">
+    <value>Укажите ICCID, полученный от оператора мобильной связи</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Associate" xml:space="preserve">
+    <value>Сопоставить</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="SimAssociation" xml:space="preserve">
+    <value>Сопоставление SIM</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="OptionalBrackets" xml:space="preserve">
+    <value>(Необязательно)</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="BaseUrlToolTip" xml:space="preserve">
+    <value>Это можно найти сразу под ключом API на странице API в Control Center.</value>
+    <comment>Input field tooltip.</comment>
+  </data>
+  <data name="LicenseKeyToolTip" xml:space="preserve">
+    <value>Это можно найти в верхней левой части страницы API в Control Center.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="PasswordToolTip" xml:space="preserve">
+    <value>Это пароль, используемый для входа в Control Center.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="UsernameToolTip" xml:space="preserve">
+    <value>Это имя пользователя для входа в Control Center.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="AttachIccidToDevice" xml:space="preserve">
+    <value>Подключить SIM ICCID к устройству</value>
+    <comment>Checkbox label. {Locked="SIM ICCID"}</comment>
+  </data>
+  <data name="SimIccid" xml:space="preserve">
+    <value>ICCID SIM</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="NavigationMenuItemsAdvanced" xml:space="preserve">
+    <value>Дополнительно</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="CellularConn" xml:space="preserve">
+    <value>Мобильная связь</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="HealthBeat" xml:space="preserve">
+    <value>Пульс работоспособности</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="LogicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ApiRegistrationDescription" xml:space="preserve">
+    <value>Зарегистрируйте это решение с помощью учетных данных платформы Jasper Control Center для проверки подлинности использования Jasper API.</value>
+    <comment>Tile subheading.</comment>
+  </data>
+  <data name="ApiRegistrationTitle" xml:space="preserve">
+    <value>Регистрация Jasper API</value>
+    <comment>Panel heading. {Locked="Jasper API"}</comment>
+  </data>
+  <data name="CellularConnViewTitle" xml:space="preserve">
+    <value>Мобильная связь</value>
+    <comment>Panel heading.</comment>
+  </data>
+  <data name="DeviceAssociationDescription" xml:space="preserve">
+    <value>Сопоставьте устройства Azure IoT, развернутые в &lt;a href="http://www.jasper.com/iot-service-platform/control-center"&gt;Control Center&lt;/a&gt;, с этим решением.</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="DeviceAssociationTitle" xml:space="preserve">
+    <value>Сопоставление устройств</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="HealthBeatViewTitle" xml:space="preserve">
+    <value>Пульс работоспособности</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="LogicAppsViewTitle" xml:space="preserve">
+    <value>Logic Apps</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ApiRegistrationFailed" xml:space="preserve">
+    <value>Произошел сбой регистрации: проверьте учетные данные</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ApiRegistrationSuccessful" xml:space="preserve">
+    <value>Регистрация выполнена успешно</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="ApiRegistrationNotAvailable" xml:space="preserve">
+    <value>Сейчас не зарегистрированы API для этой учетной записи</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="JasperHelpLink" xml:space="preserve">
+    <value>http://www.jasper.com/microsoft-iot</value>
+    <comment>Link to Jasper documentation.</comment>
+  </data>
+  <data name="CellularInvalidCreds" xml:space="preserve">
+    <value>400200</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceList" xml:space="preserve">
+    <value>Список устройств</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Пред.</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FilterInfo" xml:space="preserve">
+    <value>(отфильтровано из _MAX_ записей)</value>
+    <comment>Do not translate the substring "_MAX_"--it is programmatically replaced with the total number of records.</comment>
+  </data>
+  <data name="RemoveRuleButtonLabel" xml:space="preserve">
+    <value>Удалить правило...</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AdministratorRole" xml:space="preserve">
+    <value>Администратор</value>
+    <comment>User role name.</comment>
+  </data>
+  <data name="ImplicitReadOnlyRole" xml:space="preserve">
+    <value>Неявный доступ только для чтения</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ReadOnlyRole" xml:space="preserve">
+    <value>Только для чтения</value>
+    <comment>User role name.</comment>
+  </data>
+  <data name="DeviceToView" xml:space="preserve">
+    <value>Устройство для просмотра:</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Выйти</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="CommandCToCopy" xml:space="preserve">
+    <value>Command+C для копирования</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceProperty_CreatedTime" xml:space="preserve">
+    <value>Время создания (в формате UTC)</value>
+    <comment>{Locked="UTC"}</comment>
+  </data>
+  <data name="DeviceProperty_UpdatedTime" xml:space="preserve">
+    <value>Время обновления (в формате UTC)</value>
+    <comment>{Locked="UTC"}</comment>
+  </data>
+  <data name="DevicePropertiesFormattedAsStored" xml:space="preserve">
+    <value>Свойства устройств отображаются по мере сохранения.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="LocalTime" xml:space="preserve">
+    <value>Местное время</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="RemoteNameNotResolved" xml:space="preserve">
+    <value>Удаленное имя не удалось разрешить</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RemoveSimAssociation" xml:space="preserve">
+    <value>Удалить сопоставление SIM</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="SimAssociationSucceeded" xml:space="preserve">
+    <value>Сопоставление успешно выполнено для устройства {0} с ICCID {1}.</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="ApiRegistrationInfoText" xml:space="preserve">
+    <value>Чтобы активировать интеграцию с Jasper для просмотра устройств Control Center и управления ими через IoT Suite, введите следующие учетные данные:</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="BaseUrlLabel" xml:space="preserve">
+    <value>Базовый URL-адрес</value>
+    <comment>Input field label.</comment>
+  </data>
+  <data name="IccidLabel" xml:space="preserve">
+    <value>ICCID</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="LicenseKeyLabel" xml:space="preserve">
+    <value>Ключ лицензии</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>Пароль</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SimInformationInfoText" xml:space="preserve">
+    <value>Доставлено через платформу Jasper Control Center</value>
+    <comment>{Locked="Jasper"}</comment>
+  </data>
+  <data name="UsernameLabel" xml:space="preserve">
+    <value>Имя пользователя</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="LinkLabelHelpAndSupport" xml:space="preserve">
+    <value>Справка и поддержка</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
+    <value>Отправить отзыв</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+</root>

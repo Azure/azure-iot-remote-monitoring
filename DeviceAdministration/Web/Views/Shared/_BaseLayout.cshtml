@@ -24,6 +24,8 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jquerytable")
     @Scripts.Render("~/bundles/jqueryui")
+    
+    
     <script type="text/javascript" src="~/Scripts/js.cookie-1.5.1.min.js"></script>
     <script src="~/Scripts/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="~/Scripts/Views/IoTApp.js"></script>
@@ -31,36 +33,64 @@
     @Styles.Render("~/Content/css")
 </head>
 <body>
-    <header class="header_page">
-        <h1 class="header_page__head">@Strings.MicrosoftAzureIoTSuite</h1>
-        <a target="_blank" href="@Strings.InfoIconLink">
-            <img class="header_page__infoLinkImg" src="~/Content/img/icon_info_white.svg" alt="@Strings.Information" id="infoLinkImg" />
-        </a>
-        <h2 class="header_page__solution_name">@HeaderHelper.GetHeaderTitle()</h2>
-        <div class="header_page__account">
-            <div class="header_page__account__account_login">
-                <div class="header_page__account__account_login__account_login_username">@PrincipalHelper.GetEmailAddress(User)</div>
+    <header>
+        <div class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">@Strings.MicrosoftAzureIoTSuite - @Strings.DefaultSolutionName</a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#accountMenu">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div id="accountMenu" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="language-icon"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="account-menu">
+                                @foreach (var language in CultureHelper.GetLanguages())
+                                {
+                                    if (language.IsCurrent)
+                                    {
+                                        <li role="presentation" class="active">
+                                            <a>@language.Name</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li role="presentation">
+                                            <a href="@Url.Action("SetCulture", "Culture", new { cultureName = language.CultureName })">@language.Name</a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </li>
+                        <li class="dropdown account-dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="account-avatar"></span>
+                                <span class="account">
+                                    <span class="account-name">@PrincipalHelper.GetEmailAddress(User)</span>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu account-menu" role="menu" aria-labelledby="account-menu">
+                                <li role="presentation">
+                                    <a href="@Url.Action("SignOut", "Account")" role="menuitem">@Strings.SignOut</a>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li role="presentation">
+                                    <a href="https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade" target="_blank" role="menuitem">@Strings.LinkLabelHelpAndSupport</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="http://feedback.azure.com/forums/321918-azure-iot" target="_blank" role="menuitem">@Strings.LinkLabelHelpGiveFeedback</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
 
-                @{
-                    if (User.Identity.IsAuthenticated)
-                    {
-                        @Html.ActionLink(@Strings.SignOut, "SignOut", "Account", new object { }, new { @class = "header_page__account__account_login__account_login_username__link_account" })
-                    }
-
-
-                    if (User.IsInRole("Admin"))
-                    {
-                        <h2 class="header_page__subhead">@Strings.AdministratorRole</h2>
-                    }
-                    else if (User.IsInRole("ReadOnly"))
-                    {
-                        <h2 class="header_page__subhead">@Strings.ReadOnlyRole</h2>
-                    }
-                    else
-                    {
-                        <h2 class="header_page__subhead">@Strings.ImplicitReadOnlyRole</h2>
-                    }
-                }
+                </div>
             </div>
         </div>
     </header>
@@ -80,5 +110,7 @@
     <script src="~/Scripts/IoTHelperScripts.js"></script>
     <script src="~/Scripts/dialog.js"></script>
     @RenderSection("scripts", required: false)
+
+    @Scripts.Render("~/bundles/bootstrap")
 </body>
 </html>

@@ -14,6 +14,8 @@ using StringPair = System.Collections.Generic.KeyValuePair<string, string>;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
+    using System.Web;
+
     /// <summary>
     /// A Controller for Dashboard-related views.
     /// </summary>
@@ -103,9 +105,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 }
             }
 
-            model.MapApiQueryKey = _configProvider.GetConfigurationSettingValue("MapApiQueryKey");
+            // Set key to empty if passed value 0 from arm template
+            string key = _configProvider.GetConfigurationSettingValue("MapApiQueryKey");
+            model.MapApiQueryKey = key.Equals("0") ? string.Empty : key;
 
             return View(model);
+        }
+
+
+        [HttpGet]
+        [Route("culture/{cultureName}")]
+        public ActionResult SetCulture(string cultureName)
+        {
+            // Save culture in a cookie
+            HttpCookie cookie = this.Request.Cookies[Constants.CultureCookieName];
+
+            if (cookie != null)
+            {
+                cookie.Value = cultureName; // update cookie value
+            }
+            else
+            {
+                cookie = new HttpCookie(Constants.CultureCookieName);
+                cookie.Value = cultureName;
+                cookie.Expires = DateTime.Now.AddYears(1);
+            }
+
+            Response.Cookies.Add(cookie);
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,0 +1,1670 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddDevice" xml:space="preserve">
+    <value>Eszköz hozzáadása</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AddADeviceFormatted" xml:space="preserve">
+    <value>Új {0} hozzáadása</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AddNew" xml:space="preserve">
+    <value>Új hozzáadása</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AuthenticationKey" xml:space="preserve">
+    <value>Hitelesítési kulcs</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AuthKey1" xml:space="preserve">
+    <value>1. kulcs</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="AuthKey2" xml:space="preserve">
+    <value>2. kulcs</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Mégse</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Befejezés</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ConfirmOrCustomizeTheMetadata" xml:space="preserve">
+    <value>Erősítse meg vagy szabja testre az eszköz metaadatait</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Másolás</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CopyCredentialsIntoFile" xml:space="preserve">
+    <value>A hitelesítő adatok másolása az eszközön lévő konfigurációs fájlba</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="CopyDeviceIdAndAuthKeyLabel" xml:space="preserve">
+    <value>Az eszközazonosító és a hitelesítési kulcs másolása</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Létrehozás</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="GenerateADeviceId" xml:space="preserve">
+    <value>Hozzon létre eszközazonosítót számomra</value>
+    <comment>Radio button label.</comment>
+  </data>
+  <data name="DeviceId" xml:space="preserve">
+    <value>Eszköz azonosítója</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="EnterDeviceId" xml:space="preserve">
+    <value>Adjon meg egy eszközazonosítót</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="Instructions" xml:space="preserve">
+    <value>Utasítások</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="InstructionsForYourDeviceFormatted" xml:space="preserve">
+    <value>Utasítások ({0})</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="EnterDeviceMetadata" xml:space="preserve">
+    <value>Adja meg az eszköz metaadatait</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="NavigationMenuItemActions" xml:space="preserve">
+    <value>Műveletek</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="NavigationMenuItemDashboard" xml:space="preserve">
+    <value>Irányítópult</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="NavigationMenuItemDeviceExplorer" xml:space="preserve">
+    <value>Eszközböngésző</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="NavigationMenuItemDevices" xml:space="preserve">
+    <value>Eszközök</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Tovább</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="StepOneHeader" xml:space="preserve">
+    <value>3/1. LÉPÉS</value>
+    <comment>Wizard step heading.</comment>
+  </data>
+  <data name="StepThreeHeader" xml:space="preserve">
+    <value>3/3. LÉPÉS</value>
+    <comment>Wizard step heading.</comment>
+  </data>
+  <data name="StepTwoHeader" xml:space="preserve">
+    <value>3/2. LÉPÉS</value>
+    <comment>Wizard step heading.</comment>
+  </data>
+  <data name="YouChose" xml:space="preserve">
+    <value>Kiválasztva:</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="YourDeviceIsCompleteFormatted" xml:space="preserve">
+    <value>A(z) {0} kész</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DeviceIdCreationPrompt" xml:space="preserve">
+    <value>Hogyan szeretné definiálni az eszközazonosítót? </value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="FirmwareVersion" xml:space="preserve">
+    <value>BELSŐ VEZÉRLŐPROGRAM VERZIÓJA</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="LetMeDefineMyOwnDeviceId" xml:space="preserve">
+    <value>Saját eszközazonosító megadása</value>
+    <comment>Radio button label.</comment>
+  </data>
+  <data name="Manufacturer" xml:space="preserve">
+    <value>GYÁRTÓ</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ObjectName" xml:space="preserve">
+    <value>OBJEKTUM NEVE</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>SOROZATSZÁM</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>VERZIÓ</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ModelNumber" xml:space="preserve">
+    <value>MODELLSZÁM</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ShowInstructions" xml:space="preserve">
+    <value>Utasítások megjelenítése</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Kész</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceIdInUse" xml:space="preserve">
+    <value>Az eszközazonosító már használatban van.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="EnableDevice" xml:space="preserve">
+    <value>Eszköz engedélyezése</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AuthenticationKeys" xml:space="preserve">
+    <value>Hitelesítési kulcsok</value>
+    <comment>Device details section heading.</comment>
+  </data>
+  <data name="AvailableActions" xml:space="preserve">
+    <value>Rendelkezésre álló műveletek</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="AvailablePowerSources" xml:space="preserve">
+    <value>Rendelkezésre álló energiaforrások</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="BatteryLevel" xml:space="preserve">
+    <value>Akkumulátor-töltöttségi szint</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DisableDevice" xml:space="preserve">
+    <value>Eszköz letiltása</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AzureDevicesHostname" xml:space="preserve">
+    <value>IoT Hub-eszköznév</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Általános</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Metadata" xml:space="preserve">
+    <value>Metaadatok</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="PowerSourceVoltage" xml:space="preserve">
+    <value>Energiaforrás feszültsége</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Újra</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Mentés</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ServiceUnavailable" xml:space="preserve">
+    <value>A szolgáltatás nem érhető el</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>Parancs</value>
+    <comment>(Unsused)</comment>
+  </data>
+  <data name="CommandHistory" xml:space="preserve">
+    <value>Előző parancsok</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="CommandName" xml:space="preserve">
+    <value>PARANCS NEVE</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandResult" xml:space="preserve">
+    <value>EREDMÉNY</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandTimeCreated" xml:space="preserve">
+    <value>LÉTREHOZÁS HELYI IDEJE</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandTimeUpdated" xml:space="preserve">
+    <value>FRISSÍTÉS HELYI IDEJE</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandValuesSent" xml:space="preserve">
+    <value>ELKÜLDÖTT ÉRTÉKEK</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="DeviceCommands" xml:space="preserve">
+    <value>Parancsok</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="DeviceCommandsHeader" xml:space="preserve">
+    <value>Parancsok ({0})</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ParametersHeader" xml:space="preserve">
+    <value>Paraméterek</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Függőben</value>
+    <comment>Device command status.</comment>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Ár</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="PriceRange" xml:space="preserve">
+    <value>Az árnak magasabbnak kell lennie, mint 0</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Termék</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="PropertiesPaneLabel" xml:space="preserve">
+    <value>Tulajdonságok</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SelectAProduct" xml:space="preserve">
+    <value>Válasszon ki egy terméket</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Küldés</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SendCommand" xml:space="preserve">
+    <value>Parancs küldése</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CheckId" xml:space="preserve">
+    <value>Azonosító ellenőrzése</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceIdAvailable" xml:space="preserve">
+    <value>Az eszközazonosító rendelkezésre áll</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="RegisteredButNotPresent" xml:space="preserve">
+    <value>Regisztrált, de nincs jelen</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="TimeRegistered" xml:space="preserve">
+    <value>Regisztrálás időpontja</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="NoCommandsAvailable" xml:space="preserve">
+    <value>A(z) {0} eszköz esetén nincs használható parancs</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="EditDeviceConfiguration" xml:space="preserve">
+    <value>Konfiguráció szerkesztése ({0})</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Hostname" xml:space="preserve">
+    <value>IOT HUB-ESZKÖZNÉV</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="HostnameLength" xml:space="preserve">
+    <value>Az eszköznév nem lehet 1024 karakternél hosszabb.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="PrimaryKey" xml:space="preserve">
+    <value>ELSŐDLEGES KULCS</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SecondaryKey" xml:space="preserve">
+    <value>MÁSODLAGOS KULCS</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SendConfiguration" xml:space="preserve">
+    <value>Konfiguráció küldése eszközre</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="RequestFormatError" xml:space="preserve">
+    <value>Vagy a {0} paraméter nincs megadva, vagy az értéket a program nem ismerte fel érvényes {1} értékként</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RequestNullError" xml:space="preserve">
+    <value>A JSON-kérelem adatai null értékűek vagy nem elemezhetők.  Győződjön meg róla, hogy az adatok a kérés törzsében szerepelnek és megfelelő formátumúak.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="AnErrorOccurred" xml:space="preserve">
+    <value>Hiba történt a kérelem feldolgozása közben.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Hiba</value>
+    <comment>Page title.</comment>
+  </data>
+  <data name="IoTDeviceAdministrationPortal" xml:space="preserve">
+    <value>IoT-eszközfelügyeleti portál</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="IoTDevicePortalSignIn" xml:space="preserve">
+    <value>IoT-eszközportál - Bejelentkezés</value>
+    <comment>Page title.</comment>
+  </data>
+  <data name="MicrosoftAzure" xml:space="preserve">
+    <value>Microsoft Azure</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="MicrosoftAzureIoTSuite" xml:space="preserve">
+    <value>Microsoft Azure IoT Suite</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Bejelentkezés</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="YouMustBeSignedIn" xml:space="preserve">
+    <value>A folytatáshoz be kell jelentkeznie.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="YourSessionMayHaveExpired" xml:space="preserve">
+    <value>Ha be volt jelentkezve, lehet, hogy lejárt a munkamenet.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="OpensInNewTab" xml:space="preserve">
+    <value>(új lapon nyílik meg)</value>
+    <comment>Hyperlink hint.</comment>
+  </data>
+  <data name="DeviceIdInvalidCharactersError" xml:space="preserve">
+    <value>Az eszközazonosító csak betűket, számokat és a következő speciális karaktereket tartalmazhatja: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIdLengthError" xml:space="preserve">
+    <value>Az eszközazonosítónak 2 és 128 karakter közöttinek kell lennie.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Visszalépés</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ConfirmRegenKeyPart1" xml:space="preserve">
+    <value>Biztos benne? Ezzel újragenerálja a</value>
+    <comment>Part of confirmation message. (Unused)</comment>
+  </data>
+  <data name="ConfirmRegenKeyPart2" xml:space="preserve">
+    <value>kulcsot.</value>
+    <comment>Part of confirmation message. (Unused)</comment>
+  </data>
+  <data name="ViewAuthenticationKeys" xml:space="preserve">
+    <value>Hitelesítési kulcsok megtekintése</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="DeviceUpdateError" xml:space="preserve">
+    <value>Nem sikerült frissíteni az eszközt. Váratlan hiba történt.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Szerkesztés</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RemoveDevice" xml:space="preserve">
+    <value>Eszköz eltávolítása...</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RemoveDeviceConfirmationPart1" xml:space="preserve">
+    <value>Biztos benne? A művelettel eltávolítja az eszközt az IoT-megoldásból.</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveDeviceConfirmationPart2" xml:space="preserve">
+    <value>Ez a művelet nem vonható vissza.</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveDeviceFormatted" xml:space="preserve">
+    <value>A(z) "{0}" eszköz eltávolítása</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="YesRemoveDeviceFormatted" xml:space="preserve">
+    <value>Igen, távolítsa el az eszközt ({0})</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="AppConfig" xml:space="preserve">
+    <value>AppConfig</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="InstalledRam" xml:space="preserve">
+    <value>Telepített memória</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="Platform" xml:space="preserve">
+    <value>Platform</value>
+    <comment>Device property. (Unused)</comment>
+  </data>
+  <data name="Processor" xml:space="preserve">
+    <value>Processzor</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="MaxLengthPrice" xml:space="preserve">
+    <value>Az ár nem lehet 1024 karakternél hosszabb.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="MaxLengthProductId" xml:space="preserve">
+    <value>A termék azonosítója nem lehet hosszabb 1024 karakternél.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIdHeader" xml:space="preserve">
+    <value>Eszköz azonosítója</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FirmwareHeader" xml:space="preserve">
+    <value>Belső vezérlőprogram</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="InstalledRamHeader" xml:space="preserve">
+    <value>Telepített memória</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ManufactureHeader" xml:space="preserve">
+    <value>Gyártó</value>
+    <comment>Table column header</comment>
+  </data>
+  <data name="ModelNumberHeader" xml:space="preserve">
+    <value>Modellszám</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="PlatformHeader" xml:space="preserve">
+    <value>Platform</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ProcessorHeader" xml:space="preserve">
+    <value>Processzor</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="SerialNumberHeader" xml:space="preserve">
+    <value>Sorozatszám</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="StatusHeader" xml:space="preserve">
+    <value>Állapot</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="AppConfigLength" xml:space="preserve">
+    <value>Az AppConfig nem lehet hosszabb 1024 karakternél.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ClickToSelectAll" xml:space="preserve">
+    <value>Kattintson az összes kijelöléséhez</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CopyCredentials" xml:space="preserve">
+    <value>A hitelesítő adatok másolása az eszközön lévő konfigurációs fájlba</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="EditDeviceProperties" xml:space="preserve">
+    <value>Eszköz szerkesztése</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="ErrorWhileRetrievingKeys" xml:space="preserve">
+    <value>Hiba történt a kulcsok beolvasása közben.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToUpdateDeviceStatus" xml:space="preserve">
+    <value>Nem sikerült frissíteni az eszköz állapotát</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveActionFromService" xml:space="preserve">
+    <value>Nem sikerült lekérdezni a műveletet a szolgáltatástól</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveDeviceFromService" xml:space="preserve">
+    <value>Nem sikerült lekérdezni az eszközt a szolgáltatástól</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ControlCToCopy" xml:space="preserve">
+    <value>Ctrl+C to Copy</value>
+    <comment>{StrContains=i"Ctrl+C"}</comment>
+  </data>
+  <data name="DeviceKeysError" xml:space="preserve">
+    <value>Hiba történt a kulcsok frissítése közben</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RolloverKeys" xml:space="preserve">
+    <value>Átváltási kulcsok</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RolloverKeysConfirmation" xml:space="preserve">
+    <value>Igen, szeretnék kulcsokat váltani.</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="RolloverKeysFor" xml:space="preserve">
+    <value>Átváltási kulcsok a következőhöz: {0}</value>
+  </data>
+  <data name="RolloverKeysText" xml:space="preserve">
+    <value>Biztos benne? A művelet kulcsváltást eredményez.</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="ConfigurationHeader" xml:space="preserve">
+    <value>Konfigurálás</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SelectACommand" xml:space="preserve">
+    <value>Jelöljön ki egy parancsot</value>
+    <comment>Dropdown unselected option label.</comment>
+  </data>
+  <data name="SelectAnAction" xml:space="preserve">
+    <value>Válasszon ki egy műveletet</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="CommandError" xml:space="preserve">
+    <value>Hiba történt a kijelölt parancs beolvasása közben</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandSendError" xml:space="preserve">
+    <value>Hiba történt a parancs küldése közben</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceKeys" xml:space="preserve">
+    <value>Eszközkulcsok</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="EmptyKey" xml:space="preserve">
+    <value>(üres)</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="FalseEnabledDevice" xml:space="preserve">
+    <value>Eszköz engedélyezése</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="TrueEnabledDevice" xml:space="preserve">
+    <value>Eszköz letiltása</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ActionHeader" xml:space="preserve">
+    <value>Művelet</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ActionIDHeader" xml:space="preserve">
+    <value>Művelet azonosítója</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ActionIDProperties" xml:space="preserve">
+    <value>Műveletazonosító tulajdonságai</value>
+    <comment>Update action dialog heading.</comment>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Műveletek</value>
+    <comment>Heading.</comment>
+  </data>
+  <data name="DeviceNotRegisteredInIoTHub" xml:space="preserve">
+    <value>Az eszköz nincs regisztrálva az IoT Hubon</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="IoTHub" xml:space="preserve">
+    <value>IoT Hub</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="IoTSuite" xml:space="preserve">
+    <value>IoT Suite</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DeviceProperties" xml:space="preserve">
+    <value>Eszköztulajdonságok</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="AuthenticationKeyFor" xml:space="preserve">
+    <value>Hitelesítési kulcs ({0})</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="KeyInUse" xml:space="preserve">
+    <value>A kulcs jelenleg használatban van</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SendUpdateKeyToDevice" xml:space="preserve">
+    <value>Frissítési kulcs küldése eszközre</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ThisIsTheCurrentDeviceKey" xml:space="preserve">
+    <value>Ez az eszköz aktuális kulcsa</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AzureDevicesHostnameColon" xml:space="preserve">
+    <value>IoT Hub-eszköznév:</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="DeviceKeyColon" xml:space="preserve">
+    <value>Eszközkulcs:</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="SaveChangesToDevice" xml:space="preserve">
+    <value>Módosítások mentése az eszközbeállításjegyzékbe</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RuleOutputHeader" xml:space="preserve">
+    <value>Szabály kimenete</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="Running" xml:space="preserve">
+    <value>Fut</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Engedélyezve</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Letiltva</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="CommandValueCannotBeLongerThan1024" xml:space="preserve">
+    <value>A parancs értéke nem lehet hosszabb 1024 karakternél</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIdContainsLettersNumbersSpecialCharacters" xml:space="preserve">
+    <value>Az eszközazonosító csak betűket, számokat és a következő speciális karaktereket tartalmazhatja: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIDMustBeBetween2And128Characters" xml:space="preserve">
+    <value>Az eszközazonosítónak 2 és 128 karakter közöttinek kell lennie.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceCommandIsDisabled" xml:space="preserve">
+    <value>Ennek az eszköznek jelenleg nem lehet parancsokat küldeni</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FirmwareVersionMustBeLessThan200Characters" xml:space="preserve">
+    <value>A belső vezérlőprogram verziójának rövidebbnek kell lennie 200 karakternél.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="InstalledRAMFieldMustBeLessThan200Characters" xml:space="preserve">
+    <value>A Telepített memória mezőnek 200 karakternél rövidebbnek kell lennie.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ModelNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>A modell számának kevesebb, mint 200 karakter hosszúnak kell lennie.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ObjectNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>Az objektum nevének kevesebb, mint 200 karakter hosszúságúnak kell lennie.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="PlatformNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>A platform nevének kevesebb, mint 200 karakter hosszúságúnak kell lennie.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ProcessorNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>A processzor nevének kevesebb, mint 200 karakter hosszúságúnak kell lennie.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SerialNumberMustBeLessThan200Characters" xml:space="preserve">
+    <value>A sorozatszámnak kevesebb, mint 200 karakter hosszúnak kell lennie.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="VersionMustBeLessThan200Characters" xml:space="preserve">
+    <value>A verziónak kevesebb, mint 200 karakter hosszúságúnak kell lennie.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ClickToDisplayError" xml:space="preserve">
+    <value>Kattintson ide a megtekintéshez</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Frissítés</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="UpdateActionsIsDisabled" xml:space="preserve">
+    <value>A műveletek frissítése le van tiltva</value>
+    <comment>(Unsued)</comment>
+  </data>
+  <data name="EditDevicePropertiesFor" xml:space="preserve">
+    <value>Eszköztulajdonságok szerkesztése ({0})</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoscriptHeader" xml:space="preserve">
+    <value>JavaScript szükséges</value>
+    <comment>Error message. {StrContains="JavaScript"}</comment>
+  </data>
+  <data name="NoscriptP1" xml:space="preserve">
+    <value>A böngésző jelenleg a JavaScript blokkolására van beállítva. A szolgáltatás használatához engedélyeznie kell a JavaScript működését.</value>
+    <comment>Error message. {StrContains="JavaScript"}</comment>
+  </data>
+  <data name="NoscriptP2" xml:space="preserve">
+    <value>A webböngésző online súgójában talál információt a JavaScript engedélyezéséről, illetve arról, hogy a böngésző támogatja-e a JavaScript használatát.</value>
+    <comment>Informational text block. {StrContains="JavaScript"}</comment>
+  </data>
+  <data name="DeviceIdColon" xml:space="preserve">
+    <value>Eszköz azonosítója:</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="DeviceAddError" xml:space="preserve">
+    <value>Nem lehet hozzáadni az eszközt. Váratlan hiba történt.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceAddSelectTypeError" xml:space="preserve">
+    <value>Nem sikerült létrehozni az eszközt. Váratlan hiba történt.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Sent" xml:space="preserve">
+    <value>Elküldve</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DateTimeValidationMessage" xml:space="preserve">
+    <value>Érvénytelen dátum</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="StringValidationMessage" xml:space="preserve">
+    <value>Érvénytelen karakterlánc</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RequiredValue" xml:space="preserve">
+    <value>Ez a mező kötelező.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Local" xml:space="preserve">
+    <value>Helyi</value>
+    <comment>Time Zone dropdown option.</comment>
+  </data>
+  <data name="UTC" xml:space="preserve">
+    <value>UTC</value>
+    <comment>Time Zone dropdown option. {Locked="UTC"}</comment>
+  </data>
+  <data name="binaryCommandErrorMessage" xml:space="preserve">
+    <value>Érvénytelen Base64-bináris; a várt formátum a következőhöz hasonló: "Zm9vYmFy' or 'Zm9vYg=="</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="byteCommandErrorMessage" xml:space="preserve">
+    <value>Érvénytelen bájt; a várt formátum például "24" (0 és 255 közötti érték)</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="dateCommandErrorMessage" xml:space="preserve">
+    <value>Érvénytelen dátum; a várt dátumformátum "ÉÉÉÉ-HH-NN"</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="datetimeoffsetCommandErrorMessage" xml:space="preserve">
+    <value>Érvénytelen dátum-idő; a várt formátum "ÉÉÉÉ-HH-NN ÓÓ:pp:mm"</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="decimalCommandErrorMessage" xml:space="preserve">
+    <value>Érvénytelen decimális; a várt formátum "-12,3456" vagy "98765,43"</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DecimalCommandHint" xml:space="preserve">
+    <value>Adattípus: decimális (például "3,14")</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="doubleCommandErrorMessage" xml:space="preserve">
+    <value>Érvénytelen duplaszó; a várt formátum például "3,14" vagy "6.02e+23"</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DoubleCommandHint" xml:space="preserve">
+    <value>Adattípus: double (like '3.14', '6.02e+23', etc)</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="guidCommandErrorMessage" xml:space="preserve">
+    <value>Érvénytelen GUID; a várt formátum például "5d9ff9f7-ca82-4657-97f7-569dc8591af7"</value>
+    <comment>Error message. {Locked="GUID"}</comment>
+  </data>
+  <data name="GuidCommandHint" xml:space="preserve">
+    <value>Adattípus: GUID (formátum: 'd51ce656-b765-4dce-ba17-67961cbc111d')</value>
+    <comment>Tooltip.  {Locked="GUID"}</comment>
+  </data>
+  <data name="int16CommandErrorMessage" xml:space="preserve">
+    <value>Érvényelen Int16 érték; a várt formátum például "-2000" vagy "4500" (-32768 és 32767 között)</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="int32CommandErrorMessage" xml:space="preserve">
+    <value>Érvényelen Int32 érték; a várt formátum például "-2000" vagy "4500" (-2147483648 és 2147483647 között)</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="int64CommandErrorMessage" xml:space="preserve">
+    <value>Érvényelen Int64 érték; a várt formátum például "-2000" vagy "4500"</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="NumberCommandHint" xml:space="preserve">
+    <value>Adattípus: {0} ({1} és {2} közötti egész szám)</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="NumberOfDevicesHeader" xml:space="preserve">
+    <value>Eszközök száma</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="sbyteCommandErrorMessage" xml:space="preserve">
+    <value>Érvénytelen SByte érték; a várt formátum például "-43" or "12" (between -128 and 127)</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="singleCommandErrorMessage" xml:space="preserve">
+    <value>Érvénytelen single érték; a várt formátum például "3,14" vagy "6.02e+23"</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SingleCommandHint" xml:space="preserve">
+    <value>Adattípus: single (például "3,14", "4.29e09" stb.)</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ErrorRemoveDevice" xml:space="preserve">
+    <value>Nem lehet eltávolítani az eszközt. Váratlan hiba történt.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ErrorSendingConfig" xml:space="preserve">
+    <value>Nem sikerült elküldeni a konfigurációt. Váratlan hiba történt.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="InvalidKeyType" xml:space="preserve">
+    <value>Érvénytelen kulcs</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Resend" xml:space="preserve">
+    <value>Újraküldés</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ResendCommandError" xml:space="preserve">
+    <value>Hiba történt a parancs újraküldése során</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToUpdateActionId" xml:space="preserve">
+    <value>Nem sikerült frissíteni az ActionId értékét</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToRetrieveActions" xml:space="preserve">
+    <value>A műveletek listájának beolvasása közben hiba lépett fel.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToRetrieveDevices" xml:space="preserve">
+    <value>Hiba történt az eszközök listájának beolvasása közben.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnknownCommandParameterType" xml:space="preserve">
+    <value>A parancs következő paramétertípusa érvénytelen: '{0}'</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="BinaryCommandHint" xml:space="preserve">
+    <value>Adattípus: Base64 kódolású karakterlánc (például "Zm9vYmFy" vagy "Zm9vYg ==")</value>
+    <comment>Input field tooltip.</comment>
+  </data>
+  <data name="StringCommandHint" xml:space="preserve">
+    <value>Adattípus: karakterlánc (példa: "Üdvözöljük, kedves felhasználó!")</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="FindDevices" xml:space="preserve">
+    <value>ESZKÖZÖK KERESÉSE</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FindLabel" xml:space="preserve">
+    <value>Keresés</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ResetLabel" xml:space="preserve">
+    <value>Alaphelyzet</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="SearchDevices" xml:space="preserve">
+    <value>ESZKÖZÖK KERESÉSE</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="AddNewClause" xml:space="preserve">
+    <value>+ ÚJ FELTÉTEL HOZZÁADÁSA</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FilterDevices" xml:space="preserve">
+    <value>ESZKÖZÖK SZŰRÉSE</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FilterFieldLabel" xml:space="preserve">
+    <value>MEZŐ</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="FilterOperatorContainsInsensitive" xml:space="preserve">
+    <value>Tartalmazza (kis- és nagybetű nincs megkülönböztetve)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorContainsSensitive" xml:space="preserve">
+    <value>Tartalmazza (kis-és nagybetűk megkülönböztetve)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorExactInsensitive" xml:space="preserve">
+    <value>Pontos egyezés (kis-és nagybetű nincs megkülönböztetve)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorExactSensitive" xml:space="preserve">
+    <value>Pontos egyezés (kis-és nagybetűk megkülönböztetve)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorLabel" xml:space="preserve">
+    <value>OPERÁTOR</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="FilterOperatorStartsWithInsensitive" xml:space="preserve">
+    <value>Ezzel kezdődik (kis-és nagybetű nincs megkülönböztetve)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorStartsWithSensitive" xml:space="preserve">
+    <value>Ezzel kezdődik (kis-és nagybetűk megkülönböztetve)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionDeviceId" xml:space="preserve">
+    <value>Eszközazonosító</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionFirmwareVersion" xml:space="preserve">
+    <value>Belső vezérlőprogram verziója</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionInstalledRam" xml:space="preserve">
+    <value>Telepített memória</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionManufacturer" xml:space="preserve">
+    <value>Gyártó</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionModelNumber" xml:space="preserve">
+    <value>Modellszám</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionPlatform" xml:space="preserve">
+    <value>Platform</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionProcessor" xml:space="preserve">
+    <value>Processzor</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionSerialNumber" xml:space="preserve">
+    <value>Sorozatszám</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterValueLabel" xml:space="preserve">
+    <value>ÉRTÉK</value>
+    <comment>Textbox label.</comment>
+  </data>
+  <data name="FilterOptionStatus" xml:space="preserve">
+    <value>Állapot</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterStatusDisabled" xml:space="preserve">
+    <value>Letiltva</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterStatusLabel" xml:space="preserve">
+    <value>ÁLLAPOT</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="FilterStatusPending" xml:space="preserve">
+    <value>Függőben</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterStatusRunning" xml:space="preserve">
+    <value>Fut</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="DeviceIdCaseSensitiveWarning" xml:space="preserve">
+    <value>(Az eszközanosító megkülönbözteti a kis- és nagybetűket)</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="FindDevicesLabelCollapsed" xml:space="preserve">
+    <value>ESZKÖZÖK KERESÉSE</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="DeviceDetailsPaneLabel" xml:space="preserve">
+    <value>ESZKÖZ ADATAI</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoActionSelectedLabel" xml:space="preserve">
+    <value>Nincs kiválasztva művelet</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="NoDeviceSelectedLabel" xml:space="preserve">
+    <value>Nincs eszköz kijelölve</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="DeviceRules" xml:space="preserve">
+    <value>Eszköz szabályai</value>
+    <comment>Page title.</comment>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>Szabályok</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="RulesHeaderFormatted" xml:space="preserve">
+    <value>Szabályok ({0})</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DataFieldHeader" xml:space="preserve">
+    <value>Adatmező</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="NoRuleSelected" xml:space="preserve">
+    <value>Nincs kijelölt szabály.</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="NoRuleSelectedLabel" xml:space="preserve">
+    <value>Nincs kijelölt szabály.</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="OperatorHeader" xml:space="preserve">
+    <value>Operátor</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="RuleIdHeader" xml:space="preserve">
+    <value>Szabályazonosító</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="RuleNameHeader" xml:space="preserve">
+    <value>Szabály neve</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="RulePropertiesPaneLabel" xml:space="preserve">
+    <value>Tulajdonságok</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ThresholdHeader" xml:space="preserve">
+    <value>Küszöbérték</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FailedToRetrieveRules" xml:space="preserve">
+    <value>Hiba történt a szabályok listájának beolvasása közben.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FilterStatusEnabled" xml:space="preserve">
+    <value>Engedélyezve</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Tulajdonságok</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="UnableToRetrieveRuleFromService" xml:space="preserve">
+    <value>Nem sikerült lekérdezni a szabályt a szolgáltatástól</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Letiltás</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>Engedélyezés</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="RuleProperties" xml:space="preserve">
+    <value>Szabály tulajdonságai</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="RuleStatus" xml:space="preserve">
+    <value>Szabály állapota</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ValueHeader" xml:space="preserve">
+    <value>Érték</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AddRule" xml:space="preserve">
+    <value>Szabály hozzáadása...</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RuleUpdateError" xml:space="preserve">
+    <value>Hiba történt a szabály frissítésekor.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceRulesFullError" xml:space="preserve">
+    <value>Az eszközhöz minden felhasználható adatmező rendelkezik definiált szabályokkal. Módosítson egy meglévő szabályt.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DisableRule" xml:space="preserve">
+    <value>Szabály letiltása</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="EnableRule" xml:space="preserve">
+    <value>Szabály engedélyezése</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AllDevices" xml:space="preserve">
+    <value>Minden eszköz</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AverageOfDeviceHumidity" xml:space="preserve">
+    <value>Átlagos eszköznedvesség</value>
+    <comment>Tile heading.</comment>
+  </data>
+  <data name="Humidity" xml:space="preserve">
+    <value>Nedvességtartalom</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="MaxOfDevicesHumidity" xml:space="preserve">
+    <value>Az eszköz maximális nedvességtartalma</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="MinOfDevicesHumidity" xml:space="preserve">
+    <value>Az eszköz minimális nedvességtartalma</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="TelemetryGaugeNumericFormat" xml:space="preserve">
+    <value>0,00</value>
+    <comment>Guge format string.</comment>
+  </data>
+  <data name="TelemetryHistory" xml:space="preserve">
+    <value>Telemetriai előzmények</value>
+    <comment>Chart heading.</comment>
+  </data>
+  <data name="Temperature" xml:space="preserve">
+    <value>Hőmérséklet</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Aktív</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="Alarm" xml:space="preserve">
+    <value>Riasztás</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="AlarmHistory" xml:space="preserve">
+    <value>Riasztási előzmények</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="Closed" xml:space="preserve">
+    <value>Lezárt</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Információ</value>
+  </data>
+  <data name="IssueNumberHeader" xml:space="preserve">
+    <value>Probléma száma</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="IssueTypeHeader" xml:space="preserve">
+    <value>Probléma típusa</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DefaultSolutionName" xml:space="preserve">
+    <value>Távoli figyelési megoldás</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="EditDeviceRuleFormatted" xml:space="preserve">
+    <value>{1} eszköz szabálya ({0})</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SaveAndViewRules" xml:space="preserve">
+    <value>Mentés és a szabályok megtekintése</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ViewRules" xml:space="preserve">
+    <value>Szabályok megtekintése</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RuleOutput" xml:space="preserve">
+    <value>Szabály kimenete</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Érték</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ThresholdFormatError" xml:space="preserve">
+    <value>A küszöbértéknek érvényes duplaszónak kell lennie.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveAlertsHistoryFromService" xml:space="preserve">
+    <value>Nem sikerült lekérdezni a riasztási előzményeket a szolgáltatástól</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveDeviceTelemetryFromService" xml:space="preserve">
+    <value>Nem sikerült lekérdezni a telemetriát a szolgáltatástól</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandDeliveryCountExceeded" xml:space="preserve">
+    <value>Szállítási darabszám túllépve</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandExpired" xml:space="preserve">
+    <value>Lejárt</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandRejected" xml:space="preserve">
+    <value>Elutasítva</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandSuccess" xml:space="preserve">
+    <value>Sikeres</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Időpont</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="InfoIconLink" xml:space="preserve">
+    <value>https://azure.microsoft.com/solutions/iot-suite/</value>
+    <comment>Link to a documentation.</comment>
+  </data>
+  <data name="RuleAlreadyAddedError" xml:space="preserve">
+    <value>Az adatmezőhöz tartozó szabály már létezik az eszközhöz. Csak egy szabályt lehet definiálni az adott eszközhöz egy mezőben. Vagy hozzon létre szabályt egy másik adatmezőhöz, vagy szerkessze a meglévő szabályt.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="TableDataSaveConflictErrorMessage" xml:space="preserve">
+    <value>Ütközés történt az adatok mentése közben. Ellenőrizze az adatokat, majd próbálja újra.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SimulatorCredentialHeader" xml:space="preserve">
+    <value>A szimulált eszköz létrehozva ezekkel a beállításokkal</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ErrorRemoveRule" xml:space="preserve">
+    <value>Nem távolítható el szabály. Váratlan hiba történt.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RemoveRule" xml:space="preserve">
+    <value>Szabály eltávolítása</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RemoveRuleConfirmationPart1" xml:space="preserve">
+    <value>Biztos benne? A művelettel eltávolítja a szabályt az IoT-megoldásból.</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveRuleConfirmationPart2" xml:space="preserve">
+    <value>Ez a művelet nem vonható vissza.</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveRuleFormatted" xml:space="preserve">
+    <value>Szabály eltávolítása ({0}) a(z) {1} eszközről</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="YesRemoveRuleFormatted" xml:space="preserve">
+    <value>Igen, távolítsa el a(z) {0} szabályt a(z) {1} eszközről</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="RemoveDeviceConfirmation" xml:space="preserve">
+    <value>Eszköz eltávolítása</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CellularConnectivityManagement" xml:space="preserve">
+    <value>Mobilhálózati kapcsolat kezelése</value>
+    <comment>Panel heading.</comment>
+  </data>
+  <data name="SimInformation" xml:space="preserve">
+    <value>SIM információk...</value>
+    <comment>Hyperlink label. {Locked="SIM"}</comment>
+  </data>
+  <data name="ConnectionStatus" xml:space="preserve">
+    <value>Kapcsolat állapota: </value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="LastSessionStart" xml:space="preserve">
+    <value>Utolsó munkamenet kezdete: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="SimStatus" xml:space="preserve">
+    <value>SIM állapota: </value>
+    <comment>Read-only field label. {Locked="SIM"}</comment>
+  </data>
+  <data name="CurrentRatePlan" xml:space="preserve">
+    <value>Aktuális díjkonstrukció: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="AggregatedUsage" xml:space="preserve">
+    <value>Összesített használat: </value>
+    <comment>Label on cellular information details panel.</comment>
+  </data>
+  <data name="IMEI" xml:space="preserve">
+    <value>IMEI: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="IMSI" xml:space="preserve">
+    <value>IMSI: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="CurrentLimitReached" xml:space="preserve">
+    <value>Aktuális korlát elérve: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="ICCID" xml:space="preserve">
+    <value>ICCID: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="AccountId" xml:space="preserve">
+    <value>Fiók azonosítója: </value>
+    <comment>Label on cellular information details panel.</comment>
+  </data>
+  <data name="SimInformationBackText" xml:space="preserve">
+    <value>SIM információ</value>
+    <comment>Hyperlink label. {Locked="SIM"}</comment>
+  </data>
+  <data name="NavigationMenuItemAdvanced" xml:space="preserve">
+    <value>Speciális</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="ApiRegistration" xml:space="preserve">
+    <value>Felhasználói API-regisztráció</value>
+    <comment>Tile heading.</comment>
+  </data>
+  <data name="CheckIccid" xml:space="preserve">
+    <value>ICCID ellenőrzése</value>
+    <comment>(Unsused)</comment>
+  </data>
+  <data name="EnterIccid" xml:space="preserve">
+    <value>Adja meg a mobilszolgáltatótól kapott Iccid azonosítót</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Associate" xml:space="preserve">
+    <value>Társítás</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="SimAssociation" xml:space="preserve">
+    <value>SIM-hozzárendelés</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="OptionalBrackets" xml:space="preserve">
+    <value>(Nem kötelező)</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="BaseUrlToolTip" xml:space="preserve">
+    <value>Az API-kulcs alatt található a vezérlőközpontban.</value>
+    <comment>Input field tooltip.</comment>
+  </data>
+  <data name="LicenseKeyToolTip" xml:space="preserve">
+    <value>A vezérlőközpont API lapjának bal felső részén található.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="PasswordToolTip" xml:space="preserve">
+    <value>A vezérlőközpontba történő bejelentkezéshez használt jelszó.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="UsernameToolTip" xml:space="preserve">
+    <value>A vezérlőközpontba történő bejelentkezéshez használt felhasználónév.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="AttachIccidToDevice" xml:space="preserve">
+    <value>SIM ICCID csatolása az eszközhöz</value>
+    <comment>Checkbox label. {Locked="SIM ICCID"}</comment>
+  </data>
+  <data name="SimIccid" xml:space="preserve">
+    <value>SIM-ICCID</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="NavigationMenuItemsAdvanced" xml:space="preserve">
+    <value>Speciális</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="CellularConn" xml:space="preserve">
+    <value>Mobilhálózat</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="HealthBeat" xml:space="preserve">
+    <value>Állapotjelzés</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="LogicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ApiRegistrationDescription" xml:space="preserve">
+    <value>A megoldás regisztrálása a Jasper Control Center platformhitelesítő adataival a Jasper API használatának hitelesítéséhez.</value>
+    <comment>Tile subheading.</comment>
+  </data>
+  <data name="ApiRegistrationTitle" xml:space="preserve">
+    <value>Jasper API regisztrálása</value>
+    <comment>Panel heading. {Locked="Jasper API"}</comment>
+  </data>
+  <data name="CellularConnViewTitle" xml:space="preserve">
+    <value>Mobilhálózat</value>
+    <comment>Panel heading.</comment>
+  </data>
+  <data name="DeviceAssociationDescription" xml:space="preserve">
+    <value>A &lt;a href="http://www.jasper.com/iot-service-platform/control-center"&gt;vezérlőközpontban&lt;/a&gt; telepített Azure IoT-eszközök társítása ehhez a megoldáshoz.</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="DeviceAssociationTitle" xml:space="preserve">
+    <value>Eszköz társítása</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="HealthBeatViewTitle" xml:space="preserve">
+    <value>Állapotjelzés</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="LogicAppsViewTitle" xml:space="preserve">
+    <value>Logic Apps</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ApiRegistrationFailed" xml:space="preserve">
+    <value>Sikertelen regisztráció: Ellenőrizze a hitelesítő adatokat</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ApiRegistrationSuccessful" xml:space="preserve">
+    <value>A regisztráció sikerült</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="ApiRegistrationNotAvailable" xml:space="preserve">
+    <value>Ehhez a fiókhoz jelenleg nincs API regisztrálva </value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="JasperHelpLink" xml:space="preserve">
+    <value>http://www.jasper.com/microsoft-iot</value>
+    <comment>Link to Jasper documentation.</comment>
+  </data>
+  <data name="CellularInvalidCreds" xml:space="preserve">
+    <value>400200</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceList" xml:space="preserve">
+    <value>Eszközök listája</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Előző</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FilterInfo" xml:space="preserve">
+    <value>(összesen _MAX_ rekord szűrése)</value>
+    <comment>Do not translate the substring "_MAX_"--it is programmatically replaced with the total number of records.</comment>
+  </data>
+  <data name="RemoveRuleButtonLabel" xml:space="preserve">
+    <value>Szabály eltávolítása...</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AdministratorRole" xml:space="preserve">
+    <value>Rendszergazda</value>
+    <comment>User role name.</comment>
+  </data>
+  <data name="ImplicitReadOnlyRole" xml:space="preserve">
+    <value>Implicit írásvédett</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ReadOnlyRole" xml:space="preserve">
+    <value>Csak olvasható</value>
+    <comment>User role name.</comment>
+  </data>
+  <data name="DeviceToView" xml:space="preserve">
+    <value>Megjelenítendő eszköz:</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Kijelentkezés</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="CommandCToCopy" xml:space="preserve">
+    <value>Másolás: Command+C</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceProperty_CreatedTime" xml:space="preserve">
+    <value>CreatedTime (UTC)</value>
+    <comment>{Locked="UTC"}</comment>
+  </data>
+  <data name="DeviceProperty_UpdatedTime" xml:space="preserve">
+    <value>UpdatedTime (UTC)</value>
+    <comment>{Locked="UTC"}</comment>
+  </data>
+  <data name="DevicePropertiesFormattedAsStored" xml:space="preserve">
+    <value>Az eszköz tárolt tulajdonságai jelennek meg.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="LocalTime" xml:space="preserve">
+    <value>Helyi idő</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="RemoteNameNotResolved" xml:space="preserve">
+    <value>A távoli név nem oldható fel</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RemoveSimAssociation" xml:space="preserve">
+    <value>SIM-hozzárendelés eltávolítása</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="SimAssociationSucceeded" xml:space="preserve">
+    <value>A társítás sikerült. Eszköz: {0} , ICCID: {1}.</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="ApiRegistrationInfoText" xml:space="preserve">
+    <value>Adja meg a következő hitelesítő adatokat a Jasper-integráció aktiválására a vezérlőközpont eszközeinek az IoT Suite-on keresztüli megtekintéséhez és vezérléséhez:</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="BaseUrlLabel" xml:space="preserve">
+    <value>Alap URL</value>
+    <comment>Input field label.</comment>
+  </data>
+  <data name="IccidLabel" xml:space="preserve">
+    <value>ICCID</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="LicenseKeyLabel" xml:space="preserve">
+    <value>Licenckulcs</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>Jelszó</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SimInformationInfoText" xml:space="preserve">
+    <value>A Jasper vezérlőközpont-platformon keresztül továbbítva</value>
+    <comment>{Locked="Jasper"}</comment>
+  </data>
+  <data name="UsernameLabel" xml:space="preserve">
+    <value>Felhasználónév</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="LinkLabelHelpAndSupport" xml:space="preserve">
+    <value>Súgó és támogatás</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
+    <value>Visszajelzés küldése</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+</root>
