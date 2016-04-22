@@ -110,7 +110,7 @@ function GetSuiteLocation()
     Write-Host "Available locations:";
     $regions = @();
     $index = 1
-    foreach ($loc in $locations)
+    foreach ($loc in $global:locations)
     {
         $region = New-Object System.Object
         $region | Add-Member -MemberType NoteProperty -Name "Option" -Value $index
@@ -139,7 +139,7 @@ function GetSuiteLocation()
             continue
         }
         
-        $region = $locations[$selectedIndex - 1]
+        $region = $global:locations[$selectedIndex - 1]
     }
     return $region
 }
@@ -157,7 +157,7 @@ function ValidateLocation()
     }
     Write-Warning "$(Get-Date –f $timeStampFormat) - Location $location is not available for this subscription.  Specify different -Location";
     Write-Warning "$(Get-Date –f $timeStampFormat) - Available Locations:";
-    foreach ($loc in $locations)
+    foreach ($loc in $global:locations)
     {
         Write-Warning $loc
     }

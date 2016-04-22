@@ -1129,15 +1129,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 foreach (JObject field in device.Telemetry)
                 {
                     // Default displayName to null if not present
-                    string displayName = field.GetValue("DisplayName", StringComparison.InvariantCultureIgnoreCase) != null ?
-                        field.GetValue("DisplayName", StringComparison.InvariantCultureIgnoreCase).ToString() :
+                    string displayName = field.GetValue("DisplayName", StringComparison.OrdinalIgnoreCase) != null ?
+                        field.GetValue("DisplayName", StringComparison.OrdinalIgnoreCase).ToString() :
                         null;
 
                     deviceTelemetryFields.Add(new DeviceTelemetryFieldModel
                     {
                         DisplayName = displayName,
-                        Name = field.GetValue("Name", StringComparison.InvariantCultureIgnoreCase).ToString(),
-                        Type = field.GetValue("Type", StringComparison.InvariantCultureIgnoreCase).ToString()
+                        Name = field.GetValue("Name", StringComparison.OrdinalIgnoreCase).ToString(),
+                        Type = field.GetValue("Type", StringComparison.OrdinalIgnoreCase).ToString()
                     });
                 }
 

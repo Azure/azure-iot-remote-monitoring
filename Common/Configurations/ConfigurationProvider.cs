@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations
 {
@@ -22,29 +19,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
 
         public string GetConfigurationSettingValueOrDefault(string configurationSettingName, string defaultValue)
         {
-            try
-            {
+
                 if (!this.configuration.ContainsKey(configurationSettingName))
                 {
-                    string configValue = string.Empty;
-                    bool isEmulated = true;
-                    bool isAvailable = false;
-                    try
-                    {
-                        isAvailable = RoleEnvironment.IsAvailable;
-                    }
-                    catch (TypeInitializationException) { }
-                    if (isAvailable)
-                    {
-                        configValue = RoleEnvironment.GetConfigurationSettingValue(configurationSettingName);
-                        isEmulated = RoleEnvironment.IsEmulated;
-                    }
-                    else
-                    {
-                        configValue = ConfigurationManager.AppSettings[configurationSettingName];
-                        isEmulated = Environment.CommandLine.Contains("iisexpress.exe") ||
-                            Environment.CommandLine.Contains("WebJob.vshost.exe");
-                    }
+                    string configValue = CloudConfigurationManager.GetSetting(configurationSettingName);
+                    bool isEmulated = Environment.CommandLine.Contains("iisexpress.exe") ||
+                        Environment.CommandLine.Contains("WebJob.vshost.exe");
+
                     if (isEmulated && (configValue != null && configValue.StartsWith(ConfigToken, StringComparison.OrdinalIgnoreCase)))
                     {
                         if (environment == null)
@@ -52,8 +33,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
                             LoadEnvironmentConfig();
                         }
 
-                        configValue = 
-                            environment.GetSetting(configValue.Substring(configValue.IndexOf(ConfigToken, StringComparison.Ordinal) + ConfigToken.Length));
+                        configValue = environment.GetSetting(
+                            configValue.Substring(configValue.IndexOf(ConfigToken, StringComparison.Ordinal) + ConfigToken.Length));
                     }
                     try
                     {
@@ -65,14 +46,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
                         // thread, so we're fine to continue
                     }
                 }
-            }
-            catch (RoleEnvironmentException)
-            {
-                if (string.IsNullOrEmpty(defaultValue))
-                    throw;
 
-                this.configuration.Add(configurationSettingName, defaultValue);
-            }
             return this.configuration[configurationSettingName];
         }
 
