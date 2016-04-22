@@ -1,4 +1,5 @@
 ﻿/// <autosync enabled="true" />
+/// <reference path="bootstrap.min.js" />
 /// <reference path="dialog.js" />
 /// <reference path="IoTHelperScripts.js" />
 /// <reference path="jquery.dataTables.min.js" />

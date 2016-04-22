@@ -1659,4 +1659,12 @@
     <value>使用者名稱</value>
     <comment>Input label.</comment>
   </data>
+  <data name="LinkLabelHelpAndSupport" xml:space="preserve">
+    <value>說明及支援</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
+    <value>提供意見反應</value>
+    <comment>Hyperlink label.</comment>
+  </data>
 </root>

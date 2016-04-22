@@ -28,6 +28,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
                 "~/Scripts/jquery-ui-1.11.4.js",
                 "~/Scripts/jquery-ui-i18n.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap")
+               .Include(
+                "~/Scripts/bootstrap.min.js"));
+
             bundles.Add(new StyleBundle("~/content/css/vendor")
                 .Include(
                 "~/content/styles/datatables.css",

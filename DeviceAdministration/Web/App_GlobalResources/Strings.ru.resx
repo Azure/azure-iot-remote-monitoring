@@ -1659,4 +1659,12 @@
     <value>Имя пользователя</value>
     <comment>Input label.</comment>
   </data>
+  <data name="LinkLabelHelpAndSupport" xml:space="preserve">
+    <value>Справка и поддержка</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
+    <value>Отправить отзыв</value>
+    <comment>Hyperlink label.</comment>
+  </data>
 </root>

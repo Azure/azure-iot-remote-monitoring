@@ -9,5 +9,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public string Name { get; set; }
 
         public string CultureName { get; set; }
+
+        public bool IsCurrent { get; set; }
     }
 }

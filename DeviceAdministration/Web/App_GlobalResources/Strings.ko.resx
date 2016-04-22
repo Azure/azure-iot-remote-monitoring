@@ -1659,4 +1659,12 @@
     <value>사용자 이름</value>
     <comment>Input label.</comment>
   </data>
+  <data name="LinkLabelHelpAndSupport" xml:space="preserve">
+    <value>도움말 및 지원</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
+    <value>피드백 제공</value>
+    <comment>Hyperlink label.</comment>
+  </data>
 </root>

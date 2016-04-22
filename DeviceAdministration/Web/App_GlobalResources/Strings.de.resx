@@ -1661,4 +1661,12 @@
     <value>Benutzername</value>
     <comment>Input label.</comment>
   </data>
+  <data name="LinkLabelHelpAndSupport" xml:space="preserve">
+    <value>Hilfe und Support</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
+    <value>Feedback senden</value>
+    <comment>Hyperlink label.</comment>
+  </data>
 </root>
