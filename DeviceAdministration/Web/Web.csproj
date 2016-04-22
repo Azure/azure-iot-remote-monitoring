@@ -381,6 +381,7 @@
     <Content Include="Content\img\sort_both.png" />
     <Content Include="Content\img\sort_desc.png" />
     <Content Include="Content\img\sort_desc_disabled.png" />
+    <Content Include="Content\styles\main.css" />
     <Content Include="Content\styles\visuals.min.css" />
     <Content Include="Content\styles\bootstrap\dropdowns.less" />
     <Content Include="Content\styles\bootstrap\bootstrap.less" />
