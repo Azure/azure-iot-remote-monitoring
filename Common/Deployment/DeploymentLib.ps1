@@ -864,7 +864,7 @@ function InitializeEnvironment()
     {
         $global:SubscriptionId = GetEnvSetting "SubscriptionId"
         
-        if ([string]::IsNullOrEmpty($global:SubscriptionId))
+        if ([string]::IsNullOrEmpty($global:SubscriptionId) -or $global:SubscriptionId -eq "not set" )
         {
             $global:SubscriptionId = "not set"
             $subscriptions = Get-AzureRMSubscription
