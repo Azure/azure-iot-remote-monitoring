@@ -1,0 +1,1670 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddDevice" xml:space="preserve">
+    <value>장치 추가</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AddADeviceFormatted" xml:space="preserve">
+    <value>{0} 추가</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AddNew" xml:space="preserve">
+    <value>새로 추가</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AuthenticationKey" xml:space="preserve">
+    <value>인증 키</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AuthKey1" xml:space="preserve">
+    <value>키 1</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="AuthKey2" xml:space="preserve">
+    <value>키 2</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>취소</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>완료</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ConfirmOrCustomizeTheMetadata" xml:space="preserve">
+    <value>장치 메타데이터 확인 또는 사용자 지정</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>복사</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CopyCredentialsIntoFile" xml:space="preserve">
+    <value>장치의 구성 파일에 자격 증명 복사</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="CopyDeviceIdAndAuthKeyLabel" xml:space="preserve">
+    <value>장치 ID 및 인증 키 복사</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>만들기</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="GenerateADeviceId" xml:space="preserve">
+    <value>자동으로 장치 ID 생성</value>
+    <comment>Radio button label.</comment>
+  </data>
+  <data name="DeviceId" xml:space="preserve">
+    <value>장치 ID</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="EnterDeviceId" xml:space="preserve">
+    <value>장치 ID 입력</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="Instructions" xml:space="preserve">
+    <value>지침</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="InstructionsForYourDeviceFormatted" xml:space="preserve">
+    <value>{0}에 대한 지침</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="EnterDeviceMetadata" xml:space="preserve">
+    <value>장치 메타데이터 입력</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="NavigationMenuItemActions" xml:space="preserve">
+    <value>작업</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="NavigationMenuItemDashboard" xml:space="preserve">
+    <value>대시보드</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="NavigationMenuItemDeviceExplorer" xml:space="preserve">
+    <value>장치 탐색기</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="NavigationMenuItemDevices" xml:space="preserve">
+    <value>장치</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>다음</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="StepOneHeader" xml:space="preserve">
+    <value>1/3단계</value>
+    <comment>Wizard step heading.</comment>
+  </data>
+  <data name="StepThreeHeader" xml:space="preserve">
+    <value>3/3단계</value>
+    <comment>Wizard step heading.</comment>
+  </data>
+  <data name="StepTwoHeader" xml:space="preserve">
+    <value>2/3단계</value>
+    <comment>Wizard step heading.</comment>
+  </data>
+  <data name="YouChose" xml:space="preserve">
+    <value>선택한 사항:</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="YourDeviceIsCompleteFormatted" xml:space="preserve">
+    <value>{0}이(가) 완료되었습니다.</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DeviceIdCreationPrompt" xml:space="preserve">
+    <value>장치 ID를 정의할 방법을 지정하세요. </value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="FirmwareVersion" xml:space="preserve">
+    <value>펌웨어 버전</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="LetMeDefineMyOwnDeviceId" xml:space="preserve">
+    <value>직접 나만의 장치 ID 정의</value>
+    <comment>Radio button label.</comment>
+  </data>
+  <data name="Manufacturer" xml:space="preserve">
+    <value>제조업체</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ObjectName" xml:space="preserve">
+    <value>개체 이름</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>일련 번호</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>버전</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ModelNumber" xml:space="preserve">
+    <value>모델 번호</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ShowInstructions" xml:space="preserve">
+    <value>지침 표시</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>완료</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceIdInUse" xml:space="preserve">
+    <value>DeviceID가 이미 사용 중입니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="EnableDevice" xml:space="preserve">
+    <value>장치 사용</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AuthenticationKeys" xml:space="preserve">
+    <value>인증 키</value>
+    <comment>Device details section heading.</comment>
+  </data>
+  <data name="AvailableActions" xml:space="preserve">
+    <value>사용 가능한 작업</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="AvailablePowerSources" xml:space="preserve">
+    <value>사용 가능한 전원</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="BatteryLevel" xml:space="preserve">
+    <value>배터리 수준</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DisableDevice" xml:space="preserve">
+    <value>장치 사용 안 함</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AzureDevicesHostname" xml:space="preserve">
+    <value>IoT Hub 호스트 이름</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>일반</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Metadata" xml:space="preserve">
+    <value>메타데이터</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>확인</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="PowerSourceVoltage" xml:space="preserve">
+    <value>전압</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>다시 시도</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>저장</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ServiceUnavailable" xml:space="preserve">
+    <value>서비스를 사용할 수 없음</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>명령</value>
+    <comment>(Unsused)</comment>
+  </data>
+  <data name="CommandHistory" xml:space="preserve">
+    <value>명령 기록</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="CommandName" xml:space="preserve">
+    <value>명령 이름</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandResult" xml:space="preserve">
+    <value>결과</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandTimeCreated" xml:space="preserve">
+    <value>만든 시간(로컬)</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandTimeUpdated" xml:space="preserve">
+    <value>업데이트된 시간(로컬)</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandValuesSent" xml:space="preserve">
+    <value>전달된 값</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="DeviceCommands" xml:space="preserve">
+    <value>명령</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="DeviceCommandsHeader" xml:space="preserve">
+    <value>{0}에 대한 명령</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ParametersHeader" xml:space="preserve">
+    <value>매개 변수</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>보류 중</value>
+    <comment>Device command status.</comment>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>가격</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="PriceRange" xml:space="preserve">
+    <value>가격은 0보다 높아야 합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>제품</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="PropertiesPaneLabel" xml:space="preserve">
+    <value>속성</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SelectAProduct" xml:space="preserve">
+    <value>제품 선택</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>보내기</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SendCommand" xml:space="preserve">
+    <value>명령 보내기</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CheckId" xml:space="preserve">
+    <value>ID 확인</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceIdAvailable" xml:space="preserve">
+    <value>장치 ID를 사용할 수 있습니다.</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="RegisteredButNotPresent" xml:space="preserve">
+    <value>등록되었지만 없음</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="TimeRegistered" xml:space="preserve">
+    <value>등록한 시간</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="NoCommandsAvailable" xml:space="preserve">
+    <value>{0} 장치에 사용 가능한 명령이 없습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="EditDeviceConfiguration" xml:space="preserve">
+    <value>{0}에 대한 구성 편집</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Hostname" xml:space="preserve">
+    <value>IOT HUB 호스트 이름</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="HostnameLength" xml:space="preserve">
+    <value>호스트 이름은 1024자보다 길 수 없습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="PrimaryKey" xml:space="preserve">
+    <value>기본 키</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SecondaryKey" xml:space="preserve">
+    <value>보조 키</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SendConfiguration" xml:space="preserve">
+    <value>장치로 구성 보내기</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="RequestFormatError" xml:space="preserve">
+    <value>{0} 매개 변수가 없거나 값이 유효한 {1}(으)로 인식되지 않았습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RequestNullError" xml:space="preserve">
+    <value>JSON 요청 데이터가 null이거나 구문 분석할 수 없습니다. 데이터가 요청의 본문으로 전송되고 형식이 올바르게 지정되었는지 확인하세요.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="AnErrorOccurred" xml:space="preserve">
+    <value>요청을 처리하는 동안 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>오류</value>
+    <comment>Page title.</comment>
+  </data>
+  <data name="IoTDeviceAdministrationPortal" xml:space="preserve">
+    <value>IoT 장치 관리 포털</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="IoTDevicePortalSignIn" xml:space="preserve">
+    <value>IoT 장치 포털 - 로그인</value>
+    <comment>Page title.</comment>
+  </data>
+  <data name="MicrosoftAzure" xml:space="preserve">
+    <value>Microsoft Azure</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="MicrosoftAzureIoTSuite" xml:space="preserve">
+    <value>Microsoft Azure IoT Suite</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>로그인</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="YouMustBeSignedIn" xml:space="preserve">
+    <value>계속하려면 로그인해야 합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="YourSessionMayHaveExpired" xml:space="preserve">
+    <value>로그인한 경우 세션이 만료되었을 수 있습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="OpensInNewTab" xml:space="preserve">
+    <value>(새 탭에서 열기)</value>
+    <comment>Hyperlink hint.</comment>
+  </data>
+  <data name="DeviceIdInvalidCharactersError" xml:space="preserve">
+    <value>장치 ID에는 문자, 숫자 및 - : . + % _ # * ? ! ( ) , = @ ; $ ' 같은 특수 문자만 사용할 수 있습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIdLengthError" xml:space="preserve">
+    <value>장치 ID는 2자에서 128자 사이여야 합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>돌아가기</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ConfirmRegenKeyPart1" xml:space="preserve">
+    <value>계속할까요? 그러면</value>
+    <comment>Part of confirmation message. (Unused)</comment>
+  </data>
+  <data name="ConfirmRegenKeyPart2" xml:space="preserve">
+    <value>키가 다시 생성됩니다.</value>
+    <comment>Part of confirmation message. (Unused)</comment>
+  </data>
+  <data name="ViewAuthenticationKeys" xml:space="preserve">
+    <value>인증 키 보기</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="DeviceUpdateError" xml:space="preserve">
+    <value>장치를 업데이트할 수 없습니다. 예기치 않은 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>편집</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RemoveDevice" xml:space="preserve">
+    <value>장치 제거...</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RemoveDeviceConfirmationPart1" xml:space="preserve">
+    <value>계속할까요? 이 작업을 수행하면 IoT 솔루션에서 이 장치가</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveDeviceConfirmationPart2" xml:space="preserve">
+    <value>영구적으로 제거됩니다.</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveDeviceFormatted" xml:space="preserve">
+    <value>'{0}' 장치 제거</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="YesRemoveDeviceFormatted" xml:space="preserve">
+    <value>예, {0} 장치를 제거합니다.</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="AppConfig" xml:space="preserve">
+    <value>AppConfig</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="InstalledRam" xml:space="preserve">
+    <value>설치된 RAM</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="Platform" xml:space="preserve">
+    <value>플랫폼</value>
+    <comment>Device property. (Unused)</comment>
+  </data>
+  <data name="Processor" xml:space="preserve">
+    <value>프로세서</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="MaxLengthPrice" xml:space="preserve">
+    <value>가격은 1024자보다 길 수 없습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="MaxLengthProductId" xml:space="preserve">
+    <value>제품 ID는 1024자보다 길 수 없습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIdHeader" xml:space="preserve">
+    <value>장치 ID</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FirmwareHeader" xml:space="preserve">
+    <value>펌웨어</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="InstalledRamHeader" xml:space="preserve">
+    <value>설치된 RAM</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ManufactureHeader" xml:space="preserve">
+    <value>제조업체</value>
+    <comment>Table column header</comment>
+  </data>
+  <data name="ModelNumberHeader" xml:space="preserve">
+    <value>모델 번호</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="PlatformHeader" xml:space="preserve">
+    <value>플랫폼</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ProcessorHeader" xml:space="preserve">
+    <value>프로세서</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="SerialNumberHeader" xml:space="preserve">
+    <value>일련 번호</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="StatusHeader" xml:space="preserve">
+    <value>상태</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="AppConfigLength" xml:space="preserve">
+    <value>AppConfig는 1024자보다 길 수 없습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ClickToSelectAll" xml:space="preserve">
+    <value>모두 선택하려면 클릭</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CopyCredentials" xml:space="preserve">
+    <value>장치의 구성 파일에 자격 증명 복사</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="EditDeviceProperties" xml:space="preserve">
+    <value>장치 편집</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="ErrorWhileRetrievingKeys" xml:space="preserve">
+    <value>키를 검색하는 동안 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToUpdateDeviceStatus" xml:space="preserve">
+    <value>장치 상태를 업데이트하지 못함</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveActionFromService" xml:space="preserve">
+    <value>서비스에서 작업을 검색할 수 없습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveDeviceFromService" xml:space="preserve">
+    <value>서비스에서 장치를 검색할 수 없습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ControlCToCopy" xml:space="preserve">
+    <value>Ctrl+C to Copy</value>
+    <comment>{StrContains=i"Ctrl+C"}</comment>
+  </data>
+  <data name="DeviceKeysError" xml:space="preserve">
+    <value>키를 업데이트하는 동안 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RolloverKeys" xml:space="preserve">
+    <value>키 롤오버</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RolloverKeysConfirmation" xml:space="preserve">
+    <value>예, 키를 롤오버합니다.</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="RolloverKeysFor" xml:space="preserve">
+    <value>{0}에 대한 키 롤오버</value>
+  </data>
+  <data name="RolloverKeysText" xml:space="preserve">
+    <value>계속할까요? 그러면 키가 롤오버됩니다.</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="ConfigurationHeader" xml:space="preserve">
+    <value>구성</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SelectACommand" xml:space="preserve">
+    <value>명령 선택</value>
+    <comment>Dropdown unselected option label.</comment>
+  </data>
+  <data name="SelectAnAction" xml:space="preserve">
+    <value>작업 선택</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="CommandError" xml:space="preserve">
+    <value>선택한 명령을 검색하는 동안 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandSendError" xml:space="preserve">
+    <value>명령을 보내는 동안 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceKeys" xml:space="preserve">
+    <value>장치 키</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="EmptyKey" xml:space="preserve">
+    <value>(비어 있음)</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="FalseEnabledDevice" xml:space="preserve">
+    <value>장치 사용</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="TrueEnabledDevice" xml:space="preserve">
+    <value>장치 사용 안 함</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ActionHeader" xml:space="preserve">
+    <value>작업</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ActionIDHeader" xml:space="preserve">
+    <value>작업 ID</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ActionIDProperties" xml:space="preserve">
+    <value>작업 ID 속성</value>
+    <comment>Update action dialog heading.</comment>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>작업</value>
+    <comment>Heading.</comment>
+  </data>
+  <data name="DeviceNotRegisteredInIoTHub" xml:space="preserve">
+    <value>장치가 IoT Hub에 등록되지 않음</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="IoTHub" xml:space="preserve">
+    <value>IoT Hub</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="IoTSuite" xml:space="preserve">
+    <value>IoT Suite</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DeviceProperties" xml:space="preserve">
+    <value>장치 속성</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="AuthenticationKeyFor" xml:space="preserve">
+    <value>{0}에 대한 인증 키</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="KeyInUse" xml:space="preserve">
+    <value>이 키는 현재 사용 중입니다.</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SendUpdateKeyToDevice" xml:space="preserve">
+    <value>장치로 업데이트 키 보내기</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ThisIsTheCurrentDeviceKey" xml:space="preserve">
+    <value>현재 장치 키입니다.</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AzureDevicesHostnameColon" xml:space="preserve">
+    <value>IoT Hub 호스트 이름:</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="DeviceKeyColon" xml:space="preserve">
+    <value>장치 키:</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="SaveChangesToDevice" xml:space="preserve">
+    <value>장치 레지스트리의 변경 내용 저장</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RuleOutputHeader" xml:space="preserve">
+    <value>규칙 출력</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="Running" xml:space="preserve">
+    <value>실행 중</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>사용</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>사용 안 함</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="CommandValueCannotBeLongerThan1024" xml:space="preserve">
+    <value>명령 값은 1024자보다 길 수 없습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIdContainsLettersNumbersSpecialCharacters" xml:space="preserve">
+    <value>장치 ID에는 문자, 숫자 및 - : . + % _ # * ? ! ( ) , = @ ; $ ' 같은 특수 문자만 사용할 수 있습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIDMustBeBetween2And128Characters" xml:space="preserve">
+    <value>장치 ID는 2자에서 128자 사이여야 합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceCommandIsDisabled" xml:space="preserve">
+    <value>현재 이 장치로 명령을 보낼 수 없습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FirmwareVersionMustBeLessThan200Characters" xml:space="preserve">
+    <value>펌웨어 버전은 200자 미만이어야 합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="InstalledRAMFieldMustBeLessThan200Characters" xml:space="preserve">
+    <value>설치된 RAM 필드는 200자 미만이어야 합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ModelNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>모델 번호는 200자 미만이어야 합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ObjectNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>개체 이름은 200자 미만이어야 합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="PlatformNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>플랫폼 이름은 200자 미만이어야 합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ProcessorNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>프로세서 이름은 200자 미만이어야 합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SerialNumberMustBeLessThan200Characters" xml:space="preserve">
+    <value>일련 번호는 200자 미만이어야 합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="VersionMustBeLessThan200Characters" xml:space="preserve">
+    <value>버전은 200자 미만이어야 합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ClickToDisplayError" xml:space="preserve">
+    <value>보려면 클릭</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>업데이트</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="UpdateActionsIsDisabled" xml:space="preserve">
+    <value>업데이트 작업을 사용할 수 없습니다.</value>
+    <comment>(Unsued)</comment>
+  </data>
+  <data name="EditDevicePropertiesFor" xml:space="preserve">
+    <value>{0}에 대한 장치 속성 편집</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoscriptHeader" xml:space="preserve">
+    <value>JavaScript 필요</value>
+    <comment>Error message. {StrContains="JavaScript"}</comment>
+  </data>
+  <data name="NoscriptP1" xml:space="preserve">
+    <value>브라우저가 현재 JavaScript를 차단하도록 설정되어 있습니다. 이 서비스를 사용하려면 JavaScript를 허용해야 합니다.</value>
+    <comment>Error message. {StrContains="JavaScript"}</comment>
+  </data>
+  <data name="NoscriptP2" xml:space="preserve">
+    <value>JavaScript를 허용하는 방법을 알아보거나 브라우저에서 JavaScript를 지원하는지 확인하려면 웹 브라우저에서 온라인 도움말을 확인하세요.</value>
+    <comment>Informational text block. {StrContains="JavaScript"}</comment>
+  </data>
+  <data name="DeviceIdColon" xml:space="preserve">
+    <value>장치 ID:</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="DeviceAddError" xml:space="preserve">
+    <value>장치를 추가할 수 없습니다. 예기치 않은 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceAddSelectTypeError" xml:space="preserve">
+    <value>장치를 만들 수 없습니다. 예기치 않은 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Sent" xml:space="preserve">
+    <value>보냄</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DateTimeValidationMessage" xml:space="preserve">
+    <value>잘못된 날짜</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="StringValidationMessage" xml:space="preserve">
+    <value>잘못된 문자열</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RequiredValue" xml:space="preserve">
+    <value>이 필드는 필수입니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Local" xml:space="preserve">
+    <value>로컬</value>
+    <comment>Time Zone dropdown option.</comment>
+  </data>
+  <data name="UTC" xml:space="preserve">
+    <value>UTC</value>
+    <comment>Time Zone dropdown option. {Locked="UTC"}</comment>
+  </data>
+  <data name="binaryCommandErrorMessage" xml:space="preserve">
+    <value>base64 이진이 잘못되었습니다. 'Zm9vYmFy' 또는 'Zm9vYg==' 같은 형식이 필요합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="byteCommandErrorMessage" xml:space="preserve">
+    <value>바이트가 잘못되었습니다. '24'(0에서 255 사이) 같은 형식이 필요합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="dateCommandErrorMessage" xml:space="preserve">
+    <value>날짜가 잘못되었습니다. 'YYYY-MM-DD' 형식의 날짜가 필요합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="datetimeoffsetCommandErrorMessage" xml:space="preserve">
+    <value>날짜/시간이 잘못되었습니다. 'YYYY-MM-DD HH:mm:ss' 형식의 날짜가 필요합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="decimalCommandErrorMessage" xml:space="preserve">
+    <value>10진수가 잘못되었습니다. '-12.3456' 또는 '98765.43' 같은 형식이 필요합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DecimalCommandHint" xml:space="preserve">
+    <value>데이터 형식: 10진수(예: '3.14')</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="doubleCommandErrorMessage" xml:space="preserve">
+    <value>double이 잘못되었습니다. '3.14' 또는 '6.02e+23' 같은 형식이 필요합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DoubleCommandHint" xml:space="preserve">
+    <value>데이터 형식: double(예: '3.14', '6.02e+23' 등)</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="guidCommandErrorMessage" xml:space="preserve">
+    <value>GUID가 잘못되었습니다. '5d9ff9f7-ca82-4657-97f7-569dc8591af7' 같은 형식이 필요합니다.</value>
+    <comment>Error message. {Locked="GUID"}</comment>
+  </data>
+  <data name="GuidCommandHint" xml:space="preserve">
+    <value>데이터 형식: GUID('d51ce656-b765-4dce-ba17-67961cbc111d' 같은 형식 사용)</value>
+    <comment>Tooltip.  {Locked="GUID"}</comment>
+  </data>
+  <data name="int16CommandErrorMessage" xml:space="preserve">
+    <value>Int16이 잘못되었습니다. '-2000' 또는 '4500'(-32768에서 32767 사이) 같은 형식이 필요합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="int32CommandErrorMessage" xml:space="preserve">
+    <value>Int32가 잘못되었습니다. '-2000' 또는 '4500'(-2147483648에서 2147483647 사이) 같은 형식이 필요합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="int64CommandErrorMessage" xml:space="preserve">
+    <value>Int64가 잘못되었습니다. '-2000' 또는 '4500' 같은 형식이 필요합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="NumberCommandHint" xml:space="preserve">
+    <value>데이터 형식: {0}({1}에서 {2} 사이의 정수)</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="NumberOfDevicesHeader" xml:space="preserve">
+    <value>장치 수</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="sbyteCommandErrorMessage" xml:space="preserve">
+    <value>SByte가 잘못되었습니다. '-43' 또는 '12'(-128에서 127 사이) 같은 형식이 필요합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="singleCommandErrorMessage" xml:space="preserve">
+    <value>single이 잘못되었습니다. '3.14' 또는 '6.02e+23' 같은 형식이 필요합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SingleCommandHint" xml:space="preserve">
+    <value>데이터 형식: single(예: '3.14', '4.29e09' 등)</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ErrorRemoveDevice" xml:space="preserve">
+    <value>장치를 제거할 수 없습니다. 예기치 않은 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ErrorSendingConfig" xml:space="preserve">
+    <value>구성을 보낼 수 없습니다. 예기치 않은 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="InvalidKeyType" xml:space="preserve">
+    <value>잘못된 키</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Resend" xml:space="preserve">
+    <value>다시 보내기</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ResendCommandError" xml:space="preserve">
+    <value>명령을 다시 보내는 동안 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToUpdateActionId" xml:space="preserve">
+    <value>ActionId를 업데이트하지 못함</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToRetrieveActions" xml:space="preserve">
+    <value>작업 목록을 검색하는 동안 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToRetrieveDevices" xml:space="preserve">
+    <value>장치 목록을 검색하는 동안 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnknownCommandParameterType" xml:space="preserve">
+    <value>알 수 없는 명령 매개 변수 유형: '{0}'</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="BinaryCommandHint" xml:space="preserve">
+    <value>데이터 형식: base64 문자열(예: 'Zm9vYmFy' 또는 'Zm9vYg==')</value>
+    <comment>Input field tooltip.</comment>
+  </data>
+  <data name="StringCommandHint" xml:space="preserve">
+    <value>데이터 형식: 문자열(예: 'Welcome, user!')</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="FindDevices" xml:space="preserve">
+    <value>장치 찾기</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FindLabel" xml:space="preserve">
+    <value>찾기</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ResetLabel" xml:space="preserve">
+    <value>초기화</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="SearchDevices" xml:space="preserve">
+    <value>장치 검색</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="AddNewClause" xml:space="preserve">
+    <value>+ 새 절 추가</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FilterDevices" xml:space="preserve">
+    <value>장치 필터링</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FilterFieldLabel" xml:space="preserve">
+    <value>필드</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="FilterOperatorContainsInsensitive" xml:space="preserve">
+    <value>포함(대/소문자 구분 안 함)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorContainsSensitive" xml:space="preserve">
+    <value>포함(대/소문자 구분)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorExactInsensitive" xml:space="preserve">
+    <value>정확히 일치(대/소문자 구분 안 함)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorExactSensitive" xml:space="preserve">
+    <value>정확히 일치(대/소문자 구분)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorLabel" xml:space="preserve">
+    <value>연산자</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="FilterOperatorStartsWithInsensitive" xml:space="preserve">
+    <value>시작 문자(대/소문자 구분 안 함)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorStartsWithSensitive" xml:space="preserve">
+    <value>시작 문자(대/소문자 구분)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionDeviceId" xml:space="preserve">
+    <value>DeviceID</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionFirmwareVersion" xml:space="preserve">
+    <value>펌웨어 버전</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionInstalledRam" xml:space="preserve">
+    <value>설치된 RAM</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionManufacturer" xml:space="preserve">
+    <value>제조업체</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionModelNumber" xml:space="preserve">
+    <value>모델 번호</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionPlatform" xml:space="preserve">
+    <value>플랫폼</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionProcessor" xml:space="preserve">
+    <value>프로세서</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionSerialNumber" xml:space="preserve">
+    <value>일련 번호</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterValueLabel" xml:space="preserve">
+    <value>값</value>
+    <comment>Textbox label.</comment>
+  </data>
+  <data name="FilterOptionStatus" xml:space="preserve">
+    <value>상태</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterStatusDisabled" xml:space="preserve">
+    <value>사용 안 함</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterStatusLabel" xml:space="preserve">
+    <value>상태</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="FilterStatusPending" xml:space="preserve">
+    <value>보류 중</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterStatusRunning" xml:space="preserve">
+    <value>실행 중</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="DeviceIdCaseSensitiveWarning" xml:space="preserve">
+    <value>(DeviceID는 대/소문자 구분)</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="FindDevicesLabelCollapsed" xml:space="preserve">
+    <value>장치 찾기</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="DeviceDetailsPaneLabel" xml:space="preserve">
+    <value>장치 세부 정보</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoActionSelectedLabel" xml:space="preserve">
+    <value>작업이 선택되지 않았습니다.</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="NoDeviceSelectedLabel" xml:space="preserve">
+    <value>장치가 선택되지 않았습니다.</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="DeviceRules" xml:space="preserve">
+    <value>장치 규칙</value>
+    <comment>Page title.</comment>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>규칙</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="RulesHeaderFormatted" xml:space="preserve">
+    <value>규칙({0})</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DataFieldHeader" xml:space="preserve">
+    <value>데이터 필드</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="NoRuleSelected" xml:space="preserve">
+    <value>규칙이 선택되지 않았습니다.</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="NoRuleSelectedLabel" xml:space="preserve">
+    <value>규칙이 선택되지 않았습니다.</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="OperatorHeader" xml:space="preserve">
+    <value>연산자</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="RuleIdHeader" xml:space="preserve">
+    <value>규칙 ID</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="RuleNameHeader" xml:space="preserve">
+    <value>규칙 이름</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="RulePropertiesPaneLabel" xml:space="preserve">
+    <value>속성</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ThresholdHeader" xml:space="preserve">
+    <value>임계값</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FailedToRetrieveRules" xml:space="preserve">
+    <value>규칙 목록을 검색하는 동안 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FilterStatusEnabled" xml:space="preserve">
+    <value>사용</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>속성</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="UnableToRetrieveRuleFromService" xml:space="preserve">
+    <value>서비스에서 규칙을 검색할 수 없습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>사용 안 함</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>사용</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="RuleProperties" xml:space="preserve">
+    <value>규칙 속성</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="RuleStatus" xml:space="preserve">
+    <value>규칙 상태</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ValueHeader" xml:space="preserve">
+    <value>값</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AddRule" xml:space="preserve">
+    <value>규칙 추가...</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RuleUpdateError" xml:space="preserve">
+    <value>규칙을 업데이트하는 동안 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceRulesFullError" xml:space="preserve">
+    <value>사용 가능한 모든 데이터 필드에 이 장치에 대해 정의된 규칙이 있습니다. 대신 기존 규칙을 수정하세요.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DisableRule" xml:space="preserve">
+    <value>규칙 사용 안 함</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="EnableRule" xml:space="preserve">
+    <value>규칙 사용</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AllDevices" xml:space="preserve">
+    <value>모든 장치</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AverageOfDeviceHumidity" xml:space="preserve">
+    <value>평균 장치 습도</value>
+    <comment>Tile heading.</comment>
+  </data>
+  <data name="Humidity" xml:space="preserve">
+    <value>습도</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="MaxOfDevicesHumidity" xml:space="preserve">
+    <value>최대 장치 습도</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="MinOfDevicesHumidity" xml:space="preserve">
+    <value>최소 장치 습도</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="TelemetryGaugeNumericFormat" xml:space="preserve">
+    <value>0.00</value>
+    <comment>Guge format string.</comment>
+  </data>
+  <data name="TelemetryHistory" xml:space="preserve">
+    <value>원격 분석 기록</value>
+    <comment>Chart heading.</comment>
+  </data>
+  <data name="Temperature" xml:space="preserve">
+    <value>온도</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>활성</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="Alarm" xml:space="preserve">
+    <value>알람</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="AlarmHistory" xml:space="preserve">
+    <value>알람 기록</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="Closed" xml:space="preserve">
+    <value>닫힘</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>정보</value>
+  </data>
+  <data name="IssueNumberHeader" xml:space="preserve">
+    <value>문제 번호</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="IssueTypeHeader" xml:space="preserve">
+    <value>문제 유형</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DefaultSolutionName" xml:space="preserve">
+    <value>원격 모니터링 솔루션</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="EditDeviceRuleFormatted" xml:space="preserve">
+    <value>{1} 장치에 대한 {0} 규칙</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SaveAndViewRules" xml:space="preserve">
+    <value>규칙 저장 및 보기</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ViewRules" xml:space="preserve">
+    <value>규칙 보기</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RuleOutput" xml:space="preserve">
+    <value>규칙 출력</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>값</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ThresholdFormatError" xml:space="preserve">
+    <value>임계값은 유효한 double이어야 합니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveAlertsHistoryFromService" xml:space="preserve">
+    <value>서비스에서 경고 기록을 검색할 수 없습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveDeviceTelemetryFromService" xml:space="preserve">
+    <value>서비스에서 장치 원격 분석을 검색할 수 없습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandDeliveryCountExceeded" xml:space="preserve">
+    <value>배달 횟수 초과</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandExpired" xml:space="preserve">
+    <value>만료됨</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandRejected" xml:space="preserve">
+    <value>거부됨</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandSuccess" xml:space="preserve">
+    <value>성공</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>시간</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="InfoIconLink" xml:space="preserve">
+    <value>https://azure.microsoft.com/solutions/iot-suite/</value>
+    <comment>Link to a documentation.</comment>
+  </data>
+  <data name="RuleAlreadyAddedError" xml:space="preserve">
+    <value>이 데이터 필드에 대한 규칙이 이 장치에 이미 있습니다. 지정된 장치에서는 한 필드에 하나의 규칙만 정의할 수 있습니다. 다른 데이터 필드에 대한 규칙을 만들거나 기존 규칙을 편집하세요.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="TableDataSaveConflictErrorMessage" xml:space="preserve">
+    <value>데이터를 저장하는 동안 충돌이 발생했습니다. 데이터를 확인하고 다시 시도하세요.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SimulatorCredentialHeader" xml:space="preserve">
+    <value>이러한 설정으로 시뮬레이션된 장치를 만들었습니다.</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ErrorRemoveRule" xml:space="preserve">
+    <value>규칙을 제거할 수 없습니다. 예기치 않은 오류가 발생했습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RemoveRule" xml:space="preserve">
+    <value>규칙 제거</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RemoveRuleConfirmationPart1" xml:space="preserve">
+    <value>계속할까요? 이 작업을 수행하면 IoT 솔루션에서 이 규칙이</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveRuleConfirmationPart2" xml:space="preserve">
+    <value>영구적으로 제거됩니다.</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveRuleFormatted" xml:space="preserve">
+    <value>{1} 장치에서 {0}에 대한 규칙 제거</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="YesRemoveRuleFormatted" xml:space="preserve">
+    <value>예, {1} 장치에서 {0}에 대한 규칙을 제거합니다.</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="RemoveDeviceConfirmation" xml:space="preserve">
+    <value>장치 제거</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CellularConnectivityManagement" xml:space="preserve">
+    <value>셀룰러 연결 관리</value>
+    <comment>Panel heading.</comment>
+  </data>
+  <data name="SimInformation" xml:space="preserve">
+    <value>SIM 정보...</value>
+    <comment>Hyperlink label. {Locked="SIM"}</comment>
+  </data>
+  <data name="ConnectionStatus" xml:space="preserve">
+    <value>연결 상태: </value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="LastSessionStart" xml:space="preserve">
+    <value>마지막 세션 시작: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="SimStatus" xml:space="preserve">
+    <value>SIM 상태: </value>
+    <comment>Read-only field label. {Locked="SIM"}</comment>
+  </data>
+  <data name="CurrentRatePlan" xml:space="preserve">
+    <value>현재 요금제: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="AggregatedUsage" xml:space="preserve">
+    <value>집계된 사용량: </value>
+    <comment>Label on cellular information details panel.</comment>
+  </data>
+  <data name="IMEI" xml:space="preserve">
+    <value>IMEI: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="IMSI" xml:space="preserve">
+    <value>IMSI: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="CurrentLimitReached" xml:space="preserve">
+    <value>현재 한도에 도달함: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="ICCID" xml:space="preserve">
+    <value>ICCID: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="AccountId" xml:space="preserve">
+    <value>계정 ID: </value>
+    <comment>Label on cellular information details panel.</comment>
+  </data>
+  <data name="SimInformationBackText" xml:space="preserve">
+    <value>SIM 정보</value>
+    <comment>Hyperlink label. {Locked="SIM"}</comment>
+  </data>
+  <data name="NavigationMenuItemAdvanced" xml:space="preserve">
+    <value>고급</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="ApiRegistration" xml:space="preserve">
+    <value>Jasper API 등록</value>
+    <comment>Tile heading.</comment>
+  </data>
+  <data name="CheckIccid" xml:space="preserve">
+    <value>ICCID 확인</value>
+    <comment>(Unsused)</comment>
+  </data>
+  <data name="EnterIccid" xml:space="preserve">
+    <value>셀룰러 서비스 공급자의 Iccid 입력</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Associate" xml:space="preserve">
+    <value>연결</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="SimAssociation" xml:space="preserve">
+    <value>SIM 연결</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="OptionalBrackets" xml:space="preserve">
+    <value>(옵션)</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="BaseUrlToolTip" xml:space="preserve">
+    <value>제어 센터의 API 페이지에서 API 키 바로 아래에 있습니다.</value>
+    <comment>Input field tooltip.</comment>
+  </data>
+  <data name="LicenseKeyToolTip" xml:space="preserve">
+    <value>제어 센터의 API 페이지 왼쪽 위에 있습니다.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="PasswordToolTip" xml:space="preserve">
+    <value>제어 센터에 로그인하는 데 사용하는 암호입니다.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="UsernameToolTip" xml:space="preserve">
+    <value>제어 센터에 로그인하는 데 사용하는 사용자 이름입니다.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="AttachIccidToDevice" xml:space="preserve">
+    <value>장치에 SIM ICCID 연결</value>
+    <comment>Checkbox label. {Locked="SIM ICCID"}</comment>
+  </data>
+  <data name="SimIccid" xml:space="preserve">
+    <value>SIM ICCID</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="NavigationMenuItemsAdvanced" xml:space="preserve">
+    <value>고급</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="CellularConn" xml:space="preserve">
+    <value>셀룰러 연결</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="HealthBeat" xml:space="preserve">
+    <value>상태 비트</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="LogicApps" xml:space="preserve">
+    <value>논리 앱</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ApiRegistrationDescription" xml:space="preserve">
+    <value>Jasper API 사용을 인증하려면 Jasper Control Center 플랫폼 자격 증명에 이 솔루션을 등록하세요.</value>
+    <comment>Tile subheading.</comment>
+  </data>
+  <data name="ApiRegistrationTitle" xml:space="preserve">
+    <value>Jasper API 등록</value>
+    <comment>Panel heading. {Locked="Jasper API"}</comment>
+  </data>
+  <data name="CellularConnViewTitle" xml:space="preserve">
+    <value>셀룰러 연결</value>
+    <comment>Panel heading.</comment>
+  </data>
+  <data name="DeviceAssociationDescription" xml:space="preserve">
+    <value>&lt;a href="http://www.jasper.com/iot-service-platform/control-center"&gt;제어 센터&lt;/a&gt;에서 배포된 Azure IoT 장치를 이 솔루션에 연결합니다.</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="DeviceAssociationTitle" xml:space="preserve">
+    <value>장치 연결</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="HealthBeatViewTitle" xml:space="preserve">
+    <value>상태 비트</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="LogicAppsViewTitle" xml:space="preserve">
+    <value>Logic Apps</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ApiRegistrationFailed" xml:space="preserve">
+    <value>등록하지 못했습니다. 자격 증명을 확인하세요.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ApiRegistrationSuccessful" xml:space="preserve">
+    <value>등록했습니다.</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="ApiRegistrationNotAvailable" xml:space="preserve">
+    <value>현재 이 계정에 등록된 API가 없습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="JasperHelpLink" xml:space="preserve">
+    <value>http://www.jasper.com/microsoft-iot</value>
+    <comment>Link to Jasper documentation.</comment>
+  </data>
+  <data name="CellularInvalidCreds" xml:space="preserve">
+    <value>400200</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceList" xml:space="preserve">
+    <value>장치 목록</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>이전</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FilterInfo" xml:space="preserve">
+    <value>(총 _MAX_개 레코드에서 필터링됨)</value>
+    <comment>Do not translate the substring "_MAX_"--it is programmatically replaced with the total number of records.</comment>
+  </data>
+  <data name="RemoveRuleButtonLabel" xml:space="preserve">
+    <value>규칙 제거...</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AdministratorRole" xml:space="preserve">
+    <value>관리자</value>
+    <comment>User role name.</comment>
+  </data>
+  <data name="ImplicitReadOnlyRole" xml:space="preserve">
+    <value>암시적 읽기 전용</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ReadOnlyRole" xml:space="preserve">
+    <value>읽기 전용</value>
+    <comment>User role name.</comment>
+  </data>
+  <data name="DeviceToView" xml:space="preserve">
+    <value>보려는 장치:</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>로그아웃</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="CommandCToCopy" xml:space="preserve">
+    <value>복사하려면 Command+C</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceProperty_CreatedTime" xml:space="preserve">
+    <value>CreatedTime(UTC)</value>
+    <comment>{Locked="UTC"}</comment>
+  </data>
+  <data name="DeviceProperty_UpdatedTime" xml:space="preserve">
+    <value>UpdatedTime(UTC)</value>
+    <comment>{Locked="UTC"}</comment>
+  </data>
+  <data name="DevicePropertiesFormattedAsStored" xml:space="preserve">
+    <value>장치 속성이 저장된 대로 표시됩니다.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="LocalTime" xml:space="preserve">
+    <value>로컬 시간</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="RemoteNameNotResolved" xml:space="preserve">
+    <value>원격 이름을 확인할 수 없습니다.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RemoveSimAssociation" xml:space="preserve">
+    <value>SIM 연결 제거</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="SimAssociationSucceeded" xml:space="preserve">
+    <value>ICCID가 {1}인 {0} 장치를 연결했습니다.</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="ApiRegistrationInfoText" xml:space="preserve">
+    <value>Jasper 통합을 활성화하여 IoT Suite를 통해 제어 센터 장치를 보고 제어하려면 다음 자격 증명을 입력하세요.</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="BaseUrlLabel" xml:space="preserve">
+    <value>기준 URL</value>
+    <comment>Input field label.</comment>
+  </data>
+  <data name="IccidLabel" xml:space="preserve">
+    <value>ICCID</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="LicenseKeyLabel" xml:space="preserve">
+    <value>라이선스 키</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>암호</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SimInformationInfoText" xml:space="preserve">
+    <value>Jasper Control Center 플랫폼을 통해 제공됨</value>
+    <comment>{Locked="Jasper"}</comment>
+  </data>
+  <data name="UsernameLabel" xml:space="preserve">
+    <value>사용자 이름</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="LinkLabelHelpAndSupport" xml:space="preserve">
+    <value>도움말 및 지원</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
+    <value>피드백 제공</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+</root>

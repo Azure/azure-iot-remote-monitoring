@@ -1,0 +1,1670 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddDevice" xml:space="preserve">
+    <value>Aggiungi un dispositivo</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AddADeviceFormatted" xml:space="preserve">
+    <value>Aggiungi un {0}</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AddNew" xml:space="preserve">
+    <value>Aggiungi nuovo</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AuthenticationKey" xml:space="preserve">
+    <value>Chiave di autenticazione</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AuthKey1" xml:space="preserve">
+    <value>Chiave 1</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="AuthKey2" xml:space="preserve">
+    <value>Chiave 2</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annulla</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Completato</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ConfirmOrCustomizeTheMetadata" xml:space="preserve">
+    <value>Confermare o personalizzare i metadati del dispositivo</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copia</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CopyCredentialsIntoFile" xml:space="preserve">
+    <value>Copia le credenziali nel file di configurazione nel dispositivo</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="CopyDeviceIdAndAuthKeyLabel" xml:space="preserve">
+    <value>Copia l'ID dispositivo e la chiave di autenticazione</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Crea</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="GenerateADeviceId" xml:space="preserve">
+    <value>Genera automaticamente un ID dispositivo</value>
+    <comment>Radio button label.</comment>
+  </data>
+  <data name="DeviceId" xml:space="preserve">
+    <value>ID dispositivo</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="EnterDeviceId" xml:space="preserve">
+    <value>Immettere l'ID dispositivo</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="Instructions" xml:space="preserve">
+    <value>Istruzioni</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="InstructionsForYourDeviceFormatted" xml:space="preserve">
+    <value>Istruzioni per {0}</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="EnterDeviceMetadata" xml:space="preserve">
+    <value>Immettere i metadati del dispositivo</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="NavigationMenuItemActions" xml:space="preserve">
+    <value>Azioni</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="NavigationMenuItemDashboard" xml:space="preserve">
+    <value>Dashboard</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="NavigationMenuItemDeviceExplorer" xml:space="preserve">
+    <value>Esplora dispositivi</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="NavigationMenuItemDevices" xml:space="preserve">
+    <value>Dispositivi</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Avanti</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="StepOneHeader" xml:space="preserve">
+    <value>PASSAGGIO 1 di 3</value>
+    <comment>Wizard step heading.</comment>
+  </data>
+  <data name="StepThreeHeader" xml:space="preserve">
+    <value>PASSAGGIO 3 di 3</value>
+    <comment>Wizard step heading.</comment>
+  </data>
+  <data name="StepTwoHeader" xml:space="preserve">
+    <value>PASSAGGIO 2 di 3</value>
+    <comment>Wizard step heading.</comment>
+  </data>
+  <data name="YouChose" xml:space="preserve">
+    <value>Selezioni dell'utente:</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="YourDeviceIsCompleteFormatted" xml:space="preserve">
+    <value>La formattazione di {0} è stata completata</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DeviceIdCreationPrompt" xml:space="preserve">
+    <value>Definizione per l'ID dispositivo </value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="FirmwareVersion" xml:space="preserve">
+    <value>VERSIONE FIRMWARE</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="LetMeDefineMyOwnDeviceId" xml:space="preserve">
+    <value>Desidero definire il mio ID dispositivo</value>
+    <comment>Radio button label.</comment>
+  </data>
+  <data name="Manufacturer" xml:space="preserve">
+    <value>PRODUTTORE</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ObjectName" xml:space="preserve">
+    <value>NOME OGGETTO</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>NUMERO DI SERIE</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>VERSIONE</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ModelNumber" xml:space="preserve">
+    <value>NUMERO MODELLO</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ShowInstructions" xml:space="preserve">
+    <value>Mostra istruzioni</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Fatto</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceIdInUse" xml:space="preserve">
+    <value>L'ID dispositivo è già in uso.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="EnableDevice" xml:space="preserve">
+    <value>Abilita dispositivo</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AuthenticationKeys" xml:space="preserve">
+    <value>Chiavi di autenticazione</value>
+    <comment>Device details section heading.</comment>
+  </data>
+  <data name="AvailableActions" xml:space="preserve">
+    <value>Azioni disponibili</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="AvailablePowerSources" xml:space="preserve">
+    <value>Fonti di alimentazione disponibili</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="BatteryLevel" xml:space="preserve">
+    <value>Livello della batteria</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DisableDevice" xml:space="preserve">
+    <value>Disabilita dispositivo</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AzureDevicesHostname" xml:space="preserve">
+    <value>Nome host hub IoT</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Generali</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Metadata" xml:space="preserve">
+    <value>Metadati</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="PowerSourceVoltage" xml:space="preserve">
+    <value>Tensione alimentazione</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Riprova</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Salva</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ServiceUnavailable" xml:space="preserve">
+    <value>Il servizio non è disponibile</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>Comando</value>
+    <comment>(Unsused)</comment>
+  </data>
+  <data name="CommandHistory" xml:space="preserve">
+    <value>Cronologia comando</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="CommandName" xml:space="preserve">
+    <value>NOME COMANDO</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandResult" xml:space="preserve">
+    <value>RISULTATO</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandTimeCreated" xml:space="preserve">
+    <value>ORA LOCALE CREAZIONE</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandTimeUpdated" xml:space="preserve">
+    <value>ORA LOCALE AGGIORNAMENTO</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="CommandValuesSent" xml:space="preserve">
+    <value>VALORI INVIATI</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="DeviceCommands" xml:space="preserve">
+    <value>Comandi</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="DeviceCommandsHeader" xml:space="preserve">
+    <value>Comandi per {0}</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ParametersHeader" xml:space="preserve">
+    <value>Parametri</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>In sospeso</value>
+    <comment>Device command status.</comment>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Prezzo</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="PriceRange" xml:space="preserve">
+    <value>Il prezzo deve essere maggiore di 0</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Prodotto</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="PropertiesPaneLabel" xml:space="preserve">
+    <value>Proprietà</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SelectAProduct" xml:space="preserve">
+    <value>Selezionare un prodotto</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Invia</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SendCommand" xml:space="preserve">
+    <value>Invia comando</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CheckId" xml:space="preserve">
+    <value>Verifica ID</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceIdAvailable" xml:space="preserve">
+    <value>L'ID dispositivo è disponibile</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="RegisteredButNotPresent" xml:space="preserve">
+    <value>Registrato ma non presente</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="TimeRegistered" xml:space="preserve">
+    <value>Ora registrazione</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="NoCommandsAvailable" xml:space="preserve">
+    <value>Per il dispositivo {0} non sono presenti comandi disponibili</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="EditDeviceConfiguration" xml:space="preserve">
+    <value>Modifica la configurazione per {0}</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Hostname" xml:space="preserve">
+    <value>NOME HOST HUB IOT</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="HostnameLength" xml:space="preserve">
+    <value>Nome host non può contenere più di 1024 caratteri</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="PrimaryKey" xml:space="preserve">
+    <value>CHIAVE PRIMARIA</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SecondaryKey" xml:space="preserve">
+    <value>CHIAVE SECONDARIA</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SendConfiguration" xml:space="preserve">
+    <value>Invia configurazione al dispositivo</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="RequestFormatError" xml:space="preserve">
+    <value>Manca il parametro {0} oppure il valore non è stato riconosciuto come un oggetto {1} valido</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RequestNullError" xml:space="preserve">
+    <value>I dati della richiesta JSON sono Null oppure non è stato possibile analizzarli. Verificare che i dati vengano inviati nel corpo della richiesta e che siano formattati correttamente.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="AnErrorOccurred" xml:space="preserve">
+    <value>Si è verificato un errore durante l'elaborazione della richiesta.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Errore</value>
+    <comment>Page title.</comment>
+  </data>
+  <data name="IoTDeviceAdministrationPortal" xml:space="preserve">
+    <value>Portale di amministrazione del dispositivo IoT</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="IoTDevicePortalSignIn" xml:space="preserve">
+    <value>Portale del dispositivo IoT - Accesso</value>
+    <comment>Page title.</comment>
+  </data>
+  <data name="MicrosoftAzure" xml:space="preserve">
+    <value>Microsoft Azure</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="MicrosoftAzureIoTSuite" xml:space="preserve">
+    <value>Microsoft Azure IoT Suite</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Accesso</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="YouMustBeSignedIn" xml:space="preserve">
+    <value>Per continuare, è necessario eseguire l'accesso.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="YourSessionMayHaveExpired" xml:space="preserve">
+    <value>Se l'utente ha eseguito l'accesso, la sessione potrebbe essere scaduta.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="OpensInNewTab" xml:space="preserve">
+    <value>(si apre in una nuova scheda)</value>
+    <comment>Hyperlink hint.</comment>
+  </data>
+  <data name="DeviceIdInvalidCharactersError" xml:space="preserve">
+    <value>L'ID dispositivo può contenere solo lettere, numeri e i caratteri speciali seguenti: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIdLengthError" xml:space="preserve">
+    <value>L'ID dispositivo deve avere una lunghezza compresa tra 2 e 128 caratteri.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Indietro</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ConfirmRegenKeyPart1" xml:space="preserve">
+    <value>Procedere? Verrà rigenerata la </value>
+    <comment>Part of confirmation message. (Unused)</comment>
+  </data>
+  <data name="ConfirmRegenKeyPart2" xml:space="preserve">
+    <value>chiave.</value>
+    <comment>Part of confirmation message. (Unused)</comment>
+  </data>
+  <data name="ViewAuthenticationKeys" xml:space="preserve">
+    <value>Visualizza chiavi di autenticazione</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="DeviceUpdateError" xml:space="preserve">
+    <value>Non è possibile aggiornare il dispositivo. Si è verificato un errore imprevisto.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Modifica</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RemoveDevice" xml:space="preserve">
+    <value>Rimuovi dispositivo...</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RemoveDeviceConfirmationPart1" xml:space="preserve">
+    <value>Procedere? Il dispositivo verrà rimosso dalla soluzione IoT.</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveDeviceConfirmationPart2" xml:space="preserve">
+    <value>Questa azione non può essere annullata.</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveDeviceFormatted" xml:space="preserve">
+    <value>Rimuovi dispositivo '{0}'</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="YesRemoveDeviceFormatted" xml:space="preserve">
+    <value>Sì, rimuovi il dispositivo {0}</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="AppConfig" xml:space="preserve">
+    <value>AppConfig</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="InstalledRam" xml:space="preserve">
+    <value>RAM installata</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="Platform" xml:space="preserve">
+    <value>Piattaforma</value>
+    <comment>Device property. (Unused)</comment>
+  </data>
+  <data name="Processor" xml:space="preserve">
+    <value>Processore</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="MaxLengthPrice" xml:space="preserve">
+    <value>Il campo del prezzo non può contenere più di 1024 caratteri.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="MaxLengthProductId" xml:space="preserve">
+    <value>Il campo ID prodotto non può contenere più di 1024 caratteri.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIdHeader" xml:space="preserve">
+    <value>ID dispositivo</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FirmwareHeader" xml:space="preserve">
+    <value>Firmware</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="InstalledRamHeader" xml:space="preserve">
+    <value>RAM installata</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ManufactureHeader" xml:space="preserve">
+    <value>Produttore</value>
+    <comment>Table column header</comment>
+  </data>
+  <data name="ModelNumberHeader" xml:space="preserve">
+    <value>Numero modello</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="PlatformHeader" xml:space="preserve">
+    <value>Piattaforma</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ProcessorHeader" xml:space="preserve">
+    <value>Processore</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="SerialNumberHeader" xml:space="preserve">
+    <value>Numero di serie</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="StatusHeader" xml:space="preserve">
+    <value>Stato</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="AppConfigLength" xml:space="preserve">
+    <value>AppConfig non può contenere più di 1024 caratteri</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ClickToSelectAll" xml:space="preserve">
+    <value>Fare clic per selezionare tutto</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CopyCredentials" xml:space="preserve">
+    <value>Copia le credenziali nel file di configurazione nel dispositivo</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="EditDeviceProperties" xml:space="preserve">
+    <value>Modifica un dispositivo</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="ErrorWhileRetrievingKeys" xml:space="preserve">
+    <value>Si è verificato un errore durante il recupero delle chiavi.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToUpdateDeviceStatus" xml:space="preserve">
+    <value>Non è stato possibile aggiornare lo stato del dispositivo</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveActionFromService" xml:space="preserve">
+    <value>Non è possibile recuperare le azioni dal servizio</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveDeviceFromService" xml:space="preserve">
+    <value>Non è possibile recuperare il dispositivo dal servizio</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ControlCToCopy" xml:space="preserve">
+    <value>Ctrl+C to Copy</value>
+    <comment>{StrContains=i"Ctrl+C"}</comment>
+  </data>
+  <data name="DeviceKeysError" xml:space="preserve">
+    <value>Si è verificato un errore durante il tentativo di aggiornare le chiavi</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RolloverKeys" xml:space="preserve">
+    <value>Rollover delle chiavi</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RolloverKeysConfirmation" xml:space="preserve">
+    <value>sì, desidero eseguire il rollover delle chiavi.</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="RolloverKeysFor" xml:space="preserve">
+    <value>Rollover delle chiavi per {0}</value>
+  </data>
+  <data name="RolloverKeysText" xml:space="preserve">
+    <value>Procedere? Verrà eseguito il rollover delle chiavi.</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="ConfigurationHeader" xml:space="preserve">
+    <value>Configurazione</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SelectACommand" xml:space="preserve">
+    <value>Selezionare un comando</value>
+    <comment>Dropdown unselected option label.</comment>
+  </data>
+  <data name="SelectAnAction" xml:space="preserve">
+    <value>Selezionare un'azione</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="CommandError" xml:space="preserve">
+    <value>Si è verificato un errore durante il recupero del comando selezionato</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandSendError" xml:space="preserve">
+    <value>Si è verificato un errore durante l'invio del comando</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceKeys" xml:space="preserve">
+    <value>Chiavi dispositivo</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="EmptyKey" xml:space="preserve">
+    <value>(vuota)</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="FalseEnabledDevice" xml:space="preserve">
+    <value>Abilita dispositivo</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="TrueEnabledDevice" xml:space="preserve">
+    <value>Disabilita dispositivo</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ActionHeader" xml:space="preserve">
+    <value>Azione</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ActionIDHeader" xml:space="preserve">
+    <value>ID azione</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ActionIDProperties" xml:space="preserve">
+    <value>Proprietà ID azione</value>
+    <comment>Update action dialog heading.</comment>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Azioni</value>
+    <comment>Heading.</comment>
+  </data>
+  <data name="DeviceNotRegisteredInIoTHub" xml:space="preserve">
+    <value>Dispositivo non registrato nell'hub IoT</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="IoTHub" xml:space="preserve">
+    <value>Hub IoT</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="IoTSuite" xml:space="preserve">
+    <value>IoT Suite</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DeviceProperties" xml:space="preserve">
+    <value>Proprietà dispositivo</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="AuthenticationKeyFor" xml:space="preserve">
+    <value>Chiave di autenticazione per {0}</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="KeyInUse" xml:space="preserve">
+    <value>La chiave è attualmente in uso</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="SendUpdateKeyToDevice" xml:space="preserve">
+    <value>Invia chiave di aggiornamento al dispositivo</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ThisIsTheCurrentDeviceKey" xml:space="preserve">
+    <value>Chiave corrente del dispositivo</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AzureDevicesHostnameColon" xml:space="preserve">
+    <value>Nome host hub IoT:</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="DeviceKeyColon" xml:space="preserve">
+    <value>Chiave dispositivo:</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="SaveChangesToDevice" xml:space="preserve">
+    <value>Salva le modifiche al Registro di sistema del dispositivo</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RuleOutputHeader" xml:space="preserve">
+    <value>Output regola</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="Running" xml:space="preserve">
+    <value>In esecuzione</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Abilitato</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Disabilitato</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="CommandValueCannotBeLongerThan1024" xml:space="preserve">
+    <value>Un valore di comando non può contenere più di 1024 caratteri</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIdContainsLettersNumbersSpecialCharacters" xml:space="preserve">
+    <value>L'ID dispositivo può contenere solo lettere, numeri e i caratteri speciali seguenti: - : . + % _ # * ? ! ( ) , = @ ; $ '</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceIDMustBeBetween2And128Characters" xml:space="preserve">
+    <value>L'ID dispositivo deve avere una lunghezza compresa tra 2 e 128 caratteri.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceCommandIsDisabled" xml:space="preserve">
+    <value>Non è al momento possibile inviare comandi a questo dispositivo</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FirmwareVersionMustBeLessThan200Characters" xml:space="preserve">
+    <value>Versione firmware può contenere un massimo di 200 caratteri.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="InstalledRAMFieldMustBeLessThan200Characters" xml:space="preserve">
+    <value>Il campo RAM installata può contenere un massimo di 200 caratteri.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ModelNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>Il campo Numero modello può contenere un massimo di 200 caratteri.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ObjectNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>Il campo Nome oggetto può contenere un massimo di 200 caratteri.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="PlatformNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>Il campo Nome piattaforma può contenere un massimo di 200 caratteri.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ProcessorNameMustBeLessThan200Characters" xml:space="preserve">
+    <value>Il campo Nome processore può contenere un massimo di 200 caratteri.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SerialNumberMustBeLessThan200Characters" xml:space="preserve">
+    <value>Il campo Numero di serie può contenere un massimo di 200 caratteri.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="VersionMustBeLessThan200Characters" xml:space="preserve">
+    <value>Il campo Versione può contenere un massimo di 200 caratteri.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ClickToDisplayError" xml:space="preserve">
+    <value>Fare clic per visualizzare</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Aggiorna</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="UpdateActionsIsDisabled" xml:space="preserve">
+    <value>L'azione di aggiornamento è disabilitata</value>
+    <comment>(Unsued)</comment>
+  </data>
+  <data name="EditDevicePropertiesFor" xml:space="preserve">
+    <value>Modifica le proprietà del dispositivo per {0}</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoscriptHeader" xml:space="preserve">
+    <value>È necessario JavaScript</value>
+    <comment>Error message. {StrContains="JavaScript"}</comment>
+  </data>
+  <data name="NoscriptP1" xml:space="preserve">
+    <value>Il browser è attualmente impostato per bloccare JavaScript. Per usare questo servizio, è necessario consentire JavaScript.</value>
+    <comment>Error message. {StrContains="JavaScript"}</comment>
+  </data>
+  <data name="NoscriptP2" xml:space="preserve">
+    <value>Per informazioni su come consentire JavaScript o per sapere se il browser in uso supporta JavaScript, vedere la Guida online nel Web browser.</value>
+    <comment>Informational text block. {StrContains="JavaScript"}</comment>
+  </data>
+  <data name="DeviceIdColon" xml:space="preserve">
+    <value>ID dispositivo:</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="DeviceAddError" xml:space="preserve">
+    <value>Non è possibile aggiungere il dispositivo. Si è verificato un errore imprevisto.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceAddSelectTypeError" xml:space="preserve">
+    <value>Non è possibile creare il dispositivo. Si è verificato un errore imprevisto.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Sent" xml:space="preserve">
+    <value>Invio completato</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DateTimeValidationMessage" xml:space="preserve">
+    <value>Data non valida</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="StringValidationMessage" xml:space="preserve">
+    <value>La stringa non è valida</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RequiredValue" xml:space="preserve">
+    <value>Questo campo è obbligatorio</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Local" xml:space="preserve">
+    <value>Locale</value>
+    <comment>Time Zone dropdown option.</comment>
+  </data>
+  <data name="UTC" xml:space="preserve">
+    <value>UTC</value>
+    <comment>Time Zone dropdown option. {Locked="UTC"}</comment>
+  </data>
+  <data name="binaryCommandErrorMessage" xml:space="preserve">
+    <value>Il valore binario Base64 non è valido. È previsto un formato come 'Zm9vYmFy' o 'Zm9vYg=='</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="byteCommandErrorMessage" xml:space="preserve">
+    <value>Il byte non è valido. È previsto un formato come '24' (compreso tra 0 e 255)</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="dateCommandErrorMessage" xml:space="preserve">
+    <value>La data non è valida. È previsto il formato di data 'AAAA-MM-GG'</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="datetimeoffsetCommandErrorMessage" xml:space="preserve">
+    <value>Il valore data/ora non è valido. È previsto il formato 'AAAA-MM-GG HH:mm:ss'</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="decimalCommandErrorMessage" xml:space="preserve">
+    <value>Il valore decimale non è valido. È previsto un formato come '-12,3456' o '98765,43'</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DecimalCommandHint" xml:space="preserve">
+    <value>Tipo di dati: decimale (ad esempio '3,14')</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="doubleCommandErrorMessage" xml:space="preserve">
+    <value>Il valore double non è valido. È previsto un formato come '3,14' o '6.02e+23'</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DoubleCommandHint" xml:space="preserve">
+    <value>Tipo di dati: double (ad esempio '3,14', '6.02e+23' e così via)</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="guidCommandErrorMessage" xml:space="preserve">
+    <value>Il GUID non è valido. È previsto un formato come '5d9ff9f7-ca82-4657-97f7-569dc8591af7'</value>
+    <comment>Error message. {Locked="GUID"}</comment>
+  </data>
+  <data name="GuidCommandHint" xml:space="preserve">
+    <value>Tipo di dati: GUID (con formato simile a 'd51ce656-b765-4dce-ba17-67961cbc111d')</value>
+    <comment>Tooltip.  {Locked="GUID"}</comment>
+  </data>
+  <data name="int16CommandErrorMessage" xml:space="preserve">
+    <value>Il valore Int16 non è valido. È previsto un formato come '-2000' o '4500' (compreso tra -32768 e 32767)</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="int32CommandErrorMessage" xml:space="preserve">
+    <value>Il valore Int32 non è valido. È previsto un formato come '-2000' o '4500' (compreso tra -2147483648 e 2147483647)</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="int64CommandErrorMessage" xml:space="preserve">
+    <value>Il valore Int64 non è valido. È previsto un formato come '-2000' o '4500'</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="NumberCommandHint" xml:space="preserve">
+    <value>Tipo di dati: {0} (numero intero compreso tra {1} e {2})</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="NumberOfDevicesHeader" xml:space="preserve">
+    <value>N. di dispositivi</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="sbyteCommandErrorMessage" xml:space="preserve">
+    <value>Il valore SByte non è valido. È previsto un formato come '-43' o '12' (compreso tra -128 e 127)</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="singleCommandErrorMessage" xml:space="preserve">
+    <value>Il valore single non è valido. È previsto un formato come '3,14' o '6.02e+23'</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SingleCommandHint" xml:space="preserve">
+    <value>Tipo di dati: single (ad esempio '3,14', '4.29e09' e così via)</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ErrorRemoveDevice" xml:space="preserve">
+    <value>Non è possibile rimuovere il dispositivo. Si è verificato un errore imprevisto.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ErrorSendingConfig" xml:space="preserve">
+    <value>Non è possibile inviare la configurazione. Si è verificato un errore imprevisto.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="InvalidKeyType" xml:space="preserve">
+    <value>Chiave non valida</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Resend" xml:space="preserve">
+    <value>Rinvia</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ResendCommandError" xml:space="preserve">
+    <value>Si è verificato un errore durante il rinvio del comando</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToUpdateActionId" xml:space="preserve">
+    <value>Non è stato possibile aggiornare l'ID azione</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToRetrieveActions" xml:space="preserve">
+    <value>Si è verificato un errore durante il recupero dell'elenco di azioni.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToRetrieveDevices" xml:space="preserve">
+    <value>Si è verificato un errore durante il recupero dell'elenco di dispositivi.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnknownCommandParameterType" xml:space="preserve">
+    <value>Il tipo '{0}' del parametro del comando è sconosciuto</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="BinaryCommandHint" xml:space="preserve">
+    <value>Tipo di dati: stringa Base64 (ad esempio 'Zm9vYmFy' o 'Zm9vYg==')</value>
+    <comment>Input field tooltip.</comment>
+  </data>
+  <data name="StringCommandHint" xml:space="preserve">
+    <value>Tipo di dati: string (ad esempio 'Benvenuto, utente.')</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="FindDevices" xml:space="preserve">
+    <value>TROVA DISPOSITIVI</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FindLabel" xml:space="preserve">
+    <value>Trova</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ResetLabel" xml:space="preserve">
+    <value>Ripristina</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="SearchDevices" xml:space="preserve">
+    <value>CERCA DISPOSITIVI</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="AddNewClause" xml:space="preserve">
+    <value>+ AGGIUNGI NUOVA CLAUSOLA</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FilterDevices" xml:space="preserve">
+    <value>FILTRA DISPOSITIVI</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FilterFieldLabel" xml:space="preserve">
+    <value>CAMPO</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="FilterOperatorContainsInsensitive" xml:space="preserve">
+    <value>Contiene (senza distinzione maiuscole/minuscole)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorContainsSensitive" xml:space="preserve">
+    <value>Contiene (con distinzione maiuscole/minuscole)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorExactInsensitive" xml:space="preserve">
+    <value>Corrispondenza esatta (senza distinzione maiuscole/minuscole)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorExactSensitive" xml:space="preserve">
+    <value>Corrispondenza esatta (con distinzione maiuscole/minuscole)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorLabel" xml:space="preserve">
+    <value>OPERATORE</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="FilterOperatorStartsWithInsensitive" xml:space="preserve">
+    <value>Inizia con (senza distinzione maiuscole/minuscole)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOperatorStartsWithSensitive" xml:space="preserve">
+    <value>Inizia con (con distinzione maiuscole/minuscole)</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionDeviceId" xml:space="preserve">
+    <value>ID dispositivo</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionFirmwareVersion" xml:space="preserve">
+    <value>Versione del firmware</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionInstalledRam" xml:space="preserve">
+    <value>RAM installata</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionManufacturer" xml:space="preserve">
+    <value>Produttore</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionModelNumber" xml:space="preserve">
+    <value>Numero modello</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionPlatform" xml:space="preserve">
+    <value>Piattaforma</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionProcessor" xml:space="preserve">
+    <value>Processore</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterOptionSerialNumber" xml:space="preserve">
+    <value>Numero di serie</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterValueLabel" xml:space="preserve">
+    <value>VALORE</value>
+    <comment>Textbox label.</comment>
+  </data>
+  <data name="FilterOptionStatus" xml:space="preserve">
+    <value>Stato</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterStatusDisabled" xml:space="preserve">
+    <value>Disabilitato</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterStatusLabel" xml:space="preserve">
+    <value>STATO</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="FilterStatusPending" xml:space="preserve">
+    <value>In sospeso</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="FilterStatusRunning" xml:space="preserve">
+    <value>In esecuzione</value>
+    <comment>Dropdown option.</comment>
+  </data>
+  <data name="DeviceIdCaseSensitiveWarning" xml:space="preserve">
+    <value>L'ID dispositivo fa distinzione tra maiuscole e minuscole</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="FindDevicesLabelCollapsed" xml:space="preserve">
+    <value>TROVA DISPOSITIVI</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="DeviceDetailsPaneLabel" xml:space="preserve">
+    <value>DETTAGLI DISPOSITIVO</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoActionSelectedLabel" xml:space="preserve">
+    <value>Nessuna azione selezionata</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="NoDeviceSelectedLabel" xml:space="preserve">
+    <value>Nessun dispositivo selezionato</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="DeviceRules" xml:space="preserve">
+    <value>Regole dispositivo</value>
+    <comment>Page title.</comment>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>Regole</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="RulesHeaderFormatted" xml:space="preserve">
+    <value>Regole ({0})</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DataFieldHeader" xml:space="preserve">
+    <value>Campo dati</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="NoRuleSelected" xml:space="preserve">
+    <value>Nessuna regola selezionata</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="NoRuleSelectedLabel" xml:space="preserve">
+    <value>Nessuna regola selezionata</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="OperatorHeader" xml:space="preserve">
+    <value>Operatore</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="RuleIdHeader" xml:space="preserve">
+    <value>ID regola</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="RuleNameHeader" xml:space="preserve">
+    <value>Nome regola</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="RulePropertiesPaneLabel" xml:space="preserve">
+    <value>Proprietà</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ThresholdHeader" xml:space="preserve">
+    <value>Soglia</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FailedToRetrieveRules" xml:space="preserve">
+    <value>Si è verificato un errore durante il recupero dell'elenco di regole.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FilterStatusEnabled" xml:space="preserve">
+    <value>Abilitato</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Proprietà</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="UnableToRetrieveRuleFromService" xml:space="preserve">
+    <value>Non è possibile recuperare la regola dal servizio</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disabilita</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>Abilita</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="RuleProperties" xml:space="preserve">
+    <value>Proprietà regola</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="RuleStatus" xml:space="preserve">
+    <value>Stato regola</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ValueHeader" xml:space="preserve">
+    <value>Valore</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AddRule" xml:space="preserve">
+    <value>Aggiungi regola...</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RuleUpdateError" xml:space="preserve">
+    <value>Si è verificato un errore durante l'aggiornamento della regola.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceRulesFullError" xml:space="preserve">
+    <value>Per tutti i campi dati disponibili sono già definite regole per il dispositivo. Provare a modificare una regola esistente.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DisableRule" xml:space="preserve">
+    <value>Disabilita regola</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="EnableRule" xml:space="preserve">
+    <value>Abilita regola</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AllDevices" xml:space="preserve">
+    <value>Tutti i dispositivi</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="AverageOfDeviceHumidity" xml:space="preserve">
+    <value>Umidità dispositivo media</value>
+    <comment>Tile heading.</comment>
+  </data>
+  <data name="Humidity" xml:space="preserve">
+    <value>Umidità</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="MaxOfDevicesHumidity" xml:space="preserve">
+    <value>Umidità dispositivo massima</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="MinOfDevicesHumidity" xml:space="preserve">
+    <value>Umidità dispositivo minima</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="TelemetryGaugeNumericFormat" xml:space="preserve">
+    <value>0,00</value>
+    <comment>Guge format string.</comment>
+  </data>
+  <data name="TelemetryHistory" xml:space="preserve">
+    <value>Cronologia telemetria</value>
+    <comment>Chart heading.</comment>
+  </data>
+  <data name="Temperature" xml:space="preserve">
+    <value>Temperatura</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Attivo</value>
+    <comment>Device state.</comment>
+  </data>
+  <data name="Alarm" xml:space="preserve">
+    <value>Sveglia</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="AlarmHistory" xml:space="preserve">
+    <value>Cronologia sveglia</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="Closed" xml:space="preserve">
+    <value>Chiuso</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Informazioni</value>
+  </data>
+  <data name="IssueNumberHeader" xml:space="preserve">
+    <value>N. problema</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="IssueTypeHeader" xml:space="preserve">
+    <value>Tipo di problema</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="DefaultSolutionName" xml:space="preserve">
+    <value>Soluzione di monitoraggio remoto</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="EditDeviceRuleFormatted" xml:space="preserve">
+    <value>Regola {0} per il dispositivo {1}</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SaveAndViewRules" xml:space="preserve">
+    <value>Salva e visualizza regole</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ViewRules" xml:space="preserve">
+    <value>Visualizza regole</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RuleOutput" xml:space="preserve">
+    <value>Output regola</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Valore</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="ThresholdFormatError" xml:space="preserve">
+    <value>La soglia deve essere costituita da un valore double valido.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveAlertsHistoryFromService" xml:space="preserve">
+    <value>Non è possibile recuperare la cronologia avvisi dal servizio</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveDeviceTelemetryFromService" xml:space="preserve">
+    <value>Non è possibile recuperare la telemetria del dispositivo dal servizio</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandDeliveryCountExceeded" xml:space="preserve">
+    <value>Numero di distribuzioni superato</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandExpired" xml:space="preserve">
+    <value>Scaduto</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandRejected" xml:space="preserve">
+    <value>Rifiutato</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="CommandSuccess" xml:space="preserve">
+    <value>Operazione completata</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Ora</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="InfoIconLink" xml:space="preserve">
+    <value>https://azure.microsoft.com/solutions/iot-suite/</value>
+    <comment>Link to a documentation.</comment>
+  </data>
+  <data name="RuleAlreadyAddedError" xml:space="preserve">
+    <value>Per questo dispositivo esiste già una regola per questo campo dati. È possibile definire solo una regola su un campo per un dispositivo specifico. Provare a creare una regola per un altro campo dati oppure modificare la regola esistente.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="TableDataSaveConflictErrorMessage" xml:space="preserve">
+    <value>È stato rilevato un conflitto durante il salvataggio dei dati. Verificare i dati e riprovare.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SimulatorCredentialHeader" xml:space="preserve">
+    <value>Il dispositivo simulato è stato creato con le impostazioni seguenti</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ErrorRemoveRule" xml:space="preserve">
+    <value>Non è possibile rimuovere la regola. Si è verificato un errore imprevisto.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RemoveRule" xml:space="preserve">
+    <value>Rimuovi regola</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RemoveRuleConfirmationPart1" xml:space="preserve">
+    <value>Procedere? La regola verrà rimossa dalla soluzione IoT.</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveRuleConfirmationPart2" xml:space="preserve">
+    <value>Questa azione non può essere annullata.</value>
+    <comment>Part of confirmation message.</comment>
+  </data>
+  <data name="RemoveRuleFormatted" xml:space="preserve">
+    <value>Rimuovi regola per {0} nel dispositivo {1}</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="YesRemoveRuleFormatted" xml:space="preserve">
+    <value>Sì, rimuovi la regola per {0} nel dispositivo {1}</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="RemoveDeviceConfirmation" xml:space="preserve">
+    <value>Rimuovi dispositivo</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CellularConnectivityManagement" xml:space="preserve">
+    <value>Gestione connettività cellulare</value>
+    <comment>Panel heading.</comment>
+  </data>
+  <data name="SimInformation" xml:space="preserve">
+    <value>Informazioni SIM...</value>
+    <comment>Hyperlink label. {Locked="SIM"}</comment>
+  </data>
+  <data name="ConnectionStatus" xml:space="preserve">
+    <value>Stato connessione: </value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="LastSessionStart" xml:space="preserve">
+    <value>Inizio ultima sessione: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="SimStatus" xml:space="preserve">
+    <value>Stato SIM: </value>
+    <comment>Read-only field label. {Locked="SIM"}</comment>
+  </data>
+  <data name="CurrentRatePlan" xml:space="preserve">
+    <value>Piano tariffario corrente: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="AggregatedUsage" xml:space="preserve">
+    <value>Utilizzo aggregato: </value>
+    <comment>Label on cellular information details panel.</comment>
+  </data>
+  <data name="IMEI" xml:space="preserve">
+    <value>IMEI: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="IMSI" xml:space="preserve">
+    <value>IMSI: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="CurrentLimitReached" xml:space="preserve">
+    <value>Limite corrente raggiunto: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="ICCID" xml:space="preserve">
+    <value>ICCID: </value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="AccountId" xml:space="preserve">
+    <value>ID account: </value>
+    <comment>Label on cellular information details panel.</comment>
+  </data>
+  <data name="SimInformationBackText" xml:space="preserve">
+    <value>Informazioni SIM</value>
+    <comment>Hyperlink label. {Locked="SIM"}</comment>
+  </data>
+  <data name="NavigationMenuItemAdvanced" xml:space="preserve">
+    <value>Avanzate</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="ApiRegistration" xml:space="preserve">
+    <value>Registrazione API Jasper</value>
+    <comment>Tile heading.</comment>
+  </data>
+  <data name="CheckIccid" xml:space="preserve">
+    <value>Verifica ICCID</value>
+    <comment>(Unsused)</comment>
+  </data>
+  <data name="EnterIccid" xml:space="preserve">
+    <value>Immettere un codice ICCID dal provider di rete cellulare</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="Associate" xml:space="preserve">
+    <value>Associa</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="SimAssociation" xml:space="preserve">
+    <value>Associazione</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="OptionalBrackets" xml:space="preserve">
+    <value>(facoltativo)</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="BaseUrlToolTip" xml:space="preserve">
+    <value>Questa informazione si trova sotto la chiave API nella pagina API di Control Center.</value>
+    <comment>Input field tooltip.</comment>
+  </data>
+  <data name="LicenseKeyToolTip" xml:space="preserve">
+    <value>Questa informazione si trova in alto a sinistra nella pagina API di Control Center.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="PasswordToolTip" xml:space="preserve">
+    <value>Password usata per accedere a Control Center.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="UsernameToolTip" xml:space="preserve">
+    <value>Nome utente usato per accedere a Control Center.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="AttachIccidToDevice" xml:space="preserve">
+    <value>Collega un codice SIM ICCID al dispositivo</value>
+    <comment>Checkbox label. {Locked="SIM ICCID"}</comment>
+  </data>
+  <data name="SimIccid" xml:space="preserve">
+    <value>ICCID SIM</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="NavigationMenuItemsAdvanced" xml:space="preserve">
+    <value>Avanzate</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="CellularConn" xml:space="preserve">
+    <value>Connessione cellulare</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="HealthBeat" xml:space="preserve">
+    <value>Beat integrità</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="LogicApps" xml:space="preserve">
+    <value>App per la logica</value>
+    <comment>(Unused)</comment>
+  </data>
+  <data name="ApiRegistrationDescription" xml:space="preserve">
+    <value>Registrare questa soluzione con le credenziali della piattaforma Jasper Control Center per eseguire l'autenticazione e usare l'API Jasper.</value>
+    <comment>Tile subheading.</comment>
+  </data>
+  <data name="ApiRegistrationTitle" xml:space="preserve">
+    <value>Registrazione Jasper API</value>
+    <comment>Panel heading. {Locked="Jasper API"}</comment>
+  </data>
+  <data name="CellularConnViewTitle" xml:space="preserve">
+    <value>Connessione cellulare</value>
+    <comment>Panel heading.</comment>
+  </data>
+  <data name="DeviceAssociationDescription" xml:space="preserve">
+    <value>È possibile associare i dispositivi Azure IoT distribuiti in &lt;a href="http://www.jasper.com/iot-service-platform/control-center"&gt;Control Center&lt;/a&gt; a questa soluzione.</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="DeviceAssociationTitle" xml:space="preserve">
+    <value>Associazione dispositivo</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="HealthBeatViewTitle" xml:space="preserve">
+    <value>Beat integrità</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="LogicAppsViewTitle" xml:space="preserve">
+    <value>Logic Apps</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ApiRegistrationFailed" xml:space="preserve">
+    <value>La registrazione non è riuscita: verificare le credenziali</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ApiRegistrationSuccessful" xml:space="preserve">
+    <value>Registrazione completata</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="ApiRegistrationNotAvailable" xml:space="preserve">
+    <value>Non sono state registrate API per questo account</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="JasperHelpLink" xml:space="preserve">
+    <value>http://www.jasper.com/microsoft-iot</value>
+    <comment>Link to Jasper documentation.</comment>
+  </data>
+  <data name="CellularInvalidCreds" xml:space="preserve">
+    <value>400200</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceList" xml:space="preserve">
+    <value>Elenco dispositivi</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Indietro</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FilterInfo" xml:space="preserve">
+    <value>(risultati filtrati da _MAX_ record totali)</value>
+    <comment>Do not translate the substring "_MAX_"--it is programmatically replaced with the total number of records.</comment>
+  </data>
+  <data name="RemoveRuleButtonLabel" xml:space="preserve">
+    <value>Rimuovi regola...</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="AdministratorRole" xml:space="preserve">
+    <value>Amministratore</value>
+    <comment>User role name.</comment>
+  </data>
+  <data name="ImplicitReadOnlyRole" xml:space="preserve">
+    <value>Sola lettura implicita</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ReadOnlyRole" xml:space="preserve">
+    <value>Sola lettura</value>
+    <comment>User role name.</comment>
+  </data>
+  <data name="DeviceToView" xml:space="preserve">
+    <value>Dispositivo da visualizzare:</value>
+    <comment>Dropdown label.</comment>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Esci</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="CommandCToCopy" xml:space="preserve">
+    <value>Premere Comando+C per copiare</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceProperty_CreatedTime" xml:space="preserve">
+    <value>Ora creazione (UTC)</value>
+    <comment>{Locked="UTC"}</comment>
+  </data>
+  <data name="DeviceProperty_UpdatedTime" xml:space="preserve">
+    <value>Ora aggiornamento (UTC)</value>
+    <comment>{Locked="UTC"}</comment>
+  </data>
+  <data name="DevicePropertiesFormattedAsStored" xml:space="preserve">
+    <value>Le proprietà del dispositivo sono visualizzate così come archiviate.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="LocalTime" xml:space="preserve">
+    <value>Ora locale</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="RemoteNameNotResolved" xml:space="preserve">
+    <value>Non è stato possibile risolvere il nome remoto</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RemoveSimAssociation" xml:space="preserve">
+    <value>Rimuovi associazione SIM</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="SimAssociationSucceeded" xml:space="preserve">
+    <value>L'associazione per il dispositivo {0} con ICCID {1} è riuscita.</value>
+    <comment>Success message.</comment>
+  </data>
+  <data name="ApiRegistrationInfoText" xml:space="preserve">
+    <value>Per attivare l'integrazione di Jasper in modo da visualizzare e controllare i dispositivi Jasper Control Center tramite IoT Suite, immettere le credenziali seguenti:</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="BaseUrlLabel" xml:space="preserve">
+    <value>URL di base</value>
+    <comment>Input field label.</comment>
+  </data>
+  <data name="IccidLabel" xml:space="preserve">
+    <value>ICCID</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="LicenseKeyLabel" xml:space="preserve">
+    <value>Codice di licenza</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SimInformationInfoText" xml:space="preserve">
+    <value>Distribuzione eseguita tramite la piattaforma Jasper Control Center</value>
+    <comment>{Locked="Jasper"}</comment>
+  </data>
+  <data name="UsernameLabel" xml:space="preserve">
+    <value>Nome utente</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="LinkLabelHelpAndSupport" xml:space="preserve">
+    <value>Guida e supporto</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
+    <value>Invia commenti</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+</root>

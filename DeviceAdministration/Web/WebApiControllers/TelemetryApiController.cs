@@ -376,7 +376,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 String keySetting = await Task.Run(() =>
                 {
-                    return _configProvider.GetConfigurationSettingValue("MapApiQueryKey");
+                    // Set key to empty if passed value 0 from arm template
+                    string key = _configProvider.GetConfigurationSettingValue("MapApiQueryKey");
+                    return key.Equals("0") ? string.Empty : key;
                 });
                 return keySetting;
             }, false);

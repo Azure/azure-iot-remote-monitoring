@@ -1,0 +1,96 @@
+﻿@import "variables.less";
+
+.navbar {
+    border-radius: 0px;
+    margin-bottom: 0px;
+    border-bottom: none;
+    position: fixed;
+    width: 100%;
+    z-index: 9000;
+
+    .navbar-brand {
+        white-space: nowrap;
+    }
+
+    &.navbar-inverse .navbar-brand {
+        color: #fff;
+    }
+
+    .navbar-header {
+        position: static;
+    }
+}
+
+.dropdown {
+    border-right: 1px solid #666000;
+
+    .dropdown-toggle {
+        overflow: hidden;
+    }
+}
+
+.account {
+    display: block;
+    line-height: 2.5em;
+    text-align: right;
+    position: relative;
+    float: right;
+}
+
+.account-name {
+    .text-overflow();
+    display: block;
+}
+
+.account-subtitle {
+    .text-overflow();
+    text-transform: uppercase;
+    display: block;
+    font-size: 0.9em;
+}
+
+.account-avatar {
+    border-radius: 50%;
+    background-image: url(/content/img/icon-account.png);
+    background-position: right center;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    width: 35px;
+    height: 35px;
+    display: block;
+    float: right;
+    margin-left: 10px;
+}
+
+.language-icon {
+    background-image: url(/content/img/icon-globe.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 35px;
+    height: 40px;
+    display: block;
+    float: right;
+}
+
+.navbar-header {
+    position: initial;
+}
+
+.navbar-brand {
+    font-size: 20px;
+
+    @media (min-width: @screen-sm) {
+        display: block;
+        margin-top: auto;
+        margin-bottom: auto;
+        white-space: nowrap;
+    }
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+}
+
+.navbar-toggle {
+    padding: 14px 10px;
+}

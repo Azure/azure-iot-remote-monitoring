@@ -28,6 +28,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
                 "~/Scripts/jquery-ui-1.11.4.js",
                 "~/Scripts/jquery-ui-i18n.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap")
+               .Include(
+                "~/Scripts/bootstrap.min.js"));
+
             bundles.Add(new StyleBundle("~/content/css/vendor")
                 .Include(
                 "~/content/styles/datatables.css",
@@ -35,13 +39,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
                 "~/content/themes/base/dialog.css",
                 "~/content/styles/visuals.min.css"));
 
-            var lessBundle = new Bundle("~/content/css")
-                .Include("~/Content/styles/main.less");
+            //var lessBundle = new Bundle("~/content/css")
+            //    .Include("~/Content/styles/main.less");
 
-            lessBundle.Transforms.Add(new LessTransform(HttpContext.Current.Server.MapPath("~/Content/styles")));
-            lessBundle.Transforms.Add(new CssMinify());
+            //lessBundle.Transforms.Add(new LessTransform(HttpContext.Current.Server.MapPath("~/Content/styles")));
+            //lessBundle.Transforms.Add(new CssMinify());
 
-            bundles.Add(lessBundle);
+            //bundles.Add(lessBundle);
+
+            bundles.Add(new StyleBundle("~/content/css")
+                .Include("~/content/styles/main.css"));
         }
     }
 }
