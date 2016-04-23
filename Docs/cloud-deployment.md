@@ -17,7 +17,10 @@ The build.cmd script in the repository builds the solution code and also deploys
 1. Use your Git client to pull the latest version of the solution from this repository. 
 2. Open a **Developer Command Prompt for VS2013 as an Administrator**. 
 3. Navigate to the repository root directory. 
-4. Run `build.cmd cloud [debug | release] <deploymentname>`
+4. Run `build.cmd cloud [debug | release] <deploymentname>` for an Azure cloud deployment. 
+
+   For a national cloud deployment, run the same as above but include CloudName at the end (eg. `build.cmd local debug AzureGermanyCloud` or `build.cmd cloud release mydeployment AzureGermanyCloud`)
+
 
 This command will:
 * save account name, subscription, and deployment location into the <serviceName>.config.user file
