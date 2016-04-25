@@ -35,7 +35,7 @@
             if ((propVal.PropertyType == PropertyType.DateTime) &&
                 (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, propVal.Value)).HasValue)
             {
-                <p class="grid_detail_value">@resolvedDate.Value.ToString(CultureInfo.InvariantCulture)</p>
+                <p class="grid_detail_value">@resolvedDate.Value.ToString()</p>
             }
             else
             {
