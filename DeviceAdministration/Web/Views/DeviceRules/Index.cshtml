@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.EditDeviceRuleModel
 
 @{
@@ -70,17 +71,17 @@
     "use strict";
 
     var resources = {
-        retry: '@Strings.Retry',
-        serviceUnavailable: '@Strings.ServiceUnavailable',
-        unableToRetrieveRuleFromService: '@Strings.UnableToRetrieveRuleFromService',
-        disabled: '@Strings.Disabled',
-        enabled: '@Strings.Enabled',
-        failedToRetrieveRules: '@Strings.FailedToRetrieveRules',
-        noRuleSelected: '@Strings.NoRuleSelectedLabel',
-        ruleUpdateError: '@Strings.RuleUpdateError',
-        rulesList: '@Strings.Rules',
-        nextPage: '@Strings.Next',
-        previousPage: '@Strings.Previous'
+        retry: '@Html.JavaScriptString(Strings.Retry)',
+        serviceUnavailable: '@Html.JavaScriptString(Strings.ServiceUnavailable)',
+        unableToRetrieveRuleFromService: '@Html.JavaScriptString(Strings.UnableToRetrieveRuleFromService)',
+        disabled: '@Html.JavaScriptString(Strings.Disabled)',
+        enabled: '@Html.JavaScriptString(Strings.Enabled)',
+        failedToRetrieveRules: '@Html.JavaScriptString(Strings.FailedToRetrieveRules)',
+        noRuleSelected: '@Html.JavaScriptString(Strings.NoRuleSelectedLabel)',
+        ruleUpdateError: '@Html.JavaScriptString(Strings.RuleUpdateError)',
+        rulesList: '@Html.JavaScriptString(Strings.Rules)',
+        nextPage: '@Html.JavaScriptString(Strings.Next)',
+        previousPage: '@Html.JavaScriptString(Strings.Previous)'
     };
 </script>
 

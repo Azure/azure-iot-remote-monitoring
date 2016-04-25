@@ -1,5 +1,6 @@
 ﻿@using System.Web.Mvc.Html
 @using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.EditDeviceRuleModel
 
 @{
@@ -84,9 +85,9 @@
 
     var resources = {
         redirectUrl: '@Url.Action("Index", "DeviceRules")',
-        ruleUpdateError: '@Strings.RuleUpdateError',
-        enabledString: '@Strings.Enabled',
-        disabledString: '@Strings.Disabled'
+        ruleUpdateError: '@Html.JavaScriptString(Strings.RuleUpdateError)',
+        enabledString: '@Html.JavaScriptString(Strings.Enabled)',
+        disabledString: '@Html.JavaScriptString(Strings.Disabled)'
     }
 </script>
 

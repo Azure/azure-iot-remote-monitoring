@@ -15,9 +15,9 @@
         var cultureInfoShort = '@Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName'
 
         var baseLayoutResources = {
-            commandCToCopy: '@Strings.CommandCToCopy',
-            controlCToCopy: '@Strings.ControlCToCopy',
-            clickToSelectAll: '@Strings.ClickToSelectAll'
+            commandCToCopy: '@Html.JavaScriptString(Strings.CommandCToCopy)',
+            controlCToCopy: '@Html.JavaScriptString(Strings.ControlCToCopy)',
+            clickToSelectAll: '@Html.JavaScriptString(Strings.ClickToSelectAll)'
         };
     </script>
     @Scripts.Render("~/bundles/powerbi-visuals")

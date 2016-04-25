@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.ApiRegistrationModel
 
 <div class="advanced_left_column">
@@ -68,7 +69,7 @@
             function () {
                 'use strict';
                 var config = {
-                    subheadContent: '@Strings.ApiRegistrationTitle',
+                    subheadContent: '@Html.JavaScriptString(Strings.ApiRegistrationTitle)',
                     goBackUrl: '@Url.Action("SelectAdvancedProcess")'
                 };
                 IoTApp.Advanced.initSubView(config);

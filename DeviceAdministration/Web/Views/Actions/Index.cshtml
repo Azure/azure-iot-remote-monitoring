@@ -1,5 +1,6 @@
 ﻿@using GlobalResources
 @using Newtonsoft.Json;
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.ActionPropertiesModel
 
 @{
@@ -63,16 +64,16 @@
     "use strict";
 
     var resources = {
-        retry: '@Strings.Retry',
-        serviceUnavailable: '@Strings.ServiceUnavailable',
-        unableToRetrieveActionFromService: '@Strings.UnableToRetrieveActionFromService',
-        disabled: '@Strings.Disabled',
-        enabled: '@Strings.Enabled',
-        failedToRetrieveActions: '@Strings.FailedToRetrieveActions',
-        noActionSelected: '@Strings.NoActionSelectedLabel',
-        failedToUpdateActionId: '@Strings.FailedToUpdateActionId',
+        retry: '@Html.JavaScriptString(Strings.Retry)',
+        serviceUnavailable: '@Html.JavaScriptString(Strings.ServiceUnavailable)',
+        unableToRetrieveActionFromService: '@Html.JavaScriptString(Strings.UnableToRetrieveActionFromService)',
+        disabled: '@Html.JavaScriptString(Strings.Disabled)',
+        enabled: '@Html.JavaScriptString(Strings.Enabled)',
+        failedToRetrieveActions: '@Html.JavaScriptString(Strings.FailedToRetrieveActions)',
+        noActionSelected: '@Html.JavaScriptString(Strings.NoActionSelectedLabel)',
+        failedToUpdateActionId: '@Html.JavaScriptString(Strings.FailedToUpdateActionId)',
         readonlyActions: '@Model.HasAssignActionPerm.ToString().ToLower()',
-        actionsList: '@Strings.Actions'
+        actionsList: '@Html.JavaScriptString(Strings.Actions)'
     };
 </script>
 
