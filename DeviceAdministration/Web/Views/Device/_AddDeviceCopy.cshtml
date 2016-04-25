@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.RegisteredDeviceModel
 
 
@@ -51,7 +52,7 @@ else
 <div class="content_instructions">
 
     <h3>
-        <a href="@Model.InstructionsUrl" target="_blank">@String.Format(@Strings.InstructionsForYourDeviceFormatted, @Model.DeviceType.Name)</a>
+        <a href="@Model.InstructionsUrl" target="_blank">@String.Format(Strings.InstructionsForYourDeviceFormatted, Model.DeviceType.Name)</a>
         @Strings.OpensInNewTab
     </h3>
   
@@ -60,8 +61,8 @@ else
 
 <script type="text/javascript">
     var resources = {
-        addDevice: '@String.Format(@Strings.AddADeviceFormatted, @Model.DeviceType.Name)',
-        stepThree: '@Strings.StepThreeHeader'
+        addDevice: '@String.Format(Strings.AddADeviceFormatted, Model.DeviceType.Name)',
+        stepThree: '@Html.JavaScriptString(Strings.StepThreeHeader)'
     }
 </script>
 <script type="text/javascript" src="~/Scripts/Views/Device/AddDeviceCopy.js"></script>

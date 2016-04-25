@@ -1,5 +1,6 @@
 ﻿@using System.Collections
 @using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.UnregisteredDeviceModel
 
 @using (Ajax.BeginForm("AddDeviceCreate", "Device",
@@ -88,11 +89,11 @@
 
 <script type="text/javascript">
     var resources = {
-        addDevice: '@String.Format(@Strings.AddADeviceFormatted, @Model.DeviceType.Name)',
+        addDevice: '@Html.JavaScriptString(string.Format(Strings.AddADeviceFormatted, Model.DeviceType.Name))',
         redirectToIndexUrl: '@Url.Action("AddDevice", "Device")',
-        stepTwoHeader: '@Strings.StepTwoHeader',
-        enterDeviceId: '@Strings.EnterDeviceId',
-        createDeviceError: '@Strings.DeviceAddError',
+        stepTwoHeader: '@Html.JavaScriptString(Strings.StepTwoHeader)',
+        enterDeviceId: '@Html.JavaScriptString(Strings.EnterDeviceId)',
+        createDeviceError: '@Html.JavaScriptString(Strings.DeviceAddError)',
         canHaveIccid: '@ViewBag.CanHaveIccid'
     }
 

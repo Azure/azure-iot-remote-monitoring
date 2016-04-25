@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @{
     ViewBag.Title = "Index";
 }
@@ -155,22 +156,22 @@
     "use strict";
 
     var resources = {
-        retry: '@Strings.Retry',
-        serviceUnavailable: '@Strings.ServiceUnavailable',
-        deactivateDevice: '@Strings.DisableDevice',
-        activateDevice: '@Strings.EnableDevice',
-        unableToRetrieveDeviceFromService: '@Strings.UnableToRetrieveDeviceFromService',
-        errorWhileRetrievingKeys: '@Strings.ErrorWhileRetrievingKeys',
-        failedToUpdateDeviceStatus: '@Strings.FailedToUpdateDeviceStatus',
-        disabled: '@Strings.Disabled',
-        pending: '@Strings.Pending',
-        running: '@Strings.Running',
-        failedToRetrieveDevices: '@Strings.FailedToRetrieveDevices',
-        noDeviceSelected: '@Strings.NoDeviceSelectedLabel',
-        deviceList: '@Strings.DeviceList',
-        nextPage: '@Strings.Next',
-        previousPage: '@Strings.Previous',
-        infoFiltered: '@Strings.FilterInfo'
+        retry: '@Html.JavaScriptString(Strings.Retry)',
+        serviceUnavailable: '@Html.JavaScriptString(Strings.ServiceUnavailable)',
+        deactivateDevice: '@Html.JavaScriptString(Strings.DisableDevice)',
+        activateDevice: '@Html.JavaScriptString(Strings.EnableDevice)',
+        unableToRetrieveDeviceFromService: '@Html.JavaScriptString(Strings.UnableToRetrieveDeviceFromService)',
+        errorWhileRetrievingKeys: '@Html.JavaScriptString(Strings.ErrorWhileRetrievingKeys)',
+        failedToUpdateDeviceStatus: '@Html.JavaScriptString(Strings.FailedToUpdateDeviceStatus)',
+        disabled: '@Html.JavaScriptString(Strings.Disabled)',
+        pending: '@Html.JavaScriptString(Strings.Pending)',
+        running: '@Html.JavaScriptString(Strings.Running)',
+        failedToRetrieveDevices: '@Html.JavaScriptString(Strings.FailedToRetrieveDevices)',
+        noDeviceSelected: '@Html.JavaScriptString(Strings.NoDeviceSelectedLabel)',
+        deviceList: '@Html.JavaScriptString(Strings.DeviceList)',
+        nextPage: '@Html.JavaScriptString(Strings.Next)',
+        previousPage: '@Html.JavaScriptString(Strings.Previous)',
+        infoFiltered: '@Html.JavaScriptString(Strings.FilterInfo)'
     };
 </script>
 

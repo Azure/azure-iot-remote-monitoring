@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @if (ViewBag.HasRegistration)
 {
     <fieldset class="registration_content">
@@ -23,7 +24,7 @@
     <script>
         "use strict";
         var resources = {
-            simAssociationSucceeded: '@Strings.SimAssociationSucceeded'
+            simAssociationSucceeded: '@Html.JavaScriptString(Strings.SimAssociationSucceeded)'
         };
     </script>
 }

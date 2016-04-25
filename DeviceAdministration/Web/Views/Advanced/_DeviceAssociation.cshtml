@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 <div class="dashboardLeftColumn">
     @Html.Partial("_IccidAssociation")
 </div>
@@ -7,7 +8,7 @@
         function () {
             'use strict';
             var config = {
-                subheadContent: '@Strings.DeviceAssociationTitle',
+                subheadContent: '@Html.JavaScriptString(Strings.DeviceAssociationTitle)',
                 goBackUrl: '@Url.Action("SelectAdvancedProcess")'
             };
 

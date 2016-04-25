@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @model List<Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models.DeviceType>
 
 <div id="test">
@@ -37,9 +38,9 @@
 </div>
 <script type="text/javascript">
     var resources = {
-        addDevice: '@Strings.AddDevice',
-        stepOneHeader: '@Strings.StepOneHeader',
-        selectDeviceTypeError: '@Strings.DeviceAddSelectTypeError'
+        addDevice: '@Html.JavaScriptString(Strings.AddDevice)',
+        stepOneHeader: '@Html.JavaScriptString(Strings.StepOneHeader)',
+        selectDeviceTypeError: '@Html.JavaScriptString(Strings.DeviceAddSelectTypeError)'
     }
 </script>
 <script type="text/javascript" src="~/Scripts/Views/Device/DeviceSelectType.js"></script>
