@@ -119,9 +119,9 @@
             commands: '@Html.Raw(Model.CommandsJson)',
             deviceId: '@Model.DeviceId',
             deviceIsEnabled: '@Model.DeviceIsEnabled.ToString().ToLower()',
-            commandError: '@Strings.CommandError',
-            commandSendError: '@Strings.CommandSendError',
-            resendCommandError: '@Strings.ResendCommandError'
+            commandError: '@Html.JavaScriptString(Strings.CommandError)',
+            commandSendError: '@Html.JavaScriptString(Strings.CommandSendError)',
+            resendCommandError: '@Html.JavaScriptString(Strings.ResendCommandError)'
         }
     </script>
 

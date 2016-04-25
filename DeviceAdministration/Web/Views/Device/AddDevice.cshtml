@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @{
     ViewBag.Title = "Add a Device";
 }
@@ -24,8 +25,8 @@
     "use strict";
 
     var addDeviceResources = {
-        addDevice: '@Strings.AddDevice',
-        stepOneHeader: '@Strings.StepOneHeader',
+        addDevice: '@Html.JavaScriptString(Strings.AddDevice)',
+        stepOneHeader: '@Html.JavaScriptString(Strings.StepOneHeader)',
         redirectToIndexUrl: '@Url.Action("Index", "Device")',
         deviceDetailDeviceId: '@ViewBag.DeviceId'
     }

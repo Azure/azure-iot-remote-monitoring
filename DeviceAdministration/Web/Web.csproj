@@ -277,6 +277,7 @@
     <Compile Include="DataTables\SortColumn.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
+    <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\JasperCredentialsProvider.cs" />
     <Compile Include="Filters\ErrorHandlingFilter.cs" />
     <Compile Include="Helpers\CellularExtensions.cs" />
