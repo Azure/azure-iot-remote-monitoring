@@ -1,5 +1,5 @@
 #Microsoft Azure IoT Suite 
-You can deploy preconfigured solutions that implement common Internet of Things (IoT) scenarios to Microsoft Azure using your Azure subscrption. You can use preconfigured solutions: 
+You can deploy preconfigured solutions that implement common Internet of Things (IoT) scenarios to Microsoft Azure using your Azure subscription. You can use preconfigured solutions: 
 - as a starting point for your own IoT solution. 
 - to learn about the most common patterns in IoT solution design and development. 
 
