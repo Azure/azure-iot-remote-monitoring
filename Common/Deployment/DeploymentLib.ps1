@@ -615,8 +615,7 @@ function HostEntryExists()
     )
     try
     {
-        $hostName = [Net.Dns]::GetHostEntry($hostName)
-        if ($hostName -ne $null)
+        if ([Net.Dns]::GetHostEntry($hostName) -ne $null)
         {
             Write-Verbose ("Found hostname: {0}" -f $hostName)
             return $true
