@@ -14,6 +14,7 @@ The remote monitoring preconfigured solution illustrates how you can perform end
   * [Set up development environment (Windows)](Docs/dev-setup.md) outlines the prerequisites for deploying the remote monitoring preconfigured solution.
   * [Local deployment and debugging](Docs/local-deployment.md) describes how to deploy locally and basic debugging.
   * [Cloud deployment](Docs/cloud-deployment.md) describes building and deploying the remote monitoring preconfigured solution fully on Azure.
+  * [Configuring Azure IoT Suite preconfigured solutions for demo purposes](Docs/configure-preconfigured-demo.md) walks you through changing the footprint of the underlying Azure services for your solution.
 
 Other useful [IoT Suite documentation](https://azure.microsoft.com/documentation/suites/iot-suite/):
   * [Frequently asked questions for IoT Suite](https://azure.microsoft.com/documentation/articles/iot-suite-faq/)
