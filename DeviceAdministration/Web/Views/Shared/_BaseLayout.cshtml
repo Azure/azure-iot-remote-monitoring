@@ -24,8 +24,8 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jquerytable")
     @Scripts.Render("~/bundles/jqueryui")
-    
-    
+
+
     <script type="text/javascript" src="~/Scripts/js.cookie-1.5.1.min.js"></script>
     <script src="~/Scripts/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="~/Scripts/Views/IoTApp.js"></script>
@@ -73,6 +73,18 @@
                                 <span class="account-avatar"></span>
                                 <span class="account">
                                     <span class="account-name">@PrincipalHelper.GetEmailAddress(User)</span>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <span class="account-subtitle">@Strings.AdministratorRole</span>
+                                    }
+                                    else if (User.IsInRole("ReadOnly"))
+                                    {
+                                        <span class="account-subtitle">@Strings.ReadOnlyRole</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="account-subtitle">@Strings.ImplicitReadOnlyRole</span>
+                                    }
                                 </span>
                             </a>
                             <ul class="dropdown-menu account-menu" role="menu" aria-labelledby="account-menu">
