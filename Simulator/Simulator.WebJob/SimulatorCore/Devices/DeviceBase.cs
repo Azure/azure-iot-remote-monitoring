@@ -140,10 +140,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 Transport.Open();
 
                 var loopTasks = new List<Task>
-            {
-                StartReceiveLoopAsync(token), 
-                StartSendLoopAsync(token)
-            };
+                {
+                    StartReceiveLoopAsync(token), 
+                    StartSendLoopAsync(token)
+                };
 
                 // Wait both the send and receive loops
                 await Task.WhenAll(loopTasks.ToArray());
