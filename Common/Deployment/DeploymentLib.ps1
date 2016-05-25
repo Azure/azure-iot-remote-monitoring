@@ -387,7 +387,24 @@ function UploadFile()
     $containerName = $containerName.ToLowerInvariant()
     $file = Get-Item -Path $filePath
     $fileName = $file.Name.ToLowerInvariant()
-    $storageAccountKey = (Get-AzureRmStorageAccountKey -StorageAccountName $storageAccountName -ResourceGroupName $resourceGroupName).Value[0]
+    
+    $moduleName = 'Azure'
+    $storageAccountKey = ''
+
+    if(Get-Module -ListAvailable |  Where-Object { $_.name -eq $moduleName })  
+    {  
+        $m = Get-Module -ListAvailable | Where-Object{ $_.Name -eq $moduleName }
+        if($m.Version.Major -ge 1 -and $m.Version.Minor -ge 4)
+        {
+            $storageAccountKey = (Get-AzureRmStorageAccountKey -StorageAccountName $storageAccountName -ResourceGroupName $resourceGroupName).Value[0]
+        }
+        else
+        {
+            $storageAccountKey = (Get-AzureRmStorageAccountKey -StorageAccountName $storageAccountName -ResourceGroupName $resourceGroupName).Key1
+        }
+    }
+    
+    
     $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageAccountKey
     if (!(HostEntryExists $context.StorageAccount.BlobEndpoint.Host))
     {
