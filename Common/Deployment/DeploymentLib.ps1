@@ -388,22 +388,7 @@ function UploadFile()
     $file = Get-Item -Path $filePath
     $fileName = $file.Name.ToLowerInvariant()
     
-    $moduleName = 'Azure'
-    $storageAccountKey = ''
-
-    if(Get-Module -ListAvailable |  Where-Object { $_.name -eq $moduleName })  
-    {  
-        $m = Get-Module -ListAvailable | Where-Object{ $_.Name -eq $moduleName }
-        if($m.Version.Major -ge 1 -and $m.Version.Minor -ge 4)
-        {
-            $storageAccountKey = (Get-AzureRmStorageAccountKey -StorageAccountName $storageAccountName -ResourceGroupName $resourceGroupName).Value[0]
-        }
-        else
-        {
-            $storageAccountKey = (Get-AzureRmStorageAccountKey -StorageAccountName $storageAccountName -ResourceGroupName $resourceGroupName).Key1
-        }
-    }
-    
+    $storageAccountKey = (Get-AzureRmStorageAccountKey -StorageAccountName $storageAccountName -ResourceGroupName $resourceGroupName).Value[0]
     
     $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageAccountKey
     if (!(HostEntryExists $context.StorageAccount.BlobEndpoint.Host))
@@ -971,7 +956,7 @@ $global:resourceNotFound = "ResourceNotFound"
 $global:serviceNameToken = "ServiceName"
 $global:azurePath = Split-Path $MyInvocation.MyCommand.Path
 $global:version = Get-Content ("{0}\..\..\VERSION.txt" -f $global:azurePath)
-$global:azureVersion = "1.0.3"
+$global:azureVersion = "1.4.0"
 
 # Check version
 $module = Get-Module -ListAvailable | Where-Object{ $_.Name -eq 'Azure' }
@@ -984,7 +969,7 @@ if ($comparison -eq 1)
 }
 elseif ($comparison -eq -1)
 {
-    if ($module.Version.Major -ne $expected.Major)
+    if ($module.Version.Major -ne $expected.Major -and $module.Version.Minor -ne $expected.Minor)
     {
         Write-Warning "This script Azure Cmdlets was tested with $($global:azureVersion)"
         Write-Warning "Found $($module.Version.Major).$($module.Version.Minor).$($module.Version.Build) installed; continuing, but errors might occur"
