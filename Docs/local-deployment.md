@@ -36,3 +36,5 @@ The build.cmd script in the repository builds the solution code and also deploys
 7. Run each project in a separate instance of Visual Studio and you should now be able to see and debug the Remote Monitoring Solution locally.
 
 While debugging a single project will allow you to see the code flow for that project, the entire solution will not function unless you have an instance of the Web, Simulator.WebJob, and EventProcessor.WebJob projects all started in separate instances of visual studio.
+
+If you experience an endless log-in loop when launching the ‘Web’ project, please try using the “In-Private” browser setting or try a different browser.  You might also need to empty your browser cache.  Hopefully this will let you see the IoT Suite dashboard.
