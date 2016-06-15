@@ -36,15 +36,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 return GetDefaultCulture(); // return Default culture if it is invalid
             }
 
-            // if it is implemented, accept it
-            if (ImplementedCultureNames.Any(culture => culture.Equals(cultureName, StringComparison.Ordinal)))
+            // Get the neutral culture of specific culture passed in
+            var neutralCultureName = GetNeutralCultureName(cultureName);
+
+            // If the neutral culture is implemented, accept the specific culture
+            if (ImplementedCultureNames.Any(culture => culture.StartsWith(neutralCultureName, StringComparison.Ordinal)))
             {
                 return new CultureInfo(cultureName); // accept it
             }
 
             // Find a close match. For example, if you have "en-US" defined and the user requests "en-GB", 
             // the function will return closes match that is "en-US" because at least the language is the same (ie English)  
-            var neutralCultureName = GetNeutralCultureName(cultureName);
             var closestCultureName = ImplementedCultureNames.FirstOrDefault(culture => culture.StartsWith(neutralCultureName, StringComparison.Ordinal));
 
             return closestCultureName != null ? new CultureInfo(closestCultureName) : GetDefaultCulture();
@@ -52,7 +54,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public static CultureInfo GetDefaultCulture()
         {
-            return new CultureInfo(ImplementedCultureNames.First()); // return Default culture
+            // The first culture in implemented list is cs, change default culture to en if it's exist
+            var defaultCulture = "en";
+
+            if (ImplementedCultureNames.Any(x => x.Equals(defaultCulture, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                return new CultureInfo(defaultCulture);
+            }
+            else
+            {
+                return new CultureInfo(ImplementedCultureNames.First());
+            }
         }
 
         public static CultureInfo GetCurrentCulture()
