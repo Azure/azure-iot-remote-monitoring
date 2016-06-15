@@ -2,6 +2,13 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "bingMapsLocation": {
+            "type": "string",
+            "defaultValue": "westus",
+            "metadata": {
+                "description": "Not used - remove when portal updated"
+            }
+        },
         "aadTenant": {
             "type": "string",
             "metadata": {
