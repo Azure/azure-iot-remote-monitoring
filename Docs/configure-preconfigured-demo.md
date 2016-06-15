@@ -62,7 +62,7 @@ This article walked through changing the footprint of the underlying Azure servi
 
 <!-- Images and links -->
 [Microsoft Azure IoT Suite]: http://www.microsoft.com/server-cloud/internet-of-things/azure-iot-suite.aspx
-[Tutorial: Get started with the IoT preconfigured solutions]: https://azure.microsoft.com/edocumentation/articles/iot-suite-getstarted-preconfigured-solutions/
+[Tutorial: Get started with the IoT preconfigured solutions]: https://azure.microsoft.com/documentation/articles/iot-suite-getstarted-preconfigured-solutions/
 [Azure Portal]: https://portal.azure.com/
 [Azure Classic Portal]: https://manage.windowsazure.com/
 [img-iot-hub]: media/image1.png
