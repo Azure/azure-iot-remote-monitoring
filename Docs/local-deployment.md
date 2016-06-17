@@ -35,4 +35,11 @@ The build.cmd script in the repository builds the solution code and also deploys
 6. In each separate instance right click on one of the following projects and select "Set as Startup Project": Web, EventProcessor.WebJob and Simulator.WebJob
 7. Run each project in a separate instance of Visual Studio and you should now be able to see and debug the Remote Monitoring Solution locally.
 
-While debugging a single project will allow you to see the code flow for that project, the entire solution will not function unless you have an instance of the Web, Simulator.WebJob, and EventProcessor.WebJob projects all started in separate instances of visual studio.
+While debugging a single project will allow you to see the code flow for that project, the entire solution will not function unless you have an instance of the Web, Simulator.WebJob, and EventProcessor.WebJob projects all started in separate instances of visual studio. 
+
+Note: you may be able to set [multiple start-up projects][lnk-multistartup] if you're using Visual Studio 2015 RC (this [fix][lnk-fix] was pushed May 5 2015). 
+
+If you experience an endless log-in loop when launching the ‘Web’ project, please try using the “In-Private” browser setting or try a different browser.  You might also need to empty your browser cache.  Hopefully this will let you see the IoT Suite dashboard.
+
+[lnk-multistartup]: https://msdn.microsoft.com/en-us/library/ms165413.aspx
+[lnk-fix]: https://github.com/aspnet/Tooling/issues/10
