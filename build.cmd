@@ -40,11 +40,11 @@
 @REM ----------------------------------------------
 @SET DeploymentScripts=%~dp0\Common\Deployment
 @SET BuildPath=%~dp0Build_Output\%Configuration%
-@SET PowerShellCmd=%windir%\system32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Unrestricted -Command
-@SET PublishCmd=%PowerShellCmd% %DeploymentScripts%\PrepareIoTSample.ps1 -environmentName %EnvironmentName% -configuration %Configuration% %SuiteArgs%
+@SET PowerShellCmd="%windir%\system32\WindowsPowerShell\v1.0\powershell.exe" -ExecutionPolicy Unrestricted -Command
+@SET PublishCmd=%PowerShellCmd% "& ""%DeploymentScripts%\PrepareIoTSample.ps1""" -environmentName %EnvironmentName% -configuration %Configuration% %SuiteArgs%
 
 @IF /I '%AzureEnvironmentName%' NEQ '' (
-    Set PublishCmd=%PublishCmd% -azureEnvironmentName %AzureEnvironmentName%
+    @Set PublishCmd=%PublishCmd% -azureEnvironmentName %AzureEnvironmentName%
 )
 
 @%PowerShellCmd% "if (!('%EnvironmentName%' -match '^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{3,49}[a-zA-Z0-9]{1,1}$')) { throw 'Invalid EnvironmentName' }"

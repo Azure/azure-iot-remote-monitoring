@@ -298,7 +298,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     {
                         if (strdict.TryGetValue(field.Name, out str))
                         {
-                            switch (field.Type)
+                            switch (field.Type.ToLowerInvariant())
                             {
                                 case "int":
                                 case "int16":

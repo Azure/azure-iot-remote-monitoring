@@ -90,7 +90,7 @@
     },
     "variables": {
         "location": "[resourceGroup().location]",
-        "storageVersion": "2015-05-01-preview",
+        "storageVersion": "2016-01-01",
         "storageId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
         "sbVersion": "[providers('Microsoft.Servicebus', 'namespaces').apiVersions[0]]",
         "ehOutName": "[concat(parameters('suiteName'), '-ehout')]",
@@ -100,7 +100,7 @@
         "saVersion": "2015-10-01",
         "docDBVersion": "2015-04-08",
         "docDBResourceId": "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
-        "iotHubVersion": "2015-08-15-preview",
+        "iotHubVersion": "2016-02-03",
         "iotHubResourceId": "[resourceId('Microsoft.Devices/Iothubs', parameters('iotHubName'))]",
         "iotHubKeyName": "iothubowner",
         "iotHubKeyResource": "[resourceId('Microsoft.Devices/Iothubs/Iothubkeys', parameters('iotHubName'), variables('iotHubKeyName'))]",
@@ -128,8 +128,12 @@
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[parameters('storageName')]",
             "location": "[variables('location')]",
-            "properties": {
-                "accountType": "[parameters('storageAccountSku')]"
+            "tags": {
+                "IotSuiteType": "[variables('suiteType')]"
+            },
+            "kind": "Storage",
+            "sku": {
+                "name": "[parameters('storageAccountSku')]"
             }
         },
         {
@@ -268,7 +272,7 @@
                                     "PathPattern": "devicetelemetry/{date}/{time}",
                                     "StorageAccounts": [
                                         {
-                                            "AccountKey": "[listkeys(variables('storageId'), variables('storageVersion')).key1]",
+                                            "AccountKey": "[listkeys(variables('storageId'), variables('storageVersion')).keys[0].value]",
                                             "AccountName": "[parameters('storageName')]"
                                         }
                                     ]
@@ -295,7 +299,7 @@
                                     "PathPattern": "devicetelemetry-summary/{date}/{time}",
                                     "StorageAccounts": [
                                         {
-                                            "AccountKey": "[listkeys(variables('storageId'), variables('storageVersion')).key1]",
+                                            "AccountKey": "[listkeys(variables('storageId'), variables('storageVersion')).keys[0].value]",
                                             "AccountName": "[parameters('storageName')]"
                                         }
                                     ]
@@ -428,7 +432,7 @@
                                     "BlobName": "{date}/{time}/devicerules.json",
                                     "StorageAccounts": [
                                         {
-                                            "AccountKey": "[listkeys(variables('storageId'), variables('storageVersion')).key1]",
+                                            "AccountKey": "[listkeys(variables('storageId'), variables('storageVersion')).keys[0].value]",
                                             "AccountName": "[parameters('storageName')]"
                                         }
                                     ],
@@ -501,7 +505,7 @@
                                     "PathPattern": "{date}/{time}",
                                     "StorageAccounts": [
                                         {
-                                            "AccountKey": "[listkeys(variables('storageId'), variables('storageVersion')).key1]",
+                                            "AccountKey": "[listkeys(variables('storageId'), variables('storageVersion')).keys[0].value]",
                                             "AccountName": "[parameters('storageName')]"
                                         }
                                     ]
@@ -551,7 +555,7 @@
         },
         "storageConnectionString": {
             "type": "string",
-            "value": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).key1)]"
+            "value": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).keys[0].value)]"
         },
         "ehOutName": {
             "type": "string",
