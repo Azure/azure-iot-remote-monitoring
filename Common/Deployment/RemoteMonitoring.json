@@ -678,17 +678,6 @@
             "resources": [
                 {
                     "apiVersion": "[variables('webVersion')]",
-                    "name": "Web",
-                    "type": "config",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', variables('webSiteName'))]"
-                    ],
-                    "properties": {
-                        "AlwaysOn": true,
-                    }
-                },
-                {
-                    "apiVersion": "[variables('webVersion')]",
                     "name": "MSDeploy",
                     "type": "extensions",
                     "dependsOn": [
@@ -698,6 +687,18 @@
                         "packageUri": "[parameters('packageUri')]",
                         "connectionString": "",
                         "dbType": ""
+                    }
+                },
+                {
+                    "apiVersion": "[variables('webVersion')]",
+                    "name": "Web",
+                    "type": "config",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/Sites', variables('webSiteName'))]",
+                        "[concat('Microsoft.Web/Sites/', variables('webSiteName'), '/Extensions/MSDeploy')]"
+                    ],
+                    "properties": {
+                        "AlwaysOn": true,
                     }
                 },
                 {
@@ -749,21 +750,9 @@
                 "IotSuiteType": "[variables('suiteType')]"
             },
             "properties": {
-                "serverFarmId": "[variables('webJobPlanName')]",
-                "AlwaysOn": true
+                "serverFarmId": "[variables('webJobPlanName')]"
             },
             "resources": [
-                {
-                    "apiVersion": "[variables('webVersion')]",
-                    "name": "Web",
-                    "type": "config",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', variables('webJobSiteName'))]"
-                    ],
-                    "properties": {
-                        "AlwaysOn": true,
-                    }
-                },
                 {
                     "apiVersion": "[variables('webVersion')]",
                     "name": "MSDeploy",
@@ -775,6 +764,18 @@
                         "packageUri": "[parameters('webJobPackageUri')]",
                         "connectionString": "",
                         "dbType": ""
+                    }
+                },
+                {
+                    "apiVersion": "[variables('webVersion')]",
+                    "name": "Web",
+                    "type": "config",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/Sites', variables('webJobSiteName'))]",
+                        "[concat('Microsoft.Web/Sites/', variables('webJobSiteName'), '/Extensions/MSDeploy')]"
+                    ],
+                    "properties": {
+                        "AlwaysOn": true
                     }
                 },
                 {
