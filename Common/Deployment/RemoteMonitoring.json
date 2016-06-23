@@ -740,13 +740,13 @@
                 "[resourceId('Microsoft.Web/serverfarms', variables('webJobPlanName'))]"
             ],
             "tags": {
-                "IotSuiteType": "[variables('suiteType')]",
+                "IotSuiteType": "[variables('suiteType')]"
+            },
+            "properties": {
+                "serverFarmId": "[variables('webJobPlanName')]",
                 "siteConfig": {
                     "AlwaysOn": true
                 }
-            },
-            "properties": {
-                "serverFarmId": "[variables('webJobPlanName')]"
             },
             "resources": [
                 {
