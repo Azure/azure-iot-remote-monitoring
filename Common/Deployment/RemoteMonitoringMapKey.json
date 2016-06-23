@@ -626,7 +626,12 @@
                 "sku": "[parameters('webSku')]",
                 "workerSize": "[parameters('webWorkerSize')]",
                 "numberOfWorkers": "[parameters('webWorkerCount')]"
-            }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
+                "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
+                "[resourceId('Microsoft.Devices/Iothubs', parameters('iotHubName'))]"
+            ]
         },
         {
             "apiVersion": "[variables('webVersion')]",
@@ -643,7 +648,13 @@
                 "numberOfWorkers": "[parameters('webJobWorkerCount')]"
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', variables('webPlanName'))]"
+                "[resourceId('Microsoft.Web/serverfarms', variables('webPlanName'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
+                "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
+                "[resourceId('Microsoft.Devices/Iothubs', parameters('iotHubName'))]",
+                "[resourceId('Microsoft.StreamAnalytics/streamingjobs', concat(parameters('suiteName'), '-Telemetry'))]",
+                "[resourceId('Microsoft.StreamAnalytics/streamingjobs', concat(parameters('suiteName'), '-DeviceInfo'))]",
+                "[resourceId('Microsoft.StreamAnalytics/streamingjobs', concat(parameters('suiteName'), '-Rules'))]"
             ]
         },
         {
@@ -652,16 +663,16 @@
             "type": "Microsoft.Web/sites",
             "location": "[variables('location')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', variables('webPlanName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
-                "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
-                "[resourceId('Microsoft.Devices/Iothubs', parameters('iotHubName'))]"
+                "[resourceId('Microsoft.Web/serverfarms', variables('webPlanName'))]"
             ],
             "tags": {
                 "IotSuiteType": "[variables('suiteType')]"
             },
             "properties": {
-                "serverFarmId": "[variables('webPlanName')]"
+                "serverFarmId": "[variables('webPlanName')]",
+                "siteConfig": {
+                    "AlwaysOn": true
+                }
             },
             "resources": [
                 {
@@ -675,18 +686,6 @@
                         "packageUri": "[parameters('packageUri')]",
                         "connectionString": "",
                         "dbType": ""
-                    }
-                },
-                {
-                    "apiVersion": "[variables('webVersion')]",
-                    "name": "Web",
-                    "type": "config",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', variables('webSiteName'))]",
-                        "[concat('Microsoft.Web/Sites/', variables('webSiteName'), '/Extensions/MSDeploy')]"
-                    ],
-                    "properties": {
-                        "AlwaysOn": true
                     }
                 },
                 {
@@ -725,19 +724,16 @@
             "type": "Microsoft.Web/sites",
             "location": "[variables('location')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', variables('webJobPlanName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
-                "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
-                "[resourceId('Microsoft.Devices/Iothubs', parameters('iotHubName'))]",
-                "[resourceId('Microsoft.StreamAnalytics/streamingjobs', concat(parameters('suiteName'), '-Telemetry'))]",
-                "[resourceId('Microsoft.StreamAnalytics/streamingjobs', concat(parameters('suiteName'), '-DeviceInfo'))]",
-                "[resourceId('Microsoft.StreamAnalytics/streamingjobs', concat(parameters('suiteName'), '-Rules'))]"
+                "[resourceId('Microsoft.Web/serverfarms', variables('webJobPlanName'))]"
             ],
             "tags": {
                 "IotSuiteType": "[variables('suiteType')]"
             },
             "properties": {
-                "serverFarmId": "[variables('webJobPlanName')]"
+                "serverFarmId": "[variables('webJobPlanName')]",
+                "siteConfig": {
+                    "AlwaysOn": true
+                }
             },
             "resources": [
                 {
@@ -751,18 +747,6 @@
                         "packageUri": "[parameters('webJobPackageUri')]",
                         "connectionString": "",
                         "dbType": ""
-                    }
-                },
-                {
-                    "apiVersion": "[variables('webVersion')]",
-                    "name": "Web",
-                    "type": "config",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', variables('webJobSiteName'))]",
-                        "[concat('Microsoft.Web/Sites/', variables('webJobSiteName'), '/Extensions/MSDeploy')]"
-                    ],
-                    "properties": {
-                        "AlwaysOn": true
                     }
                 },
                 {
