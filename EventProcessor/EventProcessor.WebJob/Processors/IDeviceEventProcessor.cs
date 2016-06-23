@@ -1,13 +1,8 @@
 ﻿namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WebJob.Processors
 {
-    using System.Threading;
+    using Generic;
 
-    public interface IDeviceEventProcessor
+    public interface IDeviceEventProcessor : IEventProcessorHost
     {
-        void Start();
-
-        void Start(CancellationToken token);
-
-        void Stop();
     }
 }

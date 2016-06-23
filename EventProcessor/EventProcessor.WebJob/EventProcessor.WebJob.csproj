@@ -94,12 +94,14 @@
     <Compile Include="EventProcessorModule.cs" />
     <Compile Include="Processors\ActionEventProcessor.cs" />
     <Compile Include="Processors\ActionProcessor.cs" />
-    <Compile Include="Processors\ActionProcessorFactory.cs" />
     <Compile Include="Processors\DeviceAdministrationProcessor.cs" />
-    <Compile Include="Processors\DeviceAdministrationProcessorFactory.cs" />
     <Compile Include="Processors\DeviceEventProcessor.cs" />
+    <Compile Include="Processors\Generic\EventProcessor.cs" />
+    <Compile Include="Processors\Generic\EventProcessorFactory.cs" />
+    <Compile Include="Processors\Generic\EventProcessorHost.cs" />
     <Compile Include="Processors\IActionEventProcessor.cs" />
     <Compile Include="Processors\IDeviceEventProcessor.cs" />
+    <Compile Include="Processors\Generic\IEventProcessorHost.cs" />
     <Compile Include="Processors\IMessageFeedbackProcessor.cs" />
     <Compile Include="Processors\MessageFeedbackProcessor.cs" />
     <Compile Include="Program.cs" />
