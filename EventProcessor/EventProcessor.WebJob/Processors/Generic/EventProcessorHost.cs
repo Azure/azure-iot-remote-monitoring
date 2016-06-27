@@ -61,11 +61,12 @@
             {
                 // Initialize
                 _eventProcessorHost = new EventProcessorHost(
-                    Environment.MachineName,
+                    Guid.NewGuid().ToString(),
                     _eventHubName.ToLowerInvariant(),
                     EventHubConsumerGroup.DefaultGroupName,
                     _eventHubConnectionString,
-                    _storageConnectionString);
+                    _storageConnectionString,
+                    _eventHubName.ToLowerInvariant().Replace('/','-'));
 
                 _factory = Activator.CreateInstance(typeof(TEventProcessorFactory), _arguments) as TEventProcessorFactory;
 

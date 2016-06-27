@@ -54,6 +54,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
 
                     StartEventProcessorHost();
                     StartActionProcessorHost();
+                    StartOperationsProcessorHost();
                     StartMessageFeedbackProcessorHost();
 
                     RunAsync().Wait();
@@ -93,6 +94,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             Trace.TraceInformation("Starting action processor");
             var actionProcessor = eventProcessorContainer.Resolve<IActionEventProcessor>();
             actionProcessor.Start();
+        }
+
+        static void StartOperationsProcessorHost()
+        {
+            Trace.TraceInformation("Starting operations processor");
+            eventProcessorContainer.Resolve<IOperationsEventProcessor>().Start();
         }
 
         static void StartMessageFeedbackProcessorHost()

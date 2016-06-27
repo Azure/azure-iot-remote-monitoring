@@ -103,7 +103,10 @@
     <Compile Include="Processors\IDeviceEventProcessor.cs" />
     <Compile Include="Processors\Generic\IEventProcessorHost.cs" />
     <Compile Include="Processors\IMessageFeedbackProcessor.cs" />
+    <Compile Include="Processors\IOperationsEventProcessor.cs" />
     <Compile Include="Processors\MessageFeedbackProcessor.cs" />
+    <Compile Include="Processors\OperationsEventProcessor.cs" />
+    <Compile Include="Processors\OperationsProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

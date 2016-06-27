@@ -26,6 +26,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                 .As<IActionEventProcessor>()
                 .SingleInstance();
 
+            builder.RegisterType<OperationsEventProcessor>()
+                .As<IOperationsEventProcessor>()
+                .SingleInstance();
+
             builder.RegisterType<DeviceLogic>()
                 .As<IDeviceLogic>();
 
