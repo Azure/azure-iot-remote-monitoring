@@ -119,5 +119,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             get;
             set;
         }
+
+        public bool CanProvision
+        {
+            get { return HubEnabledState == null; }
+        }
     }
 }
