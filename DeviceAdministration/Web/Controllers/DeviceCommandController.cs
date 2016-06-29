@@ -147,9 +147,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             command.new_value = keys.PrimaryKey;
             command.ep = devicePrefix + deviceId;
             command.coap_verb = "put";
+
             await _iotHubRepository.SendCommand(targetDeviceId, command);
 
-            return Json(new {wasSent = true});
+            return RedirectToAction("Index", "Device");
         }
 
         private List<SelectListItem> CommandListItems(dynamic device)
