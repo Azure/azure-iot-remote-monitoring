@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WebJob.Processors
 {
@@ -9,11 +10,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
         IOperationsEventProcessor
     {
         public OperationsEventProcessor(
-            IConfigurationProvider configurationProvider) :
+            IConfigurationProvider configurationProvider,
+            IDeviceLogic deviceLogic) :
             base(
                 "messages/operationsmonitoringevents",
                 configurationProvider.GetConfigurationSettingValue("iotHub.ConnectionString"),
-                configurationProvider.GetConfigurationSettingValue("eventHub.StorageConnectionString"))
+                configurationProvider.GetConfigurationSettingValue("eventHub.StorageConnectionString"),
+                deviceLogic)
         { }
     }
 }

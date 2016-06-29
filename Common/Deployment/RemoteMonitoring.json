@@ -243,7 +243,11 @@
                 "IotSuiteType": "[variables('suiteType')]"
             },
             "properties": {
-                "location": "[variables('location')]"
+                "operationsMonitoringProperties": {
+                    "events": {
+                        "Connections": "Error, Information"
+                    }
+                }
             }
         },
         {
