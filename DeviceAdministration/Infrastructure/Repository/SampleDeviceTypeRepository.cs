@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
@@ -16,7 +18,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             new DeviceType 
             {
                 Name = Strings.SimulatedDeviceName,
-                DeviceTypeId = 1,
+                DeviceTypeId = DeviceTypeConstants.SIMULATED,
                 Description = Strings.SimulatedDeviceDescription,
                 InstructionsUrl = null,
                 IsSimulatedDevice = true
@@ -24,9 +26,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             new DeviceType 
             {
                 Name = Strings.CustomDeviceName,
-                DeviceTypeId = 2,
+                DeviceTypeId = DeviceTypeConstants.CUSTOM,
                 Description = Strings.CustomDeviceDescription,
                 InstructionsUrl = Strings.CustomDeviceInstructionsUrl
+            },
+            new DeviceType
+            {
+                Name = Strings.MbedDeviceName,
+                DeviceTypeId = DeviceTypeConstants.MBED,
+                Description = Strings.MbedDeviceDescription,
+                InstructionsUrl = Strings.CustomDeviceInstructionsUrl,
+                IsSimulatedDevice = false
             }
         };
 

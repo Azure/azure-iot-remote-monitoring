@@ -145,6 +145,12 @@
     <value>The Enabled State must be set. Please select Enabled or Disabled.</value>
     <comment>Error message.</comment>
   </data>
+  <data name="MbedDeviceDescription" xml:space="preserve">
+    <value>A ARM MBED device.</value>
+  </data>
+  <data name="MbedDeviceName" xml:space="preserve">
+    <value>MBED Device</value>
+  </data>
   <data name="SimulatedDeviceDescription" xml:space="preserve">
     <value>Software to simulate a device. Easily extensible for arbitrary events and commands; can run in a Windows Azure worker role. To create a simulated device, please follow the cooler sample instructions.</value>
     <comment>Description of a device.</comment>

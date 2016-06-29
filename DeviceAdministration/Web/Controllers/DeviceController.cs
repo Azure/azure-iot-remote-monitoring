@@ -263,6 +263,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             DeviceDetailModel deviceModel = new DeviceDetailModel
             {
                 DeviceID = deviceId,
+                DeviceType = DeviceSchemaHelper.GetDeviceType(device),
                 HubEnabledState = DeviceSchemaHelper.GetHubEnabledState(device),
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>()
             };
@@ -352,7 +353,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 "unregisteredDeviceModel.DeviceType is a null reference.");
 
 	        device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
-                unregisteredDeviceModel.DeviceType.IsSimulatedDevice ? DeviceTypeConstants.SIMULATED : DeviceTypeConstants.CUSTOM,
+                unregisteredDeviceModel.DeviceType.DeviceTypeId,
                 unregisteredDeviceModel.Iccid);
 
             return await this._deviceLogic.AddDeviceAsync(device);

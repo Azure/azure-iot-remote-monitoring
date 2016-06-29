@@ -163,6 +163,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
+        /// Extracts the DeviceType value from the device instance.
+        /// </summary>
+        /// <param name="device">
+        /// The Device instance from which to extract the device type.
+        /// </param>
+        /// <returns></returns>
+        public static int? GetDeviceType(dynamic device)
+        {
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
+            return device.DeviceType;
+        }
+
+        /// <summary>
         /// Several aspects of the device schema can be modified after passing through and ASA Event Stream
         /// or some other process. Fix up the schema to keep it clean.
         /// </summary>
@@ -307,5 +324,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             // rest of the initialization code which would be present in a non-simulated system
             (device as JObject).Remove(DeviceModelConstants.SYSTEM_PROPERTIES);
         }
+
     }
 }

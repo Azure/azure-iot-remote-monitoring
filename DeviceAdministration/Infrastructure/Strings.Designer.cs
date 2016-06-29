@@ -125,6 +125,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A ARM MBED device..
+        /// </summary>
+        internal static string MbedDeviceDescription {
+            get {
+                return ResourceManager.GetString("MbedDeviceDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MBED Device.
+        /// </summary>
+        internal static string MbedDeviceName {
+            get {
+                return ResourceManager.GetString("MbedDeviceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Software to simulate a device. Easily extensible for arbitrary events and commands; can run in a Windows Azure worker role. To create a simulated device, please follow the cooler sample instructions..
         /// </summary>
         internal static string SimulatedDeviceDescription {
