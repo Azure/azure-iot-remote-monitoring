@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -12,6 +12,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
         public const string OBJECT_TYPE_DEVICE_INFO = "DeviceInfo";
 
         public const string VERSION_1_0 = "1.0";
+
+        private static Random rand = new Random();
 
         private const int MAX_COMMANDS_SUPPORTED = 6;
 
@@ -41,7 +43,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             new Location(47.659159, -122.141515),  // Microsoft Red West Campus, Building A
             new Location(47.593307, -122.332165),  // 800 Occidental Ave S, Seattle, WA 98134
             new Location(47.617025, -122.191285),  // 11111 NE 8th St, Bellevue, WA 98004
-            new Location(47.583582, -122.130622)  // 3003 160th Ave SE Bellevue, WA 98008
+            new Location(47.583582, -122.130622),  // 3003 160th Ave SE Bellevue, WA 98008
+            new Location(47.639511, -122.134376),  // 15580 NE 31st St Redmond, WA 98008
+            new Location(47.644328, -122.137036),  // 15255 NE 40th St Redmond, WA 98008
+            new Location(47.621573, -122.338101),  // 320 Westlake Ave N, Seattle, WA 98109
+            new Location(47.642357, -122.137152), // 15010 NE 36th St, Redmond, WA 98052
+            new Location(47.614981, -122.195781), //500 108th Ave NE, Bellevue, WA 98004 
+            new Location(47.642528, -122.130565), //3460 157th Ave NE, Redmond, WA 98052
+            new Location(47.617187, -122.191685), //11155 NE 8th St, Bellevue, WA 98004
+            new Location(47.677292, -122.093030), //18500 NE Union Hill Rd, Redmond, WA 98052
+            new Location(47.642528, -122.130565), //3600 157th Ave NE, Redmond, WA 98052
+            new Location(47.642876, -122.125492), //16070 NE 36th Way Bldg 33, Redmond, WA 98052
+            new Location(47.637376, -122.140445), //14999 NE 31st Way, Redmond, WA 98052
+            new Location(47.636121, -122.130254) //3009 157th Pl NE, Redmond, WA 98052
         };
 
         public static dynamic GetSampleSimulatedDevice(string deviceId, string key)
@@ -82,33 +96,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         private static void AssignDeviceProperties(string deviceId, dynamic device)
         {
+            int randomId = rand.Next(0, _possibleDeviceLocations.Count - 1); 
             dynamic deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
             deviceProperties.HubEnabledState = true;
             deviceProperties.Manufacturer = "Contoso Inc.";
-            deviceProperties.ModelNumber = "MD-" + GetIntBasedOnString(deviceId + "ModelNumber", 1000);
-            deviceProperties.SerialNumber = "SER" + GetIntBasedOnString(deviceId + "SerialNumber", 10000);
-            deviceProperties.FirmwareVersion = "1." + GetIntBasedOnString(deviceId + "FirmwareVersion", 100);
-            deviceProperties.Platform = "Plat-" + GetIntBasedOnString(deviceId + "Platform", 100);
-            deviceProperties.Processor = "i3-" + GetIntBasedOnString(deviceId + "Processor", 10000);
-            deviceProperties.InstalledRAM = GetIntBasedOnString(deviceId + "InstalledRAM", 100) + " MB";
+            deviceProperties.ModelNumber = "MD-" + randomId;
+            deviceProperties.SerialNumber = "SER" + randomId;
+            deviceProperties.FirmwareVersion = "1." + randomId;
+            deviceProperties.Platform = "Plat-" + randomId;
+            deviceProperties.Processor = "i3-" + randomId;
+            deviceProperties.InstalledRAM = randomId + " MB";
 
-            // Choose a location between the 3 above and set Lat and Long for device properties
-            int chosenLocation = GetIntBasedOnString(deviceId + "Location", _possibleDeviceLocations.Count);
-            deviceProperties.Latitude = _possibleDeviceLocations[chosenLocation].Latitude;
-            deviceProperties.Longitude = _possibleDeviceLocations[chosenLocation].Longitude;
-        }
-
-        private static int GetIntBasedOnString(string input, int maxValueExclusive)
-        {
-            int hash = input.GetHashCode();
-
-            //Keep the result positive
-            if(hash < 0)
-            {
-                hash = -hash;
-            }
-
-            return hash % maxValueExclusive;
+            // Choose a location among the 16 above and set Lat and Long for device properties
+            deviceProperties.Latitude = _possibleDeviceLocations[randomId].Latitude;
+            deviceProperties.Longitude = _possibleDeviceLocations[randomId].Longitude;
         }
 
         private static void AssignTelemetry(dynamic device)
