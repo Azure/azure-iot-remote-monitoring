@@ -352,7 +352,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 "unregisteredDeviceModel.DeviceType is a null reference.");
 
 	        device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
-                unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
+                unregisteredDeviceModel.DeviceType.IsSimulatedDevice ? DeviceTypeConstants.SIMULATED : DeviceTypeConstants.CUSTOM,
+                unregisteredDeviceModel.Iccid);
 
             return await this._deviceLogic.AddDeviceAsync(device);
         }

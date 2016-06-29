@@ -101,7 +101,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 // grab the exception so we can attempt an async removal of the device from the IotHub
                 capturedException = ExceptionDispatchInfo.Capture(ex);
-
             }
 
             //Create a device in table storage if it is a simulated type of device 
@@ -109,7 +108,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             bool isSimulatedAsBool = false;
             try
             {
-                isSimulatedAsBool = (bool)device.IsSimulatedDevice;
+                isSimulatedAsBool = device.DeviceType == DeviceTypeConstants.SIMULATED;
             }
             catch (InvalidCastException ex)
             {
@@ -1029,7 +1028,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             List<string> sampleIds = SampleDeviceFactory.GetDefaultDeviceNames();
             foreach(string id in sampleIds)
             {
-                dynamic device = DeviceSchemaHelper.BuildDeviceStructure(id, true, null);
+                dynamic device = DeviceSchemaHelper.BuildDeviceStructure(id, DeviceTypeConstants.SIMULATED, null);
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
                 await AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             }

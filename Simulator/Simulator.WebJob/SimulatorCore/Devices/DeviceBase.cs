@@ -114,7 +114,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// <returns></returns>
         public virtual dynamic GetDeviceInfo()
         {
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(DeviceID, true, null);
+            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(DeviceID, DeviceTypeConstants.SIMULATED, null);
             device.DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(this);
             device.Commands = CommandSchemaHelper.GetSupportedCommands(this);
             device.Telemetry = CommandSchemaHelper.GetTelemetrySchema(this);

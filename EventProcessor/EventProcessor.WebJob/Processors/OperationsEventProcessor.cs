@@ -16,7 +16,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                 "messages/operationsmonitoringevents",
                 configurationProvider.GetConfigurationSettingValue("iotHub.ConnectionString"),
                 configurationProvider.GetConfigurationSettingValue("eventHub.StorageConnectionString"),
-                deviceLogic)
+                deviceLogic, configurationProvider)
         { }
     }
 }

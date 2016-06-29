@@ -5,7 +5,7 @@
         public const string OBJECT_NAME = "ObjectName";
         public const string OBJECT_TYPE = "ObjectType";
         public const string VERSION = "Version";
-        public const string IS_SIMULATED_DEVICE = "IsSimulatedDevice";
+        public const string DEVICE_TYPE = "DeviceType";
         public const string DEVICE_PROPERTIES = "DeviceProperties";
         public const string SYSTEM_PROPERTIES = "SystemProperties";
         public const string COMMANDS = "Commands";
@@ -51,5 +51,12 @@
     {
         public const string NAME = "Name";
         public const string TYPE = "Type";
+    }
+
+    public static class DeviceTypeConstants
+    {
+        public const int CUSTOM = 0;
+        public const int SIMULATED = 1;
+        public const int MBED = 2;
     }
 }

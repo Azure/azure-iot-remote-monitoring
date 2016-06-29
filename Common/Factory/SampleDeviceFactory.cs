@@ -17,7 +17,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         private const int MAX_COMMANDS_SUPPORTED = 6;
 
-        private const bool IS_SIMULATED_DEVICE = true;
+        private const int DEVICE_TYPE = DeviceTypeConstants.SIMULATED;
 
         private static List<string> DefaultDeviceNames = new List<string>{
             "SampleDevice001", 
@@ -60,12 +60,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         public static dynamic GetSampleSimulatedDevice(string deviceId, string key)
         {
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, true, null);
+            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, DeviceTypeConstants.SIMULATED, null);
 
             AssignDeviceProperties(deviceId, device);
             device.ObjectType = OBJECT_TYPE_DEVICE_INFO;
             device.Version = VERSION_1_0;
-            device.IsSimulatedDevice = IS_SIMULATED_DEVICE;
+            device.DeviceType = DEVICE_TYPE;
 
             AssignTelemetry(device);
             AssignCommands(device);
@@ -84,7 +84,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
                     randomNumber.Next(99999),
                     randomNumber.Next(99999));
 
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, false, null);
+            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, DeviceTypeConstants.CUSTOM, null);
             device.ObjectName = "IoT Device Description";
 
             AssignDeviceProperties(deviceId, device);

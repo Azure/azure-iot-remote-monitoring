@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using NUnit.Framework;
@@ -587,7 +588,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private void TestNullDeviceProperties(FilterType filterType)
         {
-            var device = DeviceSchemaHelper.BuildDeviceStructure(Guid.NewGuid().ToString(), true, null);
+            var device = DeviceSchemaHelper.BuildDeviceStructure(Guid.NewGuid().ToString(), DeviceTypeConstants.SIMULATED, null);
 
             device.DeviceProperties = null;
 
@@ -741,7 +742,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private static dynamic GetDefaultTestDevice()
         {
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure("DeviceID-Test", true, null);
+            dynamic device = DeviceSchemaHelper.BuildDeviceStructure("DeviceID-Test", DeviceTypeConstants.SIMULATED, null);
             dynamic props = DeviceSchemaHelper.GetDeviceProperties(device);
             props.AvailablePowerSources = 123;
             props.BatteryLevel = 12;
