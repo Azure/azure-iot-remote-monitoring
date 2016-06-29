@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Newtonsoft.Json;
@@ -27,11 +30,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private readonly IDeviceLogic _deviceLogic;
         private readonly ICommandParameterTypeLogic _commandParameterTypeLogic;
+        private readonly IConfigurationProvider _configurationProvider;
+        private readonly IIotHubRepository _iotHubRepository;
 
-        public DeviceCommandController(IDeviceLogic deviceLogic, ICommandParameterTypeLogic commandParameterTypeLogic)
+        public DeviceCommandController(
+            IDeviceLogic deviceLogic, 
+            ICommandParameterTypeLogic commandParameterTypeLogic,
+            IConfigurationProvider configurationProvider, 
+            IIotHubRepository iotHubRepository)
         {
             _deviceLogic = deviceLogic;
             _commandParameterTypeLogic = commandParameterTypeLogic;
+            _configurationProvider = configurationProvider;
+            _iotHubRepository = iotHubRepository;
         }
 
         [RequirePermission(Permission.ViewDevices)]
@@ -117,6 +128,28 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
 
             return Json(new { wasSent = true });
+        }
+
+        public async Task<ActionResult> ProvisionCommand(string deviceId)
+        {
+            if (string.IsNullOrEmpty(deviceId))
+            {
+                throw new ArgumentException("Invalid device id", "deviceId");
+            }
+
+            var devicePrefix = _configurationProvider.GetConfigurationSettingValue("MbedPrefix");
+            var keys = await _deviceLogic.GetIoTHubKeysAsync(deviceId);
+            var targetDeviceId = devicePrefix + deviceId;
+
+            dynamic command = new ExpandoObject();
+            command.MessageId = Guid.NewGuid().ToString();
+            command.path = "/5/0/1";
+            command.new_value = keys.PrimaryKey;
+            command.ep = devicePrefix + deviceId;
+            command.coap_verb = "put";
+            await _iotHubRepository.SendCommand(targetDeviceId, command);
+
+            return Json(new {wasSent = true});
         }
 
         private List<SelectListItem> CommandListItems(dynamic device)
