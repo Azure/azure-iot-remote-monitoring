@@ -377,5 +377,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return devices.Results;
         }
 
+        public ActionResult ProvisionDevice(string deviceid)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

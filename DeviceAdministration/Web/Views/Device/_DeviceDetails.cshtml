@@ -54,6 +54,18 @@
             </p>
         }
 
+        @if (Model.CanProvision)
+        {
+            <p id="provisionDeviceLink"
+               class="grid_detail_value">
+                @Html.ActionLink("Provision Device",
+                    "ProvisionDevice",
+                    "Device",
+                    new { deviceId = Model.DeviceID },
+                    null)
+            </p>
+        }
+
         @if (Model.CanRemoveDevice)
         {
             <p id="removeDeviceLink"
