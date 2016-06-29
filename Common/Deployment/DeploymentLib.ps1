@@ -1,4 +1,5 @@
-﻿function ImportLibraries(){
+﻿function ImportLibraries()
+{
     $success = $true
     $mydocuments = [environment]::getfolderpath("mydocuments")
     $nugetPath = "{0}\Nugets" -f $mydocuments
@@ -893,12 +894,15 @@ function InitializeEnvironment()
                 
                 $global:SubscriptionId = $subscriptions[$selectedIndex - 1].SubscriptionId
             }
+
             UpdateEnvSetting "SubscriptionId" $global:SubscriptionId
         }
     }
     
     Select-AzureSubscription -SubscriptionId $global:SubscriptionId
-    Select-AzureRmSubscription -SubscriptionId $global:SubscriptionId
+
+	$rmSubscription = Get-AzureRmSubscription -SubscriptionId $global:SubscriptionId
+	Select-AzureRmSubscription -SubscriptionName $rmSubscription.SubscriptionName -TenantId $rmSubscription.TenantId
 
     if ([string]::IsNullOrEmpty($global:AllocationRegion))
     {
