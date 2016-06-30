@@ -62,24 +62,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                     }
                 }
 
-                if (ruleOutput.Equals("AlarmHumidity", StringComparison.OrdinalIgnoreCase))
+                if (ruleOutput.Equals("AlarmTremorLevel", StringComparison.OrdinalIgnoreCase))
                 {
-                    Trace.TraceInformation("ProcessAction: humidity rule triggered!");
-                    double humidityReading = ExtractDouble(eventData.reading);
+                    Trace.TraceInformation("ProcessAction: tremor level rule triggered!");
+                    double tremorLevelReading = ExtractDouble(eventData.reading);
 
-                    string humidityActionId = await _actionMappingLogic.GetActionIdFromRuleOutputAsync(ruleOutput);
+                    string tremorLevelActionId = await _actionMappingLogic.GetActionIdFromRuleOutputAsync(ruleOutput);
 
-                    if (!string.IsNullOrWhiteSpace(humidityActionId))
+                    if (!string.IsNullOrWhiteSpace(tremorLevelActionId))
                     {
                         await _actionLogic.ExecuteLogicAppAsync(
-                            humidityActionId,
+                            tremorLevelActionId,
                             deviceId,
-                            "Humidity",
-                            humidityReading);
+                            "TremorLevel",
+                            tremorLevelReading);
                     }
                     else
                     {
-                        Trace.TraceError("ActionProcessor: humidityActionId value is empty for humidityRuleOutput '{0}'", ruleOutput);
+                        Trace.TraceError("ActionProcessor: tremorLevelActionId value is empty for tremorLevelRuleOutput '{0}'", ruleOutput);
                     }
                 }
             }
