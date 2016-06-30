@@ -151,7 +151,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             command.ep = devicePrefix + deviceId;
             command.coap_verb = "put";
 
-            //await _iotHubRepository.SendCommand(targetDeviceId, command);
+            await _iotHubRepository.SendCommand(targetDeviceId, command);
 
             DeviceSchemaHelper.SetProvisionState(device, ProvisionStateConstants.PROVISIONING);
             await _deviceLogic.UpdateDeviceAsync(device);

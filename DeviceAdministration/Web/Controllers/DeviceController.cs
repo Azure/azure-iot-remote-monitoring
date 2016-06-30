@@ -336,11 +336,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             if (DeviceSchemaHelper.GetDeviceType(device) != DeviceTypeConstants.MBED)
             {
-                throw new ArgumentException("Invalid device type", "deviceId");
+                return;
             }
 
             var devicePrefix = _configurationProvider.GetConfigurationSettingValue("MbedPrefix");
-            var keys = await _deviceLogic.GetIoTHubKeysAsync(deviceId);
             var targetDeviceId = devicePrefix + deviceId;
 
             dynamic command = new ExpandoObject();
@@ -350,7 +349,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             command.ep = targetDeviceId;
             command.coap_verb = "post";
 
-            await _iotHubRepository.SendCommand(targetDeviceId, command);
+            try
+            {
+                await _iotHubRepository.SendCommand(targetDeviceId, command);
+            }
+            catch
+            {
+                //Intentially swallow the exception here. Could be a case where the device entry was deprovisioned outside of RM.
+            }
         }
 
         [HttpPost]

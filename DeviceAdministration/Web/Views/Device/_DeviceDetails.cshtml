@@ -55,26 +55,16 @@
             </p>
         }
 
-        @if (Model.CanProvision)
+        @if (Model.CanProvision && Model.ProvisionState == ProvisionStateConstants.UNKNOWN)
         {
-            if (Model.ProvisionState == ProvisionStateConstants.UNKNOWN)
-            {
-                <p id="provisionDeviceLink"
-                   class="grid_detail_value">
-                    @Html.ActionLink("Provision Device...",
+            <p id="provisionDeviceLink"
+               class="grid_detail_value">
+                @Html.ActionLink("Provision Device...",
                         "ProvisionCommand",
                         "DeviceCommand",
-                        new {deviceId = Model.DeviceID},
+                        new { deviceId = Model.DeviceID },
                         null)
-                </p>
-            }
-            else
-            {
-                <p id="provisionDeviceLink"
-                   class="grid_detail_value disabled">
-                    Provision Device...
-                </p>
-            }
+            </p>
         }
 
         @if (Model.CanRemoveDevice)
