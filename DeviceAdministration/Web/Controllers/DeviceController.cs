@@ -18,6 +18,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
+using System.Dynamic;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -29,18 +30,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly IExternalCellularService _cellularService;
         private readonly IDeviceLogic _deviceLogic;
         private readonly IDeviceTypeLogic _deviceTypeLogic;
+        private readonly IConfigurationProvider _configurationProvider;
+        private readonly IIotHubRepository _iotHubRepository;
 
         private readonly string _iotHubName = string.Empty;
 
         public DeviceController(IDeviceLogic deviceLogic, IDeviceTypeLogic deviceTypeLogic,
             IConfigurationProvider configProvider,
             IExternalCellularService cellularService,
-            IApiRegistrationRepository apiRegistrationRepository)
+            IApiRegistrationRepository apiRegistrationRepository,
+            IIotHubRepository iotHubRepository)
         {
             _deviceLogic = deviceLogic;
             _deviceTypeLogic = deviceTypeLogic;
             _cellularService = cellularService;
             _apiRegistrationRepository = apiRegistrationRepository;
+            _configurationProvider = configProvider;
+            _iotHubRepository = iotHubRepository;
 
             _iotHubName = configProvider.GetConfigurationSettingValue("iotHub.HostName");
         }
@@ -319,11 +325,40 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View("RemoveDevice", device);
         }
 
+        public async Task DeProvisionCommand(string deviceId)
+        {
+            if (string.IsNullOrEmpty(deviceId))
+            {
+                throw new ArgumentException("Invalid device id", "deviceId");
+            }
+
+            dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
+
+            if (DeviceSchemaHelper.GetDeviceType(device) != DeviceTypeConstants.MBED)
+            {
+                throw new ArgumentException("Invalid device type", "deviceId");
+            }
+
+            var devicePrefix = _configurationProvider.GetConfigurationSettingValue("MbedPrefix");
+            var keys = await _deviceLogic.GetIoTHubKeysAsync(deviceId);
+            var targetDeviceId = devicePrefix + deviceId;
+
+            dynamic command = new ExpandoObject();
+            command.MessageId = Guid.NewGuid().ToString();
+            command.path = "/86/0/1";
+            command.new_value = _configurationProvider.GetConfigurationSettingValue("MbedPasswd");
+            command.ep = targetDeviceId;
+            command.coap_verb = "post";
+
+            await _iotHubRepository.SendCommand(targetDeviceId, command);
+        }
+
         [HttpPost]
         [RequirePermission(Permission.RemoveDevices)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteDevice(string deviceId)
         {
+            await DeProvisionCommand(deviceId);
             await _deviceLogic.RemoveDeviceAsync(deviceId);
             return View("Index");
         }
