@@ -178,6 +178,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
 
             return device.DeviceType;
         }
+        
+        /// <summary>
+        /// Extracts the ProvisionState value from the device instance.
+        /// </summary>
+        /// <param name="device"></param>
+        /// <returns></returns>
+        public static int? GetProvisionState(dynamic device)
+        {
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
+            return device.ProvisionState;
+        }
+
+        public static void SetProvisionState(dynamic device, int provisionState)
+        {
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
+            device.ProvisionState = provisionState;
+        }
 
         /// <summary>
         /// Several aspects of the device schema can be modified after passing through and ASA Event Stream
@@ -272,6 +297,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             device.Add(DeviceModelConstants.COMMANDS, new JArray());
             device.Add(DeviceModelConstants.COMMAND_HISTORY, new JArray());
             device.Add(DeviceModelConstants.DEVICE_TYPE, deviceType);
+            device.Add(DeviceModelConstants.PROVISION_STATE, ProvisionStateConstants.UNKNOWN);
 
             return device;
         }
@@ -325,5 +351,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             (device as JObject).Remove(DeviceModelConstants.SYSTEM_PROPERTIES);
         }
 
+
+        
     }
 }

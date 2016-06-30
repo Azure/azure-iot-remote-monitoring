@@ -122,10 +122,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public bool CanProvision
         {
-            get { return HubEnabledState == null && (DeviceType != null && DeviceType == DeviceTypeConstants.MBED); }
+            get
+            {
+                return HubEnabledState == null && (DeviceType != null && DeviceType == DeviceTypeConstants.MBED) && ProvisionState != ProvisionStateConstants.PROVISIONED;
+            }
         }
 
         public int? DeviceType
+        {
+            get;
+            set;
+        }
+
+        public int? ProvisionState
         {
             get;
             set;

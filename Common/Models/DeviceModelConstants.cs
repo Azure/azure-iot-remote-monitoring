@@ -13,6 +13,7 @@
         public const string COMMAND_HISTORY = "CommandHistory";
         public const string ID = "id";
         public const string SELF_LINK = "_self";
+        public const string PROVISION_STATE = "ProvisionState";
     }
 
     public static class DevicePropertiesConstants
@@ -58,5 +59,12 @@
         public const int CUSTOM = 0;
         public const int SIMULATED = 1;
         public const int MBED = 2;
+    }
+
+    public static class ProvisionStateConstants
+    {
+        public const int UNKNOWN = 0;
+        public const int PROVISIONING = 1;
+        public const int PROVISIONED = 2;
     }
 }
