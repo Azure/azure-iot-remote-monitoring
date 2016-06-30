@@ -264,6 +264,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 DeviceID = deviceId,
                 DeviceType = DeviceSchemaHelper.GetDeviceType(device),
+                ProvisionState = DeviceSchemaHelper.GetProvisionState(device),
                 HubEnabledState = DeviceSchemaHelper.GetHubEnabledState(device),
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>()
             };

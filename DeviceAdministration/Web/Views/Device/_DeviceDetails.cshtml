@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceDetailModel
 
 
@@ -56,14 +57,24 @@
 
         @if (Model.CanProvision)
         {
-            <p id="provisionDeviceLink"
-               class="grid_detail_value">
-                @Html.ActionLink("Provision Device",
-                    "ProvisionCommand",
-                    "DeviceCommand",
-                    new { deviceId = Model.DeviceID },
-                    null)
-            </p>
+            if (Model.ProvisionState == ProvisionStateConstants.UNKNOWN)
+            {
+                <p id="provisionDeviceLink"
+                   class="grid_detail_value">
+                    @Html.ActionLink("Provision Device...",
+                        "ProvisionCommand",
+                        "DeviceCommand",
+                        new {deviceId = Model.DeviceID},
+                        null)
+                </p>
+            }
+            else
+            {
+                <p id="provisionDeviceLink"
+                   class="grid_detail_value disabled">
+                    Provision Device...
+                </p>
+            }
         }
 
         @if (Model.CanRemoveDevice)

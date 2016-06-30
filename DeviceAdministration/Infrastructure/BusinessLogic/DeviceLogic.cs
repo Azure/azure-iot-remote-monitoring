@@ -270,6 +270,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 existingDevice.Commands = device.Commands;
             }
 
+            DeviceSchemaHelper.SetProvisionState(existingDevice, ProvisionStateConstants.PROVISIONED);
 
             return await _deviceRegistryCrudRepository.UpdateDeviceAsync(existingDevice);
         }

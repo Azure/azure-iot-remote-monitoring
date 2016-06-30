@@ -257,6 +257,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="App_GlobalResources\Strings.pt-PT.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.pt-PT.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\Startup.Json.cs" />
     <Compile Include="App_Start\Startup.Autofac.cs" />
     <Compile Include="App_Start\Startup.WebApi.cs" />

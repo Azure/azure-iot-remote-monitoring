@@ -185,8 +185,16 @@
         $(cells_status_true).html(resources.running);
 
         var cells_status_pending = tableStatus.cells(".table_status:empty").nodes();
-        $(cells_status_pending).addClass('status_pending');
+        $(cells_status_pending).addClass('status_none');
         $(cells_status_pending).html(resources.pending);
+
+        var cells_status_pending = tableStatus.cells(".table_status:contains('provisionState')").nodes();
+        $(cells_status_pending).addClass('status_none');
+        $(cells_status_pending).html("Provisioning");
+
+        var cells_status_pending = tableStatus.cells(".table_status:contains('unprovisioned')").nodes();
+        $(cells_status_pending).addClass('status_none');
+        $(cells_status_pending).html("Un-Provisioned");
     }
 
     var _initializeDatatable = function() {
@@ -245,14 +253,21 @@
             },
             "columns": [
                 {
-                    "data": "DeviceProperties.HubEnabledState",
+                    "data": "DeviceProperties",
                     "mRender": function (data) {
-                        if (data === false) {
-                            return htmlEncode("false");
-                        } else if (data) {
-                            return htmlEncode("true");
+                        if (!data.HubEnabledState && data.DeviceType === 2 && data.ProvisionState === 1) {
+                            return htmlEncode('provisionState');
                         }
-                        return htmlEncode(data);
+
+                        if (data.HubEnabledState) {
+                            if (data.HubEnabledState === true) {
+                                return htmlEncode('true');
+                            } else {
+                                return htmlEncode('false');
+                            }
+                        }
+
+                        return htmlEncode('');
                     },
                     "name": "hubEnabledState"
                 },
@@ -378,6 +393,15 @@
 
                 // reset this value each time
                 self.isDefaultDeviceDetailsAvailable = false;
+
+                //Copy over DeviceType and ProvisionState into DeviceProperties
+                for (var record = 0; record < json.data.length; record++) {
+                    var deviceRecord = json.data[record];
+                    if (deviceRecord && deviceRecord.DeviceProperties) {
+                        deviceRecord.DeviceProperties.DeviceType = deviceRecord.DeviceType;
+                        deviceRecord.DeviceProperties.ProvisionState = deviceRecord.ProvisionState;
+                    }
+                }
 
                 for (var i = 0, len = json.data.length; i < len; ++i) {
                     var data = json.data[i];

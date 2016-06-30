@@ -9,6 +9,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configuration
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
@@ -137,8 +138,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 throw new ArgumentException("Invalid device id", "deviceId");
             }
 
-            var devicePrefix = _configurationProvider.GetConfigurationSettingValue("MbedPrefix");
+            var device =  await _deviceLogic.GetDeviceAsync(deviceId);
             var keys = await _deviceLogic.GetIoTHubKeysAsync(deviceId);
+
+            var devicePrefix = _configurationProvider.GetConfigurationSettingValue("MbedPrefix");
             var targetDeviceId = devicePrefix + deviceId;
 
             dynamic command = new ExpandoObject();
@@ -148,7 +151,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             command.ep = devicePrefix + deviceId;
             command.coap_verb = "put";
 
-            await _iotHubRepository.SendCommand(targetDeviceId, command);
+            //await _iotHubRepository.SendCommand(targetDeviceId, command);
+
+            DeviceSchemaHelper.SetProvisionState(device, ProvisionStateConstants.PROVISIONING);
+            await _deviceLogic.UpdateDeviceAsync(device);
 
             return RedirectToAction("Index", "Device");
         }
