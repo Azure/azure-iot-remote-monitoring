@@ -191,10 +191,6 @@
         var cells_status_pending = tableStatus.cells(".table_status:contains('provisionState')").nodes();
         $(cells_status_pending).addClass('status_none');
         $(cells_status_pending).html("Provisioning");
-
-        var cells_status_pending = tableStatus.cells(".table_status:contains('unprovisioned')").nodes();
-        $(cells_status_pending).addClass('status_none');
-        $(cells_status_pending).html("Un-Provisioned");
     }
 
     var _initializeDatatable = function() {
