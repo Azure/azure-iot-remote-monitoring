@@ -12,17 +12,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             } 
         }
 
-        public static string Humidity
+        public static string TremorLevel
         {
             get
             {
-                return "Humidity";
+                return "TremorLevel";
             }
         }
 
         private static List<string> _availableDataFields = new List<string>
         {
-            Temperature, Humidity
+            Temperature, TremorLevel
         };
 
         public static List<string> GetListOfAvailableDataFields()

@@ -163,11 +163,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             temperatureRule.Threshold = 38.0d;
             await SaveDeviceRuleAsync(temperatureRule);
 
-            DeviceRule humidityRule = await GetNewRuleAsync(existingDeviceIds[0]);
-            humidityRule.DataField = DeviceRuleDataFields.Humidity;
-            humidityRule.RuleOutput = "AlarmHumidity";
-            humidityRule.Threshold = 48.0d;
-            await SaveDeviceRuleAsync(humidityRule);
+            DeviceRule tremorLevelRule = await GetNewRuleAsync(existingDeviceIds[0]);
+            tremorLevelRule.DataField = DeviceRuleDataFields.TremorLevel;
+            tremorLevelRule.RuleOutput = "AlarmTremorLevel";
+            tremorLevelRule.Threshold = 48.0d;
+            await SaveDeviceRuleAsync(tremorLevelRule);
         }
         
         public async Task<TableStorageResponse<DeviceRule>> DeleteDeviceRuleAsync(string deviceId, string ruleId)

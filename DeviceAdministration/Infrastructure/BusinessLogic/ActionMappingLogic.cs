@@ -12,12 +12,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly IDeviceRulesRepository _rulesRepository;
 
         private const string _ruleOutputAlarmTemp = "AlarmTemp";
-        private const string _ruleOutputAlarmHumidity = "AlarmHumidity";
+        private const string _ruleOutputAlarmTremorLevel = "AlarmTremorLevel";
 
         private List<string> _availableRuleOutputs = new List<string>() 
         {
             _ruleOutputAlarmTemp,
-            _ruleOutputAlarmHumidity
+            _ruleOutputAlarmTremorLevel
         };
 
         public ActionMappingLogic(IActionMappingRepository actionMappingRepository, IDeviceRulesRepository rulesRepository)
@@ -61,7 +61,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             var am2 = new ActionMapping()
             {
-                RuleOutput = _ruleOutputAlarmHumidity,
+                RuleOutput = _ruleOutputAlarmTremorLevel,
                 ActionId = "Raise Alarm"
             };
 
