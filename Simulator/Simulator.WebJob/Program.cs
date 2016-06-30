@@ -62,7 +62,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
                 {
                     BuildContainer();
 
-                    StartDataInitializationAsNeeded();
+                    // For this demo, we do not initialize any default simulated devices
+                    // StartDataInitializationAsNeeded();
                     StartSimulator();
 
                     RunAsync().Wait();
