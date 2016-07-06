@@ -388,34 +388,34 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         model.DeviceId = str;
                     }
 
-                    if (strdict.TryGetValue("averagehumidity", out str) &&
+                    if (strdict.TryGetValue("averagetremorlevel", out str) &&
                        double.TryParse(
                             str,
                             NumberStyles.Float,
                             CultureInfo.InvariantCulture,
                             out number))
                     {
-                        model.AverageHumidity = number;
+                        model.AverageTremorLevel = number;
                     }
 
-                    if (strdict.TryGetValue("maxhumidity", out str) &&
+                    if (strdict.TryGetValue("maxtremorlevel", out str) &&
                        double.TryParse(
                             str,
                             NumberStyles.Float,
                             CultureInfo.InvariantCulture,
                             out number))
                     {
-                        model.MaximumHumidity = number;
+                        model.MaximumTremorLevel = number;
                     }
 
-                    if (strdict.TryGetValue("minimumhumidity", out str) &&
+                    if (strdict.TryGetValue("minimumtremorlevel", out str) &&
                        double.TryParse(
                             str,
                             NumberStyles.Float,
                             CultureInfo.InvariantCulture,
                             out number))
                     {
-                        model.MinimumHumidity = number;
+                        model.MinimumTremorLevel = number;
                     }
 
                     if (strdict.TryGetValue("timeframeminutes", out str) &&

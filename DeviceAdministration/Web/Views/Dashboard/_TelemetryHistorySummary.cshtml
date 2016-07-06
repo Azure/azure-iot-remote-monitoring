@@ -1,15 +1,15 @@
 ﻿@using GlobalResources
 <div class="dashboard_telemetry_history_summary">
-    <div id="maxDeviceHumidityContainer" class="dashboard_telemetry_history_summary__dashboard_telemetry_history_gauge dashboard_telemetry_history_gauge--leftGauge">
-        <h5 class="telemetry_summary_gauge_control__gauge_header" id="maxDeviceHumidityLabel">@Strings.MaxOfDevicesHumidity</h5>
-        <div id="maxDevicehumidity" class="dashboard_telemetry_history_gauge__telemetry_summary_gauge_control"></div>
-    </div><div id="minDeviceHumidityContainer" class="dashboard_telemetry_history_summary__dashboard_telemetry_history_gauge dashboard_telemetry_history_gauge--centerGauge">
-              <h5 class="telemetry_summary_gauge_control__gauge_header" id="maxDeviceHumidityLabel">@Strings.MinOfDevicesHumidity</h5>
-        <div id="minDeviceHumidity" class="dashboard_telemetry_history_gauge__telemetry_summary_gauge_control"></div>
+    <div id="maxDeviceTremorLevelContainer" class="dashboard_telemetry_history_summary__dashboard_telemetry_history_gauge dashboard_telemetry_history_gauge--leftGauge">
+        <h5 class="telemetry_summary_gauge_control__gauge_header" id="maxDeviceTremorLevelLabel">@Strings.MaxOfDevicesTremorLevel</h5>
+        <div id="maxDeviceTremorLevel" class="dashboard_telemetry_history_gauge__telemetry_summary_gauge_control"></div>
+    </div><div id="minDeviceTremorLevelContainer" class="dashboard_telemetry_history_summary__dashboard_telemetry_history_gauge dashboard_telemetry_history_gauge--centerGauge">
+              <h5 class="telemetry_summary_gauge_control__gauge_header" id="maxDeviceTremorLevelLabel">@Strings.MinOfDevicesTremorLevel</h5>
+        <div id="minDeviceTremorLevel" class="dashboard_telemetry_history_gauge__telemetry_summary_gauge_control"></div>
     </div>
-    <div id="avgDeviceHumidityContainer" class="dashboard_telemetry_history_summary__dashboard_telemetry_history_gauge dashboard_telemetry_history_gauge--rightGauge">
-        <h5 class="telemetry_summary_gauge_control__gauge_header" id="avgDeviceHumidityLabel">@Strings.AverageOfDeviceHumidity</h5>
-        <div id="averageDeviceHumidity" class="dashboard_telemetry_history_gauge__telemetry_summary_gauge_control"></div>
+    <div id="avgDeviceTremorLevelContainer" class="dashboard_telemetry_history_summary__dashboard_telemetry_history_gauge dashboard_telemetry_history_gauge--rightGauge">
+        <h5 class="telemetry_summary_gauge_control__gauge_header" id="avgDeviceTremorLevelLabel">@Strings.AverageOfDeviceTremorLevel</h5>
+        <div id="averageDeviceTremorLevel" class="dashboard_telemetry_history_gauge__telemetry_summary_gauge_control"></div>
     </div>
 </div>
 <script src="~/Scripts/Views/Dashboard/TelemetryHistorySummary.js"></script>
@@ -19,17 +19,17 @@
         'use strict';
 
         var telemetryHistorySummarySettings = {
-            averageDeviceHumidityContainer: $('#avgDeviceHumidityContainer'),
-            averageDeviceHumidityControl: $('#averageDeviceHumidity'),
-            averageDeviceHumidityLabel: $('#avgDeviceHumidityLabel'),
-            gaugeMaxValue: 100,
+            averageDeviceTremorLevelContainer: $('#avgDeviceTremorLevelContainer'),
+            averageDeviceTremorLevelControl: $('#averageDeviceTremorLevel'),
+            averageDeviceTremorLevelLabel: $('#avgDeviceTremorLevelLabel'),
+            gaugeMaxValue: 50,
             gaugeMinValue: 0,
-            maxDeviceHumidityContainer: $('#maxDeviceHumidityContainer'),
-            maxDeviceHumidityControl: $('#maxDevicehumidity'),
-            maxDeviceHumidityLabel: $('#maxDeviceHumidityLabel'),
-            minDeviceHumidityContainer: $('#minDeviceHumidityContainer'),
-            minDeviceHumidityControl: $('#minDeviceHumidity'),
-            minDeviceHumidityLabel: $('#maxDeviceHumidityLabel')
+            maxDeviceTremorLevelContainer: $('#maxDeviceTremorLevelContainer'),
+            maxDeviceTremorLevelControl: $('#maxDeviceTremorLevel'),
+            maxDeviceTremorLevelLabel: $('#maxDeviceTremorLevelLabel'),
+            minDeviceTremorLevelContainer: $('#minDeviceTremorLevelContainer'),
+            minDeviceTremorLevelControl: $('#minDeviceTremorLevel'),
+            minDeviceTremorLevelLabel: $('#maxDeviceTremorLevelLabel')
         };
 
         IoTApp.Dashboard.TelemetryHistorySummary.init(telemetryHistorySummarySettings);

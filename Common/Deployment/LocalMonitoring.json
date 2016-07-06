@@ -323,7 +323,7 @@
                 "Transformation": {
                     "Name": "AllToBlob",
                     "Properties": {
-                        "Query": "WITH \r\n    [StreamData]\r\nAS (\r\n    SELECT\r\n        *\r\n    FROM \r\n        [IoTHubStream] \r\n    WHERE\r\n        [ObjectType] IS NULL -- Filter out device info and command responses\r\n        AND\r\n        [path] IS NULL -- Filter out mbed messages\r\n) \r\n\r\nSELECT\r\n    *\r\nINTO\r\n    [Telemetry]\r\nFROM\r\n    [StreamData]\r\n\r\nSELECT\r\n    DeviceId,\r\n    AVG (Humidity) AS [AverageHumidity], \r\n    MIN(Humidity) AS [MinimumHumidity], \r\n    MAX(Humidity) AS [MaxHumidity], \r\n    5.0 AS TimeframeMinutes \r\nINTO\r\n    [TelemetrySummary]\r\nFROM\r\n    [StreamData]\r\nWHERE\r\n    [Humidity] IS NOT NULL\r\nGROUP BY\r\n    DeviceId, \r\n    SlidingWindow (mi, 5)",
+                        "Query": "WITH \r\n    [StreamData]\r\nAS (\r\n    SELECT\r\n        *\r\n    FROM \r\n        [IoTHubStream] \r\n    WHERE\r\n        [ObjectType] IS NULL -- Filter out device info and command responses\r\n        AND\r\n        [path] IS NULL -- Filter out mbed messages\r\n) \r\n\r\nSELECT\r\n    *\r\nINTO\r\n    [Telemetry]\r\nFROM\r\n    [StreamData]\r\n\r\nSELECT\r\n    DeviceId,\r\n    AVG(TremorLevel) AS [AverageTremorLevel], \r\n    MIN(TremorLevel) AS [MinimumTremorLevel], \r\n    MAX(TremorLevel) AS [MaxTremorLevel], \r\n    5.0 AS TimeframeMinutes \r\nINTO\r\n    [TelemetrySummary]\r\nFROM\r\n    [StreamData]\r\nWHERE\r\n    [TremorLevel] IS NOT NULL\r\nGROUP BY\r\n    DeviceId, \r\n    SlidingWindow (mi, 5)",
                         "StreamingUnits": 1
                     }
                 }

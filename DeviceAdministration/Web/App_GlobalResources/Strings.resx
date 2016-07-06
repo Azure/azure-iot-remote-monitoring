@@ -1240,20 +1240,20 @@
     <value>All Devices</value>
     <comment>(Unused)</comment>
   </data>
-  <data name="AverageOfDeviceHumidity" xml:space="preserve">
-    <value>Average of device humidity</value>
+  <data name="AverageOfDeviceTremorLevel" xml:space="preserve">
+    <value>Average of device tremor level</value>
     <comment>Tile heading.</comment>
   </data>
-  <data name="Humidity" xml:space="preserve">
-    <value>Humidity</value>
+  <data name="TremorLevel" xml:space="preserve">
+    <value>Tremor Level</value>
     <comment>Label.</comment>
   </data>
-  <data name="MaxOfDevicesHumidity" xml:space="preserve">
-    <value>Max of device humidity</value>
+  <data name="MaxOfDevicesTremorLevel" xml:space="preserve">
+    <value>Max of device tremor level</value>
     <comment>Read-only field label.</comment>
   </data>
-  <data name="MinOfDevicesHumidity" xml:space="preserve">
-    <value>Min of device humidity</value>
+  <data name="MinOfDevicesTremorLevel" xml:space="preserve">
+    <value>Min of device tremor level</value>
     <comment>Read-only field label.</comment>
   </data>
   <data name="TelemetryGaugeNumericFormat" xml:space="preserve">

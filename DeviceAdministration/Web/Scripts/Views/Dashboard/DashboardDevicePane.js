@@ -62,9 +62,9 @@
                         if (telemetryHistoryRefreshData) {
                             if (data.deviceTelemetrySummaryModel) {
                                 telemetryHistoryRefreshData(
-                                    data.deviceTelemetrySummaryModel.minimumHumidity || 0.0,
-                                    data.deviceTelemetrySummaryModel.maximumHumidity || 0.0,
-                                    data.deviceTelemetrySummaryModel.averageHumidity || 0.0);
+                                    data.deviceTelemetrySummaryModel.minimumTremorLevel || 0.0,
+                                    data.deviceTelemetrySummaryModel.maximumTremorLevel || 0.0,
+                                    data.deviceTelemetrySummaryModel.averageTremorLevel || 0.0);
                             } else {
                                 telemetryHistoryRefreshData(0.0, 0.0, 0.0);
                             }

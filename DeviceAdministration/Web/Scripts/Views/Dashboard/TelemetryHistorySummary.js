@@ -3,22 +3,22 @@
     function initTelemetryHistorySummary() {
         'use strict';
 
-        var averageDeviceHumidityContainer;
-        var averageDeviceHumidityControl;
-        var averageDeviceHumidityLabel;
-        var averageHumidityVisual;
-        var lastAvgHumidity;
-        var lastMaxHumidity;
-        var lastMinHumidity;
-        var maxDeviceHumidityContainer;
-        var maxDeviceHumidityControl;
-        var maxDeviceHumidityLabel;
-        var maxHumidityVisual;
+        var averageDeviceTremorLevelContainer;
+        var averageDeviceTremorLevelControl;
+        var averageDeviceTremorLevelLabel;
+        var averageTremorLevelVisual;
+        var lastAvgTremorLevel;
+        var lastMaxTremorLevel;
+        var lastMinTremorLevel;
+        var maxDeviceTremorLevelContainer;
+        var maxDeviceTremorLevelControl;
+        var maxDeviceTremorLevelLabel;
+        var maxTremorLevelVisual;
         var maxValue;
-        var minDeviceHumidityContainer;
-        var minDeviceHumidityControl;
-        var minDeviceHumidityLabel;
-        var minHumidityVisual;
+        var minDeviceTremorLevelContainer;
+        var minDeviceTremorLevelControl;
+        var minDeviceTremorLevelLabel;
+        var minTremorLevelVisual;
         var minValue;
 
         var createDataView = function createDataView(indicatedValue) {
@@ -135,33 +135,33 @@
             maxValue = telemetryHistorySummarySettings.gaugeMaxValue;
             minValue = telemetryHistorySummarySettings.gaugeMinValue;
 
-            averageDeviceHumidityContainer = telemetryHistorySummarySettings.averageDeviceHumidityContainer;
-            averageDeviceHumidityControl = telemetryHistorySummarySettings.averageDeviceHumidityControl;
-            averageDeviceHumidityLabel = telemetryHistorySummarySettings.averageDeviceHumidityLabel;
-            maxDeviceHumidityContainer = telemetryHistorySummarySettings.maxDeviceHumidityContainer;
-            maxDeviceHumidityControl = telemetryHistorySummarySettings.maxDeviceHumidityControl;
-            maxDeviceHumidityLabel = telemetryHistorySummarySettings.maxDeviceHumidityLabel;
-            minDeviceHumidityContainer = telemetryHistorySummarySettings.minDeviceHumidityContainer;
-            minDeviceHumidityControl = telemetryHistorySummarySettings.minDeviceHumidityControl;
-            minDeviceHumidityLabel = telemetryHistorySummarySettings.minDeviceHumidityLabel;
+            averageDeviceTremorLevelContainer = telemetryHistorySummarySettings.averageDeviceTremorLevelContainer;
+            averageDeviceTremorLevelControl = telemetryHistorySummarySettings.averageDeviceTremorLevelControl;
+            averageDeviceTremorLevelLabel = telemetryHistorySummarySettings.averageDeviceTremorLevelLabel;
+            maxDeviceTremorLevelContainer = telemetryHistorySummarySettings.maxDeviceTremorLevelContainer;
+            maxDeviceTremorLevelControl = telemetryHistorySummarySettings.maxDeviceTremorLevelControl;
+            maxDeviceTremorLevelLabel = telemetryHistorySummarySettings.maxDeviceTremorLevelLabel;
+            minDeviceTremorLevelContainer = telemetryHistorySummarySettings.minDeviceTremorLevelContainer;
+            minDeviceTremorLevelControl = telemetryHistorySummarySettings.minDeviceTremorLevelControl;
+            minDeviceTremorLevelLabel = telemetryHistorySummarySettings.minDeviceTremorLevelLabel;
 
-            averageHumidityVisual = createVisual(averageDeviceHumidityControl);
-            maxHumidityVisual = createVisual(maxDeviceHumidityControl);
-            minHumidityVisual = createVisual(minDeviceHumidityControl);
+            averageTremorLevelVisual = createVisual(averageDeviceTremorLevelControl);
+            maxTremorLevelVisual = createVisual(maxDeviceTremorLevelControl);
+            minTremorLevelVisual = createVisual(minDeviceTremorLevelControl);
         };
 
         var redraw = function redraw() {
             var height;
             var width;
 
-            if (minDeviceHumidityControl &&
-                minHumidityVisual &&
-                (lastMinHumidity || (lastMinHumidity === 0))) {
-                height = minDeviceHumidityControl.height();
-                width = minDeviceHumidityControl.width();
+            if (minDeviceTremorLevelControl &&
+                minTremorLevelVisual &&
+                (lastMinTremorLevel || (lastMinTremorLevel === 0))) {
+                height = minDeviceTremorLevelControl.height();
+                width = minDeviceTremorLevelControl.width();
 
-                minHumidityVisual.update({
-                    dataViews: [createDataView(lastMinHumidity)],
+                minTremorLevelVisual.update({
+                    dataViews: [createDataView(lastMinTremorLevel)],
                     viewport: {
                         height: height,
                         width: width
@@ -170,14 +170,14 @@
                 });
             }
 
-            if (maxDeviceHumidityControl &&
-                maxHumidityVisual &&
-                (lastMaxHumidity || (lastMaxHumidity === 0))) {
-                height = maxDeviceHumidityControl.height();
-                width = maxDeviceHumidityControl.width();
+            if (maxDeviceTremorLevelControl &&
+                maxTremorLevelVisual &&
+                (lastMaxTremorLevel || (lastMaxTremorLevel === 0))) {
+                height = maxDeviceTremorLevelControl.height();
+                width = maxDeviceTremorLevelControl.width();
 
-                maxHumidityVisual.update({
-                    dataViews: [createDataView(lastMaxHumidity)],
+                maxTremorLevelVisual.update({
+                    dataViews: [createDataView(lastMaxTremorLevel)],
                     viewport: {
                         height: height,
                         width: width
@@ -186,14 +186,14 @@
                 });
             }
 
-            if (averageDeviceHumidityControl &&
-                averageHumidityVisual &&
-                (lastAvgHumidity || (lastAvgHumidity === 0))) {
-                height = averageDeviceHumidityControl.height();
-                width = averageDeviceHumidityControl.width();
+            if (averageDeviceTremorLevelControl &&
+                averageTremorLevelVisual &&
+                (lastAvgTremorLevel || (lastAvgTremorLevel === 0))) {
+                height = averageDeviceTremorLevelControl.height();
+                width = averageDeviceTremorLevelControl.width();
 
-                averageHumidityVisual.update({
-                    dataViews: [createDataView(lastAvgHumidity)],
+                averageTremorLevelVisual.update({
+                    dataViews: [createDataView(lastAvgTremorLevel)],
                     viewport: {
                         height: height,
                         width: width
@@ -212,49 +212,49 @@
 
                 padding = 0;
 
-                if (averageDeviceHumidityContainer &&
-                    averageDeviceHumidityLabel &&
-                    averageDeviceHumidityControl) {
+                if (averageDeviceTremorLevelContainer &&
+                    averageDeviceTremorLevelLabel &&
+                    averageDeviceTremorLevelControl) {
 
                     height =
-                        averageDeviceHumidityContainer.height() -
-                        averageDeviceHumidityLabel.height() -
+                        averageDeviceTremorLevelContainer.height() -
+                        averageDeviceTremorLevelLabel.height() -
                         padding;
 
-                    width = averageDeviceHumidityContainer.width() - padding;
+                    width = averageDeviceTremorLevelContainer.width() - padding;
 
-                    averageDeviceHumidityControl.height(height);
-                    averageDeviceHumidityControl.width(width);
+                    averageDeviceTremorLevelControl.height(height);
+                    averageDeviceTremorLevelControl.width(width);
                 }
 
-                if (maxDeviceHumidityContainer &&
-                    maxDeviceHumidityLabel &&
-                    maxDeviceHumidityControl) {
+                if (maxDeviceTremorLevelContainer &&
+                    maxDeviceTremorLevelLabel &&
+                    maxDeviceTremorLevelControl) {
 
                     height =
-                        maxDeviceHumidityContainer.height() -
-                        maxDeviceHumidityLabel.height() -
+                        maxDeviceTremorLevelContainer.height() -
+                        maxDeviceTremorLevelLabel.height() -
                         padding;
 
-                    width = maxDeviceHumidityContainer.width() - padding;
+                    width = maxDeviceTremorLevelContainer.width() - padding;
 
-                    maxDeviceHumidityControl.height(height);
-                    maxDeviceHumidityControl.width(width);
+                    maxDeviceTremorLevelControl.height(height);
+                    maxDeviceTremorLevelControl.width(width);
                 }
 
-                if (minDeviceHumidityContainer &&
-                    minDeviceHumidityLabel &&
-                    minDeviceHumidityControl) {
+                if (minDeviceTremorLevelContainer &&
+                    minDeviceTremorLevelLabel &&
+                    minDeviceTremorLevelControl) {
 
                     height =
-                        minDeviceHumidityContainer.height() -
-                        minDeviceHumidityLabel.height() -
+                        minDeviceTremorLevelContainer.height() -
+                        minDeviceTremorLevelLabel.height() -
                         padding;
 
-                    width = minDeviceHumidityContainer.width() - padding;
+                    width = minDeviceTremorLevelContainer.width() - padding;
 
-                    minDeviceHumidityControl.height(height);
-                    minDeviceHumidityControl.width(width);
+                    minDeviceTremorLevelControl.height(height);
+                    minDeviceTremorLevelControl.width(width);
                 }
 
                 redraw();
@@ -262,13 +262,13 @@
 
         var updateTelemetryHistorySummaryData =
             function updateTelemetryHistorySummaryData(
-                minHumidity,
-                maxHumidity,
-                avgHumidity) {
+                minTremorLevel,
+                maxTremorLevel,
+                avgTremorLevel) {
 
-                lastAvgHumidity = avgHumidity;
-                lastMaxHumidity = maxHumidity;
-                lastMinHumidity = minHumidity;
+                lastAvgTremorLevel = avgTremorLevel;
+                lastMaxTremorLevel = maxTremorLevel;
+                lastMinTremorLevel = minTremorLevel;
 
                 redraw();
         };

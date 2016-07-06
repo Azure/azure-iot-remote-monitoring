@@ -117,7 +117,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             dynamic telemetry = CommandSchemaHelper.CreateNewTelemetry("Temperature", "Temperature", "double");
             CommandSchemaHelper.AddTelemetryToDevice(device, telemetry);
 
-            telemetry = CommandSchemaHelper.CreateNewTelemetry("Humidity", "Humidity", "double");
+            telemetry = CommandSchemaHelper.CreateNewTelemetry("TremorLevel", "Tremor Level", "double");
             CommandSchemaHelper.AddTelemetryToDevice(device, telemetry);
         }
 

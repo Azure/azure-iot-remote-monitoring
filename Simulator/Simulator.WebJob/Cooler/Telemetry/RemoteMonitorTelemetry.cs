@@ -13,11 +13,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         private readonly ILogger _logger;
         private readonly string _deviceId;
 
-        private const int REPORT_FREQUENCY_IN_SECONDS = 5;
+        private const int REPORT_FREQUENCY_IN_SECONDS = 2;
         private const int PEAK_FREQUENCY_IN_SECONDS = 90;
 
         private SampleDataGenerator _temperatureGenerator;
-        private SampleDataGenerator _humidityGenerator;
+        private SampleDataGenerator _tremorLevelGenerator;
         private SampleDataGenerator _externalTemperatureGenerator;
 
         public bool ActivateExternalTemperature { get; set; }
@@ -34,8 +34,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             int peakFrequencyInTicks = Convert.ToInt32(Math.Ceiling((double)PEAK_FREQUENCY_IN_SECONDS /  REPORT_FREQUENCY_IN_SECONDS));
 
-            _temperatureGenerator = new SampleDataGenerator(33, 36, 42, peakFrequencyInTicks);
-            _humidityGenerator = new SampleDataGenerator(20, 50);
+            _temperatureGenerator = new SampleDataGenerator(68, 76);
+            _tremorLevelGenerator = new SampleDataGenerator(0, 2, 20, peakFrequencyInTicks);
             _externalTemperatureGenerator = new SampleDataGenerator(-20, 120);
         }
 
@@ -49,9 +49,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 {
                     monitorData.DeviceId = _deviceId;
                     monitorData.Temperature = _temperatureGenerator.GetNextValue();
-                    monitorData.Humidity = _humidityGenerator.GetNextValue();
+                    monitorData.TremorLevel = _tremorLevelGenerator.GetNextValue();
                     messageBody = "Temperature: " + Math.Round(monitorData.Temperature, 2)
-                        + " Humidity: " + Math.Round(monitorData.Humidity, 2);
+                        + " TremorLevel: " + Math.Round(monitorData.TremorLevel, 2);
 
                     if (ActivateExternalTemperature)
                     {

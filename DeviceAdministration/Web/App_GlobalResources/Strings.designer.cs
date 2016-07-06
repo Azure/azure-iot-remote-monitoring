@@ -377,11 +377,11 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average of device humidity.
+        ///   Looks up a localized string similar to Average of device tremor level.
         /// </summary>
-        public static string AverageOfDeviceHumidity {
+        public static string AverageOfDeviceTremorLevel {
             get {
-                return ResourceManager.GetString("AverageOfDeviceHumidity", resourceCulture);
+                return ResourceManager.GetString("AverageOfDeviceTremorLevel", resourceCulture);
             }
         }
         
@@ -1799,15 +1799,6 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Humidity.
-        /// </summary>
-        public static string Humidity {
-            get {
-                return ResourceManager.GetString("Humidity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to ICCID: .
         /// </summary>
         public static string ICCID {
@@ -2159,11 +2150,11 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max of device humidity.
+        ///   Looks up a localized string similar to Max of device tremor level.
         /// </summary>
-        public static string MaxOfDevicesHumidity {
+        public static string MaxOfDevicesTremorLevel {
             get {
-                return ResourceManager.GetString("MaxOfDevicesHumidity", resourceCulture);
+                return ResourceManager.GetString("MaxOfDevicesTremorLevel", resourceCulture);
             }
         }
         
@@ -2195,11 +2186,11 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Min of device humidity.
+        ///   Looks up a localized string similar to Min of device tremor level.
         /// </summary>
-        public static string MinOfDevicesHumidity {
+        public static string MinOfDevicesTremorLevel {
             get {
-                return ResourceManager.GetString("MinOfDevicesHumidity", resourceCulture);
+                return ResourceManager.GetString("MinOfDevicesTremorLevel", resourceCulture);
             }
         }
         
@@ -3343,6 +3334,15 @@ namespace GlobalResources {
         public static string TimeRegistered {
             get {
                 return ResourceManager.GetString("TimeRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tremor Level.
+        /// </summary>
+        public static string TremorLevel {
+            get {
+                return ResourceManager.GetString("TremorLevel", resourceCulture);
             }
         }
         
