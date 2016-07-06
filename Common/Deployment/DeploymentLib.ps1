@@ -543,7 +543,7 @@ function GetAzureAccountInfo()
     if ($accounts -eq $null)
     {
         Write-Host "Signing you into Azure..."
-        $account = Add-AzureAccount
+        $account = Add-AzureAccount -Environment $global:azureEnvironment.Name
     }
     else 
     {
@@ -567,7 +567,7 @@ function GetAzureAccountInfo()
 
             if ($selectedIndex -eq $accounts.length + 1)
             {
-                $account = Add-AzureAccount
+                $account = Add-AzureAccount -Environment $global:azureEnvironment.Name
                 break;
             }
                 
@@ -859,7 +859,7 @@ function InitializeEnvironment()
         $global:envSettingsXml = [xml](cat $global:environmentSettingsFile)
     }
 
-    $global:AzureAccountName = GetOrSetEnvSetting "AzureAccountName" "GetAzureAccountInfo"
+    $global:AzureAccountName = GetOrSetEnvSetting "AzureAccountName" "GetAzureAccountInfo" 
     ValidateLoginCredentials
 
     if ([string]::IsNullOrEmpty($global:SubscriptionId))
