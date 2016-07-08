@@ -44,6 +44,23 @@ switch($azureEnvironmentName)
         $global:websiteSuffix = "azurewebsites.de"
         $global:locations = @("Germany Central", "Germany Northeast")
     }
+	"AzureChinaCloud" {
+       if ((Get-AzureEnvironment AzureChinaCloud) -eq $null)
+       {
+           Add-AzureEnvironment –Name AzureChinaCloud -EnableAdfsAuthentication $False -ActiveDirectoryServiceEndpointResourceId https://management.core.chinacloudapi.cn/ -GalleryUrl https://gallery.chinacloudapi.cn -ServiceManagementUrl https://management.core.chinacloudapi.cn/ -SqlDatabaseDnsSuffix .database.chinacloudapi.cn -StorageEndpointSuffix core.chinacloudapi.cn -ActiveDirectoryAuthority https://login.microsoftonline.cn/ -GraphUrl https://graph.chinacloudapi.cn/ -trafficManagerDnsSuffix azuretrafficmanager.cn -AzureKeyVaultDnsSuffix vault.azure.cn -AzureKeyVaultServiceEndpointResourceId https://vault.azure.cn -ResourceManagerUrl https://management.chinacloudapi.cn/ -ManagementPortalUrl http://go.microsoft.com/fwlink/?LinkId=301902
+       }
+
+       if ((Get-AzureRMEnvironment AzureChinaCloud) -eq $null)
+       {
+           Add-AzureRMEnvironment –Name AzureChinaCloud -EnableAdfsAuthentication $False -ActiveDirectoryServiceEndpointResourceId https://management.core.chinacloudapi.cn/ -GalleryUrl https://gallery.chinacloudapi.cn -ServiceManagementUrl https://management.core.chinacloudapi.cn/ -SqlDatabaseDnsSuffix .database.chinacloudapi.cn -StorageEndpointSuffix core.chinacloudapi.cn -ActiveDirectoryAuthority https://login.microsoftonline.cn/ -GraphUrl https://graph.chinacloudapi.cn/ -trafficManagerDnsSuffix azuretrafficmanager.cn -AzureKeyVaultDnsSuffix vault.azure.cn -AzureKeyVaultServiceEndpointResourceId https://vault.azure.cn -ResourceManagerUrl https://management.chinacloudapi.cn/ -ManagementPortalUrl http://go.microsoft.com/fwlink/?LinkId=301902
+       }
+
+       $global:iotHubSuffix = "azure-devices.cn"
+       $global:docdbSuffix = "documents.azure.cn"
+       $global:servicebusSuffix = "servicebus.chinacloudapi.cn"
+       $global:websiteSuffix = "chinacloudsites.cn"
+       $global:locations = @("China North", "China East")
+	}
     default {throw ("'{0}' is not a supported Azure Cloud environment" -f $azureEnvironmentName)}
 }
 $global:azureEnvironment = Get-AzureEnvironment $azureEnvironmentName
