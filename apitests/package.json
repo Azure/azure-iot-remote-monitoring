@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prebuild" : "tsd install",
+    "build" : "tsc --outDir dist",
+    "pretest" : "npm run build",
     "test": "jasmine"
   },
   "author": "",
@@ -15,6 +18,7 @@
   "devDependencies": {
     "eslint": "^3.0.1",
     "eslint-config-airbnb": "^9.0.1",
-    "eslint-plugin-react": "^5.2.2"
+    "eslint-plugin-react": "^5.2.2",
+    "typescript": "^2.0.0"
   }
 }
