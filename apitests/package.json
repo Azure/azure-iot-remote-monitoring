@@ -1,0 +1,20 @@
+{
+  "name": "apitests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jasmine": "^2.4.1",
+    "request": "^2.73.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.0.1",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-react": "^5.2.2"
+  }
+}
