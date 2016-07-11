@@ -33,8 +33,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly ISecurityKeyGenerator _securityKeyGenerator;
         private readonly IDeviceRulesLogic _deviceRulesLogic;
 
-        public DeviceLogic(IIotHubRepository iotHubRepository, IDeviceRegistryCrudRepository deviceRegistryCrudRepository, 
-            IDeviceRegistryListRepository deviceRegistryListRepository, IVirtualDeviceStorage virtualDeviceStorage, 
+        public DeviceLogic(IIotHubRepository iotHubRepository, IDeviceRegistryCrudRepository deviceRegistryCrudRepository,
+            IDeviceRegistryListRepository deviceRegistryListRepository, IVirtualDeviceStorage virtualDeviceStorage,
             ISecurityKeyGenerator securityKeyGenerator, IConfigurationProvider configProvider, IDeviceRulesLogic deviceRulesLogic)
         {
             _iotHubRepository = iotHubRepository;
@@ -115,11 +115,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 Trace.TraceError("The IsSimulatedDevice property was in an invalid format. Exception Error Message: {0}", ex.Message);
             }
-            if (capturedException == null && isSimulatedAsBool) 
+            if (capturedException == null && isSimulatedAsBool)
             {
                 try
                 {
-                    await _virtualDeviceStorage.AddOrUpdateDeviceAsync(new InitialDeviceConfig() 
+                    await _virtualDeviceStorage.AddOrUpdateDeviceAsync(new InitialDeviceConfig()
                     {
                         DeviceId = DeviceSchemaHelper.GetDeviceID(device),
                         HostName = _configProvider.GetConfigurationSettingValue("iotHub.HostName"),
@@ -132,7 +132,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     Trace.TraceError("Failed to add simulated device : {0}", ex.Message);
                 }
             }
-            
+
 
             // Since the rollback code runs async and async code cannot run within the catch block it is run here
             if (capturedException != null)
@@ -178,7 +178,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 capturedException = ExceptionDispatchInfo.Capture(ex);
             }
 
-            if (capturedException == null) 
+            if (capturedException == null)
             {
                 try
                 {
@@ -234,7 +234,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             // Get original device document
-            dynamic existingDevice = await GetDeviceAsync(DeviceSchemaHelper.GetDeviceID(device));
+            var connectionDeviceId = DeviceSchemaHelper.GetConnectionDeviceId(device);
+            dynamic existingDevice = await GetDeviceAsync(connectionDeviceId);
 
             // Save the command history, original created date, and system properties (if any) of the existing device
             if (DeviceSchemaHelper.GetDeviceProperties(existingDevice) != null)
@@ -621,7 +622,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             devicePropertyIndex =
                 GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
 
-            dynamicProperties = 
+            dynamicProperties =
                 new HashSet<string>(
                     D.Dynamic.GetMemberNames(deviceProperties, true));
 
@@ -646,8 +647,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
 
                 D.Dynamic.InvokeSet(
-                    deviceProperties, 
-                    propVal.Name, 
+                    deviceProperties,
+                    propVal.Name,
                     propVal.Value);
             }
         }
@@ -966,7 +967,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             List<string> validationErrors = new List<string>();
 
-            if (ValidateDeviceId(device, validationErrors)) 
+            if (ValidateDeviceId(device, validationErrors))
             {
                 await CheckIfDeviceExists(device, validationErrors);
             }
@@ -1021,13 +1022,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
                 dynamic device = SampleDeviceFactory.GetSampleDevice(randomNumber, generatedSecurityKeys);
                 await AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
-            }   
+            }
         }
 
         public async Task<List<string>> BootstrapDefaultDevices()
         {
             List<string> sampleIds = SampleDeviceFactory.GetDefaultDeviceNames();
-            foreach(string id in sampleIds)
+            foreach (string id in sampleIds)
             {
                 dynamic device = DeviceSchemaHelper.BuildDeviceStructure(id, true, null);
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
@@ -1047,7 +1048,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             double maxLong = double.MinValue;
 
             var locationList = new List<DeviceLocationModel>();
-            foreach(dynamic device in devices)
+            foreach (dynamic device in devices)
             {
                 dynamic props = DeviceSchemaHelper.GetDeviceProperties(device);
                 if (props.Longitude == null || props.Latitude == null)
@@ -1085,8 +1086,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     maxLong = longitude;
                 }
                 if (latitude < minLat)
-               {
-                   minLat = latitude;
+                {
+                    minLat = latitude;
                 }
                 if (latitude > maxLat)
                 {
@@ -1124,7 +1125,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             // Get Telemetry Fields
             if (device.Telemetry != null)
             {
-                var deviceTelemetryFields = new List<DeviceTelemetryFieldModel>(); 
+                var deviceTelemetryFields = new List<DeviceTelemetryFieldModel>();
 
                 foreach (JObject field in device.Telemetry)
                 {
