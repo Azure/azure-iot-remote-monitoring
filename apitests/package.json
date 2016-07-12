@@ -4,21 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prebuild" : "tsd install",
-    "build" : "tsc --outDir dist",
-    "pretest" : "npm run build",
-    "test": "jasmine"
+    "build": "gulp build",
+    "test": "gulp test",
+    "test-watch": "gulp test-watch"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "jasmine": "^2.4.1",
+    "gulp": "^3.9.1",
+    "gulp-jasmine": "^2.4.0",
     "request": "^2.73.0"
   },
   "devDependencies": {
     "eslint": "^3.0.1",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-react": "^5.2.2",
-    "typescript": "^2.0.0"
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-tsd": "^0.1.1",
+    "gulp-typescript": "^2.13.6",
+    "rimraf": "^2.5.3",
+    "run-sequence": "^1.2.2"
   }
 }

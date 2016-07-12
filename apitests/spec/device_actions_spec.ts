@@ -1,3 +1,4 @@
+// TODO: rewrite these tests
 describe('typescript test', () => {
     describe('get devices', () => {
         it('should return list of devices', (done) => {
