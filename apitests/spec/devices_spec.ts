@@ -160,7 +160,7 @@ describe('devices api', () => {
                 expect(device.IoTHub.ConnectionDeviceGenerationId).toBeTruthy();
                 expect(device.IoTHub.EnqueuedTime).toBeTruthy();
                 expect(device.IoTHub.StreamId).toBeDefined();
-                done();device
+                done();
             });
         });
     });
