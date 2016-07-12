@@ -6,7 +6,8 @@
   "scripts": {
     "build": "gulp build",
     "test": "gulp test",
-    "test-watch": "gulp test-watch"
+    "test-watch": "gulp test-watch",
+    "help": "gulp help"
   },
   "author": "",
   "license": "ISC",
@@ -16,13 +17,14 @@
     "request": "^2.73.0"
   },
   "devDependencies": {
+    "del": "^2.2.1",
     "eslint": "^3.0.1",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-react": "^5.2.2",
+    "gulp-help": "^1.6.1",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-tsd": "^0.1.1",
     "gulp-typescript": "^2.13.6",
-    "rimraf": "^2.5.3",
     "run-sequence": "^1.2.2"
   }
 }
