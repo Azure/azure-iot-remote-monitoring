@@ -279,4 +279,19 @@ describe('devices api', () => {
             });
         });
     });
+
+    describe('get hub keys', () => {
+        const device_name = "SampleDevice001_648";
+
+        it('should return Hub keys', (done) => {
+            request.get('/'+device_name+'/hub-keys', (err, resp, result) => {
+                expect(result).toBeTruthy();
+                let keys:HubKeys = result.data;
+                expect(keys).toBeTruthy();
+                expect(keys.primaryKey).toBeTruthy();
+                expect(keys.secondaryKey).toBeTruthy();
+                done();
+            });
+        });
+    });
 });
