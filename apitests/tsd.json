@@ -11,10 +11,10 @@
     "node/node.d.ts": {
       "commit": "de82425735f84a10b43921ae4b1d085b3752a626"
     },
-    "form-data/form-data.d.ts": {
+    "request/request.d.ts": {
       "commit": "de82425735f84a10b43921ae4b1d085b3752a626"
     },
-    "request/request.d.ts": {
+    "form-data/form-data.d.ts": {
       "commit": "de82425735f84a10b43921ae4b1d085b3752a626"
     }
   }

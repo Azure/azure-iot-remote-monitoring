@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm install && gulp build",
-    "test": "npm install && gulp test",
-    "test-watch": "npm install && gulp test-watch",
+    "build": "gulp build",
+    "pretest": "npm install",
+    "test": "gulp test",
+    "pretest-watch": "npm install",
+    "test-watch": "gulp test-watch",
     "help": "gulp help"
   },
   "author": "",
