@@ -9,7 +9,13 @@
       "commit": "aea1147b3e2cd0a17b58bbae57f378bbcdf6c4ee"
     },
     "node/node.d.ts": {
-      "commit": "aea1147b3e2cd0a17b58bbae57f378bbcdf6c4ee"
+      "commit": "de82425735f84a10b43921ae4b1d085b3752a626"
+    },
+    "request/request.d.ts": {
+      "commit": "de82425735f84a10b43921ae4b1d085b3752a626"
+    },
+    "form-data/form-data.d.ts": {
+      "commit": "de82425735f84a10b43921ae4b1d085b3752a626"
     }
   }
 }

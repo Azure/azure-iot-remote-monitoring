@@ -1,4 +1,4 @@
-const req = require('request');
+import req = require('request');
 
 var findEnabledDevice = function(devices:Devices) {
     var i;
@@ -123,8 +123,13 @@ var checkIoTHubDetailsEnabledDevice = function(device:DeviceInfo) {
 }
 
 describe('devices api', () => {
+    var request: req.RequestAPI<req.Request, req.CoreOptions, Object>;
+
+    beforeAll(function() {
+        request = req.defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/devices' });
+    });
+
     describe('get devices', () => {
-        var request = req.defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/devices' });
 
         it('should return list of devices', (done) => {
             request.get('', (err, resp, result:Devices) => {
@@ -200,11 +205,11 @@ describe('devices api', () => {
     });
 
     describe('get device by id', () => {
-        const enabled_request = req.defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/devices/SampleDevice001_648' });
-        const disabled_request = req.defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/devices/D2' });
+        const enabled_device = "SampleDevice001_648";
+        const disabled_device = "D2";
 
         it('should return a device', (done) => {
-            enabled_request.get('', (err, resp, result:SingleDevice) => {
+            request.get('/'+enabled_device, (err, resp, result:SingleDevice) => {
                 expect(result).toBeTruthy();
                 expect(result.data).toBeTruthy();
                 done();
@@ -212,63 +217,63 @@ describe('devices api', () => {
         });
 
         it('should return device properties', (done) => {
-            enabled_request.get('', (err, resp, result:SingleDevice) => {
+            request.get('/'+enabled_device, (err, resp, result:SingleDevice) => {
                 checkDeviceProperties(result.data);
                 done();
             });
         });
 
         it('should return system properties', (done) => {
-            enabled_request.get('', (err, resp, result:SingleDevice) => {
+            request.get('/'+enabled_device, (err, resp, result:SingleDevice) => {
                 checkSystemProperties(result.data);
                 done();
             });
         });
 
         it('should always have required properties', (done) => {
-            enabled_request.get('', (err, resp, result:SingleDevice) => {
+            request.get('/'+enabled_device, (err, resp, result:SingleDevice) => {
                 checkRequiredProperties(result.data);
                 done();
             });
         })
 
         it('should have required attributes for enabled devices', (done) => {
-            enabled_request.get('', (err, resp, result:SingleDevice) => {
+            request.get('/'+enabled_device, (err, resp, result:SingleDevice) => {
                 checkRequiredPropertiesEnabledDevice(result.data);
                 done();
             });
         });
 
         it('should not return commands if device is disabled', (done) => {
-            disabled_request.get('', (err, resp, result:SingleDevice) => {
+            request.get('/'+disabled_device, (err, resp, result:SingleDevice) => {
                 checkNoCommandsDisabledDevice(result.data);
                 done();
             });
         });
 
         it('should return commands if device is enabled', (done) => {
-            enabled_request.get('', (err, resp, result:SingleDevice) => {
+            request.get('/'+enabled_device, (err, resp, result:SingleDevice) => {
                 checkCommandsEnabledDevice(result.data);
                 done();
             });
         });
 
         it('should return command history', (done) => {
-            enabled_request.get('', (err, resp, result:SingleDevice) => {
+            request.get('/'+enabled_device, (err, resp, result:SingleDevice) => {
                 checkCommandHistory(result.data);
                 done();
             });
         });
 
         it('should return telemetry for enabled devices', (done) => {
-            enabled_request.get('', (err, resp, result:SingleDevice) => {
+            request.get('/'+enabled_device, (err, resp, result:SingleDevice) => {
                 checkTelemetry(result.data);
                 done();
             });
         });
         
         it('should return IoT Hub details for enabled devices', (done) => {
-            enabled_request.get('', (err, resp, result:SingleDevice) => {
+            request.get('/'+enabled_device, (err, resp, result:SingleDevice) => {
                 checkIoTHubDetailsEnabledDevice(result.data);
                 done();
             });
