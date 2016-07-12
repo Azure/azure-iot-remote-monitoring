@@ -81,6 +81,7 @@ describe('devices api', () => {
         it('should have required attributes for enabled devices', (done) => {
             request.get('', (err, resp, result:Devices) => {
                 let device:DeviceInfo = findEnabledDevice(result);
+                expect(device).toBeTruthy();
                 expect(device.DeviceProperties.HubEnabledState).not.toBeNull();
                 expect(device.Telemetry).toBeTruthy();
                 expect(device.Version).toBeTruthy();
@@ -93,6 +94,7 @@ describe('devices api', () => {
         it('should not return commands if device is disabled', (done) => {
             request.get('', (err, resp, result:Devices) => {
                 let device:DeviceInfo = findDisabledDevice(result);
+                expect(device).toBeTruthy();
                 expect(device.Commands).toBeTruthy();
                 expect(device.Commands.length).toEqual(0);
                 expect(device.DeviceProperties.HubEnabledState).toBeNull();
@@ -103,6 +105,7 @@ describe('devices api', () => {
         it('should return commands if device is enabled', (done) => {
             request.get('', (err, resp, result:Devices) => {
                 let device:DeviceInfo = findEnabledDevice(result);
+                expect(device).toBeTruthy();
                 expect(device.DeviceProperties.HubEnabledState).not.toBeNull();
                 expect(device.Commands).toBeTruthy();
                 expect(device.Commands.length).toBeGreaterThan(0);
@@ -116,6 +119,7 @@ describe('devices api', () => {
         it('should return command history', (done) => {
             request.get('', (err, resp, result:Devices) => {
                 let device:DeviceInfo = findDeviceWithCommandHistory(result);
+                expect(device).toBeTruthy();
                 expect(device.CommandHistory).toBeTruthy();
                 expect(device.CommandHistory.length).toBeGreaterThan(0);
                 expect(device.CommandHistory[0]).toBeTruthy();
@@ -133,6 +137,7 @@ describe('devices api', () => {
         it('should return telemetry for enabled devices', (done) => {
             request.get('', (err, resp, result:Devices) => {
                 let device:DeviceInfo = findEnabledDevice(result);
+                expect(device).toBeTruthy();
                 expect(device.DeviceProperties.HubEnabledState).not.toBeNull();
                 expect(device.Telemetry).toBeTruthy();
                 expect(device.Telemetry.length).toBeGreaterThan(0);
@@ -147,6 +152,7 @@ describe('devices api', () => {
             request.get('', (err, resp, result:Devices) => {
                 let device:DeviceInfo = findEnabledDevice(result);
                 expect(device.DeviceProperties.HubEnabledState).not.toBeNull();
+                expect(device).toBeTruthy();
                 expect(device.IoTHub).toBeTruthy();
                 expect(device.IoTHub.MessageId).toBeDefined();
                 expect(device.IoTHub.CorrelationId).toBeDefined();
