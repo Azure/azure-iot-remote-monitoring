@@ -81,3 +81,8 @@ interface SingleDevice {
 interface Devices {
     data: DeviceInfo[];
 }
+
+interface HubKeys {
+    primaryKey: string;
+    secondaryKey: string;
+}
