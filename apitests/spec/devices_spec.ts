@@ -151,8 +151,8 @@ describe('devices api', () => {
         it('should return IoT Hub details for enabled devices', (done) => {
             request.get('', (err, resp, result:Devices) => {
                 let device:DeviceInfo = findEnabledDevice(result);
-                expect(device.DeviceProperties.HubEnabledState).not.toBeNull();
                 expect(device).toBeTruthy();
+                expect(device.DeviceProperties.HubEnabledState).not.toBeNull();
                 expect(device.IoTHub).toBeTruthy();
                 expect(device.IoTHub.MessageId).toBeDefined();
                 expect(device.IoTHub.CorrelationId).toBeDefined();
