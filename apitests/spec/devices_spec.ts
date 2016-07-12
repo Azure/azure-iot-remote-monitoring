@@ -37,7 +37,7 @@ describe('devices api', () => {
                 expect(result.data[0].SystemProperties).toBeTruthy();
                 expect(result.data[0].Commands).toBeTruthy();
                 expect(result.data[0].CommandHistory).toBeTruthy();
-                expect(result.data[0].IsSimulatedDevice).toBeTruthy();
+                expect(result.data[0].IsSimulatedDevice).toBeDefined();
                 expect(result.data[0].id).toBeTruthy();
                 expect(result.data[0]._rid).toBeTruthy();
                 expect(result.data[0]._self).toBeTruthy();
@@ -51,10 +51,10 @@ describe('devices api', () => {
         it('should have these attributes for enabled device', (done) => {
             request.get('', (err, resp, result) => {
                 expect(result.data[1].DeviceProperties.HubEnabledState).not.toBeNull();
-                expect(result.data[1].DeviceProperties.Telemetry).toBeTruthy();
-                expect(result.data[1].DeviceProperties.Version).toBeTruthy();
-                expect(result.data[1].DeviceProperties.ObjectType).toBeTruthy();
-                expect(result.data[1].DeviceProperties.IoTHub).toBeTruthy();
+                expect(result.data[1].Telemetry).toBeTruthy();
+                expect(result.data[1].Version).toBeTruthy();
+                expect(result.data[1].ObjectType).toBeTruthy();
+                expect(result.data[1].IoTHub).toBeTruthy();
                 done();
             });
         });

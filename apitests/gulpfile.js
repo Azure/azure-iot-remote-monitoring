@@ -7,6 +7,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var jasmine = require('gulp-jasmine');
 var gulp = require('gulp-help')(require('gulp'));
 var tsconfig = require('./tsconfig.json');
+const reporters = require('jasmine-reporters');
 
 gulp.task('build:clean', 'Deletes the dist folder', (done) => {
     return del('dist', done);
@@ -38,7 +39,9 @@ gulp.task('build', 'Runs build:clean, tsd and ts in sequence', function (callbac
 
 gulp.task('test-jasmine', 'Starts jasmine to run tests', (done) => {
     return gulp.src(['dist/**/*.js'])
-        .pipe(jasmine())
+        .pipe(jasmine({
+           reporter: new reporters.JUnitXmlReporter()
+       }))
 });
 
 gulp.task('watch', 'Watches ts files and reruns the tests when they\'re changed', ['test-jasmine'], () => {
