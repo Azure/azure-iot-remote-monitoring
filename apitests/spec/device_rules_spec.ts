@@ -1,13 +1,13 @@
-import * as req from 'request';
+import request = require('request');
 
 
 describe('device rules api', () => {
     //create a new device for use in tests
+    var req: request.RequestAPI<request.Request, request.CoreOptions, Object>;
     beforeAll(function() {
-        const request = req.defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/devicerules' });
-        var createDevice = req.defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/devices' });
+        req = request.defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1' });
         var options = {
-            uri: '',
+            uri: '/devices',
             method: 'POST',
             json: {
                 "DeviceProperties": {
@@ -20,15 +20,15 @@ describe('device rules api', () => {
             }
         }
 
-        createDevice(options, (err, resp, result) => {
-              // console.log(result);
+       req(options, (err, resp, result) => {
+              //console.log(result);
         });
     });
 
 
     describe('get all device rules', () => {
         it('should return list of devices', (done) => {
-            request.get('', (err, resp, result) => {
+            req.get('/devicerules', (err, resp, result) => {
                 expect(result).toBeTruthy();
                 expect(result.data).toBeTruthy();
                 expect(result.data.length).toBeGreaterThan(0);
@@ -41,7 +41,7 @@ describe('device rules api', () => {
 
         //POST list api is not using requestData
         it('should return list of device rules', (done) => {
-            request.post('list', (err, resp, result) => {
+            req.post('/devicerules/list', (err, resp, result) => {
                 expect(result).toBeTruthy();
                 expect(result.data).toBeTruthy();
                 expect(result.data.length).toBeGreaterThan(0);
@@ -59,7 +59,7 @@ describe('device rules api', () => {
     describe('create new device rule', () => {
           it('should create new rule', (done) => {
             var options = {
-                uri: '',
+                uri: '/devicerules',
                 method: 'POST',
                 json: {
                     "RuleId": "testRule",
@@ -72,7 +72,7 @@ describe('device rules api', () => {
                     "Etag": ""
                 }
             }
-            request(options, (err, resp, result) => {
+            req(options, (err, resp, result) => {
                 expect(result).toBeTruthy();
                 expect(result.data.entity).toBeTruthy();
                 expect(result.data.entity.ruleId).toBeTruthy();
@@ -85,7 +85,7 @@ describe('device rules api', () => {
 
     describe('return information on a unique rule', () => {
          it('should return a unique rule', (done) => {
-            request.get('/testDevice/testRule', (err, resp, result) => {
+            req.get('/devicerules/testDevice/testRule', (err, resp, result) => {
                 expect(result).toBeTruthy();
                 expect(result.data).toBeTruthy();
                 expect(result.data).toBeTruthy();
@@ -99,7 +99,7 @@ describe('device rules api', () => {
 
     describe('list available data fields', () => {    
          it('should return list of available fields', (done) => {
-            request.get('/testDevice/testRule/availableFields', (err, resp, result) => {
+            req.get('/devicerules/testDevice/testRule/availableFields', (err, resp, result) => {
                 expect(result).toBeTruthy();
                 expect(result.data).toBeTruthy();
                 expect(result.data.availableDataFields).toBeTruthy();
@@ -113,7 +113,7 @@ describe('device rules api', () => {
 
     describe('all rules tied to a device', () => {
          it('should return list of rules for a device', (done) => {
-            request.get('/testDevice', (err, resp, result) => {
+            req.get('/devicerules/testDevice', (err, resp, result) => {
                 expect(result).toBeTruthy();
                 expect(result.data).toBeTruthy();
                 expect(result.data.ruleId).toBeTruthy();
@@ -126,7 +126,7 @@ describe('device rules api', () => {
   
   describe('change enabled state of a device', () => {
          it('should change enabled state to false', (done) => {
-            request.put('/testDevice/testRule/false', (err, resp, result) => {
+            req.put('/devicerules/testDevice/testRule/false', (err, resp, result) => {
                 expect(result.status).toEqual(2)
                 done();
             });
@@ -134,9 +134,8 @@ describe('device rules api', () => {
   });
 
     describe('create new device rule', () => {
-
           it('should return list of devices', (done) => {
-            request.delete('/testDevice/testRule/', (err, resp, result) => {
+            req.del('/devicerules/testDevice/testRule', (err, resp, result) => {
                 expect(result.status).toEqual(2);
                 done();
             });
