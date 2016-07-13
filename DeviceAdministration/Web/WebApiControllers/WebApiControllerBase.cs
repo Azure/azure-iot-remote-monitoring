@@ -170,7 +170,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 !string.IsNullOrWhiteSpace(argumentName),
                 "argumentName is a null reference, empty string, or contains only whitespace.");
 
-            if (value != null)
+            if (value == null)
             {
                 // Error strings are not localized.
                 string errorText = string.Format(CultureInfo.InvariantCulture, "{0} is a null reference.", argumentName);
