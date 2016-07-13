@@ -30,6 +30,23 @@ var findDeviceWithCommandHistory = function(devices:Devices) {
     return devices.data[i];
 }
 
+var getNewCustomDeviceOptions = function (deviceId: string) {
+    var options = {
+        uri: '',
+        method: 'POST',
+        json: {
+            "DeviceProperties": {
+                "DeviceID": deviceId
+            },
+            "SystemProperties": {
+                "ICCID": null
+            },
+            "IsSimulatedDevice": false
+        }
+    }
+    return options;
+}
+
 var checkDeviceProperties = function(device:DeviceInfo) {
     expect(device).toBeTruthy();
     expect(device.DeviceProperties).toBeTruthy();
@@ -205,8 +222,20 @@ describe('devices api', () => {
     });
 
     describe('get device by id', () => {
-        const enabled_device = "SampleDevice001_648";
-        const disabled_device = "D2";
+
+        var enabled_device: string;
+        var disabled_device: string;
+        var device_with_cmdHistory: string;
+
+        beforeAll(function (done) {
+            // Request for all devices to find enabled, disabled and device with command history
+            request.get('', (err, resp, result: Devices) => {
+                enabled_device = findEnabledDevice(result).DeviceProperties.DeviceID;
+                disabled_device = findDisabledDevice(result).DeviceProperties.DeviceID;
+                device_with_cmdHistory = findDeviceWithCommandHistory(result).DeviceProperties.DeviceID;
+                done();
+            });
+        });
 
         it('should return a device', (done) => {
             request.get('/'+enabled_device, (err, resp, result:SingleDevice) => {
@@ -215,6 +244,9 @@ describe('devices api', () => {
                 done();
             });
         });
+
+        // Testing the return payload here as well because get_device_by_id may take different code
+        // path than get_all_devices
 
         it('should return device properties', (done) => {
             request.get('/'+enabled_device, (err, resp, result:SingleDevice) => {
@@ -259,7 +291,7 @@ describe('devices api', () => {
         });
 
         it('should return command history', (done) => {
-            request.get('/'+enabled_device, (err, resp, result:SingleDevice) => {
+            request.get('/'+device_with_cmdHistory, (err, resp, result:SingleDevice) => {
                 checkCommandHistory(result.data);
                 done();
             });
@@ -281,7 +313,16 @@ describe('devices api', () => {
     });
 
     describe('get hub keys', () => {
-        const device_name = "SampleDevice001_648";
+        var device_name: string;
+        
+        beforeAll(function (done) {
+            // Get the first device
+            request.get('', (err, resp, result: Devices) => {
+                expect(result.data.length).toBeGreaterThan(0);
+                device_name = result.data[0].DeviceProperties.DeviceID;
+                done();
+            });
+        });
 
         it('should return Hub keys', (done) => {
             request.get('/'+device_name+'/hub-keys', (err, resp, result) => {
@@ -290,6 +331,29 @@ describe('devices api', () => {
                 expect(keys).toBeTruthy();
                 expect(keys.primaryKey).toBeTruthy();
                 expect(keys.secondaryKey).toBeTruthy();
+                done();
+            });
+        });
+    });
+
+    describe('delete device by id', () => {
+        var newDeviceId: string;
+
+        beforeAll(function (done) {
+            newDeviceId = "C2C-TEST-" + Math.random().toString(36).substr(2, 5);
+            request(getNewCustomDeviceOptions(newDeviceId), (err, resp, result) => {
+                if (err || resp.statusCode != 200) {
+                    console.log("Could not create device " + newDeviceId);
+                }
+                done();
+            });
+        });
+
+        it('should delete device id', (done) => {
+            request({method: "DELETE", uri: "/"+newDeviceId}, (err, resp, result) => {
+                if (err || resp.statusCode != 200) {
+                    console.log("Could not delete device " + newDeviceId);
+                }
                 done();
             });
         });
