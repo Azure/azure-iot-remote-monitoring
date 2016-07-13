@@ -1,9 +1,11 @@
+import * as req from 'request';
+
 
 describe('device rules api', () => {
     //create a new device for use in tests
     beforeAll(function() {
-        const request = require('request').defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/devicerules' });
-        var req = require('request').defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/devices' });
+        const request = req.defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/devicerules' });
+        var createDevice = req.defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/devices' });
         var options = {
             uri: '',
             method: 'POST',
@@ -18,7 +20,7 @@ describe('device rules api', () => {
             }
         }
 
-        req(options, (err, resp, result) => {
+        createDevice(options, (err, resp, result) => {
                console.log(result);
             });
 
