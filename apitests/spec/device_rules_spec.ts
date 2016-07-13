@@ -141,4 +141,11 @@ describe('device rules api', () => {
             });
         });
     });
+
+    //remove created device
+    req.del('/devices/testDevice', (err, resp, result) => {
+            
+    });
+
+
 });
