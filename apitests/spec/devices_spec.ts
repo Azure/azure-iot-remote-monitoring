@@ -232,7 +232,7 @@ describe('devices api', () => {
             request.get('', (err, resp, result: Devices) => {
                 enabled_device_id = findEnabledDevice(result).DeviceProperties.DeviceID;
                 disabled_device_id = findDisabledDevice(result).DeviceProperties.DeviceID;
-                device_with_cmdHistory = findDeviceWithCommandHistory(result).DeviceProperties.DeviceID;
+                device_with_cmd_history = findDeviceWithCommandHistory(result).DeviceProperties.DeviceID;
                 done();
             });
         });
