@@ -1,5 +1,3 @@
-const request = require('request').defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/devicerules' });
-
 
 describe('device rules api', () => {
     //create a new device for use in tests
