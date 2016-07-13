@@ -3,13 +3,12 @@ import request = require('request');
 describe('devices api - ', () => {
     describe('device actions - ', () => {
         var req: request.RequestAPI<request.Request, request.CoreOptions, Object>;
-        var action: Action;
         beforeAll(function (done) {
             req = request.defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/actions' });
             done();
         });
 
-        it('1. GetDeviceActions with HttpGet', (done) => {
+        it('1. GetDeviceActions with HttpGet and update the first action', (done) => {
             req.get('', (err, resp, result: DeviceActions) => {
                 expect(result).toBeTruthy();
                 expect(result.data).toBeTruthy();
@@ -17,8 +16,18 @@ describe('devices api - ', () => {
                 expect(result.data[0].actionId).toBeTruthy();
                 expect(result.data[0].numberOfDevices).toBeTruthy();
                 expect(result.data[0].ruleOutput).toBeTruthy();
-                action = result.data[0];
-                done();
+                var action: Action = result.data[0];
+
+                var options: request.CoreOptions = {
+                    qs: {
+                        ruleOutput: action.ruleOutput,
+                        actionId: action.actionId
+                    }
+                }
+                req.put('/update', options, (err, resp, result) => {
+                    expect(err).toBeNull();
+                    done();
+                });
             });
         });
 
@@ -40,24 +49,7 @@ describe('devices api - ', () => {
             });
         });
 
-        // it('3. UpdateAction', (done) => {
-        //     var options: request.CoreOptions = {
-        //         body: {
-        //             data: {
-        //                 ruleOutput: action.ruleOutput,
-        //                 actionId: action.actionId
-        //             }
-        //         }
-        //     }
-
-        //     req.put('/update', options, (err, resp, result) => {
-        //         console.log(err);
-        //         console.log(result);
-        //         done();
-        //     });
-        // });
-
-        it('4. GetAvailableRuleOutputs and then GetActionIdFromRuleOutput', (done) => {
+        it('3. GetAvailableRuleOutputs and then GetActionIdFromRuleOutput', (done) => {
             req.get('/ruleoutputs', (err, resp, result: Rules) => {
                 expect(result).toBeTruthy();
                 expect(result.data).toBeTruthy();
