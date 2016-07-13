@@ -26,7 +26,7 @@ gulp.task('build:ts', 'Transpiles typescript to javascript', (done) => {
         .pipe(sourcemaps.init())
         .pipe(ts(compilerOptions))
         .js
-        .pipe(sourcemaps.write('maps', { includeContent: false }))
+        .pipe(sourcemaps.write('.', { sourceRoot: 'spec' }))
         .pipe(gulp.dest('dist'));
 });
 
