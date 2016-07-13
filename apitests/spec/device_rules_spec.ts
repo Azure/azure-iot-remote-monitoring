@@ -137,8 +137,6 @@ describe('device rules api', () => {
     describe('create new device rule', () => {
           it('should return list of devices', (done) => {
             req.del('/testDevice/testRule/', (err, resp, result) => {
-                console.log('delete rule');
-                console.log(result);
                 expect(result.status).toEqual(2);
                 done();
             });
