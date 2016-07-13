@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "gulp build",
+    "pretest": "npm install",
     "test": "gulp test",
+    "pretest-watch": "npm install",
     "test-watch": "gulp test-watch",
     "help": "gulp help"
   },
