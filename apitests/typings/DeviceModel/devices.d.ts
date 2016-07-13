@@ -74,6 +74,10 @@ interface DeviceInfo {
     IoTHub?: IoTHubInfo;
 }
 
+interface SingleDevice {
+    data: DeviceInfo;
+}
+
 interface Devices {
     data: DeviceInfo[];
 }
