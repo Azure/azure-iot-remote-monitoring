@@ -35,10 +35,10 @@ interface CommandRun {
     Name: string;
     MessageId: string;
     CreatedTime: string;
-    Parameters: Parameter[];
-    UpdatedTime: string;
-    Result: string;
-    ErrorMessage: string;
+    Parameters?: Parameter[];
+    UpdatedTime?: string;
+    Result?: string;
+    ErrorMessage?: string;
 }
 
 interface Sensor {
