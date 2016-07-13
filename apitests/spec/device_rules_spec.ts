@@ -21,12 +21,9 @@ describe('device rules api', () => {
         }
 
         createDevice(options, (err, resp, result) => {
-               console.log(result);
-            });
-
-
+              // console.log(result);
+        });
     });
-
 
 
     describe('get all device rules', () => {
@@ -57,8 +54,9 @@ describe('device rules api', () => {
                 done();
             });
         });
+    });
 
-        //create rule for testing
+    describe('create new device rule', () => {
           it('should create new rule', (done) => {
             var options = {
                 uri: '',
@@ -83,8 +81,9 @@ describe('device rules api', () => {
  +              done();
             });
         });
+    });
 
-
+    describe('return information on a unique rule', () => {
          it('should return a unique rule', (done) => {
             request.get('/testDevice/testRule', (err, resp, result) => {
                 expect(result).toBeTruthy();
@@ -96,8 +95,9 @@ describe('device rules api', () => {
                 done();
             });
         });
+    });
 
-        
+    describe('list available data fields', () => {    
          it('should return list of available fields', (done) => {
             request.get('/testDevice/testRule/availableFields', (err, resp, result) => {
                 expect(result).toBeTruthy();
@@ -108,9 +108,10 @@ describe('device rules api', () => {
                 done();
             });
         });
+    });
 
 
-
+    describe('all rules tied to a device', () => {
          it('should return list of rules for a device', (done) => {
             request.get('/testDevice', (err, resp, result) => {
                 expect(result).toBeTruthy();
@@ -121,13 +122,18 @@ describe('device rules api', () => {
                 done();
             });
         });
-
-         it('should return list of devices', (done) => {
+    });
+  
+  describe('change enabled state of a device', () => {
+         it('should change enabled state to false', (done) => {
             request.put('/testDevice/testRule/false', (err, resp, result) => {
                 expect(result.status).toEqual(2)
                 done();
             });
         });
+  });
+
+    describe('create new device rule', () => {
 
           it('should return list of devices', (done) => {
             request.delete('/testDevice/testRule/', (err, resp, result) => {
@@ -136,3 +142,4 @@ describe('device rules api', () => {
             });
         });
     });
+});
