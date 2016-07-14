@@ -1,5 +1,5 @@
 import request = require('request');
-var uuid = require('node-uuid');
+import uuid = require('node-uuid');
 
 xdescribe('device rules api', () => {
     //create a new device for use in tests
@@ -32,7 +32,7 @@ xdescribe('device rules api', () => {
     })
 
 
-    xdescribe('get all device rules', () => {
+    describe('get all device rules', () => {
         it('should return list of devices', (done) => {
             req.get('/devicerules', (err, resp, result) => {
                 expect(result).toBeTruthy();
@@ -62,7 +62,7 @@ xdescribe('device rules api', () => {
         });
     });
 
-    xdescribe('create new device rule', () => {
+    describe('create new device rule', () => {
         it('should create new rule', (done) => {
             var data:string = "tremor" + uuid.v4();
             var options = {
@@ -91,7 +91,7 @@ xdescribe('device rules api', () => {
         });
     });
 
-    xdescribe('return information on a unique rule', () => {
+    describe('return information on a unique rule', () => {
         it('should return a unique rule', (done) => {
             req.get('/devicerules/testDevice/testRule', (err, resp, result) => {
                 expect(result).toBeTruthy();
@@ -105,7 +105,7 @@ xdescribe('device rules api', () => {
         });
     });
 
-    xdescribe('list available data fields', () => {
+    describe('list available data fields', () => {
         it('should return list of available fields', (done) => {
             req.get('/devicerules/testDevice/testRule/availableFields', (err, resp, result) => {
                 expect(result).toBeTruthy();
@@ -119,7 +119,7 @@ xdescribe('device rules api', () => {
     });
 
 
-    xdescribe('all rules tied to a device', () => {
+    describe('all rules tied to a device', () => {
         it('should return list of rules for a device', (done) => {
             req.get('/devicerules/testDevice', (err, resp, result) => {
                 expect(result).toBeTruthy();
@@ -132,7 +132,7 @@ xdescribe('device rules api', () => {
         });
     });
 
-    xdescribe('change enabled state of a device', () => {
+    describe('change enabled state of a device', () => {
         it('should change enabled state to false', (done) => {
             req.put('/devicerules/testDevice/testRule/false', (err, resp, result) => {
                 expect(result.status).toEqual(2)
@@ -141,7 +141,7 @@ xdescribe('device rules api', () => {
         });
     });
 
-    xdescribe('create new device rule', () => {
+    describe('create new device rule', () => {
           it('should return list of devices', (done) => {
           req.del('/devicerules/testDevice/testRule', (err, resp, result) => {
                 expect(result.status).toEqual(2);
