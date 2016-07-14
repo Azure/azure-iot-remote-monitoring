@@ -38,7 +38,9 @@ gulp.task('build', 'Runs build:clean, tsd and ts in sequence', function (callbac
 });
 
 gulp.task('test-jasmine', 'Starts jasmine to run tests', (done) => {
-    return gulp.src(['dist/**/*.js'])
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+
+    return gulp.src(['dist/**/*_spec.js'])
         .pipe(jasmine({
            reporter: new reporters.JUnitXmlReporter()
        }))

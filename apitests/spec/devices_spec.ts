@@ -1,4 +1,5 @@
 import req = require('request');
+import uuid = require('node-uuid');
 
 var findEnabledDevice = function(devices:Devices) {
     var i;
@@ -14,6 +15,16 @@ var findDisabledDevice = function(devices:Devices) {
     var i;
     for (i = 0; i < devices.data.length; i++) {
         if (!devices.data[i].DeviceProperties.HubEnabledState) {
+            break;
+        }
+    }
+    return devices.data[i];
+}
+
+var findDeviceWithCommands = function(devices:Devices) {
+    var i;
+    for (i = 0; i < devices.data.length; i++) {
+        if (devices.data[i].Commands.length>0) {
             break;
         }
     }
@@ -108,14 +119,15 @@ var checkCommandHistory = function(device:DeviceInfo) {
     expect(device).toBeTruthy();
     expect(device.CommandHistory).toBeTruthy();
     expect(device.CommandHistory.length).toBeGreaterThan(0);
-    expect(device.CommandHistory[0]).toBeTruthy();
-    expect(device.CommandHistory[0].Name).toBeTruthy();
-    expect(device.CommandHistory[0].MessageId).toBeTruthy();
-    expect(device.CommandHistory[0].CreatedTime).toBeTruthy();
-    expect(device.CommandHistory[0].Parameters).toBeTruthy();
-    expect(device.CommandHistory[0].UpdatedTime).toBeTruthy();
-    expect(device.CommandHistory[0].Result).toBeTruthy();
-    expect(device.CommandHistory[0].ErrorMessage).toBeDefined();
+    // Not testing command history
+    // expect(device.CommandHistory[0]).toBeTruthy();
+    // expect(device.CommandHistory[0].Name).toBeTruthy();
+    // expect(device.CommandHistory[0].MessageId).toBeTruthy();
+    // expect(device.CommandHistory[0].CreatedTime).toBeTruthy();
+    // expect(device.CommandHistory[0].Parameters).toBeTruthy();
+    // expect(device.CommandHistory[0].UpdatedTime).toBeTruthy();
+    // expect(device.CommandHistory[0].Result).toBeTruthy();
+    // expect(device.CommandHistory[0].ErrorMessage).toBeDefined();
 }
 
 var checkTelemetry = function(device:DeviceInfo) {
@@ -312,20 +324,104 @@ describe('devices api', () => {
         });
     });
 
+    describe('create new device', () => {
+        var newDeviceId: string;
+
+        afterAll(function(done) {
+            // Delete created device
+            request({method: "DELETE", uri: "/" + newDeviceId}, (err, resp, result) => {
+                if (err || resp.statusCode != 200) {
+                    fail("Could not delete device " + newDeviceId);
+                }
+                done();
+            });
+        });
+
+        it('should create new device', (done) => {
+            newDeviceId = "C2C-TEST-" + uuid.v4();
+            request(getNewCustomDeviceOptions(newDeviceId), (err, resp, result) => {
+                if (err || resp.statusCode != 200) {
+                    fail("Could not create device " + newDeviceId);
+                }
+                done();
+            });
+        });
+    });
+
+    describe('update device status', () => {
+        var newDeviceId: string;
+        
+        beforeAll(function (done) {
+            // Create new device
+            newDeviceId = "C2C-TEST-" + uuid.v4();
+            request(getNewCustomDeviceOptions(newDeviceId), (err, resp, result) => {
+                if (err || resp.statusCode != 200) {
+                    fail("Could not create device " + newDeviceId);
+                }
+                done();
+            });
+        });
+
+        afterAll(function(done) {
+            // Delete created device
+            request({method: "DELETE", uri: "/" + newDeviceId}, (err, resp, result) => {
+                if (err || resp.statusCode != 200) {
+                    fail("Could not delete device " + newDeviceId);
+                }
+                done();
+            });
+        });
+
+        it('should enable the device', (done) => {
+            request.put({uri: "/" + newDeviceId + "/enabledstatus", json:{"isEnabled" : true}}, (err, resp, result) => {
+                if (err || resp.statusCode != 200) {
+                    fail("Could not enable device " + newDeviceId);
+                }
+                done();
+            });
+        });
+
+        it('should disable the device', (done) => {
+            request.put({uri: "/" + newDeviceId + "/enabledstatus", json:{"isEnabled" : false}}, (err, resp, result) => {
+                if (err || resp.statusCode != 200) {
+                    fail("Could not disable device " + newDeviceId);
+                }
+                done();
+            });
+        });
+    });
+
     describe('get hub keys', () => {
-        var device_name: string;
+        var newDeviceId: string;
         
         beforeAll(function (done) {
             // Get the first device
-            request.get('', (err, resp, result: Devices) => {
-                expect(result.data.length).toBeGreaterThan(0);
-                device_name = result.data[0].DeviceProperties.DeviceID;
+            // request.get('', (err, resp, result: Devices) => {
+            //     expect(result.data.length).toBeGreaterThan(0);
+            //     newDeviceId = result.data[0].DeviceProperties.DeviceID;
+            //     done();
+            // });
+            newDeviceId = "C2C-TEST-" + uuid.v4();
+            request(getNewCustomDeviceOptions(newDeviceId), (err, resp, result) => {
+                if (err || resp.statusCode != 200) {
+                    fail("Could not create device " + newDeviceId);
+                }
+                done();
+            });
+        });
+
+        afterAll(function(done) {
+            // Delete created device
+            request({method: "DELETE", uri: "/" + newDeviceId}, (err, resp, result) => {
+                if (err || resp.statusCode != 200) {
+                    fail("Could not delete device " + newDeviceId);
+                }
                 done();
             });
         });
 
         it('should return Hub keys', (done) => {
-            request.get('/'+device_name+'/hub-keys', (err, resp, result) => {
+            request.get('/' + newDeviceId + '/hub-keys', (err, resp, result) => {
                 expect(result).toBeTruthy();
                 let keys:HubKeys = result.data;
                 expect(keys).toBeTruthy();
@@ -340,7 +436,7 @@ describe('devices api', () => {
         var newDeviceId: string;
 
         beforeAll(function (done) {
-            newDeviceId = "C2C-TEST-" + Math.random().toString(36).substr(2, 5);
+            newDeviceId = "C2C-TEST-" + uuid.v4();
             request(getNewCustomDeviceOptions(newDeviceId), (err, resp, result) => {
                 if (err || resp.statusCode != 200) {
                     fail("Could not create device " + newDeviceId);
@@ -357,5 +453,35 @@ describe('devices api', () => {
                 done();
             });
         });
+    });
+
+    describe('send command', () => {
+
+        let newDeviceId:string;
+        let command_name:string; 
+
+        beforeAll(function(done) {
+            // Get a device and a command
+            request.get('', (err, resp, result: Devices) => {
+                expect(result.data.length).toBeGreaterThan(0);
+                let device:DeviceInfo = findDeviceWithCommands(result);
+                newDeviceId = device.DeviceProperties.DeviceID;
+                command_name = device.Commands[0].Name;
+                done();
+            });
+        });
+
+        it('should send command to device', (done) => {
+            request.post("/" + newDeviceId + "/commands/" + command_name, (err, resp, result) => {
+                if (err || resp.statusCode != 200) {
+                    fail("Send " + command_name + " command failed for " + newDeviceId);
+                }
+                done();
+            });
+        });
+    });
+
+    describe('should delete all devices', () => {
+        // Not implemented as it will affect others on the same Azure subscription
     });
 });
