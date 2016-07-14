@@ -1,5 +1,5 @@
 import request = require('request');
-
+var uuid = require('node-uuid');
 
 xdescribe('device rules api', () => {
     //create a new device for use in tests
@@ -64,15 +64,15 @@ xdescribe('device rules api', () => {
 
     xdescribe('create new device rule', () => {
         it('should create new rule', (done) => {
-            var ruleId:string = "testRule" + Math.random().toString(36).substr(2, 5);
+            var data:string = "tremor" + uuid.v4();
             var options = {
                 uri: '/devicerules',
                 method: 'POST',
                 json: {
-                    "RuleId": ruleId,
+                    "RuleId": "testRule",
                     "EnabledState": 0,
                     "DeviceID": "testDevice",
-                    "DataField": "tremor",
+                    "DataField": data,
                     "Operator": ">",
                     "Threshold": 1.2,
                     "RuleOutput": "alert",

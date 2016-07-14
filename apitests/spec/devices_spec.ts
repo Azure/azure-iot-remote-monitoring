@@ -1,4 +1,5 @@
 import req = require('request');
+import uuid = require('node-uuid');
 
 var findEnabledDevice = function(devices:Devices) {
     var i;
@@ -337,7 +338,7 @@ describe('devices api', () => {
         });
 
         it('should create new device', (done) => {
-            newDeviceId = "C2C-TEST-" + Math.random().toString(36).substr(2, 5);
+            newDeviceId = "C2C-TEST-" + uuid.v4();
             request(getNewCustomDeviceOptions(newDeviceId), (err, resp, result) => {
                 if (err || resp.statusCode != 200) {
                     fail("Could not create device " + newDeviceId);
@@ -352,7 +353,7 @@ describe('devices api', () => {
         
         beforeAll(function (done) {
             // Create new device
-            newDeviceId = "C2C-TEST-" + Math.random().toString(36).substr(2, 5);
+            newDeviceId = "C2C-TEST-" + uuid.v4();
             request(getNewCustomDeviceOptions(newDeviceId), (err, resp, result) => {
                 if (err || resp.statusCode != 200) {
                     fail("Could not create device " + newDeviceId);
@@ -400,7 +401,7 @@ describe('devices api', () => {
             //     newDeviceId = result.data[0].DeviceProperties.DeviceID;
             //     done();
             // });
-            newDeviceId = "C2C-TEST-" + Math.random().toString(36).substr(2, 5);
+            newDeviceId = "C2C-TEST-" + uuid.v4();
             request(getNewCustomDeviceOptions(newDeviceId), (err, resp, result) => {
                 if (err || resp.statusCode != 200) {
                     fail("Could not create device " + newDeviceId);
@@ -435,7 +436,7 @@ describe('devices api', () => {
         var newDeviceId: string;
 
         beforeAll(function (done) {
-            newDeviceId = "C2C-TEST-" + Math.random().toString(36).substr(2, 5);
+            newDeviceId = "C2C-TEST-" + uuid.v4();
             request(getNewCustomDeviceOptions(newDeviceId), (err, resp, result) => {
                 if (err || resp.statusCode != 200) {
                     fail("Could not create device " + newDeviceId);

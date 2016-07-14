@@ -16,6 +16,7 @@
   "dependencies": {
     "gulp": "^3.9.1",
     "gulp-jasmine": "^2.4.0",
+    "node-uuid": "^1.4.7",
     "request": "^2.73.0"
   },
   "devDependencies": {
@@ -29,6 +30,7 @@
     "gulp-typescript": "^2.13.6",
     "jasmine-node": "^1.14.5",
     "jasmine-reporters": "^2.2.0",
+    "node-uuid": "^1.4.7",
     "run-sequence": "^1.2.2"
   }
 }
