@@ -14,8 +14,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             string dynamicObjStr = Newtonsoft.Json.JsonConvert.SerializeObject(dynamicObj);
             T strongObj = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(dynamicObjStr);
             var strongObjStr = Newtonsoft.Json.JsonConvert.SerializeObject(strongObj);
-            if (strongObjStr != dynamicObjStr)
-                throw new Exception(string.Format("Conversion failed for type: {0}", typeof(T)));
+
+            //if (strongObjStr != dynamicObjStr)
+            //    throw new Exception(string.Format("Conversion failed for type: {0}", typeof(T)));
             return strongObj;
         }
     }
