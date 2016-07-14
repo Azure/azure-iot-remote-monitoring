@@ -9,6 +9,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.DataTables;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Newtonsoft.Json.Linq;
 
@@ -49,7 +51,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             return await GetServiceResponseAsync<dynamic>(async () =>
             {
-                return await _deviceLogic.GetDeviceAsync(id);
+                var device = await _deviceLogic.GetDeviceAsync(id);
+                DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(device);
+                return device;
             });
         }
 
@@ -166,7 +170,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<HttpResponseMessage> AddDeviceAsync(dynamic device)
         {
             ValidateArgumentNotNull("device", device);
-
+            //Device d = DynamicConverter.ValidateAndConvert<Device>(device);
             return await GetServiceResponseAsync<DeviceWithKeys>(async () => 
             { 
                 return await _deviceLogic.AddDeviceAsync(device);
