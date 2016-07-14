@@ -1,10 +1,10 @@
 import request = require('request');
 
 
-describe('device rules api', () => {
+xdescribe('device rules api', () => {
     //create a new device for use in tests
     var req: request.RequestAPI<request.Request, request.CoreOptions, Object>;
-    beforeAll(function() {
+    beforeAll(function( done) {
         req = request.defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1' });
         var options = {
             uri: '/devices',
@@ -16,25 +16,31 @@ describe('device rules api', () => {
                 "SystemProperties": {
                     "ICCID": null
                 },
-                "IsSimulatedDevice": false        
+                "IsSimulatedDevice": false
             }
         }
 
        req(options, (err, resp, result) => {
-              //console.log(result);
+            done();
         });
     });
 
+    afterAll((done) => {
+        req.del('/devices/testDevice', (err, resp, result) => {
+            done();
+        });
+    })
 
-    describe('get all device rules', () => {
+
+    xdescribe('get all device rules', () => {
         it('should return list of devices', (done) => {
             req.get('/devicerules', (err, resp, result) => {
                 expect(result).toBeTruthy();
                 expect(result.data).toBeTruthy();
                 expect(result.data.length).toBeGreaterThan(0);
                 expect(result.data[0]).toBeTruthy();
- +              expect(result.data[0].ruleId).toBeTruthy();
- +              expect(result.data[0].enabledState).toBeDefined();
+                expect(result.data[0].ruleId).toBeTruthy();
+                expect(result.data[0].enabledState).toBeDefined();
                 done();
             });
         });
@@ -46,23 +52,24 @@ describe('device rules api', () => {
                 expect(result.data).toBeTruthy();
                 expect(result.data.length).toBeGreaterThan(0);
                 expect(result.data[0]).toBeTruthy();
- +              expect(result.data[0].ruleId).toBeTruthy();
- +              expect(result.data[0].enabledState).toBeDefined();
+                expect(result.data[0].ruleId).toBeTruthy();
+                expect(result.data[0].enabledState).toBeDefined();
                 expect(result.draw).toBeDefined();
- +              expect(result.recordsTotal).toBeDefined();
- +              expect(result.recordsFiltered).toBeDefined();
+                expect(result.recordsTotal).toBeDefined();
+                expect(result.recordsFiltered).toBeDefined();
                 done();
             });
         });
     });
 
-    describe('create new device rule', () => {
-          it('should create new rule', (done) => {
+    xdescribe('create new device rule', () => {
+        it('should create new rule', (done) => {
+            var ruleId:string = "testRule" + Math.random().toString(36).substr(2, 5);
             var options = {
                 uri: '/devicerules',
                 method: 'POST',
                 json: {
-                    "RuleId": "testRule",
+                    "RuleId": ruleId,
                     "EnabledState": 0,
                     "DeviceID": "testDevice",
                     "DataField": "tremor",
@@ -74,36 +81,37 @@ describe('device rules api', () => {
             }
             req(options, (err, resp, result) => {
                 expect(result).toBeTruthy();
+                console.log(result);
                 expect(result.data.entity).toBeTruthy();
                 expect(result.data.entity.ruleId).toBeTruthy();
- +              expect(result.data.entity.enabledState).toBeDefined();
+                expect(result.data.entity.enabledState).toBeDefined();
                 expect(result.data.entity.status).toEqual(2);
- +              done();
+                done();
             });
         });
     });
 
-    describe('return information on a unique rule', () => {
-         it('should return a unique rule', (done) => {
+    xdescribe('return information on a unique rule', () => {
+        it('should return a unique rule', (done) => {
             req.get('/devicerules/testDevice/testRule', (err, resp, result) => {
                 expect(result).toBeTruthy();
                 expect(result.data).toBeTruthy();
                 expect(result.data).toBeTruthy();
- +              expect(result.data.ruleId).toBeTruthy();
- +              expect(result.data.enabledState).toBeDefined();
+                expect(result.data.ruleId).toBeTruthy();
+                expect(result.data.enabledState).toBeDefined();
 
                 done();
             });
         });
     });
 
-    describe('list available data fields', () => {    
-         it('should return list of available fields', (done) => {
+    xdescribe('list available data fields', () => {
+        it('should return list of available fields', (done) => {
             req.get('/devicerules/testDevice/testRule/availableFields', (err, resp, result) => {
                 expect(result).toBeTruthy();
                 expect(result.data).toBeTruthy();
                 expect(result.data.availableDataFields).toBeTruthy();
- +              expect(result.data.availableRuleOutputs).toBeTruthy();
+                expect(result.data.availableRuleOutputs).toBeTruthy();
 
                 done();
             });
@@ -111,41 +119,34 @@ describe('device rules api', () => {
     });
 
 
-    describe('all rules tied to a device', () => {
-         it('should return list of rules for a device', (done) => {
+    xdescribe('all rules tied to a device', () => {
+        it('should return list of rules for a device', (done) => {
             req.get('/devicerules/testDevice', (err, resp, result) => {
                 expect(result).toBeTruthy();
                 expect(result.data).toBeTruthy();
                 expect(result.data.ruleId).toBeTruthy();
                 expect(result.data.deviceID).toBeTruthy();
- +              expect(result.data.enabledState).toBeDefined();
+                expect(result.data.enabledState).toBeDefined();
                 done();
             });
         });
     });
-  
-  describe('change enabled state of a device', () => {
-         it('should change enabled state to false', (done) => {
+
+    xdescribe('change enabled state of a device', () => {
+        it('should change enabled state to false', (done) => {
             req.put('/devicerules/testDevice/testRule/false', (err, resp, result) => {
                 expect(result.status).toEqual(2)
                 done();
             });
         });
-  });
+    });
 
-    describe('create new device rule', () => {
+    xdescribe('create new device rule', () => {
           it('should return list of devices', (done) => {
-            req.del('/devicerules/testDevice/testRule', (err, resp, result) => {
+          req.del('/devicerules/testDevice/testRule', (err, resp, result) => {
                 expect(result.status).toEqual(2);
                 done();
             });
         });
     });
-
-    //remove created device
-    req.del('/devices/testDevice', (err, resp, result) => {
-            
-    });
-
-
 });
