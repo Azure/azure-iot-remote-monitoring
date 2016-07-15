@@ -5,7 +5,9 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using GlobalResources;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 {
@@ -27,6 +29,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public static bool Validate<T>(dynamic dynamicObject, T typedObject)
         {
+            // Base cases
             if (dynamicObject == null && typedObject == null)
             {
                 return true;
@@ -37,30 +40,57 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
             else
             {
+                // If the object is an implementation of IDynamicMetaObjectProvider, then it is dynamic
+                // else it should be a primitive typed object and we can do a == comparison
                 if (dynamicObject is IDynamicMetaObjectProvider)
                 {
                     bool passed = true;
-                    IEnumerable<string> members = dynamicObject.GetDynamicMemberNames();
-                    //foreach (KeyValuePair<string, object> kvp in dynamicObject)
-                    foreach (string prop in members)
+                    foreach(var item in dynamicObject)
                     {
-                        var dynamicValue = dynamicObject.GetType().GetProperty(prop).GetValue(dynamicObject, null);
-
-                        //string prop = kvp.Key;
+                        string prop = item.Name;
+                        var dynamicValue = item.Value;
+                          
                         var typedProp = typedObject.GetType().GetField(prop);
                         if (typedProp != null)
                         {
                             var typedType = typedObject.GetType();
-                            Type nestedType = typedProp.GetValue(typedObject).GetType();
-                            MethodInfo method = typeof(DynamicConverter).GetMethod("Validate").MakeGenericMethod(new Type[] { nestedType });
-                            var typedValue = Convert.ChangeType(typedProp.GetValue(typedObject), nestedType);
-                            //var dynamicValue = kvp.Value;
-                            passed = (bool)method.Invoke(null, new object[] { dynamicValue, typedValue });
+                            var typedValue= typedProp.GetValue(typedObject);
+                            if (typedValue != null)
+                            {
+                                // Constructing call for generic function
+                                Type nestedType = typedValue.GetType();
+                                MethodInfo method =
+                                    typeof (DynamicConverter).GetMethod("Validate")
+                                        .MakeGenericMethod(new Type[] {nestedType});
+                                typedValue = Convert.ChangeType(typedProp.GetValue(typedObject), nestedType);
+
+                                // dynamicValue is an object, so checking if it has any properties
+                                // else it is a primitive type object
+                                if (dynamicValue.GetType().GetProperty("HasValues").GetValue(dynamicValue, null))
+                                {
+                                    passed = (bool) method.Invoke(null, new object[] {dynamicValue, typedValue});
+                                }
+                                else
+                                {
+                                    passed = (bool) method.Invoke(null, new object[] {dynamicValue.Value, typedValue});
+                                }
+                            }
+                            else
+                            {
+                                // if both dynamic and typed object values are null, then pass, else fail
+                                if (dynamicValue.Value != null)
+                                {
+                                    passed = false;
+                                }
+                            }
+                            // if all properties pass, then pass, else fail
                             if (!passed)
                             {
                                 return false;
                             }
                         }
+                        // if strongly typed object doesn't contain a property present in the dynamic object, it fails
+                        // but not vice-versa
                         else
                         {
                             return false;
@@ -68,12 +98,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     }
                     return true;
                 }
+                // compare primitive typed object
                 else
                 {
                     return (dynamicObject == typedObject);
                 }
             }
-            return true;
         }
     }
 }
