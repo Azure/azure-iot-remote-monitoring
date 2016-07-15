@@ -192,6 +192,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 "model.DeviceType is a null reference.");
 
             dynamic deviceWithKeys = await AddDeviceAsync(model);
+            //validate device
             DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(deviceWithKeys);
             var newDevice = new RegisteredDeviceModel
             {
