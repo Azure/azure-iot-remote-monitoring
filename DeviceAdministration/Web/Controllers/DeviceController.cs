@@ -192,7 +192,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 "model.DeviceType is a null reference.");
 
             dynamic deviceWithKeys = await AddDeviceAsync(model);
-
+            DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(deviceWithKeys);
             var newDevice = new RegisteredDeviceModel
             {
                 HostName = _iotHubName,
@@ -236,6 +236,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             if (model != null)
             {
                 dynamic device = await _deviceLogic.GetDeviceAsync(model.DeviceId);
+                DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(device);
                 if (!object.ReferenceEquals(device, null))
                 {
                     _deviceLogic.ApplyDevicePropertyValueModels(
@@ -255,6 +256,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             IEnumerable<DevicePropertyValueModel> propModels;
 
             dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
+            DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(device);
             if (object.ReferenceEquals(device, null))
             {
                 throw new InvalidOperationException("Unable to load device with deviceId " + deviceId);
@@ -354,6 +356,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 	        device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
                 unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
 
+            DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(device);
+
             return await this._deviceLogic.AddDeviceAsync(device);
         }
 
@@ -362,6 +366,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             dynamic existingDevice;
 
             existingDevice = await _deviceLogic.GetDeviceAsync(deviceId);
+            DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(existingDevice);
+
 
             return !object.ReferenceEquals(existingDevice, null);
         }
