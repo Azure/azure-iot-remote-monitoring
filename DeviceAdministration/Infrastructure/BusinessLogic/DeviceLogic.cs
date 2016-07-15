@@ -259,7 +259,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             // Merge device back to existing so we don't drop missing data
             if (existingDevice is JObject)
             {
-                existingDevice.Merge(device);
+                //merge union of objects to avoid duplicates
+                var MergeSetting = new JsonMergeSettings
+                {
+                    MergeArrayHandling = MergeArrayHandling.Union
+                };
+
+                existingDevice.Merge(device, MergeSetting);
             }
 
             // If there is Telemetry or Command objects from device, replace instead of merge
