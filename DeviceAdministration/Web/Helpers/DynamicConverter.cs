@@ -49,19 +49,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     {
                         string prop = item.Name;
                         var dynamicValue = item.Value;
-                          
-                        var typedProp = typedObject.GetType().GetField(prop);
+
+                        var a = typedObject.GetType();
+                        var typedProp = typedObject.GetType().GetProperty(prop);
                         if (typedProp != null)
                         {
                             var typedType = typedObject.GetType();
                             var typedValue = typedProp.GetValue(typedObject);
                             if (typedValue != null)
                             {
-                                // Handle array of dynamic objects
-                                if (typedValue is Array)
+                                // Handle list of dynamic objects
+                                if (typedValue.GetType().IsGenericType && (typedValue.GetType().GetGenericTypeDefinition() == typeof(List<>)))
                                 {
                                     // Constructing call for generic function
-                                    Type nestedType = typedValue.GetType().GetElementType();
+                                    Type nestedType = typedValue.GetType().GetGenericArguments().Single();
 
                                     MethodInfo method =
                                         typeof(DynamicConverter).GetMethod("Validate")
