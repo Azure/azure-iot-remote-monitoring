@@ -19,7 +19,7 @@ The build.cmd script in the repository builds the solution code and also deploys
 3. Navigate to the repository root directory. 
 4. Run `build.cmd cloud [debug | release] <deploymentname>` for an Azure cloud deployment. 
 
-   For a national cloud deployment, run the same as above but include CloudName at the end (eg. `build.cmd cloud debug AzureGermanyCloud` or `build.cmd cloud release mydeployment AzureGermanyCloud`)
+   For a national cloud deployment, run the same as above but include CloudName at the end (eg. `build.cmd cloud debug AzureGermanCloud` or `build.cmd cloud release mydeployment AzureGermanCloud`)
 
 
 This command will:
