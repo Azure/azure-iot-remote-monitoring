@@ -21,7 +21,7 @@ describe('devices api - ', () => {
                 expect(result.minLongitude).toBeTruthy();
                 expect(result.totalAlertCount).toBeTruthy();
                 expect(result.totalFilteredCount).toBeTruthy();
-
+                expect(result.data.length).toBeGreaterThan(0); 
                 expect(result.data[0]).toBeTruthy();
                 expect(result.data[0].deviceId).toBeTruthy();
 
@@ -30,6 +30,7 @@ describe('devices api - ', () => {
                 expect(result.data[0].value).toBeTruthy();
 
                 expect(result.devices[0]).toBeTruthy();
+                expect(result.devices.length).toBeGreaterThan(0);
                 expect(result.devices[0].deviceId).toBeTruthy();
                 expect(result.devices[0].latitude).toBeTruthy();
                 expect(result.devices[0].longitude).toBeTruthy();
@@ -47,6 +48,7 @@ describe('devices api - ', () => {
                 expect(result.minimumLatitude).toBeTruthy();
                 expect(result.minimumLongitude).toBeTruthy();
 
+                expect(result.deviceLocationList.length).toBeGreaterThan(0);
                 expect(result.deviceLocationList[0]).toBeTruthy();
                 expect(result.deviceLocationList[0].deviceId).toBeTruthy();
                 deviceId = result.deviceLocationList[0].deviceId;
@@ -83,6 +85,7 @@ describe('devices api - ', () => {
             }
             req.get('list', options, (err, resp, result: DeviceTelemetry[]) => {
                 expect(result).toBeTruthy();
+                expect(result.length).toBeGreaterThan(0);
                 expect(result[0]).toBeTruthy();
                 expect(result[0].deviceId).toBeTruthy();
                 expect(result[0].timestamp).toBeTruthy();
@@ -124,6 +127,7 @@ describe('devices api - ', () => {
         it('6. Get Map Api Key', (done) => {
             req.get('mapApiKey', (err, resp, result: DeviceLocationData) => {
                 expect(err).not.toBeTruthy();
+                expect(resp.status).toEqual(200);
                 done();
             });
         }, 10000);
