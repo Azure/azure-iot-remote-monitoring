@@ -1,4 +1,5 @@
-﻿using Microsoft.Ajax.Utilities;
+﻿using System;
+using Microsoft.Ajax.Utilities;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models
@@ -26,10 +27,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     public class DeviceProperties
     {
         public string DeviceID;
-        public string HubEnabledState;
-        public string CreatedTime;
+        public bool HubEnabledState;
+        public DateTime CreatedTime;
         public string DeviceState;
-        public string UpdatedTime;
+        public DateTime UpdatedTime;
         public string Manufacturer;
         public string ModelNumber;
         public string SerialNumber;
