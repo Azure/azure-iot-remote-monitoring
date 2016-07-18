@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Globalization;
@@ -53,25 +54,54 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         if (typedProp != null)
                         {
                             var typedType = typedObject.GetType();
-                            var typedValue= typedProp.GetValue(typedObject);
+                            var typedValue = typedProp.GetValue(typedObject);
                             if (typedValue != null)
                             {
-                                // Constructing call for generic function
-                                Type nestedType = typedValue.GetType();
-                                MethodInfo method =
-                                    typeof (DynamicConverter).GetMethod("Validate")
-                                        .MakeGenericMethod(new Type[] {nestedType});
-                                typedValue = Convert.ChangeType(typedProp.GetValue(typedObject), nestedType);
-
-                                // dynamicValue is an object, so checking if it has any properties
-                                // else it is a primitive type object
-                                if (dynamicValue.GetType().GetProperty("HasValues").GetValue(dynamicValue, null))
+                                // Handle array of dynamic objects
+                                if (typedValue is Array)
                                 {
-                                    passed = (bool) method.Invoke(null, new object[] {dynamicValue, typedValue});
+                                    // Constructing call for generic function
+                                    Type nestedType = typedValue.GetType().GetElementType();
+
+                                    MethodInfo method =
+                                        typeof(DynamicConverter).GetMethod("Validate")
+                                            .MakeGenericMethod(new Type[] { nestedType });
+
+                                    int index = 0;
+                                    IEnumerable enumerableTypedValue = typedValue as IEnumerable;
+                                    foreach (var valItem in enumerableTypedValue)
+                                    {
+                                        var dynamicValueAtIndex = dynamicValue[index];
+                                        var typedValueAtIndex = Convert.ChangeType(valItem, nestedType);
+                                        passed = (bool)method.Invoke(null, new object[] { dynamicValueAtIndex, typedValueAtIndex });
+                                        if (!passed)
+                                        {
+                                            break;
+                                        }
+                                        index++;
+                                    }
                                 }
                                 else
                                 {
-                                    passed = (bool) method.Invoke(null, new object[] {dynamicValue.Value, typedValue});
+                                    // Constructing call for generic function
+                                    Type nestedType = typedValue.GetType();
+
+                                    MethodInfo method =
+                                        typeof(DynamicConverter).GetMethod("Validate")
+                                            .MakeGenericMethod(new Type[] { nestedType });
+                                    typedValue = Convert.ChangeType(typedProp.GetValue(typedObject), nestedType);
+
+                                    // dynamicValue is an object, so checking if it has any properties
+                                    // else it is a primitive type object
+                                    if (dynamicValue.GetType().GetProperty("HasValues").GetValue(dynamicValue, null))
+                                    {
+                                        passed = (bool)method.Invoke(null, new object[] { dynamicValue, typedValue });
+                                    }
+                                    else
+                                    {
+                                        passed =
+                                            (bool)method.Invoke(null, new object[] { dynamicValue.Value, typedValue });
+                                    }
                                 }
                             }
                             else

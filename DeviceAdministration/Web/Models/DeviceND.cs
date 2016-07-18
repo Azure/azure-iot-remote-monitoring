@@ -27,10 +27,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     public class DeviceProperties
     {
         public string DeviceID;
-        public bool HubEnabledState;
+        public bool? HubEnabledState;
         public DateTime CreatedTime;
         public string DeviceState;
-        public DateTime UpdatedTime;
+        public DateTime? UpdatedTime;
         public string Manufacturer;
         public string ModelNumber;
         public string SerialNumber;
@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public string CorrelationId;
         public string ConnectionDeviceId;
         public string ConnectionDeviceGenerationId;
-        public string EnqueuedTime;
+        public DateTime EnqueuedTime;
         public string StreamId;
     }
 
@@ -79,8 +79,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         public string Name;
         public string MessageId;
-        public string CreatedTime;
-        public string UpdatedTime;
+        public DateTime CreatedTime;
+        public DateTime UpdatedTime;
         public string Result;
         public string ErrorMessage;
     }
