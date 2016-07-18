@@ -2,15 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using GlobalResources;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
-using Newtonsoft.Json;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 {
     public class DynamicConverter
     {

@@ -152,6 +152,8 @@
     <Compile Include="Helpers\AzureRetryHelper.cs" />
     <Compile Include="Helpers\AzureTableStorageHelper.cs" />
     <Compile Include="Helpers\BlobStorageHelper.cs" />
+    <Compile Include="Helpers\DynamicConverter.cs" />
+    <Compile Include="Models\DeviceND.cs" />
     <Compile Include="Schema\SchemaHelper.cs" />
     <Compile Include="Utility\DocDbQueryResult.cs" />
     <Compile Include="Helpers\DynamicValuesHelper.cs" />
