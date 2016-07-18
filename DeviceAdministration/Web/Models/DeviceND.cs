@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Ajax.Utilities;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models
 {
@@ -8,8 +9,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         public DeviceProperties DeviceProperties;
         public SystemProperties SystemProperties;
-        public Commmand[] Commands;
-        public CommandHistory[] CommandHistory;
+        public Command[] Commands;
+        public CommandHistoryND[] CommandHistory;
         public bool IsSimulatedDevice;
         public string id;
         public string _rid;
@@ -64,18 +65,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public string ICCID;
     }
 
-    public class Commmand
-    {
-        public string Name;
-        public CommandParameter[] Parameters;
-    }
+    //public class Commmand
+    //{
+    //    public string Name;
+    //    public CommandParameter[] Parameters;
+    //}
 
-    public class CommandParameter
-    {
-        public string Name;
-        public string Type;
-    }
-    public class CommandHistory
+    //public class CommandParameter
+    //{
+    //    public string Name;
+    //    public string Type;
+    //}
+    public class CommandHistoryND
     {
         public string Name;
         public string MessageId;
