@@ -106,7 +106,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 //API does not give error code for the remote name.
                 if (exception.Message.Contains(Strings.RemoteNameNotResolved) ||
-                    exception.Message == Strings.CellularInvalidCreds)
+                    exception.Message == Strings.CellularInvalidCreds ||
+                    exception.Message == Strings.CellularInvalidLicense)
                 {
                     _apiRegistrationRepository.DeleteApiDetails();
                     return false;
