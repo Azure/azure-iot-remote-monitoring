@@ -19,6 +19,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly IApiRegistrationRepository _apiRegistrationRepository;
         private readonly IExternalCellularService _cellularService;
         private readonly IDeviceLogic _deviceLogic;
+        private const string CellularInvalidCreds = "400200";
+        private const string CellularInvalidLicense = "400100";
 
         public AdvancedController(IDeviceLogic deviceLogic,
             IExternalCellularService cellularService,
@@ -106,8 +108,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 //API does not give error code for the remote name.
                 if (exception.Message.Contains(Strings.RemoteNameNotResolved) ||
-                    exception.Message == Strings.CellularInvalidCreds ||
-                    exception.Message == Strings.CellularInvalidLicense)
+                    exception.Message == CellularInvalidCreds ||
+                    exception.Message == CellularInvalidLicense)
                 {
                     _apiRegistrationRepository.DeleteApiDetails();
                     return false;
