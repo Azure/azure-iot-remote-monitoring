@@ -64,17 +64,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public string ICCID { get; set; }
     }
 
-    //public class Commmand
-    //{
-    //    public string Name { get; set; }
-    //    public CommandParameter[] Parameters { get; set; }
-    //}
-
-    //public class CommandParameter
-    //{
-    //    public string Name { get; set; }
-    //    public string Type { get; set; }
-    //}
     public class CommandHistoryND
     {
         public string Name { get; set; }

@@ -14,7 +14,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             FixIsSimulatedDevice(dynamicObj);
             string dynamicObjStr = Newtonsoft.Json.JsonConvert.SerializeObject(dynamicObj);
             T strongObj = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(dynamicObjStr);
-            var strongObjStr = Newtonsoft.Json.JsonConvert.SerializeObject(strongObj);
             if (!Validate<T>(dynamicObj, strongObj))
             {
                 throw new Exception(string.Format("Conversion failed for type: {0}", typeof(T)));
