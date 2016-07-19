@@ -319,9 +319,9 @@
                 "Transformation": {
                     "Name": "AllToBlob",
                     "Properties": {
-                        "Query": "WITH \r\n    [StreamData]\r\nAS (\r\n    SELECT\r\n        *\r\n    FROM \r\n      [IoTHubStream] \r\n    WHERE\r\n        [ObjectType] IS NULL -- Filter out device info and command responses\r\n) \r\n\r\nSELECT\r\n    *\r\nINTO\r\n    [Telemetry]\r\nFROM\r\n    [StreamData]\r\n\r\nSELECT\r\n    DeviceId,\r\n    AVG (Humidity) AS [AverageHumidity], \r\n    MIN(Humidity) AS [MinimumHumidity], \r\n    MAX(Humidity) AS [MaxHumidity], \r\n    5.0 AS TimeframeMinutes \r\nINTO\r\n    [TelemetrySummary]\r\nFROM\r\n    [StreamData]\r\nWHERE\r\n    [Humidity] IS NOT NULL\r\nGROUP BY\r\n    DeviceId, \r\n    SlidingWindow (mi, 5)",
+                        "Query": "WITH \r\n    [StreamData]\r\nAS (\r\n    SELECT\r\n        *\r\n    FROM [IoTHubStream]\r\n    WHERE\r\n        [ObjectType] IS NULL -- Filter out device info and command responses\r\n) \r\n\r\nSELECT\r\n    IoTHub.ConnectionDeviceId AS DeviceId,\r\n    Temperature,\r\n    Humidity,\r\n    ExternalTemperature,\r\n    EventProcessedUtcTime,\r\n    PartitionId,\r\n    EventEnqueuedUtcTime,\r\n    * \r\nINTO\r\n    [Telemetry]\r\nFROM\r\n    [StreamData]\r\n\r\nSELECT\r\n    IoTHub.ConnectionDeviceId AS DeviceId,\r\n    AVG (Humidity) AS [AverageHumidity],\r\n    MIN(Humidity) AS [MinimumHumidity],\r\n    MAX(Humidity) AS [MaxHumidity],\r\n    5.0 AS TimeframeMinutes \r\nINTO\r\n    [TelemetrySummary]\r\nFROM [StreamData]\r\nWHERE\r\n    [Humidity] IS NOT NULL\r\nGROUP BY\r\n    IoTHub.ConnectionDeviceId,\r\n    SlidingWindow (mi, 5)",
                         "StreamingUnits": 1
-                    }
+                  }
                 }
             }
         },
@@ -525,9 +525,9 @@
                 "Transformation": {
                     "Name": "DeviceRules",
                     "Properties": {
-                        "Query": "WITH AlarmsData AS \r\n(\r\nSELECT\r\n     Stream.DeviceID,\r\n     'Temperature' as ReadingType,\r\n     Stream.Temperature as Reading,\r\n     Ref.Temperature as Threshold,\r\n     Ref.TemperatureRuleOutput as RuleOutput,\r\n     Stream.EventEnqueuedUtcTime AS [Time]\r\nFROM IoTTelemetryStream Stream\r\nJOIN DeviceRulesBlob Ref ON Stream.DeviceID = Ref.DeviceID\r\nWHERE\r\n     Ref.Temperature IS NOT null AND Stream.Temperature > Ref.Temperature\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n     Stream.DeviceID,\r\n     'Humidity' as ReadingType,\r\n     Stream.Humidity as Reading,\r\n     Ref.Humidity as Threshold,\r\n     Ref.HumidityRuleOutput as RuleOutput,\r\n     Stream.EventEnqueuedUtcTime AS [Time]\r\nFROM IoTTelemetryStream Stream\r\nJOIN DeviceRulesBlob Ref ON Stream.DeviceID = Ref.DeviceID\r\nWHERE\r\n     Ref.Humidity IS NOT null AND Stream.Humidity > Ref.Humidity\r\n)\r\n\r\nSELECT *\r\nINTO DeviceRulesMonitoring\r\nFROM AlarmsData\r\n\r\nSELECT *\r\nINTO DeviceRulesHub\r\nFROM AlarmsData",
+                        "Query": "WITH AlarmsData AS \r\n(\r\nSELECT\r\n     Stream.IoTHub.ConnectionDeviceId AS DeviceId,\r\n     'Temperature' as ReadingType,\r\n     Stream.Temperature as Reading,\r\n     Ref.Temperature as Threshold,\r\n     Ref.TemperatureRuleOutput as RuleOutput,\r\n     Stream.EventEnqueuedUtcTime AS [Time]\r\nFROM IoTTelemetryStream Stream\r\nJOIN DeviceRulesBlob Ref ON Stream.IoTHub.ConnectionDeviceId = Ref.DeviceID\r\nWHERE\r\n     Ref.Temperature IS NOT null AND Stream.Temperature > Ref.Temperature\r\n\r\nUNION ALL\r\n\r\nSELECT\r\n     Stream.IoTHub.ConnectionDeviceId AS DeviceId,\r\n     'Humidity' as ReadingType,\r\n     Stream.Humidity as Reading,\r\n     Ref.Humidity as Threshold,\r\n     Ref.HumidityRuleOutput as RuleOutput,\r\n     Stream.EventEnqueuedUtcTime AS [Time]\r\nFROM IoTTelemetryStream Stream\r\nJOIN DeviceRulesBlob Ref ON Stream.IoTHub.ConnectionDeviceId = Ref.DeviceID\r\nWHERE\r\n     Ref.Humidity IS NOT null AND Stream.Humidity > Ref.Humidity\r\n)\r\n\r\nSELECT *\r\nINTO DeviceRulesMonitoring\r\nFROM AlarmsData\r\n\r\nSELECT *\r\nINTO DeviceRulesHub\r\nFROM AlarmsData",
                         "StreamingUnits": 1
-                    }
+                  }
                 }
             }
         }

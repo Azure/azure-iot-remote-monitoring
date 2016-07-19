@@ -108,5 +108,5 @@ msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package
 @ECHO   build - build.cmd build
 @ECHO   local deployment: build.cmd local
 @ECHO   cloud deployment: build.cmd cloud release mydeployment
-@ECHO   national cloud deployment: same as above but include CloudName at end (eg. build.cmd local debug AzureGermanyCloud or build.cmd cloud release mydeployment AzureGermanyCloud)
+@ECHO   national cloud deployment: same as above but include CloudName at end (eg. build.cmd local debug AzureGermanCloud or build.cmd cloud release mydeployment AzureGermanCloud)
 :End
