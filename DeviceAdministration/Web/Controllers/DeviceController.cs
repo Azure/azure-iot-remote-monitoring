@@ -195,7 +195,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             dynamic deviceWithKeys = await AddDeviceAsync(model);
             //validate device
-            DeviceND d = DeviceMapper.Get().map(deviceWithKeys);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(deviceWithKeys);
             var newDevice = new RegisteredDeviceModel
             {
                 HostName = _iotHubName,
@@ -239,7 +239,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             if (model != null)
             {
                 dynamic device = await _deviceLogic.GetDeviceAsync(model.DeviceId);
-                DeviceND d = DeviceMapper.Get().map(device);
+                DeviceND d = TypeMapper.Get().map<DeviceND>(device);
                 if (!object.ReferenceEquals(device, null))
                 {
                     _deviceLogic.ApplyDevicePropertyValueModels(
@@ -259,7 +259,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             IEnumerable<DevicePropertyValueModel> propModels;
 
             dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
-            DeviceND d = DeviceMapper.Get().map(device);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
             if (object.ReferenceEquals(device, null))
             {
                 throw new InvalidOperationException("Unable to load device with deviceId " + deviceId);
@@ -359,7 +359,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 	        device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
                 unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
 
-            DeviceND d = DeviceMapper.Get().map(device);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
 
             return await this._deviceLogic.AddDeviceAsync(device);
         }
@@ -369,7 +369,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             dynamic existingDevice;
 
             existingDevice = await _deviceLogic.GetDeviceAsync(deviceId);
-            DeviceND d = DeviceMapper.Get().map(existingDevice);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(existingDevice);
 
 
             return !object.ReferenceEquals(existingDevice, null);

@@ -99,7 +99,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 async () =>
                 {
                     dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
-                    DeviceMapper.Get().map(device);
+                    TypeMapper.Get().map<DeviceND>(device);
 
                     IList<DeviceTelemetryFieldModel> telemetryFields = null;
 
@@ -167,7 +167,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 async () =>
                 {
                     dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
-                    DeviceMapper.Get().map(device);
+                    TypeMapper.Get().map<DeviceND>(device);
 
                     IList<DeviceTelemetryFieldModel> telemetryFields = null;
 
@@ -250,7 +250,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         historyItems.AddRange(data);
 
                         List<dynamic> devices = await LoadAllDevicesAsync();
-                        devices.ForEach(device => DeviceMapper.Get().map(device));
+                        devices.ForEach(device => TypeMapper.Get().map<DeviceND>(device));
 
                         if (devices != null)
                         {

@@ -41,14 +41,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<ActionResult> Index(string deviceId)
         {
             var device = await _deviceLogic.GetDeviceAsync(deviceId);
-            DeviceND d = DeviceMapper.Get().map(device);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
 
             List<SelectListItem> commandListItems = CommandListItems(device);
 
             bool deviceIsEnabled = DeviceSchemaHelper.GetHubEnabledState(device) == true;
 
             var commandHistory = new List<dynamic>(CommandHistorySchemaHelper.GetCommandHistory(device));
-            CommandHistoryND ch = CommandHistoryMapper.Get().map(commandHistory);
+            CommandHistoryND ch = TypeMapper.Get().map<CommandHistoryND>(commandHistory);
 
             var deviceCommandsModel = new DeviceCommandModel
             {
@@ -129,7 +129,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private List<SelectListItem> CommandListItems(dynamic device)
         {
-            DeviceND d = DeviceMapper.Get().map(device);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
             if (device.Commands != null)
             {
                 return GetCommandListItems(device);
@@ -141,7 +141,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private List<SelectListItem> GetCommandListItems(dynamic device)
         {
-            DeviceND d = DeviceMapper.Get().map(device);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
             IEnumerable commands;
 
             List<SelectListItem> result = new List<SelectListItem>();
@@ -157,7 +157,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 foreach (dynamic command in commands)
                 {
-                    Command c = CommandMapper.Get().map(command);
+                    Command c = TypeMapper.Get().map<Command>(command);
                     if (this.IsCommandPublic(command))
                     {
                         SelectListItem item = new SelectListItem();
@@ -173,7 +173,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private bool IsCommandPublic(dynamic command)
         {
-            Command c = CommandHistoryMapper.Get().map(command);
+            Command c = TypeMapper.Get().map<CommandHistoryND>(command);
 
             if (command == null)
             {

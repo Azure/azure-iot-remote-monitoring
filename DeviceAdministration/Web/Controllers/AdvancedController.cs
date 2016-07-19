@@ -151,7 +151,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
  
             foreach (var result in devices.Results)
             {
-                DeviceMapper.Get().map(result);
+                TypeMapper.Get().map<DeviceND>(result);
             }
             return devices.Results;
         }

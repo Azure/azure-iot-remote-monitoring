@@ -54,7 +54,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return await GetServiceResponseAsync<dynamic>(async () =>
             {
                 var device = await _deviceLogic.GetDeviceAsync(id);
-                DeviceND a = DeviceMapper.Get().map(device);
+                DeviceND a = TypeMapper.Get().map<DeviceND>(device);
                 return device;
             });
         }
@@ -112,7 +112,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 var queryResult = (await _deviceLogic.GetDevices(q)).Results;
                 foreach (var res in queryResult)
                 {
-                    DeviceND d = DeviceMapper.Get().map(res);
+                    DeviceND d = TypeMapper.Get().map<DeviceND>(res);
                 }
                 return queryResult;
             });
@@ -147,7 +147,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
                 foreach (var res in queryResult.Results)
                 {
-                    DeviceND d = DeviceMapper.Get().map(res);
+                    DeviceND d = TypeMapper.Get().map<DeviceND>(res);
                 }
 
                 var dataTablesResponse = new DataTablesResponse()
@@ -185,11 +185,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<HttpResponseMessage> AddDeviceAsync(dynamic device)
         {
             ValidateArgumentNotNull("device", device);
-            DeviceND d = DeviceMapper.Get().map(device);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
             return await GetServiceResponseAsync<DeviceWithKeys>(async () => 
             { 
                 var device2 = await _deviceLogic.AddDeviceAsync(device);
-                DeviceND d2 = DeviceMapper.Get().map(device2.Device);
+                DeviceND d2 = TypeMapper.Get().map<DeviceND>(device2.Device);
                 return device2;
             });
         }
@@ -201,11 +201,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<HttpResponseMessage> UpdateDeviceAsync(dynamic device)
         {
             ValidateArgumentNotNull("device", device);
-            DeviceND d = DeviceMapper.Get().map(device);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
             return await GetServiceResponseAsync<bool>(async () =>
             {
                 var device2 = await _deviceLogic.UpdateDeviceAsync(device);
-                DeviceND d2 = DeviceMapper.Get().map(device2);
+                DeviceND d2 = TypeMapper.Get().map<DeviceND>(device2);
                 return true;
             });
         }
@@ -256,7 +256,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return await GetServiceResponseAsync(async () =>
             {
                 var device = await _deviceLogic.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
-                DeviceND d = DeviceMapper.Get().map(device);
+                DeviceND d = TypeMapper.Get().map<DeviceND>(device);
                 return true;
             });
         }
@@ -300,7 +300,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
                 foreach (var res in devices.Results)
                 {
-                    DeviceND d = DeviceMapper.Get().map(res);
+                    DeviceND d = TypeMapper.Get().map<DeviceND>(res);
                 }
 
                 foreach (var d in devices.Results)

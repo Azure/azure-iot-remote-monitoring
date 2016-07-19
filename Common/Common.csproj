@@ -156,11 +156,7 @@
     <Compile Include="Helpers\AzureRetryHelper.cs" />
     <Compile Include="Helpers\AzureTableStorageHelper.cs" />
     <Compile Include="Helpers\BlobStorageHelper.cs" />
-    <Compile Include="Mapper\CommandMapper.cs" />
-    <Compile Include="Mapper\CommandHistoryMapper.cs" />
-    <Compile Include="Mapper\DeviceMapper.cs" />
-    <Compile Include="Mapper\CustomLogic.cs" />
-    <Compile Include="Mapper\Mapper.cs" />
+    <Compile Include="Mapper\TypeMapper.cs" />
     <Compile Include="Mapper\MappingValidator.cs" />
     <Compile Include="Models\DeviceND.cs" />
     <Compile Include="Schema\SchemaHelper.cs" />
