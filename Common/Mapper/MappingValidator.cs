@@ -4,33 +4,19 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper
 {
-    public class DynamicConverter
+    public class MappingValidator
     {
-        public static T ValidateAndConvert<T>(dynamic dynamicObj)
+        public static void ValidateAndThrow<T>(dynamic dynamicObject, T typedObject)
         {
-            FixIsSimulatedDevice(dynamicObj);
-            string dynamicObjStr = Newtonsoft.Json.JsonConvert.SerializeObject(dynamicObj);
-            T strongObj = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(dynamicObjStr);
-            var strongObjStr = Newtonsoft.Json.JsonConvert.SerializeObject(strongObj);
-            if (!Validate<T>(dynamicObj, strongObj))
+            if (!Validate(dynamicObject, typedObject))
             {
                 throw new Exception(string.Format("Conversion failed for type: {0}", typeof(T)));
-            }
-            return strongObj;
-        }
-
-        private static void FixIsSimulatedDevice(dynamic device)
-        {
-            if (device.IsSimulatedDevice != null && device.IsSimulatedDevice == 1)
-            {
-                device.IsSimulatedDevice = true;
-            }
-            else if (device.IsSimulatedDevice != null && device.IsSimulatedDevice == 0)
-            {
-                device.IsSimulatedDevice = false;
             }
         }
 
@@ -52,7 +38,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 if (dynamicObject is IDynamicMetaObjectProvider)
                 {
                     bool passed = true;
-                    foreach(var item in dynamicObject)
+                    foreach (var item in dynamicObject)
                     {
                         string prop = item.Name;
                         var dynamicValue = item.Value;
@@ -72,7 +58,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                                     Type nestedType = typedValue.GetType().GetGenericArguments().Single();
 
                                     MethodInfo method =
-                                        typeof(DynamicConverter).GetMethod("Validate")
+                                        typeof(MappingValidator).GetMethod("Validate")
                                             .MakeGenericMethod(new Type[] { nestedType });
 
                                     int index = 0;
@@ -95,7 +81,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                                     Type nestedType = typedValue.GetType();
 
                                     MethodInfo method =
-                                        typeof(DynamicConverter).GetMethod("Validate")
+                                        typeof(MappingValidator).GetMethod("Validate")
                                             .MakeGenericMethod(new Type[] { nestedType });
                                     typedValue = Convert.ChangeType(typedProp.GetValue(typedObject), nestedType);
 

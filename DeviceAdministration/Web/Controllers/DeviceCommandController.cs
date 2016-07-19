@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
@@ -40,14 +41,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<ActionResult> Index(string deviceId)
         {
             var device = await _deviceLogic.GetDeviceAsync(deviceId);
-            DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(device);
+            DeviceND d = DeviceMapper.Get().map(device);
 
             List<SelectListItem> commandListItems = CommandListItems(device);
 
             bool deviceIsEnabled = DeviceSchemaHelper.GetHubEnabledState(device) == true;
 
             var commandHistory = new List<dynamic>(CommandHistorySchemaHelper.GetCommandHistory(device));
-            CommandHistoryND ch = DynamicConverter.ValidateAndConvert<CommandHistoryND>(commandHistory);
+            CommandHistoryND ch = CommandHistoryMapper.Get().map(commandHistory);
 
             var deviceCommandsModel = new DeviceCommandModel
             {
@@ -128,7 +129,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private List<SelectListItem> CommandListItems(dynamic device)
         {
-            DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(device);
+            DeviceND d = DeviceMapper.Get().map(device);
             if (device.Commands != null)
             {
                 return GetCommandListItems(device);
@@ -140,7 +141,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private List<SelectListItem> GetCommandListItems(dynamic device)
         {
-            DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(device);
+            DeviceND d = DeviceMapper.Get().map(device);
             IEnumerable commands;
 
             List<SelectListItem> result = new List<SelectListItem>();
@@ -156,7 +157,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 foreach (dynamic command in commands)
                 {
-                    Command c = DynamicConverter.ValidateAndConvert<Command>(command);
+                    Command c = CommandMapper.Get().map(command);
                     if (this.IsCommandPublic(command))
                     {
                         SelectListItem item = new SelectListItem();
@@ -172,7 +173,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private bool IsCommandPublic(dynamic command)
         {
-            Command c = DynamicConverter.ValidateAndConvert<Command>(command);
+            Command c = CommandHistoryMapper.Get().map(command);
 
             if (command == null)
             {
