@@ -11,15 +11,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
     {
         public static T ValidateAndConvert<T>(dynamic dynamicObj)
         {
-
+            FixIsSimulatedDevice(dynamicObj);
             string dynamicObjStr = Newtonsoft.Json.JsonConvert.SerializeObject(dynamicObj);
             T strongObj = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(dynamicObjStr);
             var strongObjStr = Newtonsoft.Json.JsonConvert.SerializeObject(strongObj);
-            //if (!Validate<T>(dynamicObj, strongObj))
-            //{
-            //    throw new Exception(string.Format("Conversion failed for type: {0}", typeof(T)));
-            //}
+            if (!Validate<T>(dynamicObj, strongObj))
+            {
+                throw new Exception(string.Format("Conversion failed for type: {0}", typeof(T)));
+            }
             return strongObj;
+        }
+
+        private static void FixIsSimulatedDevice(dynamic device)
+        {
+            if (device.IsSimulatedDevice != null && device.IsSimulatedDevice == 1)
+            {
+                device.IsSimulatedDevice = true;
+            }
+            else if (device.IsSimulatedDevice != null && device.IsSimulatedDevice == 0)
+            {
+                device.IsSimulatedDevice = false;
+            }
         }
 
         public static bool Validate<T>(dynamic dynamicObject, T typedObject)
