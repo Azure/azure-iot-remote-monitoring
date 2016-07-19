@@ -127,7 +127,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             }
 
             string objectType = eventData.ObjectType.ToString();
-            
+
             var objectTypePrefix = _configurationProvider.GetConfigurationSettingValue("ObjectTypePrefix");
             if (string.IsNullOrWhiteSpace(objectTypePrefix))
             {
@@ -149,19 +149,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
         private async Task ProcessDeviceInfo(dynamic deviceInfo)
         {
             string versionAsString = "";
-            if(deviceInfo.Version != null)
+            if (deviceInfo.Version != null)
             {
                 dynamic version = deviceInfo.Version;
                 versionAsString = version.ToString();
             }
-            switch(versionAsString)
+            switch (versionAsString)
             {
                 case SampleDeviceFactory.VERSION_1_0:
                     //Data coming in from the simulator can sometimes turn a boolean into 0 or 1.
                     //Check the HubEnabledState since this is actually displayed and make sure it's in a good format
                     DeviceSchemaHelper.FixDeviceSchema(deviceInfo);
 
-                    dynamic id = deviceInfo.DeviceProperties.DeviceID;
+                    dynamic id = DeviceSchemaHelper.GetConnectionDeviceId(deviceInfo);
                     string name = id.ToString();
                     Trace.TraceInformation("ProcessEventAsync -- DeviceInfo: {0}", name);
                     await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(deviceInfo);
