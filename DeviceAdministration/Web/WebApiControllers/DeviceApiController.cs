@@ -107,7 +107,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 Filters = filters
             };
 
-            return await GetServiceResponseAsync(async () => (await _deviceLogic.GetDevices(q)).Results);
+            return await GetServiceResponseAsync(async () =>
+            {
+                var queryResult = (await _deviceLogic.GetDevices(q)).Results;
+                foreach (var res in queryResult)
+                {
+                    DeviceND d = DeviceMapper.Get().map(res);
+                }
+                return queryResult;
+            });
         }
 
         // POST: api/v1/devices/list
@@ -136,6 +144,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 };
 
                 var queryResult = await _deviceLogic.GetDevices(listQuery);
+
+                foreach (var res in queryResult.Results)
+                {
+                    DeviceND d = DeviceMapper.Get().map(res);
+                }
 
                 var dataTablesResponse = new DataTablesResponse()
                 {
@@ -176,7 +189,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return await GetServiceResponseAsync<DeviceWithKeys>(async () => 
             { 
                 var device2 = await _deviceLogic.AddDeviceAsync(device);
-                DeviceND d2 = DeviceMapper.Get().map(device2);
+                DeviceND d2 = DeviceMapper.Get().map(device2.Device);
                 return device2;
             });
         }
@@ -285,7 +298,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
                 var devices = await _deviceLogic.GetDevices(query);
 
-                foreach(var d in devices.Results)
+                foreach (var res in devices.Results)
+                {
+                    DeviceND d = DeviceMapper.Get().map(res);
+                }
+
+                foreach (var d in devices.Results)
                 {
                     if (d.DeviceProperties != null && d.DeviceProperties.DeviceID != null)
                     {
