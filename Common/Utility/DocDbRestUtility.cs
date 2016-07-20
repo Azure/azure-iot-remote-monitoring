@@ -11,6 +11,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configuration
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Schema;
 using Newtonsoft.Json.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 {
@@ -265,6 +266,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceType.Document, _collectionId, document.ToString());
 
             return JObject.Parse(response);
+        }
+
+        public async Task<DeviceND> SaveNewDocumentAsyncND(DeviceND document)
+        {
+            var docStr = Newtonsoft.Json.JsonConvert.SerializeObject(document);
+
+            if (document == null)
+            {
+                throw new ArgumentNullException("document");
+            }
+
+            string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
+            if (document.id == null)
+            {
+                document.id = Guid.NewGuid().ToString();
+            }
+            string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceType.Document, _collectionId, docStr);
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<DeviceND>(response);
         }
 
         /// <summary>

@@ -13,7 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             IEnumerable<DevicePropertyValueModel> devicePropertyValueModels);
         Task<DeviceListQueryResult> GetDevices(DeviceListQuery q);
         Task<dynamic> GetDeviceAsync(string deviceId);
-        Task<DeviceWithKeys> AddDeviceAsync(DeviceND device);
+        Task<DeviceWithKeysND> AddDeviceAsync(DeviceND device);
         IEnumerable<DevicePropertyValueModel> ExtractDevicePropertyValuesModels(dynamic device);
         Task RemoveDeviceAsync(string deviceId);
         Task<dynamic> UpdateDeviceAsync(dynamic device);

@@ -65,15 +65,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device">Device to add to the underlying repositories</param>
         /// <returns>Device created along with the device identity store keys</returns>
-        public async Task<DeviceWithKeys> AddDeviceAsync(DeviceND device)
+        public async Task<DeviceWithKeysND> AddDeviceAsync(DeviceND device)
         {
             // Validation logic throws an exception if it finds a validation error
             await this.ValidateDevice(device);
 
             SecurityKeys generatedSecurityKeys = this._securityKeyGenerator.CreateRandomKeys();
 
-            dynamic savedDevice = await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
-            return new DeviceWithKeys(savedDevice, generatedSecurityKeys);
+            DeviceND savedDevice = await this.AddDeviceToRepositoriesAsyncND(device, generatedSecurityKeys);
+            return new DeviceWithKeysND(savedDevice, generatedSecurityKeys);
         }
 
         /// <summary>
@@ -140,6 +140,76 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 // the device will still remain in the Iot Hub.  A more robust rollback may be needed
                 // in some scenarios.
                 await _iotHubRepository.TryRemoveDeviceAsync(DeviceSchemaHelper.GetDeviceID(device));
+                capturedException.Throw();
+            }
+
+            return registryRepositoryDevice;
+        }
+
+        /// <summary>
+        /// Adds the given device and assigned keys to the underlying repositories 
+        /// </summary>
+        /// <param name="device">Device to add to repositories</param>
+        /// <param name="securityKeys">Keys to assign to the device</param>
+        /// <returns>Device that was added to the device registry</returns>
+        private async Task<DeviceND> AddDeviceToRepositoriesAsyncND(DeviceND device, SecurityKeys securityKeys)
+        {
+            DeviceND registryRepositoryDevice = null;
+            ExceptionDispatchInfo capturedException = null;
+
+            // if an exception happens at this point pass it up the stack to handle it
+            // (Making this call first then the call against the Registry removes potential issues
+            // with conflicting rollbacks if the operation happens to still be in progress.)
+            await _iotHubRepository.AddDeviceAsyncND(device, securityKeys);
+
+            try
+            {
+                registryRepositoryDevice = await _deviceRegistryCrudRepository.AddDeviceAsyncND(device);
+            }
+            catch (Exception ex)
+            {
+                // grab the exception so we can attempt an async removal of the device from the IotHub
+                capturedException = ExceptionDispatchInfo.Capture(ex);
+
+            }
+
+            //Create a device in table storage if it is a simulated type of device 
+            //and the document was stored correctly without an exception
+            bool isSimulatedAsBool = false;
+            try
+            {
+                isSimulatedAsBool = (bool)device.IsSimulatedDevice;
+            }
+            catch (InvalidCastException ex)
+            {
+                Trace.TraceError("The IsSimulatedDevice property was in an invalid format. Exception Error Message: {0}", ex.Message);
+            }
+            if (capturedException == null && isSimulatedAsBool)
+            {
+                try
+                {
+                    await _virtualDeviceStorage.AddOrUpdateDeviceAsync(new InitialDeviceConfig()
+                    {
+                        DeviceId = DeviceSchemaHelper.GetDeviceIDND(device),
+                        HostName = _configProvider.GetConfigurationSettingValue("iotHub.HostName"),
+                        Key = securityKeys.PrimaryKey
+                    });
+                }
+                catch (Exception ex)
+                {
+                    //if we fail adding to table storage for the device simulator just continue
+                    Trace.TraceError("Failed to add simulated device : {0}", ex.Message);
+                }
+            }
+
+
+            // Since the rollback code runs async and async code cannot run within the catch block it is run here
+            if (capturedException != null)
+            {
+                // This is a lazy attempt to remove the device from the Iot Hub.  If it fails
+                // the device will still remain in the Iot Hub.  A more robust rollback may be needed
+                // in some scenarios.
+                await _iotHubRepository.TryRemoveDeviceAsync(DeviceSchemaHelper.GetDeviceIDND(device));
                 capturedException.Throw();
             }
 
@@ -973,7 +1043,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             if (validationErrors.Count > 0)
             {
                 var validationException =
-                    new ValidationException(DeviceSchemaHelper.GetDeviceProperties(device) != null ? DeviceSchemaHelper.GetDeviceID(device) : null);
+                    new ValidationException(DeviceSchemaHelper.GetDevicePropertiesND(device) != null ? DeviceSchemaHelper.GetDeviceIDND(device) : null);
 
                 foreach (string error in validationErrors)
                 {

@@ -187,10 +187,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<HttpResponseMessage> AddDeviceAsync(DeviceND device)
         {
             ValidateArgumentNotNull("device", device);
-            return await GetServiceResponseAsync<DeviceWithKeys>(async () => 
+            return await GetServiceResponseAsync<DeviceWithKeysND>(async () => 
             { 
                 var device2 = await this._deviceLogic.AddDeviceAsync(device);
-                DeviceND d2 = TypeMapper.Get().map<DeviceND>(device2.Device);
                 return device2;
             });
         }

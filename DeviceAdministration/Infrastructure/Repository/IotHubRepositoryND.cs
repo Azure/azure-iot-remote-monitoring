@@ -58,6 +58,33 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         /// <summary>
+        /// Adds the provided device to the IoT hub with the provided security keys
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="securityKeys"></param>
+        /// <returns></returns>
+        public async Task<dynamic> AddDeviceAsyncND(DeviceND device, SecurityKeys securityKeys)
+        {
+            Azure.Devices.Device iotHubDevice = new Azure.Devices.Device(DeviceSchemaHelper.GetDeviceIDND(device));
+
+            var authentication = new AuthenticationMechanism
+            {
+                SymmetricKey = new SymmetricKey
+                {
+                    PrimaryKey = securityKeys.PrimaryKey,
+                    SecondaryKey = securityKeys.SecondaryKey
+                }
+            };
+
+            iotHubDevice.Authentication = authentication;
+
+            await AzureRetryHelper.OperationWithBasicRetryAsync<Azure.Devices.Device>(async () =>
+                await _deviceManager.AddDeviceAsync(iotHubDevice));
+
+            return device;
+        }
+
+        /// <summary>
         /// Attempts to add the device as a new device and swallows all exceptions
         /// </summary>
         /// <param name="oldIotHubDevice">The IoT Hub Device to add back into the IoT Hub</param>

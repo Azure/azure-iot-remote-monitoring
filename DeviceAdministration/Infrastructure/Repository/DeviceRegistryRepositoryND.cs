@@ -7,6 +7,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configuration
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
@@ -106,6 +107,28 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         /// <summary>
+        /// Queries the DocumentDB and retrieves the device based on its deviceId
+        /// </summary>
+        /// <param name="deviceId">DeviceID of the device to retrieve</param>
+        /// <returns>Device instance if present, null if a device was not found with the provided deviceId</returns>
+        public async Task<DeviceND> GetDeviceAsyncND(string deviceId)
+        {
+            DeviceND result = null;
+
+            Dictionary<string, Object> queryParams = new Dictionary<string, Object>();
+            queryParams.Add("@id", deviceId);
+            DocDbRestQueryResult response = await _docDbRestUtil.QueryCollectionAsync("SELECT VALUE root FROM root WHERE (root.DeviceProperties.DeviceID = @id)", queryParams);
+            JArray foundDevices = response.ResultSet;
+
+            if (foundDevices != null && foundDevices.Count > 0)
+            {
+                result = foundDevices.Children().ElementAt(0).ToObject<DeviceND>();
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Adds a device to the DocumentDB.
         /// Throws a DeviceAlreadyRegisteredException if a device already exists in the database with the provided deviceId
         /// </summary>
@@ -122,6 +145,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             device = await _docDbRestUtil.SaveNewDocumentAsync(device);
+
+            return device;
+        }
+
+        /// <summary>
+        /// Adds a device to the DocumentDB.
+        /// Throws a DeviceAlreadyRegisteredException if a device already exists in the database with the provided deviceId
+        /// </summary>
+        /// <param name="device"></param>
+        /// <returns></returns>
+        public async Task<DeviceND> AddDeviceAsyncND(DeviceND device)
+        {
+            string deviceId = DeviceSchemaHelper.GetDeviceIDND(device);
+            DeviceND existingDevice = await GetDeviceAsyncND(deviceId);
+
+            if (existingDevice != null)
+            {
+                throw new DeviceAlreadyRegisteredException(deviceId);
+            }
+
+            device = await _docDbRestUtil.SaveNewDocumentAsyncND(device);
 
             return device;
         }
