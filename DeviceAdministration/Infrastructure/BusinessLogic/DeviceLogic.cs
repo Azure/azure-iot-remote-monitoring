@@ -87,7 +87,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             dynamic registryRepositoryDevice = null;
             ExceptionDispatchInfo capturedException = null;
-
             // if an exception happens at this point pass it up the stack to handle it
             // (Making this call first then the call against the Registry removes potential issues
             // with conflicting rollbacks if the operation happens to still be in progress.)
@@ -1126,6 +1125,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device">Device with telemetry schema</param>
         /// <returns>Converted telemetry schema, or null if there is none</returns>
+        /// 
         public IList<DeviceTelemetryFieldModel> ExtractTelemetry(dynamic device)
         {
             // Get Telemetry Fields

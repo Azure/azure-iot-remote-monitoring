@@ -13,7 +13,6 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
@@ -1112,6 +1111,118 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             result.MaximumLongitude = maxLong + offset;
 
             return result;
+        }
+
+
+        //non-dynamic ExtractLocationsDataND
+        public DeviceListLocationsModel ExtractLocationsDataND(List<DeviceND> devices)
+        {
+            var result = new DeviceListLocationsModel();
+
+            // Initialize defaults to opposite extremes to ensure mins and maxes are beyond any actual values
+            double minLat = double.MaxValue;
+            double maxLat = double.MinValue;
+            double minLong = double.MaxValue;
+            double maxLong = double.MinValue;
+
+            var locationList = new List<DeviceLocationModel>();
+            foreach (DeviceND device in devices)
+            {
+                //dynamic props = DeviceSchemaHelper.GetDeviceProperties(device);
+                var props = device.DeviceProperties;
+                if (props.Longitude == null || props.Latitude == null)
+                {
+                    continue;
+                }
+
+                double latitude;
+                double longitude;
+
+                try
+                {
+                    latitude = DeviceSchemaHelper.GetDeviceProperties(device).Latitude;
+                    longitude = DeviceSchemaHelper.GetDeviceProperties(device).Longitude;
+                }
+                catch (FormatException)
+                {
+                    continue;
+                }
+
+                var location = new DeviceLocationModel()
+                {
+                    DeviceId = DeviceSchemaHelper.GetDeviceID(device),
+                    Longitude = longitude,
+                    Latitude = latitude
+                };
+                locationList.Add(location);
+
+                if (longitude < minLong)
+                {
+                    minLong = longitude;
+                }
+                if (longitude > maxLong)
+                {
+                    maxLong = longitude;
+                }
+                if (latitude < minLat)
+                {
+                    minLat = latitude;
+                }
+                if (latitude > maxLat)
+                {
+                    maxLat = latitude;
+                }
+            }
+
+            if (locationList.Count == 0)
+            {
+                // reinitialize bounds to center on Seattle area if no devices
+                minLat = 47.6;
+                maxLat = 47.6;
+                minLong = -122.3;
+                maxLong = -122.3;
+            }
+
+            double offset = 0.05;
+
+            result.DeviceLocationList = locationList;
+            result.MinimumLatitude = minLat - offset;
+            result.MaximumLatitude = maxLat + offset;
+            result.MinimumLongitude = minLong - offset;
+            result.MaximumLongitude = maxLong + offset;
+
+            return result;
+        }
+
+
+        //non-dynamic version of ExtractTelemetry
+        public IList<DeviceTelemetryFieldModel> ExtractTelemetryND(DeviceND device)
+        {
+            // Get Telemetry Fields
+            if (device.Telemetry != null)
+            {
+                var deviceTelemetryFields = new List<DeviceTelemetryFieldModel>();
+
+                foreach (var field in device.Telemetry)
+                {
+                    // Default displayName to null if not present
+                    string displayName = field.DisplayName != null ?
+                        field.DisplayName : null;
+
+                    deviceTelemetryFields.Add(new DeviceTelemetryFieldModel
+                    {
+                        DisplayName = displayName,
+                        Name = field.Name,
+                        Type = field.Type
+                    });
+                }
+
+                return deviceTelemetryFields;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>

@@ -93,7 +93,7 @@ describe('device rules api', () => {
         });
     });
 
-    xdescribe('return information on a unique rule', () => {
+    describe('return information on a unique rule', () => {
         it('should return a unique rule', (done) => {
             req.get('/devicerules/testDevice/testRule', (err, resp, result) => {
                 console.log(result)
@@ -135,7 +135,7 @@ describe('device rules api', () => {
         });
     });
 
-    xdescribe('change enabled state of a device', () => {
+    describe('change enabled state of a device', () => {
         it('should change enabled state to false', (done) => {
             req.put('/devicerules/testDevice/testRule/false', (err, resp, result) => {
                 console.log(result);
@@ -145,7 +145,7 @@ describe('device rules api', () => {
         });
     });
 
-    xdescribe('create new device rule', () => {
+    describe('create new device rule', () => {
           it('should return list of devices', (done) => {
           req.del('/devicerules/testDevice/testRule', (err, resp, result) => {
                 expect(result.status).toEqual(2);
