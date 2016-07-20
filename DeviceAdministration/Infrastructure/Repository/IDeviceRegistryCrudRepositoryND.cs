@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -24,6 +25,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="deviceId">The device identifier.</param>
         /// <returns></returns>
         Task<dynamic> GetDeviceAsync(string deviceId);
+        Task<DeviceND> GetDeviceAsyncND(string deviceId);
 
         /// <summary>
         /// Updates a device asynchronously.

@@ -7,6 +7,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configuration
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
@@ -103,6 +105,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             return result;
+        }
+        public async Task<DeviceND> GetDeviceAsyncND(string deviceId)
+        {
+            dynamic result = null;
+
+            Dictionary<string, Object> queryParams = new Dictionary<string, Object>();
+            queryParams.Add("@id", deviceId);
+            DocDbRestQueryResult response = await _docDbRestUtil.QueryCollectionAsync("SELECT VALUE root FROM root WHERE (root.DeviceProperties.DeviceID = @id)", queryParams);
+            JArray foundDevices = response.ResultSet;
+
+            if (foundDevices != null && foundDevices.Count > 0)
+            {
+                result = foundDevices.Children().ElementAt(0);
+            }
+
+            DeviceND d = TypeMapper.Get().map<DeviceND>(result);
+            return d;
         }
 
         /// <summary>
@@ -228,6 +247,29 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return new DeviceListQueryResult()
             {
                 Results = pagedDeviceList,
+                TotalDeviceCount = deviceList.Count,
+                TotalFilteredCount = filteredCount
+            };
+        }
+
+        public async Task<DeviceListQueryResultND> GetDeviceListND(DeviceListQuery query)
+        {
+            List<dynamic> deviceList = await GetAllDevicesAsync();
+
+            IQueryable<dynamic> filteredDevices = FilterHelper.FilterDeviceList(deviceList.AsQueryable<dynamic>(), query.Filters);
+
+            IQueryable<dynamic> filteredAndSearchedDevices = SearchDeviceList(filteredDevices, query.SearchQuery);
+
+            IQueryable<dynamic> sortedDevices = SortDeviceList(filteredAndSearchedDevices, query.SortColumn, query.SortOrder);
+
+            List<dynamic> pagedDeviceList = sortedDevices.Skip(query.Skip).Take(query.Take).ToList();
+            List<DeviceND> pagedDeviceListND = TypeMapper.Get().map<List<DeviceND>>(pagedDeviceList);
+
+            int filteredCount = filteredAndSearchedDevices.Count();
+
+            return new DeviceListQueryResultND()
+            {
+                Results = pagedDeviceListND,
                 TotalDeviceCount = deviceList.Count,
                 TotalFilteredCount = filteredCount
             };
