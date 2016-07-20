@@ -21,11 +21,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     [RoutePrefix("api/v1/devices")]
     public class DeviceApiController : WebApiControllerBase
     {
-        private IDeviceLogic _deviceLogic;
+        private readonly IDeviceLogicND _deviceLogic;
        
-        public DeviceApiController(IDeviceLogic deviceLogic)
+        public DeviceApiController(IDeviceLogicND deviceLogic)
         {
-            _deviceLogic = deviceLogic;
+            this._deviceLogic = deviceLogic;
         }
 
         // POST: api/v1/devices/sample/5
@@ -184,13 +184,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPost]
         [Route("")]
         [WebApiRequirePermission(Permission.AddDevices)]
-        public async Task<HttpResponseMessage> AddDeviceAsync(dynamic device)
+        public async Task<HttpResponseMessage> AddDeviceAsync(DeviceND device)
         {
             ValidateArgumentNotNull("device", device);
-            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
             return await GetServiceResponseAsync<DeviceWithKeys>(async () => 
             { 
-                var device2 = await _deviceLogic.AddDeviceAsync(device);
+                var device2 = await this._deviceLogic.AddDeviceAsync(device);
                 DeviceND d2 = TypeMapper.Get().map<DeviceND>(device2.Device);
                 return device2;
             });

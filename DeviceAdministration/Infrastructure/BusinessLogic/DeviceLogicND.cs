@@ -66,14 +66,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device">Device to add to the underlying repositories</param>
         /// <returns>Device created along with the device identity store keys</returns>
-        public async Task<DeviceWithKeys> AddDeviceAsync(dynamic device)
+        public async Task<DeviceWithKeys> AddDeviceAsync(DeviceND device)
         {
             // Validation logic throws an exception if it finds a validation error
-            await ValidateDevice(device);
+            await this.ValidateDevice(device);
 
-            SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
+            SecurityKeys generatedSecurityKeys = this._securityKeyGenerator.CreateRandomKeys();
 
-            dynamic savedDevice = await AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
+            dynamic savedDevice = await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             return new DeviceWithKeys(savedDevice, generatedSecurityKeys);
         }
 
@@ -962,7 +962,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             };
         }
 
-        private async Task ValidateDevice(dynamic device)
+        private async Task ValidateDevice(DeviceND device)
         {
             List<string> validationErrors = new List<string>();
 

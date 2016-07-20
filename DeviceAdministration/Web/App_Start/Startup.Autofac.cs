@@ -56,6 +56,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             //Logic
             builder.RegisterType<KeyLogic>().As<IKeyLogic>();
             builder.RegisterType<DeviceLogic>().As<IDeviceLogic>();
+            builder.RegisterType<DeviceLogicND>().As<IDeviceLogicND>();
             builder.RegisterType<DeviceRulesLogic>().As<IDeviceRulesLogic>();
             builder.RegisterType<DeviceTypeLogic>().As<IDeviceTypeLogic>();
             builder.RegisterType<SecurityKeyGenerator>().As<ISecurityKeyGenerator>();
