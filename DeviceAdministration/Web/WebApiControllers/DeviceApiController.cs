@@ -21,9 +21,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     [RoutePrefix("api/v1/devices")]
     public class DeviceApiController : WebApiControllerBase
     {
-        private IDeviceLogic _deviceLogic;
+        private readonly IDeviceLogicND _deviceLogic;
        
-        public DeviceApiController(IDeviceLogic deviceLogic)
+        public DeviceApiController(IDeviceLogicND deviceLogic)
         {
             _deviceLogic = deviceLogic;
         }
