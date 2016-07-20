@@ -1065,18 +1065,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
         }
 
-        private async Task CheckIfDeviceExists(dynamic device, List<string> validationErrors)
+        private async Task CheckIfDeviceExists(DeviceND device, List<string> validationErrors)
         {
             // check if device exists
-            if (await GetDeviceAsync(DeviceSchemaHelper.GetDeviceID(device)) != null)
+            if (await this.GetDeviceAsyncND(DeviceSchemaHelper.GetDeviceIDND(device)) != null)
             {
                 validationErrors.Add(Strings.ValidationDeviceExists);
             }
         }
 
-        private bool ValidateDeviceId(dynamic device, List<string> validationErrors)
+        private bool ValidateDeviceId(DeviceND device, List<string> validationErrors)
         {
-            if (DeviceSchemaHelper.GetDeviceProperties(device) == null || string.IsNullOrWhiteSpace(DeviceSchemaHelper.GetDeviceID(device)))
+            if (DeviceSchemaHelper.GetDevicePropertiesND(device) == null || string.IsNullOrWhiteSpace(DeviceSchemaHelper.GetDeviceIDND(device)))
             {
                 validationErrors.Add(Strings.ValidationDeviceIdMissing);
                 return false;
