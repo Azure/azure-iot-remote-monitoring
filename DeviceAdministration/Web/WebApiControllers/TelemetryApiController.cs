@@ -251,12 +251,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         List<dynamic> devices = await LoadAllDevicesAsync();
                         List<DeviceND> resultND = new List<DeviceND>();
 
-
-                        foreach(var device in devices)
-                        {
-                            DeviceND d2 = TypeMapper.Get().map<DeviceND>(device);
-                            resultND.Add(d2);
-                        }
+                        List<DeviceND> resultND = TypeMapper.Get().map<List<DeviceND>>(devices);
 
                         if (devices != null)
                         {
