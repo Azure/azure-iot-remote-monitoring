@@ -24,16 +24,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class DeviceLogicND : IDeviceLogicND
     {
-        private readonly IIotHubRepository _iotHubRepository;
-        private readonly IDeviceRegistryCrudRepository _deviceRegistryCrudRepository;
-        private readonly IDeviceRegistryListRepository _deviceRegistryListRepository;
+        private readonly IIotHubRepositoryND _iotHubRepository;
+        private readonly IDeviceRegistryCrudRepositoryND _deviceRegistryCrudRepository;
+        private readonly IDeviceRegistryListRepositoryND _deviceRegistryListRepository;
         private readonly IVirtualDeviceStorage _virtualDeviceStorage;
         private readonly IConfigurationProvider _configProvider;
         private readonly ISecurityKeyGenerator _securityKeyGenerator;
         private readonly IDeviceRulesLogic _deviceRulesLogic;
 
-        public DeviceLogicND(IIotHubRepository iotHubRepository, IDeviceRegistryCrudRepository deviceRegistryCrudRepository, 
-            IDeviceRegistryListRepository deviceRegistryListRepository, IVirtualDeviceStorage virtualDeviceStorage, 
+        public DeviceLogicND(IIotHubRepositoryND iotHubRepository, IDeviceRegistryCrudRepositoryND deviceRegistryCrudRepository, 
+            IDeviceRegistryListRepositoryND deviceRegistryListRepository, IVirtualDeviceStorage virtualDeviceStorage, 
             ISecurityKeyGenerator securityKeyGenerator, IConfigurationProvider configProvider, IDeviceRulesLogic deviceRulesLogic)
         {
             _iotHubRepository = iotHubRepository;
