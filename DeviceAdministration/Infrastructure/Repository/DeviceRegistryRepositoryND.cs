@@ -153,7 +153,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns></returns>
         public async Task<DeviceND> AddDeviceAsyncND(DeviceND device)
         {
-            string deviceId = DeviceSchemaHelper.GetDeviceIDND(device);
+            string deviceId = device.DeviceProperties.DeviceID;
             DeviceND existingDevice = await GetDeviceAsyncND(deviceId);
 
             if (existingDevice != null)

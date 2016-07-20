@@ -201,7 +201,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 {
                     await _virtualDeviceStorage.AddOrUpdateDeviceAsync(new InitialDeviceConfig()
                     {
-                        DeviceId = DeviceSchemaHelper.GetDeviceIDND(device),
+                        DeviceId = device.DeviceProperties.DeviceID,
                         HostName = _configProvider.GetConfigurationSettingValue("iotHub.HostName"),
                         Key = securityKeys.PrimaryKey
                     });
@@ -220,7 +220,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 // This is a lazy attempt to remove the device from the Iot Hub.  If it fails
                 // the device will still remain in the Iot Hub.  A more robust rollback may be needed
                 // in some scenarios.
-                await _iotHubRepository.TryRemoveDeviceAsync(DeviceSchemaHelper.GetDeviceIDND(device));
+                await _iotHubRepository.TryRemoveDeviceAsync(device.DeviceProperties.DeviceID);
                 capturedException.Throw();
             }
 
@@ -1054,7 +1054,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             if (validationErrors.Count > 0)
             {
                 var validationException =
-                    new ValidationException(DeviceSchemaHelper.GetDevicePropertiesND(device) != null ? DeviceSchemaHelper.GetDeviceIDND(device) : null);
+                    new ValidationException(device.DeviceProperties != null ? device.DeviceProperties.DeviceID : null);
 
                 foreach (string error in validationErrors)
                 {
@@ -1068,7 +1068,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private async Task CheckIfDeviceExists(DeviceND device, List<string> validationErrors)
         {
             // check if device exists
-            if (await this.GetDeviceAsyncND(DeviceSchemaHelper.GetDeviceIDND(device)) != null)
+            if (await this.GetDeviceAsyncND(device.DeviceProperties.DeviceID) != null)
             {
                 validationErrors.Add(Strings.ValidationDeviceExists);
             }
@@ -1076,7 +1076,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private bool ValidateDeviceId(DeviceND device, List<string> validationErrors)
         {
-            if (DeviceSchemaHelper.GetDevicePropertiesND(device) == null || string.IsNullOrWhiteSpace(DeviceSchemaHelper.GetDeviceIDND(device)))
+            if (device.DeviceProperties == null || string.IsNullOrWhiteSpace(device.DeviceProperties.DeviceID))
             {
                 validationErrors.Add(Strings.ValidationDeviceIdMissing);
                 return false;

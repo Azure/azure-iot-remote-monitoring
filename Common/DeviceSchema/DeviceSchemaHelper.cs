@@ -42,32 +42,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
-        /// Gets a DeviceProperties instance from a Device.
-        /// </summary>
-        /// <param name="device">
-        /// The Device from which to extract a DeviceProperties instance.
-        /// </param>
-        /// <returns>
-        /// A DeviceProperties instance, extracted from <paramref name="device"/>.
-        /// </returns>
-        public static dynamic GetDevicePropertiesND(DeviceND device)
-        {
-            if (device == null)
-            {
-                throw new ArgumentNullException("device");
-            }
-
-            var props = device.DeviceProperties;
-
-            if (props == null)
-            {
-                throw new DeviceRequiredPropertyNotFoundException("'DeviceProperties' property is missing");
-            }
-
-            return props;
-        }
-
-        /// <summary>
         /// Gets a IoTHubProperties instance from a device.
         /// </summary>
         /// <param name="device"></param>
@@ -106,34 +80,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             }
 
             var props = GetDeviceProperties(device);
-
-            string deviceID = props.DeviceID;
-
-            if (deviceID == null)
-            {
-                throw new DeviceRequiredPropertyNotFoundException("'DeviceID' property is missing");
-            }
-
-            return deviceID;
-        }
-
-        /// <summary>
-        /// Gets a Device instance's Device ID.
-        /// </summary>
-        /// <param name="device">
-        /// The Device instance from which to extract a Device ID.
-        /// </param>
-        /// <returns>
-        /// The Device ID, extracted from <paramref name="device" />.
-        /// </returns>
-        public static string GetDeviceIDND(DeviceND device)
-        {
-            if (device == null)
-            {
-                throw new ArgumentNullException("device");
-            }
-
-            var props = GetDevicePropertiesND(device);
 
             string deviceID = props.DeviceID;
 

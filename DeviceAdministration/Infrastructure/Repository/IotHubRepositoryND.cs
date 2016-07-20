@@ -65,7 +65,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns></returns>
         public async Task<dynamic> AddDeviceAsyncND(DeviceND device, SecurityKeys securityKeys)
         {
-            Azure.Devices.Device iotHubDevice = new Azure.Devices.Device(DeviceSchemaHelper.GetDeviceIDND(device));
+            Azure.Devices.Device iotHubDevice = new Azure.Devices.Device(device.DeviceProperties.DeviceID);
 
             var authentication = new AuthenticationMechanism
             {
