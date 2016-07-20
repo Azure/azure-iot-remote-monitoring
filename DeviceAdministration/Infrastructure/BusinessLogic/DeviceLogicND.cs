@@ -12,6 +12,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configuration
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
@@ -50,6 +51,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return await _deviceRegistryListRepository.GetDeviceList(q);
         }
 
+        public async Task<DeviceListQueryResultND> GetDevicesND(DeviceListQuery q)
+        {
+            return await _deviceRegistryListRepository.GetDeviceListND(q);
+        }
+
         /// <summary>
         /// Retrieves the device with the provided device id from the device registry
         /// </summary>
@@ -58,6 +64,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public async Task<dynamic> GetDeviceAsync(string deviceId)
         {
             return await _deviceRegistryCrudRepository.GetDeviceAsync(deviceId);
+        }
+
+        public async Task<DeviceND> GetDeviceAsyncND(string deviceId)
+        {
+            return await _deviceRegistryCrudRepository.GetDeviceAsyncND(deviceId);
         }
 
         /// <summary>

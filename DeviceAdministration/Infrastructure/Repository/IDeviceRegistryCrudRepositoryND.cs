@@ -32,12 +32,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="deviceId">The device identifier.</param>
         /// <returns></returns>
         Task<dynamic> GetDeviceAsync(string deviceId);
-
-        /// <summary>
-        /// Gets a device asynchronously.
-        /// </summary>
-        /// <param name="deviceId">The device identifier.</param>
-        /// <returns></returns>
         Task<DeviceND> GetDeviceAsyncND(string deviceId);
 
         /// <summary>
