@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 {
@@ -21,7 +22,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public List<Telemetry> Telemetry { get; set; }
         public string Version { get; set; }
         public string ObjectType { get; set; }
+        public string ObjectName { get; set;  }
         public IoTHub IoTHub { get; set; }
+
+        public override string ToString()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.Indented); ;
+        }
     }
 
     public class DeviceProperties
@@ -40,6 +47,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public string InstalledRAM { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
+        public override string ToString()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.Indented); ;
+        }
     }
 
     public class IoTHub
@@ -50,6 +61,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public string ConnectionDeviceGenerationId { get; set; }
         public DateTime EnqueuedTime { get; set; }
         public string StreamId { get; set; }
+        public override string ToString()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.Indented); ;
+        }
     }
 
     public class Telemetry
@@ -57,11 +72,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public string Type { get; set; }
+        public override string ToString()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.Indented); ;
+        }
     }
 
     public class SystemProperties
     {
         public string ICCID { get; set; }
+        public override string ToString()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.Indented); ;
+        }
     }
 
     public class CommandHistoryND
@@ -72,5 +95,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public DateTime UpdatedTime { get; set; }
         public string Result { get; set; }
         public string ErrorMessage { get; set; }
+        public dynamic Parameters { get; set; }
+        public override string ToString()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.Indented); ;
+        }
     }
 }
