@@ -13,6 +13,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Secu
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 
@@ -98,7 +99,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 async () =>
                 {
                     dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
-                    DynamicConverter.ValidateAndConvert<DeviceND>(device);
+                    TypeMapper.Get().map<DeviceND>(device);
 
                     IList<DeviceTelemetryFieldModel> telemetryFields = null;
 
@@ -166,7 +167,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 async () =>
                 {
                     dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
-                    DynamicConverter.ValidateAndConvert<DeviceND>(device);
+                    TypeMapper.Get().map<DeviceND>(device);
 
                     IList<DeviceTelemetryFieldModel> telemetryFields = null;
 
@@ -249,7 +250,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         historyItems.AddRange(data);
 
                         List<dynamic> devices = await LoadAllDevicesAsync();
-                        devices.ForEach(device => DynamicConverter.ValidateAndConvert<DeviceND>(device));
+                        devices.ForEach(device => TypeMapper.Get().map<DeviceND>(device));
 
                         if (devices != null)
                         {

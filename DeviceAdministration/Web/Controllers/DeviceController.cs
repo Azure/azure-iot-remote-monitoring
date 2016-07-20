@@ -11,6 +11,7 @@ using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
@@ -194,7 +195,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             dynamic deviceWithKeys = await AddDeviceAsync(model);
             //validate device
-            DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(deviceWithKeys);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(deviceWithKeys);
             var newDevice = new RegisteredDeviceModel
             {
                 HostName = _iotHubName,
@@ -238,7 +239,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             if (model != null)
             {
                 dynamic device = await _deviceLogic.GetDeviceAsync(model.DeviceId);
-                DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(device);
+                DeviceND d = TypeMapper.Get().map<DeviceND>(device);
                 if (!object.ReferenceEquals(device, null))
                 {
                     _deviceLogic.ApplyDevicePropertyValueModels(
@@ -258,7 +259,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             IEnumerable<DevicePropertyValueModel> propModels;
 
             dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
-            DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(device);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
             if (object.ReferenceEquals(device, null))
             {
                 throw new InvalidOperationException("Unable to load device with deviceId " + deviceId);
@@ -358,7 +359,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 	        device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
                 unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
 
-            DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(device);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
 
             return await this._deviceLogic.AddDeviceAsync(device);
         }
@@ -368,7 +369,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             dynamic existingDevice;
 
             existingDevice = await _deviceLogic.GetDeviceAsync(deviceId);
-            DeviceND d = DynamicConverter.ValidateAndConvert<DeviceND>(existingDevice);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(existingDevice);
 
 
             return !object.ReferenceEquals(existingDevice, null);
