@@ -12,5 +12,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="query">The device query.</param>
         /// <returns></returns>
         Task<DeviceListQueryResult> GetDeviceList(DeviceListQuery query);
+        Task<DeviceListQueryResultND> GetDeviceListND(DeviceListQuery query);
     }
 }

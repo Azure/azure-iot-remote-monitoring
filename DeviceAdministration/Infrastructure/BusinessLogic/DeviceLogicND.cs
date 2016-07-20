@@ -53,14 +53,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<DeviceListQueryResultND> GetDevicesND(DeviceListQuery q)
         {
-            var queryResult = await _deviceRegistryListRepository.GetDeviceList(q);
-            var queryResultND = new DeviceListQueryResultND()
-            {
-                TotalDeviceCount = queryResult.TotalDeviceCount,
-                TotalFilteredCount = queryResult.TotalFilteredCount,
-                Results = TypeMapper.Get().map<List<DeviceND>>(queryResult.Results)
-            };
-            return queryResultND;
+            return await _deviceRegistryListRepository.GetDeviceListND(q);
         }
 
         /// <summary>
@@ -75,9 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<DeviceND> GetDeviceAsyncND(string deviceId)
         {
-            var device = await _deviceRegistryCrudRepository.GetDeviceAsync(deviceId);
-            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
-            return d;
+            return await _deviceRegistryCrudRepository.GetDeviceAsyncND(deviceId);
         }
 
         /// <summary>
