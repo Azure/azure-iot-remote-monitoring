@@ -188,7 +188,7 @@ xdescribe('devices api', () => {
                 checkRequiredProperties(result.data[0]);
                 done();
             });
-        })
+        });
 
         it('should have required attributes for enabled devices', (done) => {
             request.get('', (err, resp, result:Devices) => {
@@ -279,7 +279,7 @@ xdescribe('devices api', () => {
                 checkRequiredProperties(result.data);
                 done();
             });
-        })
+        });
 
         it('should have required attributes for enabled devices', (done) => {
             request.get('/'+enabled_device_id, (err, resp, result:SingleDevice) => {

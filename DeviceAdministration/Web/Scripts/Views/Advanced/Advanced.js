@@ -101,10 +101,10 @@
             }
 
             var registrationModel = {
-                BaseUrl: $("#BaseUrl").val(),
-                LicenceKey: $("#LicenceKey").val(),
-                Username: $("#Username").val(),
-                Password: $("#Password").val()
+                BaseUrl: $.trim($("#BaseUrl").val()),
+                LicenceKey: $.trim($("#LicenceKey").val()),
+                Username: $.trim($("#Username").val()),
+                Password: $.trim($("#Password").val())
             }
 
             $.post('/Advanced/SaveRegistration', { apiModel: registrationModel }, function(response) {

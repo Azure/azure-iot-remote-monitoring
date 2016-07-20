@@ -42,6 +42,28 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
+        /// Gets a IoTHubProperties instance from a device.
+        /// </summary>
+        /// <param name="device"></param>
+        /// <returns></returns>
+        public static dynamic GetIoTHubProperties(dynamic device)
+        {
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
+            var props = device.IoTHub;
+
+            if (props == null)
+            {
+                throw new DeviceRequiredPropertyNotFoundException("'IoTHubProperties' property is missing");
+            }
+
+            return props;
+        }
+
+        /// <summary>
         /// Gets a Device instance's Device ID.
         /// </summary>
         /// <param name="device">
@@ -60,6 +82,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             var props = GetDeviceProperties(device);
 
             string deviceID = props.DeviceID;
+
+            if (deviceID == null)
+            {
+                throw new DeviceRequiredPropertyNotFoundException("'DeviceID' property is missing");
+            }
+
+            return deviceID;
+        }
+
+        /// <summary>
+        /// Get connection device id 
+        /// </summary>
+        /// <param name="device">Device instance from message</param>
+        /// <returns>Connection device id from IoTHub</returns>
+        public static string GetConnectionDeviceId(dynamic device)
+        {
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
+            var props = GetIoTHubProperties(device);
+
+            string deviceID = props.ConnectionDeviceId;
 
             if (deviceID == null)
             {
