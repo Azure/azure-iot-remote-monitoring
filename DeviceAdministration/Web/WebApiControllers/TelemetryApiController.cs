@@ -98,14 +98,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Func<Task<DashboardDevicePaneDataModel>> getTelemetry =
                 async () =>
                 {
-                    dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
-                    DeviceND d2 = TypeMapper.Get().map<DeviceND>(device);
+                    DeviceND device = await _deviceLogic.GetDeviceAsync(deviceId);
 
                     IList<DeviceTelemetryFieldModel> telemetryFields = null;
 
                     try
                     {
-                        telemetryFields = _deviceLogic.ExtractTelemetryND(d2);
+                        telemetryFields = _deviceLogic.ExtractTelemetryND(device);
                         result.DeviceTelemetryFields = telemetryFields != null ?
                         telemetryFields.ToArray() : null;
                     }
@@ -165,14 +164,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Func<Task<DeviceTelemetryModel[]>> getTelemetry =
                 async () =>
                 {
-                    dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
-                    DeviceND d2 = TypeMapper.Get().map<DeviceND>(device);
+                    DeviceND device = await _deviceLogic.GetDeviceAsync(deviceId);
 
                     IList<DeviceTelemetryFieldModel> telemetryFields = null;
 
                     try
                     {
-                        telemetryFields = _deviceLogic.ExtractTelemetryND(d2);
+                        telemetryFields = _deviceLogic.ExtractTelemetryND(device);
                     }
                     catch
                     {
@@ -248,7 +246,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     {
                         historyItems.AddRange(data);
 
-                        List<dynamic> devices = await LoadAllDevicesAsync();
+                        List<DeviceND> devices = await LoadAllDevicesAsyncND();
                         List<DeviceND> resultND = TypeMapper.Get().map<List<DeviceND>>(devices);
 
                         if (devices != null)
@@ -313,33 +311,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return await GetServiceResponseAsync<AlertHistoryResultsModel>(loadHistoryItems, false);
         }
 
-        private async Task<List<dynamic>> LoadAllDevicesAsync()
+        
+
+        private async Task<List<DeviceND>> LoadAllDevicesAsyncND()
         {
             var query = new DeviceListQuery()
-                    {
+            {
                 Skip = 0,
                 Take = MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD,
                 SortColumn = "DeviceID"
-                    };
+            };
 
             string deviceId;
-            var devices = new List<dynamic>();
-            DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
+            var devices = new List<DeviceND>();
+            DeviceListQueryResultND queryResult = await  _deviceLogic.GetDevicesND(query);
 
 
-            if ((queryResult != null) &&  (queryResult.Results != null))
+            if ((queryResult != null) && (queryResult.Results != null))
             {
-                string enabledState = "";
-                dynamic props = null;
-                foreach (dynamic devInfo in queryResult.Results)
+                bool? enabledState;
+                DeviceProperties props;
+                foreach (var devInfo in queryResult.Results)
                 {
                     try
                     {
-                        deviceId = DeviceSchemaHelper.GetDeviceID(devInfo);
-                        props = DeviceSchemaHelper.GetDeviceProperties(devInfo);
+                        deviceId = devInfo.DeviceProperties.DeviceID;
+                        props = devInfo.DeviceProperties;
                         enabledState = props.HubEnabledState;
                     }
-                    catch (DeviceRequiredPropertyNotFoundException)
+                    catch (NullReferenceException)
                     {
                         continue;
                     }
@@ -368,8 +368,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     SortColumn = "DeviceID"
                 };
 
-                DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
-                DeviceListLocationsModel dataModel = _deviceLogic.ExtractLocationsData(queryResult.Results);
+                DeviceListQueryResultND queryResult = await _deviceLogic.GetDevicesND(query);
+                DeviceListLocationsModel dataModel = _deviceLogic.ExtractLocationsDataND(queryResult.Results);
  
                 return dataModel;
             }, false);
