@@ -298,6 +298,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         /// <summary>
+        /// Updates the device in the device registry with the exact device provided in this call.
+        /// NOTE: The device provided here should represent the entire device that will be 
+        /// serialized into the device registry.
+        /// </summary>
+        /// <param name="device">Device to update in the device registry</param>
+        /// <returns>Device that was saved into the device registry</returns>
+        public async Task<DeviceND> UpdateDeviceAsyncND(DeviceND device)
+        {
+            return await _deviceRegistryCrudRepository.UpdateDeviceAsyncND(device);
+        }
+
+        /// <summary>
         /// Used by the event processor to update the initial data for the device
         /// without deleting the CommandHistory and the original created date
         /// This assumes the device controls and has full knowledge of its metadata except for:

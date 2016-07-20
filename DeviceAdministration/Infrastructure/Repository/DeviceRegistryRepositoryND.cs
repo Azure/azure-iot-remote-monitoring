@@ -228,6 +228,66 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return device;
         }
 
+        /// <summary>
+        /// Updates an existing device in the DocumentDB
+        /// Throws a DeviceNotRegisteredException is the device does not already exist in the DocumentDB
+        /// </summary>
+        /// <param name="device"></param>
+        /// <returns></returns>
+        public async Task<DeviceND> UpdateDeviceAsyncND(DeviceND device)
+        {
+            if (device.id == null)
+            {
+                throw new DeviceRequiredPropertyNotFoundException("'DeviceID' property is missing");
+            }
+
+            string deviceId = device.id;
+
+            DeviceND existingDevice = await GetDeviceAsyncND(deviceId);
+
+            if (existingDevice == null)
+            {
+                throw new DeviceNotRegisteredException(deviceId);
+            }
+
+            string incomingRid = device._rid ?? "";
+
+            if (string.IsNullOrWhiteSpace(incomingRid))
+            {
+                // copy the existing _rid onto the incoming data if needed
+                var existingRid = existingDevice._rid ?? "";
+                if (string.IsNullOrWhiteSpace(existingRid))
+                {
+                    throw new InvalidOperationException("Could not find _rid property on existing device");
+                }
+                device._rid = existingRid;
+            }
+
+            string incomingId = deviceId ?? "";
+
+            if (string.IsNullOrWhiteSpace(incomingId))
+            {
+                // copy the existing id onto the incoming data if needed
+                var existingId = existingDevice.id ?? "";
+                if (string.IsNullOrWhiteSpace(existingId))
+                {
+                    throw new InvalidOperationException("Could not find id property on existing device");
+                }
+                device.id = existingId;
+            }
+
+            if (device.DeviceProperties == null)
+            {
+                throw new DeviceRequiredPropertyNotFoundException("'DeviceProperties' property is missing");
+            }
+​
+            device.DeviceProperties.UpdatedTime = DateTime.UtcNow;
+
+            device = await _docDbRestUtil.UpdateDocumentAsyncND(device);
+
+            return device;
+        }
+
         public async Task<dynamic> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
         {
             dynamic existingDevice = await GetDeviceAsync(deviceId);
