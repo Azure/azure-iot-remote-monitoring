@@ -110,11 +110,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return await GetServiceResponseAsync(async () =>
             {
                 var queryResult = (await _deviceLogic.GetDevices(q)).Results;
+                List<DeviceND> queryResultND = new List<DeviceND>();
                 foreach (var res in queryResult)
                 {
                     DeviceND d = TypeMapper.Get().map<DeviceND>(res);
+                    queryResultND.Add(d);
                 }
-                return queryResult;
+                return queryResultND;
             });
         }
 
