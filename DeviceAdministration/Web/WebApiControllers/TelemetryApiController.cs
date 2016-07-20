@@ -249,8 +249,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         historyItems.AddRange(data);
 
                         List<dynamic> devices = await LoadAllDevicesAsync();
-                        List<DeviceND> resultND = new List<DeviceND>();
-
                         List<DeviceND> resultND = TypeMapper.Get().map<List<DeviceND>>(devices);
 
                         if (devices != null)
