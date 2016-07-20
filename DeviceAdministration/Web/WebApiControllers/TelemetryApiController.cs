@@ -106,14 +106,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     {
                         telemetryFields = _deviceLogic.ExtractTelemetry(device);
                         result.DeviceTelemetryFields = telemetryFields != null ?
-                            telemetryFields.ToArray() :
-                            null;
+                        telemetryFields.ToArray() :
+                        null;
                     }
                     catch
                     {
                         HttpResponseMessage message = new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);
                         message.Content = new StringContent(
-                            string.Format(Strings.InvalidDeviceTelemetryFormat, deviceId));
+                        string.Format(Strings.InvalidDeviceTelemetryFormat, deviceId));
                         throw new HttpResponseException(message);
                     }
 

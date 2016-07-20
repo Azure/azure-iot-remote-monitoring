@@ -1,7 +1,7 @@
 import request = require('request');
 import uuid = require('node-uuid');
 
-describe('device rules api', () => {
+xdescribe('device rules api', () => {
     //create a new device for use in tests
     var req: request.RequestAPI<request.Request, request.CoreOptions, Object>;
     beforeAll(function( done) {

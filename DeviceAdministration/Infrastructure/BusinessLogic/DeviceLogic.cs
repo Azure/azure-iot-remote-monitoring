@@ -69,6 +69,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public async Task<DeviceWithKeys> AddDeviceAsync(dynamic device)
         {
             // Validation logic throws an exception if it finds a validation error
+            Device d1 = DynamicConverter.ValidateAndConvert<DeviceND>(device);
             await ValidateDevice(device);
 
             SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
@@ -87,7 +88,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             dynamic registryRepositoryDevice = null;
             ExceptionDispatchInfo capturedException = null;
-
+            Device d1 = DynamicConverter.ValidateAndConvert<DeviceND>(device);
             // if an exception happens at this point pass it up the stack to handle it
             // (Making this call first then the call against the Registry removes potential issues
             // with conflicting rollbacks if the operation happens to still be in progress.)

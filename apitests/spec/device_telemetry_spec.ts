@@ -58,7 +58,7 @@ describe('devices api - ', () => {
             });
         });
 
-        it('3. Get Device Telemetry Summary', (done) => {
+        xit('3. Get Device Telemetry Summary', (done) => {
             var options: request.CoreOptions = {
                 qs: {
                     deviceId: "SampleDevice001_648"
@@ -76,7 +76,7 @@ describe('devices api - ', () => {
             });
         });
 
-        it('4. Get Device Telemetry', (done) => {
+        xit('4. Get Device Telemetry', (done) => {
             var options: request.CoreOptions = {
                 qs: {
                     deviceId: "SampleDevice001_648",
@@ -96,7 +96,7 @@ describe('devices api - ', () => {
             });
         });
 
-        it('5. Get Dashboard Device Pane Data', (done) => {
+        xit('5. Get Dashboard Device Pane Data', (done) => {
             var options: request.CoreOptions = {
                 qs: {
                     deviceId: "SampleDevice001_648"

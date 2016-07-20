@@ -151,7 +151,7 @@ var checkIoTHubDetailsEnabledDevice = function(device:DeviceInfo) {
     expect(device.IoTHub.StreamId).toBeDefined();
 }
 
-describe('devices api', () => {
+xdescribe('devices api', () => {
     var request: req.RequestAPI<req.Request, req.CoreOptions, Object>;
 
     beforeAll(function() {
