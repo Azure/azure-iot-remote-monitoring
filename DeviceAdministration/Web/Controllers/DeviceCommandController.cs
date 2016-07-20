@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             bool deviceIsEnabled = DeviceSchemaHelper.GetHubEnabledState(device) == true;
 
             var commandHistory = new List<dynamic>(CommandHistorySchemaHelper.GetCommandHistory(device));
-            CommandHistoryND ch = TypeMapper.Get().map<CommandHistoryND>(commandHistory);
+            List<CommandHistoryND> ch = TypeMapper.Get().map<List<CommandHistoryND>>(commandHistory);
 
             var deviceCommandsModel = new DeviceCommandModel
             {
@@ -173,7 +173,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private bool IsCommandPublic(dynamic command)
         {
-            Command c = TypeMapper.Get().map<CommandHistoryND>(command);
+            Command c = TypeMapper.Get().map<Command>(command);
 
             if (command == null)
             {
