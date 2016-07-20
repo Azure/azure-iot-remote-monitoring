@@ -12,6 +12,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configuration
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
@@ -50,6 +51,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return await _deviceRegistryListRepository.GetDeviceList(q);
         }
 
+        public async Task<DeviceListQueryResultND> GetDevicesND(DeviceListQuery q)
+        {
+            var queryResult = await _deviceRegistryListRepository.GetDeviceList(q);
+            var queryResultND = new DeviceListQueryResultND()
+            {
+                TotalDeviceCount = queryResult.TotalDeviceCount,
+                TotalFilteredCount = queryResult.TotalFilteredCount,
+                Results = TypeMapper.Get().map<List<DeviceND>>(queryResult.Results)
+            };
+            return queryResultND;
+        }
+
         /// <summary>
         /// Retrieves the device with the provided device id from the device registry
         /// </summary>
@@ -58,6 +71,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public async Task<dynamic> GetDeviceAsync(string deviceId)
         {
             return await _deviceRegistryCrudRepository.GetDeviceAsync(deviceId);
+        }
+
+        public async Task<DeviceND> GetDeviceAsyncND(string deviceId)
+        {
+            var device = await _deviceRegistryCrudRepository.GetDeviceAsync(deviceId);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
+            return d;
         }
 
         /// <summary>
