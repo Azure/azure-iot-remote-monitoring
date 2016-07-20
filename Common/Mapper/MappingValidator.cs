@@ -143,8 +143,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper
                 // Special case : Parameters in CommandHistoryND is dynamic
                 else if (dynamicObject is IDynamicMetaObjectProvider && typedObject is IDynamicMetaObjectProvider)
                 {
-                    //TODO: compare two dynamic objects
-                    return true;
+                    if (dynamicObject.GetType().GetProperty("Count").GetValue(dynamicObject, null) != 0)
+                    {
+                        //TODO: compare two dynamic objects
+                        string dstr = dynamicObject.ToString();
+                        string tstr = typedObject.ToString();
+                        return (dstr == tstr);
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
                 // compare primitive typed object
                 else
