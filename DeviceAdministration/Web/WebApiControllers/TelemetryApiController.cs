@@ -107,8 +107,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     {
                         telemetryFields = _deviceLogic.ExtractTelemetryND(d2);
                         result.DeviceTelemetryFields = telemetryFields != null ?
-                        telemetryFields.ToArray() :
-                        null;
+                        telemetryFields.ToArray() : null;
                     }
                     catch
                     {
