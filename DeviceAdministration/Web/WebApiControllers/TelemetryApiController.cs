@@ -34,7 +34,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private static readonly TimeSpan CriticalAlertMaxDelta = TimeSpan.FromMinutes(11.0);
 
         private readonly IAlertsLogic _alertsLogic;
-        private readonly IDeviceLogic _deviceLogic;
+        private readonly IDeviceLogicND _deviceLogic;
         private readonly IDeviceTelemetryLogic _deviceTelemetryLogic;
         private readonly IConfigurationProvider _configProvider;
 
@@ -54,7 +54,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public TelemetryApiController(
             IDeviceTelemetryLogic deviceTelemetryLogic,
             IAlertsLogic alertsLogic,
-            IDeviceLogic deviceLogic,
+            IDeviceLogicND deviceLogic,
             IConfigurationProvider configProvider)
         {
             if (deviceTelemetryLogic == null)
@@ -99,22 +99,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 async () =>
                 {
                     dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
-                    TypeMapper.Get().map<DeviceND>(device);
+                    DeviceND d2 = TypeMapper.Get().map<DeviceND>(device);
 
                     IList<DeviceTelemetryFieldModel> telemetryFields = null;
 
                     try
                     {
-                        telemetryFields = _deviceLogic.ExtractTelemetry(device);
+                        telemetryFields = _deviceLogic.ExtractTelemetryND(d2);
                         result.DeviceTelemetryFields = telemetryFields != null ?
-                            telemetryFields.ToArray() :
-                            null;
+                        telemetryFields.ToArray() : null;
                     }
                     catch
                     {
                         HttpResponseMessage message = new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);
                         message.Content = new StringContent(
-                            string.Format(Strings.InvalidDeviceTelemetryFormat, deviceId));
+                        string.Format(Strings.InvalidDeviceTelemetryFormat, deviceId));
                         throw new HttpResponseException(message);
                     }
 
@@ -167,13 +166,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 async () =>
                 {
                     dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
-                    TypeMapper.Get().map<DeviceND>(device);
+                    DeviceND d2 = TypeMapper.Get().map<DeviceND>(device);
 
                     IList<DeviceTelemetryFieldModel> telemetryFields = null;
 
                     try
                     {
-                        telemetryFields = _deviceLogic.ExtractTelemetry(device);
+                        telemetryFields = _deviceLogic.ExtractTelemetryND(d2);
                     }
                     catch
                     {
@@ -250,11 +249,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         historyItems.AddRange(data);
 
                         List<dynamic> devices = await LoadAllDevicesAsync();
-                        devices.ForEach(device => TypeMapper.Get().map<DeviceND>(device));
+                        List<DeviceND> resultND = TypeMapper.Get().map<List<DeviceND>>(devices);
 
                         if (devices != null)
                         {
-                            DeviceListLocationsModel locationsModel = _deviceLogic.ExtractLocationsData(devices);
+                            DeviceListLocationsModel locationsModel = _deviceLogic.ExtractLocationsDataND(resultND);
                             if (locationsModel != null)
                             {
                                 resultsModel.MaxLatitude = locationsModel.MaximumLatitude;
@@ -326,6 +325,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             string deviceId;
             var devices = new List<dynamic>();
             DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
+
+
             if ((queryResult != null) &&  (queryResult.Results != null))
             {
                 string enabledState = "";
