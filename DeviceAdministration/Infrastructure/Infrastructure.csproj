@@ -205,6 +205,8 @@
     <Compile Include="Repository\IDeviceRegistryListRepositoryND.cs" />
     <Compile Include="Repository\IDeviceRulesRepository.cs" />
     <Compile Include="Repository\IDeviceTelemetryRepository.cs" />
+    <Compile Include="Repository\IIotHubRepositoryND.cs" />
+    <Compile Include="Repository\IotHubRepositoryND.cs" />
     <Compile Include="Repository\IotHubRepository.cs" />
     <Compile Include="Repository\FilterHelper.cs" />
     <Compile Include="Repository\IUserSettingsRepository.cs" />
