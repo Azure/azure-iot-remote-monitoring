@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper
         {
             if (device.IsSimulatedDevice != null)
             {
-                if (device.IsSimulatedDevice == false || device.IsSimulatedDevice == false)
+                if (device.IsSimulatedDevice == false || device.IsSimulatedDevice == true)
                     return;
                 else if (device.IsSimulatedDevice == 1)
                 {
