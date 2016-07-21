@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using AutoMapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
@@ -23,16 +24,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper
         {
             if (device.IsSimulatedDevice != null)
             {
-                if (device.IsSimulatedDevice == false || device.IsSimulatedDevice == true)
-                    return;
-                else if (device.IsSimulatedDevice == 1)
-                {
+                if (device.IsSimulatedDevice.ToString() == "1")
                     device.IsSimulatedDevice = true;
-                }
-                else
-                {
+                else if (device.IsSimulatedDevice.ToString() == "0")
                     device.IsSimulatedDevice = false;
-                }
             }
         }
 
