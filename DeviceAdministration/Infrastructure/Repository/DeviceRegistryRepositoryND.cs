@@ -236,12 +236,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns></returns>
         public async Task<DeviceND> UpdateDeviceAsyncND(DeviceND device)
         {
-            if (device.id == null)
+            if (device.DeviceProperties == null)
+            {
+                throw new DeviceRequiredPropertyNotFoundException("'DeviceProperties' property is missing");
+            }
+
+            if (device.DeviceProperties.DeviceID == null)
             {
                 throw new DeviceRequiredPropertyNotFoundException("'DeviceID' property is missing");
             }
 
-            string deviceId = device.id;
+            string deviceId = device.DeviceProperties.DeviceID;
 
             DeviceND existingDevice = await GetDeviceAsyncND(deviceId);
 
@@ -268,17 +273,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             if (string.IsNullOrWhiteSpace(incomingId))
             {
                 // copy the existing id onto the incoming data if needed
-                var existingId = existingDevice.id ?? "";
+                if (existingDevice.DeviceProperties == null)
+                {
+                    throw new DeviceRequiredPropertyNotFoundException("'DeviceProperties' property is missing");
+                }
+
+                var existingId = existingDevice.DeviceProperties.DeviceID ?? "";
                 if (string.IsNullOrWhiteSpace(existingId))
                 {
                     throw new InvalidOperationException("Could not find id property on existing device");
                 }
-                device.id = existingId;
-            }
-
-            if (device.DeviceProperties == null)
-            {
-                throw new DeviceRequiredPropertyNotFoundException("'DeviceProperties' property is missing");
+                device.DeviceProperties.DeviceID = existingId;
             }
 
             device.DeviceProperties.UpdatedTime = DateTime.UtcNow;
