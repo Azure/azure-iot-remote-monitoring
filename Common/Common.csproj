@@ -148,6 +148,7 @@
     <Compile Include="DeviceSchema\CommandHistorySchemaHelper.cs" />
     <Compile Include="DeviceSchema\CommandSchemaHelper.cs" />
     <Compile Include="DeviceSchema\DeviceSchemaHelper.cs" />
+    <Compile Include="DeviceSchema\DeviceSchemaHelperND.cs" />
     <Compile Include="DeviceSchema\EventSchemaHelper.cs" />
     <Compile Include="DeviceSchema\WireCommandSchemaHelper.cs" />
     <Compile Include="Exceptions\DeviceRequiredPropertyNotFoundException.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Mapper\MappingValidator.cs" />
     <Compile Include="Models\DeviceND.cs" />
     <Compile Include="Schema\SchemaHelper.cs" />
+    <Compile Include="Schema\SchemaHelperND.cs" />
     <Compile Include="Utility\DocDbQueryResult.cs" />
     <Compile Include="Helpers\DynamicValuesHelper.cs" />
     <Compile Include="Helpers\FunctionalHelper.cs" />
