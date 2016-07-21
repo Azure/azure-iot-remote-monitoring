@@ -178,6 +178,7 @@
     <Compile Include="Models\DeviceTelemetryFieldModel.cs" />
     <Compile Include="Models\DeviceTelemetrySummaryModel.cs" />
     <Compile Include="Models\DeviceType.cs" />
+    <Compile Include="Models\DeviceWithKeysND.cs" />
     <Compile Include="Models\DeviceWithKeys.cs" />
     <Compile Include="Models\FilterInfo.cs" />
     <Compile Include="Models\FilterType.cs" />

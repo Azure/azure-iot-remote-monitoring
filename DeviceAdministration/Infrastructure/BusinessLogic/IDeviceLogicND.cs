@@ -15,7 +15,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<DeviceListQueryResultND> GetDevicesND(DeviceListQuery q);
         Task<dynamic> GetDeviceAsync(string deviceId);
         Task<DeviceND> GetDeviceAsyncND(string deviceId);
-        Task<DeviceWithKeys> AddDeviceAsync(dynamic device);
+        Task<DeviceWithKeysND> AddDeviceAsync(DeviceND device);
         IEnumerable<DevicePropertyValueModel> ExtractDevicePropertyValuesModels(dynamic device);
         Task RemoveDeviceAsync(string deviceId);
         Task<dynamic> UpdateDeviceAsync(dynamic device);

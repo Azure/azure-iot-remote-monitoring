@@ -311,46 +311,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return await GetServiceResponseAsync<AlertHistoryResultsModel>(loadHistoryItems, false);
         }
 
-        private async Task<List<dynamic>> LoadAllDevicesAsync()
-        {
-            var query = new DeviceListQuery()
-                    {
-                Skip = 0,
-                Take = MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD,
-                SortColumn = "DeviceID"
-                    };
-
-            string deviceId;
-            var devices = new List<dynamic>();
-            DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
-
-
-            if ((queryResult != null) &&  (queryResult.Results != null))
-            {
-                string enabledState = "";
-                dynamic props = null;
-                foreach (dynamic devInfo in queryResult.Results)
-                {
-                    try
-                    {
-                        deviceId = devInfo.DeviceProperties.DeviceID;
-                        props = devInfo.DeviceProperties;
-                        enabledState = props.HubEnabledState;
-                    }
-                    catch (DeviceRequiredPropertyNotFoundException)
-                    {
-                        continue;
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(deviceId))
-                    {
-                        devices.Add(devInfo);
-                    }
-                }
-            }
-
-            return devices;
-        }
+        
 
         private async Task<List<DeviceND>> LoadAllDevicesAsyncND()
         {
@@ -378,7 +339,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         props = devInfo.DeviceProperties;
                         enabledState = props.HubEnabledState;
                     }
-                    catch (DeviceRequiredPropertyNotFoundException)
+                    catch (NullReferenceException)
                     {
                         continue;
                     }
