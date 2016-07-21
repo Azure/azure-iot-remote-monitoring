@@ -41,5 +41,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="isEnabled">if set to <c>true</c> [is enabled].</param>
         /// <returns></returns>
         Task<dynamic> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled);
+        Task<DeviceND> UpdateDeviceEnabledStatusAsyncND(string deviceId, bool isEnabled);
     }
 }

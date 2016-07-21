@@ -334,6 +334,38 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return registryRepositoryDevice;
         }
 
+        public async Task<dynamic> UpdateDeviceEnabledStatusAsyncND(string deviceId, bool isEnabled)
+        {
+            dynamic registryRepositoryDevice = null;
+            ExceptionDispatchInfo capturedException = null;
+
+            // if an exception happens at this point pass it up the stack to handle it
+            await _iotHubRepository.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
+
+            try
+            {
+                registryRepositoryDevice =
+                    await _deviceRegistryCrudRepository.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
+            }
+            catch (Exception ex)
+            {
+                // grab the exception so we can attempt an async removal of the device from the IotHub
+                capturedException = ExceptionDispatchInfo.Capture(ex);
+            }
+
+            // Since the rollback code runs async and async code cannot run within the catch block it is run here
+            if (capturedException != null)
+            {
+                // This is a lazy attempt to revert the enabled status of the device in the IotHub. 
+                // If it fails the device status will still remain the same in the IotHub.  
+                // A more robust rollback may be needed in some scenarios.
+                await _iotHubRepository.UpdateDeviceEnabledStatusAsync(deviceId, !isEnabled);
+                capturedException.Throw();
+            }
+
+            return registryRepositoryDevice;
+        }
+
         /// <summary>
         /// Send a command to a device based on the provided device id
         /// </summary>
