@@ -21,13 +21,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper
 
         private static void FixIsSimulatedDevice(dynamic device)
         {
-            if (device.IsSimulatedDevice != null && device.IsSimulatedDevice == 1)
+            if (device.IsSimulatedDevice != null)
             {
-                device.IsSimulatedDevice = true;
-            }
-            else if (device.IsSimulatedDevice != null && device.IsSimulatedDevice == 0)
-            {
-                device.IsSimulatedDevice = false;
+                if (device.IsSimulatedDevice == false || device.IsSimulatedDevice == false)
+                    return;
+                else if (device.IsSimulatedDevice == 1)
+                {
+                    device.IsSimulatedDevice = true;
+                }
+                else
+                {
+                    device.IsSimulatedDevice = false;
+                }
             }
         }
 

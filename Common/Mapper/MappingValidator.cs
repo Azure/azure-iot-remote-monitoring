@@ -158,6 +158,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper
                 // compare primitive typed object
                 else
                 {
+                    if(dynamicObject != typedObject)
+                        Debug.WriteLine("3. Property " + dynamicObject + " is not equal to " + typedObject);
                     return (dynamicObject == typedObject);
                 }
             }
