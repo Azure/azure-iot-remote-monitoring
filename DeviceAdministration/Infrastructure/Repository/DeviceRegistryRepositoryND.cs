@@ -24,9 +24,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         readonly string _databaseId;
         readonly string _documentCollectionName;
 
-        IDocDbRestUtility _docDbRestUtil;
+        IDocDbRestUtilityND _docDbRestUtil;
 
-        public DeviceRegistryRepositoryND(IConfigurationProvider configProvider, IDocDbRestUtility docDbRestUtil)
+        public DeviceRegistryRepositoryND(IConfigurationProvider configProvider, IDocDbRestUtilityND docDbRestUtil)
         {
             if (configProvider == null)
             {
