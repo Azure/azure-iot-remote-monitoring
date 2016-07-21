@@ -347,6 +347,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return existingDevice;
         }
 
+        public async Task<DeviceND> UpdateDeviceEnabledStatusAsyncND(string deviceId, bool isEnabled)
+        {
+            DeviceND existingDevice = await GetDeviceAsyncND(deviceId);
+
+            if (existingDevice == null)
+            {
+                throw new DeviceNotRegisteredException(deviceId);
+            }
+
+            dynamic deviceProps = DeviceSchemaHelper.GetDeviceProperties(existingDevice);
+            deviceProps.HubEnabledState = isEnabled;
+            DeviceSchemaHelper.UpdateUpdatedTime(existingDevice);
+
+            JObject device = TypeMapper.Get().map<JObject>(existingDevice);
+            dynamic updatedDevice = await _docDbRestUtil.UpdateDocumentAsync(device);
+            return TypeMapper.Get().map<DeviceND>(updatedDevice);
+        }
+
         /// <summary>
         /// Searches the DeviceProperties of all devices in the DocumentDB, sorts them and pages based on the provided values
         /// </summary>
