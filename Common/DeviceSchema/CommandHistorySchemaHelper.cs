@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Newtonsoft.Json.Linq;
 
@@ -21,13 +22,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         public const string RESULT_SUCCESS = "Success";
         public const string RESULT_ERROR = "Error";
 
-        public static dynamic BuildNewCommandHistoryItem(string command)
+        public static CommandHistoryND BuildNewCommandHistoryItem(string command)
         {
-            JObject result = new JObject();
+            CommandHistoryND result = new CommandHistoryND();
 
-            result.Add(DeviceCommandConstants.NAME, command);
-            result.Add(DeviceCommandConstants.MESSAGE_ID, Guid.NewGuid());
-            result.Add(DeviceCommandConstants.CREATED_TIME, DateTime.UtcNow);
+            result.Name = command;
+            result.MessageId = Guid.NewGuid().ToString();
+            result.CreatedTime = DateTime.UtcNow;
 
             return result;
         }
@@ -39,7 +40,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="command"></param>
         /// <param name="parameters"></param>
-        public static void AddParameterCollectionToCommandHistoryItem(dynamic command, dynamic parameters)
+        public static void AddParameterCollectionToCommandHistoryItem(CommandHistoryND command, dynamic parameters)
         {
             if (parameters == null)
             {
@@ -54,7 +55,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
                 {
                     newParam.Add(key, new JValue(((Dictionary<string, object>)parameters)[key]));
                 }
-                command.Add(DeviceCommandConstants.PARAMETERS, newParam);
+                command.Parameters = newParam;
             }
             else if (parameters.GetType() == typeof(JArray))
             {

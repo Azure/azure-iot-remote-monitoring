@@ -413,7 +413,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns></returns>
         public async Task SendCommandAsync(string deviceId, string commandName, dynamic parameters)
         {
-            dynamic device = await GetDeviceAsync(deviceId);
+            DeviceND device = await GetDeviceAsyncND(deviceId);
 
             if (device == null)
             {
@@ -430,7 +430,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="commandName">Name of the command to send</param>
         /// <param name="parameters">Parameters to send with the command</param>
         /// <returns></returns>
-        private async Task<dynamic> SendCommandAsyncWithDevice(dynamic device, string commandName, dynamic parameters)
+        private async Task<dynamic> SendCommandAsyncWithDevice(DeviceND device, string commandName, dynamic parameters)
         {
             string deviceId;
 
@@ -441,19 +441,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             bool canDevicePerformCommand = CommandSchemaHelper.CanDevicePerformCommand(device, commandName);
 
-            deviceId = DeviceSchemaHelper.GetDeviceID(device);
+            deviceId = device.DeviceProperties.DeviceID;
 
             if (!canDevicePerformCommand)
             {
                 throw new UnsupportedCommandException(deviceId, commandName);
             }
 
-            dynamic command = CommandHistorySchemaHelper.BuildNewCommandHistoryItem(commandName);
+            CommandHistoryND command = CommandHistorySchemaHelper.BuildNewCommandHistoryItem(commandName);
             CommandHistorySchemaHelper.AddParameterCollectionToCommandHistoryItem(command, parameters);
 
-            CommandHistorySchemaHelper.AddCommandToHistory(device, command);
+            device.CommandHistory.Add(command);
 
-            await _iotHubRepository.SendCommand(deviceId, command);
+            await _iotHubRepository.SendCommandND(deviceId, command);
             await _deviceRegistryCrudRepository.UpdateDeviceAsync(device);
 
             return command;
