@@ -460,8 +460,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<DeviceND> UpdateDeviceEnabledStatusAsyncND(string deviceId, bool isEnabled)
         {
-            DeviceND registryRepositoryDevice = null;
-            dynamic repositoryDevice = null;
+           
+            DeviceND repositoryDevice = null;
             ExceptionDispatchInfo capturedException = null;
 
             // if an exception happens at this point pass it up the stack to handle it
@@ -469,8 +469,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             try
             {
-                repositoryDevice = await _deviceRegistryCrudRepository.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
-                registryRepositoryDevice = TypeMapper.Get().map<DeviceND>(repositoryDevice);
+                repositoryDevice = await _deviceRegistryCrudRepository.UpdateDeviceEnabledStatusAsyncND(deviceId, isEnabled);
             }
             catch (Exception ex)
             {
@@ -488,7 +487,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 capturedException.Throw();
             }
 
-            return registryRepositoryDevice;
+            return repositoryDevice;
         }
 
 
