@@ -7,14 +7,17 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Schema;
 using Newtonsoft.Json.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using IConfigurationProvider = Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations.IConfigurationProvider;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 {
-    public class DocDbRestUtility : IDocDbRestUtility
+    public class DocDbRestUtilityND : IDocDbRestUtilityND
     {
         //DocDB Rest documentation: https://msdn.microsoft.com/en-us/library/azure/dn781481.aspx
 
@@ -45,7 +48,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         private const string GET_VERB = "GET";
         private const string DELETE_VERB = "DELETE";
 
-        public DocDbRestUtility(string docDbEndpoint,
+        public DocDbRestUtilityND(string docDbEndpoint,
             string docDbKey, string dbName, string collectionName)
         {
             _docDbEndpoint = docDbEndpoint;
@@ -54,7 +57,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             _collectionName = collectionName;
         }
 
-        public DocDbRestUtility(IConfigurationProvider configProvider)
+        public DocDbRestUtilityND(IConfigurationProvider configProvider)
             : this(configProvider.GetConfigurationSettingValue("docdb.EndpointUrl"),
                 configProvider.GetConfigurationSettingValue("docdb.PrimaryAuthorizationKey"),
                 configProvider.GetConfigurationSettingValue("docdb.DatabaseId"),
@@ -265,6 +268,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceType.Document, _collectionId, document.ToString());
 
             return JObject.Parse(response);
+        }
+
+        public async Task<DeviceND> SaveNewDocumentAsyncND(DeviceND document)
+        {
+            if (document == null)
+            {
+                throw new ArgumentNullException("document");
+            }
+
+            string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
+            if (document.id == null)
+            {
+                document.id = Guid.NewGuid().ToString();
+            }
+
+            string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceType.Document, _collectionId, document.ToString());
+
+            var dynamicDevice = JObject.Parse(response);
+            DeviceND device = TypeMapper.Get().map<DeviceND>(dynamicDevice);
+            return device;
         }
 
         /// <summary>

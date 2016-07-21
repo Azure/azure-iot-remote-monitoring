@@ -24,9 +24,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         readonly string _databaseId;
         readonly string _documentCollectionName;
 
-        IDocDbRestUtility _docDbRestUtil;
+        IDocDbRestUtilityND _docDbRestUtil;
 
-        public DeviceRegistryRepositoryND(IConfigurationProvider configProvider, IDocDbRestUtility docDbRestUtil)
+        public DeviceRegistryRepositoryND(IConfigurationProvider configProvider, IDocDbRestUtilityND docDbRestUtil)
         {
             if (configProvider == null)
             {
@@ -141,6 +141,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             device = await _docDbRestUtil.SaveNewDocumentAsync(device);
+
+            return device;
+        }
+
+        /// <summary>
+        /// Adds a device to the DocumentDB.
+        /// Throws a DeviceAlreadyRegisteredException if a device already exists in the database with the provided deviceId
+        /// </summary>
+        /// <param name="device"></param>
+        /// <returns></returns>
+        public async Task<DeviceND> AddDeviceAsyncND(DeviceND device)
+        {
+            string deviceId = device.DeviceProperties.DeviceID;
+            DeviceND existingDevice = await GetDeviceAsyncND(deviceId);
+
+            if (existingDevice != null)
+            {
+                throw new DeviceAlreadyRegisteredException(deviceId);
+            }
+
+            device = await _docDbRestUtil.SaveNewDocumentAsyncND(device);
 
             return device;
         }

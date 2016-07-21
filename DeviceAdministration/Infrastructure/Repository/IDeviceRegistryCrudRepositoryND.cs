@@ -13,6 +13,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<dynamic> AddDeviceAsync(dynamic device);
 
         /// <summary>
+        /// Adds a device asynchronously.
+        /// </summary>
+        /// <param name="device">The device.</param>
+        /// <returns></returns>
+        Task<DeviceND> AddDeviceAsyncND(DeviceND device);
+
+        /// <summary>
         /// Removes a device asynchronously.
         /// </summary>
         /// <param name="deviceId">The device identifier.</param>
