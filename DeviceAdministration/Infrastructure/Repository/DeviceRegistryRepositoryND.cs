@@ -360,8 +360,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             deviceProps.HubEnabledState = isEnabled;
             DeviceSchemaHelper.UpdateUpdatedTime(existingDevice);
 
-            JObject device = TypeMapper.Get().map<JObject>(existingDevice);
-            dynamic updatedDevice = await _docDbRestUtil.UpdateDocumentAsync(device);
+            JObject updatedDevice = await _docDbRestUtil.UpdateDocumentAsync(existingDevice);
             return TypeMapper.Get().map<DeviceND>(updatedDevice);
         }
 
