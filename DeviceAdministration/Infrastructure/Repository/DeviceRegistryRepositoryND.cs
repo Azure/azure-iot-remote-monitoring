@@ -280,12 +280,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 throw new DeviceRequiredPropertyNotFoundException("'DeviceProperties' property is missing");
             }
-​
+
             device.DeviceProperties.UpdatedTime = DateTime.UtcNow;
 
-            device = await _docDbRestUtil.UpdateDocumentAsyncND(device);
-
-            return device;
+            return await _docDbRestUtil.UpdateDocumentAsyncND(device);
         }
 
         public async Task<dynamic> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
