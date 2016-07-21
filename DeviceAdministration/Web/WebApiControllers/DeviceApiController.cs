@@ -175,18 +175,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             });
         }
 
-        //PUT: api/v1/devices
         [HttpPut]
         [Route("")]
         [WebApiRequirePermission(Permission.EditDeviceMetadata)]
-        public async Task<HttpResponseMessage> UpdateDeviceAsync(dynamic device)
+        public async Task<HttpResponseMessage> UpdateDeviceAsyncND(DeviceND device)
         {
             ValidateArgumentNotNull("device", device);
-            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
             return await GetServiceResponseAsync<bool>(async () =>
             {
-                var device2 = await _deviceLogic.UpdateDeviceAsync(device);
-                DeviceND d2 = TypeMapper.Get().map<DeviceND>(device2);
+                await _deviceLogic.UpdateDeviceAsyncND(device);
                 return true;
             });
         }

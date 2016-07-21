@@ -42,6 +42,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<dynamic> UpdateDeviceAsync(dynamic device);
 
         /// <summary>
+        /// Updates a device asynchronously.
+        /// </summary>
+        /// <param name="device">The device.</param>
+        /// <returns></returns>
+        Task<DeviceND> UpdateDeviceAsyncND(DeviceND device);
+
+        /// <summary>
         /// Updates a device enabled/diabled status asynchronously.
         /// </summary>
         /// <param name="deviceId">The device identifier.</param>

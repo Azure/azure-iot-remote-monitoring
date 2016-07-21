@@ -19,6 +19,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         IEnumerable<DevicePropertyValueModel> ExtractDevicePropertyValuesModels(dynamic device);
         Task RemoveDeviceAsync(string deviceId);
         Task<dynamic> UpdateDeviceAsync(dynamic device);
+        Task<DeviceND> UpdateDeviceAsyncND(DeviceND device);
         Task<dynamic> UpdateDeviceFromDeviceInfoPacketAsync(dynamic device);
         Task<dynamic> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled);
         Task<SecurityKeys> GetIoTHubKeysAsync(string id);
