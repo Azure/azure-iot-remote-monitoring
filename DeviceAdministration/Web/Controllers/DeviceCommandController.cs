@@ -100,7 +100,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 }
 
                 await _deviceLogic.SendCommandAsync(model.DeviceId, model.Name, commands);
-
+ 
                 return Json(new {data = model});
             }
 

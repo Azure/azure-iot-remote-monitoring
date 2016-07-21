@@ -94,8 +94,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
 
             var device = await _deviceLogic.GetDeviceAsync(deviceId);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
             device.SystemProperties.ICCID = iccid;
-            await _deviceLogic.UpdateDeviceAsync(device);
+            var updatedDevice = await _deviceLogic.UpdateDeviceAsync(device);
+            DeviceND d2 = TypeMapper.Get().map<DeviceND>(updatedDevice);
         }
 
         public bool SaveRegistration(ApiRegistrationModel apiModel)
@@ -148,11 +150,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             };
 
             var devices = await _deviceLogic.GetDevices(query);
- 
-            foreach (var result in devices.Results)
-            {
-                TypeMapper.Get().map<DeviceND>(result);
-            }
+            IList<DeviceND> mappedDevices = TypeMapper.Get().map<List<DeviceND>>(devices.Results);
             return devices.Results;
         }
     }
