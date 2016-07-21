@@ -165,9 +165,7 @@
     <Compile Include="Helpers\FunctionalHelper.cs" />
     <Compile Include="Utility\DocDbResourceType.cs" />
     <Compile Include="Utility\DocDbResourceTypeHelper.cs" />
-    <Compile Include="Utility\DocDbRestUtilityND.cs" />
     <Compile Include="Utility\DocDbRestUtility.cs" />
-    <Compile Include="Utility\IDocDbRestUtilityND.cs" />
     <Compile Include="Utility\IDocDbRestUtility.cs" />
     <Compile Include="Helpers\ParsingHelper.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
