@@ -305,7 +305,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 device._rid = existingRid;
             }
 
-            string incomingId = deviceId ?? "";
+            string incomingId = device.id ?? "";
 
             if (string.IsNullOrWhiteSpace(incomingId))
             {
@@ -315,12 +315,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     throw new DeviceRequiredPropertyNotFoundException("'DeviceProperties' property is missing");
                 }
 
-                var existingId = existingDevice.DeviceProperties.DeviceID ?? "";
+                var existingId = existingDevice.id ?? "";
                 if (string.IsNullOrWhiteSpace(existingId))
                 {
                     throw new InvalidOperationException("Could not find id property on existing device");
                 }
-                device.DeviceProperties.DeviceID = existingId;
+                device.id = existingId;
             }
 
             device.DeviceProperties.UpdatedTime = DateTime.UtcNow;
