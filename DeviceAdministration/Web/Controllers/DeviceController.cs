@@ -195,7 +195,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             dynamic deviceWithKeys = await AddDeviceAsync(model);
             //validate device
-            DeviceND d = TypeMapper.Get().map<DeviceND>(deviceWithKeys);
+            DeviceND d = TypeMapper.Get().map<DeviceND>(deviceWithKeys.Device);
             var newDevice = new RegisteredDeviceModel
             {
                 HostName = _iotHubName,
@@ -221,6 +221,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             };
 
             var device = await _deviceLogic.GetDeviceAsync(deviceId);
+            TypeMapper.Get().map<DeviceND>(device);
             if (!object.ReferenceEquals(device, null))
             {
                 model.DeviceId = DeviceSchemaHelper.GetDeviceID(device);
@@ -246,7 +247,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         device,
                         model.DevicePropertyValueModels);
 
-                    await _deviceLogic.UpdateDeviceAsync(device);
+                    TypeMapper.Get().map<DeviceND>(device);
+                    var updatedDevice = await _deviceLogic.UpdateDeviceAsync(device);
+                    TypeMapper.Get().map<DeviceND>(updatedDevice);
                 }
             }
 
@@ -361,7 +364,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             DeviceND d = TypeMapper.Get().map<DeviceND>(device);
 
-            return await this._deviceLogic.AddDeviceAsync(device);
+            var addedDevice = await this._deviceLogic.AddDeviceAsync(device);
+            TypeMapper.Get().map<DeviceND>(addedDevice.Device);
+            return addedDevice;
         }
 
         private async Task<bool> GetDeviceExistsAsync(string deviceId)
@@ -383,6 +388,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             };
 
             var devices = await _deviceLogic.GetDevices(query);
+            TypeMapper.Get().map<List<DeviceND>>(devices.Results);
             return devices.Results;
         }
 
