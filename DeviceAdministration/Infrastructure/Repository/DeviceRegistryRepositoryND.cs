@@ -356,7 +356,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceNotRegisteredException(deviceId);
             }
 
-            dynamic deviceProps = DeviceSchemaHelper.GetDeviceProperties(existingDevice);
+            DeviceProperties deviceProps = DeviceSchemaHelper.GetDeviceProperties(existingDevice);
             deviceProps.HubEnabledState = isEnabled;
             DeviceSchemaHelper.UpdateUpdatedTime(existingDevice);
 
