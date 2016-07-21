@@ -24,9 +24,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         readonly string _databaseId;
         readonly string _documentCollectionName;
 
-        IDocDbRestUtilityND _docDbRestUtil;
+        IDocDbRestUtility _docDbRestUtil;
 
-        public DeviceRegistryRepositoryND(IConfigurationProvider configProvider, IDocDbRestUtilityND docDbRestUtil)
+        public DeviceRegistryRepositoryND(IConfigurationProvider configProvider, IDocDbRestUtility docDbRestUtil)
         {
             if (configProvider == null)
             {
@@ -197,7 +197,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceAlreadyRegisteredException(deviceId);
             }
 
-            device = await _docDbRestUtil.SaveNewDocumentAsyncND(device);
+            JObject d = await _docDbRestUtil.SaveNewDocumentAsync(device);
+            device = TypeMapper.Get().map<DeviceND>(d);
 
             return device;
         }
@@ -324,7 +325,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             device.DeviceProperties.UpdatedTime = DateTime.UtcNow;
 
-            return await _docDbRestUtil.UpdateDocumentAsyncND(device);
+            JObject d = await _docDbRestUtil.UpdateDocumentAsync(device);
+            return TypeMapper.Get().map<DeviceND>(d);
         }
 
         public async Task<dynamic> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
