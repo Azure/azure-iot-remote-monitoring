@@ -204,7 +204,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task RemoveDeviceAsync(string deviceId)
         {
-            dynamic existingDevice = await GetDeviceAsync(deviceId);
+            DeviceND existingDevice = await GetDeviceAsyncND(deviceId);
 
             if (existingDevice == null)
             {

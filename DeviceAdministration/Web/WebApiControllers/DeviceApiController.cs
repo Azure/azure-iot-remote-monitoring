@@ -277,18 +277,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     SortColumn = "DeviceID",
                 };
 
-                var devices = await _deviceLogic.GetDevices(query);
-
-                foreach (var res in devices.Results)
-                {
-                    DeviceND d = TypeMapper.Get().map<DeviceND>(res);
-                }
+                DeviceListQueryResultND devices = await _deviceLogic.GetDevicesND(query);
 
                 foreach (var d in devices.Results)
                 {
                     if (d.DeviceProperties != null && d.DeviceProperties.DeviceID != null)
                     {
-                        string deviceId = DeviceSchemaHelper.GetDeviceID(d);
+                        string deviceId = d.DeviceProperties.DeviceID;
 
                         // do this in serial so as not to overload anything
                         Debug.Write("DELETING DEVICE: " + deviceId + "...");
