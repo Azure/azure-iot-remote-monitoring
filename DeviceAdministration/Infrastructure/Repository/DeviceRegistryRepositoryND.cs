@@ -268,7 +268,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 device._rid = existingRid;
             }
 
-            string incomingId = deviceId ?? "";
+            string incomingId = device.id ?? "";
 
             if (string.IsNullOrWhiteSpace(incomingId))
             {
