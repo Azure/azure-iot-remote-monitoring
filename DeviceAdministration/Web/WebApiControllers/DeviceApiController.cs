@@ -233,7 +233,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             return await GetServiceResponseAsync(async () =>
             {
-                var device = await _deviceLogic.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
+                var device = await _deviceLogic.UpdateDeviceEnabledStatusAsyncND(deviceId, isEnabled);
                 DeviceND d = TypeMapper.Get().map<DeviceND>(device);
                 return true;
             });
