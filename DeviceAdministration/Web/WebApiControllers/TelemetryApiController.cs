@@ -247,11 +247,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         historyItems.AddRange(data);
 
                         List<DeviceND> devices = await LoadAllDevicesAsyncND();
-                        List<DeviceND> resultND = TypeMapper.Get().map<List<DeviceND>>(devices);
+                   
 
                         if (devices != null)
                         {
-                            DeviceListLocationsModel locationsModel = _deviceLogic.ExtractLocationsDataND(resultND);
+                            DeviceListLocationsModel locationsModel = _deviceLogic.ExtractLocationsDataND(devices);
                             if (locationsModel != null)
                             {
                                 resultsModel.MaxLatitude = locationsModel.MaximumLatitude;

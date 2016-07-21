@@ -257,7 +257,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             DeviceProperties deviceProps = existingDevice.DeviceProperties;
             existingDevice.DeviceProperties.HubEnabledState = isEnabled;
-            Device.DeviceProperties.UpdatedTime = DateTime.UtcNow;
+            existingDevice.DeviceProperties.UpdatedTime = DateTime.UtcNow;
 
             existingDevice = await _docDbRestUtil.UpdateDocumentAsyncND(existingDevice);
 

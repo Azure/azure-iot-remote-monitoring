@@ -309,6 +309,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             return JObject.Parse(response);
         }
 
+
+        public async Task<DeviceND> UpdateDocumentAsyncND(DeviceND updatedDocument)
+        {
+            if (updatedDocument == null)
+            {
+                throw new ArgumentNullException("updatedDocument");
+            }
+
+            string rid = updatedDocument._rid;
+            string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
+            string response = await PerformRestCallAsync(endpoint, PUT_VERB, DocDbResourceType.Document, rid, updatedDocument.ToString());
+
+            var dynamicDevice = JObject.Parse(response);
+            DeviceND device = TypeMapper.Get().map<DeviceND>(dynamicDevice);
+            return device;
+        }
+
+
         /// <summary>
         /// Remove a document from the DocumentDB. If it succeeds the method will return asynchronously.
         /// If it fails for any reason it will let any exception thrown bubble up.

@@ -404,7 +404,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return registryRepositoryDevice;
         }
 
-        public async Task<dynamic> UpdateDeviceEnabledStatusAsyncND(string deviceId, bool isEnabled)
+        public async Task<DeviceND> UpdateDeviceEnabledStatusAsyncND(string deviceId, bool isEnabled)
         {
             dynamic registryRepositoryDevice = null;
             ExceptionDispatchInfo capturedException = null;

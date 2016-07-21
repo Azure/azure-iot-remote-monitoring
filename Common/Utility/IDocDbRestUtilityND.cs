@@ -15,6 +15,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         Task<JObject> SaveNewDocumentAsync(dynamic document);
         Task<DeviceND> SaveNewDocumentAsyncND(DeviceND document);
         Task<JObject> UpdateDocumentAsync(dynamic updatedDocument);
+        Task<DeviceND> UpdateDocumentAsyncND(DeviceND updatedDocument);
         Task DeleteDocumentAsync(dynamic document);
     }
 }
