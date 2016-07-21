@@ -245,7 +245,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     if (data != null)
                     {
                         historyItems.AddRange(data);
-
+                        //get alert history
                         List<DeviceND> devices = await LoadAllDevicesAsyncND();
    
                         if (devices != null)

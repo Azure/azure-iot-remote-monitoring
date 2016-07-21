@@ -367,6 +367,48 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return await _deviceRegistryCrudRepository.UpdateDeviceAsync(existingDevice);
         }
 
+        public async Task<DeviceND> UpdateDeviceFromDeviceInfoPacketAsyncND(DeviceND device)
+        {
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
+            // Get original device document
+            DeviceND existingDevice = await GetDeviceAsyncND(device.DeviceProperties.DeviceID);
+
+            // Save the command history, original created date, and system properties (if any) of the existing device
+            if (existingDevice.DeviceProperties != null)
+            {
+                DeviceProperties deviceProperties = device.DeviceProperties;
+                deviceProperties.CreatedTime = existingDevice.DeviceProperties.CreatedTime;
+            }
+
+            device.CommandHistory = existingDevice.CommandHistory;
+
+            // Copy the existing system properties, or initialize them if they do not exist
+            if (existingDevice.SystemProperties != null)
+            {
+                device.SystemProperties = existingDevice.SystemProperties;
+            }
+            else
+            {
+                device.SystemProperties =  null;
+            }
+            // If there is Telemetry or Command objects from device, replace instead of merge
+            if (device.Telemetry != null)
+            {
+                existingDevice.Telemetry = device.Telemetry;
+            }
+            if (device.Commands != null)
+            {
+                existingDevice.Commands = device.Commands;
+            }
+
+
+            return await _deviceRegistryCrudRepository.UpdateDeviceAsyncND(existingDevice);
+        }
+
         /// <summary>
         /// Retrieves the IoT Hub keys for the given device
         /// </summary>
@@ -415,6 +457,40 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             return registryRepositoryDevice;
         }
+
+        public async Task<DeviceND> UpdateDeviceEnabledStatusAsyncND(string deviceId, bool isEnabled)
+        {
+            DeviceND registryRepositoryDevice = null;
+            dynamic repositoryDevice = null;
+            ExceptionDispatchInfo capturedException = null;
+
+            // if an exception happens at this point pass it up the stack to handle it
+            await _iotHubRepository.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
+
+            try
+            {
+                repositoryDevice = await _deviceRegistryCrudRepository.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
+                registryRepositoryDevice = TypeMapper.Get().map<DeviceND>(repositoryDevice);
+            }
+            catch (Exception ex)
+            {
+                // grab the exception so we can attempt an async removal of the device from the IotHub
+                capturedException = ExceptionDispatchInfo.Capture(ex);
+            }
+
+            // Since the rollback code runs async and async code cannot run within the catch block it is run here
+            if (capturedException != null)
+            {
+                // This is a lazy attempt to revert the enabled status of the device in the IotHub. 
+                // If it fails the device status will still remain the same in the IotHub.  
+                // A more robust rollback may be needed in some scenarios.
+                await _iotHubRepository.UpdateDeviceEnabledStatusAsync(deviceId, !isEnabled);
+                capturedException.Throw();
+            }
+
+            return registryRepositoryDevice;
+        }
+
 
         /// <summary>
         /// Send a command to a device based on the provided device id
@@ -547,6 +623,61 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
             if (object.ReferenceEquals(deviceProperties, null))
+            {
+                throw new ArgumentException("device.DeviceProperties is a null reference.", "device");
+            }
+
+            if ((dynamicMetaObjectProvider = deviceProperties as IDynamicMetaObjectProvider) != null)
+            {
+                propValModels = ExtractPropertyValueModels(dynamicMetaObjectProvider);
+            }
+            else if ((typeDescriptor = deviceProperties as ICustomTypeDescriptor) != null)
+            {
+                propValModels = ExtractPropertyValueModels(typeDescriptor);
+            }
+            else
+            {
+                propValModels = ExtractPropertyValueModels((object)deviceProperties);
+            }
+
+            hostNameValue = _configProvider.GetConfigurationSettingValue("iotHub.HostName");
+
+            if (!string.IsNullOrEmpty(hostNameValue))
+            {
+                propValModels = propValModels.Concat(
+                        new DevicePropertyValueModel[]
+                        {
+                            new DevicePropertyValueModel()
+                            {
+                                DisplayOrder = 0,
+                                IsEditable = false,
+                                IsIncludedWithUnregisteredDevices = true,
+                                Name = "HostName",
+                                PropertyType = Models.PropertyType.String,
+                                Value = hostNameValue
+                            }
+                        });
+            }
+
+            return propValModels;
+        }
+
+        public IEnumerable<DevicePropertyValueModel> ExtractDevicePropertyValuesModelsND(
+           DeviceND device)
+        {
+            DeviceProperties deviceProperties;
+            IDynamicMetaObjectProvider dynamicMetaObjectProvider;
+            string hostNameValue;
+            IEnumerable<DevicePropertyValueModel> propValModels;
+            ICustomTypeDescriptor typeDescriptor;
+
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
+            deviceProperties = device.DeviceProperties;
+            if (deviceProperties == null)
             {
                 throw new ArgumentException("device.DeviceProperties is a null reference.", "device");
             }
