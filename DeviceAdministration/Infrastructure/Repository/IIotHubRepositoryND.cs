@@ -16,6 +16,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<bool> TryRemoveDeviceAsync(string deviceId);
         Task UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled);
 		Task SendCommand(string deviceId, dynamic command);
+        Task SendCommandND(string deviceId, CommandHistoryND command);
         Task<SecurityKeys> GetDeviceKeysAsync(string id);
     }
 }

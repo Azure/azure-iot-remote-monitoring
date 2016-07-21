@@ -179,6 +179,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             await serviceClient.CloseAsync();
         }
+        public async Task SendCommandND(string deviceId, CommandHistoryND command)
+        {
+            ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(_iotHubConnectionString);
+
+            byte[] commandAsBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(command));
+            var notificationMessage = new Message(commandAsBytes);
+
+            notificationMessage.Ack = DeliveryAcknowledgement.Full;
+            notificationMessage.MessageId = command.MessageId;
+
+            await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
+                await serviceClient.SendAsync(deviceId, notificationMessage));
+
+            await serviceClient.CloseAsync();
+        }
 
         public async Task<SecurityKeys> GetDeviceKeysAsync(string deviceId)
         {

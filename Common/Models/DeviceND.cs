@@ -22,12 +22,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public List<Telemetry> Telemetry { get; set; }
         public string Version { get; set; }
         public string ObjectType { get; set; }
-        public string ObjectName { get; set;  }
+        public string ObjectName { get; set; }
         public IoTHub IoTHub { get; set; }
 
         public override string ToString()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.Indented); ;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
     }
 
@@ -49,7 +49,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public double? Longitude { get; set; }
         public override string ToString()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.Indented); ;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
     }
 
@@ -63,7 +63,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public string StreamId { get; set; }
         public override string ToString()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.Indented); ;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
     }
 
@@ -74,7 +74,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public string Type { get; set; }
         public override string ToString()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.Indented); ;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
     }
 
@@ -83,7 +83,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public string ICCID { get; set; }
         public override string ToString()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.Indented); ;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
     }
 
@@ -98,7 +98,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public dynamic Parameters { get; set; }
         public override string ToString()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.Indented); ;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
     }
 }

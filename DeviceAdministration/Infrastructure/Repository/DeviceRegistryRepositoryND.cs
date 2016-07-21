@@ -84,6 +84,42 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             return deviceList;
         }
+        private async Task<List<DeviceND>> GetAllDevicesAsyncND()
+        {
+            IEnumerable docs;
+            List<DeviceND> deviceList = new List<DeviceND>();
+
+            string query = "SELECT VALUE root FROM root";
+            string continuationToken = null;
+            int pageSize = 500;
+            do
+            {
+                DocDbRestQueryResult result = await _docDbRestUtil.QueryCollectionAsync(query, null, pageSize, continuationToken);
+
+                docs =
+                    ReflectionHelper.GetNamedPropertyValue(
+                        result,
+                        "ResultSet",
+                        true,
+                        false) as IEnumerable;
+
+                if (docs != null)
+                {
+                    foreach (object doc in docs)
+                    {
+                        if (doc != null)
+                        {
+                            deviceList.Add(TypeMapper.Get().map<DeviceND>(doc));
+                        }
+                    }
+                }
+
+                continuationToken = result.ContinuationToken;
+
+            } while (!String.IsNullOrEmpty(continuationToken));
+
+            return deviceList;
+        }
 
         /// <summary>
         /// Queries the DocumentDB and retrieves the device based on its deviceId
