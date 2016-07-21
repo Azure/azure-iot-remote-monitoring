@@ -7,12 +7,9 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Schema;
 using Newtonsoft.Json.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using IConfigurationProvider = Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations.IConfigurationProvider;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
