@@ -197,7 +197,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceAlreadyRegisteredException(deviceId);
             }
 
-            JObject d = await _docDbRestUtil.SaveNewDocumentAsync(device);
+            JObject d = await _docDbRestUtil.SaveNewDocumentAsync<DeviceND>(device);
             device = TypeMapper.Get().map<DeviceND>(d);
 
             return device;
@@ -212,7 +212,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceNotRegisteredException(deviceId);
             }
 
-            await _docDbRestUtil.DeleteDocumentAsync(existingDevice);
+            await _docDbRestUtil.DeleteDocumentAsync<DeviceND>(existingDevice);
         }
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             device.DeviceProperties.UpdatedTime = DateTime.UtcNow;
 
-            JObject d = await _docDbRestUtil.UpdateDocumentAsync(device);
+            JObject d = await _docDbRestUtil.UpdateDocumentAsync<DeviceND>(device);
             return TypeMapper.Get().map<DeviceND>(d);
         }
 
@@ -360,7 +360,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             deviceProps.HubEnabledState = isEnabled;
             DeviceSchemaHelper.UpdateUpdatedTime(existingDevice);
 
-            JObject updatedDevice = await _docDbRestUtil.UpdateDocumentAsync(existingDevice);
+            JObject updatedDevice = await _docDbRestUtil.UpdateDocumentAsync<DeviceND>(existingDevice);
             return TypeMapper.Get().map<DeviceND>(updatedDevice);
         }
 
