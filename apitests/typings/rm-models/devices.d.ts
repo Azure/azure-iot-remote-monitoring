@@ -1,77 +1,77 @@
 interface DeviceProps {
-    DeviceID: string;
-    HubEnabledState: boolean;
-    CreatedTime: string;
-    DeviceState: string;
-    UpdatedTime: string;
-    Manufacturer?: string;
-    ModelNumber?: string;
-    SerialNumber?: string;
-    FirmwareVersion?: string;
-    Platform?: string;
-    Processor?: string;
-    InstalledRAM?: string;
-    Latitude?: number;
-    Longitude?: number;
+    deviceID: string;
+    hubEnabledState: boolean;
+    createdTime: string;
+    deviceState: string;
+    updatedTime: string;
+    manufacturer?: string;
+    modelNumber?: string;
+    serialNumber?: string;
+    firmwareVersion?: string;
+    platform?: string;
+    processor?: string;
+    installedRAM?: string;
+    latitude?: number;
+    longitude?: number;
 }
 
 interface SystemProps {
-    ICCID: string;
+    iccid: string;
 }
 
 interface CommandParameter {
-    Name: string;
-    Type: string;
+    name: string;
+    type: string;
 }
 
 interface Command {
-    Name: string;
-    Parameters: CommandParameter[];
+    name: string;
+    parameters: CommandParameter[];
 }
 
 interface Parameter {}
 
 interface CommandRun {
-    Name: string;
-    MessageId: string;
-    CreatedTime: string;
-    Parameters?: Parameter[];
-    UpdatedTime?: string;
-    Result?: string;
-    ErrorMessage?: string;
+    name: string;
+    messageId: string;
+    createdTime: string;
+    parameters?: Parameter[];
+    updatedTime?: string;
+    result?: string;
+    errorMessage?: string;
 }
 
 interface Sensor {
-    Name: string;
-    DisplayName: string;
-    Type: string;
+    name: string;
+    displayName: string;
+    type: string;
 }
 
 interface IoTHubInfo {
-    MessageId: string;
-    CorrelationId: string;
-    ConnectionDeviceId: string;
-    ConnectionDeviceGenerationId: string;
-    EnqueuedTime: string;
-    StreamId: string;
+    messageId: string;
+    correlationId: string;
+    connectionDeviceId: string;
+    connectionDeviceGenerationId: string;
+    enqueuedTime: string;
+    streamId: string;
 }
 
 interface DeviceInfo {
-    DeviceProperties: DeviceProps;
-    SystemProperties: SystemProps;
-    Commands: Command[];
-    CommandHistory: CommandRun[];
-    IsSimulatedDevice: boolean;
+    deviceProperties: DeviceProps;
+    systemProperties: SystemProps;
+    commands: Command[];
+    commandHistory: CommandRun[];
+    isSimulatedDevice: boolean;
     id: string;
     _rid: string; 
     _self: string;
     _etag: string;
     _ts: number;
     _attachments: string;
-    Telemetry?: Sensor[];
-    Version?: string;
-    ObjectType?: string;
-    IoTHub?: IoTHubInfo;
+    telemetry?: Sensor[];
+    version?: string;
+    objectType?: string;
+    ioTHub?: IoTHubInfo;
 }
 
 interface SingleDevice {

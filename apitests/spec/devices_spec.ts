@@ -1,161 +1,468 @@
 import req = require('request');
 import uuid = require('node-uuid');
 
-var findEnabledDevice = function(devices:Devices) {
-    var i;
-    for (i = 0; i < devices.data.length; i++) {
-        if (devices.data[i].DeviceProperties.HubEnabledState) {
-            break;
-        }
-    }
-    return devices.data[i];
+function newDevice(deviceId: string): DeviceInfo {
+    return <any>{
+        deviceProperties: {
+            deviceID: deviceId
+        },
+        systemProperties: {
+            iccid: null
+        },
+        isSimulatedDevice: false
+    };
 }
 
-var findDisabledDevice = function(devices:Devices) {
-    var i;
-    for (i = 0; i < devices.data.length; i++) {
-        if (!devices.data[i].DeviceProperties.HubEnabledState) {
-            break;
-        }
+function findDeviceWithDeviceProperties(devices: DeviceInfo[], done: DoneFunction): DeviceInfo {
+    for (let i = 0; i < devices.length; i++) {
+        let device = devices[i];
+
+        if(device 
+            && device.deviceProperties
+            && device.deviceProperties.deviceID
+            && device.deviceProperties.createdTime
+            && device.deviceProperties.deviceState) {
+            return device;
+        } 
     }
-    return devices.data[i];
+
+    done.fail(`Could not find a device with ${'DeviceProperties'}`)
 }
 
-var findDeviceWithCommands = function(devices:Devices) {
-    var i;
-    for (i = 0; i < devices.data.length; i++) {
-        if (devices.data[i].Commands.length>0) {
-            break;
-        }
-    }
-    return devices.data[i];
+function createDeviceWithDeviceProperties(): DeviceInfo {
+    // return {};
 }
 
-var findDeviceWithCommandHistory = function(devices:Devices) {
-    var i;
-    for (i = 0; i < devices.data.length; i++) {
-        if (devices.data[i].CommandHistory.length>0) {
-            break;
-        }
-    }
-    return devices.data[i];
+function checkDeviceWithDevicePropertiesExists(devices: Devices, done: DoneFunction) {
+    let device = findDeviceWithDeviceProperties(devices.data, done);
+    // redundant but for safety sake
+    checkDeviceProperties(device);
+    done();
 }
 
-var getNewCustomDeviceOptions = function (deviceId: string) {
-    var options = {
-        uri: '',
+function checkDeviceProperties(device:DeviceInfo) {
+    expect(device).toBeTruthy();
+
+    // make sure device exists so tests dont blow up
+    if (device) {
+        expect(device.deviceProperties).toBeTruthy();
+        expect(device.deviceProperties.deviceID).toBeTruthy();
+        expect(device.deviceProperties.createdTime).toBeTruthy();
+        expect(device.deviceProperties.deviceState).toBeTruthy();    
+    }
+}
+
+
+function findDeviceWithSystemProperties(devices: DeviceInfo[], done: DoneFunction): DeviceInfo {
+    for (let i = 0; i < devices.length; i++) {
+        let device = devices[i];
+
+        if(device && device.systemProperties) {
+            return device;
+        } 
+    }
+
+    done.fail(`Could not find a device with ${'SystemProperties'}`)
+}
+
+function createDeviceWithSystemProperties(): DeviceInfo {
+    // return {};
+}
+
+function checkDeviceWithSystemPropertiesExists(devices: Devices, done: DoneFunction) {
+    let device = findDeviceWithSystemProperties(devices.data, done);
+    // redundant but for safety sake
+    checkSystemProperties(device);
+    done();
+}
+
+function checkSystemProperties(device:DeviceInfo) {
+    expect(device).toBeTruthy();
+
+    if (device) {
+        expect(device.systemProperties).toBeTruthy();        
+    }
+}
+
+
+function findDeviceWithRequiredProperties(devices: DeviceInfo[], done: DoneFunction): DeviceInfo {
+    for (let i = 0; i < devices.length; i++) {
+        let device = devices[i];
+
+        if(device
+            && device.deviceProperties
+            && device.systemProperties
+            && device.commands
+            && device.commandHistory
+            && device.id
+            && device._rid
+            && device._self
+            && device._etag
+            && device._ts
+            && device._attachments) {
+            return device;
+        } 
+    }
+
+    done.fail(`Could not find a device with ${'RequiredProperties'}`)
+}
+
+function createDeviceWithRequiredProperties(): DeviceInfo {
+    // return {};
+}
+
+function checkDeviceWithRequiredPropertiesExists(devices: Devices, done: DoneFunction) {
+    let device = findDeviceWithRequiredProperties(devices.data, done);
+    // redundant but for safety sake
+    checkRequiredProperties(device);
+    done();
+}
+
+function checkRequiredProperties(device:DeviceInfo) {
+    expect(device).toBeTruthy();
+
+    if (device){
+        expect(device.deviceProperties).toBeTruthy();
+        expect(device.systemProperties).toBeTruthy();
+        expect(device.commands).toBeTruthy();
+        expect(device.commandHistory).toBeTruthy();
+        expect(device.id).toBeTruthy();
+        expect(device._rid).toBeTruthy();
+        expect(device._self).toBeTruthy();
+        expect(device._etag).toBeTruthy();
+        expect(device._ts).toBeTruthy();
+        expect(device._attachments).toBeTruthy();
+    }
+}
+
+
+function findDeviceWithRequiredPropertiesEnabled(devices: DeviceInfo[], done: DoneFunction): DeviceInfo {
+    for (let i = 0; i < devices.length; i++) {
+        let device = devices[i];
+
+        if(device
+            && (device.deviceProperties.hubEnabledState != null)
+            && device.telemetry
+            && device.version
+            && device.objectType
+            && device.ioTHub) {
+            return device;
+        } 
+    }
+
+    done.fail(`Could not find a device with ${'RequiredPropertiesEnabled'}`)
+}
+
+function createDeviceWithRequiredPropertiesEnabled(): DeviceInfo {
+    // return {};
+}
+
+function checkDeviceWithRequiredPropertiesEnabledExists(devices: Devices, done: DoneFunction) {
+    let device = findDeviceWithRequiredPropertiesEnabled(devices.data, done);
+    // redundant but for safety sake
+    checkRequiredPropertiesEnabledDevice(device);
+    done();
+}
+
+function checkRequiredPropertiesEnabledDevice(device:DeviceInfo) {
+    expect(device).toBeTruthy();
+
+    if (device) {
+        expect(device.deviceProperties.hubEnabledState).not.toBeNull();
+        expect(device.telemetry).toBeTruthy();
+        expect(device.version).toBeTruthy();
+        expect(device.objectType).toBeTruthy();
+        expect(device.ioTHub).toBeTruthy();
+    }
+}
+
+
+function findDeviceWithNoCommandsDisabled(devices: DeviceInfo[], done: DoneFunction): DeviceInfo {
+    for (let i = 0; i < devices.length; i++) {
+        let device = devices[i];
+        if(device
+           && device.commands
+           && (device.commands.length == 0)
+           && (device.deviceProperties.hubEnabledState == null)) {
+            return device;
+        } 
+    }
+
+    done.fail(`Could not find a device with ${'NoCommandsDisabled'}`)
+}
+
+function createDeviceWithNoCommandsDisabled(): DeviceInfo {
+    // return {};
+}
+
+function checkDeviceWithNoCommandsDisabledDeviceExists(devices: Devices, done: DoneFunction) {
+    let device = findDeviceWithNoCommandsDisabled(devices.data, done);
+    // redundant but for safety sake
+    checkNoCommandsDisabledDevice(device);
+    done();
+}
+
+function checkNoCommandsDisabledDevice(device:DeviceInfo) {
+    expect(device).toBeTruthy();
+
+    if (device) {
+        expect(device.commands).toBeTruthy();
+        expect(device.commands.length).toEqual(0);
+        expect(device.deviceProperties.hubEnabledState).toBeNull();
+    }
+}
+
+
+function findDeviceWithCommandsEnabled(devices: DeviceInfo[], done: DoneFunction): DeviceInfo {
+    for (let i = 0; i < devices.length; i++) {
+        let device = devices[i];
+
+        if(device
+            && (device.deviceProperties.hubEnabledState != null)
+            && device.commands
+            && (device.commands.length > 0)
+            && device.commands[0]
+            && device.commands[0].name) {
+            return device;
+        } 
+    }
+
+    done.fail(`Could not find a device with ${'CommandsEnabled'}`)
+}
+
+function createDeviceWithCommandsEnabled(): DeviceInfo {
+    // return {};
+}
+
+function checkDeviceWithCommandsEnabledExists(devices: Devices, done: DoneFunction) {
+    let device = findDeviceWithCommandsEnabled(devices.data, done);
+    // redundant but for safety sake
+    checkCommandsEnabledDevice(device);
+    done();
+}
+
+function checkCommandsEnabledDevice(device:DeviceInfo) {
+    expect(device).toBeTruthy();
+
+    if (device) {
+        expect(device.deviceProperties.hubEnabledState).not.toBeNull();
+        expect(device.commands).toBeTruthy();
+        expect(device.commands.length).toBeGreaterThan(0);
+        expect(device.commands[0]).toBeTruthy();
+        expect(device.commands[0].name).toBeTruthy();
+    }
+}
+
+
+function findDeviceWithCommandHistory(devices: DeviceInfo[], done: DoneFunction): DeviceInfo {
+    for (let i = 0; i < devices.length; i++) {
+        let device = devices[i];
+
+        if(device
+            && device.commandHistory
+            && (device.commandHistory.length > 0)) {
+            return device;
+        } 
+    }
+
+    done.fail(`Could not find a device with ${'CommandHistory'}`)
+}
+
+function createDeviceWithCommandHistory(): DeviceInfo {
+    // return {};
+}
+
+function checkDeviceWithCommandHistoryExists(devices: Devices, done: DoneFunction) {
+    let device = findDeviceWithCommandHistory(devices.data, done);
+    // redundant but for safety sake
+    checkCommandHistory(device);
+    done();
+}
+
+function checkCommandHistory(device:DeviceInfo) {
+    expect(device).toBeTruthy();
+
+    if (device) {
+        expect(device.commandHistory).toBeTruthy();
+        expect(device.commandHistory.length).toBeGreaterThan(0);
+        // Not testing command history
+        // expect(device.commandHistory[0]).toBeTruthy();
+        // expect(device.commandHistory[0].name).toBeTruthy();
+        // expect(device.commandHistory[0].messageId).toBeTruthy();
+        // expect(device.commandHistory[0].createdTime).toBeTruthy();
+        // expect(device.commandHistory[0].parameters).toBeTruthy();
+        // expect(device.commandHistory[0].updatedTime).toBeTruthy();
+        // expect(device.commandHistory[0].result).toBeTruthy();
+    }
+}
+
+
+function findDeviceWithTelemetry(devices: DeviceInfo[], done: DoneFunction): DeviceInfo {
+    for (let i = 0; i < devices.length; i++) {
+        let device = devices[i];
+
+        if(device
+           && (device.deviceProperties.hubEnabledState != null)
+           && device.telemetry
+           && (device.telemetry.length > 0)
+           && device.telemetry[0].name
+           && device.telemetry[0].displayName
+           && device.telemetry[0].type) {
+            return device;
+        } 
+    }
+
+    done.fail(`Could not find a device with ${'Telemetry'}`)
+}
+
+function createDeviceWithTelemetry(): DeviceInfo {
+    // return {};
+}
+
+function checkDeviceWithTelemetryExists(devices: Devices, done: DoneFunction) {
+    let device = findDeviceWithTelemetry(devices.data, done);
+    // redundant but for safety sake
+    checkTelemetry(device);
+    done();
+}
+
+function checkTelemetry(device:DeviceInfo) {
+    expect(device).toBeTruthy();
+
+    if (device) {
+        expect(device.deviceProperties.hubEnabledState).not.toBeNull();
+        expect(device.telemetry).toBeTruthy();
+        expect(device.telemetry.length).toBeGreaterThan(0);
+        expect(device.telemetry[0].name).toBeTruthy();
+        expect(device.telemetry[0].displayName).toBeTruthy();
+        expect(device.telemetry[0].type).toBeTruthy();
+    }
+}
+
+function findDeviceWithIoTHubDetailsEnabled(devices: DeviceInfo[], done: DoneFunction): DeviceInfo {
+    for (let i = 0; i < devices.length; i++) {
+        let device = devices[i];
+        if(device
+           && (device.deviceProperties.hubEnabledState != null)
+           && device.ioTHub
+           && device.ioTHub.connectionDeviceId
+           && device.ioTHub.connectionDeviceGenerationId
+           && device.ioTHub.enqueuedTime) {
+            return device;
+        } 
+    }
+
+    done.fail(`Could not find a device with ${'IoTHubDetailsEnabled'}`)
+}
+
+function createDeviceWithIoTHubDetailsEnabled(): DeviceInfo {
+    // return {};
+}
+
+function checkDeviceWithIoTHubDetailsEnabledExists(devices: Devices, done: DoneFunction) {
+    let device = findDeviceWithIoTHubDetailsEnabled(devices.data, done);
+    // redundant but for safety sake
+    checkIoTHubDetailsEnabledDevice(device);
+    done();
+}
+
+function checkIoTHubDetailsEnabledDevice(device:DeviceInfo) {
+    expect(device).toBeTruthy();
+
+    if (device) {
+        expect(device.deviceProperties.hubEnabledState).not.toBeNull();
+        expect(device.ioTHub).toBeTruthy();
+        expect(device.ioTHub.connectionDeviceId).toBeTruthy();
+        expect(device.ioTHub.connectionDeviceGenerationId).toBeTruthy();
+        expect(device.ioTHub.enqueuedTime).toBeTruthy();
+    }
+}
+
+let testDevices: DeviceInfo[] = [];
+
+function populateDB(done: DoneFunction) {
+    testDevices = [
+        createDeviceWithDeviceProperties(),
+        createDeviceWithSystemProperties(),
+        createDeviceWithRequiredProperties(),
+        createDeviceWithRequiredPropertiesEnabled(),
+        createDeviceWithNoCommandsDisabled(),
+        createDeviceWithCommandsEnabled(),
+        createDeviceWithCommandHistory(),
+        createDeviceWithTelemetry(),
+        createDeviceWithIoTHubDetailsEnabled()
+    ];
+
+    let onDone = sync(testDevices.length, done);
+
+    testDevices.forEach(device => addDevice(device, onDone, done.fail));
+}
+
+function drainDB(devices: DeviceInfo[], done: DoneFunction) {
+    let onDone = sync(devices.length, done);
+
+    devices.forEach(device => removeDevice(device.deviceProperties.deviceID, onDone, done.fail));
+}
+
+function addDevice(device: DeviceInfo, succeed: Function, fail: Function) {
+    let options = {
+        uri: 'https://localhost:44305/api/v1/devices',
         method: 'POST',
-        json: {
-            "DeviceProperties": {
-                "DeviceID": deviceId
-            },
-            "SystemProperties": {
-                "ICCID": null
-            },
-            "IsSimulatedDevice": false
+        json: device
+    };
+
+   req(options, (err, resp, result) => {
+        if (err) {
+            fail();
+        } else {
+            succeed();
         }
-    }
-    return options;
+    });
 }
 
-var checkDeviceProperties = function(device:DeviceInfo) {
-    expect(device).toBeTruthy();
-    expect(device.DeviceProperties).toBeTruthy();
-    expect(device.DeviceProperties.DeviceID).toBeTruthy();
-    expect(device.DeviceProperties.HubEnabledState).toBeDefined();
-    expect(device.DeviceProperties.CreatedTime).toBeTruthy();
-    expect(device.DeviceProperties.DeviceState).toBeTruthy();
-    expect(device.DeviceProperties.UpdatedTime).toBeDefined();
+function removeDevice(deviceId: string, succeed: Function, fail: Function) {
+    let options = {
+        uri: `https://localhost:44305/api/v1/devices/${deviceId}`,
+        method: 'DELETE'
+    };
+
+   req(options, (err, resp, result) => {
+        if (err) {
+            fail();
+        } else {
+            succeed();
+        }
+    });
 }
 
-var checkSystemProperties = function(device:DeviceInfo) {
-    expect(device).toBeTruthy();
-    expect(device.SystemProperties).toBeTruthy();
-    expect(device.SystemProperties.ICCID).toBeDefined();
-}
+function sync(numEvents: number, cb: Function) {
+    let finishedEvents = 0;
 
-var checkRequiredProperties = function(device:DeviceInfo) {
-    expect(device).toBeTruthy();
-    expect(device.DeviceProperties).toBeTruthy();
-	expect(device.SystemProperties).toBeTruthy();
-    expect(device.Commands).toBeTruthy();
-    expect(device.CommandHistory).toBeTruthy();
-    expect(device.IsSimulatedDevice).toBeDefined();
-    expect(device.id).toBeTruthy();
-    expect(device._rid).toBeTruthy();
-    expect(device._self).toBeTruthy();
-    expect(device._etag).toBeTruthy();
-    expect(device._ts).toBeTruthy();
-    expect(device._attachments).toBeTruthy();
-}
-
-var checkRequiredPropertiesEnabledDevice = function(device:DeviceInfo) {
-    expect(device).toBeTruthy();
-    expect(device.DeviceProperties.HubEnabledState).not.toBeNull();
-    expect(device.Telemetry).toBeTruthy();
-    expect(device.Version).toBeTruthy();
-    expect(device.ObjectType).toBeTruthy();
-    expect(device.IoTHub).toBeTruthy();
-}
-
-var checkNoCommandsDisabledDevice = function(device:DeviceInfo) {
-    expect(device).toBeTruthy();
-    expect(device.Commands).toBeTruthy();
-    expect(device.Commands.length).toEqual(0);
-    expect(device.DeviceProperties.HubEnabledState).toBeNull();            
-}
-
-var checkCommandsEnabledDevice = function(device:DeviceInfo) {
-    expect(device).toBeTruthy();
-    expect(device.DeviceProperties.HubEnabledState).not.toBeNull();
-    expect(device.Commands).toBeTruthy();
-    expect(device.Commands.length).toBeGreaterThan(0);
-    expect(device.Commands[0]).toBeTruthy();
-    expect(device.Commands[0].Name).toBeTruthy();
-    expect(device.Commands[0].Parameters).toBeDefined();
-}
-
-var checkCommandHistory = function(device:DeviceInfo) {
-    expect(device).toBeTruthy();
-    expect(device.CommandHistory).toBeTruthy();
-    expect(device.CommandHistory.length).toBeGreaterThan(0);
-    // Not testing command history
-    // expect(device.CommandHistory[0]).toBeTruthy();
-    // expect(device.CommandHistory[0].Name).toBeTruthy();
-    // expect(device.CommandHistory[0].MessageId).toBeTruthy();
-    // expect(device.CommandHistory[0].CreatedTime).toBeTruthy();
-    // expect(device.CommandHistory[0].Parameters).toBeTruthy();
-    // expect(device.CommandHistory[0].UpdatedTime).toBeTruthy();
-    // expect(device.CommandHistory[0].Result).toBeTruthy();
-    // expect(device.CommandHistory[0].ErrorMessage).toBeDefined();
-}
-
-var checkTelemetry = function(device:DeviceInfo) {
-    expect(device).toBeTruthy();
-    expect(device.DeviceProperties.HubEnabledState).not.toBeNull();
-    expect(device.Telemetry).toBeTruthy();
-    expect(device.Telemetry.length).toBeGreaterThan(0);
-    expect(device.Telemetry[0].Name).toBeTruthy();
-    expect(device.Telemetry[0].DisplayName).toBeTruthy();
-    expect(device.Telemetry[0].Type).toBeTruthy();
-}
-var checkIoTHubDetailsEnabledDevice = function(device:DeviceInfo) {
-    expect(device).toBeTruthy();
-    expect(device.DeviceProperties.HubEnabledState).not.toBeNull();
-    expect(device.IoTHub).toBeTruthy();
-    expect(device.IoTHub.MessageId).toBeDefined();
-    expect(device.IoTHub.CorrelationId).toBeDefined();
-    expect(device.IoTHub.ConnectionDeviceId).toBeTruthy();
-    expect(device.IoTHub.ConnectionDeviceGenerationId).toBeTruthy();
-    expect(device.IoTHub.EnqueuedTime).toBeTruthy();
-    expect(device.IoTHub.StreamId).toBeDefined();
+    return function() {
+        finishedEvents++;
+        if (finishedEvents == numEvents) {
+            cb();
+        }
+    };
 }
 
 describe('devices api', () => {
     var request: req.RequestAPI<req.Request, req.CoreOptions, Object>;
 
-    beforeAll(function() {
-        request = req.defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/devices' });
+    beforeAll(function(done) {
+        // get all the devices in the system
+        request.get('', (err, resp, result:Devices) => {
+            if (err) done.fail(err);
+
+            // remove them all
+            drainDB(result.data, done);
+
+            // setup request for tests
+            request = req.defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/devices' });
+            
+            // add testDevices to DB
+            populateDB(done);
+        });
     });
 
     describe('get devices', () => {
@@ -171,86 +478,65 @@ describe('devices api', () => {
 
         it('should return device properties', (done) => {
             request.get('', (err, resp, result:Devices) => {
-                checkDeviceProperties(result.data[0]);
-                done();
+                checkDeviceWithDevicePropertiesExists(result, done);
             });
         });
 
         it('should return system properties', (done) => {
             request.get('', (err, resp, result:Devices) => {
-                checkSystemProperties(result.data[0]);
-                done();
+                checkDeviceWithSystemPropertiesExists(result, done);
             });
         });
 
         it('should always have required properties', (done) => {
             request.get('', (err, resp, result:Devices) => {
-                checkRequiredProperties(result.data[0]);
-                done();
+                checkDeviceWithRequiredPropertiesExists(result, done);
             });
         });
 
         it('should have required attributes for enabled devices', (done) => {
             request.get('', (err, resp, result:Devices) => {
-                checkRequiredPropertiesEnabledDevice(findEnabledDevice(result));
-                done();
+                checkDeviceWithRequiredPropertiesEnabledExists(result, done);
             });
         });
 
         it('should not return commands if device is disabled', (done) => {
             request.get('', (err, resp, result:Devices) => {
-                checkNoCommandsDisabledDevice(findDisabledDevice(result));
-                done();
+                checkDeviceWithNoCommandsDisabledDeviceExists(result, done);
             });
         });
 
         it('should return commands if device is enabled', (done) => {
             request.get('', (err, resp, result:Devices) => {
-                checkCommandsEnabledDevice(findEnabledDevice(result));
-                done();
+                checkDeviceWithCommandsEnabledExists(result, done);
             });
         });
 
         it('should return command history', (done) => {
             request.get('', (err, resp, result:Devices) => {
-                checkCommandHistory(findDeviceWithCommandHistory(result));
-                done();
+                checkDeviceWithCommandHistoryExists(result, done);
             });
         });
 
         it('should return telemetry for enabled devices', (done) => {
             request.get('', (err, resp, result:Devices) => {
-                checkTelemetry(findEnabledDevice(result));
-                done();
+                checkDeviceWithTelemetryExists(result, done);
             });
         });
         
         it('should return IoT Hub details for enabled devices', (done) => {
             request.get('', (err, resp, result:Devices) => {
-                checkIoTHubDetailsEnabledDevice(findEnabledDevice(result));
-                done();
+                checkDeviceWithIoTHubDetailsEnabledExists(result, done);
             });
         });
     });
 
     describe('get device by id', () => {
 
-        let enabled_device_id: string;
-        let disabled_device_id: string;
-        let device_with_cmd_history: string;
-
-        beforeAll(function (done) {
-            // Request for all devices to find enabled, disabled and device with command history
-            request.get('', (err, resp, result: Devices) => {
-                enabled_device_id = findEnabledDevice(result).DeviceProperties.DeviceID;
-                disabled_device_id = findDisabledDevice(result).DeviceProperties.DeviceID;
-                device_with_cmd_history = findDeviceWithCommandHistory(result).DeviceProperties.DeviceID;
-                done();
-            });
-        });
-
         it('should return a device', (done) => {
-            request.get('/'+enabled_device_id, (err, resp, result:SingleDevice) => {
+            let deviceId = testDevices[0].deviceProperties.deviceID;
+
+            request.get(`/${deviceId}`, (err, resp, result:SingleDevice) => {
                 expect(result).toBeTruthy();
                 expect(result.data).toBeTruthy();
                 done();
@@ -261,63 +547,81 @@ describe('devices api', () => {
         // path than get_all_devices
 
         it('should return device properties', (done) => {
-            request.get('/'+enabled_device_id, (err, resp, result:SingleDevice) => {
+            let deviceId = findDeviceWithDeviceProperties(testDevices, done);
+
+            request.get(`/${deviceId}`, (err, resp, result: SingleDevice) => {
                 checkDeviceProperties(result.data);
                 done();
             });
         });
 
         it('should return system properties', (done) => {
-            request.get('/'+enabled_device_id, (err, resp, result:SingleDevice) => {
+            let deviceId = findDeviceWithSystemProperties(testDevices, done);
+
+            request.get(`/${deviceId}`, (err, resp, result: SingleDevice) => {
                 checkSystemProperties(result.data);
                 done();
             });
         });
 
         it('should always have required properties', (done) => {
-            request.get('/'+enabled_device_id, (err, resp, result:SingleDevice) => {
+            let deviceId = findDeviceWithRequiredProperties(testDevices, done);
+
+            request.get(`/${deviceId}`, (err, resp, result: SingleDevice) => {
                 checkRequiredProperties(result.data);
                 done();
             });
         });
 
         it('should have required attributes for enabled devices', (done) => {
-            request.get('/'+enabled_device_id, (err, resp, result:SingleDevice) => {
+            let deviceId = findDeviceWithRequiredPropertiesEnabled(testDevices, done);
+
+            request.get(`/${deviceId}`, (err, resp, result: SingleDevice) => {
                 checkRequiredPropertiesEnabledDevice(result.data);
                 done();
             });
         });
 
         it('should not return commands if device is disabled', (done) => {
-            request.get('/'+disabled_device_id, (err, resp, result:SingleDevice) => {
+            let deviceId = findDeviceWithNoCommandsDisabled(testDevices, done);
+
+            request.get(`/${deviceId}`, (err, resp, result:SingleDevice) => {
                 checkNoCommandsDisabledDevice(result.data);
                 done();
             });
         });
 
         it('should return commands if device is enabled', (done) => {
-            request.get('/'+enabled_device_id, (err, resp, result:SingleDevice) => {
+            let deviceId = findDeviceWithCommandsEnabled(testDevices, done);
+
+            request.get(`/${deviceId}`, (err, resp, result: SingleDevice) => {
                 checkCommandsEnabledDevice(result.data);
                 done();
             });
         });
 
         it('should return command history', (done) => {
-            request.get('/'+device_with_cmd_history, (err, resp, result:SingleDevice) => {
+            let deviceId = findDeviceWithCommandHistory(testDevices, done);
+
+            request.get(`/${deviceId}`, (err, resp, result:SingleDevice) => {
                 checkCommandHistory(result.data);
                 done();
             });
         });
 
         it('should return telemetry for enabled devices', (done) => {
-            request.get('/'+enabled_device_id, (err, resp, result:SingleDevice) => {
+            let deviceId = findDeviceWithTelemetry(testDevices, done);
+
+            request.get(`/${deviceId}`, (err, resp, result: SingleDevice) => {
                 checkTelemetry(result.data);
                 done();
             });
         });
         
         it('should return IoT Hub details for enabled devices', (done) => {
-            request.get('/'+enabled_device_id, (err, resp, result:SingleDevice) => {
+            let deviceId = findDeviceWithIoTHubDetailsEnabled(testDevices, done);
+
+            request.get(`/${deviceId}`, (err, resp, result: SingleDevice) => {
                 checkIoTHubDetailsEnabledDevice(result.data);
                 done();
             });
@@ -327,24 +631,14 @@ describe('devices api', () => {
     describe('create new device', () => {
         var newDeviceId: string;
 
-        afterAll(function(done) {
-            // Delete created device
-            request({method: "DELETE", uri: "/" + newDeviceId}, (err, resp, result) => {
-                if (err || resp.statusCode != 200) {
-                    fail("Could not delete device " + newDeviceId);
-                }
-                done();
-            });
-        });
-
         it('should create new device', (done) => {
             newDeviceId = "C2C-TEST-" + uuid.v4();
-            request(getNewCustomDeviceOptions(newDeviceId), (err, resp, result) => {
-                if (err || resp.statusCode != 200) {
-                    fail("Could not create device " + newDeviceId);
-                }
-                done();
-            });
+            addDevice(newDevice(newDeviceId), done, done.fail);
+        });
+    
+        afterAll(function(done) {
+            // Delete created device
+            removeDevice(newDeviceId, done, done.fail);
         });
     });
 
@@ -354,22 +648,7 @@ describe('devices api', () => {
         beforeAll(function (done) {
             // Create new device
             newDeviceId = "C2C-TEST-" + uuid.v4();
-            request(getNewCustomDeviceOptions(newDeviceId), (err, resp, result) => {
-                if (err || resp.statusCode != 200) {
-                    fail("Could not create device " + newDeviceId);
-                }
-                done();
-            });
-        });
-
-        afterAll(function(done) {
-            // Delete created device
-            request({method: "DELETE", uri: "/" + newDeviceId}, (err, resp, result) => {
-                if (err || resp.statusCode != 200) {
-                    fail("Could not delete device " + newDeviceId);
-                }
-                done();
-            });
+            addDevice(newDevice(newDeviceId), done, done.fail);
         });
 
         it('should enable the device', (done) => {
@@ -389,6 +668,11 @@ describe('devices api', () => {
                 done();
             });
         });
+
+        afterAll(function(done) {
+            // Delete created device
+            removeDevice(newDeviceId, done, done.fail);
+        });
     });
 
     describe('get hub keys', () => {
@@ -398,26 +682,11 @@ describe('devices api', () => {
             // Get the first device
             // request.get('', (err, resp, result: Devices) => {
             //     expect(result.data.length).toBeGreaterThan(0);
-            //     newDeviceId = result.data[0].DeviceProperties.DeviceID;
+            //     newDeviceId = result.data[0].deviceProperties.deviceID;
             //     done();
             // });
             newDeviceId = "C2C-TEST-" + uuid.v4();
-            request(getNewCustomDeviceOptions(newDeviceId), (err, resp, result) => {
-                if (err || resp.statusCode != 200) {
-                    fail("Could not create device " + newDeviceId);
-                }
-                done();
-            });
-        });
-
-        afterAll(function(done) {
-            // Delete created device
-            request({method: "DELETE", uri: "/" + newDeviceId}, (err, resp, result) => {
-                if (err || resp.statusCode != 200) {
-                    fail("Could not delete device " + newDeviceId);
-                }
-                done();
-            });
+            addDevice(newDevice(newDeviceId), done, done.fail);
         });
 
         it('should return Hub keys', (done) => {
@@ -430,6 +699,11 @@ describe('devices api', () => {
                 done();
             });
         });
+
+        afterAll(function(done) {
+            // Delete created device
+            removeDevice(newDeviceId, done, done.fail);
+        });
     });
 
     describe('delete device by id', () => {
@@ -437,21 +711,11 @@ describe('devices api', () => {
 
         beforeAll(function (done) {
             newDeviceId = "C2C-TEST-" + uuid.v4();
-            request(getNewCustomDeviceOptions(newDeviceId), (err, resp, result) => {
-                if (err || resp.statusCode != 200) {
-                    fail("Could not create device " + newDeviceId);
-                }
-                done();
-            });
+            addDevice(newDevice(newDeviceId), done, done.fail);
         });
 
         it('should delete device id', (done) => {
-            request({method: "DELETE", uri: "/" + newDeviceId}, (err, resp, result) => {
-                if (err || resp.statusCode != 200) {
-                    fail("Could not delete device " + newDeviceId);
-                }
-                done();
-            });
+            removeDevice(newDeviceId, done, done.fail);
         });
     });
 
@@ -462,13 +726,12 @@ describe('devices api', () => {
 
         beforeAll(function(done) {
             // Get a device and a command
-            request.get('', (err, resp, result: Devices) => {
-                expect(result.data.length).toBeGreaterThan(0);
-                let device:DeviceInfo = findDeviceWithCommands(result);
-                newDeviceId = device.DeviceProperties.DeviceID;
-                command_name = device.Commands[0].Name;
-                done();
-            });
+            let device: DeviceInfo = findDeviceWithCommandsEnabled(testDevices, done);
+            
+            newDeviceId = device.deviceProperties.deviceID;
+            command_name = device.commands[0].name;
+            
+            done();
         });
 
         it('should send command to device', (done) => {
@@ -483,5 +746,9 @@ describe('devices api', () => {
 
     describe('should delete all devices', () => {
         // Not implemented as it will affect others on the same Azure subscription
+    });
+
+    afterAll((done) => {
+        drainDB(testDevices, done);
     });
 });
