@@ -86,6 +86,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             return history;
         }
 
+        public static List<CommandHistoryND> GetCommandHistoryND(DeviceND device)
+        {
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
+            var history = device.CommandHistory;
+
+            if (history == null)
+            {
+                history = new List<CommandHistoryND>();
+                device.CommandHistory = history;
+            }
+
+            return history;
+        }
+
         public static IEnumerable<object> GetCommandHistoryItemOrDefault(dynamic device, string messageId)
         {
             dynamic result = null;
