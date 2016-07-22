@@ -370,7 +370,6 @@
 
         // create a success callback to track the selected row, and then call the DataTables callback
         var successCallback = function (json, a, b) {
-            console.log(arguments);
             // only do the following if we have a selected device
             var deviceId = IoTApp.Helpers.DeviceIdState.getDeviceIdFromCookie();
             if (deviceId) {
