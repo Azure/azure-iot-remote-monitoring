@@ -63,7 +63,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             if (actionIds != null)
             {
                 var actionListItems = new List<SelectListItem>();
-                foreach(dynamic actionId in actionIds)
+                foreach(string actionId in actionIds)
                 {
                     var item = new SelectListItem();
                     item.Value = actionId;
