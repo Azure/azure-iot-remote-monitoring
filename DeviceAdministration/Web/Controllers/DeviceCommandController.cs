@@ -40,15 +40,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [RequirePermission(Permission.ViewDevices)]
         public async Task<ActionResult> Index(string deviceId)
         {
-            var device = await _deviceLogic.GetDeviceAsyncND(deviceId);
+            DeviceND device = await _deviceLogic.GetDeviceAsyncND(deviceId);
            
             IList<SelectListItem> commandListItems = CommandListItems(device);
 
             bool deviceIsEnabled = DeviceSchemaHelperND.GetHubEnabledState(device) == true;
 
-            var commandHistory = CommandHistorySchemaHelper.GetCommandHistoryND(device);
-            
-            var deviceCommandsModel = new DeviceCommandModel
+            List<CommandHistoryND> commandHistory = CommandHistorySchemaHelper.GetCommandHistoryND(device);
+
+            DeviceCommandModel deviceCommandsModel = new DeviceCommandModel
             {
                 CommandHistory = commandHistory,
                 CommandsJson = JsonConvert.SerializeObject(device.Commands),
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [ValidateAntiForgeryToken]
         public ActionResult Command(string deviceId, Command command)
         {
-            var model = new CommandModel
+            CommandModel model = new CommandModel
             {
                 DeviceId = deviceId,
                 Name = command.Name,
