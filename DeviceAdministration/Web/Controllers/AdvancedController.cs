@@ -21,11 +21,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         private readonly IApiRegistrationRepository _apiRegistrationRepository;
         private readonly IExternalCellularService _cellularService;
-        private readonly IDeviceLogic _deviceLogic;
+        private readonly IDeviceLogicND _deviceLogic;
         private const string CellularInvalidCreds = "400200";
         private const string CellularInvalidLicense = "400100";
 
-        public AdvancedController(IDeviceLogic deviceLogic,
+        public AdvancedController(IDeviceLogicND deviceLogic,
             IExternalCellularService cellularService,
             IApiRegistrationRepository apiRegistrationRepository)
         {
@@ -48,14 +48,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public async Task<PartialViewResult> DeviceAssociation()
         {
-            var devices = await GetDevices();
+            IList<DeviceND> devices = await GetDevices();
 
             try
             {
                 if (_apiRegistrationRepository.IsApiRegisteredInAzure())
                 {
                     ViewBag.HasRegistration = true;
-                    ViewBag.UnassignedIccidList = _cellularService.GetListOfAvailableIccids(devices);
+                    ViewBag.UnassignedIccidList = _cellularService.GetListOfAvailableIccidsND(devices);
                     ViewBag.UnassignedDeviceIds = _cellularService.GetListOfAvailableDeviceIDs(devices);
                 }
                 else
@@ -93,11 +93,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 throw new ArgumentNullException();
             }
 
-            var device = await _deviceLogic.GetDeviceAsync(deviceId);
-            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
+            DeviceND device = await _deviceLogic.GetDeviceAsyncND(deviceId);
             device.SystemProperties.ICCID = iccid;
-            var updatedDevice = await _deviceLogic.UpdateDeviceAsync(device);
-            DeviceND d2 = TypeMapper.Get().map<DeviceND>(updatedDevice);
+            await _deviceLogic.UpdateDeviceAsyncND(device);
         }
 
         public bool SaveRegistration(ApiRegistrationModel apiModel)
@@ -142,15 +140,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View();
         }
 
-        private async Task<List<dynamic>> GetDevices()
+        private async Task<List<DeviceND>> GetDevices()
         {
             var query = new DeviceListQuery
             {
                 Take = 1000
             };
 
-            var devices = await _deviceLogic.GetDevices(query);
-            IList<DeviceND> mappedDevices = TypeMapper.Get().map<List<DeviceND>>(devices.Results);
+            var devices = await _deviceLogic.GetDevicesND(query);
             return devices.Results;
         }
     }
