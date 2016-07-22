@@ -195,6 +195,7 @@
     <Compile Include="Repository\ApiRegistrationRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepositoryND.cs" />
+    <Compile Include="Repository\FilterHelperND.cs" />
     <Compile Include="Repository\IActionMappingRepository.cs" />
     <Compile Include="Repository\IActionRepository.cs" />
     <Compile Include="Repository\DeviceRulesRepository.cs" />

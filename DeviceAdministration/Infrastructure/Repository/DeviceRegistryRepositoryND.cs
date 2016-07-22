@@ -144,7 +144,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
         public async Task<DeviceND> GetDeviceAsyncND(string deviceId)
         {
-            dynamic result = null;
+            JToken result = null;
 
             Dictionary<string, Object> queryParams = new Dictionary<string, Object>();
             queryParams.Add("@id", deviceId);
@@ -393,22 +393,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<DeviceListQueryResultND> GetDeviceListND(DeviceListQuery query)
         {
-            List<dynamic> deviceList = await GetAllDevicesAsync();
+            List<DeviceND> deviceList = await GetAllDevicesAsyncND();
 
-            IQueryable<dynamic> filteredDevices = FilterHelper.FilterDeviceList(deviceList.AsQueryable<dynamic>(), query.Filters);
+            IQueryable<DeviceND> filteredDevices = FilterHelperND.FilterDeviceList(deviceList.AsQueryable<DeviceND>(), query.Filters);
 
-            IQueryable<dynamic> filteredAndSearchedDevices = SearchDeviceList(filteredDevices, query.SearchQuery);
+            IQueryable<DeviceND> filteredAndSearchedDevices = SearchDeviceListND(filteredDevices, query.SearchQuery);
 
-            IQueryable<dynamic> sortedDevices = SortDeviceList(filteredAndSearchedDevices, query.SortColumn, query.SortOrder);
+            IQueryable<DeviceND> sortedDevices = SortDeviceListND(filteredAndSearchedDevices, query.SortColumn, query.SortOrder);
 
-            List<dynamic> pagedDeviceList = sortedDevices.Skip(query.Skip).Take(query.Take).ToList();
-            List<DeviceND> pagedDeviceListND = TypeMapper.Get().map<List<DeviceND>>(pagedDeviceList);
+            List<DeviceND> pagedDeviceList = sortedDevices.Skip(query.Skip).Take(query.Take).ToList();
 
             int filteredCount = filteredAndSearchedDevices.Count();
 
             return new DeviceListQueryResultND()
             {
-                Results = pagedDeviceListND,
+                Results = pagedDeviceList,
                 TotalDeviceCount = deviceList.Count,
                 TotalFilteredCount = filteredCount
             };
@@ -437,7 +436,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             // look for all devices that contain the search value in one of the DeviceProperties Properties
             return deviceList.Where(filter).AsQueryable();
         }
+        private IQueryable<DeviceND> SearchDeviceListND(IQueryable<DeviceND> deviceList, string search)
+        {
+            if (string.IsNullOrWhiteSpace(search))
+            {
+                return deviceList;
+            }
 
+            Func<DeviceND, bool> filter =
+                (d) => SearchTypePropertiesForValueND(d, search);
+
+            // look for all devices that contain the search value in one of the DeviceProperties Properties
+            return deviceList.Where(filter).AsQueryable();
+        }
         /// <summary>
         /// Looks in all the Properties of the DeviceProperties instance on a device for the given search term
         /// </summary>
@@ -459,6 +470,40 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             try
             {
                 devProps = DeviceSchemaHelper.GetDeviceProperties(device);
+            }
+            catch (DeviceRequiredPropertyNotFoundException)
+            {
+                devProps = null;
+            }
+
+            if (devProps == null)
+            {
+                return false;
+            }
+
+            // iterate through the DeviceProperties Properties and look for the search value
+            // case insensitive search
+            var upperCaseSearch = search.ToUpperInvariant();
+            return devProps.ToKeyValuePairs().Any(
+                t =>
+                    (t.Value != null) &&
+                    t.Value.ToString().ToUpperInvariant().Contains(upperCaseSearch));
+        }
+        private bool SearchTypePropertiesForValueND(DeviceND device, string search)
+        {
+            DeviceProperties devProps = null;
+
+            // if the device or its system properties are null then
+            // there's nothing that can be searched on
+            if ((device == null) ||
+                ((devProps = DeviceSchemaHelperND.GetDeviceProperties(device)) == null))
+            {
+                return false;
+            }
+
+            try
+            {
+                devProps = DeviceSchemaHelperND.GetDeviceProperties(device);
             }
             catch (DeviceRequiredPropertyNotFoundException)
             {
@@ -532,6 +577,67 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     {
                         deviceProperties =
                             DeviceSchemaHelper.GetDeviceProperties(item);
+                    }
+                    catch (DeviceRequiredPropertyNotFoundException)
+                    {
+                        return null;
+                    }
+
+                    return getPropVal(deviceProperties);
+                };
+
+            if (sortOrder == QuerySortOrder.Ascending)
+            {
+                return deviceList.OrderBy(keySelector).AsQueryable();
+            }
+            else
+            {
+                return deviceList.OrderByDescending(keySelector).AsQueryable();
+            }
+        }
+        private IQueryable<DeviceND> SortDeviceListND(IQueryable<DeviceND> deviceList, string sortColumn, QuerySortOrder sortOrder)
+        { 
+            // if a sort column was not provided then return the full device list in its original sort
+            if (string.IsNullOrWhiteSpace(sortColumn))
+            {
+                return deviceList;
+            }
+
+            Func<DeviceProperties, dynamic> getPropVal =
+                ReflectionHelper.ProducePropertyValueExtractor(
+                    sortColumn,
+                    false,
+                    false);
+
+            Func<DeviceND, dynamic> keySelector =
+                (item) =>
+                {
+                    DeviceProperties deviceProperties;
+
+                    if (item == null)
+                    {
+                        return null;
+                    }
+
+                    if (string.Equals(
+                        "hubEnabledState",
+                        sortColumn,
+                        StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        try
+                        {
+                            return DeviceSchemaHelperND.GetHubEnabledState(item);
+                        }
+                        catch (DeviceRequiredPropertyNotFoundException)
+                        {
+                            return null;
+                        }
+                    }
+
+                    try
+                    {
+                        deviceProperties =
+                            DeviceSchemaHelperND.GetDeviceProperties(item);
                     }
                     catch (DeviceRequiredPropertyNotFoundException)
                     {
