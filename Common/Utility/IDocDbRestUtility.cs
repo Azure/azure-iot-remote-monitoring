@@ -13,7 +13,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         Task<DocDbRestQueryResult> QueryCollectionAsync(
             string queryString, Dictionary<string, Object> queryParams, int pageSize = -1, string continuationToken = null);
         Task<JObject> SaveNewDocumentAsync(dynamic document);
+        Task<JObject> SaveNewDocumentAsync<T>(T document);
         Task<JObject> UpdateDocumentAsync(dynamic updatedDocument);
+        Task<JObject> UpdateDocumentAsync<T>(T updatedDocument);
         Task DeleteDocumentAsync(dynamic document);
+        Task DeleteDocumentAsync<T>(T document);
     }
 }

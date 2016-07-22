@@ -27,8 +27,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task SendCommandAsync(string deviceId, string commandName, dynamic parameters);
         Task<List<string>> BootstrapDefaultDevices();
         DeviceListLocationsModel ExtractLocationsData(List<dynamic> devices);
+        DeviceListLocationsModel ExtractLocationsDataND(List<DeviceND> devices);
         IList<DeviceTelemetryFieldModel> ExtractTelemetry(dynamic device);
         IList<DeviceTelemetryFieldModel> ExtractTelemetryND(DeviceND device);
-        DeviceListLocationsModel ExtractLocationsDataND(List<DeviceND> devices);
     }
 }
