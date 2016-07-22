@@ -272,6 +272,7 @@
     <Compile Include="Controllers\DeviceRulesController.cs" />
     <Compile Include="DataTables\Column.cs" />
     <Compile Include="DataTables\DataTablesRequest.cs" />
+    <Compile Include="DataTables\DataTablesResponseND.cs" />
     <Compile Include="DataTables\DataTablesResponse.cs" />
     <Compile Include="DataTables\Search.cs" />
     <Compile Include="DataTables\SortColumn.cs" />
