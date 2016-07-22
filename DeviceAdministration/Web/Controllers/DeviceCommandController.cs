@@ -28,10 +28,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             // generic command view (like change device key, etc)
         };
 
-        private readonly IDeviceLogic _deviceLogic;
+        private readonly IDeviceLogicND _deviceLogic;
         private readonly ICommandParameterTypeLogic _commandParameterTypeLogic;
 
-        public DeviceCommandController(IDeviceLogic deviceLogic, ICommandParameterTypeLogic commandParameterTypeLogic)
+        public DeviceCommandController(IDeviceLogicND deviceLogic, ICommandParameterTypeLogic commandParameterTypeLogic)
         {
             _deviceLogic = deviceLogic;
             _commandParameterTypeLogic = commandParameterTypeLogic;
@@ -40,28 +40,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [RequirePermission(Permission.ViewDevices)]
         public async Task<ActionResult> Index(string deviceId)
         {
-            var device = await _deviceLogic.GetDeviceAsync(deviceId);
-            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
+            var device = await _deviceLogic.GetDeviceAsyncND(deviceId);
+           
+            IList<SelectListItem> commandListItems = CommandListItems(device);
 
-            List<SelectListItem> commandListItems = CommandListItems(device);
+            bool deviceIsEnabled = DeviceSchemaHelperND.GetHubEnabledState(device) == true;
 
-            bool deviceIsEnabled = DeviceSchemaHelper.GetHubEnabledState(device) == true;
-
-            var commandHistory = new List<dynamic>(CommandHistorySchemaHelper.GetCommandHistory(device));
-            List<CommandHistoryND> ch = TypeMapper.Get().map<List<CommandHistoryND>>(commandHistory);
-
+            var commandHistory = CommandHistorySchemaHelper.GetCommandHistoryND(device);
+            
             var deviceCommandsModel = new DeviceCommandModel
             {
                 CommandHistory = commandHistory,
                 CommandsJson = JsonConvert.SerializeObject(device.Commands),
                 SendCommandModel = new SendCommandModel
                 {
-                    DeviceId = DeviceSchemaHelper.GetDeviceID(device),
+                    DeviceId = DeviceSchemaHelperND.GetDeviceID(device),
                     CommandSelectList = commandListItems,
                     CanSendDeviceCommands = deviceIsEnabled &&
                         PermsChecker.HasPermission(Permission.SendCommandToDevices)
                 },
-                DeviceId = DeviceSchemaHelper.GetDeviceID(device)
+                DeviceId = DeviceSchemaHelperND.GetDeviceID(device)
             };
 
             return View(deviceCommandsModel);
@@ -127,9 +125,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return Json(new { wasSent = true });
         }
 
-        private List<SelectListItem> CommandListItems(dynamic device)
+        private IList<SelectListItem> CommandListItems(DeviceND device)
         {
-            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
             if (device.Commands != null)
             {
                 return GetCommandListItems(device);
@@ -139,26 +136,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
 
-        private List<SelectListItem> GetCommandListItems(dynamic device)
+        private IList<SelectListItem> GetCommandListItems(DeviceND device)
         {
-            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
-            IEnumerable commands;
-
-            List<SelectListItem> result = new List<SelectListItem>();
-
-            commands =
-                ReflectionHelper.GetNamedPropertyValue(
-                    (object)device,
-                    "Commands",
-                    true,
-                    false) as IEnumerable;
+            IList<SelectListItem> result = new List<SelectListItem>();
+            IList<Command> commands = device.Commands;
 
             if (commands != null)
             {
-                foreach (dynamic command in commands)
+                foreach (Command command in commands)
                 {
-                    Command c = TypeMapper.Get().map<Command>(command);
-                    if (this.IsCommandPublic(command))
+                    if (IsCommandPublic(command))
                     {
                         SelectListItem item = new SelectListItem();
                         item.Value = command.Name;
@@ -171,10 +158,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return result;
         }
 
-        private bool IsCommandPublic(dynamic command)
+        private static bool IsCommandPublic(Command command)
         {
-            Command c = TypeMapper.Get().map<Command>(command);
-
             if (command == null)
             {
                 throw new ArgumentNullException("command");
