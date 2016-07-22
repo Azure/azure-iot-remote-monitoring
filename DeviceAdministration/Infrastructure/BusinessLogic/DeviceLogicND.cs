@@ -546,54 +546,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return command;
         }
 
-        /// <summary>
-        /// Modified a Device using a list of 
-        /// <see cref="DevicePropertyValueModel" />.
-        /// </summary>
-        /// <param name="device">
-        /// The Device to modify.
-        /// </param>
-        /// <param name="devicePropertyValueModels">
-        /// The list of <see cref="DevicePropertyValueModel" />s for modifying 
-        /// <paramref name="device" />.
-        /// </param>
-        public void ApplyDevicePropertyValueModels(
-            dynamic device,
-            IEnumerable<DevicePropertyValueModel> devicePropertyValueModels)
-        {
-            dynamic deviceProperties;
-            IDynamicMetaObjectProvider dynamicMetaObjectProvider;
-            ICustomTypeDescriptor typeDescriptor;
+   
 
-            if (object.ReferenceEquals(device, null))
-            {
-                throw new ArgumentNullException("device");
-            }
-
-            if (devicePropertyValueModels == null)
-            {
-                throw new ArgumentNullException("devicePropertyValueModels");
-            }
-
-            deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
-            if (object.ReferenceEquals(deviceProperties, null))
-            {
-                throw new ArgumentException("device.DeviceProperties is a null reference.", "device");
-            }
-
-            if ((dynamicMetaObjectProvider = deviceProperties as IDynamicMetaObjectProvider) != null)
-            {
-                ApplyPropertyValueModels(dynamicMetaObjectProvider, devicePropertyValueModels);
-            }
-            else if ((typeDescriptor = deviceProperties as ICustomTypeDescriptor) != null)
-            {
-                ApplyPropertyValueModels(typeDescriptor, devicePropertyValueModels);
-            }
-            else
-            {
-                ApplyPropertyValueModels((object)deviceProperties, devicePropertyValueModels);
-            }
-        }
 
         /// <summary>
         /// Gets <see cref="DevicePropertyValueModel" /> for an edited Device's 

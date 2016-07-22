@@ -28,7 +28,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private const double MaxDeviceSummaryAgeMinutes = 10.0;
         private const int MaxDevicesToDisplayOnDashboard = 200;
 
-        private readonly IDeviceLogic _deviceLogic;
+        private readonly IDeviceLogicND _deviceLogic;
         private readonly IDeviceTelemetryLogic _deviceTelemetryLogic;
         private readonly IConfigurationProvider _configProvider;
 
@@ -43,7 +43,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         /// use.
         /// </param>
         public DashboardController(
-            IDeviceLogic deviceLogic,
+            IDeviceLogicND deviceLogic,
             IDeviceTelemetryLogic deviceTelemetryLogic,
             IConfigurationProvider configProvider)
         {
@@ -87,13 +87,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 Filters = filters
             };
 
-            DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
-            var devices = TypeMapper.Get().map<List<DeviceND>>(queryResult.Results);
+            DeviceListQueryResultND queryResult = await _deviceLogic.GetDevicesND(query);
+
             if ((queryResult != null) && (queryResult.Results != null))
             {
-                foreach (dynamic devInfo in queryResult.Results)
+                foreach (DeviceND devInfo in queryResult.Results)
                 {
-
                     string deviceId;
                     try
                     {
