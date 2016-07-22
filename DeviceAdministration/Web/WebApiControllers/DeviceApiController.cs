@@ -112,7 +112,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewDevices)]
         public async Task<HttpResponseMessage> GetDevices([FromBody]JObject requestData)
         {
-            return await GetServiceResponseAsync<DataTablesResponse>(async () =>
+            return await GetServiceResponseAsync<DataTablesResponseND>(async () =>
             {
                 var dataTableRequest = requestData.ToObject<DataTablesRequest>();
                 var sortColumnIndex = dataTableRequest.SortColumns[0].ColumnIndex;
@@ -132,7 +132,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
                 var queryResult = await _deviceLogic.GetDevicesND(listQuery);
 
-                var dataTablesResponse = new DataTablesResponse()
+                var dataTablesResponse = new DataTablesResponseND()
                 {
                     Draw = dataTableRequest.Draw,
                     RecordsTotal = queryResult.TotalDeviceCount,
@@ -292,5 +292,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 #endif
 
+    }
+
+    public class DataTablesResponseND
+    {
+        public int Draw { get; set; }
+        public int RecordsTotal { get; set; }
+        public int RecordsFiltered { get; set; }
+        public DeviceND[] Data { get; set; }
     }
 }

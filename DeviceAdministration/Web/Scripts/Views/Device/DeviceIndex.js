@@ -245,7 +245,7 @@
             },
             "columns": [
                 {
-                    "data": "DeviceProperties.HubEnabledState",
+                    "data": "deviceProperties.hubEnabledState",
                     "mRender": function (data) {
                         if (data === false) {
                             return htmlEncode("false");
@@ -257,56 +257,56 @@
                     "name": "hubEnabledState"
                 },
                 {
-                    "data": "DeviceProperties.DeviceID",
+                    "data": "deviceProperties.deviceID",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
                     "name": "deviceId"
                 },
                 {
-                    "data": "DeviceProperties.Manufacturer",
+                    "data": "deviceProperties.manufacturer",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
                     "name": "manufacturer"
                 },
                 {
-                    "data": "DeviceProperties.ModelNumber",
+                    "data": "deviceProperties.modelNumber",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
                     "name": "modelNumber"
                 },
                 {
-                    "data": "DeviceProperties.SerialNumber",
+                    "data": "deviceProperties.serialNumber",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
                     "name": "serialNumber"
                 },
                 {
-                    "data": "DeviceProperties.FirmwareVersion",
+                    "data": "deviceProperties.firmwareVersion",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
                     "name": "firmwareVersion"
                 },
                 {
-                    "data": "DeviceProperties.Platform",
+                    "data": "deviceProperties.platform",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
                     "name": "platform"
                 },
                 {
-                    "data": "DeviceProperties.Processor",
+                    "data": "deviceProperties.processor",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
                     "name": "processor"
                 },
                 {
-                    "data": "DeviceProperties.InstalledRAM",
+                    "data": "deviceProperties.installedRAM",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
@@ -370,6 +370,7 @@
 
         // create a success callback to track the selected row, and then call the DataTables callback
         var successCallback = function (json, a, b) {
+            console.log(arguments);
             // only do the following if we have a selected device
             var deviceId = IoTApp.Helpers.DeviceIdState.getDeviceIdFromCookie();
             if (deviceId) {
@@ -382,8 +383,8 @@
                 for (var i = 0, len = json.data.length; i < len; ++i) {
                     var data = json.data[i];
                     if (data &&
-                        data.DeviceProperties &&
-                        data.DeviceProperties.DeviceID === deviceId) {
+                        data.deviceProperties &&
+                        data.deviceProperties.deviceId === deviceId) {
                         self.defaultSelectedRow = i;
                         self.isDefaultDeviceDetailsAvailable = true;
                         break;
