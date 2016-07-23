@@ -1156,14 +1156,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 PropertyType = PropertyType.Status
             };
 
-            yield return new DevicePropertyMetadata()
-            {
-                IsDisplayedForRegisteredDevices = false,
-                IsDisplayedForUnregisteredDevices = false,
-                IsEditable = false,
-                Name = "HostName"
-            };
-
             // Do not show a Device field, HubEnabledState.  One will be added 
             // programatically from settings.
             yield return new DevicePropertyMetadata()
@@ -1182,6 +1174,87 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 IsEditable = false,
                 Name = "UpdatedTime",
                 PropertyType = PropertyType.DateTime
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Manufacturer",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "ModelNumber",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "SerialNumber",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "FirmwareVersion",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Platform",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Processor",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "InstalledRAM",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Latitude",
+                PropertyType = PropertyType.Real
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Longitude",
+                PropertyType = PropertyType.Real
             };
         }
 

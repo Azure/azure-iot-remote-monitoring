@@ -268,7 +268,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>()
             };
 
-            propModels = _deviceLogic.ExtractDevicePropertyValuesModels(device);
+            propModels = _deviceLogic.ExtractDevicePropertyValuesModelsND(device);
             propModels = ApplyDevicePropertyOrdering(propModels);
 
             deviceModel.DevicePropertyValueModels.AddRange(propModels);
