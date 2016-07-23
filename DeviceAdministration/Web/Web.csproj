@@ -295,7 +295,6 @@
     <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Helpers\HeaderHelper.cs" />
     <Compile Include="Models\EditDevicePropertiesModel.cs" />
-    <Compile Include="Models\DevicePropertiesModel.cs" />
     <Compile Include="Models\UnregisteredDeviceModel.cs" />
     <Compile Include="Models\RegisteredDeviceModel.cs" />
     <Compile Include="Models\CommandModel.cs" />
