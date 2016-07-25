@@ -558,14 +558,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <paramref name="device" />.
         /// </param>
         public void ApplyDevicePropertyValueModels(
-            dynamic device,
+            DeviceND device,
             IEnumerable<DevicePropertyValueModel> devicePropertyValueModels)
         {
-            dynamic deviceProperties;
             IDynamicMetaObjectProvider dynamicMetaObjectProvider;
             ICustomTypeDescriptor typeDescriptor;
 
-            if (object.ReferenceEquals(device, null))
+            if (device == null)
             {
                 throw new ArgumentNullException("device");
             }
@@ -575,8 +574,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new ArgumentNullException("devicePropertyValueModels");
             }
 
-            deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
-            if (object.ReferenceEquals(deviceProperties, null))
+            DeviceProperties deviceProperties = DeviceSchemaHelperND.GetDeviceProperties(device);
+            if (deviceProperties == null)
             {
                 throw new ArgumentException("device.DeviceProperties is a null reference.", "device");
             }
@@ -1154,6 +1153,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 IsEditable = false,
                 Name = "DeviceState",
                 PropertyType = PropertyType.Status
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = false,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "HostName"
             };
 
             // Do not show a Device field, HubEnabledState.  One will be added 

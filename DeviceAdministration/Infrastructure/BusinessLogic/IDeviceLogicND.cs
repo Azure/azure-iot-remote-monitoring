@@ -8,7 +8,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public interface IDeviceLogicND
     {
-        void ApplyDevicePropertyValueModels(dynamic device, IEnumerable<DevicePropertyValueModel> devicePropertyValueModels);
+        void ApplyDevicePropertyValueModels(DeviceND device, IEnumerable<DevicePropertyValueModel> devicePropertyValueModels);
         Task<DeviceListQueryResult> GetDevices(DeviceListQuery q);
         Task<DeviceListQueryResultND> GetDevicesND(DeviceListQuery q);
         Task<dynamic> GetDeviceAsync(string deviceId);

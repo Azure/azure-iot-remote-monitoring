@@ -237,7 +237,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             if (model != null)
             {
                 DeviceND device = await _deviceLogic.GetDeviceAsyncND(model.DeviceId);
-                if (!object.ReferenceEquals(device, null))
+                if (device != null)
                 {
                     _deviceLogic.ApplyDevicePropertyValueModels(
                         device,
