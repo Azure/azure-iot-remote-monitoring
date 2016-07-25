@@ -546,7 +546,53 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return command;
         }
 
-   
+        /// <summary>
+        /// Modified a Device using a list of 
+        /// <see cref="DevicePropertyValueModel" />.
+        /// </summary>
+        /// <param name="device">
+        /// The Device to modify.
+        /// </param>
+        /// <param name="devicePropertyValueModels">
+        /// The list of <see cref="DevicePropertyValueModel" />s for modifying 
+        /// <paramref name="device" />.
+        /// </param>
+        public void ApplyDevicePropertyValueModels(
+            DeviceND device,
+            IEnumerable<DevicePropertyValueModel> devicePropertyValueModels)
+        {
+            IDynamicMetaObjectProvider dynamicMetaObjectProvider;
+            ICustomTypeDescriptor typeDescriptor;
+
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
+            if (devicePropertyValueModels == null)
+            {
+                throw new ArgumentNullException("devicePropertyValueModels");
+            }
+
+            DeviceProperties deviceProperties = DeviceSchemaHelperND.GetDeviceProperties(device);
+            if (deviceProperties == null)
+            {
+                throw new ArgumentException("device.DeviceProperties is a null reference.", "device");
+            }
+
+            if ((dynamicMetaObjectProvider = deviceProperties as IDynamicMetaObjectProvider) != null)
+            {
+                ApplyPropertyValueModels(dynamicMetaObjectProvider, devicePropertyValueModels);
+            }
+            else if ((typeDescriptor = deviceProperties as ICustomTypeDescriptor) != null)
+            {
+                ApplyPropertyValueModels(typeDescriptor, devicePropertyValueModels);
+            }
+            else
+            {
+                ApplyPropertyValueModels((object)deviceProperties, devicePropertyValueModels);
+            }
+        }
 
 
         /// <summary>
@@ -1135,6 +1181,87 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 IsEditable = false,
                 Name = "UpdatedTime",
                 PropertyType = PropertyType.DateTime
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Manufacturer",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "ModelNumber",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "SerialNumber",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "FirmwareVersion",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Platform",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Processor",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "InstalledRAM",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Latitude",
+                PropertyType = PropertyType.Real
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Longitude",
+                PropertyType = PropertyType.Real
             };
         }
 

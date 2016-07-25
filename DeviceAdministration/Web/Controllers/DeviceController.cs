@@ -29,12 +29,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         private readonly IApiRegistrationRepository _apiRegistrationRepository;
         private readonly IExternalCellularService _cellularService;
-        private readonly IDeviceLogic _deviceLogic;
+        private readonly IDeviceLogicND _deviceLogic;
         private readonly IDeviceTypeLogic _deviceTypeLogic;
 
         private readonly string _iotHubName = string.Empty;
 
-        public DeviceController(IDeviceLogic deviceLogic, IDeviceTypeLogic deviceTypeLogic,
+        public DeviceController(IDeviceLogicND deviceLogic, IDeviceTypeLogic deviceTypeLogic,
             IConfigurationProvider configProvider,
             IExternalCellularService cellularService,
             IApiRegistrationRepository apiRegistrationRepository)
@@ -67,8 +67,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 try
                 {
-                    var devices = await GetDevices();
-                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccids(devices);
+                    List<DeviceND> devices = await GetDevices();
+                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccidsND(devices);
                     ViewBag.CanHaveIccid = true;
                 }
                 catch (CellularConnectivityException)
@@ -108,8 +108,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 try
                 {
-                    var devices = await GetDevices();
-                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccids(devices);
+                    List<DeviceND> devices = await GetDevices();
+                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccidsND(devices);
                     ViewBag.CanHaveIccid = true;
                 }
                 catch (CellularConnectivityException)
@@ -193,14 +193,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 model.DeviceType != null,
                 "model.DeviceType is a null reference.");
 
-            dynamic deviceWithKeys = await AddDeviceAsync(model);
-            //validate device
-            DeviceND d = TypeMapper.Get().map<DeviceND>(deviceWithKeys.Device);
+            DeviceWithKeysND deviceWithKeys = await AddDeviceAsync(model);
             var newDevice = new RegisteredDeviceModel
             {
                 HostName = _iotHubName,
                 DeviceType = model.DeviceType,
-                DeviceId = DeviceSchemaHelper.GetDeviceID(deviceWithKeys.Device),
+                DeviceId = DeviceSchemaHelperND.GetDeviceID(deviceWithKeys.Device),
                 PrimaryKey = deviceWithKeys.SecurityKeys.PrimaryKey,
                 SecondaryKey = deviceWithKeys.SecurityKeys.SecondaryKey,
                 InstructionsUrl = model.DeviceType.InstructionsUrl
@@ -220,11 +218,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>()
             };
 
-            var device = await _deviceLogic.GetDeviceAsync(deviceId);
-            TypeMapper.Get().map<DeviceND>(device);
+            DeviceND device = await _deviceLogic.GetDeviceAsyncND(deviceId);
             if (!object.ReferenceEquals(device, null))
             {
-                model.DeviceId = DeviceSchemaHelper.GetDeviceID(device);
+                model.DeviceId = DeviceSchemaHelperND.GetDeviceID(device);
 
                 propValModels = _deviceLogic.ExtractDevicePropertyValuesModels(device);
                 propValModels = ApplyDevicePropertyOrdering(propValModels);
@@ -239,17 +236,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             if (model != null)
             {
-                dynamic device = await _deviceLogic.GetDeviceAsync(model.DeviceId);
-                DeviceND d = TypeMapper.Get().map<DeviceND>(device);
-                if (!object.ReferenceEquals(device, null))
+                DeviceND device = await _deviceLogic.GetDeviceAsyncND(model.DeviceId);
+                if (device != null)
                 {
                     _deviceLogic.ApplyDevicePropertyValueModels(
                         device,
                         model.DevicePropertyValueModels);
 
-                    TypeMapper.Get().map<DeviceND>(device);
-                    var updatedDevice = await _deviceLogic.UpdateDeviceAsync(device);
-                    TypeMapper.Get().map<DeviceND>(updatedDevice);
+                    await _deviceLogic.UpdateDeviceAsyncND(device);
                 }
             }
 
@@ -261,8 +255,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             IEnumerable<DevicePropertyValueModel> propModels;
 
-            dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
-            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
+            DeviceND device = await _deviceLogic.GetDeviceAsyncND(deviceId);
             if (object.ReferenceEquals(device, null))
             {
                 throw new InvalidOperationException("Unable to load device with deviceId " + deviceId);
@@ -271,11 +264,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             DeviceDetailModel deviceModel = new DeviceDetailModel
             {
                 DeviceID = deviceId,
-                HubEnabledState = DeviceSchemaHelper.GetHubEnabledState(device),
+                HubEnabledState = DeviceSchemaHelperND.GetHubEnabledState(device),
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>()
             };
 
-            propModels = _deviceLogic.ExtractDevicePropertyValuesModels(device);
+            propModels = _deviceLogic.ExtractDevicePropertyValuesModelsND(device);
             propModels = ApplyDevicePropertyOrdering(propModels);
 
             deviceModel.DevicePropertyValueModels.AddRange(propModels);
@@ -347,10 +340,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         v => v.Name);
         }
 
-        private async Task<dynamic> AddDeviceAsync(UnregisteredDeviceModel unregisteredDeviceModel)
+        private async Task<DeviceWithKeysND> AddDeviceAsync(UnregisteredDeviceModel unregisteredDeviceModel)
         {
-            dynamic device;
-
             Debug.Assert(
                 unregisteredDeviceModel != null,
                 "unregisteredDeviceModel is a null reference.");
@@ -359,36 +350,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 unregisteredDeviceModel.DeviceType != null,
                 "unregisteredDeviceModel.DeviceType is a null reference.");
 
-	        device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
+	        DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
                 unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
-
-            DeviceND d = TypeMapper.Get().map<DeviceND>(device);
-
-            var addedDevice = await this._deviceLogic.AddDeviceAsync(device);
-            TypeMapper.Get().map<DeviceND>(addedDevice.Device);
+            
+            DeviceWithKeysND addedDevice = await this._deviceLogic.AddDeviceAsync(device);
             return addedDevice;
         }
 
         private async Task<bool> GetDeviceExistsAsync(string deviceId)
         {
-            dynamic existingDevice;
-
-            existingDevice = await _deviceLogic.GetDeviceAsync(deviceId);
-            DeviceND d = TypeMapper.Get().map<DeviceND>(existingDevice);
-
-
-            return !object.ReferenceEquals(existingDevice, null);
+            DeviceND existingDevice = await _deviceLogic.GetDeviceAsyncND(deviceId);
+            return (existingDevice != null);
         }
 
-        private async Task<List<dynamic>> GetDevices()
+        private async Task<List<DeviceND>> GetDevices()
         {
             var query = new DeviceListQuery
             {
                 Take = 1000
             };
 
-            var devices = await _deviceLogic.GetDevices(query);
-            TypeMapper.Get().map<List<DeviceND>>(devices.Results);
+            var devices = await _deviceLogic.GetDevicesND(query);
             return devices.Results;
         }
 
