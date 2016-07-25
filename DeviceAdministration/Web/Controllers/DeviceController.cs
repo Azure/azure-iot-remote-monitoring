@@ -360,7 +360,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private async Task<bool> GetDeviceExistsAsync(string deviceId)
         {
             DeviceND existingDevice = await _deviceLogic.GetDeviceAsyncND(deviceId);
-            return !ReferenceEquals(existingDevice, null);
+            return (existingDevice != null);
         }
 
         private async Task<List<DeviceND>> GetDevices()
