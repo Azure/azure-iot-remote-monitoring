@@ -463,7 +463,7 @@ function checkIoTHubDetailsEnabledDevice(device:DeviceInfo) {
 
 let testDevices: DeviceInfo[] = [];
 
-function populateDB(done: DoneFunction) {
+function populateDB(succeed: Function, fail: Function) {
     let disabledTestDevices = [
         createDeviceWithDeviceProperties(),
         createDeviceWithSystemProperties(),
@@ -482,13 +482,13 @@ function populateDB(done: DoneFunction) {
     testDevices = disabledTestDevices.concat(enabledTestDevices);
 
     let enableDevices = () => {
-        let onDoneEnabling = sync(enabledTestDevices.length, done);
-        enabledTestDevices.forEach(device => enableDevice(device, onDoneEnabling, done.fail));
+        let onDoneEnabling = sync(enabledTestDevices.length, succeed);
+        enabledTestDevices.forEach(device => enableDevice(device, onDoneEnabling, fail));
     };
 
     let onDoneAdding = sync(testDevices.length, enableDevices);
 
-    testDevices.forEach(device => addDevice(device, onDoneAdding, done.fail));
+    testDevices.forEach(device => addDevice(device, onDoneAdding, fail));
 }
 
 function drainDB(succeed: Function, fail: Function) {
@@ -578,8 +578,13 @@ describe('devices api', () => {
         // setup request for tests
         req = request.defaults({ json: true, baseUrl: 'https://localhost:44305/api/v1/devices' });
 
+        console.log('Draining DB...');
         drainDB(() => {
-            populateDB(done);
+            console.log('Populating DB...')
+            populateDB(() => { 
+                console.log('DB Setup Complete...'); 
+                done(); 
+            }, done.fail);
         }, done.fail);
     });
 
