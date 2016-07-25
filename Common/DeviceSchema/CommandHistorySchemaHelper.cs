@@ -126,6 +126,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
 
             return result;
         }
+        public static CommandHistoryND GetCommandHistoryItemOrDefaultND(DeviceND device, string messageId)
+        {
+            CommandHistoryND result = null;
+
+            IList<CommandHistoryND> history = GetCommandHistoryND(device);
+
+            int commandIndex = GetCommandHistoryItemIndexND(history, messageId);
+            if (commandIndex > -1)
+            {
+                result = history[commandIndex];
+            }
+
+            if (result == null)
+            {
+                result.CreatedTime = DateTime.UtcNow;
+                result.MessageId = messageId;
+                result.Parameters = new JObject();
+            }
+
+            return result;
+        }
 
         private static int GetCommandHistoryItemIndex(dynamic commandHistory, string messageId)
         {
@@ -167,6 +188,50 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
 
                     if ((foundId != null) &&
                         (foundId.ToString() == messageId))
+                    {
+                        result = i;
+                        break;
+                    }
+                }
+            }
+
+            return result;
+        }
+        private static int GetCommandHistoryItemIndexND(IList<CommandHistoryND> commandHistory, string messageId)
+        {
+            IEnumerable commands;
+            string foundId;
+            int i;
+            int result = -1;
+
+            if (commandHistory == null)
+            {
+                throw new ArgumentNullException("commandHistory");
+            }
+
+            if (string.IsNullOrEmpty(messageId))
+            {
+                throw new ArgumentException(
+                    "messageId is a null reference or empty string.",
+                    "messageId");
+            }
+
+            if ((commands = commandHistory as IEnumerable) != null)
+            {
+                i = -1;
+                foreach (CommandHistoryND command in commands)
+                {
+                    ++i;
+
+                    if (command == null)
+                    {
+                        continue;
+                    }
+
+                    foundId = command.MessageId;
+
+                    if ((foundId != null) &&
+                        (foundId == messageId))
                     {
                         result = i;
                         break;
@@ -232,7 +297,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
                 history[commandIndex] = command;
             }
         }
+        public static void UpdateCommandHistoryItemND(DeviceND device, CommandHistoryND command)
+        {
+            IList<CommandHistoryND> history = GetCommandHistoryND(device);
 
+            int commandIndex = GetCommandHistoryItemIndexND(history, (string)command.MessageId);
+            if (commandIndex > -1)
+            {
+                history[commandIndex] = command;
+            }
+        }
         public static void AddCommandToHistory(dynamic device, dynamic command)
         {
             dynamic history = GetCommandHistory(device);

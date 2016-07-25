@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -6,23 +7,26 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.ServiceBus.Messaging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RestSharp.Extensions;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.WebJob.Processors
 {
     public class DeviceAdministrationProcessor : IEventProcessor
     {
-        private readonly IDeviceLogic _deviceLogic;
+        private readonly IDeviceLogicND _deviceLogic;
         private readonly IConfigurationProvider _configurationProvider;
 
         int _totalMessages = 0;
         Stopwatch _checkpointStopWatch;
 
-        public DeviceAdministrationProcessor(IDeviceLogic deviceLogic, IConfigurationProvider configurationProvider)
+        public DeviceAdministrationProcessor(IDeviceLogicND deviceLogic, IConfigurationProvider configurationProvider)
         {
             this.LastMessageOffset = "-1";
             _deviceLogic = deviceLogic;
@@ -74,21 +78,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                     this.LastMessageOffset = message.Offset;
 
                     jsonString = Encoding.UTF8.GetString(message.GetBytes());
-                    var result = JsonConvert.DeserializeObject(jsonString);
-                    var resultAsArray = result as JArray;
-
-                    if (resultAsArray != null)
+                    IList<DeviceND> results = JsonConvert.DeserializeObject<List<DeviceND>>(jsonString);
+                    if (results != null)
                     {
-                        foreach (dynamic resultItem in resultAsArray)
+                        foreach (DeviceND resultItem in results)
                         {
                             await ProcessEventItem(resultItem);
                         }
                     }
-                    else
-                    {
-                        await ProcessEventItem(result);
-                    }
-
                     this._totalMessages++;
                 }
                 catch (Exception e)
@@ -118,7 +115,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             }
         }
 
-        private async Task ProcessEventItem(dynamic eventData)
+        private async Task ProcessEventItem(DeviceND eventData)
         {
             if (eventData == null || eventData.ObjectType == null)
             {
@@ -126,7 +123,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                 return;
             }
 
-            string objectType = eventData.ObjectType.ToString();
+            string objectType = eventData.ObjectType;
 
             var objectTypePrefix = _configurationProvider.GetConfigurationSettingValue("ObjectTypePrefix");
             if (string.IsNullOrWhiteSpace(objectTypePrefix))
@@ -146,25 +143,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
         }
 
 
-        private async Task ProcessDeviceInfo(dynamic deviceInfo)
+        private async Task ProcessDeviceInfo(DeviceND deviceInfo)
         {
             string versionAsString = "";
             if (deviceInfo.Version != null)
             {
-                dynamic version = deviceInfo.Version;
-                versionAsString = version.ToString();
+                versionAsString = deviceInfo.Version;
             }
             switch (versionAsString)
             {
                 case SampleDeviceFactory.VERSION_1_0:
                     //Data coming in from the simulator can sometimes turn a boolean into 0 or 1.
                     //Check the HubEnabledState since this is actually displayed and make sure it's in a good format
-                    DeviceSchemaHelper.FixDeviceSchema(deviceInfo);
+                    //Should not be required for strongly typed object
+                    //DeviceSchemaHelperND.FixDeviceSchema(deviceInfo);
 
-                    dynamic id = DeviceSchemaHelper.GetConnectionDeviceId(deviceInfo);
-                    string name = id.ToString();
+                    string name = DeviceSchemaHelperND.GetConnectionDeviceId(deviceInfo);
                     Trace.TraceInformation("ProcessEventAsync -- DeviceInfo: {0}", name);
-                    await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(deviceInfo);
+                    await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsyncND(deviceInfo);
 
                     break;
                 default:

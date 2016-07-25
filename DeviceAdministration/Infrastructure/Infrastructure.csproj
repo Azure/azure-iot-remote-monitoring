@@ -160,6 +160,7 @@
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Models\ActionMapping.cs" />
     <Compile Include="Models\ActionMappingExtended.cs" />
+    <Compile Include="Models\ActionModel.cs" />
     <Compile Include="Models\AlertHistoryItemModel.cs" />
     <Compile Include="Models\DeviceListQueryResultND.cs" />
     <Compile Include="Models\DeviceListQuery.cs" />

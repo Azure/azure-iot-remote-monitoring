@@ -9,20 +9,21 @@ using Microsoft.Azure.Devices;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
 namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
 {
     public class MessageFeedbackProcessor : IMessageFeedbackProcessor, IDisposable
     {
         private CancellationTokenSource _cancellationTokenSource;
-        private readonly IDeviceLogic _deviceLogic;
+        private readonly IDeviceLogicND _deviceLogic;
         private readonly string _iotHubConnectionString;
         private bool _isRunning;
         private bool _disposed = false;
 
         public MessageFeedbackProcessor(
             ILifetimeScope scope,
-            IDeviceLogic deviceLogic)
+            IDeviceLogicND deviceLogic)
         {
             IConfigurationProvider configProvider;
 
@@ -81,8 +82,8 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
         {
             FeedbackBatch batch;
             FeedbackReceiver<FeedbackBatch> batchReceiver;
-            dynamic device;
-            dynamic existingCommand;
+            DeviceND device;
+            CommandHistoryND existingCommand;
             IEnumerable<FeedbackRecord> records;
             ServiceClient serviceClient;
             DateTime updatedTime;
@@ -123,7 +124,7 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
                     foreach (FeedbackRecord record in records)
                     {
                         device = 
-                            await _deviceLogic.GetDeviceAsync(record.DeviceId);
+                            await _deviceLogic.GetDeviceAsyncND(record.DeviceId);
                         if (device == null)
                         {
                             continue;
@@ -137,7 +138,7 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
                             record.StatusCode);
 
                         existingCommand =
-                            CommandHistorySchemaHelper.GetCommandHistoryItemOrDefault(
+                            CommandHistorySchemaHelper.GetCommandHistoryItemOrDefaultND(
                                 device,
                                 record.OriginalMessageId);
 
@@ -166,11 +167,11 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
                             existingCommand.ErrorMessage = string.Empty;
                         }
 
-                        CommandHistorySchemaHelper.UpdateCommandHistoryItem(
+                        CommandHistorySchemaHelper.UpdateCommandHistoryItemND(
                             device, 
                             existingCommand);
 
-                        await _deviceLogic.UpdateDeviceAsync(device);
+                        await _deviceLogic.UpdateDeviceAsyncND(device);
                     }
 
                     await batchReceiver.CompleteAsync(batch);
