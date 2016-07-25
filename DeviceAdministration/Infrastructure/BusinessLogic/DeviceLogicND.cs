@@ -1322,8 +1322,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             for (int i = 0; i < deviceCount; i++)
             {
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
-                dynamic device = SampleDeviceFactory.GetSampleDevice(randomNumber, generatedSecurityKeys);
-                await AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
+                DeviceND device = SampleDeviceFactory.GetSampleDevice(randomNumber, generatedSecurityKeys);
+                await AddDeviceToRepositoriesAsyncND(device, generatedSecurityKeys);
             }   
         }
 
@@ -1332,9 +1332,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             List<string> sampleIds = SampleDeviceFactory.GetDefaultDeviceNames();
             foreach(string id in sampleIds)
             {
-                dynamic device = DeviceSchemaHelper.BuildDeviceStructure(id, true, null);
+                DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(id, true, null);
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
-                await AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
+                await AddDeviceToRepositoriesAsyncND(device, generatedSecurityKeys);
             }
             return sampleIds;
         }
