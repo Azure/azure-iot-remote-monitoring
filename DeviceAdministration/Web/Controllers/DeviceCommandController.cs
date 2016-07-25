@@ -112,7 +112,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             try
             {
-                dynamic commandParameters = JsonConvert.DeserializeObject<Dictionary<string, object>>(commandJson);
+                IDictionary<string, object> commandParameters = JsonConvert.DeserializeObject<Dictionary<string, object>>(commandJson);
 
                 await _deviceLogic.SendCommandAsync(deviceId, name, commandParameters);
             }
