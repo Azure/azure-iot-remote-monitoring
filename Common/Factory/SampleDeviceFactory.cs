@@ -97,7 +97,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
         private static void AssignDeviceProperties(string deviceId, DeviceND device)
         {
             int randomId = rand.Next(0, _possibleDeviceLocations.Count - 1); 
-            DeviceProperties deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
+            DeviceProperties deviceProperties = DeviceSchemaHelperND.GetDeviceProperties(device);
             deviceProperties.HubEnabledState = true;
             deviceProperties.Manufacturer = "Contoso Inc.";
             deviceProperties.ModelNumber = "MD-" + randomId;
