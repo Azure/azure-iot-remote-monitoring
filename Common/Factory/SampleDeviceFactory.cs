@@ -58,9 +58,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             new Location(47.636121, -122.130254) //3009 157th Pl NE, Redmond, WA 98052
         };
 
-        public static dynamic GetSampleSimulatedDevice(string deviceId, string key)
+        public static DeviceND GetSampleSimulatedDevice(string deviceId, string key)
         {
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, true, null);
+            DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(deviceId, true, null);
 
             AssignDeviceProperties(deviceId, device);
             device.ObjectType = OBJECT_TYPE_DEVICE_INFO;
@@ -73,7 +73,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             return device;
         }
 
-        public static dynamic GetSampleDevice(Random randomNumber, SecurityKeys keys)
+        public static DeviceND GetSampleDevice(Random randomNumber, SecurityKeys keys)
         {
             string deviceId = 
                 string.Format(
@@ -84,7 +84,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
                     randomNumber.Next(99999),
                     randomNumber.Next(99999));
 
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, false, null);
+            DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(deviceId, false, null);
             device.ObjectName = "IoT Device Description";
 
             AssignDeviceProperties(deviceId, device);
@@ -94,10 +94,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             return device;
         }
 
-        private static void AssignDeviceProperties(string deviceId, dynamic device)
+        private static void AssignDeviceProperties(string deviceId, DeviceND device)
         {
             int randomId = rand.Next(0, _possibleDeviceLocations.Count - 1); 
-            dynamic deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
+            DeviceProperties deviceProperties = DeviceSchemaHelperND.GetDeviceProperties(device);
             deviceProperties.HubEnabledState = true;
             deviceProperties.Manufacturer = "Contoso Inc.";
             deviceProperties.ModelNumber = "MD-" + randomId;
