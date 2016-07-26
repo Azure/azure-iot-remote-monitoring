@@ -17,8 +17,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 .As<IConfigurationProvider>()
                 .SingleInstance();
 
-            builder.RegisterType<DeviceLogic>()
-                .As<IDeviceLogic>();
+            builder.RegisterType<DeviceLogicND>()
+                .As<IDeviceLogicND>();
+
+            builder.RegisterType<IotHubRepositoryND>()
+                .As<IIotHubRepositoryND>();
 
             builder.RegisterType<DeviceRulesLogic>()
                 .As<IDeviceRulesLogic>();
@@ -26,14 +29,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             builder.RegisterType<DeviceRegistryRepository>()
                 .As<IDeviceRegistryCrudRepository>();
 
+            builder.RegisterType<DeviceRegistryRepositoryND>()
+                 .As<IDeviceRegistryCrudRepositoryND>();
+
+            builder.RegisterType<DeviceRegistryRepositoryND>()
+                .As<IDeviceRegistryListRepositoryND>();
+
             builder.RegisterType<DeviceRegistryRepository>()
                 .As<IDeviceRegistryListRepository>();
 
             builder.RegisterType<DeviceRulesRepository>()
                 .As<IDeviceRulesRepository>();
-
-            builder.RegisterType<IotHubRepository>()
-                .As<IIotHubRepository>();
 
             builder.RegisterType<SecurityKeyGenerator>()
                 .As<ISecurityKeyGenerator>();
