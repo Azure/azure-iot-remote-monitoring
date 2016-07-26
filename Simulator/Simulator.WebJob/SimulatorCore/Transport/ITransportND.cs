@@ -13,9 +13,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         void Open();
         Task CloseAsync();
 
-        Task SendEventAsync(DeviceND eventData);
+        Task SendEventAsync(dynamic eventData);
 
-        Task SendEventAsync(Guid eventId, DeviceND eventData);
+        Task SendEventAsync(Guid eventId, dynamic eventData);
 
         Task SendEventBatchAsync(IEnumerable<Client.Message> messages);
 
