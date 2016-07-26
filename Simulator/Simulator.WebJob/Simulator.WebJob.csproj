@@ -173,6 +173,17 @@
     <Compile Include="BulkDeviceTester.cs" />
     <Compile Include="DataInitialization\DataInitializer.cs" />
     <Compile Include="DataInitialization\IDataInitializer.cs" />
+    <Compile Include="SimulatorCore\CommandProcessors\CommandProcessorND.cs" />
+    <Compile Include="SimulatorCore\CommandProcessors\PingDeviceProcessorND.cs" />
+    <Compile Include="SimulatorCore\Devices\DeviceBaseND.cs" />
+    <Compile Include="SimulatorCore\Devices\IDeviceND.cs" />
+    <Compile Include="SimulatorCore\Telemetry\ConcreteTelemetryND.cs" />
+    <Compile Include="SimulatorCore\Telemetry\Factory\ITelemetryFactoryND.cs" />
+    <Compile Include="SimulatorCore\Telemetry\ITelemetryND.cs" />
+    <Compile Include="SimulatorCore\Transport\Factory\IoTHubTransportFactoryND.cs" />
+    <Compile Include="SimulatorCore\Transport\Factory\ITransportFactoryND.cs" />
+    <Compile Include="SimulatorCore\Transport\IoTHubTransportND.cs" />
+    <Compile Include="SimulatorCore\Transport\ITransportND.cs" />
     <Compile Include="SimulatorModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SimulatorCore\CommandProcessors\CommandProcessor.cs" />
