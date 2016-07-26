@@ -401,7 +401,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                     throw new ArgumentException("propertyName does not name a property on item", "propertyName");
                 }
             }
-
+            //newValue = new object();
             methodInfo.Invoke(item, new object[] {newValue});
         }
         public static void SetNamedPropertyValue(

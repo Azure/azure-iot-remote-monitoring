@@ -112,16 +112,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             deviceProperties.Longitude = _possibleDeviceLocations[randomId].Longitude;
         }
 
-        private static void AssignTelemetry(dynamic device)
+        private static void AssignTelemetry(DeviceND device)
         {
-            dynamic telemetry = CommandSchemaHelper.CreateNewTelemetry("Temperature", "Temperature", "double");
+            Telemetry telemetry = CommandSchemaHelper.CreateNewTelemetry("Temperature", "Temperature", "double");
             CommandSchemaHelper.AddTelemetryToDevice(device, telemetry);
 
             telemetry = CommandSchemaHelper.CreateNewTelemetry("Humidity", "Humidity", "double");
             CommandSchemaHelper.AddTelemetryToDevice(device, telemetry);
         }
 
-        private static void AssignCommands(dynamic device)
+        private static void AssignCommands(DeviceND device)
         {
             dynamic command = CommandSchemaHelper.CreateNewCommand("PingDevice");
             CommandSchemaHelper.AddCommandToDevice(device, command);

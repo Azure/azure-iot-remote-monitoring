@@ -1339,6 +1339,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return sampleIds;
         }
 
+
         public DeviceListLocationsModel ExtractLocationsData(List<dynamic> devices)
         {
             var result = new DeviceListLocationsModel();

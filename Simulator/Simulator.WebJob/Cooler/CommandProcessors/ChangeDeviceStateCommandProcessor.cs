@@ -5,6 +5,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using System.Collections.Generic;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.CommandProcessors
 {
@@ -33,10 +35,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     var device = Device as CoolerDevice;
                     if (device != null)
                     {
-                        dynamic parameters = WireCommandSchemaHelper.GetParameters(command);
+                        List<Parameter> parameters = WireCommandSchemaHelper.GetParameters(command);
                         if (parameters != null)
                         {
-                            dynamic deviceState = ReflectionHelper.GetNamedPropertyValue(
+                            var deviceState = ReflectionHelper.GetNamedPropertyValue(
                                 parameters,
                                 "DeviceState",
                                 usesCaseSensitivePropertyNameMatch: true,

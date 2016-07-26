@@ -20,6 +20,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             builder.RegisterType<DeviceLogic>()
                 .As<IDeviceLogic>();
 
+
+            builder.RegisterType<DeviceLogicND>()
+                .As<IDeviceLogicND>();
+
+
             builder.RegisterType<DeviceRulesLogic>()
                 .As<IDeviceRulesLogic>();
 
