@@ -176,6 +176,7 @@
     <Compile Include="SimulatorCore\CommandProcessors\CommandProcessorND.cs" />
     <Compile Include="SimulatorCore\CommandProcessors\PingDeviceProcessorND.cs" />
     <Compile Include="SimulatorCore\Devices\DeviceBaseND.cs" />
+    <Compile Include="SimulatorCore\Devices\Factory\IDeviceFactoryND.cs" />
     <Compile Include="SimulatorCore\Devices\IDeviceND.cs" />
     <Compile Include="SimulatorCore\Telemetry\ConcreteTelemetryND.cs" />
     <Compile Include="SimulatorCore\Telemetry\Factory\ITelemetryFactoryND.cs" />
