@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BulkDeviceTester.cs" />
+    <Compile Include="BulkDeviceTesterND.cs" />
     <Compile Include="DataInitialization\DataInitializer.cs" />
     <Compile Include="DataInitialization\IDataInitializer.cs" />
     <Compile Include="SimulatorCore\CommandProcessors\CommandProcessorND.cs" />

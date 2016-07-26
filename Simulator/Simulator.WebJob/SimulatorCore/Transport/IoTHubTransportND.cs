@@ -69,7 +69,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// <param name="device"></param>
         /// <param name="eventData"></param>
         /// <returns></returns>
-        public async Task SendEventAsync(DeviceND eventData)
+        public async Task SendEventAsync(dynamic eventData)
         {
             var eventId = Guid.NewGuid();
             await SendEventAsync(eventId, eventData);
@@ -82,10 +82,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// <param name="eventId"></param>
         /// <param name="eventData"></param>
         /// <returns></returns>
-        public async Task SendEventAsync(Guid eventId, DeviceND eventData)
+        public async Task SendEventAsync(Guid eventId, dynamic eventData)
         {
             byte[] bytes;
-            string objectType = EventSchemaHelper.GetObjectTypeND(eventData);
+            string objectType = EventSchemaHelper.GetObjectType(eventData);
             var objectTypePrefix = _configurationProvider.GetConfigurationSettingValue("ObjectTypePrefix");
 
             if (!string.IsNullOrWhiteSpace(objectType) && !string.IsNullOrEmpty(objectTypePrefix))
