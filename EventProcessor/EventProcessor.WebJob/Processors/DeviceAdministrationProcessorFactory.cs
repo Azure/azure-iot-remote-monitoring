@@ -10,13 +10,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
 {
     public class DeviceAdministrationProcessorFactory : IEventProcessorFactory
     {
-        private readonly IDeviceLogic _deviceLogic;
+        private readonly IDeviceLogicND _deviceLogic;
         private readonly IConfigurationProvider _configurationProvider;
 
         readonly ConcurrentDictionary<string, DeviceAdministrationProcessor> eventProcessors = new ConcurrentDictionary<string, DeviceAdministrationProcessor>();
         readonly ConcurrentQueue<DeviceAdministrationProcessor> closedProcessors = new ConcurrentQueue<DeviceAdministrationProcessor>();
 
-        public DeviceAdministrationProcessorFactory(IDeviceLogic deviceLogic, IConfigurationProvider configurationProvider)
+        public DeviceAdministrationProcessorFactory(IDeviceLogicND deviceLogic, IConfigurationProvider configurationProvider)
         {
             _deviceLogic = deviceLogic;
             _configurationProvider = configurationProvider;

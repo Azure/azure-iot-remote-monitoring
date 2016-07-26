@@ -11,7 +11,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
 {
     public class DeviceEventProcessor : IDeviceEventProcessor, IDisposable
     {
-        readonly IDeviceLogic _deviceLogic;
+        readonly IDeviceLogicND _deviceLogic;
 
         EventProcessorHost _eventProcessorHost = null;
         DeviceAdministrationProcessorFactory _factory;
@@ -20,7 +20,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
         bool _running;
         bool _disposed = false;
 
-        public DeviceEventProcessor(ILifetimeScope scope, IDeviceLogic deviceLogic)
+        public DeviceEventProcessor(ILifetimeScope scope, IDeviceLogicND deviceLogic)
         {
             _configurationProvider = scope.Resolve<IConfigurationProvider>();
             _deviceLogic = deviceLogic;
