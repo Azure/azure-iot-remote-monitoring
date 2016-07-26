@@ -11,12 +11,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     public class DataInitializer : IDataInitializer
     {
         private readonly IActionMappingLogic _actionMappingLogic;
-        private readonly IDeviceLogic _deviceLogic;
+        private readonly IDeviceLogicND _deviceLogic;
         private readonly IDeviceRulesLogic _deviceRulesLogic;
 
         public DataInitializer(
             IActionMappingLogic actionMappingLogic,
-            IDeviceLogic deviceLogic,
+            IDeviceLogicND deviceLogic,
             IDeviceRulesLogic deviceRulesLogic)
         {
             if (actionMappingLogic == null)
