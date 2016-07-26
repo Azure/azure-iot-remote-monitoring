@@ -158,7 +158,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
 
                     string name = DeviceSchemaHelperND.GetConnectionDeviceId(deviceInfo);
                     Trace.TraceInformation("ProcessEventAsync -- DeviceInfo: {0}", name);
-                    await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsyncND(deviceInfo);
+                    await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(deviceInfo);
 
                     break;
                 default:

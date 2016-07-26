@@ -93,9 +93,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 throw new ArgumentNullException();
             }
 
-            DeviceND device = await _deviceLogic.GetDeviceAsyncND(deviceId);
+            DeviceND device = await _deviceLogic.GetDeviceAsync(deviceId);
             device.SystemProperties.ICCID = iccid;
-            await _deviceLogic.UpdateDeviceAsyncND(device);
+            await _deviceLogic.UpdateDeviceAsync(device);
         }
 
         public bool SaveRegistration(ApiRegistrationModel apiModel)
@@ -147,7 +147,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 Take = 1000
             };
 
-            var devices = await _deviceLogic.GetDevicesND(query);
+            var devices = await _deviceLogic.GetDevices(query);
             return devices.Results;
         }
     }

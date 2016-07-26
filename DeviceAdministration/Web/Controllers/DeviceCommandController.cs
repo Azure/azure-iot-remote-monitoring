@@ -40,7 +40,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [RequirePermission(Permission.ViewDevices)]
         public async Task<ActionResult> Index(string deviceId)
         {
-            DeviceND device = await _deviceLogic.GetDeviceAsyncND(deviceId);
+            DeviceND device = await _deviceLogic.GetDeviceAsync(deviceId);
            
             IList<SelectListItem> commandListItems = CommandListItems(device);
 

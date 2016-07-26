@@ -218,7 +218,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>()
             };
 
-            DeviceND device = await _deviceLogic.GetDeviceAsyncND(deviceId);
+            DeviceND device = await _deviceLogic.GetDeviceAsync(deviceId);
             if (!object.ReferenceEquals(device, null))
             {
                 model.DeviceId = DeviceSchemaHelperND.GetDeviceID(device);
@@ -236,14 +236,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             if (model != null)
             {
-                DeviceND device = await _deviceLogic.GetDeviceAsyncND(model.DeviceId);
+                DeviceND device = await _deviceLogic.GetDeviceAsync(model.DeviceId);
                 if (device != null)
                 {
                     _deviceLogic.ApplyDevicePropertyValueModels(
                         device,
                         model.DevicePropertyValueModels);
 
-                    await _deviceLogic.UpdateDeviceAsyncND(device);
+                    await _deviceLogic.UpdateDeviceAsync(device);
                 }
             }
 
@@ -255,7 +255,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             IEnumerable<DevicePropertyValueModel> propModels;
 
-            DeviceND device = await _deviceLogic.GetDeviceAsyncND(deviceId);
+            DeviceND device = await _deviceLogic.GetDeviceAsync(deviceId);
             if (object.ReferenceEquals(device, null))
             {
                 throw new InvalidOperationException("Unable to load device with deviceId " + deviceId);
@@ -268,7 +268,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>()
             };
 
-            propModels = _deviceLogic.ExtractDevicePropertyValuesModelsND(device);
+            propModels = _deviceLogic.ExtractDevicePropertyValuesModels(device);
             propModels = ApplyDevicePropertyOrdering(propModels);
 
             deviceModel.DevicePropertyValueModels.AddRange(propModels);
@@ -359,7 +359,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private async Task<bool> GetDeviceExistsAsync(string deviceId)
         {
-            DeviceND existingDevice = await _deviceLogic.GetDeviceAsyncND(deviceId);
+            DeviceND existingDevice = await _deviceLogic.GetDeviceAsync(deviceId);
             return (existingDevice != null);
         }
 
@@ -370,7 +370,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 Take = 1000
             };
 
-            var devices = await _deviceLogic.GetDevicesND(query);
+            var devices = await _deviceLogic.GetDevices(query);
             return devices.Results;
         }
 
