@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Newtonsoft.Json.Linq;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema
 {
@@ -20,18 +21,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="device"></param>
         /// <returns></returns>
-        public static dynamic GetSupportedCommands(dynamic device)
+        public static List<Command> GetSupportedCommands(DeviceND device)
         {
             if (device == null)
             {
                 throw new ArgumentNullException("device");
             }
 
-            dynamic commands = device.Commands;
+            List<Command> commands = device.Commands;
 
             if (commands == null)
             {
-                commands = new JArray();
+                commands = new List<Command>();
                 device.Commands = commands;
             }
 
@@ -43,18 +44,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="device">Device</param>
         /// <returns></returns>
-        public static dynamic GetTelemetrySchema(dynamic device)
+        public static List<Telemetry> GetTelemetrySchema(DeviceND device)
         {
             if (device == null)
             {
                 throw new ArgumentNullException("device");
             }
 
-            dynamic telemetry = device.Telemetry;
+            List<Telemetry> telemetry = device.Telemetry;
 
             if (telemetry == null)
             {
-                telemetry = new JArray();
+                telemetry = new List<Telemetry>();
             }
 
             return telemetry;
@@ -65,12 +66,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        public static dynamic CreateNewCommand(string command)
+        public static Command CreateNewCommand(string command)
         {
-            JObject result = new JObject();
+            Command result = new Command();
 
-            result.Add(DeviceCommandConstants.NAME, command);
-            result.Add(DeviceCommandConstants.PARAMETERS, null);
+            result.Name = DeviceCommandConstants.NAME;
+            result.Parameters = null;
 
             return result;
         }
@@ -80,28 +81,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        public static List<dynamic> GetCommandParametersAsList(dynamic command)
+        public static List<Parameter> GetCommandParametersAsList(Command command)
         {
-            object obj;
-            IEnumerable parameters;
-            List<dynamic> result;
+            List<Parameter> result;
 
-            result = new List<dynamic>();
+            result = new List<Parameter>();
 
-            obj = 
-                ReflectionHelper.GetNamedPropertyValue(
-                    (object)command, 
-                    "Parameters", 
-                    true, 
-                    false);
-
-            if ((parameters = obj as IEnumerable) != null)
+            foreach (Parameter parameter in command.Parameters)
             {
-                foreach (object parameter in parameters)
-                {
-                    result.Add(parameter);
-                }
+                result.Add(parameter);
             }
+
 
             return result;
         }
@@ -113,13 +103,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <param name="displayName">Name to display when referencing the telemetry field to the end user</param>
         /// <param name="type">Value type of telemetry object</param>
         /// <returns></returns>
-        public static JObject CreateNewTelemetry(string name, string displayName, string type)
+        public static Telemetry CreateNewTelemetry(string name, string displayName, string type)
         {
-            JObject result = new JObject();
+            Telemetry result = new Telemetry();
+            result.Name = name;
+            result.DisplayName = displayName;
+            result.Type = type;
 
-            result.Add("Name", name);
-            result.Add("DisplayName", displayName);
-            result.Add("Type", type);
 
             return result;
         }
@@ -131,18 +121,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <param name="command"></param>
         /// <param name="name"></param>
         /// <param name="type"></param>
-        public static void DefineNewParameterOnCommand(dynamic command, string name, string type)
+        public static void DefineNewParameterOnCommand(Command command, string name, string type)
         {
-            dynamic foundParams = command.Parameters;
-            if (foundParams == null || foundParams.GetType() != typeof(JArray))
+            List<Parameter> foundParams = command.Parameters;
+            if (foundParams == null)
             {
-                foundParams = new JArray();
+                foundParams = new List<Parameter>();
                 command.Parameters = foundParams;
             }
 
-            JObject newParam = new JObject();
-            newParam.Add("Name", name);
-            newParam.Add("Type", type);
+            Parameter newParam = new Parameter();
+            newParam.Name = name;
+            newParam.Type = type;
             foundParams.Add(newParam);
         }
 
@@ -152,44 +142,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <param name="device">Device to check</param>
         /// <param name="commandName">Name of commmand to check to see if the device supports</param>
         /// <returns>True if device can perform command, false if it cannot</returns>
-        public static bool CanDevicePerformCommand(dynamic device, string commandName)
+        public static bool CanDevicePerformCommand(DeviceND device, string commandName)
         {
-            IEnumerable commands;
-            object obj;
+            List<Command> commands;
 
             if (device == null)
             {
                 return false;
             }
 
-            obj =
-                ReflectionHelper.GetNamedPropertyValue(
-                    (object)device,
-                    "Commands",
-                    true,
-                    false);
+            commands = device.Commands;
 
-            if ((commands = obj as IEnumerable) == null)
+            if (commands == null)
             {
                 return false;
             }
 
-            foreach (object command in commands)
+            foreach (Command command in commands)
             {
-                if (command == null)
-                {
-                    continue;
-                }
-
-                obj =
-                    ReflectionHelper.GetNamedPropertyValue(
-                        (object)command,
-                        DeviceCommandConstants.NAME,
-                        true,
-                        false);
-
-                if ((obj != null) &&
-                    (obj.ToString() == commandName))
+                if (command != null && command.Name == commandName)
                 {
                     return true;
                 }
@@ -203,16 +174,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="device">device object</param>
         /// <param name="telemetry">telemetry to add</param>
-        public static void AddTelemetryToDevice(dynamic device, dynamic telemetry)
+        public static void AddTelemetryToDevice(DeviceND device, Telemetry telemetry)
         {
-            dynamic telemetryCollection = device.Telemetry;
 
-            if (telemetryCollection == null)
+            if (device.Telemetry == null)
             {
-                telemetryCollection = new JArray();
-                device.Telemetry = telemetryCollection;
+                device.Telemetry = new List<Telemetry>();
             }
-            telemetryCollection.Add(telemetry);
+
+
+            device.Telemetry.Add(telemetry);
         }
 
         /// <summary>
@@ -223,7 +194,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <param name="command"></param>
         public static void AddCommandToDevice(dynamic device, dynamic command)
         {
-            dynamic commands = GetSupportedCommands(device);
+            List<Command> commands = GetSupportedCommands(device);
             commands.Add(command);
         }
     }
