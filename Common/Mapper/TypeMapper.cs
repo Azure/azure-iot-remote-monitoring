@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using AutoMapper;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 
@@ -41,6 +42,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper
             if (typeof(T) == typeof(DeviceND))
             {
                 FixIsSimulatedDevice(dynamicObj);
+                DeviceSchemaHelper.FixDeviceSchema(dynamicObj);
             }
             string dynamicObjStr = Newtonsoft.Json.JsonConvert.SerializeObject(dynamicObj);
             T strongObj = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(dynamicObjStr);
