@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using NUnit.Framework;
@@ -528,7 +529,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private void TestNullDeviceId(FilterType filterType)
         {
-            var devicesWithNullDeviceId = GetListWithOneSpecialDeviceIdValue(specialDeviceId: null);
+            IQueryable<DeviceND> devicesWithNullDeviceId = GetListWithOneSpecialDeviceIdValue(specialDeviceId: null);
 
             var filters = new List<FilterInfo>()
             {
@@ -540,7 +541,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var filtered = FilterHelper.FilterDeviceList(devicesWithNullDeviceId, filters);
+            var filtered = FilterHelperND.FilterDeviceList(devicesWithNullDeviceId, filters);
 
             Assert.AreEqual(0, filtered.Count());
         }
@@ -587,11 +588,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private void TestNullDeviceProperties(FilterType filterType)
         {
-            var device = DeviceSchemaHelper.BuildDeviceStructure(Guid.NewGuid().ToString(), true, null);
+            DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(Guid.NewGuid().ToString(), true, null);
 
             device.DeviceProperties = null;
 
-            var list = new List<dynamic>() { device };
+            var list = new List<DeviceND>() { device };
 
             var filters = new List<FilterInfo>()
             {
@@ -603,7 +604,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var filtered = FilterHelper.FilterDeviceList(list.AsQueryable(), filters);
+            var filtered = FilterHelperND.FilterDeviceList(list.AsQueryable(), filters);
 
             Assert.AreEqual(0, filtered.Count());
         }
@@ -628,12 +629,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelper.FilterDeviceList(list, filters).ToList<dynamic>();
+            var results = FilterHelperND.FilterDeviceList(list, filters).ToList<DeviceND>();
 
             Assert.AreEqual(2, results.Count());
 
             Assert.Throws<DeviceRequiredPropertyNotFoundException>(
-                () => DeviceSchemaHelper.GetDeviceProperties(results[0]));
+                () => DeviceSchemaHelperND.GetDeviceProperties(results[0]));
 
             Assert.AreEqual("EnabledNull", results[1].DeviceProperties.DeviceID.ToString());
         }
@@ -652,7 +653,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelper.FilterDeviceList(list, filters).ToList<dynamic>();
+            var results = FilterHelperND.FilterDeviceList(list, filters).ToList<DeviceND>();
 
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("EnabledTrue", results[0].DeviceProperties.DeviceID.ToString());
@@ -672,15 +673,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelper.FilterDeviceList(list, filters).ToList<dynamic>();
+            var results = FilterHelperND.FilterDeviceList(list, filters).ToList<DeviceND>();
 
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("EnabledFalse", results[0].DeviceProperties.DeviceID.ToString());
         }
 
-        private static IQueryable<dynamic> GetListWithEnabledTestValues()
+        private static IQueryable<DeviceND> GetListWithEnabledTestValues()
         {
-            var list = GetSampleDevices(4).ToList();
+            List<DeviceND> list = GetSampleDevices(4).ToList();
 
             list[0].DeviceProperties = null;
             
@@ -693,7 +694,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             list[3].DeviceProperties.HubEnabledState = false;
             list[3].DeviceProperties.DeviceID = "EnabledFalse";
 
-            return list.AsQueryable<dynamic>();
+            return list.AsQueryable<DeviceND>();
         }
 
         #endregion
@@ -704,7 +705,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public void FilterTestInfrastructureShouldWork()
         {
             // make sure the infrastructure is working as expected
-            var list = GetSampleDevices();
+            IQueryable<DeviceND> list = GetSampleDevices();
 
             Assert.AreEqual(10, list.Count());
         }
@@ -713,48 +714,44 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var list = GetListWithOneSpecialDeviceIdValue();
 
-            var filtered = FilterHelper.FilterDeviceList(list, filters);
+            var filtered = FilterHelperND.FilterDeviceList(list, filters);
 
             Assert.AreEqual(expectedCount, filtered.Count());
         }
 
-        private static IQueryable<dynamic> GetListWithOneSpecialDeviceIdValue(string specialDeviceId = "The one special value")
+        private static IQueryable<DeviceND> GetListWithOneSpecialDeviceIdValue(string specialDeviceId = "The one special value")
         {
-            var list = GetSampleDevices().ToList();
+            List<DeviceND> list = GetSampleDevices().ToList();
 
             list[4].DeviceProperties.DeviceID = specialDeviceId;
 
-            return list.AsQueryable<dynamic>();
+            return list.AsQueryable<DeviceND>();
         }
 
-        private static IQueryable<dynamic> GetSampleDevices(int desiredNumberOfDevices = 10)
+        private static IQueryable<DeviceND> GetSampleDevices(int desiredNumberOfDevices = 10)
         {
-            List<dynamic> devices = new List<dynamic>();
+            List<DeviceND> devices = new List<DeviceND>();
 
             for (int i = 0; i < desiredNumberOfDevices; ++i)
             {
                 devices.Add(GetDefaultTestDevice());
             }
 
-            return devices.AsQueryable<dynamic>();
+            return devices.AsQueryable<DeviceND>();
         }
 
-        private static dynamic GetDefaultTestDevice()
+        private static DeviceND GetDefaultTestDevice()
         {
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure("DeviceID-Test", true, null);
-            dynamic props = DeviceSchemaHelper.GetDeviceProperties(device);
-            props.AvailablePowerSources = 123;
-            props.BatteryLevel = 12;
+            DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure("DeviceID-Test", true, null);
+            DeviceProperties props = DeviceSchemaHelperND.GetDeviceProperties(device);
             props.CreatedTime = new DateTime(2000, 01, 01);
             props.DeviceState = "DeviceState-Test";
             props.HubEnabledState = true;
             props.FirmwareVersion = "FirmwareVersion-Test";
             props.InstalledRAM = "InstalledRAM-Test";
             props.Manufacturer = "Manufacturer-Test";
-            props.MemoryFree = 123;
             props.ModelNumber = "ModelNumber-Test";
             props.Platform = "Platform-Test";
-            props.PowerSourceVoltage = 1234;
             props.Processor = "Processor-Test";
             props.SerialNumber = "SerialNumber-Test";
             props.UpdatedTime = new DateTime(2000, 01, 01);

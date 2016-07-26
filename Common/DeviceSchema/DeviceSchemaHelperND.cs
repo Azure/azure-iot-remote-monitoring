@@ -137,7 +137,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
 
             DateTime? createdTime = props.CreatedTime;
 
-            if (!createdTime.HasValue)
+            if (!createdTime.HasValue || createdTime.Equals(DateTime.MinValue))
             {
                 throw new DeviceRequiredPropertyNotFoundException("'CreatedTime' property is missing");
             }
