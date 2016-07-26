@@ -491,6 +491,10 @@ function populateDB(succeed: Function, fail: Function) {
     testDevices.forEach(device => addDevice(device, onDoneAdding, fail));
 }
 
+function logRequestFailure(err, resp) {
+    console.log(`error:${err || 'none'}\nstatus code:${resp.statusCode}\nstatus message:${resp.statusMessage}`);
+}
+
 function drainDB(succeed: Function, fail: Function) {
     let options = {
         uri: `https://localhost:44305/api/v1/devices`,
@@ -498,7 +502,8 @@ function drainDB(succeed: Function, fail: Function) {
     };
 
    request(options, (err, resp, result) => {
-        if (err) {
+        if (err || resp.statusCode != 200) {
+            logRequestFailure(err, resp);
             fail(`Couldn't get device list for DB drain`);
         } else {
             let devices = JSON.parse(result).data,
@@ -518,6 +523,7 @@ function enableDevice(device: DeviceInfo, succeed: Function, fail: Function) {
 
    request(options, (err, resp, result) => {
         if (err || resp.statusCode != 200) {
+            logRequestFailure(err, resp);
             fail(`Couldn't enable device: ${device.deviceProperties.deviceID}`);
         } else {
             succeed();
@@ -534,6 +540,7 @@ function addDevice(device: DeviceInfo, succeed: Function, fail: Function) {
 
    request(options, (err, resp, result) => {
         if (err || resp.statusCode != 200) {
+            logRequestFailure(err, resp);
             fail(`Couldn't add device: \n${JSON.stringify(device, null, 2)}`);
         } else {
             succeed();
@@ -549,6 +556,7 @@ function removeDevice(deviceId: string, succeed: Function, fail: Function) {
 
    request(options, (err, resp, result) => {
         if (err || resp.statusCode != 200) {
+            logRequestFailure(err, resp);
             fail(`Couldn't remove device: ${deviceId}`);
         } else {
             succeed();
@@ -565,6 +573,11 @@ function sync(numEvents: number, cb: Function) {
             cb();
         }
     };
+}
+
+function exit(reason: string) {
+    console.log(reason);
+    process.exit(1);
 }
 
 /**
@@ -584,8 +597,8 @@ describe('devices api', () => {
             populateDB(() => { 
                 console.log('DB Setup Complete...'); 
                 done(); 
-            }, done.fail);
-        }, done.fail);
+            }, exit);
+        }, exit);
     });
 
     describe('get devices', () => {
@@ -777,6 +790,7 @@ describe('devices api', () => {
         it('should enable the device', (done) => {
             req.put({uri: "/" + newDeviceId + "/enabledstatus", json:{"isEnabled" : true}}, (err, resp, result) => {
                 if (err || resp.statusCode != 200) {
+                    logRequestFailure(err, resp);
                     fail("Could not enable device " + newDeviceId);
                 }
                 done();
@@ -786,6 +800,7 @@ describe('devices api', () => {
         it('should disable the device', (done) => {
             req.put({uri: "/" + newDeviceId + "/enabledstatus", json:{"isEnabled" : false}}, (err, resp, result) => {
                 if (err || resp.statusCode != 200) {
+                    logRequestFailure(err, resp);
                     fail("Could not disable device " + newDeviceId);
                 }
                 done();
@@ -860,6 +875,7 @@ describe('devices api', () => {
         it('should send command to device', (done) => {
             req.post("/" + newDeviceId + "/commands/" + command_name, (err, resp, result) => {
                 if (err || resp.statusCode != 200) {
+                    logRequestFailure(err, resp);
                     fail("Send " + command_name + " command failed for " + newDeviceId);
                 }
                 done();
