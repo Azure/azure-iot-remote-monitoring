@@ -35,7 +35,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
     {
         public string DeviceID { get; set; }
         public bool? HubEnabledState { get; set; }
-        public DateTime CreatedTime { get; set; }
+        public DateTime? CreatedTime { get; set; }
         public string DeviceState { get; set; }
         public DateTime? UpdatedTime { get; set; }
         public string Manufacturer { get; set; }
