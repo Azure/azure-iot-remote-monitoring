@@ -199,9 +199,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
         private static int GetCommandHistoryItemIndexND(IList<CommandHistoryND> commandHistory, string messageId)
         {
-            IEnumerable commands;
-            string foundId;
-            int i;
+            int i = -1;
             int result = -1;
 
             if (commandHistory == null)
@@ -216,26 +214,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
                     "messageId");
             }
 
-            if ((commands = commandHistory as IEnumerable) != null)
+            foreach (CommandHistoryND command in commandHistory)
             {
-                i = -1;
-                foreach (CommandHistoryND command in commands)
+                ++i;
+
+                if (command == null)
                 {
-                    ++i;
+                    continue;
+                }
 
-                    if (command == null)
-                    {
-                        continue;
-                    }
+                string foundId = command.MessageId;
 
-                    foundId = command.MessageId;
-
-                    if ((foundId != null) &&
-                        (foundId == messageId))
-                    {
-                        result = i;
-                        break;
-                    }
+                if ((foundId != null) &&
+                    (foundId == messageId))
+                {
+                    result = i;
+                    break;
                 }
             }
 
@@ -301,7 +295,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         {
             IList<CommandHistoryND> history = GetCommandHistoryND(device);
 
-            int commandIndex = GetCommandHistoryItemIndexND(history, (string)command.MessageId);
+            int commandIndex = GetCommandHistoryItemIndexND(history, command.MessageId);
             if (commandIndex > -1)
             {
                 history[commandIndex] = command;
