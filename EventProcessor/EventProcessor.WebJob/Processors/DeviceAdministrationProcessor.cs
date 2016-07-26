@@ -18,13 +18,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
 {
     public class DeviceAdministrationProcessor : IEventProcessor
     {
-        private readonly IDeviceLogicND _deviceLogic;
+        private readonly IDeviceLogic _deviceLogic;
         private readonly IConfigurationProvider _configurationProvider;
 
         int _totalMessages = 0;
         Stopwatch _checkpointStopWatch;
 
-        public DeviceAdministrationProcessor(IDeviceLogicND deviceLogic, IConfigurationProvider configurationProvider)
+        public DeviceAdministrationProcessor(IDeviceLogic deviceLogic, IConfigurationProvider configurationProvider)
         {
             this.LastMessageOffset = "-1";
             _deviceLogic = deviceLogic;

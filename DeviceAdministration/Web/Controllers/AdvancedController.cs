@@ -21,11 +21,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         private readonly IApiRegistrationRepository _apiRegistrationRepository;
         private readonly IExternalCellularService _cellularService;
-        private readonly IDeviceLogicND _deviceLogic;
+        private readonly IDeviceLogic _deviceLogic;
         private const string CellularInvalidCreds = "400200";
         private const string CellularInvalidLicense = "400100";
 
-        public AdvancedController(IDeviceLogicND deviceLogic,
+        public AdvancedController(IDeviceLogic deviceLogic,
             IExternalCellularService cellularService,
             IApiRegistrationRepository apiRegistrationRepository)
         {

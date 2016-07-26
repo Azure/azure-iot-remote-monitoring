@@ -55,7 +55,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
         {
             //Logic
             builder.RegisterType<KeyLogic>().As<IKeyLogic>();
-            builder.RegisterType<DeviceLogicND>().As<IDeviceLogicND>();
+            builder.RegisterType<DeviceLogic>().As<IDeviceLogic>();
             builder.RegisterType<DeviceRulesLogic>().As<IDeviceRulesLogic>();
             builder.RegisterType<DeviceTypeLogic>().As<IDeviceTypeLogic>();
             builder.RegisterType<SecurityKeyGenerator>().As<ISecurityKeyGenerator>();
@@ -68,7 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             builder.RegisterType<AlertsLogic>().As<IAlertsLogic>();
 
             //Repositories
-            builder.RegisterType<IotHubRepositoryND>().As<IIotHubRepositoryND>();
+            builder.RegisterType<IotHubRepository>().As<IIotHubRepository>();
             builder.RegisterType<DeviceRegistryRepositoryND>().As<IDeviceRegistryListRepositoryND>();
             builder.RegisterType<DeviceRegistryRepositoryND>().As<IDeviceRegistryCrudRepositoryND>();
             builder.RegisterType<DeviceRulesRepository>().As<IDeviceRulesRepository>();

@@ -29,12 +29,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         private readonly IApiRegistrationRepository _apiRegistrationRepository;
         private readonly IExternalCellularService _cellularService;
-        private readonly IDeviceLogicND _deviceLogic;
+        private readonly IDeviceLogic _deviceLogic;
         private readonly IDeviceTypeLogic _deviceTypeLogic;
 
         private readonly string _iotHubName = string.Empty;
 
-        public DeviceController(IDeviceLogicND deviceLogic, IDeviceTypeLogic deviceTypeLogic,
+        public DeviceController(IDeviceLogic deviceLogic, IDeviceTypeLogic deviceTypeLogic,
             IConfigurationProvider configProvider,
             IExternalCellularService cellularService,
             IApiRegistrationRepository apiRegistrationRepository)

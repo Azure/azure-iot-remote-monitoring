@@ -8,22 +8,28 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public interface IDeviceLogic
     {
-        void ApplyDevicePropertyValueModels(
-            dynamic device,
-            IEnumerable<DevicePropertyValueModel> devicePropertyValueModels);
+        void ApplyDevicePropertyValueModels(DeviceND device, IEnumerable<DevicePropertyValueModel> devicePropertyValueModels);
         Task<DeviceListQueryResult> GetDevices(DeviceListQuery q);
+        Task<DeviceListQueryResultND> GetDevicesND(DeviceListQuery q);
         Task<dynamic> GetDeviceAsync(string deviceId);
-        Task<DeviceWithKeys> AddDeviceAsync(dynamic device);
+        Task<DeviceND> GetDeviceAsyncND(string deviceId);
+        Task<DeviceWithKeysND> AddDeviceAsync(DeviceND device);
         IEnumerable<DevicePropertyValueModel> ExtractDevicePropertyValuesModels(dynamic device);
+        IEnumerable<DevicePropertyValueModel> ExtractDevicePropertyValuesModelsND(DeviceND device);
         Task RemoveDeviceAsync(string deviceId);
         Task<dynamic> UpdateDeviceAsync(dynamic device);
+        Task<DeviceND> UpdateDeviceAsyncND(DeviceND device);
         Task<dynamic> UpdateDeviceFromDeviceInfoPacketAsync(dynamic device);
+        Task<DeviceND> UpdateDeviceFromDeviceInfoPacketAsyncND(DeviceND device);
         Task<dynamic> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled);
+        Task<DeviceND> UpdateDeviceEnabledStatusAsyncND(string deviceId, bool isEnabled);
         Task<SecurityKeys> GetIoTHubKeysAsync(string id);
         Task GenerateNDevices(int deviceCount);
         Task SendCommandAsync(string deviceId, string commandName, dynamic parameters);
         Task<List<string>> BootstrapDefaultDevices();
         DeviceListLocationsModel ExtractLocationsData(List<dynamic> devices);
+        DeviceListLocationsModel ExtractLocationsDataND(List<DeviceND> devices);
         IList<DeviceTelemetryFieldModel> ExtractTelemetry(dynamic device);
+        IList<DeviceTelemetryFieldModel> ExtractTelemetryND(DeviceND device);
     }
 }

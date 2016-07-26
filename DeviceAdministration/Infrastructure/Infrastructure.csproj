@@ -143,7 +143,6 @@
     <Compile Include="BusinessLogic\AlertsLogic.cs" />
     <Compile Include="BusinessLogic\CommandParameterTypeLogic.cs" />
     <Compile Include="BusinessLogic\ActionMappingLogic.cs" />
-    <Compile Include="BusinessLogic\DeviceLogicND.cs" />
     <Compile Include="BusinessLogic\DeviceLogic.cs" />
     <Compile Include="BusinessLogic\DeviceRulesLogic.cs" />
     <Compile Include="BusinessLogic\DeviceTelemetryLogic.cs" />
@@ -152,7 +151,6 @@
     <Compile Include="BusinessLogic\IAlertsLogic.cs" />
     <Compile Include="BusinessLogic\ICommandParameterTypeLogic.cs" />
     <Compile Include="BusinessLogic\IActionMappingLogic.cs" />
-    <Compile Include="BusinessLogic\IDeviceLogicND.cs" />
     <Compile Include="BusinessLogic\IDeviceLogic.cs" />
     <Compile Include="BusinessLogic\IDeviceRulesLogic.cs" />
     <Compile Include="BusinessLogic\IDeviceTelemetryLogic.cs" />
@@ -217,14 +215,12 @@
     <Compile Include="Repository\IDeviceRegistryListRepositoryND.cs" />
     <Compile Include="Repository\IDeviceRulesRepository.cs" />
     <Compile Include="Repository\IDeviceTelemetryRepository.cs" />
-    <Compile Include="Repository\IIotHubRepositoryND.cs" />
-    <Compile Include="Repository\IotHubRepositoryND.cs" />
+    <Compile Include="Repository\IIotHubRepository.cs" />
     <Compile Include="Repository\IotHubRepository.cs" />
     <Compile Include="Repository\FilterHelper.cs" />
     <Compile Include="Repository\IUserSettingsRepository.cs" />
     <Compile Include="Repository\SampleDeviceTypeRepository.cs" />
     <Compile Include="Repository\IDeviceTypeRepository.cs" />
-    <Compile Include="Repository\IIotHubRepository.cs" />
     <Compile Include="Repository\UserSettingsRepository.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>

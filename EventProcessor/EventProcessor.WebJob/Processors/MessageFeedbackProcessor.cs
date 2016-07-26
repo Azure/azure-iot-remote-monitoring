@@ -16,14 +16,14 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
     public class MessageFeedbackProcessor : IMessageFeedbackProcessor, IDisposable
     {
         private CancellationTokenSource _cancellationTokenSource;
-        private readonly IDeviceLogicND _deviceLogic;
+        private readonly IDeviceLogic _deviceLogic;
         private readonly string _iotHubConnectionString;
         private bool _isRunning;
         private bool _disposed = false;
 
         public MessageFeedbackProcessor(
             ILifetimeScope scope,
-            IDeviceLogicND deviceLogic)
+            IDeviceLogic deviceLogic)
         {
             IConfigurationProvider configProvider;
 
