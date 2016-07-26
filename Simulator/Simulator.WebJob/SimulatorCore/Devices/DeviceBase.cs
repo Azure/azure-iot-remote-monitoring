@@ -116,8 +116,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(DeviceID, true, null);
             device.DeviceProperties = this.DeviceProperties;
-            device.Commands = CommandSchemaHelper.GetSupportedCommands(this);
-            device.Telemetry = CommandSchemaHelper.GetTelemetrySchema(this);
+            device.Commands = this.Commands ?? new List<Command>();
+            device.Telemetry = this.Telemetry ?? new List<Common.Models.Telemetry>();
             device.Version = SampleDeviceFactory.VERSION_1_0;
             device.ObjectType = SampleDeviceFactory.OBJECT_TYPE_DEVICE_INFO;
 
