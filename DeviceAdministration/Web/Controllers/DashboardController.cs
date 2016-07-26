@@ -28,7 +28,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private const double MaxDeviceSummaryAgeMinutes = 10.0;
         private const int MaxDevicesToDisplayOnDashboard = 200;
 
-        private readonly IDeviceLogicND _deviceLogic;
+        private readonly IDeviceLogic _deviceLogic;
         private readonly IDeviceTelemetryLogic _deviceTelemetryLogic;
         private readonly IConfigurationProvider _configProvider;
 
@@ -43,7 +43,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         /// use.
         /// </param>
         public DashboardController(
-            IDeviceLogicND deviceLogic,
+            IDeviceLogic deviceLogic,
             IDeviceTelemetryLogic deviceTelemetryLogic,
             IConfigurationProvider configProvider)
         {

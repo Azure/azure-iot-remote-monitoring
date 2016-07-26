@@ -34,7 +34,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private static readonly TimeSpan CriticalAlertMaxDelta = TimeSpan.FromMinutes(11.0);
 
         private readonly IAlertsLogic _alertsLogic;
-        private readonly IDeviceLogicND _deviceLogic;
+        private readonly IDeviceLogic _deviceLogic;
         private readonly IDeviceTelemetryLogic _deviceTelemetryLogic;
         private readonly IConfigurationProvider _configProvider;
 
@@ -54,7 +54,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public TelemetryApiController(
             IDeviceTelemetryLogic deviceTelemetryLogic,
             IAlertsLogic alertsLogic,
-            IDeviceLogicND deviceLogic,
+            IDeviceLogic deviceLogic,
             IConfigurationProvider configProvider)
         {
             if (deviceTelemetryLogic == null)

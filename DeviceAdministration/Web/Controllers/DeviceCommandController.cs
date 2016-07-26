@@ -28,10 +28,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             // generic command view (like change device key, etc)
         };
 
-        private readonly IDeviceLogicND _deviceLogic;
+        private readonly IDeviceLogic _deviceLogic;
         private readonly ICommandParameterTypeLogic _commandParameterTypeLogic;
 
-        public DeviceCommandController(IDeviceLogicND deviceLogic, ICommandParameterTypeLogic commandParameterTypeLogic)
+        public DeviceCommandController(IDeviceLogic deviceLogic, ICommandParameterTypeLogic commandParameterTypeLogic)
         {
             _deviceLogic = deviceLogic;
             _commandParameterTypeLogic = commandParameterTypeLogic;

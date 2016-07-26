@@ -17,11 +17,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 .As<IConfigurationProvider>()
                 .SingleInstance();
 
-            builder.RegisterType<DeviceLogicND>()
-                .As<IDeviceLogicND>();
+            builder.RegisterType<DeviceLogic>()
+                .As<IDeviceLogic>();
 
-            builder.RegisterType<IotHubRepositoryND>()
-                .As<IIotHubRepositoryND>();
+            builder.RegisterType<IotHubRepository>()
+                .As<IIotHubRepository>();
 
             builder.RegisterType<DeviceRulesLogic>()
                 .As<IDeviceRulesLogic>();

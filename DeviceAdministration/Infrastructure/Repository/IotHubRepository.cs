@@ -58,6 +58,33 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         /// <summary>
+        /// Adds the provided device to the IoT hub with the provided security keys
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="securityKeys"></param>
+        /// <returns></returns>
+        public async Task<dynamic> AddDeviceAsyncND(DeviceND device, SecurityKeys securityKeys)
+        {
+            Azure.Devices.Device iotHubDevice = new Azure.Devices.Device(device.DeviceProperties.DeviceID);
+
+            var authentication = new AuthenticationMechanism
+            {
+                SymmetricKey = new SymmetricKey
+                {
+                    PrimaryKey = securityKeys.PrimaryKey,
+                    SecondaryKey = securityKeys.SecondaryKey
+                }
+            };
+
+            iotHubDevice.Authentication = authentication;
+
+            await AzureRetryHelper.OperationWithBasicRetryAsync<Azure.Devices.Device>(async () =>
+                await _deviceManager.AddDeviceAsync(iotHubDevice));
+
+            return device;
+        }
+
+        /// <summary>
         /// Attempts to add the device as a new device and swallows all exceptions
         /// </summary>
         /// <param name="oldIotHubDevice">The IoT Hub Device to add back into the IoT Hub</param>
@@ -141,6 +168,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(_iotHubConnectionString);
             
+            byte[] commandAsBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(command));
+            var notificationMessage = new Message(commandAsBytes);
+
+            notificationMessage.Ack = DeliveryAcknowledgement.Full;
+            notificationMessage.MessageId = command.MessageId;
+
+            await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
+                await serviceClient.SendAsync(deviceId, notificationMessage));
+
+            await serviceClient.CloseAsync();
+        }
+        public async Task SendCommandND(string deviceId, CommandHistoryND command)
+        {
+            ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(_iotHubConnectionString);
+
             byte[] commandAsBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(command));
             var notificationMessage = new Message(commandAsBytes);
 
