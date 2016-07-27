@@ -16,7 +16,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         }
 
-        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommand deserializableCommand)
+        public async override Task<CommandProcessingResult> HandleCommandAsync(DeserializableCommand deserializableCommand)
         {
             if (deserializableCommand.CommandName == "PingDevice")
             {
@@ -24,11 +24,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                 try
                 {
-                    return CommandProcessingResultND.Success;
+                    return CommandProcessingResult.Success;
                 }
                 catch (Exception)
                 {
-                    return CommandProcessingResultND.RetryLater;
+                    return CommandProcessingResult.RetryLater;
                 }
             }
             else if (NextCommandProcessor != null)
@@ -36,7 +36,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 return await NextCommandProcessor.HandleCommandAsync(deserializableCommand);
             }
 
-            return CommandProcessingResultND.CannotComplete;
+            return CommandProcessingResult.CannotComplete;
         }
     }
 }

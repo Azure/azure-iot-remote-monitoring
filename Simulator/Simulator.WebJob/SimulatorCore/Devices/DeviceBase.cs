@@ -220,7 +220,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             DeserializableCommand command;
             Exception exception;
-            CommandProcessingResultND processingResult;
+            CommandProcessingResult processingResult;
 
             try
             {
@@ -248,15 +248,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                         switch (processingResult)
                         {
-                            case CommandProcessingResultND.CannotComplete:
+                            case CommandProcessingResult.CannotComplete:
                                 await Transport.SignalRejectedCommand(command);
                                 break;
 
-                            case CommandProcessingResultND.RetryLater:
+                            case CommandProcessingResult.RetryLater:
                                 await Transport.SignalAbandonedCommand(command);
                                 break;
 
-                            case CommandProcessingResultND.Success:
+                            case CommandProcessingResult.Success:
                                 await Transport.SignalCompletedCommand(command);
                                 break;
                         }

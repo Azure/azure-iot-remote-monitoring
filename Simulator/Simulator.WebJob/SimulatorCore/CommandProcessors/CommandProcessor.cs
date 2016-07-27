@@ -21,13 +21,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             Device = device;
         }
 
-        public abstract Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommand message);
+        public abstract Task<CommandProcessingResult> HandleCommandAsync(DeserializableCommand message);
     }
 
     /// <summary>
     /// The supported command processing results.
     /// </summary>
-    public enum CommandProcessingResultND
+    public enum CommandProcessingResult
     {
         Success = 0,
         RetryLater,
