@@ -68,7 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 try
                 {
                     List<Common.Models.Device> devices = await GetDevices();
-                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccidsND(devices);
+                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccids(devices);
                     ViewBag.CanHaveIccid = true;
                 }
                 catch (CellularConnectivityException)
@@ -109,7 +109,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 try
                 {
                     List<Common.Models.Device> devices = await GetDevices();
-                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccidsND(devices);
+                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccids(devices);
                     ViewBag.CanHaveIccid = true;
                 }
                 catch (CellularConnectivityException)

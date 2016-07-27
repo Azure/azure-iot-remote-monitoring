@@ -218,7 +218,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <returns>_rid property value as string, or empty string if not found</returns>
         public static string GetDocDbRid(Models.Device device)
         {
-            return SchemaHelperND.GetDocDbRid<Models.Device>(device);
+            return SchemaHelper.GetDocDbRid<Models.Device>(device);
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <returns>Value of the id, or empty string if not found</returns>
         public static string GetDocDbId(Models.Device device)
         {
-            return SchemaHelperND.GetDocDbId<Models.Device>(device);
+            return SchemaHelper.GetDocDbId<Models.Device>(device);
         }
 
         /// <summary>

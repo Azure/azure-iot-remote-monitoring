@@ -541,7 +541,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var filtered = FilterHelperND.FilterDeviceList(devicesWithNullDeviceId, filters);
+            var filtered = FilterHelper.FilterDeviceList(devicesWithNullDeviceId, filters);
 
             Assert.AreEqual(0, filtered.Count());
         }
@@ -604,7 +604,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var filtered = FilterHelperND.FilterDeviceList(list.AsQueryable(), filters);
+            var filtered = FilterHelper.FilterDeviceList(list.AsQueryable(), filters);
 
             Assert.AreEqual(0, filtered.Count());
         }
@@ -629,7 +629,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelperND.FilterDeviceList(list, filters).ToList<Device>();
+            var results = FilterHelper.FilterDeviceList(list, filters).ToList<Device>();
 
             Assert.AreEqual(2, results.Count());
 
@@ -653,7 +653,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelperND.FilterDeviceList(list, filters).ToList<Device>();
+            var results = FilterHelper.FilterDeviceList(list, filters).ToList<Device>();
 
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("EnabledTrue", results[0].DeviceProperties.DeviceID.ToString());
@@ -673,7 +673,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelperND.FilterDeviceList(list, filters).ToList<Device>();
+            var results = FilterHelper.FilterDeviceList(list, filters).ToList<Device>();
 
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("EnabledFalse", results[0].DeviceProperties.DeviceID.ToString());
@@ -714,7 +714,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var list = GetListWithOneSpecialDeviceIdValue();
 
-            var filtered = FilterHelperND.FilterDeviceList(list, filters);
+            var filtered = FilterHelper.FilterDeviceList(list, filters);
 
             Assert.AreEqual(expectedCount, filtered.Count());
         }

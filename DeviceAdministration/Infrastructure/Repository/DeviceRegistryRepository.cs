@@ -227,7 +227,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             List<Common.Models.Device> deviceList = await this.GetAllDevicesAsync();
 
-            IQueryable<Common.Models.Device> filteredDevices = FilterHelperND.FilterDeviceList(deviceList.AsQueryable<Common.Models.Device>(), query.Filters);
+            IQueryable<Common.Models.Device> filteredDevices = FilterHelper.FilterDeviceList(deviceList.AsQueryable<Common.Models.Device>(), query.Filters);
 
             IQueryable<Common.Models.Device> filteredAndSearchedDevices = this.SearchDeviceList(filteredDevices, query.SearchQuery);
 

@@ -172,7 +172,6 @@
     <Compile Include="Mapper\MappingValidator.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Schema\SchemaHelper.cs" />
-    <Compile Include="Schema\SchemaHelperND.cs" />
     <Compile Include="Utility\DocDbQueryResult.cs" />
     <Compile Include="Helpers\DynamicValuesHelper.cs" />
     <Compile Include="Helpers\FunctionalHelper.cs" />

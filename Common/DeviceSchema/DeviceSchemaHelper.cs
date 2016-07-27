@@ -264,27 +264,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
-        /// _rid is used internally by the DocDB and is required for use with DocDB.
-        /// (_rid is resource id)
-        /// </summary>
-        /// <param name="device">Device data</param>
-        /// <returns>_rid property value as string, or empty string if not found</returns>
-        public static string GetDocDbRid(dynamic device)
-        {
-            return SchemaHelper.GetDocDbRid(device);
-        }
-
-        /// <summary>
-        /// id is used internally by the DocDB and is sometimes required.
-        /// </summary>
-        /// <param name="device">Device data</param>
-        /// <returns>Value of the id, or empty string if not found</returns>
-        public static string GetDocDbId(dynamic device)
-        {
-            return SchemaHelper.GetDocDbId(device);
-        }
-
-        /// <summary>
         /// Build a valid device representation in the dynamic format used throughout the app.
         /// </summary>
         /// <param name="deviceId"></param>
