@@ -70,7 +70,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         {
             Command result = new Command();
 
-            result.Name = DeviceCommandConstants.NAME;
+            result.Name = command;
             result.Parameters = null;
 
             return result;
