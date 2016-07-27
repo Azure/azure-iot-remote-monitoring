@@ -197,7 +197,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                             "{0}{0}*** Exception: Abandon Command ***{0}{0}Command Name: {1}{0}Command: {2}{0}Exception: {3}{0}{0}",
                             Console.Out.NewLine,
                             command.CommandName,
-                            command.Command,
+                            command.CommandHistory,
                             ex);
                     }
                 });
@@ -227,7 +227,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                             "{0}{0}*** Exception: Complete Command ***{0}{0}Command Name: {1}{0}Command: {2}{0}Exception: {3}{0}{0}",
                             Console.Out.NewLine,
                             command.CommandName,
-                            command.Command,
+                            command.CommandHistory,
                             ex);
                     }
                 });
@@ -257,7 +257,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                             "{0}{0}*** Exception: Reject Command ***{0}{0}Command Name: {1}{0}Command: {2}{0}Exception: {3}{0}{0}",
                             Console.Out.NewLine,
                             command.CommandName,
-                            command.Command,
+                            command.CommandHistory,
                             ex);
                     }
                 });

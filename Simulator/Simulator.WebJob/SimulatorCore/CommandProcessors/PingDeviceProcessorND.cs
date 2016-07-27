@@ -20,7 +20,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             if (deserializableCommand.CommandName == "PingDevice")
             {
-                CommandHistoryND command = deserializableCommand.Command;
+                CommandHistoryND command = deserializableCommand.CommandHistory;
 
                 try
                 {
