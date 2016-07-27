@@ -382,6 +382,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 DeviceProperties deviceProperties = device.DeviceProperties;
                 deviceProperties.CreatedTime = existingDevice.DeviceProperties.CreatedTime;
+                existingDevice.DeviceProperties = deviceProperties;
             }
 
             device.CommandHistory = existingDevice.CommandHistory;
