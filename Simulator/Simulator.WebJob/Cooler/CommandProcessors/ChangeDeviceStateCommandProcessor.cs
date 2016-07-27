@@ -27,7 +27,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             if (deserializableCommand.CommandName == CHANGE_DEVICE_STATE)
             {
-                CommandHistoryND commandHistory = deserializableCommand.CommandHistory;
+                CommandHistory commandHistory = deserializableCommand.CommandHistory;
 
                 try
                 {

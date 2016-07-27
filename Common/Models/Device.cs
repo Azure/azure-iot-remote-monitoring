@@ -5,12 +5,12 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 {
-    public class DeviceND
+    public class Device
     {
         public DeviceProperties DeviceProperties { get; set; }
         public SystemProperties SystemProperties { get; set; }
         public List<Command> Commands { get; set; }
-        public List<CommandHistoryND> CommandHistory { get; set; }
+        public List<CommandHistory> CommandHistory { get; set; }
         public bool IsSimulatedDevice { get; set; }
         public string id { get; set; }
         public string _rid { get; set; }
@@ -87,7 +87,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         }
     }
 
-    public class CommandHistoryND
+    public class CommandHistory
     {
         public string Name { get; set; }
         public string MessageId { get; set; }

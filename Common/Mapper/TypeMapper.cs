@@ -14,8 +14,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper
         {
             AutoMapper.Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<dynamic, DeviceND>().ConvertUsing(this.typeConverter<DeviceND>);
-                cfg.CreateMap<dynamic, CommandHistoryND>().ConvertUsing(this.typeConverter<CommandHistoryND>);
+                cfg.CreateMap<dynamic, Models.Device>().ConvertUsing(this.typeConverter<Models.Device>);
+                cfg.CreateMap<dynamic, CommandHistory>().ConvertUsing(this.typeConverter<CommandHistory>);
                 cfg.CreateMap<dynamic, Command>().ConvertUsing(this.typeConverter<Command>);
             });
             AutoMapper.Mapper.AssertConfigurationIsValid();
@@ -39,7 +39,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper
 
         private T typeConverter<T>(dynamic dynamicObj)
         {
-            if (typeof(T) == typeof(DeviceND))
+            if (typeof(T) == typeof(Models.Device))
             {
                 FixIsSimulatedDevice(dynamicObj);
                 DeviceSchemaHelper.FixDeviceSchema(dynamicObj);

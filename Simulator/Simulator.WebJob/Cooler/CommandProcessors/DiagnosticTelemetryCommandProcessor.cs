@@ -27,7 +27,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             if (deserializableCommand.CommandName == DIAGNOSTIC_TELEMETRY)
             {
-                CommandHistoryND commandHistory = deserializableCommand.CommandHistory;
+                CommandHistory commandHistory = deserializableCommand.CommandHistory;
 
                 try
                 {
