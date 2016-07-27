@@ -3,7 +3,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
-    public interface IDeviceRegistryListRepositoryND
+    public interface IDeviceRegistryListRepository
     {
         /// <summary>
         /// Gets a list of type Device depending on search parameters, sort column, sort direction,
@@ -11,7 +11,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="query">The device query.</param>
         /// <returns></returns>
-        Task<DeviceListQueryResult> GetDeviceList(DeviceListQuery query);
         Task<DeviceListQueryResultND> GetDeviceListND(DeviceListQuery query);
     }
 }
