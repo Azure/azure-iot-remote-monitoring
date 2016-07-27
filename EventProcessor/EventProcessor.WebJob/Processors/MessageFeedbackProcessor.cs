@@ -124,7 +124,7 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
                     foreach (FeedbackRecord record in records)
                     {
                         device = 
-                            await _deviceLogic.GetDeviceAsyncND(record.DeviceId);
+                            await _deviceLogic.GetDeviceAsync(record.DeviceId);
                         if (device == null)
                         {
                             continue;
@@ -171,7 +171,7 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
                             device, 
                             existingCommand);
 
-                        await _deviceLogic.UpdateDeviceAsyncND(device);
+                        await _deviceLogic.UpdateDeviceAsync(device);
                     }
 
                     await batchReceiver.CompleteAsync(batch);

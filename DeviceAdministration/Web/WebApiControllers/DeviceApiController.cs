@@ -51,7 +51,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             ValidateArgumentNotNullOrWhitespace("id", id);
 
-            return await GetServiceResponseAsync<DeviceND>(async () => (await _deviceLogic.GetDeviceAsyncND(id)));
+            return await GetServiceResponseAsync<DeviceND>(async () => (await _deviceLogic.GetDeviceAsync(id)));
         }
 
         // GET: api/v1/devices
@@ -102,7 +102,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 Filters = filters
             };
 
-            return await GetServiceResponseAsync(async () => (await _deviceLogic.GetDevicesND(q)).Results);
+            return await GetServiceResponseAsync(async () => (await _deviceLogic.GetDevices(q)).Results);
         }
 
         // POST: api/v1/devices/list
@@ -130,7 +130,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     Take = dataTableRequest.Length
                 };
 
-                var queryResult = await _deviceLogic.GetDevicesND(listQuery);
+                var queryResult = await _deviceLogic.GetDevices(listQuery);
 
                 var dataTablesResponse = new DataTablesResponseND()
                 {
@@ -183,7 +183,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             ValidateArgumentNotNull("device", device);
             return await GetServiceResponseAsync<bool>(async () =>
             {
-                await _deviceLogic.UpdateDeviceAsyncND(device);
+                await _deviceLogic.UpdateDeviceAsync(device);
                 return true;
             });
         }
@@ -233,7 +233,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             return await GetServiceResponseAsync(async () =>
             {
-                DeviceND device = await _deviceLogic.UpdateDeviceEnabledStatusAsyncND(deviceId, isEnabled);
+                DeviceND device = await _deviceLogic.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
                 return true;
             });
         }
@@ -273,7 +273,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     SortColumn = "DeviceID",
                 };
 
-                DeviceListQueryResultND devices = await _deviceLogic.GetDevicesND(query);
+                DeviceListQueryResultND devices = await _deviceLogic.GetDevices(query);
 
                 foreach (var d in devices.Results)
                 {

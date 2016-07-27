@@ -98,13 +98,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Func<Task<DashboardDevicePaneDataModel>> getTelemetry =
                 async () =>
                 {
-                    DeviceND device = await _deviceLogic.GetDeviceAsyncND(deviceId);
+                    DeviceND device = await _deviceLogic.GetDeviceAsync(deviceId);
 
                     IList<DeviceTelemetryFieldModel> telemetryFields = null;
 
                     try
                     {
-                        telemetryFields = _deviceLogic.ExtractTelemetryND(device);
+                        telemetryFields = _deviceLogic.ExtractTelemetry(device);
                         result.DeviceTelemetryFields = telemetryFields != null ?
                         telemetryFields.ToArray() : null;
                     }
@@ -164,13 +164,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Func<Task<DeviceTelemetryModel[]>> getTelemetry =
                 async () =>
                 {
-                    DeviceND device = await _deviceLogic.GetDeviceAsyncND(deviceId);
+                    DeviceND device = await _deviceLogic.GetDeviceAsync(deviceId);
 
                     IList<DeviceTelemetryFieldModel> telemetryFields = null;
 
                     try
                     {
-                        telemetryFields = _deviceLogic.ExtractTelemetryND(device);
+                        telemetryFields = _deviceLogic.ExtractTelemetry(device);
                     }
                     catch
                     {
@@ -250,7 +250,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
    
                         if (devices != null)
                         {
-                            DeviceListLocationsModel locationsModel = _deviceLogic.ExtractLocationsDataND(devices);
+                            DeviceListLocationsModel locationsModel = _deviceLogic.ExtractLocationsData(devices);
                             if (locationsModel != null)
                             {
                                 resultsModel.MaxLatitude = locationsModel.MaximumLatitude;
@@ -323,7 +323,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             string deviceId;
             var devices = new List<DeviceND>();
-            DeviceListQueryResultND queryResult = await  _deviceLogic.GetDevicesND(query);
+            DeviceListQueryResultND queryResult = await  _deviceLogic.GetDevices(query);
 
 
             if ((queryResult != null) && (queryResult.Results != null))
@@ -367,8 +367,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     SortColumn = "DeviceID"
                 };
 
-                DeviceListQueryResultND queryResult = await _deviceLogic.GetDevicesND(query);
-                DeviceListLocationsModel dataModel = _deviceLogic.ExtractLocationsDataND(queryResult.Results);
+                DeviceListQueryResultND queryResult = await _deviceLogic.GetDevices(query);
+                DeviceListLocationsModel dataModel = _deviceLogic.ExtractLocationsData(queryResult.Results);
  
                 return dataModel;
             }, false);
