@@ -200,7 +200,6 @@
     <Compile Include="Repository\ActionRepository.cs" />
     <Compile Include="Repository\AlertsRepository.cs" />
     <Compile Include="Repository\ApiRegistrationRepository.cs" />
-    <Compile Include="Repository\DeviceRegistryRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepositoryND.cs" />
     <Compile Include="Repository\FilterHelperND.cs" />
     <Compile Include="Repository\IActionMappingRepository.cs" />
@@ -209,9 +208,7 @@
     <Compile Include="Repository\DeviceTelemetryRepository.cs" />
     <Compile Include="Repository\IAlertsRepository.cs" />
     <Compile Include="Repository\IApiRegistrationRepository.cs" />
-    <Compile Include="Repository\IDeviceRegistryCrudRepository.cs" />
     <Compile Include="Repository\IDeviceRegistryCrudRepositoryND.cs" />
-    <Compile Include="Repository\IDeviceRegistryListRepository.cs" />
     <Compile Include="Repository\IDeviceRegistryListRepositoryND.cs" />
     <Compile Include="Repository\IDeviceRulesRepository.cs" />
     <Compile Include="Repository\IDeviceTelemetryRepository.cs" />
