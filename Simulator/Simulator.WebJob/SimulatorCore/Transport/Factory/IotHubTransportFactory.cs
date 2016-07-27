@@ -5,13 +5,13 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory
 {
-    public class IotHubTransportFactory : ITransportFactory
+    public class IotHubTransportFactoryND : ITransportFactory
     {
         private ISerialize _serializer;
         private ILogger _logger;
         private IConfigurationProvider _configurationProvider;
 
-        public IotHubTransportFactory(ISerialize serializer, ILogger logger,
+        public IotHubTransportFactoryND(ISerialize serializer, ILogger logger,
             IConfigurationProvider configurationProvider)
         {
             _serializer = serializer;

@@ -3,6 +3,7 @@ using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport;
@@ -12,7 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// <summary>
     /// Command processor to handle the change in the temperature range
     /// </summary>
-    public class ChangeSetPointTempCommandProcessor : CommandProcessorND
+    public class ChangeSetPointTempCommandProcessor : CommandProcessor
     {
         private const string CHANGE_SET_POINT_TEMP = "ChangeSetPointTemp";
 
@@ -22,18 +23,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         }
 
-        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommandND deserializableCommand)
+        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommand deserializableCommand)
         {
             if (deserializableCommand.CommandName == CHANGE_SET_POINT_TEMP)
             {
-                var command = deserializableCommand.CommandHistory;
+                CommandHistoryND commandHistory = deserializableCommand.CommandHistory;
 
                 try
                 {
                     var device = Device as CoolerDevice;
                     if (device != null)
                     {
-                        dynamic parameters = WireCommandSchemaHelper.GetParameters(command);
+                        dynamic parameters = commandHistory.Parameters;
                         if (parameters != null)
                         {
                             dynamic setPointTempDynamic = ReflectionHelper.GetNamedPropertyValue(

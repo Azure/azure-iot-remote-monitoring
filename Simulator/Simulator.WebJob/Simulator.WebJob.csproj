@@ -171,35 +171,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BulkDeviceTester.cs" />
-    <Compile Include="BulkDeviceTesterND.cs" />
     <Compile Include="DataInitialization\DataInitializer.cs" />
     <Compile Include="DataInitialization\IDataInitializer.cs" />
-    <Compile Include="SimulatorCore\CommandProcessors\CommandProcessorND.cs" />
-    <Compile Include="SimulatorCore\CommandProcessors\PingDeviceProcessorND.cs" />
-    <Compile Include="SimulatorCore\Devices\DeviceBaseND.cs" />
-    <Compile Include="SimulatorCore\Devices\Factory\IDeviceFactoryND.cs" />
-    <Compile Include="SimulatorCore\Devices\IDeviceND.cs" />
-    <Compile Include="SimulatorCore\Telemetry\Factory\ITelemetryFactoryND.cs" />
-    <Compile Include="SimulatorCore\Transport\DeserializableCommandND.cs" />
-    <Compile Include="SimulatorCore\Transport\EmptyTransportND.cs" />
-    <Compile Include="SimulatorCore\Transport\Factory\IoTHubTransportFactoryND.cs" />
-    <Compile Include="SimulatorCore\Transport\Factory\ITransportFactoryND.cs" />
-    <Compile Include="SimulatorCore\Transport\IoTHubTransportND.cs" />
-    <Compile Include="SimulatorCore\Transport\ITransportND.cs" />
-    <Compile Include="SimulatorModule.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="SimulatorCore\CommandProcessors\CommandProcessor.cs" />
     <Compile Include="SimulatorCore\CommandProcessors\PingDeviceProcessor.cs" />
-    <Compile Include="SimulatorCore\Devices\Factory\DeviceFactory.cs" />
+    <Compile Include="SimulatorCore\Devices\DeviceBase.cs" />
     <Compile Include="SimulatorCore\Devices\Factory\IDeviceFactory.cs" />
     <Compile Include="SimulatorCore\Devices\IDevice.cs" />
+    <Compile Include="SimulatorCore\Telemetry\Factory\ITelemetryFactory.cs" />
+    <Compile Include="SimulatorCore\Transport\DeserializableCommand.cs" />
+    <Compile Include="SimulatorCore\Transport\EmptyTransport.cs" />
+    <Compile Include="SimulatorCore\Transport\Factory\IoTHubTransportFactory.cs" />
+    <Compile Include="SimulatorCore\Transport\Factory\ITransportFactory.cs" />
+    <Compile Include="SimulatorCore\Transport\IoTHubTransport.cs" />
+    <Compile Include="SimulatorCore\Transport\ITransport.cs" />
+    <Compile Include="SimulatorModule.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="SimulatorCore\Devices\Factory\DeviceFactory.cs" />
     <Compile Include="SimulatorCore\Repository\AppConfigRepository.cs" />
     <Compile Include="SimulatorCore\Telemetry\Factory\GenericConcreteTelemetryFactory.cs" />
-    <Compile Include="SimulatorCore\Telemetry\Factory\ITelemetryFactory.cs" />
-    <Compile Include="SimulatorCore\Transport\Factory\IotHubTransportFactory.cs" />
-    <Compile Include="SimulatorCore\Transport\Factory\ITransportFactory.cs" />
     <Compile Include="DeviceManager.cs" />
-    <Compile Include="SimulatorCore\Devices\DeviceBase.cs" />
     <Compile Include="Cooler\CommandProcessors\ChangeDeviceStateCommandProcessor.cs" />
     <Compile Include="Cooler\CommandProcessors\ChangeSetPointTempCommandProcessor.cs" />
     <Compile Include="Cooler\CommandProcessors\DiagnosticTelemetryCommandProcessor.cs" />
@@ -220,10 +211,6 @@
     </Compile>
     <Compile Include="SimulatorCore\Serialization\ISerialize.cs" />
     <Compile Include="SimulatorCore\Serialization\JsonSerialize.cs" />
-    <Compile Include="SimulatorCore\Transport\DeserializableCommand.cs" />
-    <Compile Include="SimulatorCore\Transport\EmptyTransport.cs" />
-    <Compile Include="SimulatorCore\Transport\ITransport.cs" />
-    <Compile Include="SimulatorCore\Transport\IoTHubTransport.cs" />
     <Compile Include="Cooler\Telemetry\Data\RemoteMonitorTelemetryData.cs" />
     <Compile Include="Cooler\Telemetry\RemoteMonitorTelemetry.cs" />
     <Compile Include="Cooler\Telemetry\Factory\CoolerTelemetryFactory.cs" />

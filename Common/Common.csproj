@@ -162,7 +162,6 @@
     <Compile Include="DeviceSchema\DeviceSchemaHelper.cs" />
     <Compile Include="DeviceSchema\DeviceSchemaHelperND.cs" />
     <Compile Include="DeviceSchema\EventSchemaHelper.cs" />
-    <Compile Include="DeviceSchema\WireCommandSchemaHelper.cs" />
     <Compile Include="Exceptions\DeviceRequiredPropertyNotFoundException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Factory\SampleDeviceFactory.cs" />

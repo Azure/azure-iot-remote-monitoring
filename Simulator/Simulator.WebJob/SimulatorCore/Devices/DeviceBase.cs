@@ -44,13 +44,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         private DeviceProperties _deviceProperties;
         public DeviceProperties DeviceProperties
         {
-            get {  return _deviceProperties; }
+            get { return _deviceProperties; }
             set { _deviceProperties = value; }
         }
 
-        public dynamic Commands { get; set; }
+        public List<Command> Commands { get; set; }
 
-        public dynamic Telemetry { get; set; }
+        public List<Common.Models.Telemetry> Telemetry { get; set; }
 
         public List<ITelemetry> TelemetryEvents { get; private set; }
         public bool RepeatEventListForever { get; set; }
@@ -86,8 +86,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             DeviceND initialDevice = SampleDeviceFactory.GetSampleSimulatedDevice(config.DeviceId, config.Key);
             DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(initialDevice);
-            Commands = CommandSchemaHelper.GetSupportedCommands(initialDevice);
-            Telemetry = CommandSchemaHelper.GetTelemetrySchema(initialDevice);
+            Commands = initialDevice.Commands ?? new List<Command>();
+            Telemetry = initialDevice.Telemetry ?? new List<Common.Models.Telemetry>();
             HostName = config.HostName;
             PrimaryAuthKey = config.Key;
         }
@@ -141,7 +141,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                 var loopTasks = new List<Task>
                 {
-                    StartReceiveLoopAsync(token), 
+                    StartReceiveLoopAsync(token),
                     StartSendLoopAsync(token)
                 };
 
@@ -197,7 +197,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 Logger.LogWarning("Device {0} sent all events and is shutting down send loop. (Set RepeatEventListForever = true on the device to loop forever.)", DeviceID);
 
             }
-            catch (TaskCanceledException) 
+            catch (TaskCanceledException)
             {
                 //do nothing if the task was cancelled
             }
@@ -208,7 +208,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             if (token.IsCancellationRequested)
             {
-                Logger.LogInfo("********** Processing Device {0} has been cancelled - StartSendLoopAsync Ending. **********", DeviceID);   
+                Logger.LogInfo("********** Processing Device {0} has been cancelled - StartSendLoopAsync Ending. **********", DeviceID);
             }
         }
 
@@ -220,7 +220,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             DeserializableCommand command;
             Exception exception;
-            CommandProcessingResult processingResult;
+            CommandProcessingResultND processingResult;
 
             try
             {
@@ -243,20 +243,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                             continue;
                         }
 
-                        processingResult = 
+                        processingResult =
                         await RootCommandProcessor.HandleCommandAsync(command);
 
                         switch (processingResult)
                         {
-                            case CommandProcessingResult.CannotComplete:
+                            case CommandProcessingResultND.CannotComplete:
                                 await Transport.SignalRejectedCommand(command);
                                 break;
 
-                            case CommandProcessingResult.RetryLater:
+                            case CommandProcessingResultND.RetryLater:
                                 await Transport.SignalAbandonedCommand(command);
                                 break;
 
-                            case CommandProcessingResult.Success:
+                            case CommandProcessingResultND.Success:
                                 await Transport.SignalCompletedCommand(command);
                                 break;
                         }

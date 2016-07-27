@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport;
 
@@ -11,22 +13,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public PingDeviceProcessor(IDevice device)
             : base(device)
         {
-            
+
         }
 
-        public async override Task<CommandProcessingResult> HandleCommandAsync(DeserializableCommand deserializableCommand)
+        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommand deserializableCommand)
         {
             if (deserializableCommand.CommandName == "PingDevice")
             {
-                var command = deserializableCommand.Command;
+                CommandHistoryND command = deserializableCommand.CommandHistory;
 
                 try
                 {
-                    return CommandProcessingResult.Success;
+                    return CommandProcessingResultND.Success;
                 }
                 catch (Exception)
                 {
-                    return CommandProcessingResult.RetryLater;
+                    return CommandProcessingResultND.RetryLater;
                 }
             }
             else if (NextCommandProcessor != null)
@@ -34,7 +36,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 return await NextCommandProcessor.HandleCommandAsync(deserializableCommand);
             }
 
-            return CommandProcessingResult.CannotComplete;
+            return CommandProcessingResultND.CannotComplete;
         }
     }
 }

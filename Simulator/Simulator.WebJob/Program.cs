@@ -136,11 +136,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
                 deviceStorage = new VirtualDeviceTableStorage(configProvider);
             }
 
-            IDeviceFactoryND deviceFactory = new CoolerDeviceFactory();
+            IDeviceFactory deviceFactory = new CoolerDeviceFactory();
 
             // Start Simulator
             Trace.TraceInformation("Starting Simulator");
-            var tester = new BulkDeviceTesterND(transportFactory, logger, configProvider, telemetryFactory, deviceFactory, deviceStorage);
+            var tester = new BulkDeviceTester(transportFactory, logger, configProvider, telemetryFactory, deviceFactory, deviceStorage);
             Task.Run(() => tester.ProcessDevicesAsync(cancellationTokenSource.Token), cancellationTokenSource.Token);
         }
 
