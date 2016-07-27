@@ -529,7 +529,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private void TestNullDeviceId(FilterType filterType)
         {
-            IQueryable<DeviceND> devicesWithNullDeviceId = GetListWithOneSpecialDeviceIdValue(specialDeviceId: null);
+            IQueryable<Device> devicesWithNullDeviceId = GetListWithOneSpecialDeviceIdValue(specialDeviceId: null);
 
             var filters = new List<FilterInfo>()
             {
@@ -588,11 +588,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private void TestNullDeviceProperties(FilterType filterType)
         {
-            DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(Guid.NewGuid().ToString(), true, null);
+            Device device = DeviceSchemaHelperND.BuildDeviceStructure(Guid.NewGuid().ToString(), true, null);
 
             device.DeviceProperties = null;
 
-            var list = new List<DeviceND>() { device };
+            var list = new List<Device>() { device };
 
             var filters = new List<FilterInfo>()
             {
@@ -629,7 +629,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelperND.FilterDeviceList(list, filters).ToList<DeviceND>();
+            var results = FilterHelperND.FilterDeviceList(list, filters).ToList<Device>();
 
             Assert.AreEqual(2, results.Count());
 
@@ -653,7 +653,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelperND.FilterDeviceList(list, filters).ToList<DeviceND>();
+            var results = FilterHelperND.FilterDeviceList(list, filters).ToList<Device>();
 
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("EnabledTrue", results[0].DeviceProperties.DeviceID.ToString());
@@ -673,15 +673,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelperND.FilterDeviceList(list, filters).ToList<DeviceND>();
+            var results = FilterHelperND.FilterDeviceList(list, filters).ToList<Device>();
 
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("EnabledFalse", results[0].DeviceProperties.DeviceID.ToString());
         }
 
-        private static IQueryable<DeviceND> GetListWithEnabledTestValues()
+        private static IQueryable<Device> GetListWithEnabledTestValues()
         {
-            List<DeviceND> list = GetSampleDevices(4).ToList();
+            List<Device> list = GetSampleDevices(4).ToList();
 
             list[0].DeviceProperties = null;
             
@@ -694,7 +694,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             list[3].DeviceProperties.HubEnabledState = false;
             list[3].DeviceProperties.DeviceID = "EnabledFalse";
 
-            return list.AsQueryable<DeviceND>();
+            return list.AsQueryable<Device>();
         }
 
         #endregion
@@ -705,7 +705,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public void FilterTestInfrastructureShouldWork()
         {
             // make sure the infrastructure is working as expected
-            IQueryable<DeviceND> list = GetSampleDevices();
+            IQueryable<Device> list = GetSampleDevices();
 
             Assert.AreEqual(10, list.Count());
         }
@@ -719,30 +719,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Assert.AreEqual(expectedCount, filtered.Count());
         }
 
-        private static IQueryable<DeviceND> GetListWithOneSpecialDeviceIdValue(string specialDeviceId = "The one special value")
+        private static IQueryable<Device> GetListWithOneSpecialDeviceIdValue(string specialDeviceId = "The one special value")
         {
-            List<DeviceND> list = GetSampleDevices().ToList();
+            List<Device> list = GetSampleDevices().ToList();
 
             list[4].DeviceProperties.DeviceID = specialDeviceId;
 
-            return list.AsQueryable<DeviceND>();
+            return list.AsQueryable<Device>();
         }
 
-        private static IQueryable<DeviceND> GetSampleDevices(int desiredNumberOfDevices = 10)
+        private static IQueryable<Device> GetSampleDevices(int desiredNumberOfDevices = 10)
         {
-            List<DeviceND> devices = new List<DeviceND>();
+            List<Device> devices = new List<Device>();
 
             for (int i = 0; i < desiredNumberOfDevices; ++i)
             {
                 devices.Add(GetDefaultTestDevice());
             }
 
-            return devices.AsQueryable<DeviceND>();
+            return devices.AsQueryable<Device>();
         }
 
-        private static DeviceND GetDefaultTestDevice()
+        private static Device GetDefaultTestDevice()
         {
-            DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure("DeviceID-Test", true, null);
+            Device device = DeviceSchemaHelperND.BuildDeviceStructure("DeviceID-Test", true, null);
             DeviceProperties props = DeviceSchemaHelperND.GetDeviceProperties(device);
             props.CreatedTime = new DateTime(2000, 01, 01);
             props.DeviceState = "DeviceState-Test";

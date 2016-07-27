@@ -84,7 +84,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         protected virtual void InitDeviceInfo(InitialDeviceConfig config)
         {
-            DeviceND initialDevice = SampleDeviceFactory.GetSampleSimulatedDevice(config.DeviceId, config.Key);
+            Common.Models.Device initialDevice = SampleDeviceFactory.GetSampleSimulatedDevice(config.DeviceId, config.Key);
             DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(initialDevice);
             Commands = CommandSchemaHelper.GetSupportedCommands(initialDevice);
             Telemetry = CommandSchemaHelper.GetTelemetrySchema(initialDevice);
@@ -112,9 +112,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// Generates a DeviceInfo packet for a simulated device to send over the wire
         /// </summary>
         /// <returns></returns>
-        public virtual DeviceND GetDeviceInfo()
+        public virtual Common.Models.Device GetDeviceInfo()
         {
-            DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(DeviceID, true, null);
+            Common.Models.Device device = DeviceSchemaHelperND.BuildDeviceStructure(DeviceID, true, null);
             device.DeviceProperties = this.DeviceProperties;
             device.Commands = this.Commands ?? new List<Command>();
             device.Telemetry = this.Telemetry ?? new List<Common.Models.Telemetry>();

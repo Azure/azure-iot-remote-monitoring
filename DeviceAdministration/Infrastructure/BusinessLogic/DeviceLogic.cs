@@ -51,7 +51,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return await _deviceRegistryListRepository.GetDeviceList(q);
         }
 
-        public async Task<DeviceND> GetDeviceAsync(string deviceId)
+        public async Task<Common.Models.Device> GetDeviceAsync(string deviceId)
         {
             return await _deviceRegistryCrudRepository.GetDeviceAsync(deviceId);
         }
@@ -61,14 +61,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device">Device to add to the underlying repositories</param>
         /// <returns>Device created along with the device identity store keys</returns>
-        public async Task<DeviceWithKeys> AddDeviceAsync(DeviceND device)
+        public async Task<DeviceWithKeys> AddDeviceAsync(Common.Models.Device device)
         {
             // Validation logic throws an exception if it finds a validation error
             await this.ValidateDevice(device);
 
             SecurityKeys generatedSecurityKeys = this._securityKeyGenerator.CreateRandomKeys();
 
-            DeviceND savedDevice = await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
+            Common.Models.Device savedDevice = await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             return new DeviceWithKeys(savedDevice, generatedSecurityKeys);
         }
 
@@ -78,9 +78,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="device">Device to add to repositories</param>
         /// <param name="securityKeys">Keys to assign to the device</param>
         /// <returns>Device that was added to the device registry</returns>
-        private async Task<DeviceND> AddDeviceToRepositoriesAsync(DeviceND device, SecurityKeys securityKeys)
+        private async Task<Common.Models.Device> AddDeviceToRepositoriesAsync(Common.Models.Device device, SecurityKeys securityKeys)
         {
-            DeviceND registryRepositoryDevice = null;
+            Common.Models.Device registryRepositoryDevice = null;
             ExceptionDispatchInfo capturedException = null;
 
             // if an exception happens at this point pass it up the stack to handle it
@@ -207,12 +207,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device">Device to update in the device registry</param>
         /// <returns>Device that was saved into the device registry</returns>
-        public async Task<DeviceND> UpdateDeviceAsync(DeviceND device)
+        public async Task<Common.Models.Device> UpdateDeviceAsync(Common.Models.Device device)
         {
             return await _deviceRegistryCrudRepository.UpdateDeviceAsync(device);
         }
 
-        public async Task<DeviceND> UpdateDeviceFromDeviceInfoPacketAsync(DeviceND device)
+        public async Task<Common.Models.Device> UpdateDeviceFromDeviceInfoPacketAsync(Common.Models.Device device)
         {
             if (device == null)
             {
@@ -220,7 +220,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             // Get original device document
-            DeviceND existingDevice = await this.GetDeviceAsync(device.DeviceProperties.DeviceID);
+            Common.Models.Device existingDevice = await this.GetDeviceAsync(device.DeviceProperties.DeviceID);
 
             // Save the command history, original created date, and system properties (if any) of the existing device
             if (existingDevice.DeviceProperties != null)
@@ -275,7 +275,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns></returns>
         public async Task SendCommandAsync(string deviceId, string commandName, dynamic parameters)
         {
-            DeviceND device = await this.GetDeviceAsync(deviceId);
+            Common.Models.Device device = await this.GetDeviceAsync(deviceId);
 
             if (device == null)
             {
@@ -292,7 +292,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="commandName">Name of the command to send</param>
         /// <param name="parameters">Parameters to send with the command</param>
         /// <returns></returns>
-        private async Task<dynamic> SendCommandAsyncWithDevice(DeviceND device, string commandName, dynamic parameters)
+        private async Task<dynamic> SendCommandAsyncWithDevice(Common.Models.Device device, string commandName, dynamic parameters)
         {
             string deviceId;
 
@@ -310,7 +310,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new UnsupportedCommandException(deviceId, commandName);
             }
 
-            CommandHistoryND command = CommandHistorySchemaHelper.BuildNewCommandHistoryItem(commandName);
+            CommandHistory command = CommandHistorySchemaHelper.BuildNewCommandHistoryItem(commandName);
             CommandHistorySchemaHelper.AddParameterCollectionToCommandHistoryItem(command, parameters);
 
             device.CommandHistory.Add(command);
@@ -321,10 +321,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return command;
         }
 
-        public async Task<DeviceND> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
+        public async Task<Common.Models.Device> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
         {
            
-            DeviceND repositoryDevice = null;
+            Common.Models.Device repositoryDevice = null;
             ExceptionDispatchInfo capturedException = null;
 
             // if an exception happens at this point pass it up the stack to handle it
@@ -365,7 +365,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <paramref name="device" />.
         /// </param>
         public void ApplyDevicePropertyValueModels(
-            DeviceND device,
+            Common.Models.Device device,
             IEnumerable<DevicePropertyValueModel> devicePropertyValueModels)
         {
             IDynamicMetaObjectProvider dynamicMetaObjectProvider;
@@ -402,7 +402,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         public IEnumerable<DevicePropertyValueModel> ExtractDevicePropertyValuesModels(
-           DeviceND device)
+           Common.Models.Device device)
         {
             DeviceProperties deviceProperties;
             IDynamicMetaObjectProvider dynamicMetaObjectProvider;
@@ -1005,7 +1005,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             };
         }
 
-        private async Task ValidateDevice(DeviceND device)
+        private async Task ValidateDevice(Common.Models.Device device)
         {
             List<string> validationErrors = new List<string>();
 
@@ -1028,7 +1028,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
         }
 
-        private async Task CheckIfDeviceExists(DeviceND device, List<string> validationErrors)
+        private async Task CheckIfDeviceExists(Common.Models.Device device, List<string> validationErrors)
         {
             // check if device exists
             if (await this.GetDeviceAsync(device.DeviceProperties.DeviceID) != null)
@@ -1037,7 +1037,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
         }
 
-        private bool ValidateDeviceId(DeviceND device, List<string> validationErrors)
+        private bool ValidateDeviceId(Common.Models.Device device, List<string> validationErrors)
         {
             if (device.DeviceProperties == null || string.IsNullOrWhiteSpace(device.DeviceProperties.DeviceID))
             {
@@ -1062,7 +1062,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             for (int i = 0; i < deviceCount; i++)
             {
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
-                DeviceND device = SampleDeviceFactory.GetSampleDevice(randomNumber, generatedSecurityKeys);
+                Common.Models.Device device = SampleDeviceFactory.GetSampleDevice(randomNumber, generatedSecurityKeys);
                 await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             }   
         }
@@ -1072,14 +1072,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             List<string> sampleIds = SampleDeviceFactory.GetDefaultDeviceNames();
             foreach(string id in sampleIds)
             {
-                DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(id, true, null);
+                Common.Models.Device device = DeviceSchemaHelperND.BuildDeviceStructure(id, true, null);
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
                 await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             }
             return sampleIds;
         }
 
-        public DeviceListLocationsModel ExtractLocationsData(List<DeviceND> devices)
+        public DeviceListLocationsModel ExtractLocationsData(List<Common.Models.Device> devices)
         {
             var result = new DeviceListLocationsModel();
 
@@ -1090,7 +1090,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             double maxLong = double.MinValue;
 
             var locationList = new List<DeviceLocationModel>();
-            foreach (DeviceND device in devices)
+            foreach (Common.Models.Device device in devices)
             {
                 DeviceProperties props = DeviceSchemaHelperND.GetDeviceProperties(device);
                 if (props.Longitude == null || props.Latitude == null)
@@ -1158,7 +1158,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
 
-        public IList<DeviceTelemetryFieldModel> ExtractTelemetry(DeviceND device)
+        public IList<DeviceTelemetryFieldModel> ExtractTelemetry(Common.Models.Device device)
         {
             // Get Telemetry Fields
             if (device.Telemetry != null)

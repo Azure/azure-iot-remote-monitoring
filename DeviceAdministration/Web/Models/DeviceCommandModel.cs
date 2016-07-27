@@ -11,7 +11,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [DisplayName("Command")]
         public Command Command { get; set; }
 
-        public List<CommandHistoryND> CommandHistory { get; set; }
+        public List<CommandHistory> CommandHistory { get; set; }
 
         public string DeviceId { get; set; }
 

@@ -51,7 +51,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             ValidateArgumentNotNullOrWhitespace("id", id);
 
-            return await GetServiceResponseAsync<DeviceND>(async () => (await _deviceLogic.GetDeviceAsync(id)));
+            return await GetServiceResponseAsync<Common.Models.Device>(async () => (await _deviceLogic.GetDeviceAsync(id)));
         }
 
         // GET: api/v1/devices
@@ -112,7 +112,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewDevices)]
         public async Task<HttpResponseMessage> GetDevices([FromBody]JObject requestData)
         {
-            return await GetServiceResponseAsync<DataTablesResponse<DeviceND>>(async () =>
+            return await GetServiceResponseAsync<DataTablesResponse<Common.Models.Device>>(async () =>
             {
                 var dataTableRequest = requestData.ToObject<DataTablesRequest>();
                 var sortColumnIndex = dataTableRequest.SortColumns[0].ColumnIndex;
@@ -132,7 +132,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
                 var queryResult = await _deviceLogic.GetDevices(listQuery);
 
-                var dataTablesResponse = new DataTablesResponse<DeviceND>()
+                var dataTablesResponse = new DataTablesResponse<Common.Models.Device>()
                 {
                     Draw = dataTableRequest.Draw,
                     RecordsTotal = queryResult.TotalDeviceCount,
@@ -164,7 +164,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPost]
         [Route("")]
         [WebApiRequirePermission(Permission.AddDevices)]
-        public async Task<HttpResponseMessage> AddDeviceAsync(DeviceND device)
+        public async Task<HttpResponseMessage> AddDeviceAsync(Common.Models.Device device)
         {
             ValidateArgumentNotNull("device", device);
 
@@ -178,7 +178,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPut]
         [Route("")]
         [WebApiRequirePermission(Permission.EditDeviceMetadata)]
-        public async Task<HttpResponseMessage> UpdateDeviceAsyncND(DeviceND device)
+        public async Task<HttpResponseMessage> UpdateDeviceAsyncND(Common.Models.Device device)
         {
             ValidateArgumentNotNull("device", device);
             return await GetServiceResponseAsync<bool>(async () =>
@@ -233,7 +233,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             return await GetServiceResponseAsync(async () =>
             {
-                DeviceND device = await _deviceLogic.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
+                Common.Models.Device device = await _deviceLogic.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
                 return true;
             });
         }

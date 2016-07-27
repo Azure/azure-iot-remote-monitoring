@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="device"></param>
         /// <returns></returns>
-        public static List<Command> GetSupportedCommands(DeviceND device)
+        public static List<Command> GetSupportedCommands(Models.Device device)
         {
             if (device == null)
             {
@@ -44,7 +44,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="device">Device</param>
         /// <returns></returns>
-        public static List<Telemetry> GetTelemetrySchema(DeviceND device)
+        public static List<Telemetry> GetTelemetrySchema(Models.Device device)
         {
             if (device == null)
             {
@@ -142,7 +142,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <param name="device">Device to check</param>
         /// <param name="commandName">Name of commmand to check to see if the device supports</param>
         /// <returns>True if device can perform command, false if it cannot</returns>
-        public static bool CanDevicePerformCommand(DeviceND device, string commandName)
+        public static bool CanDevicePerformCommand(Models.Device device, string commandName)
         {
             List<Command> commands;
 
@@ -174,7 +174,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="device">device object</param>
         /// <param name="telemetry">telemetry to add</param>
-        public static void AddTelemetryToDevice(DeviceND device, Telemetry telemetry)
+        public static void AddTelemetryToDevice(Models.Device device, Telemetry telemetry)
         {
 
             if (device.Telemetry == null)

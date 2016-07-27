@@ -40,13 +40,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [RequirePermission(Permission.ViewDevices)]
         public async Task<ActionResult> Index(string deviceId)
         {
-            DeviceND device = await _deviceLogic.GetDeviceAsync(deviceId);
+            Common.Models.Device device = await _deviceLogic.GetDeviceAsync(deviceId);
            
             IList<SelectListItem> commandListItems = CommandListItems(device);
 
             bool deviceIsEnabled = DeviceSchemaHelperND.GetHubEnabledState(device) == true;
 
-            List<CommandHistoryND> commandHistory = CommandHistorySchemaHelper.GetCommandHistoryND(device);
+            List<CommandHistory> commandHistory = CommandHistorySchemaHelper.GetCommandHistoryND(device);
 
             DeviceCommandModel deviceCommandsModel = new DeviceCommandModel
             {
@@ -125,7 +125,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return Json(new { wasSent = true });
         }
 
-        private IList<SelectListItem> CommandListItems(DeviceND device)
+        private IList<SelectListItem> CommandListItems(Common.Models.Device device)
         {
             if (device.Commands != null)
             {
@@ -136,7 +136,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
 
-        private IList<SelectListItem> GetCommandListItems(DeviceND device)
+        private IList<SelectListItem> GetCommandListItems(Common.Models.Device device)
         {
             IList<SelectListItem> result = new List<SelectListItem>();
             IList<Command> commands = device.Commands;
