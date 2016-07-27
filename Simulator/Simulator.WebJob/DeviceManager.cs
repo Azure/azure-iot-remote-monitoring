@@ -55,29 +55,29 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             
             }, _token);
         }
-        public async Task StartDevicesAsyncND(List<IDeviceND> devices)
-        {
-            await Task.Run(async () =>
-            {
-                if (devices == null || !devices.Any())
-                    return;
+        //public async Task StartDevicesAsyncND(List<IDeviceND> devices)
+        //{
+        //    await Task.Run(async () =>
+        //    {
+        //        if (devices == null || !devices.Any())
+        //            return;
 
-                var startDeviceTasks = new List<Task>();
+        //        var startDeviceTasks = new List<Task>();
 
-                foreach (var device in devices)
-                {
-                    var deviceCancellationToken = new CancellationTokenSource();
+        //        foreach (var device in devices)
+        //        {
+        //            var deviceCancellationToken = new CancellationTokenSource();
 
-                    startDeviceTasks.Add(device.StartAsync(deviceCancellationToken.Token));
+        //            startDeviceTasks.Add(device.StartAsync(deviceCancellationToken.Token));
 
-                    _cancellationTokens.Add(device.DeviceID, deviceCancellationToken);
-                }
+        //            _cancellationTokens.Add(device.DeviceID, deviceCancellationToken);
+        //        }
 
-                // wait here until all tasks complete
-                await Task.WhenAll(startDeviceTasks);
+        //        // wait here until all tasks complete
+        //        await Task.WhenAll(startDeviceTasks);
 
-            }, _token);
-        }
+        //    }, _token);
+        //}
 
         /// <summary>
         /// Cancel the asynchronous tasks for the devices specified

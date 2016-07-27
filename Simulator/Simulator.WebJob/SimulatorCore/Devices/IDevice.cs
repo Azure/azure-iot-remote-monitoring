@@ -18,7 +18,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         string PrimaryAuthKey { get; set; }
 
-        DeviceProperties DeviceProperties { get; set; }
+        dynamic DeviceProperties { get; set; }
 
         dynamic Commands { get; set; }
 
@@ -31,7 +31,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         Task SendDeviceInfo();
 
-        DeviceND GetDeviceInfo();
+        dynamic GetDeviceInfo();
 
         Task StartAsync(CancellationToken token);
     }

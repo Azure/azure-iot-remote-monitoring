@@ -41,8 +41,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public string HostName { get; set; }
         public string PrimaryAuthKey { get; set; }
 
-        private DeviceProperties _deviceProperties;
-        public DeviceProperties DeviceProperties
+        private dynamic _deviceProperties;
+        public dynamic DeviceProperties
         {
             get {  return _deviceProperties; }
             set { _deviceProperties = value; }
@@ -84,7 +84,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         protected virtual void InitDeviceInfo(InitialDeviceConfig config)
         {
-            DeviceND initialDevice = SampleDeviceFactory.GetSampleSimulatedDevice(config.DeviceId, config.Key);
+            dynamic initialDevice = SampleDeviceFactory.GetSampleSimulatedDevice(config.DeviceId, config.Key);
             DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(initialDevice);
             Commands = CommandSchemaHelper.GetSupportedCommands(initialDevice);
             Telemetry = CommandSchemaHelper.GetTelemetrySchema(initialDevice);
@@ -112,17 +112,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// Generates a DeviceInfo packet for a simulated device to send over the wire
         /// </summary>
         /// <returns></returns>
-        public virtual DeviceND GetDeviceInfo()
+        public virtual dynamic GetDeviceInfo() 
         {
-            DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(DeviceID, true, null);
-            device.DeviceProperties = this.DeviceProperties;
+            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(DeviceID, true, null);
+            device.DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(this);
             device.Commands = this.Commands ?? new List<Command>();
             device.Telemetry = this.Telemetry ?? new List<Common.Models.Telemetry>();
             device.Version = SampleDeviceFactory.VERSION_1_0;
             device.ObjectType = SampleDeviceFactory.OBJECT_TYPE_DEVICE_INFO;
 
             // Remove the system properties from a device, to better emulate the behavior of real devices when sending device info messages.
-            DeviceSchemaHelperND.RemoveSystemPropertiesForSimulatedDeviceInfo(device);
+            DeviceSchemaHelper.RemoveSystemPropertiesForSimulatedDeviceInfo(device); 
 
             return device;
         }

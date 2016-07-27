@@ -6,12 +6,12 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices.Factory
 {
-    public class DeviceFactory : IDeviceFactoryND
+    public class DeviceFactory : IDeviceFactory
     {
-        public IDeviceND CreateDevice(ILogger logger, ITransportFactoryND transportFactory, 
-            ITelemetryFactoryND telemetryFactory, IConfigurationProvider configurationProvider, InitialDeviceConfig config)
+        public IDevice CreateDevice(ILogger logger, ITransportFactory transportFactory, 
+            ITelemetryFactory telemetryFactory, IConfigurationProvider configurationProvider, InitialDeviceConfig config)
         {
-            var device = new DeviceBaseND(logger, transportFactory, telemetryFactory, configurationProvider);
+            var device = new DeviceBase(logger, transportFactory, telemetryFactory, configurationProvider);
             device.Init(config);
             return device;
         }
