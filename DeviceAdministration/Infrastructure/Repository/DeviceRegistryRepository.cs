@@ -48,10 +48,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// Queries the DocumentDB and retrieves all documents in the collection
         /// </summary>
         /// <returns>All documents in the collection</returns>
-        private async Task<List<DeviceND>> GetAllDevicesAsync()
+        private async Task<List<Common.Models.Device>> GetAllDevicesAsync()
         {
             IEnumerable docs;
-            List<DeviceND> deviceList = new List<DeviceND>();
+            List<Common.Models.Device> deviceList = new List<Common.Models.Device>();
 
             string query = "SELECT VALUE root FROM root";
             string continuationToken = null;
@@ -73,7 +73,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     {
                         if (doc != null)
                         {
-                            deviceList.Add(TypeMapper.Get().map<DeviceND>(doc));
+                            deviceList.Add(TypeMapper.Get().map<Common.Models.Device>(doc));
                         }
                     }
                 }
@@ -90,7 +90,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="deviceId">DeviceID of the device to retrieve</param>
         /// <returns>Device instance if present, null if a device was not found with the provided deviceId</returns>
-        public async Task<DeviceND> GetDeviceAsync(string deviceId)
+        public async Task<Common.Models.Device> GetDeviceAsync(string deviceId)
         {
             JToken result = null;
 
@@ -104,7 +104,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 result = foundDevices.Children().ElementAt(0);
             }
 
-            DeviceND d = TypeMapper.Get().map<DeviceND>(result);
+            Common.Models.Device d = TypeMapper.Get().map<Common.Models.Device>(result);
             return d;
         }
 
@@ -114,32 +114,32 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device"></param>
         /// <returns></returns>
-        public async Task<DeviceND> AddDeviceAsync(DeviceND device)
+        public async Task<Common.Models.Device> AddDeviceAsync(Common.Models.Device device)
         {
             string deviceId = device.DeviceProperties.DeviceID;
-            DeviceND existingDevice = await this.GetDeviceAsync(deviceId);
+            Common.Models.Device existingDevice = await this.GetDeviceAsync(deviceId);
 
             if (existingDevice != null)
             {
                 throw new DeviceAlreadyRegisteredException(deviceId);
             }
 
-            JObject d = await _docDbRestUtil.SaveNewDocumentAsync<DeviceND>(device);
-            device = TypeMapper.Get().map<DeviceND>(d);
+            JObject d = await _docDbRestUtil.SaveNewDocumentAsync<Common.Models.Device>(device);
+            device = TypeMapper.Get().map<Common.Models.Device>(d);
 
             return device;
         }
 
         public async Task RemoveDeviceAsync(string deviceId)
         {
-            DeviceND existingDevice = await this.GetDeviceAsync(deviceId);
+            Common.Models.Device existingDevice = await this.GetDeviceAsync(deviceId);
 
             if (existingDevice == null)
             {
                 throw new DeviceNotRegisteredException(deviceId);
             }
 
-            await _docDbRestUtil.DeleteDocumentAsync<DeviceND>(existingDevice);
+            await _docDbRestUtil.DeleteDocumentAsync<Common.Models.Device>(existingDevice);
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device"></param>
         /// <returns></returns>
-        public async Task<DeviceND> UpdateDeviceAsync(DeviceND device)
+        public async Task<Common.Models.Device> UpdateDeviceAsync(Common.Models.Device device)
         {
             if (device.DeviceProperties == null)
             {
@@ -162,7 +162,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             string deviceId = device.DeviceProperties.DeviceID;
 
-            DeviceND existingDevice = await this.GetDeviceAsync(deviceId);
+            Common.Models.Device existingDevice = await this.GetDeviceAsync(deviceId);
 
             if (existingDevice == null)
             {
@@ -202,13 +202,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             device.DeviceProperties.UpdatedTime = DateTime.UtcNow;
 
-            JObject d = await _docDbRestUtil.UpdateDocumentAsync<DeviceND>(device);
-            return TypeMapper.Get().map<DeviceND>(d);
+            JObject d = await _docDbRestUtil.UpdateDocumentAsync<Common.Models.Device>(device);
+            return TypeMapper.Get().map<Common.Models.Device>(d);
         }
 
-        public async Task<DeviceND> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
+        public async Task<Common.Models.Device> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
         {
-            DeviceND existingDevice = await this.GetDeviceAsync(deviceId);
+            Common.Models.Device existingDevice = await this.GetDeviceAsync(deviceId);
 
             if (existingDevice == null)
             {
@@ -219,21 +219,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             deviceProps.HubEnabledState = isEnabled;
             DeviceSchemaHelperND.UpdateUpdatedTime(existingDevice);
 
-            JObject updatedDevice = await _docDbRestUtil.UpdateDocumentAsync<DeviceND>(existingDevice);
-            return TypeMapper.Get().map<DeviceND>(updatedDevice);
+            JObject updatedDevice = await _docDbRestUtil.UpdateDocumentAsync<Common.Models.Device>(existingDevice);
+            return TypeMapper.Get().map<Common.Models.Device>(updatedDevice);
         }
 
         public async Task<DeviceListQueryResult> GetDeviceList(DeviceListQuery query)
         {
-            List<DeviceND> deviceList = await this.GetAllDevicesAsync();
+            List<Common.Models.Device> deviceList = await this.GetAllDevicesAsync();
 
-            IQueryable<DeviceND> filteredDevices = FilterHelperND.FilterDeviceList(deviceList.AsQueryable<DeviceND>(), query.Filters);
+            IQueryable<Common.Models.Device> filteredDevices = FilterHelperND.FilterDeviceList(deviceList.AsQueryable<Common.Models.Device>(), query.Filters);
 
-            IQueryable<DeviceND> filteredAndSearchedDevices = this.SearchDeviceList(filteredDevices, query.SearchQuery);
+            IQueryable<Common.Models.Device> filteredAndSearchedDevices = this.SearchDeviceList(filteredDevices, query.SearchQuery);
 
-            IQueryable<DeviceND> sortedDevices = this.SortDeviceList(filteredAndSearchedDevices, query.SortColumn, query.SortOrder);
+            IQueryable<Common.Models.Device> sortedDevices = this.SortDeviceList(filteredAndSearchedDevices, query.SortColumn, query.SortOrder);
 
-            List<DeviceND> pagedDeviceList = sortedDevices.Skip(query.Skip).Take(query.Take).ToList();
+            List<Common.Models.Device> pagedDeviceList = sortedDevices.Skip(query.Skip).Take(query.Take).ToList();
 
             int filteredCount = filteredAndSearchedDevices.Count();
 
@@ -245,21 +245,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             };
         }
 
-        private IQueryable<DeviceND> SearchDeviceList(IQueryable<DeviceND> deviceList, string search)
+        private IQueryable<Common.Models.Device> SearchDeviceList(IQueryable<Common.Models.Device> deviceList, string search)
         {
             if (string.IsNullOrWhiteSpace(search))
             {
                 return deviceList;
             }
 
-            Func<DeviceND, bool> filter =
+            Func<Common.Models.Device, bool> filter =
                 (d) => this.SearchTypePropertiesForValue(d, search);
 
             // look for all devices that contain the search value in one of the DeviceProperties Properties
             return deviceList.Where(filter).AsQueryable();
         }
        
-        private bool SearchTypePropertiesForValue(DeviceND device, string search)
+        private bool SearchTypePropertiesForValue(Common.Models.Device device, string search)
         {
             DeviceProperties devProps = null;
 
@@ -294,7 +294,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     t.Value.ToString().ToUpperInvariant().Contains(upperCaseSearch));
         }
 
-        private IQueryable<DeviceND> SortDeviceList(IQueryable<DeviceND> deviceList, string sortColumn, QuerySortOrder sortOrder)
+        private IQueryable<Common.Models.Device> SortDeviceList(IQueryable<Common.Models.Device> deviceList, string sortColumn, QuerySortOrder sortOrder)
         { 
             // if a sort column was not provided then return the full device list in its original sort
             if (string.IsNullOrWhiteSpace(sortColumn))
@@ -308,7 +308,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     false,
                     false);
 
-            Func<DeviceND, dynamic> keySelector =
+            Func<Common.Models.Device, dynamic> keySelector =
                 (item) =>
                 {
                     DeviceProperties deviceProperties;

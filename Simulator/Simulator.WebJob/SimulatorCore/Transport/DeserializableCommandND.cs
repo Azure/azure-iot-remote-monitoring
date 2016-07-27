@@ -9,7 +9,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// <summary>
     /// Wraps the byte array returned from the cloud so that it can be deserialized
     /// </summary>
-    public class DeserializableCommand
+    public class DeserializableCommandND
     {
         private readonly CommandHistory _commandHistory;
         private readonly string _lockToken;
@@ -19,7 +19,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             get { return _commandHistory.Name; }
         }
 
-        public DeserializableCommand(Client.Message message, ISerialize serializer)
+        public DeserializableCommandND(Client.Message message, ISerialize serializer)
         {
             if (message == null)
             {

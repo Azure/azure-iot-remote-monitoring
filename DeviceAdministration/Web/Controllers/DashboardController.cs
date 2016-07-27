@@ -91,7 +91,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             if ((queryResult != null) && (queryResult.Results != null))
             {
-                foreach (DeviceND devInfo in queryResult.Results)
+                foreach (Common.Models.Device devInfo in queryResult.Results)
                 {
                     string deviceId;
                     try

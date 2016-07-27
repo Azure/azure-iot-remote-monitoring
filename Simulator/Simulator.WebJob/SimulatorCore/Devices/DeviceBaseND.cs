@@ -20,17 +20,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// <summary>
     /// Simulates a single IoT device that sends and recieves data from a transport
     /// </summary>
-    public class DeviceBase : IDevice
+    public class DeviceBaseND : IDeviceND
     {
         // pointer to the currently executing event group
         private int _currentEventGroup = 0;
 
         protected readonly ILogger Logger;
-        protected readonly ITransportFactory TransportFactory;
-        protected readonly ITelemetryFactory TelemetryFactory;
+        protected readonly ITransportFactoryND TransportFactory;
+        protected readonly ITelemetryFactoryND TelemetryFactory;
         protected readonly IConfigurationProvider ConfigProvider;
-        protected ITransport Transport;
-        protected CommandProcessor RootCommandProcessor;
+        protected ITransportND Transport;
+        protected CommandProcessorND RootCommandProcessor;
 
         public string DeviceID
         {
@@ -63,7 +63,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// <param name="logger">Logger where this device will log information to</param>
         /// <param name="transport">Transport where the device will send and receive data to/from</param>
         /// <param name="config">Config to start this device with</param>
-        public DeviceBase(ILogger logger, ITransportFactory transportFactory, ITelemetryFactory telemetryFactory, IConfigurationProvider configurationProvider)
+        public DeviceBaseND(ILogger logger, ITransportFactoryND transportFactory, ITelemetryFactoryND telemetryFactory, IConfigurationProvider configurationProvider)
         {
             ConfigProvider = configurationProvider;
             Logger = logger;
@@ -97,7 +97,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// </summary>
         protected virtual void InitCommandProcessors()
         {
-            var pingDeviceProcessor = new PingDeviceProcessor(this);
+            var pingDeviceProcessor = new PingDeviceProcessorND(this);
 
             RootCommandProcessor = pingDeviceProcessor;
         }
@@ -218,7 +218,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// <param name="token">Cancellation token that can stop the loop if needed</param>
         private async Task StartReceiveLoopAsync(CancellationToken token)
         {
-            DeserializableCommand command;
+            DeserializableCommandND command;
             Exception exception;
             CommandProcessingResultND processingResult;
 

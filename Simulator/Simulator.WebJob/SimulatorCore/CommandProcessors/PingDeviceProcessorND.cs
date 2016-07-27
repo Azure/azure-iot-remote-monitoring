@@ -8,15 +8,15 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors
 {
-    public class PingDeviceProcessor : CommandProcessor
+    public class PingDeviceProcessorND : CommandProcessorND
     {
-        public PingDeviceProcessor(IDevice device)
+        public PingDeviceProcessorND(IDeviceND device)
             : base(device)
         {
 
         }
 
-        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommand deserializableCommand)
+        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommandND deserializableCommand)
         {
             if (deserializableCommand.CommandName == "PingDevice")
             {

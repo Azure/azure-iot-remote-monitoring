@@ -58,9 +58,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             new Location(47.636121, -122.130254) //3009 157th Pl NE, Redmond, WA 98052
         };
 
-        public static DeviceND GetSampleSimulatedDevice(string deviceId, string key)
+        public static Models.Device GetSampleSimulatedDevice(string deviceId, string key)
         {
-            DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(deviceId, true, null);
+            Models.Device device = DeviceSchemaHelperND.BuildDeviceStructure(deviceId, true, null);
 
             AssignDeviceProperties(deviceId, device);
             device.ObjectType = OBJECT_TYPE_DEVICE_INFO;
@@ -73,7 +73,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             return device;
         }
 
-        public static DeviceND GetSampleDevice(Random randomNumber, SecurityKeys keys)
+        public static Models.Device GetSampleDevice(Random randomNumber, SecurityKeys keys)
         {
             string deviceId = 
                 string.Format(
@@ -84,7 +84,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
                     randomNumber.Next(99999),
                     randomNumber.Next(99999));
 
-            DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(deviceId, false, null);
+            Models.Device device = DeviceSchemaHelperND.BuildDeviceStructure(deviceId, false, null);
             device.ObjectName = "IoT Device Description";
 
             AssignDeviceProperties(deviceId, device);
@@ -94,7 +94,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             return device;
         }
 
-        private static void AssignDeviceProperties(string deviceId, DeviceND device)
+        private static void AssignDeviceProperties(string deviceId, Models.Device device)
         {
             int randomId = rand.Next(0, _possibleDeviceLocations.Count - 1); 
             DeviceProperties deviceProperties = DeviceSchemaHelperND.GetDeviceProperties(device);
