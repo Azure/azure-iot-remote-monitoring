@@ -10,6 +10,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Device = Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Device;
 
 namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
 {
@@ -82,8 +83,8 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
         {
             FeedbackBatch batch;
             FeedbackReceiver<FeedbackBatch> batchReceiver;
-            DeviceND device;
-            CommandHistoryND existingCommand;
+            Device device;
+            CommandHistory existingCommand;
             IEnumerable<FeedbackRecord> records;
             ServiceClient serviceClient;
             DateTime updatedTime;

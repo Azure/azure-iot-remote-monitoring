@@ -11,7 +11,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// </summary>
     public class DeserializableCommand
     {
-        private readonly CommandHistoryND _commandHistory;
+        private readonly CommandHistory _commandHistory;
         private readonly string _lockToken;
 
         public string CommandName
@@ -38,10 +38,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             byte[] messageBytes = message.GetBytes(); // this needs to be saved if needed later, because it can only be read once from the original Message
 
-            _commandHistory = serializer.DeserializeObject<CommandHistoryND>(messageBytes);
+            _commandHistory = serializer.DeserializeObject<CommandHistory>(messageBytes);
         }
 
-        public CommandHistoryND CommandHistory
+        public CommandHistory CommandHistory
         {
             get { return _commandHistory; }
         }
