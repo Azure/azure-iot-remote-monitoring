@@ -68,7 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             SecurityKeys generatedSecurityKeys = this._securityKeyGenerator.CreateRandomKeys();
 
-            DeviceND savedDevice = await this.AddDeviceToRepositoriesAsyncND(device, generatedSecurityKeys);
+            DeviceND savedDevice = await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             return new DeviceWithKeysND(savedDevice, generatedSecurityKeys);
         }
 
@@ -78,7 +78,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="device">Device to add to repositories</param>
         /// <param name="securityKeys">Keys to assign to the device</param>
         /// <returns>Device that was added to the device registry</returns>
-        private async Task<DeviceND> AddDeviceToRepositoriesAsyncND(DeviceND device, SecurityKeys securityKeys)
+        private async Task<DeviceND> AddDeviceToRepositoriesAsync(DeviceND device, SecurityKeys securityKeys)
         {
             DeviceND registryRepositoryDevice = null;
             ExceptionDispatchInfo capturedException = null;
@@ -1063,7 +1063,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
                 DeviceND device = SampleDeviceFactory.GetSampleDevice(randomNumber, generatedSecurityKeys);
-                await AddDeviceToRepositoriesAsyncND(device, generatedSecurityKeys);
+                await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             }   
         }
 
@@ -1074,7 +1074,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(id, true, null);
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
-                await AddDeviceToRepositoriesAsyncND(device, generatedSecurityKeys);
+                await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             }
             return sampleIds;
         }
