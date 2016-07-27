@@ -12,7 +12,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// <summary>
     /// Command processor to handle the change in the temperature range
     /// </summary>
-    public class ChangeSetPointTempCommandProcessor : CommandProcessor
+    public class ChangeSetPointTempCommandProcessor : CommandProcessorND
     {
         private const string CHANGE_SET_POINT_TEMP = "ChangeSetPointTemp";
 
@@ -22,7 +22,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         }
 
-        public async override Task<CommandProcessingResult> HandleCommandAsync(DeserializableCommand deserializableCommand)
+        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommandND deserializableCommand)
         {
             if (deserializableCommand.CommandName == CHANGE_SET_POINT_TEMP)
             {
@@ -49,35 +49,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                                 {
                                     device.ChangeSetPointTemp(setPointTemp);
 
-                                    return CommandProcessingResult.Success;
+                                    return CommandProcessingResultND.Success;
                                 }
                                 else
                                 {
                                     // SetPointTemp cannot be parsed as a double.
-                                    return CommandProcessingResult.CannotComplete;
+                                    return CommandProcessingResultND.CannotComplete;
                                 }
                             }
                             else
                             {
                                 // setPointTempDynamic is a null reference.
-                                return CommandProcessingResult.CannotComplete;
+                                return CommandProcessingResultND.CannotComplete;
                             }
                         }
                         else
                         {
                             // parameters is a null reference.
-                            return CommandProcessingResult.CannotComplete;
+                            return CommandProcessingResultND.CannotComplete;
                         }
                     }
                     else
                     {
                         // Unsupported Device type.
-                        return CommandProcessingResult.CannotComplete;
+                        return CommandProcessingResultND.CannotComplete;
                 }
                 }
                 catch (Exception)
                 {
-                    return CommandProcessingResult.RetryLater;
+                    return CommandProcessingResultND.RetryLater;
                 }
             }
             else if (NextCommandProcessor != null)
@@ -85,7 +85,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 return await NextCommandProcessor.HandleCommandAsync(deserializableCommand);
             }
 
-            return CommandProcessingResult.CannotComplete;
+            return CommandProcessingResultND.CannotComplete;
         }
     }
 }
