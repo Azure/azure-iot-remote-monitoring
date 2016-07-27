@@ -86,18 +86,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             if (ModelState.IsValid)
             {
-                IDictionary<String, Object> commands = new Dictionary<string, object>();
+                IDictionary<String, Object> parameters = new Dictionary<string, object>();
 
                 if (model.Parameters != null)
                 {
                     foreach (var parameter in model.Parameters)
                     {
-                        commands.Add(new KeyValuePair<string, object>(parameter.Name,
+                        parameters.Add(new KeyValuePair<string, object>(parameter.Name,
                             _commandParameterTypeLogic.Get(parameter.Type, parameter.Value)));
                     }
                 }
 
-                await _deviceLogic.SendCommandAsync(model.DeviceId, model.Name, commands);
+                await _deviceLogic.SendCommandAsync(model.DeviceId, model.Name, parameters);
  
                 return Json(new {data = model});
             }
