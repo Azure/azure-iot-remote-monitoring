@@ -8,7 +8,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 {
     /// <summary>
     /// Command processor to start telemetry data
-    public class StartCommandProcessor : CommandProcessorND
+    public class StartCommandProcessor : CommandProcessor
     {
         private const string START_TELEMETRY = "StartTelemetry";
 
@@ -18,7 +18,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         }
 
-        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommandND deserializableCommand)
+        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommand deserializableCommand)
         {
             if (deserializableCommand.CommandName == START_TELEMETRY)
             {

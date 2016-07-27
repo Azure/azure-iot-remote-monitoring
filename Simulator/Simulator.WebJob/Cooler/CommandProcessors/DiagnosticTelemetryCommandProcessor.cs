@@ -13,7 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// <summary>
     /// Command processor to handle activating external temperature
     /// </summary>
-    public class DiagnosticTelemetryCommandProcessor : CommandProcessorND
+    public class DiagnosticTelemetryCommandProcessor : CommandProcessor
     {
         private const string DIAGNOSTIC_TELEMETRY = "DiagnosticTelemetry";
 
@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         }
 
-        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommandND deserializableCommand)
+        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommand deserializableCommand)
         {
             if (deserializableCommand.CommandName == DIAGNOSTIC_TELEMETRY)
             {

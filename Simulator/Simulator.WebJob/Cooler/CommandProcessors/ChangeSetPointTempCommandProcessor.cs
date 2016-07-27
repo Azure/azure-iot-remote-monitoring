@@ -13,7 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// <summary>
     /// Command processor to handle the change in the temperature range
     /// </summary>
-    public class ChangeSetPointTempCommandProcessor : CommandProcessorND
+    public class ChangeSetPointTempCommandProcessor : CommandProcessor
     {
         private const string CHANGE_SET_POINT_TEMP = "ChangeSetPointTemp";
 
@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         }
 
-        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommandND deserializableCommand)
+        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommand deserializableCommand)
         {
             if (deserializableCommand.CommandName == CHANGE_SET_POINT_TEMP)
             {

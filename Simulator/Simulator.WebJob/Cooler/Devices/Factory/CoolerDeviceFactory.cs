@@ -8,10 +8,10 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices.Factory
 {
-    public class CoolerDeviceFactory : IDeviceFactoryND
+    public class CoolerDeviceFactory : IDeviceFactory
     {
-        public IDeviceND CreateDevice(ILogger logger, ITransportFactoryND transportFactory,
-            ITelemetryFactoryND telemetryFactory, IConfigurationProvider configurationProvider, InitialDeviceConfig config)
+        public IDevice CreateDevice(ILogger logger, ITransportFactory transportFactory,
+            ITelemetryFactory telemetryFactory, IConfigurationProvider configurationProvider, InitialDeviceConfig config)
         {
             var device = new CoolerDevice(logger, transportFactory, telemetryFactory, configurationProvider);
             device.Init(config);

@@ -32,30 +32,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// Note: This will not return until all devices have finished sending events,
         /// assuming no device has RepeatEventListForever == true
         /// </summary>
-        public async Task StartDevicesAsync(List<IDevice> devices)
-        {
-            await Task.Run(async() => 
-            {
-                if (devices == null || !devices.Any())
-                    return;
-
-                var startDeviceTasks = new List<Task>();
-
-                foreach (var device in devices)
-                {
-                    var deviceCancellationToken = new CancellationTokenSource();
-
-                    startDeviceTasks.Add(device.StartAsync(deviceCancellationToken.Token));
-
-                    _cancellationTokens.Add(device.DeviceID, deviceCancellationToken);
-                }
-
-                // wait here until all tasks complete
-                await Task.WhenAll(startDeviceTasks);
-            
-            }, _token);
-        }
-        public async Task StartDevicesAsyncND(List<IDeviceND> devices)
+        public async Task StartDevicesAsyncND(List<IDevice> devices)
         {
             await Task.Run(async () =>
             {

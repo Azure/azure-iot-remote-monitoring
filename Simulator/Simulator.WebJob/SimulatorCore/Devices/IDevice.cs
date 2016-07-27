@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Telemetry;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices
@@ -20,14 +21,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         DeviceProperties DeviceProperties { get; set; }
 
-        dynamic Commands { get; set; }
+        List<Command> Commands { get; set; }
 
         List<ITelemetry> TelemetryEvents { get; }
 
         bool RepeatEventListForever { get; set; }
 
         void Init(InitialDeviceConfig config);
-
 
         Task SendDeviceInfo();
 

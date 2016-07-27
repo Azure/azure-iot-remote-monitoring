@@ -4,7 +4,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Telemetry.Factory
 {
-    public class CoolerTelemetryFactory : ITelemetryFactoryND
+    public class CoolerTelemetryFactory : ITelemetryFactory
     {
         private readonly ILogger _logger;
 
@@ -14,7 +14,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             _logger = logger;
         }
 
-        public object PopulateDeviceWithTelemetryEvents(IDeviceND device)
+        public object PopulateDeviceWithTelemetryEvents(IDevice device)
         {
             var startupTelemetry = new StartupTelemetry(_logger, device);
             device.TelemetryEvents.Add(startupTelemetry);
