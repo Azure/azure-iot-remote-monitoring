@@ -87,7 +87,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 Filters = filters
             };
 
-            DeviceListQueryResultND queryResult = await _deviceLogic.GetDevices(query);
+            DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
 
             if ((queryResult != null) && (queryResult.Results != null))
             {

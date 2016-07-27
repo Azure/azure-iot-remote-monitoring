@@ -168,7 +168,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             ValidateArgumentNotNull("device", device);
 
-            return await GetServiceResponseAsync<DeviceWithKeysND>(async () => 
+            return await GetServiceResponseAsync<DeviceWithKeys>(async () => 
             { 
                 var device2 = await this._deviceLogic.AddDeviceAsync(device);
                 return device2;
@@ -273,7 +273,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     SortColumn = "DeviceID",
                 };
 
-                DeviceListQueryResultND devices = await _deviceLogic.GetDevices(query);
+                DeviceListQueryResult devices = await _deviceLogic.GetDevices(query);
 
                 foreach (var d in devices.Results)
                 {

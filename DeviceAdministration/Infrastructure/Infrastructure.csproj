@@ -168,9 +168,8 @@
     <Compile Include="Models\ActionMappingExtended.cs" />
     <Compile Include="Models\ActionModel.cs" />
     <Compile Include="Models\AlertHistoryItemModel.cs" />
-    <Compile Include="Models\DeviceListQueryResultND.cs" />
-    <Compile Include="Models\DeviceListQuery.cs" />
     <Compile Include="Models\DeviceListQueryResult.cs" />
+    <Compile Include="Models\DeviceListQuery.cs" />
     <Compile Include="Models\DeviceListLocationsModel.cs" />
     <Compile Include="Models\DeviceLocationModel.cs" />
     <Compile Include="Models\DevicePropertyMetadata.cs" />
@@ -185,7 +184,6 @@
     <Compile Include="Models\DeviceTelemetryFieldModel.cs" />
     <Compile Include="Models\DeviceTelemetrySummaryModel.cs" />
     <Compile Include="Models\DeviceType.cs" />
-    <Compile Include="Models\DeviceWithKeysND.cs" />
     <Compile Include="Models\DeviceWithKeys.cs" />
     <Compile Include="Models\FilterInfo.cs" />
     <Compile Include="Models\FilterType.cs" />

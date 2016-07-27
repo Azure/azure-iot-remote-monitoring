@@ -323,7 +323,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             string deviceId;
             var devices = new List<DeviceND>();
-            DeviceListQueryResultND queryResult = await  _deviceLogic.GetDevices(query);
+            DeviceListQueryResult queryResult = await  _deviceLogic.GetDevices(query);
 
 
             if ((queryResult != null) && (queryResult.Results != null))
@@ -367,7 +367,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     SortColumn = "DeviceID"
                 };
 
-                DeviceListQueryResultND queryResult = await _deviceLogic.GetDevices(query);
+                DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
                 DeviceListLocationsModel dataModel = _deviceLogic.ExtractLocationsData(queryResult.Results);
  
                 return dataModel;

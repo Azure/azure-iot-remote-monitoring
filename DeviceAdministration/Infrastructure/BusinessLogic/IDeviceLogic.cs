@@ -9,9 +9,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public interface IDeviceLogic
     {
         void ApplyDevicePropertyValueModels(DeviceND device, IEnumerable<DevicePropertyValueModel> devicePropertyValueModels);
-        Task<DeviceListQueryResultND> GetDevices(DeviceListQuery q);
+        Task<DeviceListQueryResult> GetDevices(DeviceListQuery q);
         Task<DeviceND> GetDeviceAsync(string deviceId);
-        Task<DeviceWithKeysND> AddDeviceAsync(DeviceND device);
+        Task<DeviceWithKeys> AddDeviceAsync(DeviceND device);
         IEnumerable<DevicePropertyValueModel> ExtractDevicePropertyValuesModels(DeviceND device);
         Task RemoveDeviceAsync(string deviceId);
         Task<DeviceND> UpdateDeviceAsync(DeviceND device);
