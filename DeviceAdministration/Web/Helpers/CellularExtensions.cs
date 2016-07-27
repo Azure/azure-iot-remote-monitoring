@@ -8,14 +8,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 {
     public static class CellularExtensions
     {
-        public static IEnumerable<string> GetListOfAvailableIccidsND(this IExternalCellularService cellularService, IList<DeviceND> devices)
+        public static IEnumerable<string> GetListOfAvailableIccidsND(this IExternalCellularService cellularService, IList<Common.Models.Device> devices)
         {
             var fullIccidList = cellularService.GetTerminals().Select(i => i.Id);
             var usedIccidList = GetUsedIccidListND(devices).Select(i => i.Id);
             return fullIccidList.Except(usedIccidList);
         }
 
-        public static IEnumerable<string> GetListOfAvailableDeviceIDs(this IExternalCellularService cellularService, IList<DeviceND> devices)
+        public static IEnumerable<string> GetListOfAvailableDeviceIDs(this IExternalCellularService cellularService, IList<Common.Models.Device> devices)
         {
             return (from device in devices
                     where (device.DeviceProperties != null && device.DeviceProperties.DeviceID != null) &&
@@ -24,7 +24,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     ).Cast<string>().ToList();
         }
 
-        private static IEnumerable<Iccid> GetUsedIccidListND(IList<DeviceND> devices)
+        private static IEnumerable<Iccid> GetUsedIccidListND(IList<Common.Models.Device> devices)
         {
             return (from device in devices
                     where (device.DeviceProperties != null && device.DeviceProperties.DeviceID != null) &&

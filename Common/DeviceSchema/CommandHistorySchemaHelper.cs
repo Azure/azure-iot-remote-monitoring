@@ -22,9 +22,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         public const string RESULT_SUCCESS = "Success";
         public const string RESULT_ERROR = "Error";
 
-        public static CommandHistoryND BuildNewCommandHistoryItem(string command)
+        public static CommandHistory BuildNewCommandHistoryItem(string command)
         {
-            CommandHistoryND result = new CommandHistoryND();
+            CommandHistory result = new CommandHistory();
 
             result.Name = command;
             result.MessageId = Guid.NewGuid().ToString();
@@ -40,7 +40,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="command"></param>
         /// <param name="parameters"></param>
-        public static void AddParameterCollectionToCommandHistoryItem(CommandHistoryND command, dynamic parameters)
+        public static void AddParameterCollectionToCommandHistoryItem(CommandHistory command, dynamic parameters)
         {
             if (parameters == null)
             {
@@ -86,7 +86,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             return history;
         }
 
-        public static List<CommandHistoryND> GetCommandHistoryND(DeviceND device)
+        public static List<CommandHistory> GetCommandHistoryND(Models.Device device)
         {
             if (device == null)
             {
@@ -97,7 +97,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
 
             if (history == null)
             {
-                history = new List<CommandHistoryND>();
+                history = new List<CommandHistory>();
                 device.CommandHistory = history;
             }
 
@@ -126,11 +126,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
 
             return result;
         }
-        public static CommandHistoryND GetCommandHistoryItemOrDefaultND(DeviceND device, string messageId)
+        public static CommandHistory GetCommandHistoryItemOrDefaultND(Models.Device device, string messageId)
         {
-            CommandHistoryND result = null;
+            CommandHistory result = null;
 
-            IList<CommandHistoryND> history = GetCommandHistoryND(device);
+            IList<CommandHistory> history = GetCommandHistoryND(device);
 
             int commandIndex = GetCommandHistoryItemIndexND(history, messageId);
             if (commandIndex > -1)
@@ -197,7 +197,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
 
             return result;
         }
-        private static int GetCommandHistoryItemIndexND(IList<CommandHistoryND> commandHistory, string messageId)
+        private static int GetCommandHistoryItemIndexND(IList<CommandHistory> commandHistory, string messageId)
         {
             int i = -1;
             int result = -1;
@@ -214,7 +214,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
                     "messageId");
             }
 
-            foreach (CommandHistoryND command in commandHistory)
+            foreach (CommandHistory command in commandHistory)
             {
                 ++i;
 
@@ -291,9 +291,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
                 history[commandIndex] = command;
             }
         }
-        public static void UpdateCommandHistoryItemND(DeviceND device, CommandHistoryND command)
+        public static void UpdateCommandHistoryItemND(Models.Device device, CommandHistory command)
         {
-            IList<CommandHistoryND> history = GetCommandHistoryND(device);
+            IList<CommandHistory> history = GetCommandHistoryND(device);
 
             int commandIndex = GetCommandHistoryItemIndexND(history, command.MessageId);
             if (commandIndex > -1)

@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public async Task<PartialViewResult> DeviceAssociation()
         {
-            IList<DeviceND> devices = await GetDevices();
+            IList<Common.Models.Device> devices = await GetDevices();
 
             try
             {
@@ -93,7 +93,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 throw new ArgumentNullException();
             }
 
-            DeviceND device = await _deviceLogic.GetDeviceAsync(deviceId);
+            Common.Models.Device device = await _deviceLogic.GetDeviceAsync(deviceId);
             device.SystemProperties.ICCID = iccid;
             await _deviceLogic.UpdateDeviceAsync(device);
         }
@@ -140,7 +140,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View();
         }
 
-        private async Task<List<DeviceND>> GetDevices()
+        private async Task<List<Common.Models.Device>> GetDevices()
         {
             var query = new DeviceListQuery
             {
