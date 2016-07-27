@@ -23,7 +23,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
                 if (!this.configuration.ContainsKey(configurationSettingName))
                 {
                     string configValue = CloudConfigurationManager.GetSetting(configurationSettingName);
-                    bool isEmulated = Environment.CommandLine.Contains("iisexpress.exe") ||
+                    bool isEmulated = Environment.CommandLine.Contains("iisexpress.exe") || 
+                        Environment.CommandLine.Contains("w3wp.exe") ||
                         Environment.CommandLine.Contains("WebJob.vshost.exe");
 
                     if (isEmulated && (configValue != null && configValue.StartsWith(ConfigToken, StringComparison.OrdinalIgnoreCase)))
