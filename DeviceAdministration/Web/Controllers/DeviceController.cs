@@ -67,7 +67,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 try
                 {
-                    List<DeviceND> devices = await GetDevices();
+                    List<Common.Models.Device> devices = await GetDevices();
                     ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccidsND(devices);
                     ViewBag.CanHaveIccid = true;
                 }
@@ -108,7 +108,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 try
                 {
-                    List<DeviceND> devices = await GetDevices();
+                    List<Common.Models.Device> devices = await GetDevices();
                     ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccidsND(devices);
                     ViewBag.CanHaveIccid = true;
                 }
@@ -218,7 +218,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>()
             };
 
-            DeviceND device = await _deviceLogic.GetDeviceAsync(deviceId);
+            Common.Models.Device device = await _deviceLogic.GetDeviceAsync(deviceId);
             if (!object.ReferenceEquals(device, null))
             {
                 model.DeviceId = DeviceSchemaHelperND.GetDeviceID(device);
@@ -236,7 +236,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             if (model != null)
             {
-                DeviceND device = await _deviceLogic.GetDeviceAsync(model.DeviceId);
+                Common.Models.Device device = await _deviceLogic.GetDeviceAsync(model.DeviceId);
                 if (device != null)
                 {
                     _deviceLogic.ApplyDevicePropertyValueModels(
@@ -255,7 +255,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             IEnumerable<DevicePropertyValueModel> propModels;
 
-            DeviceND device = await _deviceLogic.GetDeviceAsync(deviceId);
+            Common.Models.Device device = await _deviceLogic.GetDeviceAsync(deviceId);
             if (object.ReferenceEquals(device, null))
             {
                 throw new InvalidOperationException("Unable to load device with deviceId " + deviceId);
@@ -350,7 +350,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 unregisteredDeviceModel.DeviceType != null,
                 "unregisteredDeviceModel.DeviceType is a null reference.");
 
-	        DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
+	        Common.Models.Device device = DeviceSchemaHelperND.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
                 unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
             
             DeviceWithKeys addedDevice = await this._deviceLogic.AddDeviceAsync(device);
@@ -359,11 +359,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private async Task<bool> GetDeviceExistsAsync(string deviceId)
         {
-            DeviceND existingDevice = await _deviceLogic.GetDeviceAsync(deviceId);
+            Common.Models.Device existingDevice = await _deviceLogic.GetDeviceAsync(deviceId);
             return (existingDevice != null);
         }
 
-        private async Task<List<DeviceND>> GetDevices()
+        private async Task<List<Common.Models.Device>> GetDevices()
         {
             var query = new DeviceListQuery
             {
