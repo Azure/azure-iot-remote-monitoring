@@ -55,7 +55,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 if (_apiRegistrationRepository.IsApiRegisteredInAzure())
                 {
                     ViewBag.HasRegistration = true;
-                    ViewBag.UnassignedIccidList = _cellularService.GetListOfAvailableIccidsND(devices);
+                    ViewBag.UnassignedIccidList = _cellularService.GetListOfAvailableIccids(devices);
                     ViewBag.UnassignedDeviceIds = _cellularService.GetListOfAvailableDeviceIDs(devices);
                 }
                 else

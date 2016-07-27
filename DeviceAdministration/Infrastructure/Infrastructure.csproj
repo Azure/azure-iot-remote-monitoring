@@ -199,7 +199,7 @@
     <Compile Include="Repository\AlertsRepository.cs" />
     <Compile Include="Repository\ApiRegistrationRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepository.cs" />
-    <Compile Include="Repository\FilterHelperND.cs" />
+    <Compile Include="Repository\FilterHelper.cs" />
     <Compile Include="Repository\IActionMappingRepository.cs" />
     <Compile Include="Repository\IActionRepository.cs" />
     <Compile Include="Repository\DeviceRulesRepository.cs" />
@@ -212,7 +212,6 @@
     <Compile Include="Repository\IDeviceTelemetryRepository.cs" />
     <Compile Include="Repository\IIotHubRepository.cs" />
     <Compile Include="Repository\IotHubRepository.cs" />
-    <Compile Include="Repository\FilterHelper.cs" />
     <Compile Include="Repository\IUserSettingsRepository.cs" />
     <Compile Include="Repository\SampleDeviceTypeRepository.cs" />
     <Compile Include="Repository\IDeviceTypeRepository.cs" />

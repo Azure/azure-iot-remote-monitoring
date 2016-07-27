@@ -178,7 +178,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPut]
         [Route("")]
         [WebApiRequirePermission(Permission.EditDeviceMetadata)]
-        public async Task<HttpResponseMessage> UpdateDeviceAsyncND(Common.Models.Device device)
+        public async Task<HttpResponseMessage> UpdateDeviceAsync(Common.Models.Device device)
         {
             ValidateArgumentNotNull("device", device);
             return await GetServiceResponseAsync<bool>(async () =>

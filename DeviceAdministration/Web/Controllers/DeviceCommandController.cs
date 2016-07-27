@@ -44,7 +44,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
            
             IList<SelectListItem> commandListItems = CommandListItems(device);
 
-            bool deviceIsEnabled = DeviceSchemaHelperND.GetHubEnabledState(device) == true;
+            bool deviceIsEnabled = DeviceSchemaHelper.GetHubEnabledState(device) == true;
 
             List<CommandHistory> commandHistory = CommandHistorySchemaHelper.GetCommandHistoryND(device);
 
@@ -54,12 +54,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 CommandsJson = JsonConvert.SerializeObject(device.Commands),
                 SendCommandModel = new SendCommandModel
                 {
-                    DeviceId = DeviceSchemaHelperND.GetDeviceID(device),
+                    DeviceId = DeviceSchemaHelper.GetDeviceID(device),
                     CommandSelectList = commandListItems,
                     CanSendDeviceCommands = deviceIsEnabled &&
                         PermsChecker.HasPermission(Permission.SendCommandToDevices)
                 },
-                DeviceId = DeviceSchemaHelperND.GetDeviceID(device)
+                DeviceId = DeviceSchemaHelper.GetDeviceID(device)
             };
 
             return View(deviceCommandsModel);

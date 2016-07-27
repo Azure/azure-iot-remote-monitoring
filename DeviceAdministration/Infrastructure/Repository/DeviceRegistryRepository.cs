@@ -215,9 +215,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceNotRegisteredException(deviceId);
             }
 
-            DeviceProperties deviceProps = DeviceSchemaHelperND.GetDeviceProperties(existingDevice);
+            DeviceProperties deviceProps = DeviceSchemaHelper.GetDeviceProperties(existingDevice);
             deviceProps.HubEnabledState = isEnabled;
-            DeviceSchemaHelperND.UpdateUpdatedTime(existingDevice);
+            DeviceSchemaHelper.UpdateUpdatedTime(existingDevice);
 
             JObject updatedDevice = await _docDbRestUtil.UpdateDocumentAsync<Common.Models.Device>(existingDevice);
             return TypeMapper.Get().map<Common.Models.Device>(updatedDevice);
@@ -227,7 +227,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             List<Common.Models.Device> deviceList = await this.GetAllDevicesAsync();
 
-            IQueryable<Common.Models.Device> filteredDevices = FilterHelperND.FilterDeviceList(deviceList.AsQueryable<Common.Models.Device>(), query.Filters);
+            IQueryable<Common.Models.Device> filteredDevices = FilterHelper.FilterDeviceList(deviceList.AsQueryable<Common.Models.Device>(), query.Filters);
 
             IQueryable<Common.Models.Device> filteredAndSearchedDevices = this.SearchDeviceList(filteredDevices, query.SearchQuery);
 
@@ -266,14 +266,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             // if the device or its system properties are null then
             // there's nothing that can be searched on
             if ((device == null) ||
-                ((devProps = DeviceSchemaHelperND.GetDeviceProperties(device)) == null))
+                ((devProps = DeviceSchemaHelper.GetDeviceProperties(device)) == null))
             {
                 return false;
             }
 
             try
             {
-                devProps = DeviceSchemaHelperND.GetDeviceProperties(device);
+                devProps = DeviceSchemaHelper.GetDeviceProperties(device);
             }
             catch (DeviceRequiredPropertyNotFoundException)
             {
@@ -325,7 +325,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     {
                         try
                         {
-                            return DeviceSchemaHelperND.GetHubEnabledState(item);
+                            return DeviceSchemaHelper.GetHubEnabledState(item);
                         }
                         catch (DeviceRequiredPropertyNotFoundException)
                         {
@@ -336,7 +336,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     try
                     {
                         deviceProperties =
-                            DeviceSchemaHelperND.GetDeviceProperties(item);
+                            DeviceSchemaHelper.GetDeviceProperties(item);
                     }
                     catch (DeviceRequiredPropertyNotFoundException)
                     {

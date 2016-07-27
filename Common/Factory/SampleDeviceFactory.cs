@@ -60,7 +60,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         public static Models.Device GetSampleSimulatedDevice(string deviceId, string key)
         {
-            Models.Device device = DeviceSchemaHelperND.BuildDeviceStructure(deviceId, true, null);
+            Models.Device device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, true, null);
 
             AssignDeviceProperties(deviceId, device);
             device.ObjectType = OBJECT_TYPE_DEVICE_INFO;
@@ -84,7 +84,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
                     randomNumber.Next(99999),
                     randomNumber.Next(99999));
 
-            Models.Device device = DeviceSchemaHelperND.BuildDeviceStructure(deviceId, false, null);
+            Models.Device device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, false, null);
             device.ObjectName = "IoT Device Description";
 
             AssignDeviceProperties(deviceId, device);
@@ -97,7 +97,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
         private static void AssignDeviceProperties(string deviceId, Models.Device device)
         {
             int randomId = rand.Next(0, _possibleDeviceLocations.Count - 1); 
-            DeviceProperties deviceProperties = DeviceSchemaHelperND.GetDeviceProperties(device);
+            DeviceProperties deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
             deviceProperties.HubEnabledState = true;
             deviceProperties.Manufacturer = "Contoso Inc.";
             deviceProperties.ModelNumber = "MD-" + randomId;

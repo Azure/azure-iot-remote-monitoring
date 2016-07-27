@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Newtonsoft.Json.Linq;
 
@@ -20,14 +21,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Schema
         /// </summary>
         /// <param name="document">Device data</param>
         /// <returns>_rid property value as string, or empty string if not found</returns>
-        public static string GetDocDbRid(dynamic document)
+        public static string GetDocDbRid<T>(T document)
         {
             if (document == null)
             {
                 throw new ArgumentNullException("document");
             }
 
-            dynamic rid = document._rid;
+            var rid = ReflectionHelper.GetNamedPropertyValue(document, "_rid", true, false);
 
             if (rid == null)
             {
@@ -42,14 +43,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Schema
         /// </summary>
         /// <param name="document">Device data</param>
         /// <returns>Value of the id, or empty string if not found</returns>
-        public static string GetDocDbId(dynamic document)
+        public static string GetDocDbId<T>(T document)
         {
             if (document == null)
             {
                 throw new ArgumentNullException("document");
             }
 
-            dynamic id = document.id;
+            var id = ReflectionHelper.GetNamedPropertyValue(document, "id", true, false);
 
             if (id == null)
             {

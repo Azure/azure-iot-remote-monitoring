@@ -18,7 +18,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             Device d = GetValidDevice();
 
-            DeviceProperties props = DeviceSchemaHelperND.GetDeviceProperties(d);
+            DeviceProperties props = DeviceSchemaHelper.GetDeviceProperties(d);
 
             Assert.NotNull(props);
             Assert.AreEqual("test", props.DeviceID.ToString());
@@ -29,7 +29,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             Device d = GetDeviceWithMissingDeviceProperties();
 
-            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelperND.GetDeviceProperties(d));
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetDeviceProperties(d));
         }
 
         #endregion
@@ -41,7 +41,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             Device d = GetValidDevice();
 
-            string deviceID = DeviceSchemaHelperND.GetDeviceID(d);
+            string deviceID = DeviceSchemaHelper.GetDeviceID(d);
 
             Assert.AreEqual("test", deviceID);
         }
@@ -51,7 +51,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             Device d = GetDeviceWithMissingDeviceProperties();
 
-            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelperND.GetDeviceID(d));
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetDeviceID(d));
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             Device d = GetDeviceWithMissingDeviceID();
 
-            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelperND.GetDeviceID(d));
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetDeviceID(d));
         }
 
         #endregion
@@ -71,7 +71,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             Device d = GetValidDevice();
 
-            var createdTime = DeviceSchemaHelperND.GetCreatedTime(d);
+            var createdTime = DeviceSchemaHelper.GetCreatedTime(d);
 
             // Need to include RoundtripKind to get a UTC value
             var expectedTime = DateTime.Parse("2015-08-01T01:02:03.0000Z", null, DateTimeStyles.RoundtripKind);
@@ -83,7 +83,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             Device d = GetDeviceWithMissingDeviceProperties();
 
-            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelperND.GetCreatedTime(d));
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetCreatedTime(d));
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             Device d = GetDeviceWithMissingCreatedTime();
 
-            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelperND.GetCreatedTime(d));
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetCreatedTime(d));
         }
 
         #endregion
@@ -103,7 +103,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             Device d = GetValidDevice();
 
-            var updatedTime = DeviceSchemaHelperND.GetUpdatedTime(d);
+            var updatedTime = DeviceSchemaHelper.GetUpdatedTime(d);
 
             // Need to include RoundtripKind to get a UTC value
             var expectedTime = DateTime.Parse("2015-09-01T01:02:03.0000Z", null, DateTimeStyles.RoundtripKind);
@@ -115,7 +115,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             Device d = GetDeviceWithMissingDeviceProperties();
 
-            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelperND.GetUpdatedTime(d));
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetUpdatedTime(d));
         }
 
 
@@ -124,7 +124,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             Device d = GetDeviceWithMissingUpdatedTime();
 
-            var updatedTime = DeviceSchemaHelperND.GetUpdatedTime(d);
+            var updatedTime = DeviceSchemaHelper.GetUpdatedTime(d);
 
             Assert.AreEqual(null, updatedTime);
         }
@@ -138,7 +138,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var d = GetValidDevice();
 
-            var hubEnabledState = DeviceSchemaHelperND.GetHubEnabledState(d);
+            var hubEnabledState = DeviceSchemaHelper.GetHubEnabledState(d);
 
             Assert.AreEqual(true, hubEnabledState);
         }
@@ -148,7 +148,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var d = GetDeviceWithMissingDeviceProperties();
 
-            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelperND.GetHubEnabledState(d));
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetHubEnabledState(d));
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var d = GetDeviceWithMissingHubEnabledState();
 
-            var hubEnabledState = DeviceSchemaHelperND.GetHubEnabledState(d);
+            var hubEnabledState = DeviceSchemaHelper.GetHubEnabledState(d);
 
             Assert.AreEqual(null, hubEnabledState);
         }

@@ -68,7 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 try
                 {
                     List<Common.Models.Device> devices = await GetDevices();
-                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccidsND(devices);
+                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccids(devices);
                     ViewBag.CanHaveIccid = true;
                 }
                 catch (CellularConnectivityException)
@@ -109,7 +109,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 try
                 {
                     List<Common.Models.Device> devices = await GetDevices();
-                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccidsND(devices);
+                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccids(devices);
                     ViewBag.CanHaveIccid = true;
                 }
                 catch (CellularConnectivityException)
@@ -198,7 +198,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 HostName = _iotHubName,
                 DeviceType = model.DeviceType,
-                DeviceId = DeviceSchemaHelperND.GetDeviceID(deviceWithKeys.Device),
+                DeviceId = DeviceSchemaHelper.GetDeviceID(deviceWithKeys.Device),
                 PrimaryKey = deviceWithKeys.SecurityKeys.PrimaryKey,
                 SecondaryKey = deviceWithKeys.SecurityKeys.SecondaryKey,
                 InstructionsUrl = model.DeviceType.InstructionsUrl
@@ -221,7 +221,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Common.Models.Device device = await _deviceLogic.GetDeviceAsync(deviceId);
             if (!object.ReferenceEquals(device, null))
             {
-                model.DeviceId = DeviceSchemaHelperND.GetDeviceID(device);
+                model.DeviceId = DeviceSchemaHelper.GetDeviceID(device);
 
                 propValModels = _deviceLogic.ExtractDevicePropertyValuesModels(device);
                 propValModels = ApplyDevicePropertyOrdering(propValModels);
@@ -264,7 +264,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             DeviceDetailModel deviceModel = new DeviceDetailModel
             {
                 DeviceID = deviceId,
-                HubEnabledState = DeviceSchemaHelperND.GetHubEnabledState(device),
+                HubEnabledState = DeviceSchemaHelper.GetHubEnabledState(device),
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>()
             };
 
@@ -350,7 +350,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 unregisteredDeviceModel.DeviceType != null,
                 "unregisteredDeviceModel.DeviceType is a null reference.");
 
-	        Common.Models.Device device = DeviceSchemaHelperND.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
+	        Common.Models.Device device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
                 unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
             
             DeviceWithKeys addedDevice = await this._deviceLogic.AddDeviceAsync(device);

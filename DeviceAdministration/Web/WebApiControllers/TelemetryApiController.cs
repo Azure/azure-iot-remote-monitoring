@@ -246,7 +246,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     {
                         historyItems.AddRange(data);
                         //get alert history
-                        List<Common.Models.Device> devices = await LoadAllDevicesAsyncND();
+                        List<Common.Models.Device> devices = await this.LoadAllDevicesAsync();
    
                         if (devices != null)
                         {
@@ -312,7 +312,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         
 
-        private async Task<List<Common.Models.Device>> LoadAllDevicesAsyncND()
+        private async Task<List<Common.Models.Device>> LoadAllDevicesAsync()
         {
             var query = new DeviceListQuery()
             {
