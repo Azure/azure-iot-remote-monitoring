@@ -115,7 +115,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
 #pragma warning disable 4014
                         //don't wait for this to finish
-                        dm.StartDevicesAsyncND(devicesToProcess);
+                        dm.StartDevicesAsync(devicesToProcess);
 #pragma warning restore 4014
                     }
                     await Task.Delay(TimeSpan.FromSeconds(_devicePollIntervalSeconds), token);
