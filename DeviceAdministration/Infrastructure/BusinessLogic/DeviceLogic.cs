@@ -381,7 +381,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new ArgumentNullException("devicePropertyValueModels");
             }
 
-            DeviceProperties deviceProperties = DeviceSchemaHelperND.GetDeviceProperties(device);
+            DeviceProperties deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
             if (deviceProperties == null)
             {
                 throw new ArgumentException("device.DeviceProperties is a null reference.", "device");
@@ -1072,7 +1072,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             List<string> sampleIds = SampleDeviceFactory.GetDefaultDeviceNames();
             foreach(string id in sampleIds)
             {
-                Common.Models.Device device = DeviceSchemaHelperND.BuildDeviceStructure(id, true, null);
+                Common.Models.Device device = DeviceSchemaHelper.BuildDeviceStructure(id, true, null);
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
                 await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             }
@@ -1092,7 +1092,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var locationList = new List<DeviceLocationModel>();
             foreach (Common.Models.Device device in devices)
             {
-                DeviceProperties props = DeviceSchemaHelperND.GetDeviceProperties(device);
+                DeviceProperties props = DeviceSchemaHelper.GetDeviceProperties(device);
                 if (props.Longitude == null || props.Latitude == null)
                 {
                     continue;
@@ -1103,8 +1103,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                 try
                 {
-                    latitude = DeviceSchemaHelperND.GetDeviceProperties(device).Latitude.Value;
-                    longitude = DeviceSchemaHelperND.GetDeviceProperties(device).Longitude.Value;
+                    latitude = DeviceSchemaHelper.GetDeviceProperties(device).Latitude.Value;
+                    longitude = DeviceSchemaHelper.GetDeviceProperties(device).Longitude.Value;
                 }
                 catch (FormatException)
                 {
@@ -1113,7 +1113,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                 var location = new DeviceLocationModel()
                 {
-                    DeviceId = DeviceSchemaHelperND.GetDeviceID(device),
+                    DeviceId = DeviceSchemaHelper.GetDeviceID(device),
                     Longitude = longitude,
                     Latitude = latitude
                 };

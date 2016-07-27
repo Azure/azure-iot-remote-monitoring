@@ -156,7 +156,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                     //Should not be required for strongly typed object
                     //DeviceSchemaHelperND.FixDeviceSchema(deviceInfo);
 
-                    string name = DeviceSchemaHelperND.GetConnectionDeviceId(deviceInfo);
+                    string name = DeviceSchemaHelper.GetConnectionDeviceId(deviceInfo);
                     Trace.TraceInformation("ProcessEventAsync -- DeviceInfo: {0}", name);
                     await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(deviceInfo);
 

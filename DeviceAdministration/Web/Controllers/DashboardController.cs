@@ -96,7 +96,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     string deviceId;
                     try
                     {
-                        deviceId = DeviceSchemaHelperND.GetDeviceID(devInfo);
+                        deviceId = DeviceSchemaHelper.GetDeviceID(devInfo);
                     }
                     catch (DeviceRequiredPropertyNotFoundException)
                     {

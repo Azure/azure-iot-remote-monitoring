@@ -588,7 +588,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private void TestNullDeviceProperties(FilterType filterType)
         {
-            Device device = DeviceSchemaHelperND.BuildDeviceStructure(Guid.NewGuid().ToString(), true, null);
+            Device device = DeviceSchemaHelper.BuildDeviceStructure(Guid.NewGuid().ToString(), true, null);
 
             device.DeviceProperties = null;
 
@@ -634,7 +634,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Assert.AreEqual(2, results.Count());
 
             Assert.Throws<DeviceRequiredPropertyNotFoundException>(
-                () => DeviceSchemaHelperND.GetDeviceProperties(results[0]));
+                () => DeviceSchemaHelper.GetDeviceProperties(results[0]));
 
             Assert.AreEqual("EnabledNull", results[1].DeviceProperties.DeviceID.ToString());
         }
@@ -742,8 +742,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private static Device GetDefaultTestDevice()
         {
-            Device device = DeviceSchemaHelperND.BuildDeviceStructure("DeviceID-Test", true, null);
-            DeviceProperties props = DeviceSchemaHelperND.GetDeviceProperties(device);
+            Device device = DeviceSchemaHelper.BuildDeviceStructure("DeviceID-Test", true, null);
+            DeviceProperties props = DeviceSchemaHelper.GetDeviceProperties(device);
             props.CreatedTime = new DateTime(2000, 01, 01);
             props.DeviceState = "DeviceState-Test";
             props.HubEnabledState = true;

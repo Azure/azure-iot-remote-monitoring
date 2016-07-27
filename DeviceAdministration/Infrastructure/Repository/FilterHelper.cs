@@ -96,7 +96,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                     try
                     {
-                        deviceProperties = DeviceSchemaHelperND.GetDeviceProperties(item);
+                        deviceProperties = DeviceSchemaHelper.GetDeviceProperties(item);
                     }
                     catch (DeviceRequiredPropertyNotFoundException)
                     {
@@ -131,7 +131,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             bool? value;
             try
             {
-                value = DeviceSchemaHelperND.GetHubEnabledState(item);
+                value = DeviceSchemaHelper.GetHubEnabledState(item);
             }
             catch (DeviceRequiredPropertyNotFoundException)
             {
