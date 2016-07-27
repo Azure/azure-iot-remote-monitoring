@@ -12,7 +12,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// Command processor to handle the change in device state.
     /// Currently this just changes the DeviceState string on the device.
     /// </summary>
-    public class ChangeDeviceStateCommandProcessor : CommandProcessor
+    public class ChangeDeviceStateCommandProcessor : CommandProcessorND
     {
         private const string CHANGE_DEVICE_STATE = "ChangeDeviceState";
 
@@ -22,7 +22,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         }
 
-        public async override Task<CommandProcessingResult> HandleCommandAsync(DeserializableCommand deserializableCommand)
+        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommandND deserializableCommand)
         {
             if (deserializableCommand.CommandName == CHANGE_DEVICE_STATE)
             {
@@ -46,29 +46,29 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                             {
                                 device.ChangeDeviceState(deviceState.ToString());
 
-                                return CommandProcessingResult.Success;
+                                return CommandProcessingResultND.Success;
                             }
                             else
                             {
                                 // DeviceState is a null reference.
-                                return CommandProcessingResult.CannotComplete;
+                                return CommandProcessingResultND.CannotComplete;
                             }
                         }
                         else
                         {
                             // parameters is a null reference.
-                            return CommandProcessingResult.CannotComplete;
+                            return CommandProcessingResultND.CannotComplete;
                         }
                     }
                     else
                     {
                         // Unsupported Device type.
-                        return CommandProcessingResult.CannotComplete;
+                        return CommandProcessingResultND.CannotComplete;
                 }
                 }
                 catch (Exception)
                 {
-                    return CommandProcessingResult.RetryLater;
+                    return CommandProcessingResultND.RetryLater;
                 }
             }
             else if (NextCommandProcessor != null)
@@ -76,7 +76,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 return await NextCommandProcessor.HandleCommandAsync(deserializableCommand);
             }
 
-            return CommandProcessingResult.CannotComplete;
+            return CommandProcessingResultND.CannotComplete;
         }
     }
 }

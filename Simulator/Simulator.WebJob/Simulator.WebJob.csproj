@@ -180,6 +180,8 @@
     <Compile Include="SimulatorCore\Devices\Factory\IDeviceFactoryND.cs" />
     <Compile Include="SimulatorCore\Devices\IDeviceND.cs" />
     <Compile Include="SimulatorCore\Telemetry\Factory\ITelemetryFactoryND.cs" />
+    <Compile Include="SimulatorCore\Transport\DeserializableCommandND.cs" />
+    <Compile Include="SimulatorCore\Transport\EmptyTransportND.cs" />
     <Compile Include="SimulatorCore\Transport\Factory\IoTHubTransportFactoryND.cs" />
     <Compile Include="SimulatorCore\Transport\Factory\ITransportFactoryND.cs" />
     <Compile Include="SimulatorCore\Transport\IoTHubTransportND.cs" />

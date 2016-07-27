@@ -122,7 +122,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
             var telemetryFactory = new CoolerTelemetryFactory(logger);
 
             var serializer = new JsonSerialize();
-            var transportFactory = new IotHubTransportFactory(serializer, logger, configProvider);
+            var transportFactory = new IotHubTransportFactoryND(serializer, logger, configProvider);
 
             IVirtualDeviceStorage deviceStorage = null;
             var useConfigforDeviceList = Convert.ToBoolean(configProvider.GetConfigurationSettingValueOrDefault("UseConfigForDeviceList", "False"), CultureInfo.InvariantCulture);
@@ -136,11 +136,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
                 deviceStorage = new VirtualDeviceTableStorage(configProvider);
             }
 
-            IDeviceFactory deviceFactory = new CoolerDeviceFactory();
+            IDeviceFactoryND deviceFactory = new CoolerDeviceFactory();
 
             // Start Simulator
             Trace.TraceInformation("Starting Simulator");
-            var tester = new BulkDeviceTester(transportFactory, logger, configProvider, telemetryFactory, deviceFactory, deviceStorage);
+            var tester = new BulkDeviceTesterND(transportFactory, logger, configProvider, telemetryFactory, deviceFactory, deviceStorage);
             Task.Run(() => tester.ProcessDevicesAsync(cancellationTokenSource.Token), cancellationTokenSource.Token);
         }
 
