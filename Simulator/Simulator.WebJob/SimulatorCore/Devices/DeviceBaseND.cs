@@ -218,7 +218,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// <param name="token">Cancellation token that can stop the loop if needed</param>
         private async Task StartReceiveLoopAsync(CancellationToken token)
         {
-            DeserializableCommand command;
+            DeserializableCommandND command;
             Exception exception;
             CommandProcessingResultND processingResult;
 
