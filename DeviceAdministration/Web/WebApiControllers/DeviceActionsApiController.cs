@@ -35,11 +35,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewActions)]
         public async Task<HttpResponseMessage> GetDeviceActionsAsync([FromBody]JObject requestData)
         {
-            return await GetServiceResponseAsync<ActionDataTablesResponse>(async () =>
+            return await GetServiceResponseAsync<DataTablesResponse<ActionMappingExtended>>(async () =>
             {
                 List<ActionMappingExtended> queryResult = await _actionMappingLogic.GetAllMappingsAsync();
 
-                var dataTablesResponse = new ActionDataTablesResponse()
+                var dataTablesResponse = new DataTablesResponse<ActionMappingExtended>()
                 {
                     RecordsTotal = queryResult.Count,
                     RecordsFiltered = queryResult.Count,
