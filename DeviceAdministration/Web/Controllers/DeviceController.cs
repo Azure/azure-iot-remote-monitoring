@@ -193,7 +193,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 model.DeviceType != null,
                 "model.DeviceType is a null reference.");
 
-            DeviceWithKeysND deviceWithKeys = await AddDeviceAsync(model);
+            DeviceWithKeys deviceWithKeys = await AddDeviceAsync(model);
             var newDevice = new RegisteredDeviceModel
             {
                 HostName = _iotHubName,
@@ -340,7 +340,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         v => v.Name);
         }
 
-        private async Task<DeviceWithKeysND> AddDeviceAsync(UnregisteredDeviceModel unregisteredDeviceModel)
+        private async Task<DeviceWithKeys> AddDeviceAsync(UnregisteredDeviceModel unregisteredDeviceModel)
         {
             Debug.Assert(
                 unregisteredDeviceModel != null,
@@ -353,7 +353,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 	        DeviceND device = DeviceSchemaHelperND.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
                 unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
             
-            DeviceWithKeysND addedDevice = await this._deviceLogic.AddDeviceAsync(device);
+            DeviceWithKeys addedDevice = await this._deviceLogic.AddDeviceAsync(device);
             return addedDevice;
         }
 

@@ -10,7 +10,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device">The device.</param>
         /// <returns></returns>
-        Task<DeviceND> AddDeviceAsyncND(DeviceND device);
+        Task<DeviceND> AddDeviceAsync(DeviceND device);
 
         /// <summary>
         /// Removes a device asynchronously.
@@ -24,14 +24,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="deviceId">The device identifier.</param>
         /// <returns></returns>
-        Task<DeviceND> GetDeviceAsyncND(string deviceId);
+        Task<DeviceND> GetDeviceAsync(string deviceId);
 
         /// <summary>
         /// Updates a device asynchronously.
         /// </summary>
         /// <param name="device">The device.</param>
         /// <returns></returns>
-        Task<DeviceND> UpdateDeviceAsyncND(DeviceND device);
+        Task<DeviceND> UpdateDeviceAsync(DeviceND device);
 
         /// <summary>
         /// Updates a device enabled/diabled status asynchronously.
@@ -39,6 +39,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="deviceId">The device identifier.</param>
         /// <param name="isEnabled">if set to <c>true</c> [is enabled].</param>
         /// <returns></returns>
-        Task<DeviceND> UpdateDeviceEnabledStatusAsyncND(string deviceId, bool isEnabled);
+        Task<DeviceND> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled);
     }
 }

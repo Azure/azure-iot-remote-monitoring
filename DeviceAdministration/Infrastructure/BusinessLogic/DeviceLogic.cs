@@ -46,14 +46,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _deviceRulesLogic = deviceRulesLogic;
         }
 
-        public async Task<DeviceListQueryResultND> GetDevices(DeviceListQuery q)
+        public async Task<DeviceListQueryResult> GetDevices(DeviceListQuery q)
         {
-            return await _deviceRegistryListRepository.GetDeviceListND(q);
+            return await _deviceRegistryListRepository.GetDeviceList(q);
         }
 
         public async Task<DeviceND> GetDeviceAsync(string deviceId)
         {
-            return await _deviceRegistryCrudRepository.GetDeviceAsyncND(deviceId);
+            return await _deviceRegistryCrudRepository.GetDeviceAsync(deviceId);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device">Device to add to the underlying repositories</param>
         /// <returns>Device created along with the device identity store keys</returns>
-        public async Task<DeviceWithKeysND> AddDeviceAsync(DeviceND device)
+        public async Task<DeviceWithKeys> AddDeviceAsync(DeviceND device)
         {
             // Validation logic throws an exception if it finds a validation error
             await this.ValidateDevice(device);
@@ -69,7 +69,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             SecurityKeys generatedSecurityKeys = this._securityKeyGenerator.CreateRandomKeys();
 
             DeviceND savedDevice = await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
-            return new DeviceWithKeysND(savedDevice, generatedSecurityKeys);
+            return new DeviceWithKeys(savedDevice, generatedSecurityKeys);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             try
             {
-                registryRepositoryDevice = await _deviceRegistryCrudRepository.AddDeviceAsyncND(device);
+                registryRepositoryDevice = await _deviceRegistryCrudRepository.AddDeviceAsync(device);
             }
             catch (Exception ex)
             {
@@ -209,7 +209,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns>Device that was saved into the device registry</returns>
         public async Task<DeviceND> UpdateDeviceAsync(DeviceND device)
         {
-            return await _deviceRegistryCrudRepository.UpdateDeviceAsyncND(device);
+            return await _deviceRegistryCrudRepository.UpdateDeviceAsync(device);
         }
 
         public async Task<DeviceND> UpdateDeviceFromDeviceInfoPacketAsync(DeviceND device)
@@ -252,7 +252,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
 
-            return await _deviceRegistryCrudRepository.UpdateDeviceAsyncND(existingDevice);
+            return await _deviceRegistryCrudRepository.UpdateDeviceAsync(existingDevice);
         }
 
         /// <summary>
@@ -316,7 +316,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             device.CommandHistory.Add(command);
 
             await _iotHubRepository.SendCommand(deviceId, command);
-            await _deviceRegistryCrudRepository.UpdateDeviceAsyncND(device);
+            await _deviceRegistryCrudRepository.UpdateDeviceAsync(device);
 
             return command;
         }
@@ -332,7 +332,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             try
             {
-                repositoryDevice = await _deviceRegistryCrudRepository.UpdateDeviceEnabledStatusAsyncND(deviceId, isEnabled);
+                repositoryDevice = await _deviceRegistryCrudRepository.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
             }
             catch (Exception ex)
             {

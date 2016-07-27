@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 {
@@ -6,6 +7,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     {
         public int TotalDeviceCount { get; set; }
         public int TotalFilteredCount { get; set; }
-        public List<dynamic> Results { get; set; }
+        public List<DeviceND> Results { get; set; }
     }
 }
