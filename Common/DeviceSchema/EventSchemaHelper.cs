@@ -39,19 +39,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
 
             return objectType.ToString();
         }
-        public static string GetObjectTypeND(DeviceND eventData)
-        {
-            if (eventData == null)
-            {
-                throw new ArgumentNullException("eventData");
-            }
-            
-            if (eventData.ObjectType == null)
-            {
-                return "";
-            }
-
-            return eventData.ObjectType;
-        }
     }
 }

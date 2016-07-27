@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         public List<Common.Models.Telemetry> Telemetry { get; set; }
 
-        public List<ITelemetryND<DeviceND>> TelemetryEvents { get; private set; }
+        public List<ITelemetry> TelemetryEvents { get; private set; }
         public bool RepeatEventListForever { get; set; }
 
         protected object _telemetryController;
@@ -69,7 +69,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             Logger = logger;
             TransportFactory = transportFactory;
             TelemetryFactory = telemetryFactory;
-            TelemetryEvents = new List<ITelemetryND<DeviceND>>();
+            TelemetryEvents = new List<ITelemetry>();
         }
 
         public void Init(InitialDeviceConfig config)
@@ -182,7 +182,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                         var eventGroup = TelemetryEvents[_currentEventGroup];
 
-                        await eventGroup.SendEventsAsync(token, async (DeviceND eventData) =>
+                        await eventGroup.SendEventsAsync(token, async (object eventData) =>
                         {
                             await Transport.SendEventAsync(eventData);
                         });

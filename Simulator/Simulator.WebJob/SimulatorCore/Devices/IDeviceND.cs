@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         List<Command> Commands { get; set; }
 
-        List<ITelemetryND<DeviceND>> TelemetryEvents { get; }
+        List<ITelemetry> TelemetryEvents { get; }
 
         bool RepeatEventListForever { get; set; }
 
