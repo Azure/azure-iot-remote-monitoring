@@ -12,7 +12,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// <summary>
     /// Command processor to handle activating external temperature
     /// </summary>
-    public class DiagnosticTelemetryCommandProcessor : CommandProcessor
+    public class DiagnosticTelemetryCommandProcessor : CommandProcessorND
     {
         private const string DIAGNOSTIC_TELEMETRY = "DiagnosticTelemetry";
 
@@ -22,7 +22,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         }
 
-        public async override Task<CommandProcessingResult> HandleCommandAsync(DeserializableCommand deserializableCommand)
+        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommandND deserializableCommand)
         {
             if (deserializableCommand.CommandName == DIAGNOSTIC_TELEMETRY)
             {
@@ -50,30 +50,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                                 if (active != null)
                                 {
                                     device.DiagnosticTelemetry(active);
-                                    return CommandProcessingResult.Success;
+                                    return CommandProcessingResultND.Success;
                                 }
                                 else
                                 {
                                     // Active is not a boolean.
-                                    return CommandProcessingResult.CannotComplete;
+                                    return CommandProcessingResultND.CannotComplete;
                                 }
                             }
                             else
                             {
                                 // Active is a null reference.
-                                return CommandProcessingResult.CannotComplete;
+                                return CommandProcessingResultND.CannotComplete;
                             }
                         }
                         else
                         {
                             // parameters is a null reference.
-                            return CommandProcessingResult.CannotComplete;
+                            return CommandProcessingResultND.CannotComplete;
                         }
                     }
                 }
                 catch (Exception)
                 {
-                    return CommandProcessingResult.RetryLater;
+                    return CommandProcessingResultND.RetryLater;
                 }
             }
             else if (NextCommandProcessor != null)
@@ -81,7 +81,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 return await NextCommandProcessor.HandleCommandAsync(deserializableCommand);
             }
 
-            return CommandProcessingResult.CannotComplete;
+            return CommandProcessingResultND.CannotComplete;
         }
     }
 }

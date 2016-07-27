@@ -9,9 +9,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     public class StartupTelemetry : ITelemetry
     {
         private readonly ILogger _logger;
-        private readonly IDevice _device;
+        private readonly IDeviceND _device;
         
-        public StartupTelemetry(ILogger logger, IDevice device)
+        public StartupTelemetry(ILogger logger, IDeviceND device)
         {
             _logger = logger;
             _device = device;

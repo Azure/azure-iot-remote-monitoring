@@ -12,11 +12,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// <summary>
     /// Implementation of a specific device type that extends the BaseDevice functionality
     /// </summary>
-    public class CoolerDevice : DeviceBase
+    public class CoolerDevice : DeviceBaseND
     {
 
-        public CoolerDevice(ILogger logger, ITransportFactory transportFactory,
-            ITelemetryFactory telemetryFactory, IConfigurationProvider configurationProvider)
+        public CoolerDevice(ILogger logger, ITransportFactoryND transportFactory,
+            ITelemetryFactoryND telemetryFactory, IConfigurationProvider configurationProvider)
             : base(logger, transportFactory, telemetryFactory, configurationProvider)
         {
         }
@@ -26,7 +26,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// </summary>
         protected override void InitCommandProcessors()
         {
-            var pingDeviceProcessor = new PingDeviceProcessor(this);
+            var pingDeviceProcessor = new PingDeviceProcessorND(this);
             var startCommandProcessor = new StartCommandProcessor(this);
             var stopCommandProcessor = new StopCommandProcessor(this);
             var diagnosticTelemetryCommandProcessor = new DiagnosticTelemetryCommandProcessor(this);
