@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             if (deserializableCommand.CommandName == STOP_TELEMETRY)
             {
-                var command = deserializableCommand.Command;
+                var command = deserializableCommand.CommandHistory;
 
                 try
                 {

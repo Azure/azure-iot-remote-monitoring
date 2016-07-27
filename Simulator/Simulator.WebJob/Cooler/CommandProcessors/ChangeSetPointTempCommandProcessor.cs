@@ -26,7 +26,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             if (deserializableCommand.CommandName == CHANGE_SET_POINT_TEMP)
             {
-                var command = deserializableCommand.Command;
+                var command = deserializableCommand.CommandHistory;
 
                 try
                 {
