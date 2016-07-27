@@ -35,7 +35,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="device"></param>
         /// <param name="securityKeys"></param>
         /// <returns></returns>
-        public async Task<DeviceND> AddDeviceAsync(DeviceND device, SecurityKeys securityKeys)
+        public async Task<Common.Models.Device> AddDeviceAsync(Common.Models.Device device, SecurityKeys securityKeys)
         {
             Azure.Devices.Device iotHubDevice = new Azure.Devices.Device(device.DeviceProperties.DeviceID);
 
@@ -130,7 +130,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 await _deviceManager.UpdateDeviceAsync(iotHubDevice));
         }
 
-        public async Task SendCommand(string deviceId, CommandHistoryND command)
+        public async Task SendCommand(string deviceId, CommandHistory command)
         {
             ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(_iotHubConnectionString);
 
