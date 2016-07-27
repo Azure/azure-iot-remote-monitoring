@@ -130,7 +130,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// </summary>
         /// <param name="device">The device to retieve the IoT Hub message for</param>
         /// <returns>Returns a DeserializableCommand that wraps the byte array of the message from IoT Hub</returns>
-        public async Task<DeserializableCommand> ReceiveAsync()
+        public async Task<DeserializableCommandND> ReceiveAsync()
         {
             Client.Message message = await AzureRetryHelper.OperationWithBasicRetryAsync(
                 async () =>
@@ -167,13 +167,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             if (message != null)
             {
-                return new DeserializableCommand(message, _serializer);
+                return new DeserializableCommandND(message, _serializer);
             }
 
             return null;
         }
 
-        public async Task SignalAbandonedCommand(DeserializableCommand command)
+        public async Task SignalAbandonedCommand(DeserializableCommandND command)
         {
             if (command == null)
             {
@@ -203,7 +203,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 });
         }
 
-        public async Task SignalCompletedCommand(DeserializableCommand command)
+        public async Task SignalCompletedCommand(DeserializableCommandND command)
         {
             if (command == null)
             {
@@ -233,7 +233,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 });
         }
 
-        public async Task SignalRejectedCommand(DeserializableCommand command)
+        public async Task SignalRejectedCommand(DeserializableCommandND command)
         {
             if (command == null)
             {

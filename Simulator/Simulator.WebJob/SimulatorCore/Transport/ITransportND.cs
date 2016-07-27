@@ -19,12 +19,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         Task SendEventBatchAsync(IEnumerable<Client.Message> messages);
 
-        Task<DeserializableCommand> ReceiveAsync();
+        Task<DeserializableCommandND> ReceiveAsync();
 
-        Task SignalAbandonedCommand(DeserializableCommand command);
+        Task SignalAbandonedCommand(DeserializableCommandND command);
 
-        Task SignalCompletedCommand(DeserializableCommand command);
+        Task SignalCompletedCommand(DeserializableCommandND command);
 
-        Task SignalRejectedCommand(DeserializableCommand command);
+        Task SignalRejectedCommand(DeserializableCommandND command);
     }
 }
