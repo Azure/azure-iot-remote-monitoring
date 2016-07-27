@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         }
 
-        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommand deserializableCommand)
+        public async override Task<CommandProcessingResult> HandleCommandAsync(DeserializableCommand deserializableCommand)
         {
             if (deserializableCommand.CommandName == DIAGNOSTIC_TELEMETRY)
             {
@@ -51,30 +51,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                                 if (active != null)
                                 {
                                     device.DiagnosticTelemetry(active);
-                                    return CommandProcessingResultND.Success;
+                                    return CommandProcessingResult.Success;
                                 }
                                 else
                                 {
                                     // Active is not a boolean.
-                                    return CommandProcessingResultND.CannotComplete;
+                                    return CommandProcessingResult.CannotComplete;
                                 }
                             }
                             else
                             {
                                 // Active is a null reference.
-                                return CommandProcessingResultND.CannotComplete;
+                                return CommandProcessingResult.CannotComplete;
                             }
                         }
                         else
                         {
                             // parameters is a null reference.
-                            return CommandProcessingResultND.CannotComplete;
+                            return CommandProcessingResult.CannotComplete;
                         }
                     }
                 }
                 catch (Exception)
                 {
-                    return CommandProcessingResultND.RetryLater;
+                    return CommandProcessingResult.RetryLater;
                 }
             }
             else if (NextCommandProcessor != null)
@@ -82,7 +82,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 return await NextCommandProcessor.HandleCommandAsync(deserializableCommand);
             }
 
-            return CommandProcessingResultND.CannotComplete;
+            return CommandProcessingResult.CannotComplete;
         }
     }
 }

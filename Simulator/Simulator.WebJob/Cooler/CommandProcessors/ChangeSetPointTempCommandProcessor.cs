@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         }
 
-        public async override Task<CommandProcessingResultND> HandleCommandAsync(DeserializableCommand deserializableCommand)
+        public async override Task<CommandProcessingResult> HandleCommandAsync(DeserializableCommand deserializableCommand)
         {
             if (deserializableCommand.CommandName == CHANGE_SET_POINT_TEMP)
             {
@@ -50,35 +50,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                                 {
                                     device.ChangeSetPointTemp(setPointTemp);
 
-                                    return CommandProcessingResultND.Success;
+                                    return CommandProcessingResult.Success;
                                 }
                                 else
                                 {
                                     // SetPointTemp cannot be parsed as a double.
-                                    return CommandProcessingResultND.CannotComplete;
+                                    return CommandProcessingResult.CannotComplete;
                                 }
                             }
                             else
                             {
                                 // setPointTempDynamic is a null reference.
-                                return CommandProcessingResultND.CannotComplete;
+                                return CommandProcessingResult.CannotComplete;
                             }
                         }
                         else
                         {
                             // parameters is a null reference.
-                            return CommandProcessingResultND.CannotComplete;
+                            return CommandProcessingResult.CannotComplete;
                         }
                     }
                     else
                     {
                         // Unsupported Device type.
-                        return CommandProcessingResultND.CannotComplete;
+                        return CommandProcessingResult.CannotComplete;
                 }
                 }
                 catch (Exception)
                 {
-                    return CommandProcessingResultND.RetryLater;
+                    return CommandProcessingResult.RetryLater;
                 }
             }
             else if (NextCommandProcessor != null)
@@ -86,7 +86,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 return await NextCommandProcessor.HandleCommandAsync(deserializableCommand);
             }
 
-            return CommandProcessingResultND.CannotComplete;
+            return CommandProcessingResult.CannotComplete;
         }
     }
 }

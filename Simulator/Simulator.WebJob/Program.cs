@@ -122,7 +122,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
             var telemetryFactory = new CoolerTelemetryFactory(logger);
 
             var serializer = new JsonSerialize();
-            var transportFactory = new IotHubTransportFactoryND(serializer, logger, configProvider);
+            var transportFactory = new IotHubTransportFactory(serializer, logger, configProvider);
 
             IVirtualDeviceStorage deviceStorage = null;
             var useConfigforDeviceList = Convert.ToBoolean(configProvider.GetConfigurationSettingValueOrDefault("UseConfigForDeviceList", "False"), CultureInfo.InvariantCulture);
