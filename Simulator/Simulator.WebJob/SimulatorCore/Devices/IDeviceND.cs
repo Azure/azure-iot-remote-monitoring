@@ -11,7 +11,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// Represents a device. Implementors may be written in managed code, or a managed wrapper
     /// around a native (C/C++) core.
     /// </summary>
-    public interface IDevice
+    public interface IDeviceND
     {
         string DeviceID { get; set; }
 

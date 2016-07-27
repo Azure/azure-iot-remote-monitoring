@@ -4,10 +4,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class DeviceWithKeys
     {
-        public DeviceND Device { get; set; }
+        public Common.Models.Device Device { get; set; }
         public SecurityKeys SecurityKeys { get; set; }
 
-        public DeviceWithKeys(DeviceND device, SecurityKeys securityKeys)
+        public DeviceWithKeys(Common.Models.Device device, SecurityKeys securityKeys)
         {
             Device = device;
             SecurityKeys = securityKeys;
