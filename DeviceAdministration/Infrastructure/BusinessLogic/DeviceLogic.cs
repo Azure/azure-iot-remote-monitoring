@@ -26,15 +26,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class DeviceLogic : IDeviceLogic
     {
         private readonly IIotHubRepository _iotHubRepository;
-        private readonly IDeviceRegistryCrudRepositoryND _deviceRegistryCrudRepository;
-        private readonly IDeviceRegistryListRepositoryND _deviceRegistryListRepository;
+        private readonly IDeviceRegistryCrudRepository _deviceRegistryCrudRepository;
+        private readonly IDeviceRegistryListRepository _deviceRegistryListRepository;
         private readonly IVirtualDeviceStorage _virtualDeviceStorage;
         private readonly IConfigurationProvider _configProvider;
         private readonly ISecurityKeyGenerator _securityKeyGenerator;
         private readonly IDeviceRulesLogic _deviceRulesLogic;
 
-        public DeviceLogic(IIotHubRepository iotHubRepository, IDeviceRegistryCrudRepositoryND deviceRegistryCrudRepository, 
-            IDeviceRegistryListRepositoryND deviceRegistryListRepository, IVirtualDeviceStorage virtualDeviceStorage, 
+        public DeviceLogic(IIotHubRepository iotHubRepository, IDeviceRegistryCrudRepository deviceRegistryCrudRepository, 
+            IDeviceRegistryListRepository deviceRegistryListRepository, IVirtualDeviceStorage virtualDeviceStorage, 
             ISecurityKeyGenerator securityKeyGenerator, IConfigurationProvider configProvider, IDeviceRulesLogic deviceRulesLogic)
         {
             _iotHubRepository = iotHubRepository;
@@ -316,7 +316,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             device.CommandHistory.Add(command);
 
             await _iotHubRepository.SendCommand(deviceId, command);
-            await _deviceRegistryCrudRepository.UpdateDeviceAsync(device);
+            await _deviceRegistryCrudRepository.UpdateDeviceAsyncND(device);
 
             return command;
         }
