@@ -292,7 +292,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="commandName">Name of the command to send</param>
         /// <param name="parameters">Parameters to send with the command</param>
         /// <returns></returns>
-        private async Task<dynamic> SendCommandAsyncWithDevice(Common.Models.Device device, string commandName, dynamic parameters)
+        private async Task<CommandHistory> SendCommandAsyncWithDevice(Common.Models.Device device, string commandName, dynamic parameters)
         {
             string deviceId;
 

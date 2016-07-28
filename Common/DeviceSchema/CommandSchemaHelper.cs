@@ -11,8 +11,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
     /// <summary>
     /// Helper class to encapsulate interactions with the command schema.
     /// 
-    /// Elsewhere in the app we try to always deal with this flexible schema as dynamic,
-    /// but here we take a dependency on Json.Net to populate the objects behind the schema.
     /// </summary>
     public static class CommandSchemaHelper
     {
@@ -62,7 +60,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
-        /// Build up a new dynamic command object based on the provided name.
+        /// Build up a new command object based on the provided name.
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
@@ -192,7 +190,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="device"></param>
         /// <param name="command"></param>
-        public static void AddCommandToDevice(dynamic device, dynamic command)
+        public static void AddCommandToDevice(Models.Device device, dynamic command)
         {
             List<Command> commands = GetSupportedCommands(device);
             commands.Add(command);

@@ -11,8 +11,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
     /// <summary>
     /// Helper class to encapsulate interactions with the device schema.
     ///
-    /// Elsewhere in the app we try to always deal with this flexible schema as dynamic,
-    /// but here we take a dependency on Json.Net where necessary to populate the objects
     /// behind the schema.
     /// </summary>
     public static class DeviceSchemaHelper
@@ -232,7 +230,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
-        /// Build a valid device representation in the dynamic format used throughout the app.
+        /// Build a valid device representation used throughout the app.
         /// </summary>
         /// <param name="deviceId"></param>
         /// <param name="isSimulated"></param>
