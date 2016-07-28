@@ -54,16 +54,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             return processor;
         }
 
-        public Task WaitForAllProcessorsInitialized(TimeSpan timeout)
-        {
-            return this.WaitForAllProcessorsCondition(p => p.IsInitialized, timeout);
-        }
-
-        public Task WaitForAllProcessorsClosed(TimeSpan timeout)
-        {
-            return this.WaitForAllProcessorsCondition(p => p.IsClosed, timeout);
-        }
-
         public async Task WaitForAllProcessorsCondition(Func<ActionProcessor, bool> predicate, TimeSpan timeout)
         {
             TimeSpan sleepInterval = TimeSpan.FromSeconds(2);

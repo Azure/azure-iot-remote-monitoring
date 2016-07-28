@@ -4,7 +4,6 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Schema;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema
 {
@@ -206,27 +205,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             // note that since null is a valid value, don't try to test if the actual HubEnabledState is there
 
             return props.HubEnabledState;
-        }
-
-        /// <summary>
-        /// _rid is used internally by the DocDB and is required for use with DocDB.
-        /// (_rid is resource id)
-        /// </summary>
-        /// <param name="device">Device data</param>
-        /// <returns>_rid property value as string, or empty string if not found</returns>
-        public static string GetDocDbRid(Models.Device device)
-        {
-            return SchemaHelper.GetDocDbRid<Models.Device>(device);
-        }
-
-        /// <summary>
-        /// id is used internally by the DocDB and is sometimes required.
-        /// </summary>
-        /// <param name="device">Device data</param>
-        /// <returns>Value of the id, or empty string if not found</returns>
-        public static string GetDocDbId(Models.Device device)
-        {
-            return SchemaHelper.GetDocDbId<Models.Device>(device);
         }
 
         /// <summary>

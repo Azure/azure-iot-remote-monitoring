@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema
@@ -14,12 +11,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
     /// </summary>
     public static class CommandHistorySchemaHelper
     {
-        public const string RESULT_PENDING ="Pending";
-        public const string RESULT_SENT = "Sent";
-        public const string RESULT_RECEIVED = "Received";
-        public const string RESULT_SUCCESS = "Success";
-        public const string RESULT_ERROR = "Error";
-
         public static CommandHistory BuildNewCommandHistoryItem(string command)
         {
             CommandHistory result = new CommandHistory();

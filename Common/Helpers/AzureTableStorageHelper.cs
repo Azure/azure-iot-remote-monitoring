@@ -2,10 +2,7 @@
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
@@ -53,7 +50,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 operation = TableOperation.Insert(incomingEntity);
             }
 
-            return await PerformTableOperation<TResult, TInput>(table, operation, incomingEntity, tableEntityToModelConverter);
+            return await PerformTableOperation(table, operation, incomingEntity, tableEntityToModelConverter);
         }
 
         public static async Task<TableStorageResponse<TResult>> DoDeleteAsync<TResult, TInput>(TInput incomingEntity,
@@ -61,7 +58,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         {
             var azureTable = await AzureTableStorageHelper.GetTableAsync(storageAccountConnectionString, tableName);
             TableOperation operation = TableOperation.Delete(incomingEntity);
-            return await PerformTableOperation<TResult, TInput>(azureTable, operation, incomingEntity, tableEntityToModelConverter);
+            return await PerformTableOperation(azureTable, operation, incomingEntity, tableEntityToModelConverter);
         }
 
         private static async Task<TableStorageResponse<TResult>> PerformTableOperation<TResult, TInput>(CloudTable table, 
@@ -73,7 +70,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             {
                 await table.ExecuteAsync(operation);
 
-                var nullModel = tableEntityToModelConverter((TInput)null);
+                var nullModel = tableEntityToModelConverter(null);
                 result.Entity = nullModel;
                 result.Status = TableStorageResponseStatus.Successful;
             }

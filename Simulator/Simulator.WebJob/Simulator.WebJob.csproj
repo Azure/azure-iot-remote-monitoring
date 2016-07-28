@@ -189,7 +189,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="SimulatorCore\Devices\Factory\DeviceFactory.cs" />
     <Compile Include="SimulatorCore\Repository\AppConfigRepository.cs" />
-    <Compile Include="SimulatorCore\Telemetry\Factory\GenericConcreteTelemetryFactory.cs" />
     <Compile Include="DeviceManager.cs" />
     <Compile Include="Cooler\CommandProcessors\ChangeDeviceStateCommandProcessor.cs" />
     <Compile Include="Cooler\CommandProcessors\ChangeSetPointTempCommandProcessor.cs" />
@@ -200,7 +199,6 @@
     <Compile Include="Cooler\Devices\CoolerDevice.cs" />
     <Compile Include="SimulatorCore\Telemetry\ConcreteTelemetry.cs" />
     <Compile Include="SimulatorCore\Telemetry\ITelemetry.cs" />
-    <Compile Include="SimulatorCore\Logging\EmptyLogger.cs" />
     <Compile Include="SimulatorCore\Logging\ILogger.cs" />
     <Compile Include="SimulatorCore\Logging\TraceLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
