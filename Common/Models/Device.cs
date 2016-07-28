@@ -42,6 +42,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public string ModelNumber { get; set; }
         public string SerialNumber { get; set; }
         public string FirmwareVersion { get; set; }
+        public string AvailablePowerSources { get; set; }
+        public string PowerSourceVoltage { get; set; }
+        public string BatteryLevel { get; set; }
+        public string MemoryFree { get; set; }
+        public string HostName { get; set; }
         public string Platform { get; set; }
         public string Processor { get; set; }
         public string InstalledRAM { get; set; }
