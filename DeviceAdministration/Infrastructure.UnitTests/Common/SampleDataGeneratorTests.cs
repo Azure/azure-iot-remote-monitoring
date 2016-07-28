@@ -1,44 +1,45 @@
 ﻿using System;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.SampleDataGenerator;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.TestStubs;
-using Xunit;
+using NUnit.Framework;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests
 {
+    [TestFixture]
     public class SampleDataGeneratorTests
     {
-        [Fact]
+        [Test]
         public void MinGreaterThanMaxShouldThrowException()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new SampleDataGenerator(40, 20));
         }
 
-        [Fact]
+        [Test]
         public void MaxGreaterThanThresholdShouldThrowException()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new SampleDataGenerator(5, 15, 10, 25));
         }
 
-        [Fact]
+        [Test]
         public void MaxEqualToMinShouldThrowException()
         {
              Assert.Throws<ArgumentOutOfRangeException>(() => new SampleDataGenerator(45, 45));
         }
 
-        [Fact]
+        [Test]
         public void MaxEqualToThresholdShouldThrowException()
         {
              Assert.Throws<ArgumentOutOfRangeException>(() => new SampleDataGenerator(5, 10, 10, 25));
 
         }
 
-        [Fact]
+        [Test]
         public void PeakIntervalZeroShouldThrowException()
         {
              Assert.Throws<ArgumentOutOfRangeException>(() => new SampleDataGenerator(5, 10, 15, 0));
         }
 
-        [Fact]
+        [Test]
         public void InspectMaximumLimits()
         {
             double value = 0;
@@ -47,11 +48,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             for (int i = 0; i < 100; i++)
             {
                 value = Math.Round(sampleData.GetNextValue(), 2);
-                Assert.True(value <= 10);
+                Assert.LessOrEqual(value, 10);
             }
         }
 
-        [Fact]
+        [Test]
         public void InspectMinimumLimits()
         {
             double value = 0;
@@ -60,11 +61,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             for (int i = 0; i < 100; i++)
             {
                 value =  Math.Round(sampleData.GetNextValue(), 2);
-                Assert.True(value >= 5);
+                Assert.GreaterOrEqual(value, 5);
             }   
         }
 
-        [Fact]
+        [Test]
         public void ExpectingPeaks()
         {
             int numberExpectedPeaks = 4;
@@ -79,10 +80,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     ++peaksSeen;
                 }
             }
-            Assert.Equal(numberExpectedPeaks, peaksSeen);
+            Assert.That(numberExpectedPeaks, Is.EqualTo(peaksSeen));
         }
 
-        [Fact]
+        [Test]
         public void ExcludingPeaks()
         {
             int numberExpectedPeaks = 0;
@@ -97,10 +98,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     ++peaksSeen;
                 }
             }
-            Assert.Equal(numberExpectedPeaks, peaksSeen);
+            Assert.That(numberExpectedPeaks, Is.EqualTo(peaksSeen));
         }
 
-        [Fact]
+        [Test]
         public void ChangingSetpointWorksRepeatably()
         {
             // this is to check for a bug that manifested when 
@@ -125,8 +126,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             // this one will likely be different
             var result1 = sampleData.GetNextValue();
 
-            Assert.True(result1 >= 1995);
-            Assert.True(result1 <= 2005);
+            Assert.GreaterOrEqual(result1, 1995);
+            Assert.LessOrEqual(result1, 2005);
 
             sampleData.ShiftSubsequentData(-2000);
 
@@ -136,8 +137,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             // this one will likely be different
             var result2 = sampleData.GetNextValue();
 
-            Assert.True(result2 >= -2005);
-            Assert.True(result2 <= -1995);
+            Assert.GreaterOrEqual(result2, -2005);
+            Assert.LessOrEqual(result2, -1995);
         }
     }
 }
