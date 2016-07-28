@@ -12,6 +12,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
@@ -67,16 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         true,
                         false) as IEnumerable;
 
-                if (docs != null)
-                {
-                    foreach (object doc in docs)
-                    {
-                        if (doc != null)
-                        {
-                            deviceList.Add(TypeMapper.Get().map<Common.Models.Device>(doc));
-                        }
-                    }
-                }
+                deviceList = JsonConvert.DeserializeObject<List<Common.Models.Device>>(docs.ToString());
 
                 continuationToken = result.ContinuationToken;
 
@@ -102,10 +94,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             if (foundDevices != null && foundDevices.Count > 0)
             {
                 result = foundDevices.Children().ElementAt(0);
+                return result.ToObject<Common.Models.Device>();
             }
-
-            Common.Models.Device d = TypeMapper.Get().map<Common.Models.Device>(result);
-            return d;
+            return null;
         }
 
         /// <summary>
@@ -124,8 +115,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceAlreadyRegisteredException(deviceId);
             }
 
-            JObject d = await _docDbRestUtil.SaveNewDocumentAsync<Common.Models.Device>(device);
-            device = TypeMapper.Get().map<Common.Models.Device>(d);
+            device = (await _docDbRestUtil.SaveNewDocumentAsync<Common.Models.Device>(device)).ToObject<Common.Models.Device>();
 
             return device;
         }
@@ -202,8 +192,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             device.DeviceProperties.UpdatedTime = DateTime.UtcNow;
 
-            JObject d = await _docDbRestUtil.UpdateDocumentAsync<Common.Models.Device>(device);
-            return TypeMapper.Get().map<Common.Models.Device>(d);
+            return (await _docDbRestUtil.UpdateDocumentAsync<Common.Models.Device>(device)).ToObject<Common.Models.Device>();
         }
 
         public async Task<Common.Models.Device> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
@@ -219,8 +208,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             deviceProps.HubEnabledState = isEnabled;
             DeviceSchemaHelper.UpdateUpdatedTime(existingDevice);
 
-            JObject updatedDevice = await _docDbRestUtil.UpdateDocumentAsync<Common.Models.Device>(existingDevice);
-            return TypeMapper.Get().map<Common.Models.Device>(updatedDevice);
+            return (await _docDbRestUtil.UpdateDocumentAsync<Common.Models.Device>(existingDevice)).ToObject<Common.Models.Device>();
         }
 
         public async Task<DeviceListQueryResult> GetDeviceList(DeviceListQuery query)
