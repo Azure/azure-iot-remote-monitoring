@@ -4,16 +4,15 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Newtonsoft.Json.Linq;
-using NUnit.Framework;
+using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests
 {
-    [TestFixture]
     public class DeviceSchemaHelperTests
     {
         #region DeviceProperty tests
 
-        [Test]
+        [Fact]
         public void GetDevicePropertiesShouldReturnDeviceProperties()
         {
             Device d = GetValidDevice();
@@ -21,10 +20,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             DeviceProperties props = DeviceSchemaHelper.GetDeviceProperties(d);
 
             Assert.NotNull(props);
-            Assert.AreEqual("test", props.DeviceID.ToString());
+            Assert.Equal("test", props.DeviceID.ToString());
         }
 
-        [Test]
+        [Fact]
         public void GetDevicePropertiesShouldThrowIfMissingDeviceProperties()
         {
             Device d = GetDeviceWithMissingDeviceProperties();
@@ -36,17 +35,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         #region DeviceID tests
 
-        [Test]
+        [Fact]
         public void GetDeviceIDShouldReturnDeviceID()
         {
             Device d = GetValidDevice();
 
             string deviceID = DeviceSchemaHelper.GetDeviceID(d);
 
-            Assert.AreEqual("test", deviceID);
+            Assert.Equal("test", deviceID);
         }
 
-        [Test]
+        [Fact]
         public void GetDeviceIDShouldThrowIfMissingDeviceProperties()
         {
             Device d = GetDeviceWithMissingDeviceProperties();
@@ -54,7 +53,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetDeviceID(d));
         }
 
-        [Test]
+        [Fact]
         public void GetDeviceIDShouldThrowIfMissingDeviceID()
         {
             Device d = GetDeviceWithMissingDeviceID();
@@ -66,7 +65,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         #region CreatedTime tests
 
-        [Test]
+        [Fact]
         public void GetCreatedTimeShouldReturnCreatedTime()
         {
             Device d = GetValidDevice();
@@ -75,10 +74,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             // Need to include RoundtripKind to get a UTC value
             var expectedTime = DateTime.Parse("2015-08-01T01:02:03.0000Z", null, DateTimeStyles.RoundtripKind);
-            Assert.AreEqual(expectedTime, createdTime);
+            Assert.Equal(expectedTime, createdTime);
         }
 
-        [Test]
+        [Fact]
         public void GetCreatedTimeShouldThrowIfMissingDeviceProperties()
         {
             Device d = GetDeviceWithMissingDeviceProperties();
@@ -86,7 +85,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetCreatedTime(d));
         }
 
-        [Test]
+        [Fact]
         public void GetCreatedTimeShouldThrowIfMissingCreatedTime()
         {
             Device d = GetDeviceWithMissingCreatedTime();
@@ -98,7 +97,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         #region GetUpdatedTime tests
 
-        [Test]
+        [Fact]
         public void GetUpdatedTimeShouldReturnUpdatedTime()
         {
             Device d = GetValidDevice();
@@ -107,10 +106,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             // Need to include RoundtripKind to get a UTC value
             var expectedTime = DateTime.Parse("2015-09-01T01:02:03.0000Z", null, DateTimeStyles.RoundtripKind);
-            Assert.AreEqual(expectedTime, updatedTime);
+            Assert.Equal(expectedTime, updatedTime);
         }
 
-        [Test]
+        [Fact]
         public void GetUpdatedTimeShouldThrowIfMissingDeviceProperties()
         {
             Device d = GetDeviceWithMissingDeviceProperties();
@@ -119,31 +118,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
 
-        [Test]
+        [Fact]
         public void GetUpdatedTimeShouldReturnNullButNotThrowIfMissingUpdatedTime()
         {
             Device d = GetDeviceWithMissingUpdatedTime();
 
             var updatedTime = DeviceSchemaHelper.GetUpdatedTime(d);
 
-            Assert.AreEqual(null, updatedTime);
+            Assert.Equal(null, updatedTime);
         }
 
         #endregion
 
         #region HubEnabledState tests
 
-        [Test]
+        [Fact]
         public void GetHubEnabledStateShouldReturnState()
         {
             var d = GetValidDevice();
 
             var hubEnabledState = DeviceSchemaHelper.GetHubEnabledState(d);
 
-            Assert.AreEqual(true, hubEnabledState);
+            Assert.Equal(true, hubEnabledState);
         }
 
-        [Test]
+        [Fact]
         public void GetHubEnabledStateShouldThrowIfMissingDeviceProperties()
         {
             var d = GetDeviceWithMissingDeviceProperties();
@@ -151,14 +150,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetHubEnabledState(d));
         }
 
-        [Test]
+        [Fact]
         public void GetHubEnabledStateShouldReturnNullButNotThrowIfMissingState()
         {
             var d = GetDeviceWithMissingHubEnabledState();
 
             var hubEnabledState = DeviceSchemaHelper.GetHubEnabledState(d);
 
-            Assert.AreEqual(null, hubEnabledState);
+            Assert.Equal(null, hubEnabledState);
         }
 
         #endregion
