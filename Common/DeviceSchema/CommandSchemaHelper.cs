@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
-using Newtonsoft.Json.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema
@@ -38,28 +35,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         }
 
         /// <summary>
-        /// Gets the schema for the device's telemetry
-        /// </summary>
-        /// <param name="device">Device</param>
-        /// <returns></returns>
-        public static List<Telemetry> GetTelemetrySchema(Models.Device device)
-        {
-            if (device == null)
-            {
-                throw new ArgumentNullException("device");
-            }
-
-            List<Telemetry> telemetry = device.Telemetry;
-
-            if (telemetry == null)
-            {
-                telemetry = new List<Telemetry>();
-            }
-
-            return telemetry;
-        }
-
-        /// <summary>
         /// Build up a new command object based on the provided name.
         /// </summary>
         /// <param name="command"></param>
@@ -70,26 +45,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
 
             result.Name = command;
             result.Parameters = null;
-
-            return result;
-        }
-
-        /// <summary>
-        /// Retrieve the command parameters with their default type and return them as a list
-        /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
-        public static List<Parameter> GetCommandParametersAsList(Command command)
-        {
-            List<Parameter> result;
-
-            result = new List<Parameter>();
-
-            foreach (Parameter parameter in command.Parameters)
-            {
-                result.Add(parameter);
-            }
-
 
             return result;
         }

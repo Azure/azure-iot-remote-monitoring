@@ -43,15 +43,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repositor
             return this.GetDeviceAsync(query);
         }
 
-        public Task<InitialDeviceConfig> GetDevice(string deviceId, string hostName)
-        {
-            var query = new TableQuery<DeviceListEntity>().Where(TableQuery.CombineFilters(
-                TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, deviceId),
-                TableOperators.And,
-                TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, hostName)));
-            return this.GetDeviceAsync(query);
-        }
-
         public async Task<bool> RemoveDeviceAsync(string deviceId)
         {
             var devicesTable = await AzureTableStorageHelper.GetTableAsync(_storageConnectionString, _deviceTableName);
