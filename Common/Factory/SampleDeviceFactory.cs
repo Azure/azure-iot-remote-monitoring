@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 {
@@ -112,18 +113,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             deviceProperties.Longitude = _possibleDeviceLocations[randomId].Longitude;
         }
 
-        private static void AssignTelemetry(dynamic device)
+        private static void AssignTelemetry(Models.Device device)
         {
-            dynamic telemetry = CommandSchemaHelper.CreateNewTelemetry("Temperature", "Temperature", "double");
+            Telemetry telemetry = CommandSchemaHelper.CreateNewTelemetry("Temperature", "Temperature", "double");
             CommandSchemaHelper.AddTelemetryToDevice(device, telemetry);
 
             telemetry = CommandSchemaHelper.CreateNewTelemetry("Humidity", "Humidity", "double");
             CommandSchemaHelper.AddTelemetryToDevice(device, telemetry);
         }
 
-        private static void AssignCommands(dynamic device)
+        private static void AssignCommands(Models.Device device)
         {
-            dynamic command = CommandSchemaHelper.CreateNewCommand("PingDevice");
+            Command command = CommandSchemaHelper.CreateNewCommand("PingDevice");
             CommandSchemaHelper.AddCommandToDevice(device, command);
             
             command = CommandSchemaHelper.CreateNewCommand("StartTelemetry");

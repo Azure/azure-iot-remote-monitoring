@@ -9,7 +9,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// Represents a static, pre-defined group of events that a
     /// simulated device will send to the cloud.
     /// 
-    /// To create dynamic events using code, implement the ITelemetry interface
+    /// To create events using code, implement the ITelemetry interface
     /// directly.
     /// </summary>
     public class ConcreteTelemetry : ITelemetry

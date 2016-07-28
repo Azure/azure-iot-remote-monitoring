@@ -11,8 +11,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
     /// <summary>
     /// Helper class to encapsulate interactions with the command history schema.
     /// 
-    /// Elsewhere in the app we try to always deal with this flexible schema as dynamic,
-    /// but here we take a dependency on Json.Net to populate the objects behind the schema.
     /// </summary>
     public static class CommandHistorySchemaHelper
     {
@@ -68,25 +66,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             }
         }
 
-        public static dynamic GetCommandHistory(dynamic device)
-        {
-            if (device == null)
-            {
-                throw new ArgumentNullException("device");
-            }
-
-            dynamic history = device.CommandHistory;
-
-            if (history == null)
-            {
-                history = new JArray();
-                device.CommandHistory = history;
-            }
-
-            return history;
-        }
-
-        public static List<CommandHistory> GetCommandHistoryND(Models.Device device)
+        public static List<CommandHistory> GetCommandHistory(Models.Device device)
         {
             if (device == null)
             {
@@ -104,35 +84,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             return history;
         }
 
-        public static IEnumerable<object> GetCommandHistoryItemOrDefault(dynamic device, string messageId)
-        {
-            dynamic result = null;
-
-            dynamic history = GetCommandHistory(device);
-
-            int commandIndex = GetCommandHistoryItemIndex(history, messageId);
-            if(commandIndex > -1)
-            {
-                result = history[commandIndex];
-            }
-
-            if(result == null)
-            {
-                result = new JObject();
-                result.CreatedTime = DateTime.UtcNow;
-                result.MessageId = messageId;
-                result.Parameters = new JObject();
-            }
-
-            return result;
-        }
-        public static CommandHistory GetCommandHistoryItemOrDefaultND(Models.Device device, string messageId)
+        public static CommandHistory GetCommandHistoryItemOrDefault(Models.Device device, string messageId)
         {
             CommandHistory result = null;
 
-            IList<CommandHistory> history = GetCommandHistoryND(device);
+            IList<CommandHistory> history = GetCommandHistory(device);
 
-            int commandIndex = GetCommandHistoryItemIndexND(history, messageId);
+            int commandIndex = GetCommandHistoryItemIndex(history, messageId);
             if (commandIndex > -1)
             {
                 result = history[commandIndex];
@@ -148,56 +106,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             return result;
         }
 
-        private static int GetCommandHistoryItemIndex(dynamic commandHistory, string messageId)
-        {
-            IEnumerable commands;
-            object foundId;
-            int i;
-            int result = -1;
-
-            if (commandHistory == null)
-            {
-                throw new ArgumentNullException("commandHistory");
-            }
-
-            if (string.IsNullOrEmpty(messageId))
-            {
-                throw new ArgumentException(
-                    "messageId is a null reference or empty string.",
-                    "messageId");
-            }
-
-            if ((commands = commandHistory as IEnumerable) != null)
-            {
-                i = -1;
-                foreach (object command in commands)
-                {
-                    ++i;
-
-                    if (command == null)
-                    {
-                        continue;
-                    }
-
-                    foundId =
-                        ReflectionHelper.GetNamedPropertyValue(
-                            command,
-                            DeviceCommandConstants.MESSAGE_ID,
-                            true,
-                            false);
-
-                    if ((foundId != null) &&
-                        (foundId.ToString() == messageId))
-                    {
-                        result = i;
-                        break;
-                    }
-                }
-            }
-
-            return result;
-        }
-        private static int GetCommandHistoryItemIndexND(IList<CommandHistory> commandHistory, string messageId)
+        private static int GetCommandHistoryItemIndex(IList<CommandHistory> commandHistory, string messageId)
         {
             int i = -1;
             int result = -1;
@@ -236,75 +145,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             return result;
         }
 
-        public static string GetParameterValueOrNull(dynamic command, string parameterName)
+        public static void UpdateCommandHistoryItem(Models.Device device, CommandHistory command)
         {
-            object obj;
-            IEnumerable parameters;
+            IList<CommandHistory> history = GetCommandHistory(device);
 
-            if (command == null)
-            {
-                throw new ArgumentNullException("command");
-            }
-
-            if (string.IsNullOrEmpty(parameterName))
-            {
-                throw new ArgumentException(
-                    "parameterName is a null reference or empty string.",
-                    "parameterName");
-            }
-
-            obj =
-                ReflectionHelper.GetNamedPropertyValue(
-                    (object)command,
-                    "Parameters",
-                    true,
-                    false);
-
-            if ((parameters = obj as IEnumerable) != null)
-            {
-                foreach (object parameter in parameters)
-                {
-                    obj =
-                        ReflectionHelper.GetNamedPropertyValue(
-                            (object)parameter,
-                            parameterName,
-                            true,
-                            false);
-
-                    if (obj != null)
-                    {
-                        return obj.ToString();
-                    }
-                }
-            }
-
-            return default(string);
-        }
-
-        public static void UpdateCommandHistoryItem(dynamic device, dynamic command)
-        {
-            dynamic history = GetCommandHistory(device);
-
-            int commandIndex = GetCommandHistoryItemIndex(history, (string)command.MessageId);
+            int commandIndex = GetCommandHistoryItemIndex(history, command.MessageId);
             if (commandIndex > -1)
             {
                 history[commandIndex] = command;
             }
-        }
-        public static void UpdateCommandHistoryItemND(Models.Device device, CommandHistory command)
-        {
-            IList<CommandHistory> history = GetCommandHistoryND(device);
-
-            int commandIndex = GetCommandHistoryItemIndexND(history, command.MessageId);
-            if (commandIndex > -1)
-            {
-                history[commandIndex] = command;
-            }
-        }
-        public static void AddCommandToHistory(dynamic device, dynamic command)
-        {
-            dynamic history = GetCommandHistory(device);
-            ((JArray)history).Add(command);
         }
 
         /// <summary>

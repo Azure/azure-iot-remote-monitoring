@@ -9,9 +9,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Schema
     /// <summary>
     /// Helper class to encapsulate interactions with the device schema.
     ///
-    /// Elsewhere in the app we try to always deal with this flexible schema as dynamic,
-    /// but here we take a dependency on Json.Net where necessary to populate the objects
-    /// behind the schema.
     /// </summary>
     public static class SchemaHelper
     {

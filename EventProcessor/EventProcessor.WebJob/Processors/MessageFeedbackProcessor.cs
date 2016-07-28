@@ -139,7 +139,7 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
                             record.StatusCode);
 
                         existingCommand =
-                            CommandHistorySchemaHelper.GetCommandHistoryItemOrDefaultND(
+                            CommandHistorySchemaHelper.GetCommandHistoryItemOrDefault(
                                 device,
                                 record.OriginalMessageId);
 
@@ -168,7 +168,7 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
                             existingCommand.ErrorMessage = string.Empty;
                         }
 
-                        CommandHistorySchemaHelper.UpdateCommandHistoryItemND(
+                        CommandHistorySchemaHelper.UpdateCommandHistoryItem(
                             device, 
                             existingCommand);
 

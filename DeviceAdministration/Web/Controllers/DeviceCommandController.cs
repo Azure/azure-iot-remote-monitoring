@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             bool deviceIsEnabled = DeviceSchemaHelper.GetHubEnabledState(device) == true;
 
-            List<CommandHistory> commandHistory = CommandHistorySchemaHelper.GetCommandHistoryND(device);
+            List<CommandHistory> commandHistory = CommandHistorySchemaHelper.GetCommandHistory(device);
 
             DeviceCommandModel deviceCommandsModel = new DeviceCommandModel
             {
