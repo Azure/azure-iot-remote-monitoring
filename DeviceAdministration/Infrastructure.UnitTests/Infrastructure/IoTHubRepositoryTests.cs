@@ -17,7 +17,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public IoTHubRepositoryTests()
         {
             this.deviceManagerMock = new Mock<IDeviceManager>();
-            this.deviceManagerMock.Setup(dm => dm.AddDeviceAsync(It.IsAny<Device>())).Returns(Task.FromResult(new Device()));
+            this.deviceManagerMock.Setup(dm => dm.AddDeviceAsync(It.IsAny<Device>())).ReturnsAsync(new Device());
             this.deviceManagerMock.Setup(dm => dm.RemoveDeviceAsync(It.IsAny<string>())).Returns(Task.FromResult(true));
             this.iotHubRepository = new IotHubRepository(this.deviceManagerMock.Object);
             this.fixture = new Fixture();
@@ -53,7 +53,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var deviceId = this.fixture.Create<string>();
             this.deviceManagerMock.Setup(dm => dm.GetDeviceAsync(deviceId))
-                .Returns(Task.FromResult(new Device(deviceId)));
+                .ReturnsAsync(new Device(deviceId));
             var d = await this.iotHubRepository.GetIotHubDeviceAsync(deviceId);
             Assert.Equal(deviceId, d.Id);
         }
@@ -63,6 +63,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var deviceId = this.fixture.Create<string>();
             await this.iotHubRepository.RemoveDeviceAsync(deviceId);
+            this.deviceManagerMock.Verify(mock => mock.RemoveDeviceAsync(deviceId), Times.Once());
         }
 
         [Fact]
@@ -85,10 +86,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             device.Status = DeviceStatus.Enabled;
 
             this.deviceManagerMock.Setup(dm => dm.GetDeviceAsync(deviceId))
-                .Returns(Task.FromResult(device));
+                .ReturnsAsync(device);
 
             this.deviceManagerMock.Setup(dm => dm.UpdateDeviceAsync(It.IsAny<Device>()))
-                .Returns(Task.FromResult(device));
+                .ReturnsAsync(device);
 
             var sameDevice = await this.iotHubRepository.UpdateDeviceEnabledStatusAsync(deviceId, false);
             Assert.Equal(sameDevice.Status, DeviceStatus.Disabled);
@@ -106,6 +107,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             this.deviceManagerMock.Setup(dm => dm.CloseAsyncDevice()).Returns(Task.FromResult(true));
 
             await this.iotHubRepository.SendCommand(deviceId, commandHistory);
+            this.deviceManagerMock.Verify(mock => mock.SendAsync(deviceId, It.IsAny<Message>()), Times.Once());
+            this.deviceManagerMock.Verify(mock => mock.CloseAsyncDevice(), Times.Once());
         }
 
         [Fact]
@@ -119,13 +122,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             auth.SymmetricKey.SecondaryKey = "fbsIV6w7gfVUyoRIQFSVgw ==";
             device.Authentication = auth;
             this.deviceManagerMock.Setup(dm => dm.GetDeviceAsync(deviceId))
-                .Returns(Task.FromResult(device));
-            
-            SecurityKeys keys = await this.iotHubRepository.GetDeviceKeysAsync(deviceId);
+                .ReturnsAsync(device);
+
+            var keys = await this.iotHubRepository.GetDeviceKeysAsync(deviceId);
             Assert.NotNull(keys);
             deviceId = this.fixture.Create<string>();
             this.deviceManagerMock.Setup(dm => dm.GetDeviceAsync(deviceId))
-                .Returns(Task.FromResult<Device>(null));
+                .ReturnsAsync(null);
 
             keys = await this.iotHubRepository.GetDeviceKeysAsync(deviceId);
             Assert.Null(keys);
