@@ -34,7 +34,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         }
 
-        ~SampleDeviceFactoryTests() { }
 
 
         [Fact]
