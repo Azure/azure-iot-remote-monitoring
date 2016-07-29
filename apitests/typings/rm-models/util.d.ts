@@ -1,0 +1,4 @@
+interface DoneFunction {
+	();
+	fail: Function;
+}
