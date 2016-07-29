@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+﻿using System;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
@@ -6,6 +7,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Moq;
 using Ploeh.AutoFixture;
 using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Xunit;
 
@@ -73,6 +75,65 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             retDevice = await _deviceLogic.GetDeviceAsync(null);
             Assert.Null(retDevice);
+        }
+
+        [Fact]
+        public async void AddDeviceAsyncTest()
+        {
+            DeviceModel d1 = fixture.Create<DeviceModel>();
+            _iotHubRepositoryMock.Setup(x => x.AddDeviceAsync(It.IsAny<DeviceModel>(), It.IsAny<SecurityKeys>()))
+                .ReturnsAsync(d1);
+
+            //Add device without DeviceProperties
+            d1.DeviceProperties = null;
+            await Assert.ThrowsAsync<ValidationException>(async () => await _deviceLogic.AddDeviceAsync(d1));
+
+            //Add device with Null or empty DeviceId
+            d1.DeviceProperties = fixture.Create<DeviceProperties>();
+            d1.DeviceProperties.DeviceID = null;
+            await Assert.ThrowsAsync<ValidationException>(async () => await _deviceLogic.AddDeviceAsync(d1));
+            d1.DeviceProperties.DeviceID = "";
+            await Assert.ThrowsAsync<ValidationException>(async () => await _deviceLogic.AddDeviceAsync(d1));
+
+            //Add existing device
+            DeviceModel d2 = fixture.Create<DeviceModel>();
+            _deviceRegistryCrudRepositoryMock.Setup(x => x.GetDeviceAsync(d2.DeviceProperties.DeviceID)).ReturnsAsync(d2);
+            await Assert.ThrowsAsync<ValidationException>(async () => await _deviceLogic.AddDeviceAsync(d2));
+
+            d1.DeviceProperties.DeviceID = fixture.Create<string>();
+            var keys = new SecurityKeys("fbsIV6w7gfVUyoRIQFSVgw ==", "1fLjiNCMZF37LmHnjZDyVQ ==");
+            _securityKeyGeneratorMock.Setup(x => x.CreateRandomKeys()).Returns(keys);
+            var hostname = fixture.Create<string>();
+            _configProviderMock.Setup(x => x.GetConfigurationSettingValue(It.IsAny<string>())).Returns(hostname);
+
+            //DocDb throws exception
+            _deviceRegistryCrudRepositoryMock.Setup(x => x.AddDeviceAsync(It.IsAny<DeviceModel>()))
+                .ThrowsAsync(new Exception());
+            _iotHubRepositoryMock.Setup(x => x.TryRemoveDeviceAsync(It.IsAny<string>())).ReturnsAsync(true).Verifiable();
+            await Assert.ThrowsAsync<Exception>(async () => await _deviceLogic.AddDeviceAsync(d1));
+            _virtualDeviceStorageMock.Verify(x => x.AddOrUpdateDeviceAsync(It.IsAny<InitialDeviceConfig>()),
+                Times.Never());
+            _iotHubRepositoryMock.Verify(x => x.TryRemoveDeviceAsync(d1.DeviceProperties.DeviceID), Times.Once());
+
+            //Custom device
+            d1.IsSimulatedDevice = false;
+            _deviceRegistryCrudRepositoryMock.Setup(x => x.AddDeviceAsync(It.IsAny<DeviceModel>())).ReturnsAsync(d1);
+            DeviceWithKeys ret = await _deviceLogic.AddDeviceAsync(d1);
+            _virtualDeviceStorageMock.Verify(x => x.AddOrUpdateDeviceAsync(It.IsAny<InitialDeviceConfig>()),
+                Times.Never());
+            Assert.NotNull(ret);
+            Assert.Equal(d1, ret.Device);
+            Assert.Equal(keys, ret.SecurityKeys);
+
+            //Simulated device
+            _deviceRegistryCrudRepositoryMock.Setup(x => x.AddDeviceAsync(It.IsAny<DeviceModel>())).ReturnsAsync(d1);
+            _virtualDeviceStorageMock.Setup(x => x.AddOrUpdateDeviceAsync(It.IsAny<InitialDeviceConfig>())).Verifiable();
+            d1.IsSimulatedDevice = true;
+            ret = await _deviceLogic.AddDeviceAsync(d1);
+            _virtualDeviceStorageMock.Verify(x=>x.AddOrUpdateDeviceAsync(It.IsAny<InitialDeviceConfig>()), Times.Once());
+            Assert.NotNull(ret);
+            Assert.Equal(d1, ret.Device);
+            Assert.Equal(keys, ret.SecurityKeys);
         }
     }
 }
