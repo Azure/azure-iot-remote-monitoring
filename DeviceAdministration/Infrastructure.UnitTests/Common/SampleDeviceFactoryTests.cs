@@ -20,9 +20,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void TestGetSampleSimulatedDevice()
         {
-            //not null
             DeviceModel d = DeviceSchemaHelper.BuildDeviceStructure("test", true, null);
-
             Assert.NotNull(d);
             Assert.Equal("test", d.DeviceProperties.DeviceID);
             Assert.Equal("normal", d.DeviceProperties.DeviceState);
@@ -35,7 +33,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void TestGetSampleDevice()
         {
-          
             Random randomnumber = new Random();
             _securityKeyGenerator = new SecurityKeyGenerator();
             SecurityKeys keys = _securityKeyGenerator.CreateRandomKeys();
