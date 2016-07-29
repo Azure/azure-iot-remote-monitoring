@@ -53,6 +53,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             IEnumerable docs;
             List<DeviceModel> deviceList = new List<DeviceModel>();
+            List<DeviceModel> tmpDeviceList = new List<DeviceModel>();
 
             string query = "SELECT VALUE root FROM root";
             string continuationToken = null;
@@ -68,13 +69,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         true,
                         false) as IEnumerable;
 
-                deviceList = JsonConvert.DeserializeObject<List<DeviceModel>>(docs.ToString());
+                tmpDeviceList = JsonConvert.DeserializeObject<List<DeviceModel>>(docs.ToString());
+                deviceList.AddRange(tmpDeviceList);
 
                 continuationToken = result.ContinuationToken;
 
             } while (!String.IsNullOrEmpty(continuationToken));
 
-            return deviceList;
+            return (deviceList.Count != 0 ? deviceList : null);
         }
 
         /// <summary>
