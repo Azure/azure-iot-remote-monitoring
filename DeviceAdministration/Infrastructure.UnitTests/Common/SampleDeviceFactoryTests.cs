@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public void TestGetDefaultDeviceNames()
         {
             List<String> s = SampleDeviceFactory.GetDefaultDeviceNames();
-            Assert.NotNull(s);
+            Assert.NotEmpty(s);
         }
         
 
