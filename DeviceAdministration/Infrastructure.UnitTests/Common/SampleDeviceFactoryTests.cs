@@ -14,9 +14,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class SampleDeviceFactoryTests
     {
-        private ISecurityKeyGenerator _securityKeyGenerator;
-
-
         [Fact]
         public void TestGetSampleSimulatedDevice()
         {
@@ -25,16 +22,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Assert.Equal("test", d.DeviceProperties.DeviceID);
             Assert.Equal("normal", d.DeviceProperties.DeviceState);
             Assert.Equal(null, d.DeviceProperties.HubEnabledState);
-
         }
-
-
 
         [Fact]
         public void TestGetSampleDevice()
         {
             Random randomnumber = new Random();
-            _securityKeyGenerator = new SecurityKeyGenerator();
+            ISecurityKeyGenerator _securityKeyGenerator = new SecurityKeyGenerator();
             SecurityKeys keys = _securityKeyGenerator.CreateRandomKeys();
             DeviceModel d = SampleDeviceFactory.GetSampleDevice(randomnumber, keys);
             Assert.NotNull(d);
@@ -48,7 +42,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             List<String> s = SampleDeviceFactory.GetDefaultDeviceNames();
             Assert.NotEmpty(s);
         }
-        
-
     }
 }
