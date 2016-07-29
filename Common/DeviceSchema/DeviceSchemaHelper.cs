@@ -24,7 +24,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <returns>
         /// A DeviceProperties instance, extracted from <paramref name="device"/>.
         /// </returns>
-        public static DeviceProperties GetDeviceProperties(Models.Device device)
+        public static DeviceProperties GetDeviceProperties(DeviceModel device)
         {
             if (device == null)
             {
@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="device"></param>
         /// <returns></returns>
-        public static IoTHub GetIoTHubProperties(Models.Device device)
+        public static IoTHub GetIoTHubProperties(DeviceModel device)
         {
             if (device == null)
             {
@@ -72,7 +72,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <returns>
         /// The Device ID, extracted from <paramref name="device" />.
         /// </returns>
-        public static string GetDeviceID(Models.Device device)
+        public static string GetDeviceID(DeviceModel device)
         {
             if (device == null)
             {
@@ -96,7 +96,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="device">Device instance from message</param>
         /// <returns>Connection device id from IoTHub</returns>
-        public static string GetConnectionDeviceId(Models.Device device)
+        public static string GetConnectionDeviceId(DeviceModel device)
         {
             if (device == null)
             {
@@ -124,7 +124,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <returns>
         /// A Created Time value, extracted from <paramref name="device" />.
         /// </returns>
-        public static DateTime GetCreatedTime(Models.Device device)
+        public static DateTime GetCreatedTime(DeviceModel device)
         {
             if (device == null)
             {
@@ -153,7 +153,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// The Updated Time value, extracted from <paramref name="device" />, or
         /// null if it is null or does not exist.
         /// </returns>
-        public static DateTime? GetUpdatedTime(Models.Device device)
+        public static DateTime? GetUpdatedTime(DeviceModel device)
         {
             if (device == null)
             {
@@ -171,7 +171,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// Set the current time (in UTC) to the device's UpdatedTime Device Property
         /// </summary>
         /// <param name="device"></param>
-        public static void UpdateUpdatedTime(Models.Device device)
+        public static void UpdateUpdatedTime(DeviceModel device)
         {
             if (device == null)
             {
@@ -194,7 +194,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// The Hub Enabled State value extracted from <paramref name="device"/>,
         /// or null if the value is missing or null.
         /// </returns>
-        public static bool? GetHubEnabledState(Models.Device device)
+        public static bool? GetHubEnabledState(DeviceModel device)
         {
             if (device == null)
             {
@@ -214,9 +214,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="device">Device data</param>
         /// <returns>_rid property value as string, or empty string if not found</returns>
-        public static string GetDocDbRid(Models.Device device)
+        public static string GetDocDbRid(DeviceModel device)
         {
-            return SchemaHelper.GetDocDbRid<Models.Device>(device);
+            return SchemaHelper.GetDocDbRid<DeviceModel>(device);
         }
 
         /// <summary>
@@ -224,9 +224,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// </summary>
         /// <param name="device">Device data</param>
         /// <returns>Value of the id, or empty string if not found</returns>
-        public static string GetDocDbId(Models.Device device)
+        public static string GetDocDbId(DeviceModel device)
         {
-            return SchemaHelper.GetDocDbId<Models.Device>(device);
+            return SchemaHelper.GetDocDbId<DeviceModel>(device);
         }
 
         /// <summary>
@@ -236,9 +236,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <param name="isSimulated"></param>
         /// <param name="iccid"></param>
         /// <returns></returns>
-        public static Models.Device BuildDeviceStructure(string deviceId, bool isSimulated, string iccid)
+        public static DeviceModel BuildDeviceStructure(string deviceId, bool isSimulated, string iccid)
         {
-            Models.Device device = new Models.Device();
+            DeviceModel device = new DeviceModel();
 
             InitializeDeviceProperties(device, deviceId, isSimulated);
             InitializeSystemProperties(device, iccid);
@@ -257,7 +257,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <param name="deviceId"></param>
         /// <param name="isSimulated"></param>
         /// <returns></returns>
-        public static void InitializeDeviceProperties(Models.Device device, string deviceId, bool isSimulated)
+        public static void InitializeDeviceProperties(DeviceModel device, string deviceId, bool isSimulated)
         {
             DeviceProperties deviceProps = new DeviceProperties();
             deviceProps.DeviceID = deviceId;
@@ -275,7 +275,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <param name="device"></param>
         /// <param name="iccid"></param>
         /// <returns></returns>
-        public static void InitializeSystemProperties(Models.Device device, string iccid)
+        public static void InitializeSystemProperties(DeviceModel device, string iccid)
         {
             SystemProperties systemProps = new SystemProperties();
             systemProps.ICCID = iccid;
@@ -290,7 +290,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
         /// <param name="iccid"></param>
         /// <param name="isSimulated"></param>
         /// <returns></returns>
-        public static void RemoveSystemPropertiesForSimulatedDeviceInfo(Models.Device device)
+        public static void RemoveSystemPropertiesForSimulatedDeviceInfo(DeviceModel device)
         {
             // Our simulated devices share the structure code with the rest of the system,
             // so we need to explicitly handle this case; since this is only an issue when

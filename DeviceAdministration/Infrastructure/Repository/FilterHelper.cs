@@ -20,8 +20,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="list">Devices to filter</param>
         /// <param name="filters">Filters to apply</param>
         /// <returns>Set of devices that pass all the filters</returns>
-        public static IQueryable<Common.Models.Device> FilterDeviceList(
-            IQueryable<Common.Models.Device> list,
+        public static IQueryable<DeviceModel> FilterDeviceList(
+            IQueryable<DeviceModel> list,
             List<FilterInfo> filters)
         {
             if (list == null)
@@ -47,8 +47,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return list;
         }
 
-        private static IQueryable<Common.Models.Device> FilterItems(
-            IQueryable<Common.Models.Device> list,
+        private static IQueryable<DeviceModel> FilterItems(
+            IQueryable<DeviceModel> list,
             FilterInfo filter)
         {
             if (list == null)
@@ -74,7 +74,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     false,
                     false);
 
-            Func<Common.Models.Device, bool> applyFilter =
+            Func<DeviceModel, bool> applyFilter =
                 (item) =>
                 {
                     dynamic columnValue;
@@ -115,7 +115,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return item != null;
         }
 
-        private static bool GetValueMatchesStatus(Common.Models.Device item, string statusName)
+        private static bool GetValueMatchesStatus(DeviceModel item, string statusName)
         {
             if (item == null)
             {

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 {
-    public class Device
+    public class DeviceModel
     {
         public DeviceProperties DeviceProperties { get; set; }
         public SystemProperties SystemProperties { get; set; }

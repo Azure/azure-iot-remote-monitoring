@@ -169,7 +169,7 @@
     <Compile Include="Helpers\BlobStorageHelper.cs" />
     <Compile Include="Mapper\TypeMapper.cs" />
     <Compile Include="Mapper\MappingValidator.cs" />
-    <Compile Include="Models\Device.cs" />
+    <Compile Include="Models\DeviceModel.cs" />
     <Compile Include="Schema\SchemaHelper.cs" />
     <Compile Include="Utility\DocDbQueryResult.cs" />
     <Compile Include="Helpers\FunctionalHelper.cs" />

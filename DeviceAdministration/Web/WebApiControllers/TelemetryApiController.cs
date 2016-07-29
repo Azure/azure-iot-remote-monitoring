@@ -98,7 +98,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Func<Task<DashboardDevicePaneDataModel>> getTelemetry =
                 async () =>
                 {
-                    Common.Models.Device device = await _deviceLogic.GetDeviceAsync(deviceId);
+                    DeviceModel device = await _deviceLogic.GetDeviceAsync(deviceId);
 
                     IList<DeviceTelemetryFieldModel> telemetryFields = null;
 
@@ -164,7 +164,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Func<Task<DeviceTelemetryModel[]>> getTelemetry =
                 async () =>
                 {
-                    Common.Models.Device device = await _deviceLogic.GetDeviceAsync(deviceId);
+                    DeviceModel device = await _deviceLogic.GetDeviceAsync(deviceId);
 
                     IList<DeviceTelemetryFieldModel> telemetryFields = null;
 
@@ -246,7 +246,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     {
                         historyItems.AddRange(data);
                         //get alert history
-                        List<Common.Models.Device> devices = await this.LoadAllDevicesAsync();
+                        List<DeviceModel> devices = await this.LoadAllDevicesAsync();
    
                         if (devices != null)
                         {
@@ -312,7 +312,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         
 
-        private async Task<List<Common.Models.Device>> LoadAllDevicesAsync()
+        private async Task<List<DeviceModel>> LoadAllDevicesAsync()
         {
             var query = new DeviceListQuery()
             {
@@ -322,7 +322,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             };
 
             string deviceId;
-            var devices = new List<Common.Models.Device>();
+            var devices = new List<DeviceModel>();
             DeviceListQueryResult queryResult = await  _deviceLogic.GetDevices(query);
 
 

@@ -40,7 +40,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [RequirePermission(Permission.ViewDevices)]
         public async Task<ActionResult> Index(string deviceId)
         {
-            Common.Models.Device device = await _deviceLogic.GetDeviceAsync(deviceId);
+            DeviceModel device = await _deviceLogic.GetDeviceAsync(deviceId);
            
             IList<SelectListItem> commandListItems = CommandListItems(device);
 
@@ -125,7 +125,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return Json(new { wasSent = true });
         }
 
-        private IList<SelectListItem> CommandListItems(Common.Models.Device device)
+        private IList<SelectListItem> CommandListItems(DeviceModel device)
         {
             if (device.Commands != null)
             {
@@ -136,7 +136,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
 
-        private IList<SelectListItem> GetCommandListItems(Common.Models.Device device)
+        private IList<SelectListItem> GetCommandListItems(DeviceModel device)
         {
             IList<SelectListItem> result = new List<SelectListItem>();
             IList<Command> commands = device.Commands;

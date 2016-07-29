@@ -76,10 +76,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                     this.LastMessageOffset = message.Offset;
 
                     jsonString = Encoding.UTF8.GetString(message.GetBytes());
-                    IList<Common.Models.Device> results = JsonConvert.DeserializeObject<List<Common.Models.Device>>(jsonString);
+                    IList<DeviceModel> results = JsonConvert.DeserializeObject<List<DeviceModel>>(jsonString);
                     if (results != null)
                     {
-                        foreach (Common.Models.Device resultItem in results)
+                        foreach (DeviceModel resultItem in results)
                         {
                             await ProcessEventItem(resultItem);
                         }
@@ -113,7 +113,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             }
         }
 
-        private async Task ProcessEventItem(Common.Models.Device eventData)
+        private async Task ProcessEventItem(DeviceModel eventData)
         {
             if (eventData == null || eventData.ObjectType == null)
             {
@@ -141,7 +141,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
         }
 
 
-        private async Task ProcessDeviceInfo(Common.Models.Device deviceInfo)
+        private async Task ProcessDeviceInfo(DeviceModel deviceInfo)
         {
             string versionAsString = "";
             if (deviceInfo.Version != null)

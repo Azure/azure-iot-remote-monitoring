@@ -8,20 +8,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public interface IDeviceLogic
     {
-        void ApplyDevicePropertyValueModels(Common.Models.Device device, IEnumerable<DevicePropertyValueModel> devicePropertyValueModels);
+        void ApplyDevicePropertyValueModels(DeviceModel device, IEnumerable<DevicePropertyValueModel> devicePropertyValueModels);
         Task<DeviceListQueryResult> GetDevices(DeviceListQuery q);
-        Task<Common.Models.Device> GetDeviceAsync(string deviceId);
-        Task<DeviceWithKeys> AddDeviceAsync(Common.Models.Device device);
-        IEnumerable<DevicePropertyValueModel> ExtractDevicePropertyValuesModels(Common.Models.Device device);
+        Task<DeviceModel> GetDeviceAsync(string deviceId);
+        Task<DeviceWithKeys> AddDeviceAsync(DeviceModel device);
+        IEnumerable<DevicePropertyValueModel> ExtractDevicePropertyValuesModels(DeviceModel device);
         Task RemoveDeviceAsync(string deviceId);
-        Task<Common.Models.Device> UpdateDeviceAsync(Common.Models.Device device);
-        Task<Common.Models.Device> UpdateDeviceFromDeviceInfoPacketAsync(Common.Models.Device device);
-        Task<Common.Models.Device> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled);
+        Task<DeviceModel> UpdateDeviceAsync(DeviceModel device);
+        Task<DeviceModel> UpdateDeviceFromDeviceInfoPacketAsync(DeviceModel device);
+        Task<DeviceModel> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled);
         Task<SecurityKeys> GetIoTHubKeysAsync(string id);
         Task GenerateNDevices(int deviceCount);
         Task SendCommandAsync(string deviceId, string commandName, dynamic parameters);
         Task<List<string>> BootstrapDefaultDevices();
-        DeviceListLocationsModel ExtractLocationsData(List<Common.Models.Device> devices);
-        IList<DeviceTelemetryFieldModel> ExtractTelemetry(Common.Models.Device device);
+        DeviceListLocationsModel ExtractLocationsData(List<DeviceModel> devices);
+        IList<DeviceTelemetryFieldModel> ExtractTelemetry(DeviceModel device);
     }
 }
