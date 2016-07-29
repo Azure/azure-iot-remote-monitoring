@@ -7,13 +7,20 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
+using Moq;
 using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.Common
 {
     public class SampleDeviceFactoryTests
     {
-        private ISecurityKeyGenerator _securityKeys;
+        private ISecurityKeyGenerator _securityKeyGeneratorMock;
+
+        public SampleDeviceFactoryTests()
+        {
+            _securityKeyGeneratorMock = (new Mock<ISecurityKeyGenerator>()).Object; 
+        }
+
         [Fact]
         public void TestGetSampleSimulatedDevice()
         {
@@ -27,12 +34,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         }
 
+        ~SampleDeviceFactoryTests() { }
+
+
         [Fact]
         public void TestGetSampleDevice()
         {
+          
             Random randomnumber = new Random();
-            _securityKeys = new SecurityKeyGenerator();
-            SecurityKeys keys = _securityKeys.CreateRandomKeys();
+            SecurityKeys keys = _securityKeyGeneratorMock.CreateRandomKeys();
             DeviceModel d = SampleDeviceFactory.GetSampleDevice(randomnumber, keys);
             Assert.NotNull(d);
             Assert.NotNull(d.DeviceProperties);
