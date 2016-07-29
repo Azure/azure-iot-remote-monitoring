@@ -1003,6 +1003,43 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 Name = "Longitude",
                 PropertyType = PropertyType.Real
             };
+
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "AvailablePowerSources",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "PowerSourceVoltage",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "BatteryLevel",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "MemoryFree",
+                PropertyType = PropertyType.String
+            };
         }
 
         private async Task ValidateDevice(Common.Models.Device device)
