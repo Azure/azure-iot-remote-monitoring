@@ -1198,7 +1198,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public IList<DeviceTelemetryFieldModel> ExtractTelemetry(DeviceModel device)
         {
             // Get Telemetry Fields
-            if (device.Telemetry != null)
+            if (device != null && device.Telemetry != null)
             {
                 var deviceTelemetryFields = new List<DeviceTelemetryFieldModel>();
 
