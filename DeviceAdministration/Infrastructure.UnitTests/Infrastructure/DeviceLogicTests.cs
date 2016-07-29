@@ -261,13 +261,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             double maxLong = longitudes.Max() + offset;
 
             DeviceListLocationsModel res = _deviceLogic.ExtractLocationsData(listOfDevices);
-
             Assert.NotNull(res);
             Assert.Equal(JsonConvert.SerializeObject(locations), JsonConvert.SerializeObject(res.DeviceLocationList));
             Assert.Equal(minLat,res.MinimumLatitude);
             Assert.Equal(maxLat, res.MaximumLatitude);
             Assert.Equal(minLong, res.MinimumLongitude);
             Assert.Equal(maxLong, res.MaximumLongitude);
+
+            res = _deviceLogic.ExtractLocationsData(null);
+            Assert.NotNull(res);
+            Assert.Equal(JsonConvert.SerializeObject(new List<DeviceLocationModel>()), JsonConvert.SerializeObject(res.DeviceLocationList));
+            Assert.Equal(47.6 - offset, res.MinimumLatitude);
+            Assert.Equal(47.6 + offset, res.MaximumLatitude);
+            Assert.Equal(-122.3 - offset, res.MinimumLongitude);
+            Assert.Equal(-122.3 + offset, res.MaximumLongitude);
         }
 
         [Fact]
