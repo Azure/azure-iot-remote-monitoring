@@ -113,6 +113,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\SampleDeviceFactoryTests.cs" />
     <Compile Include="Infrastructure\CommandParameterTypeLogicTests.cs" />
     <Compile Include="Common\DeviceSchemaHelperTests.cs" />
     <Compile Include="Common\ExceptionSerializationTests.cs" />
