@@ -13,7 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<bool> TryAddDeviceAsync(Azure.Devices.Device oldIotHubDevice);
         Task RemoveDeviceAsync(string deviceId);
         Task<bool> TryRemoveDeviceAsync(string deviceId);
-        Task UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled);
+        Task<Device> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled);
         Task SendCommand(string deviceId, CommandHistory command);
         Task<SecurityKeys> GetDeviceKeysAsync(string id);
     }

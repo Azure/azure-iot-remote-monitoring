@@ -44,6 +44,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             builder.RegisterType<IotHubRepository>()
                 .As<IIotHubRepository>();
 
+            builder.RegisterType<DeviceManager>()
+                .As<IDeviceManager>();
+
             builder.RegisterType<SecurityKeyGenerator>()
                 .As<ISecurityKeyGenerator>();
 
