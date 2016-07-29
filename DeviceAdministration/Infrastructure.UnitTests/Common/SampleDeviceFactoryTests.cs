@@ -16,10 +16,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     {
         private ISecurityKeyGenerator _securityKeyGenerator;
 
-        public SampleDeviceFactoryTests()
-        {
-            _securityKeyGenerator = new SecurityKeyGenerator(); 
-        }
 
         [Fact]
         public void TestGetSampleSimulatedDevice()
@@ -41,6 +37,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
           
             Random randomnumber = new Random();
+            _securityKeyGenerator = new SecurityKeyGenerator();
             SecurityKeys keys = _securityKeyGenerator.CreateRandomKeys();
             DeviceModel d = SampleDeviceFactory.GetSampleDevice(randomnumber, keys);
             Assert.NotNull(d);
