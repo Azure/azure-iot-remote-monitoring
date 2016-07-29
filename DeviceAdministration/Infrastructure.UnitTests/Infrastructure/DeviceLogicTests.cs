@@ -6,44 +6,73 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Moq;
 using Ploeh.AutoFixture;
 using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.Infrastructure
 {
     public class DeviceLogicTests
     {
-        private IIotHubRepository _iotHubRepositoryMock;
-        private IDeviceRegistryCrudRepository _deviceRegistryCrudRepositoryMock;
-        private IDeviceRegistryListRepository _deviceRegistryListRepositoryMock;
-        private IVirtualDeviceStorage _virtualDeviceStorageMock;
-        private IConfigurationProvider _configProviderMock;
-        private ISecurityKeyGenerator _securityKeyGeneratorMock;
-        private IDeviceRulesLogic _deviceRulesLogicMock;
-        private IDeviceLogic _deviceLogicMock;
+        private Mock<IIotHubRepository> _iotHubRepositoryMock;
+        private Mock<IDeviceRegistryCrudRepository> _deviceRegistryCrudRepositoryMock;
+        private Mock<IDeviceRegistryListRepository> _deviceRegistryListRepositoryMock;
+        private Mock<IVirtualDeviceStorage> _virtualDeviceStorageMock;
+        private Mock<IConfigurationProvider> _configProviderMock;
+        private Mock<ISecurityKeyGenerator> _securityKeyGeneratorMock;
+        private Mock<IDeviceRulesLogic> _deviceRulesLogicMock;
+        private IDeviceLogic _deviceLogic;
+        private Fixture fixture;
 
         public DeviceLogicTests()
         {
-            _iotHubRepositoryMock = (new Mock<IIotHubRepository>()).Object;
-            _deviceRegistryCrudRepositoryMock = (new Mock<IDeviceRegistryCrudRepository>()).Object;
-            _deviceRegistryListRepositoryMock = (new Mock<IDeviceRegistryListRepository>()).Object;
-            _virtualDeviceStorageMock = (new Mock<IVirtualDeviceStorage>()).Object;
-            _configProviderMock = (new Mock<IConfigurationProvider>()).Object;
-            _securityKeyGeneratorMock = (new Mock<ISecurityKeyGenerator>()).Object;
-            _deviceRulesLogicMock = (new Mock<IDeviceRulesLogic>()).Object;
+            _iotHubRepositoryMock = new Mock<IIotHubRepository>();
+            _deviceRegistryCrudRepositoryMock = new Mock<IDeviceRegistryCrudRepository>();
+            _deviceRegistryListRepositoryMock = new Mock<IDeviceRegistryListRepository>();
+            _virtualDeviceStorageMock = new Mock<IVirtualDeviceStorage>();
+            _configProviderMock = new Mock<IConfigurationProvider>();
+            _securityKeyGeneratorMock = new Mock<ISecurityKeyGenerator>();
+            _deviceRulesLogicMock = new Mock<IDeviceRulesLogic>();
+            _deviceLogic = new DeviceLogic(_iotHubRepositoryMock.Object, _deviceRegistryCrudRepositoryMock.Object, _deviceRegistryListRepositoryMock.Object, _virtualDeviceStorageMock.Object, _securityKeyGeneratorMock.Object, _configProviderMock.Object, _deviceRulesLogicMock.Object);
+            fixture = new Fixture();
         }
 
-        ~DeviceLogicTests() { }
+        [Fact]
+        public async void GetDevicesTest()
+        {
+            DeviceListQuery q = fixture.Create<DeviceListQuery>();
+            DeviceListQueryResult r = fixture.Create<DeviceListQueryResult>();
+            _deviceRegistryListRepositoryMock.SetupSequence(x => x.GetDeviceList(It.IsAny<DeviceListQuery>()))
+                .ReturnsAsync(r)
+                .ReturnsAsync(new DeviceListQueryResult());
+            
+
+            DeviceListQueryResult res = await _deviceLogic.GetDevices(q);
+            Assert.NotNull(res);
+            Assert.NotNull(res.Results);
+            Assert.NotEqual(0, res.TotalDeviceCount);
+            Assert.NotEqual(0, res.TotalFilteredCount);
+
+            res = await _deviceLogic.GetDevices(null);
+            Assert.NotNull(res);
+            Assert.Null(res.Results);
+            Assert.Equal(0, res.TotalDeviceCount);
+            Assert.Equal(0, res.TotalFilteredCount);
+        }
 
         [Fact]
         public async void GetDeviceAsyncTest()
         {
-            var fixture = new Fixture();
-            var deviceRegistryMock = new Mock<IDeviceRegistryCrudRepository>();
             DeviceModel device = fixture.Create<DeviceModel>();
-            deviceRegistryMock.Setup(x => x.GetDeviceAsync(device.DeviceProperties.DeviceID)).Returns(Task.FromResult(device));
-            _deviceLogicMock = new DeviceLogic(_iotHubRepositoryMock, deviceRegistryMock.Object, _deviceRegistryListRepositoryMock, _virtualDeviceStorageMock, _securityKeyGeneratorMock, _configProviderMock, _deviceRulesLogicMock);
-            DeviceModel retDevice = await _deviceLogicMock.GetDeviceAsync(device.DeviceProperties.DeviceID);
+            _deviceRegistryCrudRepositoryMock.Setup(x => x.GetDeviceAsync(device.DeviceProperties.DeviceID)).ReturnsAsync(device);
+
+            DeviceModel retDevice = await _deviceLogic.GetDeviceAsync(device.DeviceProperties.DeviceID);
             Assert.Equal(device, retDevice);
+
+            retDevice = await _deviceLogic.GetDeviceAsync("DeviceNotExist");
+            Assert.Null(retDevice);
+
+            retDevice = await _deviceLogic.GetDeviceAsync(null);
+            Assert.Null(retDevice);
         }
     }
 }
