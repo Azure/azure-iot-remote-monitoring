@@ -7,6 +7,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     {
         public int TotalDeviceCount { get; set; }
         public int TotalFilteredCount { get; set; }
-        public List<Common.Models.Device> Results { get; set; }
+        public List<DeviceModel> Results { get; set; }
     }
 }

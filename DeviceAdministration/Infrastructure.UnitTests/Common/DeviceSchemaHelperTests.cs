@@ -15,7 +15,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void GetDevicePropertiesShouldReturnDeviceProperties()
         {
-            Device d = GetValidDevice();
+            DeviceModel d = GetValidDevice();
 
             DeviceProperties props = DeviceSchemaHelper.GetDeviceProperties(d);
 
@@ -26,7 +26,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void GetDevicePropertiesShouldThrowIfMissingDeviceProperties()
         {
-            Device d = GetDeviceWithMissingDeviceProperties();
+            DeviceModel d = GetDeviceWithMissingDeviceProperties();
 
             Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetDeviceProperties(d));
         }
@@ -38,7 +38,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void GetDeviceIDShouldReturnDeviceID()
         {
-            Device d = GetValidDevice();
+            DeviceModel d = GetValidDevice();
 
             string deviceID = DeviceSchemaHelper.GetDeviceID(d);
 
@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void GetDeviceIDShouldThrowIfMissingDeviceProperties()
         {
-            Device d = GetDeviceWithMissingDeviceProperties();
+            DeviceModel d = GetDeviceWithMissingDeviceProperties();
 
             Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetDeviceID(d));
         }
@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void GetDeviceIDShouldThrowIfMissingDeviceID()
         {
-            Device d = GetDeviceWithMissingDeviceID();
+            DeviceModel d = GetDeviceWithMissingDeviceID();
 
             Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetDeviceID(d));
         }
@@ -68,7 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void GetCreatedTimeShouldReturnCreatedTime()
         {
-            Device d = GetValidDevice();
+            DeviceModel d = GetValidDevice();
 
             var createdTime = DeviceSchemaHelper.GetCreatedTime(d);
 
@@ -80,7 +80,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void GetCreatedTimeShouldThrowIfMissingDeviceProperties()
         {
-            Device d = GetDeviceWithMissingDeviceProperties();
+            DeviceModel d = GetDeviceWithMissingDeviceProperties();
 
             Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetCreatedTime(d));
         }
@@ -88,7 +88,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void GetCreatedTimeShouldThrowIfMissingCreatedTime()
         {
-            Device d = GetDeviceWithMissingCreatedTime();
+            DeviceModel d = GetDeviceWithMissingCreatedTime();
 
             Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetCreatedTime(d));
         }
@@ -100,7 +100,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void GetUpdatedTimeShouldReturnUpdatedTime()
         {
-            Device d = GetValidDevice();
+            DeviceModel d = GetValidDevice();
 
             var updatedTime = DeviceSchemaHelper.GetUpdatedTime(d);
 
@@ -112,7 +112,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void GetUpdatedTimeShouldThrowIfMissingDeviceProperties()
         {
-            Device d = GetDeviceWithMissingDeviceProperties();
+            DeviceModel d = GetDeviceWithMissingDeviceProperties();
 
             Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetUpdatedTime(d));
         }
@@ -121,7 +121,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void GetUpdatedTimeShouldReturnNullButNotThrowIfMissingUpdatedTime()
         {
-            Device d = GetDeviceWithMissingUpdatedTime();
+            DeviceModel d = GetDeviceWithMissingUpdatedTime();
 
             var updatedTime = DeviceSchemaHelper.GetUpdatedTime(d);
 
@@ -162,7 +162,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         #endregion
 
-        private Device GetValidDevice()
+        private DeviceModel GetValidDevice()
         {
             string d = @"{ ""DeviceProperties"": 
                             { 
@@ -176,21 +176,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return ParseDeviceFromJson(d);
         }
 
-        private Device GetDeviceWithMissingDeviceProperties()
+        private DeviceModel GetDeviceWithMissingDeviceProperties()
         {
             string d = @"{ ""DeviceXXXProperties"": { ""DeviceID"": ""test"" } }";
 
             return ParseDeviceFromJson(d);
         }
 
-        private Device GetDeviceWithMissingDeviceID()
+        private DeviceModel GetDeviceWithMissingDeviceID()
         {
             string d = @"{ ""DeviceProperties"": { ""DeviXXXceID"": ""test"" } }";
 
             return ParseDeviceFromJson(d);
         }
 
-        private Device GetDeviceWithMissingCreatedTime()
+        private DeviceModel GetDeviceWithMissingCreatedTime()
         {
             string d = @"{ ""DeviceProperties"": 
                             { 
@@ -202,7 +202,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return ParseDeviceFromJson(d);
         }
 
-        private Device GetDeviceWithMissingUpdatedTime()
+        private DeviceModel GetDeviceWithMissingUpdatedTime()
         {
             string d = @"{ ""DeviceProperties"": 
                             { 
@@ -215,7 +215,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return ParseDeviceFromJson(d);
         }
 
-        private Device GetDeviceWithMissingHubEnabledState()
+        private DeviceModel GetDeviceWithMissingHubEnabledState()
         {
             string d = @"{ ""DeviceProperties"": 
                             { 
@@ -229,9 +229,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return ParseDeviceFromJson(d);
         }
 
-        private Device ParseDeviceFromJson(string deviceAsJson)
+        private DeviceModel ParseDeviceFromJson(string deviceAsJson)
         {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<Device>(deviceAsJson);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<DeviceModel>(deviceAsJson);
         }
     }
 }
