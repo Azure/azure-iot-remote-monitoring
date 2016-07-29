@@ -31,7 +31,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         Task SendDeviceInfo();
 
-        Common.Models.Device GetDeviceInfo();
+        DeviceModel GetDeviceInfo();
 
         Task StartAsync(CancellationToken token);
     }

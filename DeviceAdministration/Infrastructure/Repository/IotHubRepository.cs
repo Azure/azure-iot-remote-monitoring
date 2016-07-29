@@ -35,7 +35,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="device"></param>
         /// <param name="securityKeys"></param>
         /// <returns></returns>
-        public async Task<Common.Models.Device> AddDeviceAsync(Common.Models.Device device, SecurityKeys securityKeys)
+        public async Task<DeviceModel> AddDeviceAsync(DeviceModel device, SecurityKeys securityKeys)
         {
             Azure.Devices.Device iotHubDevice = new Azure.Devices.Device(device.DeviceProperties.DeviceID);
 

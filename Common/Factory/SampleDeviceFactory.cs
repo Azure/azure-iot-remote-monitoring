@@ -59,9 +59,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             new Location(47.636121, -122.130254) //3009 157th Pl NE, Redmond, WA 98052
         };
 
-        public static Models.Device GetSampleSimulatedDevice(string deviceId, string key)
+        public static DeviceModel GetSampleSimulatedDevice(string deviceId, string key)
         {
-            Models.Device device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, true, null);
+            DeviceModel device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, true, null);
 
             AssignDeviceProperties(deviceId, device);
             device.ObjectType = OBJECT_TYPE_DEVICE_INFO;
@@ -74,7 +74,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             return device;
         }
 
-        public static Models.Device GetSampleDevice(Random randomNumber, SecurityKeys keys)
+        public static DeviceModel GetSampleDevice(Random randomNumber, SecurityKeys keys)
         {
             string deviceId = 
                 string.Format(
@@ -85,7 +85,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
                     randomNumber.Next(99999),
                     randomNumber.Next(99999));
 
-            Models.Device device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, false, null);
+            DeviceModel device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, false, null);
             device.ObjectName = "IoT Device Description";
 
             AssignDeviceProperties(deviceId, device);
@@ -95,7 +95,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             return device;
         }
 
-        private static void AssignDeviceProperties(string deviceId, Models.Device device)
+        private static void AssignDeviceProperties(string deviceId, DeviceModel device)
         {
             int randomId = rand.Next(0, _possibleDeviceLocations.Count - 1); 
             DeviceProperties deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
@@ -113,7 +113,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             deviceProperties.Longitude = _possibleDeviceLocations[randomId].Longitude;
         }
 
-        private static void AssignTelemetry(Models.Device device)
+        private static void AssignTelemetry(DeviceModel device)
         {
             Telemetry telemetry = CommandSchemaHelper.CreateNewTelemetry("Temperature", "Temperature", "double");
             CommandSchemaHelper.AddTelemetryToDevice(device, telemetry);
@@ -122,7 +122,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             CommandSchemaHelper.AddTelemetryToDevice(device, telemetry);
         }
 
-        private static void AssignCommands(Models.Device device)
+        private static void AssignCommands(DeviceModel device)
         {
             Command command = CommandSchemaHelper.CreateNewCommand("PingDevice");
             CommandSchemaHelper.AddCommandToDevice(device, command);

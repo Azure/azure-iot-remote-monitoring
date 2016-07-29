@@ -66,7 +66,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             }
         }
 
-        public static List<CommandHistory> GetCommandHistory(Models.Device device)
+        public static List<CommandHistory> GetCommandHistory(DeviceModel device)
         {
             if (device == null)
             {
@@ -84,7 +84,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             return history;
         }
 
-        public static CommandHistory GetCommandHistoryItemOrDefault(Models.Device device, string messageId)
+        public static CommandHistory GetCommandHistoryItemOrDefault(DeviceModel device, string messageId)
         {
             CommandHistory result = null;
 
@@ -145,7 +145,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSch
             return result;
         }
 
-        public static void UpdateCommandHistoryItem(Models.Device device, CommandHistory command)
+        public static void UpdateCommandHistoryItem(DeviceModel device, CommandHistory command)
         {
             IList<CommandHistory> history = GetCommandHistory(device);
 
