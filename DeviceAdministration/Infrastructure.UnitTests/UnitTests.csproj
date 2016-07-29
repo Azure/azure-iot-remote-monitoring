@@ -84,6 +84,7 @@
     <Compile Include="Common\ExceptionSerializationTests.cs" />
     <Compile Include="Infrastructure\DeviceLogicTests.cs" />
     <Compile Include="Infrastructure\FilterHelperTests.cs" />
+    <Compile Include="Infrastructure\IoTHubRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\SampleDataGeneratorTests.cs" />
     <Compile Include="TestStubs\RandomGeneratorStub.cs" />

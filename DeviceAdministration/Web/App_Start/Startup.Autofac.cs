@@ -69,6 +69,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
 
             //Repositories
             builder.RegisterType<IotHubRepository>().As<IIotHubRepository>();
+            builder.RegisterType<DeviceManager>().As<IDeviceManager>();
             builder.RegisterType<DeviceRegistryRepository>().As<IDeviceRegistryListRepository>();
             builder.RegisterType<DeviceRegistryRepository>().As<IDeviceRegistryCrudRepository>();
             builder.RegisterType<DeviceRulesRepository>().As<IDeviceRulesRepository>();

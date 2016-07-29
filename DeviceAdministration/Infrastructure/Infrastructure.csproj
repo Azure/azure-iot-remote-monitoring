@@ -211,6 +211,8 @@
     <Compile Include="Repository\IDeviceRulesRepository.cs" />
     <Compile Include="Repository\IDeviceTelemetryRepository.cs" />
     <Compile Include="Repository\IIotHubRepository.cs" />
+    <Compile Include="Repository\IDeviceManager.cs" />
+    <Compile Include="Repository\DeviceManager.cs" />
     <Compile Include="Repository\IotHubRepository.cs" />
     <Compile Include="Repository\IUserSettingsRepository.cs" />
     <Compile Include="Repository\SampleDeviceTypeRepository.cs" />
