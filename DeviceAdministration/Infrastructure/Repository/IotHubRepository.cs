@@ -117,7 +117,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return true;
         }
 
-        public async Task UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
+        public async Task<Device> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
         {
             var iotHubDevice =
                 await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
@@ -125,7 +125,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             iotHubDevice.Status = isEnabled ? DeviceStatus.Enabled : DeviceStatus.Disabled;
 
-            await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
+            return await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
                                                                 await this._deviceManager.UpdateDeviceAsync(iotHubDevice));
         }
 
