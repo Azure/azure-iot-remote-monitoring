@@ -1127,53 +1127,55 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             double maxLong = double.MinValue;
 
             var locationList = new List<DeviceLocationModel>();
-            foreach (DeviceModel device in devices)
+            if (devices != null && devices.Count > 0)
             {
-                DeviceProperties props = DeviceSchemaHelper.GetDeviceProperties(device);
-                if (props.Longitude == null || props.Latitude == null)
+                foreach (DeviceModel device in devices)
                 {
-                    continue;
-                }
+                    DeviceProperties props = DeviceSchemaHelper.GetDeviceProperties(device);
+                    if (props.Longitude == null || props.Latitude == null)
+                    {
+                        continue;
+                    }
 
-                double latitude;
-                double longitude;
+                    double latitude;
+                    double longitude;
 
-                try
-                {
-                    latitude = DeviceSchemaHelper.GetDeviceProperties(device).Latitude.Value;
-                    longitude = DeviceSchemaHelper.GetDeviceProperties(device).Longitude.Value;
-                }
-                catch (FormatException)
-                {
-                    continue;
-                }
+                    try
+                    {
+                        latitude = DeviceSchemaHelper.GetDeviceProperties(device).Latitude.Value;
+                        longitude = DeviceSchemaHelper.GetDeviceProperties(device).Longitude.Value;
+                    }
+                    catch (FormatException)
+                    {
+                        continue;
+                    }
 
-                var location = new DeviceLocationModel()
-                {
-                    DeviceId = DeviceSchemaHelper.GetDeviceID(device),
-                    Longitude = longitude,
-                    Latitude = latitude
-                };
-                locationList.Add(location);
+                    var location = new DeviceLocationModel()
+                    {
+                        DeviceId = DeviceSchemaHelper.GetDeviceID(device),
+                        Longitude = longitude,
+                        Latitude = latitude
+                    };
+                    locationList.Add(location);
 
-                if (longitude < minLong)
-                {
-                    minLong = longitude;
-                }
-                if (longitude > maxLong)
-                {
-                    maxLong = longitude;
-                }
-                if (latitude < minLat)
-                {
-                    minLat = latitude;
-                }
-                if (latitude > maxLat)
-                {
-                    maxLat = latitude;
+                    if (longitude < minLong)
+                    {
+                        minLong = longitude;
+                    }
+                    if (longitude > maxLong)
+                    {
+                        maxLong = longitude;
+                    }
+                    if (latitude < minLat)
+                    {
+                        minLat = latitude;
+                    }
+                    if (latitude > maxLat)
+                    {
+                        maxLat = latitude;
+                    }
                 }
             }
-
             if (locationList.Count == 0)
             {
                 // reinitialize bounds to center on Seattle area if no devices
