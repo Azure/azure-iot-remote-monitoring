@@ -6,7 +6,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// <summary>
     /// Interface to expose methods that can be called against the underlying identity repository
     /// </summary>
-    public interface IDeviceManager
+    public interface IIoTHubDeviceManager
     {
         Task<Device> AddDeviceAsync(Device device);
         Task<Device> GetDeviceAsync(string deviceId);
