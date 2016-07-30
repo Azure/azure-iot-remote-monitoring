@@ -9,13 +9,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     ///     Wraps calls to the IoT hub identity store.
     ///     IDisposable is implemented in order to close out the connection to the IoT Hub when this object is no longer in use
     /// </summary>
-    public class DeviceManager : IDeviceManager, IDisposable
+    public class IoTHubDeviceManager : IIoTHubDeviceManager, IDisposable
     {
         private readonly RegistryManager _deviceManager;
         private readonly ServiceClient serviceClient;
         private bool _disposed;
 
-        public DeviceManager(IConfigurationProvider configProvider)
+        public IoTHubDeviceManager(IConfigurationProvider configProvider)
         {
             // Temporary code to bypass https cert validation till DNS on IotHub is configured
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
@@ -86,7 +86,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             this._disposed = true;
         }
 
-        ~DeviceManager()
+        ~IoTHubDeviceManager()
         {
             this.Dispose(false);
         }

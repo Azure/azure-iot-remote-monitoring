@@ -137,7 +137,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var result = await this.deviceController.EditDeviceProperties(editModel);
             Assert.NotNull(result);
 
-            //doesn't work
+            //TODO: doesn't work
             //var view = result as ViewResult;
         }
 

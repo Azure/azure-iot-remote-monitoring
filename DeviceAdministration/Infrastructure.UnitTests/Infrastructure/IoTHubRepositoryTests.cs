@@ -11,12 +11,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class IoTHubRepositoryTests
     {
         private readonly IIotHubRepository iotHubRepository;
-        private readonly Mock<IDeviceManager> deviceManagerMock;
+        private readonly Mock<IIoTHubDeviceManager> deviceManagerMock;
         private readonly Fixture fixture;
 
         public IoTHubRepositoryTests()
         {
-            this.deviceManagerMock = new Mock<IDeviceManager>();
+            this.deviceManagerMock = new Mock<IIoTHubDeviceManager>();
             this.deviceManagerMock.Setup(dm => dm.AddDeviceAsync(It.IsAny<Device>())).ReturnsAsync(new Device());
             this.deviceManagerMock.Setup(dm => dm.RemoveDeviceAsync(It.IsAny<string>())).Returns(Task.FromResult(true));
             this.iotHubRepository = new IotHubRepository(this.deviceManagerMock.Object);

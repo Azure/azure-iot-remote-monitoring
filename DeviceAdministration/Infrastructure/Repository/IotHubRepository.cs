@@ -15,15 +15,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </summary>
     public class IotHubRepository : IIotHubRepository, IDisposable
     {
-        private readonly IDeviceManager _deviceManager;
+        private readonly IIoTHubDeviceManager _deviceManager;
         private bool _disposed;
 
-        public IotHubRepository(IConfigurationProvider configProvider)
-        {
-            this._deviceManager = new DeviceManager(configProvider);
-        }
-
-        public IotHubRepository(IDeviceManager deviceManager)
+        public IotHubRepository(IIoTHubDeviceManager deviceManager)
         {
             this._deviceManager = deviceManager;
         }

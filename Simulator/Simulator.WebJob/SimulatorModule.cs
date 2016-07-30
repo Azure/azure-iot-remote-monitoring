@@ -23,8 +23,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             builder.RegisterType<IotHubRepository>()
                 .As<IIotHubRepository>();
 
-            builder.RegisterType<DeviceManager>()
-                .As<IDeviceManager>();
+            builder.RegisterType<IoTHubDeviceManager>()
+                .As<IIoTHubDeviceManager>();
 
             builder.RegisterType<DeviceRulesLogic>()
                 .As<IDeviceRulesLogic>();
