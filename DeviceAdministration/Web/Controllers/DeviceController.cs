@@ -31,18 +31,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly IExternalCellularService _cellularService;
         private readonly IDeviceLogic _deviceLogic;
         private readonly IDeviceTypeLogic _deviceTypeLogic;
+        private readonly ICellularExtensions _cellularExtensions;
 
         private readonly string _iotHubName = string.Empty;
 
         public DeviceController(IDeviceLogic deviceLogic, IDeviceTypeLogic deviceTypeLogic,
             IConfigurationProvider configProvider,
             IExternalCellularService cellularService,
-            IApiRegistrationRepository apiRegistrationRepository)
+            IApiRegistrationRepository apiRegistrationRepository,
+            ICellularExtensions cellularExtensions)
         {
             _deviceLogic = deviceLogic;
             _deviceTypeLogic = deviceTypeLogic;
             _cellularService = cellularService;
             _apiRegistrationRepository = apiRegistrationRepository;
+            _cellularExtensions = cellularExtensions;
 
             _iotHubName = configProvider.GetConfigurationSettingValue("iotHub.HostName");
         }
@@ -68,7 +71,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 try
                 {
                     List<DeviceModel> devices = await GetDevices();
-                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccids(devices);
+                    ViewBag.AvailableIccids = _cellularExtensions.GetListOfAvailableIccids(_cellularService, devices);
                     ViewBag.CanHaveIccid = true;
                 }
                 catch (CellularConnectivityException)
@@ -109,7 +112,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 try
                 {
                     List<DeviceModel> devices = await GetDevices();
-                    ViewBag.AvailableIccids = _cellularService.GetListOfAvailableIccids(devices);
+                    ViewBag.AvailableIccids = _cellularExtensions.GetListOfAvailableIccids(_cellularService, devices);
                     ViewBag.CanHaveIccid = true;
                 }
                 catch (CellularConnectivityException)

@@ -21,6 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3E3CB1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "DeviceAdministration\Infrastructure.UnitTests\UnitTests.csproj", "{008E8267-1703-4108-904A-99C1B9ED8F7A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2101F5D8-84ED-47BC-8254-6505819E17C6} = {2101F5D8-84ED-47BC-8254-6505819E17C6}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebJobHost", "WebJobHost\WebJobHost.csproj", "{350C5961-0778-45F8-9A59-D309FCD653DD}"
 EndProject

@@ -6,16 +6,16 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 {
-    public static class CellularExtensions
+    public class CellularExtensions : ICellularExtensions
     {
-        public static IEnumerable<string> GetListOfAvailableIccids(this IExternalCellularService cellularService, IList<DeviceModel> devices)
+        public IEnumerable<string> GetListOfAvailableIccids(IExternalCellularService cellularService, IList<DeviceModel> devices)
         {
             var fullIccidList = cellularService.GetTerminals().Select(i => i.Id);
             var usedIccidList = GetUsedIccidList(devices).Select(i => i.Id);
             return fullIccidList.Except(usedIccidList);
         }
 
-        public static IEnumerable<string> GetListOfAvailableDeviceIDs(this IExternalCellularService cellularService, IList<DeviceModel> devices)
+        public IEnumerable<string> GetListOfAvailableDeviceIDs(IExternalCellularService cellularService, IList<DeviceModel> devices)
         {
             return (from device in devices
                     where (device.DeviceProperties != null && device.DeviceProperties.DeviceID != null) &&
@@ -24,7 +24,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     ).Cast<string>().ToList();
         }
 
-        private static IEnumerable<Iccid> GetUsedIccidList(IList<DeviceModel> devices)
+        private IEnumerable<Iccid> GetUsedIccidList(IList<DeviceModel> devices)
         {
             return (from device in devices
                     where (device.DeviceProperties != null && device.DeviceProperties.DeviceID != null) &&
