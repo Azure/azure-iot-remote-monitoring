@@ -128,6 +128,7 @@
     <Compile Include="Common\ExceptionSerializationTests.cs" />
     <Compile Include="Infrastructure\DeviceLogicTests.cs" />
     <Compile Include="Infrastructure\DeviceRulesLogicTests.cs" />
+    <Compile Include="Infrastructure\DeviceTelemetryLogicTest.cs" />
     <Compile Include="Infrastructure\FilterHelperTests.cs" />
     <Compile Include="Infrastructure\IoTHubRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
