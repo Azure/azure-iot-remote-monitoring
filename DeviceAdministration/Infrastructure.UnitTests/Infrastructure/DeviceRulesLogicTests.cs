@@ -61,5 +61,34 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             ret = await deviceRulesLogic.SaveDeviceRuleAsync(newRule);
             Assert.NotNull(ret);
         }
+
+        [Fact]
+        public async void GetNewRuleAsyncTest()
+        {
+            string deviceId = fixture.Create<string>();
+            DeviceRule rule = await deviceRulesLogic.GetNewRuleAsync(deviceId);
+            Assert.NotNull(rule);
+            Assert.Equal(deviceId, rule.DeviceID);
+        }
+
+        [Fact]
+        public async void UpdateDeviceRuleEnabledStateAsyncTest()
+        {
+            DeviceRule rule = fixture.Create<DeviceRule>();
+            bool prevState = false;
+            rule.EnabledState = prevState;
+            _deviceRulesRepositoryMock.Setup(x => x.GetDeviceRuleAsync(rule.DeviceID, rule.RuleId)).ReturnsAsync(rule);
+            _deviceRulesRepositoryMock.Setup(
+                x => x.SaveDeviceRuleAsync(It.Is<DeviceRule>(o => o.EnabledState != prevState))).ReturnsAsync(new TableStorageResponse<DeviceRule>()).Verifiable();
+
+            var res = deviceRulesLogic.UpdateDeviceRuleEnabledStateAsync(rule.DeviceID, rule.RuleId, true);
+            Assert.NotNull(res);
+            _deviceRulesRepositoryMock.Verify();
+
+            prevState = rule.EnabledState;
+            res = deviceRulesLogic.UpdateDeviceRuleEnabledStateAsync(rule.DeviceID, rule.RuleId, false);
+            Assert.NotNull(res);
+            _deviceRulesRepositoryMock.Verify();
+        }
     }
 }
