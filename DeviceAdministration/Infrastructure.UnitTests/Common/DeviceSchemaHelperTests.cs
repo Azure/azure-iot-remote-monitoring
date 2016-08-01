@@ -3,72 +3,121 @@ using System.Globalization;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests
 {
     public class DeviceSchemaHelperTests
     {
-        #region DeviceProperty tests
-
-        [Fact]
-        public void GetDevicePropertiesShouldReturnDeviceProperties()
+        private DeviceModel GetValidDevice()
         {
-            DeviceModel d = GetValidDevice();
+            var d = @"{ ""DeviceProperties"": 
+                            { 
+                                ""DeviceID"": ""test"", 
+                                ""CreatedTime"": ""2015-08-01T01:02:03.0000Z"",
+                                ""UpdatedTime"": ""2015-09-01T01:02:03.0000Z"",
+                                ""HubEnabledState"": true
+                            }
+                        }";
 
-            DeviceProperties props = DeviceSchemaHelper.GetDeviceProperties(d);
+            return ParseDeviceFromJson(d);
+        }
 
-            Assert.NotNull(props);
-            Assert.Equal("test", props.DeviceID.ToString());
+        private DeviceModel GetDeviceWithIotHub()
+        {
+            var d = @"{     ""DeviceProperties"": 
+                            { 
+                                ""DeviceID"": ""test"", 
+                                ""CreatedTime"": ""2015-08-01T01:02:03.0000Z"",
+                                ""UpdatedTime"": ""2015-09-01T01:02:03.0000Z"",
+                                ""HubEnabledState"": true
+                            },
+                            ""IoTHub"":
+                            {
+                                ""MessageId"": ""messageId"",
+                                ""CorrelationId"": ""CorrelationId"",
+                                ""ConnectionDeviceId"": ""ConnectionDeviceId"",
+                                ""ConnectionDeviceGenerationId"": ""ConnectionDeviceGenerationId"",
+                                ""EnquedTime"": ""2015-08-01T01:02:03.0000Z"",
+                                ""StreamId"": ""StreamId"",
+                            }
+                        }";
+            return ParseDeviceFromJson(d);
+        }
+
+        private DeviceModel GetDeviceWithMissingDeviceProperties()
+        {
+            var d = @"{ ""DeviceXXXProperties"": { ""DeviceID"": ""test"" } }";
+
+            return ParseDeviceFromJson(d);
+        }
+
+        private DeviceModel GetDeviceWithMissingDeviceID()
+        {
+            var d = @"{ ""DeviceProperties"": { ""DeviXXXceID"": ""test"" } }";
+
+            return ParseDeviceFromJson(d);
+        }
+
+        private DeviceModel GetDeviceWithMissingCreatedTime()
+        {
+            var d = @"{ ""DeviceProperties"": 
+                            { 
+                                ""DeviceID"": ""test"", 
+                                ""CreatXXXedTime"": ""2015-08-01T01:02:03.0000Z"" 
+                            }
+                        }";
+
+            return ParseDeviceFromJson(d);
+        }
+
+        private DeviceModel GetDeviceWithMissingUpdatedTime()
+        {
+            var d = @"{ ""DeviceProperties"": 
+                            { 
+                                ""DeviceID"": ""test"", 
+                                ""CreatedTime"": ""2015-08-01T01:02:03.0000Z"",
+                                ""UpdatXXXedTime"": ""2015-09-01T01:02:03.0000Z""
+                            }
+                        }";
+
+            return ParseDeviceFromJson(d);
+        }
+
+        private DeviceModel GetDeviceWithMissingHubEnabledState()
+        {
+            var d = @"{ ""DeviceProperties"": 
+                            { 
+                                ""DeviceID"": ""test"", 
+                                ""CreatedTime"": ""2015-08-01T01:02:03.0000Z"",
+                                ""UpdatedTime"": ""2015-09-01T01:02:03.0000Z"",
+                                ""HubEnaXXXbledState"": true
+                            }
+                        }";
+
+            return ParseDeviceFromJson(d);
+        }
+
+        private DeviceModel ParseDeviceFromJson(string deviceAsJson)
+        {
+            return JsonConvert.DeserializeObject<DeviceModel>(deviceAsJson);
         }
 
         [Fact]
-        public void GetDevicePropertiesShouldThrowIfMissingDeviceProperties()
+        public void GetConnectionDeviceIdTest()
         {
-            DeviceModel d = GetDeviceWithMissingDeviceProperties();
+            var d = GetDeviceWithIotHub();
+            var props = DeviceSchemaHelper.GetIoTHubProperties(d);
+            var connectionId = props.ConnectionDeviceId;
 
-            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetDeviceProperties(d));
+            Assert.Equal("ConnectionDeviceId", connectionId);
         }
-
-        #endregion
-
-        #region DeviceID tests
-
-        [Fact]
-        public void GetDeviceIDShouldReturnDeviceID()
-        {
-            DeviceModel d = GetValidDevice();
-
-            string deviceID = DeviceSchemaHelper.GetDeviceID(d);
-
-            Assert.Equal("test", deviceID);
-        }
-
-        [Fact]
-        public void GetDeviceIDShouldThrowIfMissingDeviceProperties()
-        {
-            DeviceModel d = GetDeviceWithMissingDeviceProperties();
-
-            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetDeviceID(d));
-        }
-
-        [Fact]
-        public void GetDeviceIDShouldThrowIfMissingDeviceID()
-        {
-            DeviceModel d = GetDeviceWithMissingDeviceID();
-
-            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetDeviceID(d));
-        }
-
-        #endregion
-
-        #region CreatedTime tests
 
         [Fact]
         public void GetCreatedTimeShouldReturnCreatedTime()
         {
-            DeviceModel d = GetValidDevice();
+            var d = GetValidDevice();
 
             var createdTime = DeviceSchemaHelper.GetCreatedTime(d);
 
@@ -78,59 +127,75 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public void GetCreatedTimeShouldThrowIfMissingDeviceProperties()
-        {
-            DeviceModel d = GetDeviceWithMissingDeviceProperties();
-
-            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetCreatedTime(d));
-        }
-
-        [Fact]
         public void GetCreatedTimeShouldThrowIfMissingCreatedTime()
         {
-            DeviceModel d = GetDeviceWithMissingCreatedTime();
+            var d = GetDeviceWithMissingCreatedTime();
 
             Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetCreatedTime(d));
         }
 
-        #endregion
-
-        #region GetUpdatedTime tests
-
         [Fact]
-        public void GetUpdatedTimeShouldReturnUpdatedTime()
+        public void GetCreatedTimeShouldThrowIfMissingDeviceProperties()
         {
-            DeviceModel d = GetValidDevice();
+            var d = GetDeviceWithMissingDeviceProperties();
 
-            var updatedTime = DeviceSchemaHelper.GetUpdatedTime(d);
-
-            // Need to include RoundtripKind to get a UTC value
-            var expectedTime = DateTime.Parse("2015-09-01T01:02:03.0000Z", null, DateTimeStyles.RoundtripKind);
-            Assert.Equal(expectedTime, updatedTime);
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetCreatedTime(d));
         }
 
         [Fact]
-        public void GetUpdatedTimeShouldThrowIfMissingDeviceProperties()
+        public void GetDeviceIDShouldReturnDeviceID()
         {
-            DeviceModel d = GetDeviceWithMissingDeviceProperties();
+            var d = GetValidDevice();
 
-            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetUpdatedTime(d));
+            var deviceID = DeviceSchemaHelper.GetDeviceID(d);
+
+            Assert.Equal("test", deviceID);
         }
-
 
         [Fact]
-        public void GetUpdatedTimeShouldReturnNullButNotThrowIfMissingUpdatedTime()
+        public void GetDeviceIDShouldThrowIfMissingDeviceID()
         {
-            DeviceModel d = GetDeviceWithMissingUpdatedTime();
+            var d = GetDeviceWithMissingDeviceID();
 
-            var updatedTime = DeviceSchemaHelper.GetUpdatedTime(d);
-
-            Assert.Equal(null, updatedTime);
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetDeviceID(d));
         }
 
-        #endregion
+        [Fact]
+        public void GetDeviceIDShouldThrowIfMissingDeviceProperties()
+        {
+            var d = GetDeviceWithMissingDeviceProperties();
 
-        #region HubEnabledState tests
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetDeviceID(d));
+        }
+
+        [Fact]
+        public void GetDevicePropertiesShouldReturnDeviceProperties()
+        {
+            var d = GetValidDevice();
+
+            var props = DeviceSchemaHelper.GetDeviceProperties(d);
+
+            Assert.NotNull(props);
+            Assert.Equal("test", props.DeviceID);
+        }
+
+        [Fact]
+        public void GetDevicePropertiesShouldThrowIfMissingDeviceProperties()
+        {
+            var d = GetDeviceWithMissingDeviceProperties();
+
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetDeviceProperties(d));
+        }
+
+        [Fact]
+        public void GetHubEnabledStateShouldReturnNullButNotThrowIfMissingState()
+        {
+            var d = GetDeviceWithMissingHubEnabledState();
+
+            var hubEnabledState = DeviceSchemaHelper.GetHubEnabledState(d);
+
+            Assert.Equal(null, hubEnabledState);
+        }
 
         [Fact]
         public void GetHubEnabledStateShouldReturnState()
@@ -151,87 +216,83 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public void GetHubEnabledStateShouldReturnNullButNotThrowIfMissingState()
+        public void GetIotHubPropertiesTest()
         {
-            var d = GetDeviceWithMissingHubEnabledState();
+            var d = GetDeviceWithIotHub();
+            var props = DeviceSchemaHelper.GetIoTHubProperties(d);
+            var messageId = props.MessageId;
 
-            var hubEnabledState = DeviceSchemaHelper.GetHubEnabledState(d);
-
-            Assert.Equal(null, hubEnabledState);
+            Assert.Equal("messageId", messageId);
         }
 
-        #endregion
 
-        private DeviceModel GetValidDevice()
+        [Fact]
+        public void GetUpdatedTimeShouldReturnNullButNotThrowIfMissingUpdatedTime()
         {
-            string d = @"{ ""DeviceProperties"": 
-                            { 
-                                ""DeviceID"": ""test"", 
-                                ""CreatedTime"": ""2015-08-01T01:02:03.0000Z"",
-                                ""UpdatedTime"": ""2015-09-01T01:02:03.0000Z"",
-                                ""HubEnabledState"": true
-                            }
-                        }";
+            var d = GetDeviceWithMissingUpdatedTime();
 
-            return ParseDeviceFromJson(d);
+            var updatedTime = DeviceSchemaHelper.GetUpdatedTime(d);
+
+            Assert.Equal(null, updatedTime);
         }
 
-        private DeviceModel GetDeviceWithMissingDeviceProperties()
+        [Fact]
+        public void GetUpdatedTimeShouldReturnUpdatedTime()
         {
-            string d = @"{ ""DeviceXXXProperties"": { ""DeviceID"": ""test"" } }";
+            var d = GetValidDevice();
 
-            return ParseDeviceFromJson(d);
+            var updatedTime = DeviceSchemaHelper.GetUpdatedTime(d);
+
+            // Need to include RoundtripKind to get a UTC value
+            var expectedTime = DateTime.Parse("2015-09-01T01:02:03.0000Z", null, DateTimeStyles.RoundtripKind);
+            Assert.Equal(expectedTime, updatedTime);
         }
 
-        private DeviceModel GetDeviceWithMissingDeviceID()
+        [Fact]
+        public void GetUpdatedTimeShouldThrowIfMissingDeviceProperties()
         {
-            string d = @"{ ""DeviceProperties"": { ""DeviXXXceID"": ""test"" } }";
+            var d = GetDeviceWithMissingDeviceProperties();
 
-            return ParseDeviceFromJson(d);
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetUpdatedTime(d));
         }
 
-        private DeviceModel GetDeviceWithMissingCreatedTime()
+        [Fact]
+        public void IotHubPropertiesTestShouldThrowMissing()
         {
-            string d = @"{ ""DeviceProperties"": 
-                            { 
-                                ""DeviceID"": ""test"", 
-                                ""CreatXXXedTime"": ""2015-08-01T01:02:03.0000Z"" 
-                            }
-                        }";
-
-            return ParseDeviceFromJson(d);
+            var d = GetDeviceWithMissingDeviceProperties();
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetIoTHubProperties(d));
         }
 
-        private DeviceModel GetDeviceWithMissingUpdatedTime()
+        [Fact]
+        public void TestInitializeDeviceProps()
         {
-            string d = @"{ ""DeviceProperties"": 
-                            { 
-                                ""DeviceID"": ""test"", 
-                                ""CreatedTime"": ""2015-08-01T01:02:03.0000Z"",
-                                ""UpdatXXXedTime"": ""2015-09-01T01:02:03.0000Z""
-                            }
-                        }";
-
-            return ParseDeviceFromJson(d);
+            var d = new DeviceModel();
+            DeviceSchemaHelper.InitializeDeviceProperties(d, "test", true);
+            var props = d.DeviceProperties;
+            Assert.Equal(props.DeviceID, "test");
+            Assert.Equal(props.DeviceState, "normal");
         }
 
-        private DeviceModel GetDeviceWithMissingHubEnabledState()
+        [Fact]
+        public void TestInitializeSystemProps()
         {
-            string d = @"{ ""DeviceProperties"": 
-                            { 
-                                ""DeviceID"": ""test"", 
-                                ""CreatedTime"": ""2015-08-01T01:02:03.0000Z"",
-                                ""UpdatedTime"": ""2015-09-01T01:02:03.0000Z"",
-                                ""HubEnaXXXbledState"": true
-                            }
-                        }";
-
-            return ParseDeviceFromJson(d);
+            var d = new DeviceModel();
+            DeviceSchemaHelper.InitializeSystemProperties(d, "iccid");
+            var props = d.SystemProperties;
+            Assert.Equal(props.ICCID, "iccid");
         }
 
-        private DeviceModel ParseDeviceFromJson(string deviceAsJson)
+        [Fact]
+        public void TestRemoveSystemProps()
         {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<DeviceModel>(deviceAsJson);
+            var d = new DeviceModel();
+            DeviceSchemaHelper.InitializeSystemProperties(d, "iccid");
+            var props = d.SystemProperties;
+            Assert.Equal(props.ICCID, "iccid");
+
+            DeviceSchemaHelper.RemoveSystemPropertiesForSimulatedDeviceInfo(d);
+            var RemovedProps = d.SystemProperties;
+            Assert.Null(RemovedProps);
         }
     }
 }
