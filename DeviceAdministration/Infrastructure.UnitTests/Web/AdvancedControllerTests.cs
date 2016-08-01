@@ -102,7 +102,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var result = await this.advancedController.AssociateIccidWithDevice(deviceID, iccID);
             Assert.Equal(result.DeviceProperties.DeviceID, deviceID);
             Assert.Equal(result.SystemProperties.ICCID, iccID);
-            Assert.NotEqual(result.SystemProperties.ICCID, device.SystemProperties.ICCID);
 
             device.SystemProperties.ICCID = iccID;
             this.deviceLogicMock.Verify(mock => mock.UpdateDeviceAsync(device), Times.Once());

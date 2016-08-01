@@ -134,6 +134,9 @@
     <Compile Include="TestStubs\RandomGeneratorStub.cs" />
     <Compile Include="Web\AdvancedControllerTests.cs" />
     <Compile Include="Web\ActionControllerTests.cs" />
+    <Compile Include="Web\DeviceRulesControllerTests.cs" />
+    <Compile Include="Web\DeviceCommandControllerTests.cs" />
+    <Compile Include="Web\DashboardControllerTests.cs" />
     <Compile Include="Web\DeviceControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
