@@ -18,15 +18,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                                 ""CreatedTime"": ""2015-08-01T01:02:03.0000Z"",
                                 ""UpdatedTime"": ""2015-09-01T01:02:03.0000Z"",
                                 ""HubEnabledState"": true
-                            },
-                           ""IoTHub"":
-                            {
-                                ""MessageId"": ""messageId"",
-                                ""CorrelationId"": ""CorrelationId"",
-                                ""ConnectionDeviceId"": ""ConnectionDeviceId"",
-                                ""ConnectionDeviceGenerationId"": ""ConnectionDeviceGenerationId"",
-                                ""EnquedTime"": ""2015-08-01T01:02:03.0000Z"",
-                                ""StreamId"": ""StreamId"",
                             }
                         }";
 
