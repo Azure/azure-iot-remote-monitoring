@@ -132,6 +132,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\SampleDataGeneratorTests.cs" />
     <Compile Include="TestStubs\RandomGeneratorStub.cs" />
+    <Compile Include="Web\AdvancedControllerTests.cs" />
+    <Compile Include="Web\ActionControllerTests.cs" />
     <Compile Include="Web\DeviceControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
