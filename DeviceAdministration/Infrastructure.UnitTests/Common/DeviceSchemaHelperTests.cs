@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
@@ -162,6 +163,75 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         #endregion
 
+        #region IotHub tests
+
+        [Fact]
+        public void getIotHubPropertiesTest()
+        {
+            DeviceModel d = GetValidDevice();
+            IoTHub props = DeviceSchemaHelper.GetIoTHubProperties(d);
+            string messageId = props.MessageId;
+
+            Assert.Equal("messageId", messageId);
+        }
+
+        [Fact]
+        public void missingIotHubPropertiesTest()
+        {
+            DeviceModel d = GetDeviceWithMissingDeviceProperties();
+
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(() => DeviceSchemaHelper.GetIoTHubProperties(d));
+        }
+
+        [Fact]
+        public void GetConnectionDeviceIdTest()
+        {
+            DeviceModel d = GetValidDevice();
+            IoTHub props = DeviceSchemaHelper.GetIoTHubProperties(d);
+            string connectionId = props.ConnectionDeviceId;
+
+            Assert.Equal("ConnectionDeviceId", connectionId);
+        }
+
+        #endregion
+
+        #region Init Tests
+
+        [Fact]
+        public void testInitializeDeviceProps()
+        {
+            DeviceModel d = new DeviceModel();
+            DeviceSchemaHelper.InitializeDeviceProperties(d, "test", true);
+            DeviceProperties props = d.DeviceProperties;
+            Assert.Equal(props.DeviceID, "test");
+            Assert.Equal(props.DeviceState, "normal");
+
+        }
+
+        [Fact]
+        public void testInitializeSystemProps()
+        {
+            DeviceModel d = new DeviceModel();
+            DeviceSchemaHelper.InitializeSystemProperties(d, "iccid");
+            SystemProperties props = d.SystemProperties;
+            Assert.Equal(props.ICCID, "iccid");
+        }
+
+        [Fact]
+        public void testRemoveSystemProps()
+        {
+            DeviceModel d = new DeviceModel();
+            DeviceSchemaHelper.InitializeSystemProperties(d, "iccid");
+            SystemProperties props = d.SystemProperties;
+            Assert.Equal(props.ICCID, "iccid");
+
+            DeviceSchemaHelper.RemoveSystemPropertiesForSimulatedDeviceInfo(d);
+            SystemProperties RemovedProps = d.SystemProperties;
+            Assert.Null(RemovedProps);
+        }
+
+
+        #endregion
         private DeviceModel GetValidDevice()
         {
             string d = @"{ ""DeviceProperties"": 
@@ -170,6 +240,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                                 ""CreatedTime"": ""2015-08-01T01:02:03.0000Z"",
                                 ""UpdatedTime"": ""2015-09-01T01:02:03.0000Z"",
                                 ""HubEnabledState"": true
+                            },
+                           ""IoTHub"":
+                            {
+                                ""MessageId"": ""messageId"",
+                                ""CorrelationId"": ""CorrelationId"",
+                                ""ConnectionDeviceId"": ""ConnectionDeviceId"",
+                                ""ConnectionDeviceGenerationId"": ""ConnectionDeviceGenerationId"",
+                                ""EnquedTime"": ""2015-08-01T01:02:03.0000Z"",
+                                ""StreamId"": ""StreamId"",
                             }
                         }";
 
