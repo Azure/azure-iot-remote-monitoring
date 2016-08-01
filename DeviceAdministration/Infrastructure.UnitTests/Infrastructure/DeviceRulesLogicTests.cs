@@ -81,12 +81,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _deviceRulesRepositoryMock.Setup(
                 x => x.SaveDeviceRuleAsync(It.Is<DeviceRule>(o => o.EnabledState != prevState))).ReturnsAsync(new TableStorageResponse<DeviceRule>()).Verifiable();
 
-            var res = deviceRulesLogic.UpdateDeviceRuleEnabledStateAsync(rule.DeviceID, rule.RuleId, true);
+            var res = await deviceRulesLogic.UpdateDeviceRuleEnabledStateAsync(rule.DeviceID, rule.RuleId, true);
             Assert.NotNull(res);
             _deviceRulesRepositoryMock.Verify();
 
             prevState = rule.EnabledState;
-            res = deviceRulesLogic.UpdateDeviceRuleEnabledStateAsync(rule.DeviceID, rule.RuleId, false);
+            res = await deviceRulesLogic.UpdateDeviceRuleEnabledStateAsync(rule.DeviceID, rule.RuleId, false);
             Assert.NotNull(res);
             _deviceRulesRepositoryMock.Verify();
         }
