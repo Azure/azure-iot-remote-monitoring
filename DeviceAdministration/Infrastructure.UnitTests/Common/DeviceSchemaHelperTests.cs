@@ -35,7 +35,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private DeviceModel GetDeviceWithIotHub()
         {
-            var d = @"{ ""IoTHub"":
+            var d = @"{     ""DeviceProperties"": 
+                            { 
+                                ""DeviceID"": ""test"", 
+                                ""CreatedTime"": ""2015-08-01T01:02:03.0000Z"",
+                                ""UpdatedTime"": ""2015-09-01T01:02:03.0000Z"",
+                                ""HubEnabledState"": true
+                            },
+                            ""IoTHub"":
                             {
                                 ""MessageId"": ""messageId"",
                                 ""CorrelationId"": ""CorrelationId"",
