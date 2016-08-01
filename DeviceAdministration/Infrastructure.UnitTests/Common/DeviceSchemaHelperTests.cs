@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
