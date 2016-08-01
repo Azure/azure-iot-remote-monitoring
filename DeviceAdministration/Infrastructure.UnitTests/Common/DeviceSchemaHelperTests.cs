@@ -107,7 +107,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void GetConnectionDeviceIdTest()
         {
-            var d = GetValidDevice();
+            var d = GetDeviceWithIotHub();
             var props = DeviceSchemaHelper.GetIoTHubProperties(d);
             var connectionId = props.ConnectionDeviceId;
 
