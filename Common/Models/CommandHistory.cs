@@ -7,14 +7,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
     public class CommandHistory
     {
         /// <summary>
-        /// Internal serialization deserialization constructor.
+        /// Creates a new instance of a command history model.
         /// </summary>
-        internal CommandHistory()
+        public CommandHistory()
         {
         }
 
         /// <summary>
-        /// Creates a new instance of a command history.
+        /// Creates a new instance of a command history model.
         /// </summary>
         /// <param name="name">The name of the command.</param>
         /// <param name="parameters">Dynamic list of parameters issued with the command.</param>

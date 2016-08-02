@@ -14,13 +14,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         public const string VERSION_1_0 = "1.0";
 
-        private static Random rand = new Random();
-
         private const int MAX_COMMANDS_SUPPORTED = 6;
 
         private const bool IS_SIMULATED_DEVICE = true;
 
-        private static List<string> DefaultDeviceNames = new List<string>{
+        private static readonly Random Rand = new Random();
+
+        private static readonly List<string> DefaultDeviceNames = new List<string>{
             "SampleDevice001", 
             "SampleDevice002", 
             "SampleDevice003", 
@@ -63,7 +63,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
         {
             DeviceModel device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, true, null);
 
-            AssignDeviceProperties(deviceId, device);
+            AssignDeviceProperties(device);
             device.ObjectType = OBJECT_TYPE_DEVICE_INFO;
             device.Version = VERSION_1_0;
             device.IsSimulatedDevice = IS_SIMULATED_DEVICE;
@@ -76,8 +76,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         public static DeviceModel GetSampleDevice(Random randomNumber, SecurityKeys keys)
         {
-            string deviceId = 
-                string.Format(
+            var deviceId = string.Format(
                     CultureInfo.InvariantCulture,
                     "00000-DEV-{0}C-{1}LK-{2}D-{3}",
                     MAX_COMMANDS_SUPPORTED, 
@@ -85,20 +84,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
                     randomNumber.Next(99999),
                     randomNumber.Next(99999));
 
-            DeviceModel device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, false, null);
+            var device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, false, null);
             device.ObjectName = "IoT Device Description";
 
-            AssignDeviceProperties(deviceId, device);
+            AssignDeviceProperties(device);
             AssignTelemetry(device);
             AssignCommands(device);
 
             return device;
         }
 
-        private static void AssignDeviceProperties(string deviceId, DeviceModel device)
+        private static void AssignDeviceProperties(DeviceModel device)
         {
-            int randomId = rand.Next(0, _possibleDeviceLocations.Count - 1); 
-            DeviceProperties deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
+            int randomId = Rand.Next(0, _possibleDeviceLocations.Count - 1); 
+            var deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
             deviceProperties.HubEnabledState = true;
             deviceProperties.Manufacturer = "Contoso Inc.";
             deviceProperties.ModelNumber = "MD-" + randomId;
@@ -115,35 +114,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         private static void AssignTelemetry(DeviceModel device)
         {
-            Telemetry telemetry = CommandSchemaHelper.CreateNewTelemetry("Temperature", "Temperature", "double");
-            CommandSchemaHelper.AddTelemetryToDevice(device, telemetry);
-
-            telemetry = CommandSchemaHelper.CreateNewTelemetry("Humidity", "Humidity", "double");
-            CommandSchemaHelper.AddTelemetryToDevice(device, telemetry);
+            device.Telemetry.Add(new Telemetry("Temperature", "Temperature", "double"));
+            device.Telemetry.Add(new Telemetry("Humidity", "Humidity", "double"));
         }
 
         private static void AssignCommands(DeviceModel device)
         {
-            Command command = CommandSchemaHelper.CreateNewCommand("PingDevice");
-            CommandSchemaHelper.AddCommandToDevice(device, command);
-            
-            command = CommandSchemaHelper.CreateNewCommand("StartTelemetry");
-            CommandSchemaHelper.AddCommandToDevice(device, command);
-            
-            command = CommandSchemaHelper.CreateNewCommand("StopTelemetry");
-            CommandSchemaHelper.AddCommandToDevice(device, command);
-            
-            command = CommandSchemaHelper.CreateNewCommand("ChangeSetPointTemp");
-            CommandSchemaHelper.DefineNewParameterOnCommand(command, "SetPointTemp", "double");
-            CommandSchemaHelper.AddCommandToDevice(device, command);
-            
-            command = CommandSchemaHelper.CreateNewCommand("DiagnosticTelemetry");
-            CommandSchemaHelper.DefineNewParameterOnCommand(command, "Active", "boolean");
-            CommandSchemaHelper.AddCommandToDevice(device, command);
-            
-            command = CommandSchemaHelper.CreateNewCommand("ChangeDeviceState");
-            CommandSchemaHelper.DefineNewParameterOnCommand(command, "DeviceState", "string");
-            CommandSchemaHelper.AddCommandToDevice(device, command);
+            device.Commands.Add(new Command("PingDevice"));
+            device.Commands.Add(new Command("StartTelemetry"));
+            device.Commands.Add(new Command("StopTelemetry"));
+            device.Commands.Add(new Command("ChangeSetPointTemp", new [] { new Parameter("SetPointTemp", "double") }));
+            device.Commands.Add(new Command("DiagnosticTelemetry", new[] { new Parameter("Active", "boolean") }));
+            device.Commands.Add(new Command("ChangeDeviceState", new[] { new Parameter("DeviceState", "string") }));
         }
 
         public static List<string> GetDefaultDeviceNames()
