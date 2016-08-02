@@ -200,7 +200,6 @@
     <Compile Include="Cooler\Devices\CoolerDevice.cs" />
     <Compile Include="SimulatorCore\Telemetry\ConcreteTelemetry.cs" />
     <Compile Include="SimulatorCore\Telemetry\ITelemetry.cs" />
-    <Compile Include="SimulatorCore\Logging\EmptyLogger.cs" />
     <Compile Include="SimulatorCore\Logging\ILogger.cs" />
     <Compile Include="SimulatorCore\Logging\TraceLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

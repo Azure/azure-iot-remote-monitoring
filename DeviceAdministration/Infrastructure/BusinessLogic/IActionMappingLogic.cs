@@ -9,7 +9,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<bool> IsInitializationNeededAsync();
         Task<bool> InitializeDataIfNecessaryAsync();
         Task<List<ActionMappingExtended>> GetAllMappingsAsync();
-        Task<List<ActionMapping>> GetAllBareMappingsAsync();
         Task<string> GetActionIdFromRuleOutputAsync(string ruleOutput);
         Task SaveMappingAsync(ActionMapping action);
         Task<List<string>> GetAvailableRuleOutputsAsync();

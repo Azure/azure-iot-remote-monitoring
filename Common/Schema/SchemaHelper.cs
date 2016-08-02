@@ -34,27 +34,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Schema
 
             return rid.ToString();
         }
-
-        /// <summary>
-        /// id is used internally by the DocDB and is sometimes required.
-        /// </summary>
-        /// <param name="document">Device data</param>
-        /// <returns>Value of the id, or empty string if not found</returns>
-        public static string GetDocDbId<T>(T document)
-        {
-            if (document == null)
-            {
-                throw new ArgumentNullException("document");
-            }
-
-            var id = ReflectionHelper.GetNamedPropertyValue(document, "id", true, false);
-
-            if (id == null)
-            {
-                return "";
-            }
-
-            return id.ToString();
-        }
     }
 }
