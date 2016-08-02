@@ -71,11 +71,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             builder.RegisterType<MessageFeedbackProcessor>()
                 .As<IMessageFeedbackProcessor>().SingleInstance();
 
-            builder.RegisterType<BlobStorageHelper>()
-                .As<IBlobStorageHelper>();
+            builder.RegisterType<BlobStorageManager>()
+                .As<IBlobStorageManager>();
 
-            builder.RegisterType<AzureTableStorageHelper>()
-                .As<IAzureTableStorageHelper>();
+            builder.RegisterType<AzureTableStorageManager>()
+                .As<IAzureTableStorageManager>();
+
+            builder.RegisterType<CloudTableProvider>()
+                .As<ICloudTableProvider>();
+
+            builder.RegisterType<CloudBlobContainerProvider>()
+                .As<ICloudBlobContainerProvider>();
         }
     }
 }

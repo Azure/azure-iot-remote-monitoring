@@ -2,6 +2,7 @@
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,37 +11,39 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 {
-    public class AzureTableStorageHelper : IAzureTableStorageHelper
+    public class AzureTableStorageManager : IAzureTableStorageManager
     {
-        private readonly string _storageConnectionString;
-        private readonly string _tableName;
-        private CloudTable _table;
+        private readonly ICloudTableProvider _cloudTableProvider;
 
-        public AzureTableStorageHelper(string storageConnectionString, string tableName)
+        public AzureTableStorageManager(string storageConnectionString, string tableName)
         {
-            _storageConnectionString = storageConnectionString;
-            _tableName = tableName;
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_storageConnectionString);
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            _table = tableClient.GetTableReference(_tableName);
+            _cloudTableProvider = new CloudTableProvider(tableClient, tableName);
         }
 
-        public async Task<CloudTable> GetTableAsync()
+        public TableResult Execute(TableOperation tableOperation)
         {
-            await _table.CreateIfNotExistsAsync();
-            return _table;
+            CloudTable table = _cloudTableProvider.GetCloudTable();
+            return table.Execute(tableOperation);
         }
 
-        public CloudTable GetTable()
+        public IEnumerable<T> ExecuteQuery<T>(TableQuery<T> tableQuery) where T : TableEntity, new()
         {
-            _table.CreateIfNotExists();
-            return _table;
+            CloudTable table = _cloudTableProvider.GetCloudTable();
+            return table.ExecuteQuery(tableQuery);
+        }
+
+        public async Task<TableResult> ExecuteAsync(TableOperation operation)
+        {
+            CloudTable table = await _cloudTableProvider.GetCloudTableAsync();
+            return await table.ExecuteAsync(operation);
         }
 
         public async Task<TableStorageResponse<TResult>> DoTableInsertOrReplaceAsync<TResult, TInput>(TInput incomingEntity,
             Func<TInput, TResult> tableEntityToModelConverter) where TInput : TableEntity
         {
-            var table = await GetTableAsync();
+            CloudTable table = await _cloudTableProvider.GetCloudTableAsync();
 
             // Simply doing an InsertOrReplace will not do any concurrency checking, according to 
             // http://azure.microsoft.com/en-us/blog/managing-concurrency-in-microsoft-azure-storage-2/
@@ -60,20 +63,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 operation = TableOperation.Insert(incomingEntity);
             }
 
-            return await PerformTableOperation<TResult, TInput>(table, operation, incomingEntity, tableEntityToModelConverter);
+            return await PerformTableOperation<TResult, TInput>(operation, incomingEntity, tableEntityToModelConverter);
         }
 
         public async Task<TableStorageResponse<TResult>> DoDeleteAsync<TResult, TInput>(TInput incomingEntity,
             Func<TInput, TResult> tableEntityToModelConverter) where TInput : TableEntity
         {
-            var azureTable = await GetTableAsync();
             TableOperation operation = TableOperation.Delete(incomingEntity);
-            return await PerformTableOperation<TResult, TInput>(azureTable, operation, incomingEntity, tableEntityToModelConverter);
+            return await PerformTableOperation<TResult, TInput>(operation, incomingEntity, tableEntityToModelConverter);
         }
 
-        private async Task<TableStorageResponse<TResult>> PerformTableOperation<TResult, TInput>(CloudTable table,
-            TableOperation operation, TInput incomingEntity, Func<TInput, TResult> tableEntityToModelConverter) where TInput : TableEntity
+        private async Task<TableStorageResponse<TResult>> PerformTableOperation<TResult, TInput>(TableOperation operation, TInput incomingEntity, Func<TInput, TResult> tableEntityToModelConverter) where TInput : TableEntity
         {
+            CloudTable table = await _cloudTableProvider.GetCloudTableAsync();
             var result = new TableStorageResponse<TResult>();
 
             try

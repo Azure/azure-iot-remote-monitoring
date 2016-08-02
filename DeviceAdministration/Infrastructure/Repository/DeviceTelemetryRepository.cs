@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     {
         private readonly string _telemetryDataPrefix;
         private readonly string _telemetrySummaryPrefix;
-        private readonly IBlobStorageHelper _blobStorageHelper;
+        private readonly IBlobStorageManager _blobStorageHelper;
 
         /// <summary>
         /// Initializes a new instance of the DeviceTelemetryRepository class.
@@ -41,7 +41,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _telemetryDataPrefix = configProvider.GetConfigurationSettingValue("TelemetryDataPrefix");
             string telemetryStoreConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
             _telemetrySummaryPrefix = configProvider.GetConfigurationSettingValue("TelemetrySummaryPrefix");
-            _blobStorageHelper = new BlobStorageHelper(telemetryStoreConnectionString,telemetryContainerName);
+            _blobStorageHelper = new BlobStorageManager(telemetryStoreConnectionString,telemetryContainerName);
         }
 
         /// <summary>

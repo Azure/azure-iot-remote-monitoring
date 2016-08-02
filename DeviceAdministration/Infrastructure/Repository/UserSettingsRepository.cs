@@ -17,21 +17,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly string _storageAccountConnectionString;
         private const string _settingsTableName = "UserSettings";
         private const string _settingsTablePartitionKey = "settings";
-        private readonly IAzureTableStorageHelper _azureTableStorageHelper;
+        private readonly IAzureTableStorageManager _azureTableStorageHelper;
 
         public UserSettingsRepository(IConfigurationProvider configProvider)
         {
             _storageAccountConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
-            _azureTableStorageHelper = new AzureTableStorageHelper(_storageAccountConnectionString, _settingsTableName);
+            _azureTableStorageHelper = new AzureTableStorageManager(_storageAccountConnectionString, _settingsTableName);
         }
 
         public async Task<UserSetting> GetUserSettingValueAsync(string settingKey)
         {
-            var settingsTable = await _azureTableStorageHelper.GetTableAsync();
             TableOperation query = TableOperation.Retrieve<UserSettingTableEntity>(_settingsTablePartitionKey, settingKey);
 
             TableResult response = await Task.Run(() =>
-                settingsTable.Execute(query)
+                _azureTableStorageHelper.Execute(query)
             );
 
             UserSetting result = null;

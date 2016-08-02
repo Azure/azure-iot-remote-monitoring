@@ -27,7 +27,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private const string RULE_OUTPUT_COLUMN_NAME = "ruleoutput";
         private const string TIME_COLUMN_NAME = "time";
 
-        private readonly IBlobStorageHelper _blobStorageHelper;
+        private readonly IBlobStorageManager _blobStorageHelper;
         private readonly string deviceAlertsDataPrefix;
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             string alertsContainerConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
             string alertsStoreContainerName = configProvider.GetConfigurationSettingValue("AlertsStoreContainerName");
-            this._blobStorageHelper = new BlobStorageHelper(alertsContainerConnectionString, alertsStoreContainerName);
+            this._blobStorageHelper = new BlobStorageManager(alertsContainerConnectionString, alertsStoreContainerName);
             this.deviceAlertsDataPrefix =configProvider.GetConfigurationSettingValue("DeviceAlertsDataPrefix");
         }
 

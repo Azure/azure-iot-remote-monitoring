@@ -14,14 +14,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class ActionMappingRepository : IActionMappingRepository
     {
         private readonly string _blobName;
-        private readonly IBlobStorageHelper _blobStorageHelper;
+        private readonly IBlobStorageManager _blobStorageHelper;
 
         public ActionMappingRepository(IConfigurationProvider configurationProvider)
         {
             string connectionString = configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString");
             string containerName = configurationProvider.GetConfigurationSettingValue("ActionMappingStoreContainerName");
             _blobName = configurationProvider.GetConfigurationSettingValue("ActionMappingStoreBlobName");
-            _blobStorageHelper = new BlobStorageHelper(connectionString, containerName);
+            _blobStorageHelper = new BlobStorageManager(connectionString, containerName);
         }
 
         public async Task<List<ActionMapping>> GetAllMappingsAsync()

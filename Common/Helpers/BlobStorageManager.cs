@@ -10,15 +10,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
     /// <summary>
     /// Helper methods, related to blob storage.
     /// </summary>
-    public class BlobStorageHelper : IBlobStorageHelper
+    public class BlobStorageManager : IBlobStorageManager
     {
-        private readonly string _connectionString;
-        private readonly string _containerName;
+        private readonly ICloudBlobContainerProvider _blobContainerProvider;
 
-        public BlobStorageHelper(string connectionString, string containerName)
+        public BlobStorageManager(string connectionString, string containerName)
         {
-            _connectionString = connectionString;
-            _containerName = containerName;
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            _blobContainerProvider = new CloudBlobContainerProvider(blobClient, containerName);
         }
 
         /// <summary>
@@ -36,31 +36,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// </returns>
         public async Task<CloudBlobContainer> BuildBlobContainerAsync()
         {
-            if (string.IsNullOrEmpty(_connectionString))
-            {
-                throw new ArgumentException(
-                    "connectionString is a null reference or empty string.",
-                    "connectionString");
-            }
-
-            if (object.ReferenceEquals(_containerName, null))
-            {
-                throw new ArgumentNullException(_containerName);
-            }
-
-            CloudStorageAccount storageAccount;
-            if (!CloudStorageAccount.TryParse(_connectionString, out storageAccount))
-            {
-                throw new ArgumentException(
-                    "connectionString is not a valid Cloud Storage Account connection string.", "connectionString");
-            }
-
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-            CloudBlobContainer container = blobClient.GetContainerReference(_containerName);
-            await container.CreateIfNotExistsAsync();
-
-            return container;
+            return await _blobContainerProvider.GetCloudBlobContainerAsync();
         }
 
         /// <summary>

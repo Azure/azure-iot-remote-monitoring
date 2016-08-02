@@ -5,7 +5,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 {
-    public interface IBlobStorageHelper
+    public interface IBlobStorageManager
     {
         Task<CloudBlobContainer> BuildBlobContainerAsync();
         DateTime? ExtractBlobItemDate(IListBlobItem blobItem);
