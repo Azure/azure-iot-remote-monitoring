@@ -169,7 +169,12 @@
     <Compile Include="Helpers\BlobStorageHelper.cs" />
     <Compile Include="Mapper\TypeMapper.cs" />
     <Compile Include="Mapper\MappingValidator.cs" />
+    <Compile Include="Models\CommandHistory.cs" />
     <Compile Include="Models\DeviceModel.cs" />
+    <Compile Include="Models\DeviceProperties.cs" />
+    <Compile Include="Models\IoTHub.cs" />
+    <Compile Include="Models\SystemProperties.cs" />
+    <Compile Include="Models\Telemetry.cs" />
     <Compile Include="Schema\SchemaHelper.cs" />
     <Compile Include="Utility\DocDbQueryResult.cs" />
     <Compile Include="Helpers\FunctionalHelper.cs" />

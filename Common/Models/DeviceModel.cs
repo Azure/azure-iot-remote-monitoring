@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Newtonsoft.Json;
 
@@ -27,83 +26,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 
         public override string ToString()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        }
-    }
-
-    public class DeviceProperties
-    {
-        public string DeviceID { get; set; }
-        public bool? HubEnabledState { get; set; }
-        public DateTime? CreatedTime { get; set; }
-        public string DeviceState { get; set; }
-        public DateTime? UpdatedTime { get; set; }
-        public string Manufacturer { get; set; }
-        public string ModelNumber { get; set; }
-        public string SerialNumber { get; set; }
-        public string FirmwareVersion { get; set; }
-        public string AvailablePowerSources { get; set; }
-        public string PowerSourceVoltage { get; set; }
-        public string BatteryLevel { get; set; }
-        public string MemoryFree { get; set; }
-        public string HostName { get; set; }
-        public string Platform { get; set; }
-        public string Processor { get; set; }
-        public string InstalledRAM { get; set; }
-        public double? Latitude { get; set; }
-        public double? Longitude { get; set; }
-        public override string ToString()
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        }
-    }
-
-    public class IoTHub
-    {
-        public string MessageId { get; set; }
-        public string CorrelationId { get; set; }
-        public string ConnectionDeviceId { get; set; }
-        public string ConnectionDeviceGenerationId { get; set; }
-        public DateTime EnqueuedTime { get; set; }
-        public string StreamId { get; set; }
-        public override string ToString()
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        }
-    }
-
-    public class Telemetry
-    {
-        public string Name { get; set; }
-        public string DisplayName { get; set; }
-        public string Type { get; set; }
-        public override string ToString()
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        }
-    }
-
-    public class SystemProperties
-    {
-        public string ICCID { get; set; }
-        public override string ToString()
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        }
-    }
-
-    public class CommandHistory
-    {
-        public string Name { get; set; }
-        public string MessageId { get; set; }
-        public DateTime CreatedTime { get; set; }
-        public DateTime UpdatedTime { get; set; }
-        public string Result { get; set; }
-        public string ErrorMessage { get; set; }
-        public dynamic Parameters { get; set; }
-        public override string ToString()
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

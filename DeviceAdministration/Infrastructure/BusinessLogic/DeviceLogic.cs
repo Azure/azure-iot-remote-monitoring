@@ -294,31 +294,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns></returns>
         private async Task<CommandHistory> SendCommandAsyncWithDevice(DeviceModel device, string commandName, dynamic parameters)
         {
-            string deviceId;
-
             if (device == null)
             {
                 throw new ArgumentNullException("device");
             }
 
-            bool canDevicePerformCommand = CommandSchemaHelper.CanDevicePerformCommand(device, commandName);
-
-            deviceId = device.DeviceProperties.DeviceID;
+            var deviceId = device.DeviceProperties.DeviceID;
+            var canDevicePerformCommand = CommandSchemaHelper.CanDevicePerformCommand(device, commandName);
 
             if (!canDevicePerformCommand)
             {
                 throw new UnsupportedCommandException(deviceId, commandName);
             }
 
-            CommandHistory command = CommandHistorySchemaHelper.BuildNewCommandHistoryItem(commandName);
-            CommandHistorySchemaHelper.AddParameterCollectionToCommandHistoryItem(command, parameters);
+            var commandHistory = new CommandHistory(commandName, parameters);
 
-            device.CommandHistory.Add(command);
+            device.CommandHistory.Add(commandHistory);
 
-            await _iotHubRepository.SendCommand(deviceId, command);
+            await _iotHubRepository.SendCommand(deviceId, commandHistory);
             await _deviceRegistryCrudRepository.UpdateDeviceAsync(device);
 
-            return command;
+            return commandHistory;
         }
 
         public async Task<DeviceModel> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
