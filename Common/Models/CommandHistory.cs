@@ -64,6 +64,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
                 }
                 Parameters = newParam;
             }
+            else
+            {
+                Parameters = parameters;
+            }
         }
 
         /// <summary>
