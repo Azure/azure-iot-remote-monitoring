@@ -28,7 +28,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     public class DeviceController : Controller
     {
         private readonly IApiRegistrationRepository _apiRegistrationRepository;
-        private readonly IExternalCellularService _cellularService;
         private readonly IDeviceLogic _deviceLogic;
         private readonly IDeviceTypeLogic _deviceTypeLogic;
         private readonly ICellularExtensions _cellularExtensions;
@@ -37,13 +36,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public DeviceController(IDeviceLogic deviceLogic, IDeviceTypeLogic deviceTypeLogic,
             IConfigurationProvider configProvider,
-            IExternalCellularService cellularService,
             IApiRegistrationRepository apiRegistrationRepository,
             ICellularExtensions cellularExtensions)
         {
             _deviceLogic = deviceLogic;
             _deviceTypeLogic = deviceTypeLogic;
-            _cellularService = cellularService;
             _apiRegistrationRepository = apiRegistrationRepository;
             _cellularExtensions = cellularExtensions;
 
@@ -71,7 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 try
                 {
                     List<DeviceModel> devices = await GetDevices();
-                    ViewBag.AvailableIccids = _cellularExtensions.GetListOfAvailableIccids(_cellularService, devices);
+                    ViewBag.AvailableIccids = _cellularExtensions.GetListOfAvailableIccids(devices);
                     ViewBag.CanHaveIccid = true;
                 }
                 catch (CellularConnectivityException)
@@ -112,7 +109,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 try
                 {
                     List<DeviceModel> devices = await GetDevices();
-                    ViewBag.AvailableIccids = _cellularExtensions.GetListOfAvailableIccids(_cellularService, devices);
+                    ViewBag.AvailableIccids = _cellularExtensions.GetListOfAvailableIccids(devices);
                     ViewBag.CanHaveIccid = true;
                 }
                 catch (CellularConnectivityException)
@@ -287,8 +284,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public ActionResult GetDeviceCellularDetails(string iccid)
         {
             var viewModel = new SimInformationViewModel();
-            viewModel.TerminalDevice = _cellularService.GetSingleTerminalDetails(new Iccid(iccid));
-            viewModel.SessionInfo = _cellularService.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ??
+            viewModel.TerminalDevice = this._cellularExtensions.GetSingleTerminalDetails(new Iccid(iccid));
+            viewModel.SessionInfo = this._cellularExtensions.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ??
                                     new SessionInfo();
 
             return PartialView("_CellularInformation", viewModel);

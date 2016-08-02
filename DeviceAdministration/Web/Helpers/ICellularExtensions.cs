@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
-using DeviceManagement.Infrustructure.Connectivity.Services;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 {
     public interface ICellularExtensions
     {
-        IEnumerable<string> GetListOfAvailableIccids(IExternalCellularService cellularService, IList<DeviceModel> devices);
-        IEnumerable<string> GetListOfAvailableDeviceIDs(IExternalCellularService cellularService, IList<DeviceModel> devices);
+        List<Iccid> GetTerminals();
+        Terminal GetSingleTerminalDetails(Iccid iccid);
+        List<SessionInfo> GetSingleSessionInfo(Iccid iccid);
+        IEnumerable<string> GetListOfAvailableIccids(IList<DeviceModel> devices);
+        IEnumerable<string> GetListOfAvailableDeviceIDs(IList<DeviceModel> devices);
     }
 }

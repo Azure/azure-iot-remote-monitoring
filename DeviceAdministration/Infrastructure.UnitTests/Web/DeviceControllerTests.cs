@@ -24,7 +24,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     {
         private readonly DeviceController deviceController;
         private readonly Mock<IApiRegistrationRepository> apiRegistrationRepository;
-        private readonly Mock<IExternalCellularService> cellularServiceMock;
         private readonly Mock<IDeviceLogic> deviceLogicMock;
         private readonly Mock<ICellularExtensions> cellulerExtensionsMock;
         private readonly Fixture fixture;
@@ -34,7 +33,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             this.deviceLogicMock = new Mock<IDeviceLogic>();
             IDeviceTypeLogic deviceTypeLogic = new DeviceTypeLogic(new SampleDeviceTypeRepository());
             var configProviderMock = new Mock<IConfigurationProvider>();
-            this.cellularServiceMock = new Mock<IExternalCellularService>();
             this.cellulerExtensionsMock = new Mock<ICellularExtensions>();
             this.apiRegistrationRepository = new Mock<IApiRegistrationRepository>();
 
@@ -42,7 +40,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             this.deviceController = new DeviceController(this.deviceLogicMock.Object,
                                                          deviceTypeLogic,
                                                          configProviderMock.Object,
-                                                         this.cellularServiceMock.Object,
                                                          this.apiRegistrationRepository.Object,
                                                          this.cellulerExtensionsMock.Object);
 
@@ -74,7 +71,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             this.apiRegistrationRepository.Setup(repo => repo.IsApiRegisteredInAzure()).Returns(true);
             this.deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(devices);
-            this.cellulerExtensionsMock.Setup(mock => mock.GetListOfAvailableIccids(this.cellularServiceMock.Object, It.IsAny<List<DeviceModel>>()))
+            this.cellulerExtensionsMock.Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>()))
                 .Returns(iccids);
 
             var result = await this.deviceController.SelectType(deviceType);
@@ -98,7 +95,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             //GetListOfAvailableIccids throws
             this.apiRegistrationRepository.Setup(repo => repo.IsApiRegisteredInAzure()).Returns(true);
-            this.cellulerExtensionsMock.Setup(mock => mock.GetListOfAvailableIccids(this.cellularServiceMock.Object, It.IsAny<List<DeviceModel>>()))
+            this.cellulerExtensionsMock.Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>()))
                 .Throws(new CellularConnectivityException(new Exception()));
             result = await this.deviceController.SelectType(deviceType);
             viewResult = result as PartialViewResult;
@@ -206,8 +203,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var iccId = this.fixture.Create<string>();
             var terminalDevice = this.fixture.Create<Terminal>();
             var sessionInfo = this.fixture.Create<List<SessionInfo>>();
-            this.cellularServiceMock.Setup(mock => mock.GetSingleTerminalDetails(It.IsAny<Iccid>())).Returns(terminalDevice);
-            this.cellularServiceMock.Setup(mock => mock.GetSingleSessionInfo(It.IsAny<Iccid>())).Returns(sessionInfo);
+            this.cellulerExtensionsMock.Setup(mock => mock.GetSingleTerminalDetails(It.IsAny<Iccid>())).Returns(terminalDevice);
+            this.cellulerExtensionsMock.Setup(mock => mock.GetSingleSessionInfo(It.IsAny<Iccid>())).Returns(sessionInfo);
 
             var result = this.deviceController.GetDeviceCellularDetails(iccId);
             var viewResult = result as PartialViewResult;
