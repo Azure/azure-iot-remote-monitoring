@@ -22,7 +22,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             _tableName = tableName;
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_storageConnectionString);
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            CloudTable table = tableClient.GetTableReference(_tableName);
+            _table = tableClient.GetTableReference(_tableName);
         }
 
         public async Task<CloudTable> GetTableAsync()
