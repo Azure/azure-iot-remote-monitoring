@@ -74,6 +74,10 @@
       <HintPath>..\..\packages\AutoFixture.3.49.0\lib\net40\Ploeh.AutoFixture.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ploeh.AutoFixture.AutoMoq">
+      <HintPath>..\..\packages\AutoFixture.AutoMoq.3.49.0\lib\net40\Ploeh.AutoFixture.AutoMoq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp">
@@ -132,6 +136,7 @@
     <Compile Include="Infrastructure\DeviceTelemetryLogicTest.cs" />
     <Compile Include="Infrastructure\FilterHelperTests.cs" />
     <Compile Include="Infrastructure\IoTHubRepositoryTests.cs" />
+    <Compile Include="Infrastructure\SampleDeviceTypeRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\SampleDataGeneratorTests.cs" />
     <Compile Include="TestStubs\HttpMessageHandlerStub.cs" />
@@ -151,6 +156,10 @@
     <ProjectReference Include="..\..\Common\Common.csproj">
       <Project>{5959c109-5369-4ff7-8b55-605a79fdf200}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Simulator\Simulator.WebJob\Simulator.WebJob.csproj">
+      <Project>{8F0FF371-2306-4210-9C22-0D0657B595DC}</Project>
+      <Name>Simulator.WebJob</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{54B5B211-B661-42E9-AF2D-87712A37D608}</Project>
