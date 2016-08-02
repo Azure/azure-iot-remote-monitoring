@@ -224,7 +224,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Register this solution with your Jasper Control Center platform credentials to authenticate Jasper API use..
+        ///   Looks up a localized string similar to Register this solution with the API from your cellular connectivity provider by selecting from the dropdown and cpressing &quot;Create&quot;.
         /// </summary>
         public static string ApiRegistrationDescription {
             get {
@@ -256,6 +256,24 @@ namespace GlobalResources {
         public static string ApiRegistrationNotAvailable {
             get {
                 return ResourceManager.GetString("ApiRegistrationNotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ericsson.
+        /// </summary>
+        public static string ApiRegistrationSelectOptionEricsson {
+            get {
+                return ResourceManager.GetString("ApiRegistrationSelectOptionEricsson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jasper .
+        /// </summary>
+        public static string ApiRegistrationSelectOptionJasper {
+            get {
+                return ResourceManager.GetString("ApiRegistrationSelectOptionJasper", resourceCulture);
             }
         }
         

@@ -1516,7 +1516,7 @@
     <comment>(Unused)</comment>
   </data>
   <data name="ApiRegistrationDescription" xml:space="preserve">
-    <value>Register this solution with your Jasper Control Center platform credentials to authenticate Jasper API use.</value>
+    <value>Register this solution with the API from your cellular connectivity provider by selecting from the dropdown and cpressing "Create"</value>
     <comment>Tile subheading.</comment>
   </data>
   <data name="ApiRegistrationTitle" xml:space="preserve">
@@ -1669,5 +1669,12 @@
   </data>
   <data name="InvalidDeviceTelemetryFormat" xml:space="preserve">
     <value>Device {0} has an invalid Telemetry specification on its DeviceInfo</value>
+  </data>
+  <data name="ApiRegistrationSelectOptionEricsson" xml:space="preserve">
+    <value>Ericsson</value>
+  </data>
+  <data name="ApiRegistrationSelectOptionJasper" xml:space="preserve">
+    <value>Jasper </value>
+    <comment>Error message.</comment>
   </data>
 </root>
