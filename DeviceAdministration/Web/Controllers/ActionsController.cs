@@ -48,13 +48,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [RequirePermission(Permission.AssignAction)]
-        public async Task UpdateAction(string ruleOutput, string actionId)
+        public async Task<ActionMapping> UpdateAction(string ruleOutput, string actionId)
         {
             var actionMapping = new ActionMapping();
 
             actionMapping.RuleOutput = ruleOutput;
             actionMapping.ActionId = actionId;
             await _actionMappingLogic.SaveMappingAsync(actionMapping);
+            return actionMapping;
         }
 
         private async Task<List<SelectListItem>> ActionListItems()
