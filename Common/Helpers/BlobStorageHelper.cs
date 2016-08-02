@@ -10,7 +10,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
     /// <summary>
     /// Helper methods, related to blob storage.
     /// </summary>
-    public static class BlobStorageHelper
+    public class BlobStorageHelper : IBlobStorageHelper
     {
         /// <summary>
         /// Builds a CloudBlobContainer from provided settings.
@@ -25,7 +25,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// <returns>
         /// A CloudBlobContainer, built from provided settings.
         /// </returns>
-        public static async Task<CloudBlobContainer> BuildBlobContainerAsync(
+        public async Task<CloudBlobContainer> BuildBlobContainerAsync(
             string connectionString,
             string containerName)
         {
@@ -66,7 +66,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// blobItem's last modified date, or null, of such could not be 
         /// extracted.
         /// </returns>
-        public static DateTime? ExtractBlobItemDate(IListBlobItem blobItem)
+        public DateTime? ExtractBlobItemDate(IListBlobItem blobItem)
         {
             if (blobItem == null)
             {
@@ -108,7 +108,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// <returns>
         /// A concattenation of all the blob listing's resulting segments.
         /// </returns>
-        public static async Task<IEnumerable<IListBlobItem>> LoadBlobItemsAsync(
+        public async Task<IEnumerable<IListBlobItem>> LoadBlobItemsAsync(
             Func<BlobContinuationToken, Task<BlobResultSegment>> segmentLoader)
         {
             if (segmentLoader == null)

@@ -31,13 +31,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly string _deviceRulesBlobStoreContainerName;
         private readonly string _deviceRulesNormalizedTableName;
         private readonly string _blobName;
+        private readonly IBlobStorageHelper _blobStorageHelper;
 
         private DateTimeFormatInfo _formatInfo;
 
-        public DeviceRulesRepository(IConfigurationProvider configurationProvider)
+        public DeviceRulesRepository(IConfigurationProvider configurationProvider, IBlobStorageHelper blobStorageHelper)
         {
             _configurationProvider = configurationProvider;
-
+            _blobStorageHelper = blobStorageHelper;
             _storageAccountConnectionString = configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString");
             _deviceRulesBlobStoreContainerName = configurationProvider.GetConfigurationSettingValue("DeviceRulesStoreContainerName");
             _deviceRulesNormalizedTableName = configurationProvider.GetConfigurationSettingValue("DeviceRulesTableName");
@@ -260,7 +261,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private const int blobSaveMinutesInTheFuture = 2;
         private async Task PersistRulesToBlobStorageAsync(List<DeviceRuleBlobEntity> blobList)
         {
-            CloudBlobContainer container = await BlobStorageHelper.BuildBlobContainerAsync(_storageAccountConnectionString, _deviceRulesBlobStoreContainerName);
+            CloudBlobContainer container = await this._blobStorageHelper.BuildBlobContainerAsync(_storageAccountConnectionString, _deviceRulesBlobStoreContainerName);
 
             string updatedJson = JsonConvert.SerializeObject(blobList);
             DateTime saveDate = DateTime.UtcNow.AddMinutes(blobSaveMinutesInTheFuture);

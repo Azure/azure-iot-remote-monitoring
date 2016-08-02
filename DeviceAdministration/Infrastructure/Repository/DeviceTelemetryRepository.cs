@@ -23,6 +23,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly string _telemetryDataPrefix;
         private readonly string _telemetryStoreConnectionString;
         private readonly string _telemetrySummaryPrefix;
+        private readonly IBlobStorageHelper _blobStorageHelper;
 
         /// <summary>
         /// Initializes a new instance of the DeviceTelemetryRepository class.
@@ -31,13 +32,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// The IConfigurationProvider implementation with which to initialize 
         /// the new instance.
         /// </param>
-        public DeviceTelemetryRepository(IConfigurationProvider configProvider)
+        public DeviceTelemetryRepository(IConfigurationProvider configProvider, IBlobStorageHelper blobStorageHelper)
         {
             if (configProvider == null)
             {
                 throw new ArgumentNullException("configProvider");
             }
 
+            if (blobStorageHelper == null)
+            {
+                throw new ArgumentNullException("configProvider");
+            }
+
+            _blobStorageHelper = blobStorageHelper;
             _telemetryContainerName = configProvider.GetConfigurationSettingValue("TelemetryStoreContainerName");
             _telemetryDataPrefix = configProvider.GetConfigurationSettingValue("TelemetryDataPrefix");
             _telemetryStoreConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
@@ -65,10 +72,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             IEnumerable<DeviceTelemetryModel> result = new DeviceTelemetryModel[0];
 
             CloudBlobContainer container =
-                await BlobStorageHelper.BuildBlobContainerAsync(this._telemetryStoreConnectionString, _telemetryContainerName);
+                await this._blobStorageHelper.BuildBlobContainerAsync(this._telemetryStoreConnectionString, _telemetryContainerName);
 
             IEnumerable<IListBlobItem> blobs =
-                await BlobStorageHelper.LoadBlobItemsAsync(
+                await this._blobStorageHelper.LoadBlobItemsAsync(
                     async (token) =>
                     {
                         return await container.ListBlobsSegmentedAsync(
@@ -82,7 +89,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     });
 
             blobs = blobs
-                .OrderByDescending(t => BlobStorageHelper.ExtractBlobItemDate(t));
+                .OrderByDescending(t => this._blobStorageHelper.ExtractBlobItemDate(t));
 
             CloudBlockBlob blockBlob;
             IEnumerable<DeviceTelemetryModel> blobModels;
@@ -164,12 +171,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             DeviceTelemetrySummaryModel summaryModel = null;
 
             CloudBlobContainer container =
-                await BlobStorageHelper.BuildBlobContainerAsync(
+                await this._blobStorageHelper.BuildBlobContainerAsync(
                     this._telemetryStoreConnectionString,
                     _telemetryContainerName);
 
             IEnumerable<IListBlobItem> blobs =
-                await BlobStorageHelper.LoadBlobItemsAsync(
+                await this._blobStorageHelper.LoadBlobItemsAsync(
                     async (token) =>
                     {
                         return await container.ListBlobsSegmentedAsync(
@@ -182,7 +189,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                             null);
                     });
 
-            blobs = blobs.OrderByDescending(t => BlobStorageHelper.ExtractBlobItemDate(t));
+            blobs = blobs.OrderByDescending(t => this._blobStorageHelper.ExtractBlobItemDate(t));
 
             IEnumerable<DeviceTelemetrySummaryModel> blobModels;
             CloudBlockBlob blockBlob;
