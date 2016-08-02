@@ -300,9 +300,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             var deviceId = device.DeviceProperties.DeviceID;
-            var canDevicePerformCommand = CommandSchemaHelper.CanDevicePerformCommand(device, commandName);
-
-            if (!canDevicePerformCommand)
+            if (device.Commands.FirstOrDefault(x => x.Name == commandName) == null)
             {
                 throw new UnsupportedCommandException(deviceId, commandName);
             }
