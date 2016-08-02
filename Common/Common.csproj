@@ -157,7 +157,6 @@
     <Compile Include="Configurations\ConfigurationProvider.cs" />
     <Compile Include="Configurations\EnvironmentDescription.cs" />
     <Compile Include="Configurations\IConfigurationProvider.cs" />
-    <Compile Include="DeviceSchema\CommandHistorySchemaHelper.cs" />
     <Compile Include="DeviceSchema\CommandSchemaHelper.cs" />
     <Compile Include="DeviceSchema\DeviceSchemaHelper.cs" />
     <Compile Include="DeviceSchema\EventSchemaHelper.cs" />
@@ -171,7 +170,12 @@
     <Compile Include="Helpers\IBlobStorageHelper.cs" />
     <Compile Include="Mapper\TypeMapper.cs" />
     <Compile Include="Mapper\MappingValidator.cs" />
+    <Compile Include="Models\CommandHistory.cs" />
     <Compile Include="Models\DeviceModel.cs" />
+    <Compile Include="Models\DeviceProperties.cs" />
+    <Compile Include="Models\IoTHub.cs" />
+    <Compile Include="Models\SystemProperties.cs" />
+    <Compile Include="Models\Telemetry.cs" />
     <Compile Include="Schema\SchemaHelper.cs" />
     <Compile Include="Utility\DocDbQueryResult.cs" />
     <Compile Include="Helpers\FunctionalHelper.cs" />
