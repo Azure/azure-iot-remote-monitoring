@@ -189,9 +189,7 @@
     <Compile Include="Models\ApiRegistrationModel.cs" />
     <Compile Include="Models\ApiRegistrationTableEntity.cs" />
     <Compile Include="Models\Commands\Command.cs" />
-    <Compile Include="Models\Commands\DeviceCommandConstants.cs" />
     <Compile Include="Models\DeviceListEntity.cs" />
-    <Compile Include="Models\DeviceModelConstants.cs" />
     <Compile Include="Models\DeviceRuleTableEntity.cs" />
     <Compile Include="Models\InitialDeviceConfig.cs" />
     <Compile Include="Models\Parameter.cs" />
