@@ -32,7 +32,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void Index()
+        public async void IndexTest()
         {
             var deviceID = this.fixture.Create<string>();
             var device = this.fixture.Create<DeviceModel>();
@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public void Command()
+        public void CommandTest()
         {
             var deviceId = this.fixture.Create<string>();
             var command = this.fixture.Create<Command>();
@@ -66,7 +66,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void SendCommand()
+        public async void SendCommandTest()
         {
             var parameters = this.fixture.Create<object>();
             var commandModel = this.fixture.Create<CommandModel>();
@@ -84,7 +84,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void ResendCommand()
+        public async void ResendCommandTest()
         {
             var deviceId = this.fixture.Create<string>();
             var name = this.fixture.Create<string>();

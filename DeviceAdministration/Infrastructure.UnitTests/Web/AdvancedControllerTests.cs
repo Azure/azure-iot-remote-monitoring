@@ -40,7 +40,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public void CellularConn()
+        public void CellularConnTest()
         {
             var result = this.advancedController.CellularConn();
             var view = result as ViewResult;
@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void ApiRegistration()
+        public async void ApiRegistrationTest()
         {
             var regModel = this.fixture.Create<ApiRegistrationModel>();
             this.apiRegMock.Setup(mock => mock.RecieveDetails()).Returns(regModel);
@@ -88,7 +88,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void AssociateIccidWithDevice()
+        public async void AssociateIccidWithDeviceTest()
         {
             var deviceID = this.fixture.Create<string>();
             var iccID = this.fixture.Create<string>();
@@ -99,16 +99,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             this.deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceID)).ReturnsAsync(device);
             this.deviceLogicMock.Setup(mock => mock.UpdateDeviceAsync(It.IsAny<DeviceModel>())).ReturnsAsync(new DeviceModel());
 
-            var result = await this.advancedController.AssociateIccidWithDevice(deviceID, iccID);
-            Assert.Equal(result.DeviceProperties.DeviceID, deviceID);
-            Assert.Equal(result.SystemProperties.ICCID, iccID);
-
+            await this.advancedController.AssociateIccidWithDevice(deviceID, iccID);
+            
             device.SystemProperties.ICCID = iccID;
             this.deviceLogicMock.Verify(mock => mock.UpdateDeviceAsync(device), Times.Once());
         }
 
         [Fact]
-        public async void RemoveIccidFromDevice()
+        public async void RemoveIccidFromDeviceTest()
         {
             var deviceID = this.fixture.Create<string>();
             var device = this.fixture.Create<DeviceModel>();
@@ -117,13 +115,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             this.deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceID)).ReturnsAsync(device);
             this.deviceLogicMock.Setup(mock => mock.UpdateDeviceAsync(It.IsAny<DeviceModel>())).ReturnsAsync(new DeviceModel());
 
-            var result = await this.advancedController.RemoveIccidFromDevice(deviceID);
-            Assert.Equal(result.DeviceProperties.DeviceID, deviceID);
-            Assert.Equal(result.SystemProperties.ICCID, null);
+            await this.advancedController.RemoveIccidFromDevice(deviceID);
+            device.SystemProperties.ICCID = null;
+            this.deviceLogicMock.Verify(mock => mock.UpdateDeviceAsync(device), Times.Once());
         }
 
         [Fact]
-        public async void SaveRegistration()
+        public async void SaveRegistrationTest()
         {
             var apiRegModel = this.fixture.Create<ApiRegistrationModel>();
             this.apiRegMock.Setup(mock => mock.AmendRegistration(apiRegModel)).Returns(true);

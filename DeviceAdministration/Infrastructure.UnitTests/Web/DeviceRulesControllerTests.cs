@@ -26,7 +26,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void Index()
+        public async void IndexTest()
         {
             var result = this.deviceRulesController.Index();
             var view = result as ViewResult;
@@ -34,7 +34,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void GetRuleProperties()
+        public async void GetRulePropertiesTest()
         {
             var deviceId = this.fixture.Create<string>();
             var ruleId = this.fixture.Create<string>();
@@ -53,7 +53,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void UpdateRuleProperties()
+        public async void UpdateRulePropertiesTest()
         {
             var model = this.fixture.Create<EditDeviceRuleModel>();
             model.Threshold = null;
@@ -91,7 +91,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void GetNewRule()
+        public async void GetNewRuleTest()
         {
             var deviceId = this.fixture.Create<string>();
             var rule = this.fixture.Create<DeviceRule>();
@@ -102,7 +102,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void UpdateRuleEnabledState()
+        public async void UpdateRuleEnabledStateTest()
         {
             var ruleModel = this.fixture.Create<EditDeviceRuleModel>();
             var response = this.fixture.Create<TableStorageResponse<DeviceRule>>();
@@ -118,7 +118,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void DeleteDeviceRule()
+        public async void DeleteDeviceRuleTest()
         {
             var response = this.fixture.Create<TableStorageResponse<DeviceRule>>();
             response.Status = TableStorageResponseStatus.Successful;
@@ -134,7 +134,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void EditRuleProperties()
+        public async void EditRulePropertiesTest()
         {
             var deviceId = this.fixture.Create<string>();
             string ruleId = null;

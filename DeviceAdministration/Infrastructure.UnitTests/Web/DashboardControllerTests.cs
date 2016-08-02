@@ -32,7 +32,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void Index()
+        public async void IndexTest()
         {
             var querRes = this.fixture.Create<DeviceListQueryResult>();
             var key = this.fixture.Create<string>();

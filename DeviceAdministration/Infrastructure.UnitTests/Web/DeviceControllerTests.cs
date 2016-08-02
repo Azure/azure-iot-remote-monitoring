@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void AddDeviceTest()
+        public async void AddDeviceTestTest()
         {
             var result = await this.deviceController.AddDevice();
             var viewResult = result as ViewResult;
@@ -66,7 +66,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void SelectType()
+        public async void SelectTypeTest()
         {
             var deviceType = this.fixture.Create<DeviceType>();
             var devices = this.fixture.Create<DeviceListQueryResult>();
@@ -110,7 +110,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void AddDeviceCreate()
+        public async void AddDeviceCreateTest()
         {
             var button = this.fixture.Create<string>();
             var deviceModel = this.fixture.Create<UnregisteredDeviceModel>();
@@ -130,7 +130,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void EditDeviceProperties()
+        public async void EditDevicePropertiesTest()
         {
             var editModel = this.fixture.Create<EditDevicePropertiesModel>();
             this.deviceLogicMock.Setup(mock => mock.GetDeviceAsync(It.IsAny<string>())).ReturnsAsync(new DeviceModel());
@@ -142,7 +142,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void EditDevicePropertiesWithDeviceId()
+        public async void EditDevicePropertiesWithDeviceIdTest()
         {
             var deviceId = this.fixture.Create<string>();
             var deviceModel = this.fixture.Create<DeviceModel>();
@@ -167,7 +167,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void GetDeviceDetails()
+        public async void GetDeviceDetailsTest()
         {
             var deviceId = this.fixture.Create<string>();
             var deviceModel = this.fixture.Create<DeviceModel>();
@@ -188,7 +188,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void GetDeviceKeys()
+        public async void GetDeviceKeysTest()
         {
             var keys = this.fixture.Create<SecurityKeys>();
             var deviceId = this.fixture.Create<string>();
@@ -201,7 +201,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public void GetDeviceCellularDetails()
+        public void GetDeviceCellularDetailsTest()
         {
             var iccId = this.fixture.Create<string>();
             var terminalDevice = this.fixture.Create<Terminal>();
@@ -217,7 +217,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public void RemoveDevice()
+        public void RemoveDeviceTest()
         {
             var deviceID = this.fixture.Create<string>();
             var result = this.deviceController.RemoveDevice(deviceID);
@@ -228,7 +228,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void DeleteDevice()
+        public async void DeleteDeviceTest()
         {
             var deviceID = this.fixture.Create<string>();
             this.deviceLogicMock.Setup(mock => mock.RemoveDeviceAsync(deviceID)).Returns(Task.FromResult(true));

@@ -37,7 +37,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void GetAvailableLogicAppActions()
+        public async void GetAvailableLogicAppActionsTest()
         {
             var actionIds = this.fixture.Create<List<string>>();
             this.actionLogicMock.Setup(mock => mock.GetAllActionIdsAsync()).ReturnsAsync(actionIds);
@@ -57,7 +57,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public async void UpdateAction()
+        public async void UpdateActionTest()
         {
             string ruleOutput = this.fixture.Create<string>();
             string actionId = this.fixture.Create<string>();

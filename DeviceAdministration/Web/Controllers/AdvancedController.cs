@@ -74,22 +74,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return PartialView("_DeviceAssociation");
         }
 
-        public async Task<DeviceModel> AssociateIccidWithDevice(string deviceId, string iccid)
+        public async Task AssociateIccidWithDevice(string deviceId, string iccid)
         {
             if (string.IsNullOrEmpty(iccid))
             {
                 throw new ArgumentNullException();
             }
 
-            return await UpdateDeviceAssociation(deviceId, iccid);
+            await UpdateDeviceAssociation(deviceId, iccid);
         }
 
-        public async Task<DeviceModel> RemoveIccidFromDevice(string deviceId)
+        public async Task RemoveIccidFromDevice(string deviceId)
         {
-            return await UpdateDeviceAssociation(deviceId, null);
+            await UpdateDeviceAssociation(deviceId, null);
         }
 
-        private async Task<DeviceModel> UpdateDeviceAssociation(string deviceId, string iccid)
+        private async Task UpdateDeviceAssociation(string deviceId, string iccid)
         {
             if (string.IsNullOrEmpty(deviceId))
             {
@@ -99,7 +99,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             DeviceModel device = await _deviceLogic.GetDeviceAsync(deviceId);
             device.SystemProperties.ICCID = iccid;
             await _deviceLogic.UpdateDeviceAsync(device);
-            return device;
         }
 
         public bool SaveRegistration(ApiRegistrationModel apiModel)
