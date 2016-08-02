@@ -113,7 +113,8 @@ namespace DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RequestType))]
     public partial class TerminalService : System.Web.Services.Protocols.SoapHttpClientProtocol {
 
-        internal Models.Security.SecurityHeader securityHeader;
+        //todo: this was internal... issue? 
+        public Models.Security.SecurityHeader securityHeader;
 
         private System.Threading.SendOrPostCallback EditTerminalOperationCompleted;
         

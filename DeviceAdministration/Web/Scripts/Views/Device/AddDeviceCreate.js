@@ -10,7 +10,6 @@
         $(".header_main__button_back").off("click").click(function () {
             location.href = resources.redirectToIndexUrl;
         });
-
         $("#availableIccidList").hide();
 
         //show or hide the device Id box based upon what
@@ -60,7 +59,7 @@
     }
 
     var onFailure = function () {
-        IoTApp.Helpers.Dialog.displayError(resources.createDeviceError);
+       IoTApp.Helpers.Dialog.displayError(resources.createDeviceError);
     }
 
     return {
