@@ -70,6 +70,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
 
             builder.RegisterType<MessageFeedbackProcessor>()
                 .As<IMessageFeedbackProcessor>().SingleInstance();
+
+            builder.RegisterType<BlobStorageHelper>()
+                .As<IBlobStorageHelper>();
         }
     }
 }
