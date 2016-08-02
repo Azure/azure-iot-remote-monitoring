@@ -167,6 +167,8 @@
     <Compile Include="Helpers\AzureRetryHelper.cs" />
     <Compile Include="Helpers\AzureTableStorageHelper.cs" />
     <Compile Include="Helpers\BlobStorageHelper.cs" />
+    <Compile Include="Helpers\IAzureTableStorageHelper.cs" />
+    <Compile Include="Helpers\IBlobStorageHelper.cs" />
     <Compile Include="Mapper\TypeMapper.cs" />
     <Compile Include="Mapper\MappingValidator.cs" />
     <Compile Include="Models\DeviceModel.cs" />

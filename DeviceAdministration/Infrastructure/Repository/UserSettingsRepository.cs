@@ -17,15 +17,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly string _storageAccountConnectionString;
         private const string _settingsTableName = "UserSettings";
         private const string _settingsTablePartitionKey = "settings";
+        private readonly IAzureTableStorageHelper _azureTableStorageHelper;
 
         public UserSettingsRepository(IConfigurationProvider configProvider)
         {
             _storageAccountConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
+            _azureTableStorageHelper = new AzureTableStorageHelper(_storageAccountConnectionString, _settingsTableName);
         }
 
         public async Task<UserSetting> GetUserSettingValueAsync(string settingKey)
         {
-            var settingsTable = await AzureTableStorageHelper.GetTableAsync(_storageAccountConnectionString, _settingsTableName);
+            var settingsTable = await _azureTableStorageHelper.GetTableAsync();
             TableOperation query = TableOperation.Retrieve<UserSettingTableEntity>(_settingsTablePartitionKey, settingKey);
 
             TableResult response = await Task.Run(() =>
@@ -61,7 +63,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 incomingEntity.ETag = setting.Etag;
             }
 
-            TableStorageResponse<UserSetting> result = await AzureTableStorageHelper.DoTableInsertOrReplaceAsync<UserSetting, UserSettingTableEntity>(incomingEntity, (tableEntity) =>
+            TableStorageResponse<UserSetting> result = await _azureTableStorageHelper.DoTableInsertOrReplaceAsync<UserSetting, UserSettingTableEntity>(incomingEntity, (tableEntity) =>
                 {
                     if (tableEntity == null)
                     {
@@ -76,7 +78,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     };
 
                     return updatedSetting;
-                }, _storageAccountConnectionString, _settingsTableName);
+                });
 
             return result;
         }

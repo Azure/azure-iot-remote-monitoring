@@ -13,15 +13,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class ActionMappingRepository : IActionMappingRepository
     {
-        private readonly string _connectionString;
-        private readonly string _containerName;  // must be lower case!
         private readonly string _blobName;
+        private readonly IBlobStorageHelper _blobStorageHelper;
 
         public ActionMappingRepository(IConfigurationProvider configurationProvider)
         {
-            _connectionString = configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString");
-            _containerName = configurationProvider.GetConfigurationSettingValue("ActionMappingStoreContainerName");
+            string connectionString = configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString");
+            string containerName = configurationProvider.GetConfigurationSettingValue("ActionMappingStoreContainerName");
             _blobName = configurationProvider.GetConfigurationSettingValue("ActionMappingStoreBlobName");
+            _blobStorageHelper = new BlobStorageHelper(connectionString, containerName);
         }
 
         public async Task<List<ActionMapping>> GetAllMappingsAsync()
@@ -55,7 +55,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             string newJsonData = JsonConvert.SerializeObject(existingMappings);
             byte[] newBytes = Encoding.UTF8.GetBytes(newJsonData);
 
-            CloudBlobContainer container = await BlobStorageHelper.BuildBlobContainerAsync(_connectionString, _containerName);
+            CloudBlobContainer container = await _blobStorageHelper.BuildBlobContainerAsync();
             CloudBlockBlob blob = container.GetBlockBlobReference(_blobName);
 
             await blob.UploadFromByteArrayAsync(
@@ -69,7 +69,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private async Task<ActionMappingBlobResults> GetActionsAndEtagAsync()
         {
-            CloudBlobContainer container = await BlobStorageHelper.BuildBlobContainerAsync(_connectionString, _containerName);
+            CloudBlobContainer container = await _blobStorageHelper.BuildBlobContainerAsync();
             CloudBlockBlob blob = container.GetBlockBlobReference(_blobName);
             bool exists = await blob.ExistsAsync();
 

@@ -10,8 +10,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
     /// <summary>
     /// Helper methods, related to blob storage.
     /// </summary>
-    public static class BlobStorageHelper
+    public class BlobStorageHelper : IBlobStorageHelper
     {
+        private readonly string _connectionString;
+        private readonly string _containerName;
+
+        public BlobStorageHelper(string connectionString, string containerName)
+        {
+            _connectionString = connectionString;
+            _containerName = containerName;
+        }
+
         /// <summary>
         /// Builds a CloudBlobContainer from provided settings.
         /// </summary>
@@ -25,24 +34,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// <returns>
         /// A CloudBlobContainer, built from provided settings.
         /// </returns>
-        public static async Task<CloudBlobContainer> BuildBlobContainerAsync(
-            string connectionString,
-            string containerName)
+        public async Task<CloudBlobContainer> BuildBlobContainerAsync()
         {
-            if (string.IsNullOrEmpty(connectionString))
+            if (string.IsNullOrEmpty(_connectionString))
             {
                 throw new ArgumentException(
                     "connectionString is a null reference or empty string.",
                     "connectionString");
             }
 
-            if (object.ReferenceEquals(containerName, null))
+            if (object.ReferenceEquals(_containerName, null))
             {
-                throw new ArgumentNullException(containerName);
+                throw new ArgumentNullException(_containerName);
             }
 
             CloudStorageAccount storageAccount;
-            if (!CloudStorageAccount.TryParse(connectionString, out storageAccount))
+            if (!CloudStorageAccount.TryParse(_connectionString, out storageAccount))
             {
                 throw new ArgumentException(
                     "connectionString is not a valid Cloud Storage Account connection string.", "connectionString");
@@ -50,7 +57,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
 
-            CloudBlobContainer container = blobClient.GetContainerReference(containerName);
+            CloudBlobContainer container = blobClient.GetContainerReference(_containerName);
             await container.CreateIfNotExistsAsync();
 
             return container;
@@ -66,7 +73,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// blobItem's last modified date, or null, of such could not be 
         /// extracted.
         /// </returns>
-        public static DateTime? ExtractBlobItemDate(IListBlobItem blobItem)
+        public DateTime? ExtractBlobItemDate(IListBlobItem blobItem)
         {
             if (blobItem == null)
             {
@@ -108,7 +115,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// <returns>
         /// A concattenation of all the blob listing's resulting segments.
         /// </returns>
-        public static async Task<IEnumerable<IListBlobItem>> LoadBlobItemsAsync(
+        public async Task<IEnumerable<IListBlobItem>> LoadBlobItemsAsync(
             Func<BlobContinuationToken, Task<BlobResultSegment>> segmentLoader)
         {
             if (segmentLoader == null)
