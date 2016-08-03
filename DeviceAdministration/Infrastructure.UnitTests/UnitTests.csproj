@@ -152,6 +152,7 @@
     <Compile Include="Web\Helpers\DeviceDisplayHelperTests.cs" />
     <Compile Include="Web\Helpers\JasperCredentialProviderTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceActionsApiControllerTests.cs" />
+    <Compile Include="Web\WebApiControllers\DeviceApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\WebApiTestHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
