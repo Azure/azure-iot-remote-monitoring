@@ -3,6 +3,7 @@ using System.Linq;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using DeviceManagement.Infrustructure.Connectivity.Services;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
+using DeviceManagement.Infrustructure.Connectivity.Models.Enums;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 {

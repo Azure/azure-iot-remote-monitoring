@@ -28,7 +28,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     Password = apiRegistrationModel.Password,
                     BaseUrl = apiRegistrationModel.BaseUrl,
                     Username = apiRegistrationModel.Username,
-                    LicenceKey = apiRegistrationModel.LicenceKey
+                    LicenceKey = apiRegistrationModel.LicenceKey,
+                    CellularProvider = apiRegistrationModel.CellularProvider
                 };
 
                 _table.Execute(TableOperation.InsertOrMerge(incomingEntity));

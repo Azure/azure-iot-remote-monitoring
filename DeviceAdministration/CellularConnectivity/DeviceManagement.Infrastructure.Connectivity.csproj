@@ -33,11 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Models\Enums\CellularConnectivityProviderEnum.cs" />
     <Compile Include="Builders\JasperServiceBuilder.cs" />
     <Compile Include="Constants\JasperApiConstants.cs" />
     <Compile Include="Exceptions\CellularConnectivityException.cs" />
     <Compile Include="Argument.cs" />
+    <Compile Include="Models\Enums\CellularProviderEnum.cs" />
     <Compile Include="Proxies\AuthenticationValidationProxy.cs" />
     <Compile Include="Proxies\IAuthenticationValidationProxy.cs" />
     <Compile Include="Services\ExternalCellularService.cs" />

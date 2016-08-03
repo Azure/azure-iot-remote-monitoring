@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
+using DeviceManagement.Infrustructure.Connectivity.Models.Enums;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Services
 {

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.terminal;
 using DeviceManagement.Infrustructure.Connectivity.Exceptions;
 using DeviceManagement.Infrustructure.Connectivity.Proxies;
+using DeviceManagement.Infrustructure.Connectivity.Models.Enums;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Services
 {
@@ -35,7 +35,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                 case CellularProviderEnum.Jasper:
                     terminals = _jasperCellularService.GetTerminals();
                     break;
-                case CellularProviderEnum.Ericsson:
+                case Models.Enums.CellularProviderEnum.Ericsson:
                     //TODO call ericsson service
                     break;
                 default:
@@ -90,7 +90,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         /// <returns>True if valid. False if not valid</returns>
         public bool ValidateCredentials(CellularProviderEnum cellularProvider)
         {
-
             bool isValid = false;
 
             switch (cellularProvider)

@@ -11,7 +11,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Extensions;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -41,7 +41,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public PartialViewResult ApiRegistrationJasper()
         {
             var registrationModel = _apiRegistrationRepository.RecieveDetails();
-            registrationModel.CellularProvider = CellularProviderEnum.Jasper;
+            registrationModel.CellularProvider = CellularProviderEnum.Ericsson;
             return PartialView("_ApiRegistrationJasper", registrationModel);
         }
 
@@ -108,11 +108,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             _apiRegistrationRepository.AmendRegistration(apiModel);
 
-            var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.CellularProvider);
+            var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.CellularProvider.ConvertCellularProviderEnum());
             if (!credentialsAreValid)
             {
                 _apiRegistrationRepository.DeleteApiDetails();
             }
+
             return true;
         }
 

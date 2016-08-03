@@ -1,6 +1,4 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
-
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
+﻿namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 {
     public class ApiRegistrationModel
     {
