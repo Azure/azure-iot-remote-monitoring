@@ -20,19 +20,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     public class AdvancedController : Controller
     {
         private readonly IApiRegistrationRepository _apiRegistrationRepository;
-        private readonly IExternalCellularService _cellularService;
         private readonly ICellularExtensions _cellularExtensions;
         private readonly IDeviceLogic _deviceLogic;
         private const string CellularInvalidCreds = "400200";
         private const string CellularInvalidLicense = "400100";
 
         public AdvancedController(IDeviceLogic deviceLogic,
-            IExternalCellularService cellularService,
             IApiRegistrationRepository apiRegistrationRepository,
             ICellularExtensions cellularExtensions)
         {
             _deviceLogic = deviceLogic;
-            _cellularService = cellularService;
             _apiRegistrationRepository = apiRegistrationRepository;
             _cellularExtensions = cellularExtensions;
         }
@@ -58,8 +55,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 if (_apiRegistrationRepository.IsApiRegisteredInAzure())
                 {
                     ViewBag.HasRegistration = true;
-                    ViewBag.UnassignedIccidList = _cellularExtensions.GetListOfAvailableIccids(_cellularService, devices);
-                    ViewBag.UnassignedDeviceIds = _cellularExtensions.GetListOfAvailableDeviceIDs(_cellularService, devices);
+                    ViewBag.UnassignedIccidList = _cellularExtensions.GetListOfAvailableIccids(devices);
+                    ViewBag.UnassignedDeviceIds = _cellularExtensions.GetListOfAvailableDeviceIDs(devices);
                 }
                 else
                 {
@@ -108,7 +105,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             //use a simple call to verify creds
             try
             {
-                _cellularService.GetTerminals();
+                this._cellularExtensions.GetTerminals();
             }
             catch (CellularConnectivityException exception)
             {

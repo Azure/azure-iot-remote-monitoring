@@ -299,7 +299,6 @@
     <Compile Include="Filters\ErrorHandlingFilter.cs" />
     <Compile Include="Helpers\CellularExtensions.cs" />
     <Compile Include="Helpers\DeviceDisplayHelper.cs" />
-    <Compile Include="Helpers\MvcDataHelper.cs" />
     <Compile Include="Models\ActionPropertiesModel.cs" />
     <Compile Include="Models\AlertHistoryDeviceModel.cs" />
     <Compile Include="Models\EditDeviceRuleModel.cs" />

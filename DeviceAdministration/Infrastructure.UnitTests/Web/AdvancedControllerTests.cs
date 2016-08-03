@@ -20,7 +20,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     {
         private readonly AdvancedController advancedController;
         private readonly Mock<IApiRegistrationRepository> apiRegMock;
-        private readonly Mock<IExternalCellularService> cellularServiceMock;
         private readonly Mock<ICellularExtensions> cellularExtensionMock;
         private readonly Mock<IDeviceLogic> deviceLogicMock;
         private readonly Fixture fixture;
@@ -28,12 +27,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public AdvancedControllerTests()
         {
             this.apiRegMock = new Mock<IApiRegistrationRepository>();
-            this.cellularServiceMock = new Mock<IExternalCellularService>();
             this.cellularExtensionMock = new Mock<ICellularExtensions>();
             this.deviceLogicMock = new Mock<IDeviceLogic>();
 
             this.advancedController = new AdvancedController(this.deviceLogicMock.Object,
-                                                             this.cellularServiceMock.Object,
                                                              this.apiRegMock.Object,
                                                              this.cellularExtensionMock.Object);
             this.fixture = new Fixture();
@@ -65,9 +62,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var deviceIds = this.fixture.Create<List<string>>();
             this.deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(queryResMock);
             this.apiRegMock.Setup(mock => mock.IsApiRegisteredInAzure()).Returns(true);
-            this.cellularExtensionMock.Setup(mock => mock.GetListOfAvailableIccids(this.cellularServiceMock.Object, It.IsAny<List<DeviceModel>>()))
+            this.cellularExtensionMock.Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>()))
                 .Returns(iccids);
-            this.cellularExtensionMock.Setup(mock => mock.GetListOfAvailableDeviceIDs(this.cellularServiceMock.Object, It.IsAny<List<DeviceModel>>()))
+            this.cellularExtensionMock.Setup(mock => mock.GetListOfAvailableDeviceIDs(It.IsAny<List<DeviceModel>>()))
                 .Returns(deviceIds);
 
             var result = await this.advancedController.DeviceAssociation();
@@ -125,27 +122,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var apiRegModel = this.fixture.Create<ApiRegistrationModel>();
             this.apiRegMock.Setup(mock => mock.AmendRegistration(apiRegModel)).Returns(true);
-            this.cellularServiceMock.Setup(mock => mock.GetTerminals()).Returns(new List<Iccid>());
+            this.cellularExtensionMock.Setup(mock => mock.GetTerminals()).Returns(new List<Iccid>());
             var result = this.advancedController.SaveRegistration(apiRegModel);
             Assert.True(result);
 
             var ex = new Exception("The remote name could not be resolved");
-            this.cellularServiceMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
+            this.cellularExtensionMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
             result = this.advancedController.SaveRegistration(apiRegModel);
             Assert.False(result);
 
             ex = new Exception("400200");
-            this.cellularServiceMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
+            this.cellularExtensionMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
             result = this.advancedController.SaveRegistration(apiRegModel);
             Assert.False(result);
 
             ex = new Exception("400100");
-            this.cellularServiceMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
+            this.cellularExtensionMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
             result = this.advancedController.SaveRegistration(apiRegModel);
             Assert.False(result);
 
             ex = new Exception("message");
-            this.cellularServiceMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
+            this.cellularExtensionMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
             result = this.advancedController.SaveRegistration(apiRegModel);
             Assert.True(result);
         }
