@@ -147,6 +147,8 @@
     <Compile Include="Web\DeviceCommandControllerTests.cs" />
     <Compile Include="Web\DashboardControllerTests.cs" />
     <Compile Include="Web\DeviceControllerTests.cs" />
+    <Compile Include="Web\Helpers\CellularExtensionsTests.cs" />
+    <Compile Include="Web\Helpers\DeviceDisplayHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
