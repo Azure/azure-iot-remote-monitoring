@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
@@ -12,6 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
     /// </summary>
     public class BlobStorageClient : IBlobStorageClient
     {
+        private CloudStorageAccount _storageAccount;
         private CloudBlobContainer _container;
         private CloudBlockBlob _blob;
         private readonly CloudBlobClient _blobClient;
@@ -20,8 +22,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
         public BlobStorageClient(string connectionString, string containerName, string blobName)
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
-            _blobClient = storageAccount.CreateCloudBlobClient();
+            _storageAccount = CloudStorageAccount.Parse(connectionString);
+            _blobClient = _storageAccount.CreateCloudBlobClient();
             _containerName = containerName;
             _blobName = blobName;
         }
@@ -44,15 +46,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             }
             return _blob;
         }
-        //private async Task<CloudBlockBlob> GetCloudBlockBlobAsync(string format, string dateString, string timeString)
-        //{
-        //    if (_blob == null && _blobName != null)
-        //    {
-        //        CloudBlobContainer container = await GetCloudBlobContainerAsync();
-        //        _blob = container.GetBlockBlobReference(format, dateString, timeString, _blobName);
-        //    }
-        //    return _blob;
-        //}
 
         public async Task UploadFromByteArrayAsync(byte[] buffer, int index, int count, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
@@ -91,11 +84,56 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             return blob.Properties.ETag;
         }
 
-        public async Task UploadTextAsync(string data, string format, string dateString, string timeString)
+        public async Task UploadTextAsync(string data)
         {
-            //CloudBlockBlob blob = await this.GetCloudBlockBlobAsync(format, dateString, timeString);
             CloudBlockBlob blob = await this.GetCloudBlockBlobAsync();
             await blob.UploadTextAsync(data);
+        }
+
+        public async Task<IBlobStorageReader> GetReader(string prefix, DateTime? minTime = null)
+        {
+            if (string.IsNullOrEmpty(prefix))
+            {
+                throw new ArgumentNullException("prefix");
+            }
+
+            var blobs = await this.LoadBlobItemsAsync(async (token) =>
+            {
+                return await _container.ListBlobsSegmentedAsync(
+                    prefix,
+                    true,
+                    BlobListingDetails.None,
+                    null,
+                    token,
+                    null,
+                    null);
+            });
+
+            if (blobs != null)
+            {
+                blobs = blobs.OrderByDescending(t => ExtractBlobItemDate(t));
+                if (minTime != null)
+                {
+                    blobs = blobs.Where(t => this.FilterLessThanTime(t, minTime.Value));
+                }
+            }
+
+            return new BlobStorageReader(blobs);
+        }
+
+        private bool FilterLessThanTime(IListBlobItem blobItem, DateTime minTime)
+        {
+            CloudBlockBlob blockBlob;
+            if ((blockBlob = blobItem as CloudBlockBlob) != null)
+            {
+                if ((blockBlob.Properties != null) &&
+                    blockBlob.Properties.LastModified.HasValue &&
+                    (blockBlob.Properties.LastModified.Value.LocalDateTime >= minTime))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>

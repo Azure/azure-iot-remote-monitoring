@@ -63,49 +63,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             DateTime minTime)
         {
             IEnumerable<DeviceTelemetryModel> result = new DeviceTelemetryModel[0];
-
-            CloudBlobContainer container =
-                await _blobStorageManager.BuildBlobContainerAsync();
-
-            IEnumerable<IListBlobItem> blobs =
-                await _blobStorageManager.LoadBlobItemsAsync(
-                    async (token) =>
-                    {
-                        return await container.ListBlobsSegmentedAsync(
-                            _telemetryDataPrefix,
-                            true,
-                            BlobListingDetails.None,
-                            null,
-                            token,
-                            null,
-                            null);
-                    });
-
-            blobs = blobs
-                .OrderByDescending(t => _blobStorageManager.ExtractBlobItemDate(t));
-
-            CloudBlockBlob blockBlob;
             IEnumerable<DeviceTelemetryModel> blobModels;
-            foreach (IListBlobItem blob in blobs)
-            {
-                if ((blockBlob = blob as CloudBlockBlob) == null)
-                {
-                    continue;
-                }
 
-                // Translate LastModified to local time zone.  DateTimeOffsets 
-                // don't do this automatically.  This is for equivalent behavior 
-                // with parsed DateTimes.
-                if ((blockBlob.Properties != null) &&
-                    blockBlob.Properties.LastModified.HasValue &&
-                    (blockBlob.Properties.LastModified.Value.LocalDateTime < minTime))
-                {
-                    break;
-                }
-
+            var telemetryBlobReader = await _blobStorageManager.GetReader(_telemetryDataPrefix, minTime);
+            foreach (var telemetryStream in telemetryBlobReader)
+            {    
                 try
                 {
-                    blobModels = await LoadBlobTelemetryModelsAsync(blockBlob, telemetryFields);
+                    blobModels = LoadBlobTelemetryModels(telemetryStream, telemetryFields);
                 }
                 catch
                 {
@@ -162,50 +127,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             DateTime? minTime)
         {
             DeviceTelemetrySummaryModel summaryModel = null;
-
-            CloudBlobContainer container =
-                await _blobStorageManager.BuildBlobContainerAsync();
-
-            IEnumerable<IListBlobItem> blobs =
-                await _blobStorageManager.LoadBlobItemsAsync(
-                    async (token) =>
-                    {
-                        return await container.ListBlobsSegmentedAsync(
-                            _telemetrySummaryPrefix,
-                            true,
-                            BlobListingDetails.None,
-                            null,
-                            token,
-                            null,
-                            null);
-                    });
-
-            blobs = blobs.OrderByDescending(t => _blobStorageManager.ExtractBlobItemDate(t));
-
             IEnumerable<DeviceTelemetrySummaryModel> blobModels;
-            CloudBlockBlob blockBlob;
-
-            foreach (IListBlobItem blob in blobs)
-            {
-                if ((blockBlob = blob as CloudBlockBlob) == null)
-                {
-                    continue;
-                }
-
-                // Translate LastModified to local time zone.  DateTimeOffsets 
-                // don't do this automatically.  This is for equivalent behavior 
-                // with parsed DateTimes.
-                if (minTime.HasValue &&
-                    (blockBlob.Properties != null) &&
-                    blockBlob.Properties.LastModified.HasValue &&
-                    (blockBlob.Properties.LastModified.Value.LocalDateTime < minTime.Value))
-                {
-                    break;
-                }
-
+            var telemetryBlobReader = await _blobStorageManager.GetReader(_telemetrySummaryPrefix, minTime);
+            foreach (var telemetryStream in telemetryBlobReader)
+            {             
                 try
                 {
-                    blobModels = await LoadBlobTelemetrySummaryModelsAsync(blockBlob);
+                    blobModels = LoadBlobTelemetrySummaryModels(telemetryStream);
                 }
                 catch
                 {
@@ -234,18 +162,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return summaryModel;
         }
 
-        private async static Task<List<DeviceTelemetryModel>> LoadBlobTelemetryModelsAsync(CloudBlockBlob blob, IList<DeviceTelemetryFieldModel> telemetryFields)
+        private static List<DeviceTelemetryModel> LoadBlobTelemetryModels(Stream stream, IList<DeviceTelemetryFieldModel> telemetryFields)
         {
-            Debug.Assert(blob != null, "blob is a null reference.");
+            Debug.Assert(stream != null, "stream is a null reference.");
 
             List<DeviceTelemetryModel> models = new List<DeviceTelemetryModel>();
 
             TextReader reader = null;
-            MemoryStream stream = null;
             try
             {
-                stream = new MemoryStream();
-                await blob.DownloadToStreamAsync(stream);
                 stream.Position = 0;
                 reader = new StreamReader(stream);
 
@@ -357,19 +282,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return models;
         }
 
-        private async static Task<List<DeviceTelemetrySummaryModel>> LoadBlobTelemetrySummaryModelsAsync(
-            CloudBlockBlob blob)
+        private static List<DeviceTelemetrySummaryModel> LoadBlobTelemetrySummaryModels(Stream stream)
         {
-            Debug.Assert(blob != null, "blob is a null reference.");
+            Debug.Assert(stream != null, "stream is a null reference.");
 
             var models = new List<DeviceTelemetrySummaryModel>();
 
             TextReader reader = null;
-            MemoryStream stream = null;
             try
             {
-                stream = new MemoryStream();
-                await blob.DownloadToStreamAsync(stream);
                 stream.Position = 0;
                 reader = new StreamReader(stream);
 

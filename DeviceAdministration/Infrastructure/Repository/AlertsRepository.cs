@@ -74,24 +74,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             var filteredResult = new List<AlertHistoryItemModel>();
             var unfilteredResult = new List<AlertHistoryItemModel>();
-
-            IEnumerable<IListBlobItem> blobs = await LoadApplicableListBlobItemsAsync();
-
-            foreach (IListBlobItem blob in blobs)
+            var alertBlobReader = await _blobStorageManager.GetReader(deviceAlertsDataPrefix);
+            foreach (var alertStream in alertBlobReader)
             {
-                CloudBlockBlob blockBlob = blob as CloudBlockBlob;
-                if (blockBlob == null)
-                {
-                    continue;
-                }
+                var segment = ProduceAlertHistoryItemsAsync(alertStream);
+                IEnumerable<AlertHistoryItemModel> filteredSegment = segment.Where(t => t?.Timestamp != null && (t.Timestamp.Value > minTime));
 
-                IEnumerable<AlertHistoryItemModel> segment = await ProduceAlertHistoryItemsAsync(blockBlob);
-
-                IEnumerable<AlertHistoryItemModel> filteredSegment = segment.Where(
-                        t => (t != null) && t.Timestamp.HasValue && (t.Timestamp.Value > minTime));
-
-                int unfilteredCount = segment.Count();
-                int filteredCount = filteredSegment.Count();
+                var unfilteredCount = segment.Count();
+                var filteredCount = filteredSegment.Count();
 
                 unfilteredResult.AddRange(segment.OrderByDescending(t => t.Timestamp));
                 filteredResult.AddRange(filteredSegment.OrderByDescending(t => t.Timestamp));
@@ -183,16 +173,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return null;
         }
 
-        private async static Task<List<AlertHistoryItemModel>> ProduceAlertHistoryItemsAsync(CloudBlockBlob blob)
+        private static List<AlertHistoryItemModel> ProduceAlertHistoryItemsAsync(Stream stream)
         {
-            Debug.Assert(blob != null, "blob is a null reference.");
+            Debug.Assert(stream != null, "stream is a null reference.");
 
             var models = new List<AlertHistoryItemModel>();
-            var stream = new MemoryStream();
             TextReader reader = null;
             try
             {
-                await blob.DownloadToStreamAsync(stream);
                 stream.Position = 0;
                 reader = new StreamReader(stream);
 
@@ -223,33 +211,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             return models;
-        }
-
-        private async Task<IEnumerable<IListBlobItem>> LoadApplicableListBlobItemsAsync()
-        {
-            CloudBlobContainer container =
-                await _blobStorageManager.BuildBlobContainerAsync();
-
-            IEnumerable<IListBlobItem> blobs =
-                await _blobStorageManager.LoadBlobItemsAsync(
-                    async (token) =>
-                    {
-                        return await container.ListBlobsSegmentedAsync(
-                            this.deviceAlertsDataPrefix,
-                            true,
-                            BlobListingDetails.None,
-                            null,
-                            token,
-                            null,
-                            null);
-                    });
-
-            if (blobs != null)
-            {
-                blobs = blobs.OrderByDescending(t => _blobStorageManager.ExtractBlobItemDate(t));
-            }
-
-            return blobs;
         }
     }
 }
