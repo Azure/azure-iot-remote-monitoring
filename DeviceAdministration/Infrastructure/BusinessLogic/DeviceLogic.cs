@@ -309,6 +309,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             var commandHistory = new CommandHistory(commandName, parameters);
 
+            if (device.CommandHistory == null)
+            {
+                device.CommandHistory = new List<CommandHistory>();    
+            }
+
             device.CommandHistory.Add(commandHistory);
 
             await _iotHubRepository.SendCommand(deviceId, commandHistory);
