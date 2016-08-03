@@ -106,7 +106,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public bool SaveRegistration(ApiRegistrationModel apiModel)
         {
-            _apiRegistrationRepository.DeleteApiDetails();
             _apiRegistrationRepository.AmendRegistration(apiModel);
 
             var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.CellularProvider);
