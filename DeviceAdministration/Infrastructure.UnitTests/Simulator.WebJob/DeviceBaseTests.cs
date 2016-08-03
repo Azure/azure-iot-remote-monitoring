@@ -31,19 +31,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         [Fact]
-        public void GetDeviceInfoTests()
-        {
-            var config = new InitialDeviceConfig();
-            config.HostName = "HostName";
-            config.DeviceId = "test";
-            config.Key = "key";
-
-            deviceBase.Init(config);
-            var device = deviceBase.GetDeviceInfo();
-            Assert.Equal(device.DeviceProperties.DeviceID, "test");
-        }
-
-        [Fact]
         public void InitTests()
         {
             var config = new InitialDeviceConfig();
@@ -59,6 +46,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Assert.NotNull(deviceBase.DeviceProperties);
             Assert.NotNull(deviceBase.Commands);
             Assert.NotNull(deviceBase.Telemetry);
+        }
+
+        [Fact]
+        public void GetDeviceInfoTests()
+        {
+            var config = new InitialDeviceConfig();
+            config.HostName = "HostName";
+            config.DeviceId = "test";
+            config.Key = "key";
+
+            deviceBase.Init(config);
+            var device = deviceBase.GetDeviceInfo();
+            Assert.Equal(device.DeviceProperties.DeviceID, "test");
         }
     }
 }
