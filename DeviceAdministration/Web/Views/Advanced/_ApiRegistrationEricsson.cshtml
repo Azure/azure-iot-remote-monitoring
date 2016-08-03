@@ -6,28 +6,6 @@
     <div class="ericsson_info_text">@Strings.ApiRegistrationInfoText</div>
     <fieldset class="registration_content">
         <div class="registration_textbox">
-            <h2 class="registration_description">@Strings.BaseUrlLabel</h2>
-            <div>
-                @Html.TextBoxFor(model => model.BaseUrl, new { id = "BaseUrl", title = Strings.BaseUrlToolTip, @class = "api_input" })
-            </div>
-            <div class="api_check_field" id="BaseUrlRequired">
-                @Strings.RequiredValue
-            </div>
-        </div>
-    </fieldset>
-    <fieldset class="registration_content">
-        <div class="registration_textbox">
-            <h2 class="registration_description">@Strings.LicenseKeyLabel</h2>
-            <div>
-                @Html.TextBoxFor(model => model.LicenceKey, new { id = "LicenceKey", title = Strings.LicenseKeyToolTip, @class = "api_input" })
-            </div>
-            <div class="api_check_field" id="LicenceKeyRequired">
-                @Strings.RequiredValue
-            </div>
-        </div>
-    </fieldset>
-    <fieldset class="registration_content">
-        <div class="registration_textbox">
             <h2 class="registration_description">@Strings.UsernameLabel</h2>
             <div>
                 @Html.TextBoxFor(model => model.Username, new { id = "Username", title = Strings.UsernameToolTip, @class = "api_input" })

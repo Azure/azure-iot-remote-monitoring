@@ -9,7 +9,6 @@ using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.terminal;
 using DeviceManagement.Infrustructure.Connectivity.Exceptions;
 using DeviceManagement.Infrustructure.Connectivity.Proxies;
-using Resources;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Services
 {

@@ -41,12 +41,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public PartialViewResult ApiRegistrationJasper()
         {
             var registrationModel = _apiRegistrationRepository.RecieveDetails();
+            registrationModel.CellularProvider = CellularProviderEnum.Jasper;
             return PartialView("_ApiRegistrationJasper", registrationModel);
         }
 
         public PartialViewResult ApiRegistrationEricsson()
         {
             var registrationModel = _apiRegistrationRepository.RecieveDetails();
+            registrationModel.CellularProvider = CellularProviderEnum.Ericsson;
             return PartialView("_ApiRegistrationEricsson", registrationModel);
         }
 
@@ -107,11 +109,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             _apiRegistrationRepository.DeleteApiDetails();
             _apiRegistrationRepository.AmendRegistration(apiModel);
 
-            //use a simple call to verify creds
-            var credentialsAreValid = _cellularService.ValidateCredentials(CellularProviderEnum.Jasper);
+            var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.CellularProvider);
             if (!credentialsAreValid)
             {
-                _apiRegistrationRepository.AmendRegistration(apiModel);
+                _apiRegistrationRepository.DeleteApiDetails();
             }
             return true;
         }
