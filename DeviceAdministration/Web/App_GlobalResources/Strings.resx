@@ -1452,7 +1452,7 @@
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="ApiRegistration" xml:space="preserve">
-    <value>Jasper API Registration</value>
+    <value>Cellular API Registration</value>
     <comment>Tile heading.</comment>
   </data>
   <data name="CheckIccid" xml:space="preserve">
@@ -1516,10 +1516,10 @@
     <comment>(Unused)</comment>
   </data>
   <data name="ApiRegistrationDescription" xml:space="preserve">
-    <value>Register this solution with your Jasper Control Center platform credentials to authenticate Jasper API use.</value>
+    <value>Register this solution with the API from your cellular connectivity provider by selecting from the dropdown and cpressing "Create"</value>
     <comment>Tile subheading.</comment>
   </data>
-  <data name="ApiRegistrationTitle" xml:space="preserve">
+  <data name="ApiRegistrationTitleJasper" xml:space="preserve">
     <value>Jasper API Registration</value>
     <comment>Panel heading. {Locked="Jasper"}{Locked="API"}</comment>
   </data>
@@ -1632,7 +1632,7 @@
     <comment>Success message.</comment>
   </data>
   <data name="ApiRegistrationInfoText" xml:space="preserve">
-    <value>To activate the Jasper integration to view and control your Control Center devices through IoT Suite please enter the following credentials:</value>
+    <value>To activate the integration to view and control your Control Center devices through IoT Suite please enter the following credentials:</value>
     <comment>Informational text block.</comment>
   </data>
   <data name="BaseUrlLabel" xml:space="preserve">
@@ -1669,5 +1669,24 @@
   </data>
   <data name="InvalidDeviceTelemetryFormat" xml:space="preserve">
     <value>Device {0} has an invalid Telemetry specification on its DeviceInfo</value>
+  </data>
+  <data name="ApiRegistrationSelectOptionEricsson" xml:space="preserve">
+    <value>Ericsson</value>
+  </data>
+  <data name="ApiRegistrationSelectOptionJasper" xml:space="preserve">
+    <value>Jasper </value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ApiRegistrationSelectOptionInitial" xml:space="preserve">
+    <value>Select provider</value>
+  </data>
+  <data name="ApiRegistrationTitle" xml:space="preserve">
+    <value>API Registration</value>
+  </data>
+  <data name="ApiRegistrationTitleEricsson" xml:space="preserve">
+    <value>Ericsson API Registration</value>
+  </data>
+  <data name="EricssonHelpLink" xml:space="preserve">
+    <value>https://www.ericsson.com/microsoft-iot</value>
   </data>
 </root>

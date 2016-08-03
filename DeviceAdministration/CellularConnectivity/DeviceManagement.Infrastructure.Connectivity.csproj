@@ -33,12 +33,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Models\Enums\CellularConnectivityProviderEnum.cs" />
     <Compile Include="Builders\JasperServiceBuilder.cs" />
     <Compile Include="Constants\JasperApiConstants.cs" />
     <Compile Include="Exceptions\CellularConnectivityException.cs" />
     <Compile Include="Argument.cs" />
     <Compile Include="Proxies\AuthenticationValidationProxy.cs" />
     <Compile Include="Proxies\IAuthenticationValidationProxy.cs" />
+    <Compile Include="Services\ExternalCellularService.cs" />
+    <Compile Include="Services\IJasperCellularService.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="Models\Security\ICredentialProvider.cs" />
     <Compile Include="Models\Security\ICredentials.cs" />
@@ -240,6 +243,9 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="App_GlobalResources.5bddeqra">
+      <HintPath>..\..\..\..\..\Users\sethr\AppData\Local\Temp\Temporary ASP.NET Files\root\c6209cea\_shadow\e91f7c34\10432\App_GlobalResources.5bddeqra.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.Services" />
