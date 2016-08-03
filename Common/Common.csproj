@@ -168,6 +168,7 @@
     <Compile Include="Helpers\AzureTableStorageClientFactory.cs" />
     <Compile Include="Helpers\BlobStorageClient.cs" />
     <Compile Include="Helpers\BlobStorageClientFactory.cs" />
+    <Compile Include="Helpers\BlobStorageReader.cs" />                  
     <Compile Include="Helpers\IAzureTableStorageClient.cs" />
     <Compile Include="Helpers\IAzureTableStorageClientFactory.cs" />
     <Compile Include="Helpers\IBlobStorageClientFactory.cs" />
