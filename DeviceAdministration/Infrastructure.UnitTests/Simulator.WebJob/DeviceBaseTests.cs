@@ -59,6 +59,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             deviceBase.Init(config);
             var device = deviceBase.GetDeviceInfo();
             Assert.Equal(device.DeviceProperties.DeviceID, "test");
+            Assert.Null(device.SystemProperties);
         }
     }
 }
