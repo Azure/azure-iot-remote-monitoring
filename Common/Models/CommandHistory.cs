@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
@@ -9,6 +10,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         /// <summary>
         /// Internal serialization deserialization constructor.
         /// </summary>
+        [JsonConstructor]
         internal CommandHistory()
         {
         }
