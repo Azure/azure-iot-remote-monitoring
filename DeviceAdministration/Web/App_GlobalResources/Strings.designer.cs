@@ -215,7 +215,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Jasper API Registration.
+        ///   Looks up a localized string similar to Cellular API Registration.
         /// </summary>
         public static string ApiRegistration {
             get {
@@ -242,7 +242,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To activate the Jasper integration to view and control your Control Center devices through IoT Suite please enter the following credentials:.
+        ///   Looks up a localized string similar to To activate the integration to view and control your Control Center devices through IoT Suite please enter the following credentials:.
         /// </summary>
         public static string ApiRegistrationInfoText {
             get {
@@ -269,6 +269,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select provider.
+        /// </summary>
+        public static string ApiRegistrationSelectOptionInitial {
+            get {
+                return ResourceManager.GetString("ApiRegistrationSelectOptionInitial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Jasper .
         /// </summary>
         public static string ApiRegistrationSelectOptionJasper {
@@ -287,11 +296,29 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Jasper API Registration.
+        ///   Looks up a localized string similar to API Registration.
         /// </summary>
         public static string ApiRegistrationTitle {
             get {
                 return ResourceManager.GetString("ApiRegistrationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ericsson API Registration.
+        /// </summary>
+        public static string ApiRegistrationTitleEricsson {
+            get {
+                return ResourceManager.GetString("ApiRegistrationTitleEricsson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jasper API Registration.
+        /// </summary>
+        public static string ApiRegistrationTitleJasper {
+            get {
+                return ResourceManager.GetString("ApiRegistrationTitleJasper", resourceCulture);
             }
         }
         
@@ -1354,6 +1381,15 @@ namespace GlobalResources {
         public static string EnterIccid {
             get {
                 return ResourceManager.GetString("EnterIccid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.ericsson.com/microsoft-iot.
+        /// </summary>
+        public static string EricssonHelpLink {
+            get {
+                return ResourceManager.GetString("EricssonHelpLink", resourceCulture);
             }
         }
         

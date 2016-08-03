@@ -7,10 +7,16 @@
                 @Strings.ApiRegistrationDescription
             </p>
             <p>
-                <select id="apiRegistrationApiSelection">
-                    <option value="jasper">@Strings.ApiRegistrationSelectOptionJasper</option>
-                    <option value="ericsson">@Strings.ApiRegistrationSelectOptionEricsson</option>
-                </select>
+                <div class="form-group">
+                    <select class="form-control" id="apiRegistrationApiSelection">
+                        <option value="">@Strings.ApiRegistrationSelectOptionInitial</option>
+                        <option value="jasper">@Strings.ApiRegistrationSelectOptionJasper</option>
+                        <option value="ericsson">@Strings.ApiRegistrationSelectOptionEricsson</option>
+                    </select>
+                    <div class="api_check_field" id="apiRegistrationApiSelectionRequired">
+                        @Strings.RequiredValue
+                    </div>
+                </div>
             </p>
             <p>
                 <button class="add_new_button" type="submit" id="apiRegistrationButton">
@@ -39,11 +45,34 @@
                 goBackUrl: ''
             };
 
+            var validateApiProviderFields = function () {
+                var valOk = true;
+                $("#apiRegistrationApiSelection").each(function () {
+                    if (!$("#" + this.id).val()) {
+                        $("#" + this.id + "Required").show();
+                        valOk = false;
+                    }
+                });
+                return valOk;
+            }
+
             IoTApp.Advanced.initSubView(config);
 
             $('#apiRegistrationButton').click(
                 function () {
-                    IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistration")');
+                    var providerSelectFieldId = "#apiRegistrationApiSelection";
+                    $(providerSelectFieldId + "Required").hide();
+                    var selectedProvider = $(providerSelectFieldId).val();
+                    if (!selectedProvider) {
+                        $(providerSelectFieldId + "Required").show();
+                        return;
+                    }
+                    if (selectedProvider === 'jasper') {
+                        IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistrationJasper")');
+                    }
+                    else {
+                        IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistrationEricsson")');
+                    }
                 }
             );
 

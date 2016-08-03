@@ -11,6 +11,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -37,10 +38,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View();
         }
 
-        public PartialViewResult ApiRegistration()
+        public PartialViewResult ApiRegistrationJasper()
         {
             var registrationModel = _apiRegistrationRepository.RecieveDetails();
-            return PartialView("_ApiRegistration", registrationModel);
+            return PartialView("_ApiRegistrationJasper", registrationModel);
+        }
+
+        public PartialViewResult ApiRegistrationEricsson()
+        {
+            var registrationModel = _apiRegistrationRepository.RecieveDetails();
+            return PartialView("_ApiRegistrationEricsson", registrationModel);
         }
 
         public async Task<PartialViewResult> DeviceAssociation()
@@ -97,25 +104,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public bool SaveRegistration(ApiRegistrationModel apiModel)
         {
+            _apiRegistrationRepository.DeleteApiDetails();
             _apiRegistrationRepository.AmendRegistration(apiModel);
 
             //use a simple call to verify creds
-            try
+            var credentialsAreValid = _cellularService.ValidateCredentials(CellularProviderEnum.Jasper);
+            if (!credentialsAreValid)
             {
-                _cellularService.GetTerminals();
-            }
-            catch (CellularConnectivityException exception)
-            {
-                //API does not give error code for the remote name.
-                if (exception.Message.Contains(Strings.RemoteNameNotResolved) ||
-                    exception.Message == CellularInvalidCreds ||
-                    exception.Message == CellularInvalidLicense)
-                {
-                    _apiRegistrationRepository.DeleteApiDetails();
-                    return false;
-                }
-
-              //the user may have valid creds but no devices. Which throws exception from API this is ok.
+                _apiRegistrationRepository.AmendRegistration(apiModel);
             }
             return true;
         }
