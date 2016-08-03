@@ -26,34 +26,38 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetty.Buffers, Version=0.2.5.0, Culture=neutral, PublicKeyToken=e7a0210a354f294a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DotNetty.Buffers-signed.0.2.5\lib\net45\DotNetty.Buffers.dll</HintPath>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DotNetty.Codecs, Version=0.2.5.0, Culture=neutral, PublicKeyToken=e7a0210a354f294a, processorArchitecture=MSIL">
+    <Reference Include="DotNetty.Buffers, Version=0.3.1.0, Culture=neutral, PublicKeyToken=e7a0210a354f294a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DotNetty.Codecs-signed.0.2.5\lib\net45\DotNetty.Codecs.dll</HintPath>
+      <HintPath>..\packages\DotNetty.Buffers-signed.0.3.1\lib\net45\DotNetty.Buffers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DotNetty.Codecs.Mqtt, Version=0.2.5.0, Culture=neutral, PublicKeyToken=e7a0210a354f294a, processorArchitecture=MSIL">
+    <Reference Include="DotNetty.Codecs, Version=0.3.1.0, Culture=neutral, PublicKeyToken=e7a0210a354f294a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DotNetty.Codecs.Mqtt-signed.0.2.5\lib\net45\DotNetty.Codecs.Mqtt.dll</HintPath>
+      <HintPath>..\packages\DotNetty.Codecs-signed.0.3.1\lib\net45\DotNetty.Codecs.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DotNetty.Common, Version=0.2.5.0, Culture=neutral, PublicKeyToken=e7a0210a354f294a, processorArchitecture=MSIL">
+    <Reference Include="DotNetty.Codecs.Mqtt, Version=0.3.1.0, Culture=neutral, PublicKeyToken=e7a0210a354f294a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DotNetty.Common-signed.0.2.5\lib\net45\DotNetty.Common.dll</HintPath>
+      <HintPath>..\packages\DotNetty.Codecs.Mqtt-signed.0.3.1\lib\net45\DotNetty.Codecs.Mqtt.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DotNetty.Handlers, Version=0.2.5.0, Culture=neutral, PublicKeyToken=e7a0210a354f294a, processorArchitecture=MSIL">
+    <Reference Include="DotNetty.Common, Version=0.3.1.0, Culture=neutral, PublicKeyToken=e7a0210a354f294a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DotNetty.Handlers-signed.0.2.5\lib\net45\DotNetty.Handlers.dll</HintPath>
+      <HintPath>..\packages\DotNetty.Common-signed.0.3.1\lib\net45\DotNetty.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DotNetty.Transport, Version=0.2.5.0, Culture=neutral, PublicKeyToken=e7a0210a354f294a, processorArchitecture=MSIL">
+    <Reference Include="DotNetty.Handlers, Version=0.3.1.0, Culture=neutral, PublicKeyToken=e7a0210a354f294a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DotNetty.Transport-signed.0.2.5\lib\net45\DotNetty.Transport.dll</HintPath>
+      <HintPath>..\packages\DotNetty.Handlers-signed.0.3.1\lib\net45\DotNetty.Handlers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotNetty.Transport, Version=0.3.1.0, Culture=neutral, PublicKeyToken=e7a0210a354f294a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DotNetty.Transport-signed.0.3.1\lib\net45\DotNetty.Transport.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Dynamitey, Version=1.0.2.0, Culture=neutral, PublicKeyToken=cbf53ea3aeb972c6, processorArchitecture=MSIL">
@@ -61,9 +65,16 @@
       <HintPath>..\packages\Dynamitey.1.0.2.0\lib\net40\Dynamitey.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Azure.Amqp, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.Amqp.1.1.5\lib\net451\Microsoft.Azure.Amqp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Azure.Devices, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Azure.Devices.1.0.5\lib\net451\Microsoft.Azure.Devices.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Azure.Devices.1.0.11\lib\net451\Microsoft.Azure.Devices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Azure.Devices.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.Devices.Client.1.0.13\lib\net45\Microsoft.Azure.Devices.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -76,6 +87,10 @@
     </Reference>
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling">
+      <HintPath>..\packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration">
@@ -122,6 +137,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
@@ -141,33 +157,39 @@
     <Compile Include="Configurations\ConfigurationProvider.cs" />
     <Compile Include="Configurations\EnvironmentDescription.cs" />
     <Compile Include="Configurations\IConfigurationProvider.cs" />
-    <Compile Include="DeviceSchema\CommandHistorySchemaHelper.cs" />
     <Compile Include="DeviceSchema\CommandSchemaHelper.cs" />
     <Compile Include="DeviceSchema\DeviceSchemaHelper.cs" />
     <Compile Include="DeviceSchema\EventSchemaHelper.cs" />
-    <Compile Include="DeviceSchema\WireCommandSchemaHelper.cs" />
     <Compile Include="Exceptions\DeviceRequiredPropertyNotFoundException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Factory\SampleDeviceFactory.cs" />
     <Compile Include="Helpers\AzureRetryHelper.cs" />
     <Compile Include="Helpers\AzureTableStorageHelper.cs" />
     <Compile Include="Helpers\BlobStorageHelper.cs" />
+    <Compile Include="Helpers\IAzureTableStorageHelper.cs" />
+    <Compile Include="Helpers\IBlobStorageHelper.cs" />
+    <Compile Include="Mapper\TypeMapper.cs" />
+    <Compile Include="Mapper\MappingValidator.cs" />
+    <Compile Include="Models\CommandHistory.cs" />
+    <Compile Include="Models\DeviceModel.cs" />
+    <Compile Include="Models\DeviceProperties.cs" />
+    <Compile Include="Models\IoTHub.cs" />
+    <Compile Include="Models\SystemProperties.cs" />
+    <Compile Include="Models\Telemetry.cs" />
     <Compile Include="Schema\SchemaHelper.cs" />
     <Compile Include="Utility\DocDbQueryResult.cs" />
-    <Compile Include="Helpers\DynamicValuesHelper.cs" />
     <Compile Include="Helpers\FunctionalHelper.cs" />
     <Compile Include="Utility\DocDbResourceType.cs" />
     <Compile Include="Utility\DocDbResourceTypeHelper.cs" />
     <Compile Include="Utility\DocDbRestUtility.cs" />
+    <Compile Include="Helpers\DynamicValuesHelper.cs" />
     <Compile Include="Utility\IDocDbRestUtility.cs" />
     <Compile Include="Helpers\ParsingHelper.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Models\ApiRegistrationModel.cs" />
     <Compile Include="Models\ApiRegistrationTableEntity.cs" />
     <Compile Include="Models\Commands\Command.cs" />
-    <Compile Include="Models\Commands\DeviceCommandConstants.cs" />
     <Compile Include="Models\DeviceListEntity.cs" />
-    <Compile Include="Models\DeviceModelConstants.cs" />
     <Compile Include="Models\DeviceRuleTableEntity.cs" />
     <Compile Include="Models\InitialDeviceConfig.cs" />
     <Compile Include="Models\Parameter.cs" />

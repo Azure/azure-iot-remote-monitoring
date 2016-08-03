@@ -44,6 +44,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             builder.RegisterType<IotHubRepository>()
                 .As<IIotHubRepository>();
 
+            builder.RegisterType<IoTHubDeviceManager>()
+                .As<IIoTHubDeviceManager>();
+
             builder.RegisterType<SecurityKeyGenerator>()
                 .As<ISecurityKeyGenerator>();
 
@@ -67,6 +70,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
 
             builder.RegisterType<MessageFeedbackProcessor>()
                 .As<IMessageFeedbackProcessor>().SingleInstance();
+
+            builder.RegisterType<BlobStorageHelper>()
+                .As<IBlobStorageHelper>();
+
+            builder.RegisterType<AzureTableStorageHelper>()
+                .As<IAzureTableStorageHelper>();
         }
     }
 }

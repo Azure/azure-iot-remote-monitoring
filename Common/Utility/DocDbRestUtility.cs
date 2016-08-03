@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Schema;
 using Newtonsoft.Json.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using IConfigurationProvider = Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations.IConfigurationProvider;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
 {
@@ -250,7 +251,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             }
         }
 
-        public async Task<JObject> SaveNewDocumentAsync(dynamic document)
+        public async Task<JObject> SaveNewDocumentAsync<T>(T document)
         {
             if (document == null)
             {
@@ -258,9 +259,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
             }
 
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs", _docDbEndpoint, _dbId, _collectionId);
-            if (document.id == null)
+            if (ReflectionHelper.GetNamedPropertyValue(document, "id", true, false) == null)
             {
-                document.id = Guid.NewGuid().ToString();
+                ReflectionHelper.SetNamedPropertyValue(document, Guid.NewGuid().ToString(), "id", true, false);
             }
             string response = await PerformRestCallAsync(endpoint, POST_VERB, DocDbResourceType.Document, _collectionId, document.ToString());
 
@@ -272,14 +273,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         /// </summary>
         /// <param name="updatedDocument"></param>
         /// <returns></returns>
-        public async Task<JObject> UpdateDocumentAsync(dynamic updatedDocument)
+        public async Task<JObject> UpdateDocumentAsync<T>(T updatedDocument)
         {
             if (updatedDocument == null)
             {
                 throw new ArgumentNullException("updatedDocument");
             }
 
-            string rid = SchemaHelper.GetDocDbRid(updatedDocument);
+            string rid = SchemaHelper.GetDocDbRid<T>(updatedDocument);
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
             string response = await PerformRestCallAsync(endpoint, PUT_VERB, DocDbResourceType.Document, rid, updatedDocument.ToString());
 
@@ -292,14 +293,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility
         /// </summary>
         /// <param name="document"></param>
         /// <returns></returns>
-        public async Task DeleteDocumentAsync(dynamic document)
+        public async Task DeleteDocumentAsync<T>(T document)
         {
             if (document == null)
             {
                 throw new ArgumentNullException("document");
             }
 
-            string rid = SchemaHelper.GetDocDbRid(document);
+            string rid = SchemaHelper.GetDocDbRid<T>(document);
             string endpoint = string.Format("{0}dbs/{1}/colls/{2}/docs/{3}", _docDbEndpoint, _dbId, _collectionId, rid);
             await PerformRestCallAsync(endpoint, DELETE_VERB, DocDbResourceType.Document, rid, "");
         }

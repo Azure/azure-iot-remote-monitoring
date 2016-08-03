@@ -8,7 +8,6 @@ using Autofac;
 using Microsoft.Azure.Devices;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 
 namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
 {
@@ -24,8 +23,6 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
             ILifetimeScope scope,
             IDeviceLogic deviceLogic)
         {
-            IConfigurationProvider configProvider;
-
             if (scope == null)
             {
                 throw new ArgumentNullException("scope");
@@ -36,15 +33,12 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
                 throw new ArgumentNullException("deviceLogic");
             }
 
-            configProvider = scope.Resolve<IConfigurationProvider>();
-            _iotHubConnectionString = 
-                configProvider.GetConfigurationSettingValue(
-                    "iotHub.ConnectionString");
+            var configProvider = scope.Resolve<IConfigurationProvider>();
+            _iotHubConnectionString = configProvider.GetConfigurationSettingValue("iotHub.ConnectionString");
 
             if (string.IsNullOrEmpty(_iotHubConnectionString))
             {
-                throw new InvalidOperationException(
-                    "Cannot find configuration setting: \"iotHub.ConnectionString\".");
+                throw new InvalidOperationException("Cannot find configuration setting: \"iotHub.ConnectionString\".");
             }
 
             _deviceLogic = deviceLogic;
@@ -79,98 +73,35 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
 
         private async Task RunProcess(CancellationToken token)
         {
-            FeedbackBatch batch;
-            FeedbackReceiver<FeedbackBatch> batchReceiver;
-            dynamic device;
-            dynamic existingCommand;
-            IEnumerable<FeedbackRecord> records;
-            ServiceClient serviceClient;
-            DateTime updatedTime;
-
             if (token == null)
             {
                 throw new ArgumentNullException("token");
             }
 
-            serviceClient = null;
+            ServiceClient serviceClient = null;
             try
             {
-                serviceClient =
-                    ServiceClient.CreateFromConnectionString(
-                        _iotHubConnectionString);
-
+                serviceClient = ServiceClient.CreateFromConnectionString(_iotHubConnectionString);
                 await serviceClient.OpenAsync();
 
                 while (!token.IsCancellationRequested)
                 {
-                    batchReceiver = serviceClient.GetFeedbackReceiver();
-                    batch = 
-                        await batchReceiver.ReceiveAsync(
-                            TimeSpan.FromSeconds(10.0));
+                    var batchReceiver = serviceClient.GetFeedbackReceiver();
+                    var batch = await batchReceiver.ReceiveAsync(TimeSpan.FromSeconds(10.0));
 
-                    if ((batch == null) ||
-                        ((records = batch.Records) == null))
+                    IEnumerable<FeedbackRecord> records;
+                    if ((batch == null) || ((records = batch.Records) == null))
                     {
                         continue;
                     }
 
-                    records = 
-                        records.Where(
-                            t => 
-                                (t != null) &&
-                                !string.IsNullOrEmpty(t.DeviceId) &&
-                                !string.IsNullOrEmpty(t.OriginalMessageId));
+                    records = records.Where(t => t != null)
+                        .Where(x => !string.IsNullOrEmpty(x.DeviceId))
+                        .Where(x => !string.IsNullOrEmpty(x.OriginalMessageId));
+
                     foreach (FeedbackRecord record in records)
                     {
-                        device = 
-                            await _deviceLogic.GetDeviceAsync(record.DeviceId);
-                        if (device == null)
-                        {
-                            continue;
-                        }
-
-                        Trace.TraceInformation(
-                            "{0}{0}*** Processing Feedback Record ***{0}{0}DeviceId: {1}{0}OriginalMessageId: {2}{0}Result: {3}{0}{0}",
-                            Console.Out.NewLine,
-                            record.DeviceId,
-                            record.OriginalMessageId,
-                            record.StatusCode);
-
-                        existingCommand =
-                            CommandHistorySchemaHelper.GetCommandHistoryItemOrDefault(
-                                device,
-                                record.OriginalMessageId);
-
-                        if (existingCommand == null)
-                        {
-                            continue;
-                        }
-
-                        updatedTime = record.EnqueuedTimeUtc;
-                        if (updatedTime == default(DateTime))
-                        {
-                            updatedTime = batch.EnqueuedTime;
-                        }
-
-                        if (updatedTime == default(DateTime))
-                        {
-                            updatedTime = DateTime.UtcNow;
-                        }
-
-                        existingCommand.UpdatedTime = updatedTime;
-
-                        existingCommand.Result = record.StatusCode.ToString();
-
-                        if (record.StatusCode == FeedbackStatusCode.Success)
-                        {
-                            existingCommand.ErrorMessage = string.Empty;
-                        }
-
-                        CommandHistorySchemaHelper.UpdateCommandHistoryItem(
-                            device, 
-                            existingCommand);
-
-                        await _deviceLogic.UpdateDeviceAsync(device);
+                        UpdateDeviceRecord(record, batch.EnqueuedTime);
                     }
 
                     await batchReceiver.CompleteAsync(batch);
@@ -178,17 +109,52 @@ namespace Microsoft.Azure.IoT.Samples.EventProcessor.WebJob.Processors
             }
             catch (Exception ex)
             {
-                Trace.TraceError(
-                    "Error in MessageFeedbackProcessor.RunProcess, Exception: {0}",
-                    ex.Message);
+                Trace.TraceError("Error in MessageFeedbackProcessor.RunProcess, Exception: {0}", ex.Message);
             }
-
-            if (serviceClient != null)
+            finally
             {
-                await serviceClient.CloseAsync();
+                if (serviceClient != null)
+                {
+                    await serviceClient.CloseAsync();
+                }
+
+                _isRunning = false;
+            }
+            
+        }
+
+        private async void UpdateDeviceRecord(FeedbackRecord record, DateTime enqueuDateTime)
+        {
+            Trace.TraceInformation(
+                            "{0}{0}*** Processing Feedback Record ***{0}{0}DeviceId: {1}{0}OriginalMessageId: {2}{0}Result: {3}{0}{0}",
+                            Console.Out.NewLine,
+                            record.DeviceId,
+                            record.OriginalMessageId,
+                            record.StatusCode);
+
+            var device = await _deviceLogic.GetDeviceAsync(record.DeviceId);
+            var existingCommand = device?.CommandHistory.FirstOrDefault(x => x.MessageId == record.OriginalMessageId);
+            if (existingCommand == null)
+            {
+                return;
             }
 
-            _isRunning = false;
+            var updatedTime = record.EnqueuedTimeUtc;
+            if (updatedTime == default(DateTime))
+            {
+                updatedTime = enqueuDateTime == default(DateTime) ? DateTime.UtcNow : enqueuDateTime;
+            }
+
+            existingCommand.UpdatedTime = updatedTime;
+            existingCommand.Result = record.StatusCode.ToString();
+
+            if (record.StatusCode == FeedbackStatusCode.Success)
+            {
+                existingCommand.ErrorMessage = string.Empty;
+            }
+
+
+            await _deviceLogic.UpdateDeviceAsync(device);
         }
 
         public void Dispose()

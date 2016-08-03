@@ -12,6 +12,10 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Mode
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using GlobalResources;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
@@ -94,7 +98,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Func<Task<DashboardDevicePaneDataModel>> getTelemetry =
                 async () =>
                 {
-                    dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
+                    DeviceModel device = await _deviceLogic.GetDeviceAsync(deviceId);
 
                     IList<DeviceTelemetryFieldModel> telemetryFields = null;
 
@@ -102,14 +106,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     {
                         telemetryFields = _deviceLogic.ExtractTelemetry(device);
                         result.DeviceTelemetryFields = telemetryFields != null ?
-                            telemetryFields.ToArray() :
-                            null;
+                        telemetryFields.ToArray() : null;
                     }
                     catch
                     {
                         HttpResponseMessage message = new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);
                         message.Content = new StringContent(
-                            string.Format(Strings.InvalidDeviceTelemetryFormat, deviceId));
+                        string.Format(Strings.InvalidDeviceTelemetryFormat, deviceId));
                         throw new HttpResponseException(message);
                     }
 
@@ -161,7 +164,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Func<Task<DeviceTelemetryModel[]>> getTelemetry =
                 async () =>
                 {
-                    dynamic device = await _deviceLogic.GetDeviceAsync(deviceId);
+                    DeviceModel device = await _deviceLogic.GetDeviceAsync(deviceId);
 
                     IList<DeviceTelemetryFieldModel> telemetryFields = null;
 
@@ -242,9 +245,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     if (data != null)
                     {
                         historyItems.AddRange(data);
-
-                        List<dynamic> devices = await LoadAllDevicesAsync();
-
+                        //get alert history
+                        List<DeviceModel> devices = await this.LoadAllDevicesAsync();
+   
                         if (devices != null)
                         {
                             DeviceListLocationsModel locationsModel = _deviceLogic.ExtractLocationsData(devices);
@@ -307,31 +310,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return await GetServiceResponseAsync<AlertHistoryResultsModel>(loadHistoryItems, false);
         }
 
-        private async Task<List<dynamic>> LoadAllDevicesAsync()
+        
+
+        private async Task<List<DeviceModel>> LoadAllDevicesAsync()
         {
             var query = new DeviceListQuery()
-                    {
+            {
                 Skip = 0,
                 Take = MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD,
                 SortColumn = "DeviceID"
-                    };
+            };
 
             string deviceId;
-            var devices = new List<dynamic>();
-            DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
-            if ((queryResult != null) &&  (queryResult.Results != null))
+            var devices = new List<DeviceModel>();
+            DeviceListQueryResult queryResult = await  _deviceLogic.GetDevices(query);
+
+
+            if ((queryResult != null) && (queryResult.Results != null))
             {
-                string enabledState = "";
-                dynamic props = null;
-                foreach (dynamic devInfo in queryResult.Results)
+                bool? enabledState;
+                DeviceProperties props;
+                foreach (var devInfo in queryResult.Results)
                 {
                     try
                     {
-                        deviceId = DeviceSchemaHelper.GetDeviceID(devInfo);
-                        props = DeviceSchemaHelper.GetDeviceProperties(devInfo);
+                        deviceId = devInfo.DeviceProperties.DeviceID;
+                        props = devInfo.DeviceProperties;
                         enabledState = props.HubEnabledState;
                     }
-                    catch (DeviceRequiredPropertyNotFoundException)
+                    catch (NullReferenceException)
                     {
                         continue;
                     }

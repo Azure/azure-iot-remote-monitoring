@@ -94,7 +94,7 @@
                                     {
                                         <button class="button_base resend_command"
                                                 data-command-name="@commandName"
-                                                data-command-json="@CommandHistorySchemaHelper.GetCommandParametersAsJsonString(commandHistoryItem)">
+                                                data-command-json="@commandHistoryItem.GetParameterString()">
                                             @Strings.Resend
                                         </button>
                                     }

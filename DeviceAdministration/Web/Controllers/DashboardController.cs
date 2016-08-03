@@ -10,6 +10,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using StringPair = System.Collections.Generic.KeyValuePair<string, string>;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
@@ -86,11 +88,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             };
 
             DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
+
             if ((queryResult != null) && (queryResult.Results != null))
             {
-                foreach (dynamic devInfo in queryResult.Results)
+                foreach (DeviceModel devInfo in queryResult.Results)
                 {
-
                     string deviceId;
                     try
                     {

@@ -9,7 +9,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// <summary>
     /// Command processor to stop telemetry data
     /// </summary>
-    public class StopCommandProcessor : CommandProcessor 
+    public class StopCommandProcessor : CommandProcessor
     {
         private const string STOP_TELEMETRY = "StopTelemetry";
 
@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             if (deserializableCommand.CommandName == STOP_TELEMETRY)
             {
-                var command = deserializableCommand.Command;
+                var command = deserializableCommand.CommandHistory;
 
                 try
                 {

@@ -14,6 +14,9 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Secu
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
     [Authorize]
+#if ALLOW_ANONYMOUS_API
+    [AllowAnonymous]
+#endif
     [WebApiCSRFValidation]
     public abstract class WebApiControllerBase : ApiController
     {

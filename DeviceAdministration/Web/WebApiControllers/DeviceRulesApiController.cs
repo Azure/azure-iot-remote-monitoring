@@ -41,11 +41,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewRules)]
         public async Task<HttpResponseMessage> GetDeviceRulesAsync([FromBody]JObject requestData)
         {
-            return await GetServiceResponseAsync<DataTablesResponse>(async () =>
+            return await GetServiceResponseAsync<DataTablesResponse<DeviceRule>>(async () =>
             {
                 var queryResult = await _deviceRulesLogic.GetAllRulesAsync();
 
-                var dataTablesResponse = new DataTablesResponse()
+                var dataTablesResponse = new DataTablesResponse<DeviceRule>()
                 {
                     RecordsTotal = queryResult.Count,
                     RecordsFiltered = queryResult.Count,

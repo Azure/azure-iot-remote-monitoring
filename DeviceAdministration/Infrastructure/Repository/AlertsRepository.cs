@@ -27,8 +27,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private const string RULE_OUTPUT_COLUMN_NAME = "ruleoutput";
         private const string TIME_COLUMN_NAME = "time";
 
-        private readonly string alertsContainerConnectionString;
-        private readonly string alertsStoreContainerName;
+        private readonly IBlobStorageHelper _blobStorageHelper;
         private readonly string deviceAlertsDataPrefix;
 
         /// <summary>
@@ -45,8 +44,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new ArgumentNullException("configProvider");
             }
 
-            this.alertsContainerConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
-            this.alertsStoreContainerName = configProvider.GetConfigurationSettingValue("AlertsStoreContainerName");
+            string alertsContainerConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
+            string alertsStoreContainerName = configProvider.GetConfigurationSettingValue("AlertsStoreContainerName");
+            this._blobStorageHelper = new BlobStorageHelper(alertsContainerConnectionString, alertsStoreContainerName);
             this.deviceAlertsDataPrefix =configProvider.GetConfigurationSettingValue("DeviceAlertsDataPrefix");
         }
 
@@ -228,12 +228,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private async Task<IEnumerable<IListBlobItem>> LoadApplicableListBlobItemsAsync()
         {
             CloudBlobContainer container =
-                await BlobStorageHelper.BuildBlobContainerAsync(
-                    this.alertsContainerConnectionString,
-                    this.alertsStoreContainerName);
+                await _blobStorageHelper.BuildBlobContainerAsync();
 
             IEnumerable<IListBlobItem> blobs =
-                await BlobStorageHelper.LoadBlobItemsAsync(
+                await _blobStorageHelper.LoadBlobItemsAsync(
                     async (token) =>
                     {
                         return await container.ListBlobsSegmentedAsync(
@@ -248,7 +246,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             if (blobs != null)
             {
-                blobs = blobs.OrderByDescending(t => BlobStorageHelper.ExtractBlobItemDate(t));
+                blobs = blobs.OrderByDescending(t => _blobStorageHelper.ExtractBlobItemDate(t));
                     }
 
             return blobs;

@@ -1,0 +1,6 @@
+node_modules
+typings
+*.map
+npm-debug.log
+dist
+junitresults.xml

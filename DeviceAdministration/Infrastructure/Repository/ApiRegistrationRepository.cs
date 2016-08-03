@@ -15,8 +15,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public ApiRegistrationRepository(IConfigurationProvider configProvider)
         {
-            _table = AzureTableStorageHelper.GetTable(
-                   configProvider.GetConfigurationSettingValue("device.StorageConnectionString"), API_TABLE_NAME);
+            _table = (new AzureTableStorageHelper(configProvider.GetConfigurationSettingValue("device.StorageConnectionString"), API_TABLE_NAME)).GetTable();
         }
 
         public bool AmendRegistration(ApiRegistrationModel apiRegistrationModel)
