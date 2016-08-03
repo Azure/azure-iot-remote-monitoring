@@ -33,7 +33,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         private const int DEFAULT_DEVICE_POLL_INTERVAL_SECONDS = 120;
 
-        public BulkDeviceTester(ITransportFactory transportFactory, ILogger logger, IConfigurationProvider configProvider, 
+        public BulkDeviceTester(ITransportFactory transportFactory, ILogger logger, IConfigurationProvider configProvider,
             ITelemetryFactory telemetryFactory, IDeviceFactory deviceFactory, IVirtualDeviceStorage virtualDeviceStorage)
         {
             _transportFactory = transportFactory;
@@ -77,7 +77,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                                 .Select(x => x.DeviceId)
                                 .ToList();
                     }
-                    else if(_deviceList != null && _deviceList.Any())
+                    else if (_deviceList != null && _deviceList.Any())
                     {
                         removedDevices = _deviceList.Select(x => x.DeviceId).ToList();
                     }
@@ -90,7 +90,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     {
                         _logger.LogInfo("********** {0} DEVICES REMOVED ********** ", removedDevices.Count);
                     }
-                        
+
 
                     //reset the base list of devices for comparison the next
                     //time we retrieve the device list
@@ -126,7 +126,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 //do nothing if task was cancelled
                 _logger.LogInfo("********** Primary worker role cancellation token source has been cancelled. **********");
             }
-            finally 
+            finally
             {
                 //ensure that all devices have been stopped
                 dm.StopAllDevices();

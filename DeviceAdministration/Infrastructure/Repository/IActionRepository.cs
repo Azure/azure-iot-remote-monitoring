@@ -8,6 +8,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </summary>
     public interface IActionRepository
     {
+        Task<bool> AddActionEndpoint(string actionId, string endpoint);
+
         Task<List<string>> GetAllActionIdsAsync();
 
         Task<bool> ExecuteLogicAppAsync(string actionId, string deviceId, string measurementName, double measuredValue);

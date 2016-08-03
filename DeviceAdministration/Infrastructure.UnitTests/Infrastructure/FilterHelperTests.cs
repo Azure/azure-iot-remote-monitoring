@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
-using NUnit.Framework;
+using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests
 {
-    [TestFixture]
     public class FilterHelperTests
     {
-        [Test]
+        [Fact]
         public void NoFilterShouldReturnEverything()
         {
             TestFilter(new List<FilterInfo>(), 10);
@@ -20,7 +20,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         #region Test Group: filtering on missing value should remove all devices
 
-        [Test]
+        [Fact]
         public void FilterWithMissingValueShouldBeAbleToRemoveAll_Exact_CaseSensitive()
         {
             var filters = new List<FilterInfo>()
@@ -36,7 +36,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 0);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithMissingValueShouldBeAbleToRemoveAll_Exact_CaseInsensitive()
         {
             var filters = new List<FilterInfo>()
@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 0);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithMissingValueShouldBeAbleToRemoveAll_StartsWith_CaseSensitive()
         {
             var filters = new List<FilterInfo>()
@@ -68,7 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 0);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithMissingValueShouldBeAbleToRemoveAll_StartsWith_CaseInsensitive()
         {
             var filters = new List<FilterInfo>()
@@ -84,7 +84,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 0);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithMissingValueShouldBeAbleToRemoveAll_Contains_CaseSensitive()
         {
             var filters = new List<FilterInfo>()
@@ -100,7 +100,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 0);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithMissingValueShouldBeAbleToRemoveAll_Contains_CaseInsensitive()
         {
             var filters = new List<FilterInfo>()
@@ -120,7 +120,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         #region Test Group: filter should return 1 device
 
-        [Test]
+        [Fact]
         public void FilterShouldReturnOneDevice_Exact_CaseSensitive()
         {
             var filters = new List<FilterInfo>()
@@ -136,7 +136,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 1);
         }
 
-        [Test]
+        [Fact]
         public void FilterShouldReturnOneDevice_Exact_CaseInsensitive_SameCase()
         {
             var filters = new List<FilterInfo>()
@@ -152,7 +152,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 1);
         }
 
-        [Test]
+        [Fact]
         public void FilterShouldReturnOneDevice_Exact_CaseInsensitive_DiffCase()
         {
             var filters = new List<FilterInfo>()
@@ -168,7 +168,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 1);
         }
 
-        [Test]
+        [Fact]
         public void FilterShouldReturnOneDevice_StartsWith_CaseInsensitive_SameCase()
         {
             var filters = new List<FilterInfo>()
@@ -184,7 +184,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 1);
         }
 
-        [Test]
+        [Fact]
         public void FilterShouldReturnOneDevice_StartsWith_CaseInsensitive_DiffCase()
         {
             var filters = new List<FilterInfo>()
@@ -200,7 +200,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 1);
         }
 
-        [Test]
+        [Fact]
         public void FilterShouldReturnOneDevice_StartsWith_CaseSensitive()
         {
             var filters = new List<FilterInfo>()
@@ -216,7 +216,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 1);
         }
 
-        [Test]
+        [Fact]
         public void FilterShouldReturnOneDevice_Contains_CaseSensitive()
         {
             var filters = new List<FilterInfo>()
@@ -232,7 +232,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 1);
         }
 
-        [Test]
+        [Fact]
         public void FilterShouldReturnOneDevice_Contains_CaseInsensitive_SameCase()
         {
             var filters = new List<FilterInfo>()
@@ -248,7 +248,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 1);
         }
 
-        [Test]
+        [Fact]
         public void FilterShouldReturnOneDevice_Contains_CaseInsensitive_DiffCase()
         {
             var filters = new List<FilterInfo>()
@@ -268,7 +268,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         #region Test Group: case sensitive filters should be case sensitive
 
-        [Test]
+        [Fact]
         public void CaseSensitiveFilterShouldReturnNothing_Exact_CaseSensitive_DiffCase()
         {
             var filters = new List<FilterInfo>()
@@ -284,7 +284,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 0);
         }
 
-        [Test]
+        [Fact]
         public void CaseSensitiveFilterShouldReturnNothing_StartsWith_CaseSensitive_DiffCase()
         {
             var filters = new List<FilterInfo>()
@@ -300,7 +300,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 0);
         }
 
-        [Test]
+        [Fact]
         public void CaseSensitiveFilterShouldReturnNothing_Contains_CaseSensitive_DiffCase()
         {
             var filters = new List<FilterInfo>()
@@ -320,7 +320,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         #region Test Group: multiple filters should work together
 
-        [Test]
+        [Fact]
         public void MultipleFiltersShouldWorkTogether_RemoveAllDevices()
         {
             var filters = new List<FilterInfo>()
@@ -342,7 +342,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 0);
         }
 
-        [Test]
+        [Fact]
         public void MultipleFiltersShouldWorkTogether_ReturnOneDevice()
         {
             var filters = new List<FilterInfo>()
@@ -364,7 +364,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 1);
         }
 
-        [Test]
+        [Fact]
         public void MultipleFiltersShouldWorkTogether_DifferentColumns_ReturnOneDevice()
         {
             var filters = new List<FilterInfo>()
@@ -386,7 +386,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 1);
         }
 
-        [Test]
+        [Fact]
         public void MultipleFiltersShouldWorkTogether_DifferentColumns_ReturnNoDevices()
         {
             var filters = new List<FilterInfo>()
@@ -408,7 +408,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 0);
         }
 
-        [Test]
+        [Fact]
         public void MultipleTripleFiltersShouldWorkTogether_DifferentColumns_ReturnOneDevice()
         {
             var filters = new List<FilterInfo>()
@@ -436,7 +436,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(filters, 1);
         }
 
-        [Test]
+        [Fact]
         public void MultipleTripleFiltersShouldWorkTogether_DifferentColumns_ReturnNoDevices()
         {
             var filters = new List<FilterInfo>()
@@ -468,7 +468,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         #region Test Group: column names should not be case sensitive
 
-        [Test]
+        [Fact]
         public void FilterWithColumnNameDiffCaseShouldWork()
         {
             var filters = new List<FilterInfo>()
@@ -490,37 +490,37 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         #region Sub-test Group: non-null DeviceProperties but missing property off of DeviceProperties should not throw
 
-        [Test]
+        [Fact]
         public void FilteringDeviceWithNullDeviceIdShouldWork_ContainsCaseInsensitive()
         {
             TestNullDeviceId(FilterType.ContainsCaseInsensitive);
         }
 
-        [Test]
+        [Fact]
         public void FilteringDeviceWithNullDeviceIdShouldWork_ContainsCaseSensitive()
         {
             TestNullDeviceId(FilterType.ContainsCaseSensitive);
         }
 
-        [Test]
+        [Fact]
         public void FilteringDeviceWithNullDeviceIdShouldWork_ExactMatchCaseInsensitive()
         {
             TestNullDeviceId(FilterType.ExactMatchCaseInsensitive);
         }
 
-        [Test]
+        [Fact]
         public void FilteringDeviceWithNullDeviceIdShouldWork_ExactMatchCaseSensitive()
         {
             TestNullDeviceId(FilterType.ExactMatchCaseSensitive);
         }
 
-        [Test]
+        [Fact]
         public void FilteringDeviceWithNullDeviceIdShouldWork_StartsWithCaseInsensitive()
         {
             TestNullDeviceId(FilterType.StartsWithCaseInsensitive);
         }
 
-        [Test]
+        [Fact]
         public void FilteringDeviceWithNullDeviceIdShouldWork_StartsWithCaseSensitive()
         {
             TestNullDeviceId(FilterType.StartsWithCaseSensitive);
@@ -528,7 +528,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private void TestNullDeviceId(FilterType filterType)
         {
-            var devicesWithNullDeviceId = GetListWithOneSpecialDeviceIdValue(specialDeviceId: null);
+            IQueryable<DeviceModel> devicesWithNullDeviceId = GetListWithOneSpecialDeviceIdValue(specialDeviceId: null);
 
             var filters = new List<FilterInfo>()
             {
@@ -542,44 +542,44 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             var filtered = FilterHelper.FilterDeviceList(devicesWithNullDeviceId, filters);
 
-            Assert.AreEqual(0, filtered.Count());
+            Assert.Equal(0, filtered.Count());
         }
 
         #endregion
 
         #region Sub-test Group: null DeviceProperties should not throw
 
-        [Test]
+        [Fact]
         public void FilteringDeviceWithNullDevicePropertiesShouldWork_ContainsCaseInsensitive()
         {
             TestNullDeviceProperties(FilterType.ContainsCaseInsensitive);
         }
 
-        [Test]
+        [Fact]
         public void FilteringDeviceWithNullDevicePropertiesShouldWork_ContainsCaseSensitive()
         {
             TestNullDeviceProperties(FilterType.ContainsCaseSensitive);
         }
 
-        [Test]
+        [Fact]
         public void FilteringDeviceWithNullDevicePropertiesShouldWork_ExactMatchCaseInsensitive()
         {
             TestNullDeviceProperties(FilterType.ExactMatchCaseInsensitive);
         }
 
-        [Test]
+        [Fact]
         public void FilteringDeviceWithNullDevicePropertiesShouldWork_ExactMatchCaseSensitive()
         {
             TestNullDeviceProperties(FilterType.ExactMatchCaseSensitive);
         }
 
-        [Test]
+        [Fact]
         public void FilteringDeviceWithNullDevicePropertiesShouldWork_StartsWithCaseInsensitive()
         {
             TestNullDeviceProperties(FilterType.StartsWithCaseInsensitive);
         }
 
-        [Test]
+        [Fact]
         public void FilteringDeviceWithNullDevicePropertiesShouldWork_StartsWithCaseSensitive()
         {
             TestNullDeviceProperties(FilterType.StartsWithCaseSensitive);
@@ -587,11 +587,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private void TestNullDeviceProperties(FilterType filterType)
         {
-            var device = DeviceSchemaHelper.BuildDeviceStructure(Guid.NewGuid().ToString(), true, null);
+            DeviceModel device = DeviceSchemaHelper.BuildDeviceStructure(Guid.NewGuid().ToString(), true, null);
 
             device.DeviceProperties = null;
 
-            var list = new List<dynamic>() { device };
+            var list = new List<DeviceModel>() { device };
 
             var filters = new List<FilterInfo>()
             {
@@ -605,7 +605,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             var filtered = FilterHelper.FilterDeviceList(list.AsQueryable(), filters);
 
-            Assert.AreEqual(0, filtered.Count());
+            Assert.Equal(0, filtered.Count());
         }
 
         #endregion
@@ -614,7 +614,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         #region Test Group: status tests
 
-        [Test]
+        [Fact]
         public void Status_PendingShouldReturnBothNullTypes()
         {
             var list = GetListWithEnabledTestValues();
@@ -628,17 +628,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelper.FilterDeviceList(list, filters).ToList<dynamic>();
+            var results = FilterHelper.FilterDeviceList(list, filters).ToList<DeviceModel>();
 
-            Assert.AreEqual(2, results.Count());
+            Assert.Equal(2, results.Count());
 
             Assert.Throws<DeviceRequiredPropertyNotFoundException>(
                 () => DeviceSchemaHelper.GetDeviceProperties(results[0]));
 
-            Assert.AreEqual("EnabledNull", results[1].DeviceProperties.DeviceID.ToString());
+            Assert.Equal("EnabledNull", results[1].DeviceProperties.DeviceID.ToString());
         }
 
-        [Test]
+        [Fact]
         public void Status_RunningShouldReturnEnabled()
         {
             var list = GetListWithEnabledTestValues();
@@ -652,13 +652,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelper.FilterDeviceList(list, filters).ToList<dynamic>();
+            var results = FilterHelper.FilterDeviceList(list, filters).ToList<DeviceModel>();
 
-            Assert.AreEqual(1, results.Count());
-            Assert.AreEqual("EnabledTrue", results[0].DeviceProperties.DeviceID.ToString());
+            Assert.Equal(1, results.Count());
+            Assert.Equal("EnabledTrue", results[0].DeviceProperties.DeviceID.ToString());
         }
 
-        [Test]
+        [Fact]
         public void Status_DisabledShouldReturnDisabled()
         {
             var list = GetListWithEnabledTestValues();
@@ -672,15 +672,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelper.FilterDeviceList(list, filters).ToList<dynamic>();
+            var results = FilterHelper.FilterDeviceList(list, filters).ToList<DeviceModel>();
 
-            Assert.AreEqual(1, results.Count());
-            Assert.AreEqual("EnabledFalse", results[0].DeviceProperties.DeviceID.ToString());
+            Assert.Equal(1, results.Count());
+            Assert.Equal("EnabledFalse", results[0].DeviceProperties.DeviceID.ToString());
         }
 
-        private static IQueryable<dynamic> GetListWithEnabledTestValues()
+        private static IQueryable<DeviceModel> GetListWithEnabledTestValues()
         {
-            var list = GetSampleDevices(4).ToList();
+            List<DeviceModel> list = GetSampleDevices(4).ToList();
 
             list[0].DeviceProperties = null;
             
@@ -693,20 +693,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             list[3].DeviceProperties.HubEnabledState = false;
             list[3].DeviceProperties.DeviceID = "EnabledFalse";
 
-            return list.AsQueryable<dynamic>();
+            return list.AsQueryable<DeviceModel>();
         }
 
         #endregion
 
         #region Testing Infrastructure
 
-        [Test]
+        [Fact]
         public void FilterTestInfrastructureShouldWork()
         {
             // make sure the infrastructure is working as expected
-            var list = GetSampleDevices();
+            IQueryable<DeviceModel> list = GetSampleDevices();
 
-            Assert.AreEqual(10, list.Count());
+            Assert.Equal(10, list.Count());
         }
 
         private static void TestFilter(List<FilterInfo> filters, int expectedCount)
@@ -715,46 +715,42 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             var filtered = FilterHelper.FilterDeviceList(list, filters);
 
-            Assert.AreEqual(expectedCount, filtered.Count());
+            Assert.Equal(expectedCount, filtered.Count());
         }
 
-        private static IQueryable<dynamic> GetListWithOneSpecialDeviceIdValue(string specialDeviceId = "The one special value")
+        private static IQueryable<DeviceModel> GetListWithOneSpecialDeviceIdValue(string specialDeviceId = "The one special value")
         {
-            var list = GetSampleDevices().ToList();
+            List<DeviceModel> list = GetSampleDevices().ToList();
 
             list[4].DeviceProperties.DeviceID = specialDeviceId;
 
-            return list.AsQueryable<dynamic>();
+            return list.AsQueryable<DeviceModel>();
         }
 
-        private static IQueryable<dynamic> GetSampleDevices(int desiredNumberOfDevices = 10)
+        private static IQueryable<DeviceModel> GetSampleDevices(int desiredNumberOfDevices = 10)
         {
-            List<dynamic> devices = new List<dynamic>();
+            List<DeviceModel> devices = new List<DeviceModel>();
 
             for (int i = 0; i < desiredNumberOfDevices; ++i)
             {
                 devices.Add(GetDefaultTestDevice());
             }
 
-            return devices.AsQueryable<dynamic>();
+            return devices.AsQueryable<DeviceModel>();
         }
 
-        private static dynamic GetDefaultTestDevice()
+        private static DeviceModel GetDefaultTestDevice()
         {
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure("DeviceID-Test", true, null);
-            dynamic props = DeviceSchemaHelper.GetDeviceProperties(device);
-            props.AvailablePowerSources = 123;
-            props.BatteryLevel = 12;
+            DeviceModel device = DeviceSchemaHelper.BuildDeviceStructure("DeviceID-Test", true, null);
+            DeviceProperties props = DeviceSchemaHelper.GetDeviceProperties(device);
             props.CreatedTime = new DateTime(2000, 01, 01);
             props.DeviceState = "DeviceState-Test";
             props.HubEnabledState = true;
             props.FirmwareVersion = "FirmwareVersion-Test";
             props.InstalledRAM = "InstalledRAM-Test";
             props.Manufacturer = "Manufacturer-Test";
-            props.MemoryFree = 123;
             props.ModelNumber = "ModelNumber-Test";
             props.Platform = "Platform-Test";
-            props.PowerSourceVoltage = 1234;
             props.Processor = "Processor-Test";
             props.SerialNumber = "SerialNumber-Test";
             props.UpdatedTime = new DateTime(2000, 01, 01);

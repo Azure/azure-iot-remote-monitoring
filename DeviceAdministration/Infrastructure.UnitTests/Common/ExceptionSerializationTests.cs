@@ -1,23 +1,22 @@
 ﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
-using NUnit.Framework;
+using Xunit;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests
 {
-    [TestFixture]
     public class ExceptionSerializationTests
     {
-        [Test]
+        [Fact]
         public void TestDeviceRequiredPropertyNotFoundException()
         {
             var e = new DeviceRequiredPropertyNotFoundException("This is a test!!");
             TestSerialization(e);
         }
 
-        [Test]
+        [Fact]
         public void TestDeviceRequiredPropertyNotFoundExceptionWithInner()
         {
             var eInner = new ArgumentNullException("Test");
@@ -25,21 +24,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestSerialization(e);
         }
 
-        [Test]
+        [Fact]
         public void TestDeviceAlreadyRegisteredException()
         {
             var e = new DeviceAlreadyRegisteredException("1234");
             TestSerialization(e);
         }
 
-        [Test]
+        [Fact]
         public void TestDeviceNotRegisteredException()
         {
             var e = new DeviceNotRegisteredException("1234");
             TestSerialization(e);
         }
 
-        [Test]
+        [Fact]
         public void TestDeviceRegistrationException()
         {
             var innerE = new ArgumentOutOfRangeException("paramName", "test", "This is a test?");
@@ -48,7 +47,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestSerialization(e);
         }
 
-        [Test]
+        [Fact]
         public void TestUnsupportedCommandException()
         {
             var e = new UnsupportedCommandException("1234", "DoSomething");
@@ -56,7 +55,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestSerialization(e);
         }
         
-        [Test]
+        [Fact]
         public void TestValidationExceptionWithNoErrorsInList()
         {
             var e = new ValidationException("1234");
@@ -64,7 +63,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestSerialization(e);
         }
 
-        [Test]
+        [Fact]
         public void TestValidationExceptionWithErrorsList()
         {
             var e = new ValidationException("1234");
@@ -74,7 +73,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestSerialization(e);
         }
 
-        [Test]
+        [Fact]
         public void TestValidationExceptionWithInnerException()
         {
             var eInner = new InvalidOperationException("Whoops!");
@@ -103,7 +102,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 eRoundTripped = (TException)formatter.Deserialize(stream);
             }
 
-            Assert.AreEqual(eRoundTripped.ToString(), e.ToString());
+            Assert.Equal(eRoundTripped.ToString(), e.ToString());
         }
     }
 }

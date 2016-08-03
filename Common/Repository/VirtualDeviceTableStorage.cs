@@ -10,19 +10,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repositor
 {
     public class VirtualDeviceTableStorage : IVirtualDeviceStorage
     {
-        private readonly string _storageConnectionString;
-        private readonly string _deviceTableName;
+        private readonly IAzureTableStorageHelper _azureTableStorageHelper;
 
         public VirtualDeviceTableStorage(IConfigurationProvider configProvider)
         {
-            _storageConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
-            _deviceTableName = configProvider.GetConfigurationSettingValue("device.TableName");
+            string storageConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
+            string deviceTableName = configProvider.GetConfigurationSettingValue("device.TableName");
+            _azureTableStorageHelper = new AzureTableStorageHelper(storageConnectionString, deviceTableName);
         }
 
         public async Task<List<InitialDeviceConfig>> GetDeviceListAsync()
         {
             List<InitialDeviceConfig> devices = new List<InitialDeviceConfig>();
-            var devicesTable = await AzureTableStorageHelper.GetTableAsync(_storageConnectionString, _deviceTableName);
+            var devicesTable = await _azureTableStorageHelper.GetTableAsync();
             TableQuery<DeviceListEntity> query = new TableQuery<DeviceListEntity>();
             foreach (var device in devicesTable.ExecuteQuery(query))
             {
@@ -43,18 +43,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repositor
             return this.GetDeviceAsync(query);
         }
 
-        public Task<InitialDeviceConfig> GetDevice(string deviceId, string hostName)
-        {
-            var query = new TableQuery<DeviceListEntity>().Where(TableQuery.CombineFilters(
-                TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, deviceId),
-                TableOperators.And,
-                TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, hostName)));
-            return this.GetDeviceAsync(query);
-        }
-
         public async Task<bool> RemoveDeviceAsync(string deviceId)
         {
-            var devicesTable = await AzureTableStorageHelper.GetTableAsync(_storageConnectionString, _deviceTableName);
+            var devicesTable = await _azureTableStorageHelper.GetTableAsync();
             var device = await this.GetDeviceAsync(deviceId);
             if (device != null)
             {
@@ -74,7 +65,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repositor
 
         public async Task AddOrUpdateDeviceAsync(InitialDeviceConfig deviceConfig)
         {
-            var devicesTable = await AzureTableStorageHelper.GetTableAsync(_storageConnectionString, _deviceTableName);
+            var devicesTable = await _azureTableStorageHelper.GetTableAsync();
             var deviceEnity = new DeviceListEntity()
             {
                 DeviceId = deviceConfig.DeviceId,
@@ -87,7 +78,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repositor
 
         private async Task<InitialDeviceConfig> GetDeviceAsync(TableQuery<DeviceListEntity> query)
         {
-            var devicesTable = await AzureTableStorageHelper.GetTableAsync(_storageConnectionString, _deviceTableName);
+            var devicesTable = await _azureTableStorageHelper.GetTableAsync();
             foreach (var device in devicesTable.ExecuteQuery<DeviceListEntity>(query))
             {
                 // Always return first device found

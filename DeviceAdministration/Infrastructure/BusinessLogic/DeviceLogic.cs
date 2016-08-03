@@ -12,8 +12,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configuration
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
@@ -33,8 +33,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly ISecurityKeyGenerator _securityKeyGenerator;
         private readonly IDeviceRulesLogic _deviceRulesLogic;
 
-        public DeviceLogic(IIotHubRepository iotHubRepository, IDeviceRegistryCrudRepository deviceRegistryCrudRepository,
-            IDeviceRegistryListRepository deviceRegistryListRepository, IVirtualDeviceStorage virtualDeviceStorage,
+        public DeviceLogic(IIotHubRepository iotHubRepository, IDeviceRegistryCrudRepository deviceRegistryCrudRepository, 
+            IDeviceRegistryListRepository deviceRegistryListRepository, IVirtualDeviceStorage virtualDeviceStorage, 
             ISecurityKeyGenerator securityKeyGenerator, IConfigurationProvider configProvider, IDeviceRulesLogic deviceRulesLogic)
         {
             _iotHubRepository = iotHubRepository;
@@ -51,12 +51,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return await _deviceRegistryListRepository.GetDeviceList(q);
         }
 
-        /// <summary>
-        /// Retrieves the device with the provided device id from the device registry
-        /// </summary>
-        /// <param name="deviceId">ID of the device to retrieve</param>
-        /// <returns>Fully populated device from the device registry</returns>
-        public async Task<dynamic> GetDeviceAsync(string deviceId)
+        public async Task<DeviceModel> GetDeviceAsync(string deviceId)
         {
             return await _deviceRegistryCrudRepository.GetDeviceAsync(deviceId);
         }
@@ -66,14 +61,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device">Device to add to the underlying repositories</param>
         /// <returns>Device created along with the device identity store keys</returns>
-        public async Task<DeviceWithKeys> AddDeviceAsync(dynamic device)
+        public async Task<DeviceWithKeys> AddDeviceAsync(DeviceModel device)
         {
             // Validation logic throws an exception if it finds a validation error
-            await ValidateDevice(device);
+            await this.ValidateDevice(device);
 
-            SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
+            SecurityKeys generatedSecurityKeys = this._securityKeyGenerator.CreateRandomKeys();
 
-            dynamic savedDevice = await AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
+            DeviceModel savedDevice = await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             return new DeviceWithKeys(savedDevice, generatedSecurityKeys);
         }
 
@@ -83,9 +78,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="device">Device to add to repositories</param>
         /// <param name="securityKeys">Keys to assign to the device</param>
         /// <returns>Device that was added to the device registry</returns>
-        private async Task<dynamic> AddDeviceToRepositoriesAsync(dynamic device, SecurityKeys securityKeys)
+        private async Task<DeviceModel> AddDeviceToRepositoriesAsync(DeviceModel device, SecurityKeys securityKeys)
         {
-            dynamic registryRepositoryDevice = null;
+            DeviceModel registryRepositoryDevice = null;
             ExceptionDispatchInfo capturedException = null;
 
             // if an exception happens at this point pass it up the stack to handle it
@@ -121,7 +116,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 {
                     await _virtualDeviceStorage.AddOrUpdateDeviceAsync(new InitialDeviceConfig()
                     {
-                        DeviceId = DeviceSchemaHelper.GetDeviceID(device),
+                        DeviceId = device.DeviceProperties.DeviceID,
                         HostName = _configProvider.GetConfigurationSettingValue("iotHub.HostName"),
                         Key = securityKeys.PrimaryKey
                     });
@@ -140,7 +135,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 // This is a lazy attempt to remove the device from the Iot Hub.  If it fails
                 // the device will still remain in the Iot Hub.  A more robust rollback may be needed
                 // in some scenarios.
-                await _iotHubRepository.TryRemoveDeviceAsync(DeviceSchemaHelper.GetDeviceID(device));
+                await _iotHubRepository.TryRemoveDeviceAsync(device.DeviceProperties.DeviceID);
                 capturedException.Throw();
             }
 
@@ -178,7 +173,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 capturedException = ExceptionDispatchInfo.Capture(ex);
             }
 
-            if (capturedException == null)
+            if (capturedException == null) 
             {
                 try
                 {
@@ -212,21 +207,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device">Device to update in the device registry</param>
         /// <returns>Device that was saved into the device registry</returns>
-        public async Task<dynamic> UpdateDeviceAsync(dynamic device)
+        public async Task<DeviceModel> UpdateDeviceAsync(DeviceModel device)
         {
             return await _deviceRegistryCrudRepository.UpdateDeviceAsync(device);
         }
 
-        /// <summary>
-        /// Used by the event processor to update the initial data for the device
-        /// without deleting the CommandHistory and the original created date
-        /// This assumes the device controls and has full knowledge of its metadata except for:
-        /// - CreatedTime
-        /// - CommandHistory
-        /// </summary>
-        /// <param name="device">Device information to save to the backend Device Registry</param>
-        /// <returns>Combined device that was saved to registry</returns>
-        public async Task<dynamic> UpdateDeviceFromDeviceInfoPacketAsync(dynamic device)
+        public async Task<DeviceModel> UpdateDeviceFromDeviceInfoPacketAsync(DeviceModel device)
         {
             if (device == null)
             {
@@ -234,14 +220,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             // Get original device document
-            var connectionDeviceId = DeviceSchemaHelper.GetConnectionDeviceId(device);
-            dynamic existingDevice = await GetDeviceAsync(connectionDeviceId);
+            DeviceModel existingDevice = await this.GetDeviceAsync(device.DeviceProperties.DeviceID);
 
             // Save the command history, original created date, and system properties (if any) of the existing device
-            if (DeviceSchemaHelper.GetDeviceProperties(existingDevice) != null)
+            if (existingDevice.DeviceProperties != null)
             {
-                dynamic deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
-                deviceProperties.CreatedTime = DeviceSchemaHelper.GetCreatedTime(existingDevice);
+                DeviceProperties deviceProperties = device.DeviceProperties;
+                deviceProperties.CreatedTime = existingDevice.DeviceProperties.CreatedTime;
+                existingDevice.DeviceProperties = deviceProperties;
             }
 
             device.CommandHistory = existingDevice.CommandHistory;
@@ -253,21 +239,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
             else
             {
-                DeviceSchemaHelper.InitializeSystemProperties(device, null);
+                device.SystemProperties =  null;
             }
-
-            // Merge device back to existing so we don't drop missing data
-            if (existingDevice is JObject)
-            {
-                //merge union of objects to avoid duplicates
-                var MergeSetting = new JsonMergeSettings
-                {
-                    MergeArrayHandling = MergeArrayHandling.Union
-                };
-
-                existingDevice.Merge(device, MergeSetting);
-            }
-
             // If there is Telemetry or Command objects from device, replace instead of merge
             if (device.Telemetry != null)
             {
@@ -292,16 +265,62 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return await _iotHubRepository.GetDeviceKeysAsync(deviceId);
         }
 
+
         /// <summary>
-        /// Updates the enabled status of the device in the IoT Hub
-        /// NOTE: Disabling a device will mean that it can no longer make calls into the IoT Hub
+        /// Send a command to a device based on the provided device id
         /// </summary>
-        /// <param name="deviceId">ID of the device to update</param>
-        /// <param name="isEnabled">True to enable, False to disable device</param>
+        /// <param name="deviceId">The Device's ID</param>
+        /// <param name="commandName">The name of the command</param>
+        /// <param name="parameters">The parameters to send</param>
         /// <returns></returns>
-        public async Task<dynamic> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
+        public async Task SendCommandAsync(string deviceId, string commandName, dynamic parameters)
         {
-            dynamic registryRepositoryDevice = null;
+            DeviceModel device = await this.GetDeviceAsync(deviceId);
+
+            if (device == null)
+            {
+                throw new DeviceNotRegisteredException(deviceId);
+            }
+
+            await SendCommandAsyncWithDevice(device, commandName, parameters);
+        }
+
+        /// <summary>
+        /// Sends a command to the provided device and updates the command history of the device
+        /// </summary>
+        /// <param name="device">Device to send the command to</param>
+        /// <param name="commandName">Name of the command to send</param>
+        /// <param name="parameters">Parameters to send with the command</param>
+        /// <returns></returns>
+        private async Task<CommandHistory> SendCommandAsyncWithDevice(DeviceModel device, string commandName, dynamic parameters)
+        {
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
+            var deviceId = device.DeviceProperties.DeviceID;
+            var canDevicePerformCommand = CommandSchemaHelper.CanDevicePerformCommand(device, commandName);
+
+            if (!canDevicePerformCommand)
+            {
+                throw new UnsupportedCommandException(deviceId, commandName);
+            }
+
+            var commandHistory = new CommandHistory(commandName, parameters);
+
+            device.CommandHistory.Add(commandHistory);
+
+            await _iotHubRepository.SendCommand(deviceId, commandHistory);
+            await _deviceRegistryCrudRepository.UpdateDeviceAsync(device);
+
+            return commandHistory;
+        }
+
+        public async Task<DeviceModel> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
+        {
+           
+            DeviceModel repositoryDevice = null;
             ExceptionDispatchInfo capturedException = null;
 
             // if an exception happens at this point pass it up the stack to handle it
@@ -309,8 +328,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             try
             {
-                registryRepositoryDevice =
-                    await _deviceRegistryCrudRepository.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
+                repositoryDevice = await _deviceRegistryCrudRepository.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
             }
             catch (Exception ex)
             {
@@ -328,62 +346,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 capturedException.Throw();
             }
 
-            return registryRepositoryDevice;
-        }
-
-        /// <summary>
-        /// Send a command to a device based on the provided device id
-        /// </summary>
-        /// <param name="deviceId">The Device's ID</param>
-        /// <param name="commandName">The name of the command</param>
-        /// <param name="parameters">The parameters to send</param>
-        /// <returns></returns>
-        public async Task SendCommandAsync(string deviceId, string commandName, dynamic parameters)
-        {
-            dynamic device = await GetDeviceAsync(deviceId);
-
-            if (device == null)
-            {
-                throw new DeviceNotRegisteredException(deviceId);
-            }
-
-            await SendCommandAsyncWithDevice(device, commandName, parameters);
-        }
-
-        /// <summary>
-        /// Sends a command to the provided device and updates the command history of the device
-        /// </summary>
-        /// <param name="device">Device to send the command to</param>
-        /// <param name="commandName">Name of the command to send</param>
-        /// <param name="parameters">Parameters to send with the command</param>
-        /// <returns></returns>
-        private async Task<dynamic> SendCommandAsyncWithDevice(dynamic device, string commandName, dynamic parameters)
-        {
-            string deviceId;
-
-            if (device == null)
-            {
-                throw new ArgumentNullException("device");
-            }
-
-            bool canDevicePerformCommand = CommandSchemaHelper.CanDevicePerformCommand(device, commandName);
-
-            deviceId = DeviceSchemaHelper.GetDeviceID(device);
-
-            if (!canDevicePerformCommand)
-            {
-                throw new UnsupportedCommandException(deviceId, commandName);
-            }
-
-            dynamic command = CommandHistorySchemaHelper.BuildNewCommandHistoryItem(commandName);
-            CommandHistorySchemaHelper.AddParameterCollectionToCommandHistoryItem(command, parameters);
-
-            CommandHistorySchemaHelper.AddCommandToHistory(device, command);
-
-            await _iotHubRepository.SendCommand(deviceId, command);
-            await _deviceRegistryCrudRepository.UpdateDeviceAsync(device);
-
-            return command;
+            return repositoryDevice;
         }
 
         /// <summary>
@@ -398,14 +361,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <paramref name="device" />.
         /// </param>
         public void ApplyDevicePropertyValueModels(
-            dynamic device,
+            DeviceModel device,
             IEnumerable<DevicePropertyValueModel> devicePropertyValueModels)
         {
-            dynamic deviceProperties;
             IDynamicMetaObjectProvider dynamicMetaObjectProvider;
             ICustomTypeDescriptor typeDescriptor;
 
-            if (object.ReferenceEquals(device, null))
+            if (device == null)
             {
                 throw new ArgumentNullException("device");
             }
@@ -415,8 +377,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new ArgumentNullException("devicePropertyValueModels");
             }
 
-            deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
-            if (object.ReferenceEquals(deviceProperties, null))
+            DeviceProperties deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
+            if (deviceProperties == null)
             {
                 throw new ArgumentException("device.DeviceProperties is a null reference.", "device");
             }
@@ -435,33 +397,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
         }
 
-        /// <summary>
-        /// Gets <see cref="DevicePropertyValueModel" /> for an edited Device's 
-        /// properties.
-        /// </summary>
-        /// <param name="device">
-        /// The edited Device.
-        /// </param>
-        /// <returns>
-        /// <see cref="DevicePropertyValueModel" />s, representing 
-        /// <paramref name="device" />'s properties.
-        /// </returns>
         public IEnumerable<DevicePropertyValueModel> ExtractDevicePropertyValuesModels(
-            dynamic device)
+           DeviceModel device)
         {
-            dynamic deviceProperties;
+            DeviceProperties deviceProperties;
             IDynamicMetaObjectProvider dynamicMetaObjectProvider;
             string hostNameValue;
             IEnumerable<DevicePropertyValueModel> propValModels;
             ICustomTypeDescriptor typeDescriptor;
 
-            if (object.ReferenceEquals(device, null))
+            if (device == null)
             {
                 throw new ArgumentNullException("device");
             }
 
-            deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
-            if (object.ReferenceEquals(deviceProperties, null))
+            deviceProperties = device.DeviceProperties;
+            if (deviceProperties == null)
             {
                 throw new ArgumentException("device.DeviceProperties is a null reference.", "device");
             }
@@ -628,7 +579,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             devicePropertyIndex =
                 GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
 
-            dynamicProperties =
+            dynamicProperties = 
                 new HashSet<string>(
                     D.Dynamic.GetMemberNames(deviceProperties, true));
 
@@ -653,8 +604,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
 
                 D.Dynamic.InvokeSet(
-                    deviceProperties,
-                    propVal.Name,
+                    deviceProperties, 
+                    propVal.Name, 
                     propVal.Value);
             }
         }
@@ -967,13 +918,131 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 Name = "UpdatedTime",
                 PropertyType = PropertyType.DateTime
             };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Manufacturer",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "ModelNumber",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "SerialNumber",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "FirmwareVersion",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Platform",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Processor",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "InstalledRAM",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Latitude",
+                PropertyType = PropertyType.Real
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "Longitude",
+                PropertyType = PropertyType.Real
+            };
+
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "AvailablePowerSources",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "PowerSourceVoltage",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "BatteryLevel",
+                PropertyType = PropertyType.String
+            };
+
+            yield return new DevicePropertyMetadata()
+            {
+                IsDisplayedForRegisteredDevices = true,
+                IsDisplayedForUnregisteredDevices = false,
+                IsEditable = false,
+                Name = "MemoryFree",
+                PropertyType = PropertyType.String
+            };
         }
 
-        private async Task ValidateDevice(dynamic device)
+        private async Task ValidateDevice(DeviceModel device)
         {
             List<string> validationErrors = new List<string>();
 
-            if (ValidateDeviceId(device, validationErrors))
+            if (ValidateDeviceId(device, validationErrors)) 
             {
                 await CheckIfDeviceExists(device, validationErrors);
             }
@@ -981,7 +1050,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             if (validationErrors.Count > 0)
             {
                 var validationException =
-                    new ValidationException(DeviceSchemaHelper.GetDeviceProperties(device) != null ? DeviceSchemaHelper.GetDeviceID(device) : null);
+                    new ValidationException(device.DeviceProperties != null ? device.DeviceProperties.DeviceID : null);
 
                 foreach (string error in validationErrors)
                 {
@@ -992,18 +1061,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
         }
 
-        private async Task CheckIfDeviceExists(dynamic device, List<string> validationErrors)
+        private async Task CheckIfDeviceExists(DeviceModel device, List<string> validationErrors)
         {
             // check if device exists
-            if (await GetDeviceAsync(DeviceSchemaHelper.GetDeviceID(device)) != null)
+            if (await this.GetDeviceAsync(device.DeviceProperties.DeviceID) != null)
             {
                 validationErrors.Add(Strings.ValidationDeviceExists);
             }
         }
 
-        private bool ValidateDeviceId(dynamic device, List<string> validationErrors)
+        private bool ValidateDeviceId(DeviceModel device, List<string> validationErrors)
         {
-            if (DeviceSchemaHelper.GetDeviceProperties(device) == null || string.IsNullOrWhiteSpace(DeviceSchemaHelper.GetDeviceID(device)))
+            if (device.DeviceProperties == null || string.IsNullOrWhiteSpace(device.DeviceProperties.DeviceID))
             {
                 validationErrors.Add(Strings.ValidationDeviceIdMissing);
                 return false;
@@ -1026,24 +1095,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             for (int i = 0; i < deviceCount; i++)
             {
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
-                dynamic device = SampleDeviceFactory.GetSampleDevice(randomNumber, generatedSecurityKeys);
-                await AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
-            }
+                DeviceModel device = SampleDeviceFactory.GetSampleDevice(randomNumber, generatedSecurityKeys);
+                await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
+            }   
         }
 
         public async Task<List<string>> BootstrapDefaultDevices()
         {
             List<string> sampleIds = SampleDeviceFactory.GetDefaultDeviceNames();
-            foreach (string id in sampleIds)
+            foreach(string id in sampleIds)
             {
-                dynamic device = DeviceSchemaHelper.BuildDeviceStructure(id, true, null);
+                DeviceModel device = DeviceSchemaHelper.BuildDeviceStructure(id, true, null);
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
-                await AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
+                await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             }
             return sampleIds;
         }
 
-        public DeviceListLocationsModel ExtractLocationsData(List<dynamic> devices)
+        public DeviceListLocationsModel ExtractLocationsData(List<DeviceModel> devices)
         {
             var result = new DeviceListLocationsModel();
 
@@ -1054,53 +1123,55 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             double maxLong = double.MinValue;
 
             var locationList = new List<DeviceLocationModel>();
-            foreach (dynamic device in devices)
+            if (devices != null && devices.Count > 0)
             {
-                dynamic props = DeviceSchemaHelper.GetDeviceProperties(device);
-                if (props.Longitude == null || props.Latitude == null)
+                foreach (DeviceModel device in devices)
                 {
-                    continue;
-                }
+                    DeviceProperties props = DeviceSchemaHelper.GetDeviceProperties(device);
+                    if (props.Longitude == null || props.Latitude == null)
+                    {
+                        continue;
+                    }
 
-                double latitude;
-                double longitude;
+                    double latitude;
+                    double longitude;
 
-                try
-                {
-                    latitude = DeviceSchemaHelper.GetDeviceProperties(device).Latitude;
-                    longitude = DeviceSchemaHelper.GetDeviceProperties(device).Longitude;
-                }
-                catch (FormatException)
-                {
-                    continue;
-                }
+                    try
+                    {
+                        latitude = DeviceSchemaHelper.GetDeviceProperties(device).Latitude.Value;
+                        longitude = DeviceSchemaHelper.GetDeviceProperties(device).Longitude.Value;
+                    }
+                    catch (FormatException)
+                    {
+                        continue;
+                    }
 
-                var location = new DeviceLocationModel()
-                {
-                    DeviceId = DeviceSchemaHelper.GetDeviceID(device),
-                    Longitude = longitude,
-                    Latitude = latitude
-                };
-                locationList.Add(location);
+                    var location = new DeviceLocationModel()
+                    {
+                        DeviceId = DeviceSchemaHelper.GetDeviceID(device),
+                        Longitude = longitude,
+                        Latitude = latitude
+                    };
+                    locationList.Add(location);
 
-                if (longitude < minLong)
-                {
-                    minLong = longitude;
-                }
-                if (longitude > maxLong)
-                {
-                    maxLong = longitude;
-                }
-                if (latitude < minLat)
-                {
-                    minLat = latitude;
-                }
-                if (latitude > maxLat)
-                {
-                    maxLat = latitude;
+                    if (longitude < minLong)
+                    {
+                        minLong = longitude;
+                    }
+                    if (longitude > maxLong)
+                    {
+                        maxLong = longitude;
+                    }
+                    if (latitude < minLat)
+                    {
+                        minLat = latitude;
+                    }
+                    if (latitude > maxLat)
+                    {
+                        maxLat = latitude;
+                    }
                 }
             }
-
             if (locationList.Count == 0)
             {
                 // reinitialize bounds to center on Seattle area if no devices
@@ -1121,30 +1192,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return result;
         }
 
-        /// <summary>
-        /// Converts the telemetry schema data in a device into a strongly-typed model
-        /// </summary>
-        /// <param name="device">Device with telemetry schema</param>
-        /// <returns>Converted telemetry schema, or null if there is none</returns>
-        public IList<DeviceTelemetryFieldModel> ExtractTelemetry(dynamic device)
+
+        public IList<DeviceTelemetryFieldModel> ExtractTelemetry(DeviceModel device)
         {
             // Get Telemetry Fields
-            if (device.Telemetry != null)
+            if (device != null && device.Telemetry != null)
             {
                 var deviceTelemetryFields = new List<DeviceTelemetryFieldModel>();
 
-                foreach (JObject field in device.Telemetry)
+                foreach (var field in device.Telemetry)
                 {
                     // Default displayName to null if not present
-                    string displayName = field.GetValue("DisplayName", StringComparison.OrdinalIgnoreCase) != null ?
-                        field.GetValue("DisplayName", StringComparison.OrdinalIgnoreCase).ToString() :
-                        null;
+                    string displayName = field.DisplayName != null ?
+                        field.DisplayName : null;
 
                     deviceTelemetryFields.Add(new DeviceTelemetryFieldModel
                     {
                         DisplayName = displayName,
-                        Name = field.GetValue("Name", StringComparison.OrdinalIgnoreCase).ToString(),
-                        Type = field.GetValue("Type", StringComparison.OrdinalIgnoreCase).ToString()
+                        Name = field.Name,
+                        Type = field.Type
                     });
                 }
 

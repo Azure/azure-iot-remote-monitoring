@@ -1,0 +1,5 @@
+To start running API tests:
+
+1. Run the following command from root: build.cmd local  
+2. Follow these steps to start Web.csproj: https://github.com/Azure/azure-iot-remote-monitoring/blob/master/Docs/local-deployment.md#running-end-to-end-after-deployment
+3. run "npm run test"

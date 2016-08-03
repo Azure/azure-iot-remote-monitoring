@@ -5,11 +5,15 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.DataTables;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
@@ -17,11 +21,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     [RoutePrefix("api/v1/devices")]
     public class DeviceApiController : WebApiControllerBase
     {
-        private IDeviceLogic _deviceLogic;
+        private readonly IDeviceLogic _deviceLogic;
 
         public DeviceApiController(IDeviceLogic deviceLogic)
         {
-            _deviceLogic = deviceLogic;
+            this._deviceLogic = deviceLogic;
         }
 
         // POST: api/v1/devices/sample/5
@@ -47,10 +51,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             ValidateArgumentNotNullOrWhitespace("id", id);
 
-            return await GetServiceResponseAsync<dynamic>(async () =>
-            {
-                return await _deviceLogic.GetDeviceAsync(id);
-            });
+            return await GetServiceResponseAsync<DeviceModel>(async () => (await _deviceLogic.GetDeviceAsync(id)));
         }
 
         // GET: api/v1/devices
@@ -111,7 +112,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewDevices)]
         public async Task<HttpResponseMessage> GetDevices([FromBody]JObject requestData)
         {
-            return await GetServiceResponseAsync<DataTablesResponse>(async () =>
+            return await GetServiceResponseAsync<DataTablesResponse<DeviceModel>>(async () =>
             {
                 var dataTableRequest = requestData.ToObject<DataTablesRequest>();
                 var sortColumnIndex = dataTableRequest.SortColumns[0].ColumnIndex;
@@ -131,7 +132,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
                 var queryResult = await _deviceLogic.GetDevices(listQuery);
 
-                var dataTablesResponse = new DataTablesResponse()
+                var dataTablesResponse = new DataTablesResponse<DeviceModel>()
                 {
                     Draw = dataTableRequest.Draw,
                     RecordsTotal = queryResult.TotalDeviceCount,
@@ -163,24 +164,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPost]
         [Route("")]
         [WebApiRequirePermission(Permission.AddDevices)]
-        public async Task<HttpResponseMessage> AddDeviceAsync(dynamic device)
+        public async Task<HttpResponseMessage> AddDeviceAsync(DeviceModel device)
         {
             ValidateArgumentNotNull("device", device);
 
             return await GetServiceResponseAsync<DeviceWithKeys>(async () => 
             { 
-                return await _deviceLogic.AddDeviceAsync(device);
+                return await this._deviceLogic.AddDeviceAsync(device);
             });
         }
 
-        //PUT: api/v1/devices
         [HttpPut]
         [Route("")]
         [WebApiRequirePermission(Permission.EditDeviceMetadata)]
-        public async Task<HttpResponseMessage> UpdateDeviceAsync(dynamic device)
+        public async Task<HttpResponseMessage> UpdateDeviceAsync(DeviceModel device)
         {
             ValidateArgumentNotNull("device", device);
-
             return await GetServiceResponseAsync<bool>(async () =>
             {
                 await _deviceLogic.UpdateDeviceAsync(device);
@@ -190,7 +189,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         //GET: api/v1/devices/5/hub-keys
         [HttpGet]
-		[Route("{id}/hub-keys")]
+        [Route("{id}/hub-keys")]
         [WebApiRequirePermission(Permission.ViewDeviceSecurityKeys)]
         public async Task<HttpResponseMessage> GetDeviceKeysAsync(string id)
         {
@@ -219,7 +218,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 var property = request.Property("isEnabled");
 
-                if (property == null) 
+                if (property == null)
                 {
                     return GetFormatErrorResponse<bool>("isEnabled", "bool");
                 }
@@ -233,8 +232,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             return await GetServiceResponseAsync(async () =>
             {
-                 await _deviceLogic.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
-                 return true;
+                DeviceModel device = await _deviceLogic.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
+                return true;
             });
         }
 
@@ -250,7 +249,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return await GetServiceResponseAsync(async () =>
             {
                 await _deviceLogic.SendCommandAsync(deviceId, commandName, parameters);
-                return true; 
+                return true;
             });
         }
 
@@ -273,13 +272,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     SortColumn = "DeviceID",
                 };
 
-                var devices = await _deviceLogic.GetDevices(query);
+                DeviceListQueryResult devices = await _deviceLogic.GetDevices(query);
 
-                foreach(var d in devices.Results)
+                foreach (var d in devices.Results)
                 {
                     if (d.DeviceProperties != null && d.DeviceProperties.DeviceID != null)
                     {
-                        string deviceId = DeviceSchemaHelper.GetDeviceID(d);
+                        string deviceId = d.DeviceProperties.DeviceID;
 
                         // do this in serial so as not to overload anything
                         Debug.Write("DELETING DEVICE: " + deviceId + "...");

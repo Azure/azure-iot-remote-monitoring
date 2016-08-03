@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
@@ -19,8 +20,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="list">Devices to filter</param>
         /// <param name="filters">Filters to apply</param>
         /// <returns>Set of devices that pass all the filters</returns>
-        public static IQueryable<dynamic> FilterDeviceList(
-            IQueryable<dynamic> list, 
+        public static IQueryable<DeviceModel> FilterDeviceList(
+            IQueryable<DeviceModel> list,
             List<FilterInfo> filters)
         {
             if (list == null)
@@ -46,8 +47,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return list;
         }
 
-        private static IQueryable<dynamic> FilterItems(
-            IQueryable<dynamic> list, 
+        private static IQueryable<DeviceModel> FilterItems(
+            IQueryable<DeviceModel> list,
             FilterInfo filter)
         {
             if (list == null)
@@ -67,17 +68,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     "filter");
             }
 
-            Func<dynamic, dynamic> getValue =
+            Func<DeviceProperties, dynamic> getValue =
                 ReflectionHelper.ProducePropertyValueExtractor(
-                    filter.ColumnName, 
-                    false, 
+                    filter.ColumnName,
+                    false,
                     false);
 
-            Func<dynamic, bool> applyFilter =
+            Func<DeviceModel, bool> applyFilter =
                 (item) =>
                 {
                     dynamic columnValue;
-                    dynamic deviceProperties;
+                    DeviceProperties deviceProperties;
 
                     if (item == null)
                     {
@@ -114,7 +115,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return item != null;
         }
 
-        private static bool GetValueMatchesStatus(dynamic item, string statusName)
+        private static bool GetValueMatchesStatus(DeviceModel item, string statusName)
         {
             if (item == null)
             {

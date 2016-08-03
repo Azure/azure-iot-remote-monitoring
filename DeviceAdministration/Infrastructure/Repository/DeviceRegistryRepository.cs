@@ -7,9 +7,12 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configuration
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
@@ -46,10 +49,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// Queries the DocumentDB and retrieves all documents in the collection
         /// </summary>
         /// <returns>All documents in the collection</returns>
-        private async Task<List<dynamic>> GetAllDevicesAsync()
+        private async Task<List<DeviceModel>> GetAllDevicesAsync()
         {
             IEnumerable docs;
-            List<dynamic> deviceList = new List<dynamic>();
+            List<DeviceModel> deviceList = new List<DeviceModel>();
+            List<DeviceModel> tmpDeviceList = new List<DeviceModel>();
 
             string query = "SELECT VALUE root FROM root";
             string continuationToken = null;
@@ -65,22 +69,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         true,
                         false) as IEnumerable;
 
-                if (docs != null)
-                {
-                    foreach (object doc in docs)
-                    {
-                        if (doc != null)
-                        {
-                            deviceList.Add(doc);
-                        }
-                    }
-                }
+                tmpDeviceList = JsonConvert.DeserializeObject<List<DeviceModel>>(docs.ToString());
+                deviceList.AddRange(tmpDeviceList);
 
                 continuationToken = result.ContinuationToken;
 
             } while (!String.IsNullOrEmpty(continuationToken));
 
-            return deviceList;
+            return (deviceList.Count != 0 ? deviceList : null);
         }
 
         /// <summary>
@@ -88,9 +84,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="deviceId">DeviceID of the device to retrieve</param>
         /// <returns>Device instance if present, null if a device was not found with the provided deviceId</returns>
-        public async Task<dynamic> GetDeviceAsync(string deviceId)
+        public async Task<DeviceModel> GetDeviceAsync(string deviceId)
         {
-            dynamic result = null;
+            JToken result = null;
 
             Dictionary<string, Object> queryParams = new Dictionary<string, Object>();
             queryParams.Add("@id", deviceId);
@@ -100,9 +96,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             if (foundDevices != null && foundDevices.Count > 0)
             {
                 result = foundDevices.Children().ElementAt(0);
+                return result.ToObject<DeviceModel>();
             }
-
-            return result;
+            return null;
         }
 
         /// <summary>
@@ -111,31 +107,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device"></param>
         /// <returns></returns>
-        public async Task<dynamic> AddDeviceAsync(dynamic device)
+        public async Task<DeviceModel> AddDeviceAsync(DeviceModel device)
         {
-            string deviceId = DeviceSchemaHelper.GetDeviceID(device);
-            dynamic existingDevice = await GetDeviceAsync(deviceId);
+            string deviceId = device.DeviceProperties.DeviceID;
+            DeviceModel existingDevice = await this.GetDeviceAsync(deviceId);
 
             if (existingDevice != null)
             {
                 throw new DeviceAlreadyRegisteredException(deviceId);
             }
 
-            device = await _docDbRestUtil.SaveNewDocumentAsync(device);
+            device = (await _docDbRestUtil.SaveNewDocumentAsync<DeviceModel>(device)).ToObject<DeviceModel>();
 
             return device;
         }
 
         public async Task RemoveDeviceAsync(string deviceId)
         {
-            dynamic existingDevice = await GetDeviceAsync(deviceId);
+            DeviceModel existingDevice = await this.GetDeviceAsync(deviceId);
 
             if (existingDevice == null)
             {
                 throw new DeviceNotRegisteredException(deviceId);
             }
 
-            await _docDbRestUtil.DeleteDocumentAsync(existingDevice);
+            await _docDbRestUtil.DeleteDocumentAsync<DeviceModel>(existingDevice);
         }
 
         /// <summary>
@@ -144,23 +140,33 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device"></param>
         /// <returns></returns>
-        public async Task<dynamic> UpdateDeviceAsync(dynamic device)
+        public async Task<DeviceModel> UpdateDeviceAsync(DeviceModel device)
         {
-            string deviceId = DeviceSchemaHelper.GetDeviceID(device);
+            if (device.DeviceProperties == null)
+            {
+                throw new DeviceRequiredPropertyNotFoundException("'DeviceProperties' property is missing");
+            }
 
-            dynamic existingDevice = await GetDeviceAsync(deviceId);
+            if (device.DeviceProperties.DeviceID == null)
+            {
+                throw new DeviceRequiredPropertyNotFoundException("'DeviceID' property is missing");
+            }
+
+            string deviceId = device.DeviceProperties.DeviceID;
+
+            DeviceModel existingDevice = await this.GetDeviceAsync(deviceId);
 
             if (existingDevice == null)
             {
                 throw new DeviceNotRegisteredException(deviceId);
             }
 
-            string incomingRid = DeviceSchemaHelper.GetDocDbRid(device);
+            string incomingRid = device._rid ?? "";
 
             if (string.IsNullOrWhiteSpace(incomingRid))
             {
                 // copy the existing _rid onto the incoming data if needed
-                var existingRid = DeviceSchemaHelper.GetDocDbRid(existingDevice);
+                var existingRid = existingDevice._rid ?? "";
                 if (string.IsNullOrWhiteSpace(existingRid))
                 {
                     throw new InvalidOperationException("Could not find _rid property on existing device");
@@ -168,12 +174,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 device._rid = existingRid;
             }
 
-            string incomingId = DeviceSchemaHelper.GetDocDbId(device);
+            string incomingId = device.id ?? "";
 
             if (string.IsNullOrWhiteSpace(incomingId))
             {
                 // copy the existing id onto the incoming data if needed
-                var existingId = DeviceSchemaHelper.GetDocDbId(existingDevice);
+                if (existingDevice.DeviceProperties == null)
+                {
+                    throw new DeviceRequiredPropertyNotFoundException("'DeviceProperties' property is missing");
+                }
+
+                var existingId = existingDevice.id ?? "";
                 if (string.IsNullOrWhiteSpace(existingId))
                 {
                     throw new InvalidOperationException("Could not find id property on existing device");
@@ -181,47 +192,38 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 device.id = existingId;
             }
 
-            DeviceSchemaHelper.UpdateUpdatedTime(device);
+            device.DeviceProperties.UpdatedTime = DateTime.UtcNow;
 
-            device = await _docDbRestUtil.UpdateDocumentAsync(device);
-
-            return device;
+            return (await _docDbRestUtil.UpdateDocumentAsync<DeviceModel>(device)).ToObject<DeviceModel>();
         }
 
-        public async Task<dynamic> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
+        public async Task<DeviceModel> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
         {
-            dynamic existingDevice = await GetDeviceAsync(deviceId);
+            DeviceModel existingDevice = await this.GetDeviceAsync(deviceId);
 
             if (existingDevice == null)
             {
                 throw new DeviceNotRegisteredException(deviceId);
             }
 
-            dynamic deviceProps = DeviceSchemaHelper.GetDeviceProperties(existingDevice);
+            DeviceProperties deviceProps = DeviceSchemaHelper.GetDeviceProperties(existingDevice);
             deviceProps.HubEnabledState = isEnabled;
             DeviceSchemaHelper.UpdateUpdatedTime(existingDevice);
 
-            existingDevice = await _docDbRestUtil.UpdateDocumentAsync(existingDevice);
-
-            return existingDevice;
+            return (await _docDbRestUtil.UpdateDocumentAsync<DeviceModel>(existingDevice)).ToObject<DeviceModel>();
         }
 
-        /// <summary>
-        /// Searches the DeviceProperties of all devices in the DocumentDB, sorts them and pages based on the provided values
-        /// </summary>
-        /// <param name="query">Object containing search, filtering, paging, and other info</param>
-        /// <returns></returns>
         public async Task<DeviceListQueryResult> GetDeviceList(DeviceListQuery query)
         {
-            List<dynamic> deviceList = await GetAllDevicesAsync();
+            List<DeviceModel> deviceList = await this.GetAllDevicesAsync();
 
-            IQueryable<dynamic> filteredDevices = FilterHelper.FilterDeviceList(deviceList.AsQueryable<dynamic>(), query.Filters);
+            IQueryable<DeviceModel> filteredDevices = FilterHelper.FilterDeviceList(deviceList.AsQueryable<DeviceModel>(), query.Filters);
 
-            IQueryable<dynamic> filteredAndSearchedDevices = SearchDeviceList(filteredDevices, query.SearchQuery);
+            IQueryable<DeviceModel> filteredAndSearchedDevices = this.SearchDeviceList(filteredDevices, query.SearchQuery);
 
-            IQueryable<dynamic> sortedDevices = SortDeviceList(filteredAndSearchedDevices, query.SortColumn, query.SortOrder);
+            IQueryable<DeviceModel> sortedDevices = this.SortDeviceList(filteredAndSearchedDevices, query.SortColumn, query.SortOrder);
 
-            List<dynamic> pagedDeviceList = sortedDevices.Skip(query.Skip).Take(query.Take).ToList();
+            List<DeviceModel> pagedDeviceList = sortedDevices.Skip(query.Skip).Take(query.Take).ToList();
 
             int filteredCount = filteredAndSearchedDevices.Count();
 
@@ -233,39 +235,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             };
         }
 
-        /// <summary>
-        /// Searches the DeviceProperties of the provided device list for the given search term
-        /// (case insensitive)
-        /// </summary>
-        /// <param name="deviceList">List to searcn</param>
-        /// <param name="search">Term to search for</param>
-        /// <returns>List of devices that match the given search</returns>
-        private IQueryable<dynamic> SearchDeviceList(IQueryable<dynamic> deviceList, string search)
+        private IQueryable<DeviceModel> SearchDeviceList(IQueryable<DeviceModel> deviceList, string search)
         {
             if (string.IsNullOrWhiteSpace(search))
             {
                 return deviceList;
             }
 
-            Func<dynamic, bool> filter =
-                (d) =>
-                {
-                    return SearchTypePropertiesForValue(d, search);
-                };
+            Func<DeviceModel, bool> filter =
+                (d) => this.SearchTypePropertiesForValue(d, search);
 
             // look for all devices that contain the search value in one of the DeviceProperties Properties
             return deviceList.Where(filter).AsQueryable();
         }
-
-        /// <summary>
-        /// Looks in all the Properties of the DeviceProperties instance on a device for the given search term
-        /// </summary>
-        /// <param name="device">Device to search</param>
-        /// <param name="search">Value to search for</param>
-        /// <returns>true - if at least one of the properties in DeviceProperties contains the value, false - no match was found</returns>
-        private bool SearchTypePropertiesForValue(dynamic device, string search)
+       
+        private bool SearchTypePropertiesForValue(DeviceModel device, string search)
         {
-            object devProps = null;
+            DeviceProperties devProps = null;
 
             // if the device or its system properties are null then
             // there's nothing that can be searched on
@@ -298,34 +284,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     t.Value.ToString().ToUpperInvariant().Contains(upperCaseSearch));
         }
 
-        /// <summary>
-        /// Sorts the device list on the given column in the given order
-        /// </summary>
-        /// <param name="deviceList">List of devices to sort</param>
-        /// <param name="sortColumn">Column to sort on</param>
-        /// <param name="sortOrder">Order to sort (asc/desc)</param>
-        /// <returns>Sorted device list</returns>
-        private IQueryable<dynamic> SortDeviceList(IQueryable<dynamic> deviceList, string sortColumn, QuerySortOrder sortOrder)
-        {
-            Func<dynamic, dynamic> getPropVal;
-            Func<dynamic, dynamic> keySelector;
-
+        private IQueryable<DeviceModel> SortDeviceList(IQueryable<DeviceModel> deviceList, string sortColumn, QuerySortOrder sortOrder)
+        { 
             // if a sort column was not provided then return the full device list in its original sort
             if (string.IsNullOrWhiteSpace(sortColumn))
             {
                 return deviceList;
             }
 
-            getPropVal =
+            Func<DeviceProperties, dynamic> getPropVal =
                 ReflectionHelper.ProducePropertyValueExtractor(
                     sortColumn,
                     false,
                     false);
 
-            keySelector =
+            Func<DeviceModel, dynamic> keySelector =
                 (item) =>
                 {
-                    dynamic deviceProperties;
+                    DeviceProperties deviceProperties;
 
                     if (item == null)
                     {
