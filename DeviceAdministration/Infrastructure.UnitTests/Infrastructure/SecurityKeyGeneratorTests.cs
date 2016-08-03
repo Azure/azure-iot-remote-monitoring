@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
+﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests
@@ -8,11 +9,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void CreateRandomKeysTest()
         {
-            var securityKeyGenerator = new SecurityKeyGenerator();
-            var keys = securityKeyGenerator.CreateRandomKeys();
+            ISecurityKeyGenerator securityKeyGenerator = new SecurityKeyGenerator();
+            SecurityKeys keys1 = securityKeyGenerator.CreateRandomKeys();
+            SecurityKeys keys2 = securityKeyGenerator.CreateRandomKeys();
 
-            Assert.NotNull(keys);
-            Assert.NotEqual(keys.PrimaryKey, keys.SecondaryKey);
+            Assert.NotNull(keys1);
+            Assert.NotEqual(keys1.PrimaryKey, keys1.SecondaryKey);
+            Assert.NotEqual(keys1, keys2); 
         }
     }
 }
