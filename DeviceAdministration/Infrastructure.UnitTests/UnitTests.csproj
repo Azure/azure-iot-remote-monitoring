@@ -139,6 +139,7 @@
     <Compile Include="Infrastructure\SampleDeviceTypeRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\SampleDataGeneratorTests.cs" />
+    <Compile Include="Simulator.WebJob\DeviceBaseTests.cs" />
     <Compile Include="TestStubs\HttpMessageHandlerStub.cs" />
     <Compile Include="TestStubs\RandomGeneratorStub.cs" />
     <Compile Include="Web\Controllers\AdvancedControllerTests.cs" />
@@ -175,7 +176,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventProcessor.WebJob\" />
-    <Folder Include="Simulator.WebJob\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
