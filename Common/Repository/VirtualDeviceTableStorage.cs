@@ -10,20 +10,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repositor
 {
     public class VirtualDeviceTableStorage : IVirtualDeviceStorage
     {
-        private readonly IAzureTableStorageManager _azureTableStorageManager;
+        private readonly string _storageConnectionString;
+        private readonly string _deviceTableName;
+        private readonly IAzureTableStorageClient _azureTableStorageClient;
 
-        public VirtualDeviceTableStorage(IConfigurationProvider configProvider)
+        public VirtualDeviceTableStorage(IConfigurationProvider configProvider, IAzureTableStorageClientFactory tableStorageClientFactory)
         {
-            string storageConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
-            string deviceTableName = configProvider.GetConfigurationSettingValue("device.TableName");
-            _azureTableStorageManager = new AzureTableStorageManager(storageConnectionString, deviceTableName);
+            _storageConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
+            _deviceTableName = configProvider.GetConfigurationSettingValue("device.TableName");
+            _azureTableStorageClient = tableStorageClientFactory.CreateClient(_storageConnectionString, _deviceTableName);
         }
 
         public async Task<List<InitialDeviceConfig>> GetDeviceListAsync()
         {
             List<InitialDeviceConfig> devices = new List<InitialDeviceConfig>();
             TableQuery<DeviceListEntity> query = new TableQuery<DeviceListEntity>();
-            foreach (var device in _azureTableStorageManager.ExecuteQuery(query))
+            var devicesResult = await _azureTableStorageClient.ExecuteQueryAsync(query);
+            foreach (var device in devicesResult)
             {
                 var deviceConfig = new InitialDeviceConfig()
                 {
@@ -48,13 +51,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repositor
             if (device != null)
             {
                 var operation = TableOperation.Retrieve<DeviceListEntity>(device.DeviceId, device.HostName);
-                var result = await _azureTableStorageManager.ExecuteAsync(operation);
+                var result = await _azureTableStorageClient.ExecuteAsync(operation);
 
                 var deleteDevice = (DeviceListEntity)result.Result;
                 if (deleteDevice != null)
                 {
                     var deleteOperation = TableOperation.Delete(deleteDevice);
-                    await _azureTableStorageManager.ExecuteAsync(deleteOperation);
+                    await _azureTableStorageClient.ExecuteAsync(deleteOperation);
                     return true;
                 }
             }
@@ -70,12 +73,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repositor
                 Key = deviceConfig.Key
             };
             var operation = TableOperation.InsertOrReplace(deviceEnity);
-            await _azureTableStorageManager.ExecuteAsync(operation);
+            await _azureTableStorageClient.ExecuteAsync(operation);
         }
 
         private async Task<InitialDeviceConfig> GetDeviceAsync(TableQuery<DeviceListEntity> query)
         {
-            foreach (var device in _azureTableStorageManager.ExecuteQuery<DeviceListEntity>(query))
+            var devicesResult = await _azureTableStorageClient.ExecuteQueryAsync(query);
+            foreach (var device in devicesResult)
             {
                 // Always return first device found
                 return new InitialDeviceConfig

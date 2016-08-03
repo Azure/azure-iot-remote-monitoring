@@ -11,13 +11,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class ApiRegistrationRepository : IApiRegistrationRepository
     {
         private const string API_TABLE_NAME = "ApiRegistration";
-        private readonly IAzureTableStorageManager _azureTableStorageManager;
+        private readonly IAzureTableStorageClient _azureTableStorageClient;
 
-        public ApiRegistrationRepository(IConfigurationProvider configProvider)
+        public ApiRegistrationRepository(IConfigurationProvider configProvider, IAzureTableStorageClientFactory tableStorageClientFactory)
         {
-            _azureTableStorageManager =
-                new AzureTableStorageManager(
-                    configProvider.GetConfigurationSettingValue("device.StorageConnectionString"), API_TABLE_NAME);
+            _azureTableStorageClient = tableStorageClientFactory.CreateClient(configProvider.GetConfigurationSettingValue("device.StorageConnectionString"), API_TABLE_NAME);
         }
 
         public bool AmendRegistration(ApiRegistrationModel apiRegistrationModel)
@@ -32,7 +30,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     LicenceKey = apiRegistrationModel.LicenceKey
                 };
 
-                _azureTableStorageManager.Execute(TableOperation.InsertOrMerge(incomingEntity));
+                _azureTableStorageClient.Execute(TableOperation.InsertOrMerge(incomingEntity));
             }
             catch (StorageException)
             {
@@ -47,7 +45,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal,
                     ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationProviderType.Jasper)));
 
-            var response = _azureTableStorageManager.ExecuteQuery(query);
+            var response = _azureTableStorageClient.ExecuteQuery(query);
             if (response == null) return new ApiRegistrationModel();
 
             var apiRegistrationTableEntities = response as IList<ApiRegistrationTableEntity> ?? response.ToList();
@@ -69,7 +67,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var retrieveOperation = TableOperation.Retrieve<ApiRegistrationTableEntity>(ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationProviderType.Jasper),
                                         ApiRegistrationTableEntity.GetRowKey(ApiRegistrationProviderType.Jasper));
-            var retrievedResult = _azureTableStorageManager.Execute(retrieveOperation);
+            var retrievedResult = _azureTableStorageClient.Execute(retrieveOperation);
             return retrievedResult.Result != null;
         }
 
@@ -78,7 +76,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var entity = new DynamicTableEntity(ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationProviderType.Jasper),
                                 ApiRegistrationTableEntity.GetRowKey(ApiRegistrationProviderType.Jasper));
             entity.ETag = "*";
-            _azureTableStorageManager.Execute(TableOperation.Delete(entity));
+            _azureTableStorageClient.Execute(TableOperation.Delete(entity));
             return true;
         }
     }

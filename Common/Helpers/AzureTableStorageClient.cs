@@ -11,39 +11,63 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 {
-    public class AzureTableStorageManager : IAzureTableStorageManager
+    public class AzureTableStorageClient : IAzureTableStorageClient
     {
-        private readonly ICloudTableProvider _cloudTableProvider;
+        private CloudTable _table;
+        private readonly CloudTableClient _tableClient;
+        private readonly string _tableName;
 
-        public AzureTableStorageManager(string storageConnectionString, string tableName)
+        public AzureTableStorageClient(string storageConnectionString, string tableName)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            _cloudTableProvider = new CloudTableProvider(tableClient, tableName);
+            _tableClient = storageAccount.CreateCloudTableClient();
+            _tableName = tableName;
+        }
+        private async Task<CloudTable> GetCloudTableAsync()
+        {
+            if (_table == null && _tableName != null)
+            {
+                _table = _tableClient.GetTableReference(_tableName);
+                await _table.CreateIfNotExistsAsync();
+            }
+            return _table;
+        }
+        private CloudTable GetCloudTable()
+        {
+            if (_table != null)
+            {
+                return _table;
+            }
+            _table = _tableClient.GetTableReference(_tableName);
+            _table.CreateIfNotExists();
+            return _table;
         }
 
         public TableResult Execute(TableOperation tableOperation)
         {
-            CloudTable table = _cloudTableProvider.GetCloudTable();
+            CloudTable table = this.GetCloudTable();
             return table.Execute(tableOperation);
         }
-
-        public IEnumerable<T> ExecuteQuery<T>(TableQuery<T> tableQuery) where T : TableEntity, new()
-        {
-            CloudTable table = _cloudTableProvider.GetCloudTable();
-            return table.ExecuteQuery(tableQuery);
-        }
-
         public async Task<TableResult> ExecuteAsync(TableOperation operation)
         {
-            CloudTable table = await _cloudTableProvider.GetCloudTableAsync();
+            CloudTable table = await this.GetCloudTableAsync();
             return await table.ExecuteAsync(operation);
+        }
+        public IEnumerable<T> ExecuteQuery<T>(TableQuery<T> tableQuery) where T : TableEntity, new()
+        {
+            CloudTable table = this.GetCloudTable();
+            return table.ExecuteQuery(tableQuery);
+        }
+        public async Task<IEnumerable<T>> ExecuteQueryAsync<T>(TableQuery<T> tableQuery) where T : TableEntity, new()
+        {
+            CloudTable table = await this.GetCloudTableAsync();
+            return table.ExecuteQuery(tableQuery);
         }
 
         public async Task<TableStorageResponse<TResult>> DoTableInsertOrReplaceAsync<TResult, TInput>(TInput incomingEntity,
             Func<TInput, TResult> tableEntityToModelConverter) where TInput : TableEntity
         {
-            CloudTable table = await _cloudTableProvider.GetCloudTableAsync();
+            CloudTable table = await this.GetCloudTableAsync();
 
             // Simply doing an InsertOrReplace will not do any concurrency checking, according to 
             // http://azure.microsoft.com/en-us/blog/managing-concurrency-in-microsoft-azure-storage-2/
@@ -75,7 +99,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
         private async Task<TableStorageResponse<TResult>> PerformTableOperation<TResult, TInput>(TableOperation operation, TInput incomingEntity, Func<TInput, TResult> tableEntityToModelConverter) where TInput : TableEntity
         {
-            CloudTable table = await _cloudTableProvider.GetCloudTableAsync();
+            CloudTable table = await this.GetCloudTableAsync();
             var result = new TableStorageResponse<TResult>();
 
             try

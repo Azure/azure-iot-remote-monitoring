@@ -26,19 +26,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class DeviceRulesRepository : IDeviceRulesRepository
     {
         private readonly string _blobName;
-        private readonly IAzureTableStorageManager _azureTableStorageHelper;
-        private readonly IBlobStorageManager _blobStorageHelper;
+        private readonly string _storageAccountConnectionString;
+        private readonly string _deviceRulesBlobStoreContainerName;
+        private readonly string _deviceRulesNormalizedTableName;
+        private readonly IAzureTableStorageClient _azureTableStorageClient;
+        private readonly IBlobStorageClient _blobStorageManager;
 
         private DateTimeFormatInfo _formatInfo;
 
-        public DeviceRulesRepository(IConfigurationProvider configurationProvider)
+        public DeviceRulesRepository(IConfigurationProvider configurationProvider, IAzureTableStorageClientFactory tableStorageClientFactory, IBlobStorageClientFactory blobStorageClientFactory)
         {
-            string storageAccountConnectionString = configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString");
-            string deviceRulesNormalizedTableName = configurationProvider.GetConfigurationSettingValue("DeviceRulesTableName");
-            string deviceRulesBlobStoreContainerName = configurationProvider.GetConfigurationSettingValue("DeviceRulesStoreContainerName");
-            _azureTableStorageHelper = new AzureTableStorageManager(storageAccountConnectionString, deviceRulesNormalizedTableName);
-            _blobStorageHelper = new BlobStorageManager(storageAccountConnectionString, deviceRulesBlobStoreContainerName);
+            _storageAccountConnectionString = configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString");
+            _deviceRulesBlobStoreContainerName = configurationProvider.GetConfigurationSettingValue("DeviceRulesStoreContainerName");
+            _deviceRulesNormalizedTableName = configurationProvider.GetConfigurationSettingValue("DeviceRulesTableName");
+            _azureTableStorageClient = tableStorageClientFactory.CreateClient(_storageAccountConnectionString, _deviceRulesNormalizedTableName);
             _blobName = configurationProvider.GetConfigurationSettingValue("AsaRefDataRulesBlobName");
+            _blobStorageManager = blobStorageClientFactory.CreateClient(_storageAccountConnectionString, _deviceRulesBlobStoreContainerName, _blobName);
 
             // note: InvariantCulture is read-only, so use en-US and hardcode all relevant aspects
             CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
@@ -77,13 +80,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TableOperation query = TableOperation.Retrieve<DeviceRuleTableEntity>(deviceId, ruleId);
 
             TableResult response = await Task.Run(() =>
-                _azureTableStorageHelper.Execute(query)
+                _azureTableStorageClient.Execute(query)
             );
 
             DeviceRule result = BuildRuleFromTableEntity((DeviceRuleTableEntity)response.Result);
             return result;
         }
-        
+
         /// <summary>
         /// Retrieve all rules from the database that have been defined for a single device.
         /// If none exist an empty list will be returned. This method guarantees a non-null
@@ -95,9 +98,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             TableQuery<DeviceRuleTableEntity> query = new TableQuery<DeviceRuleTableEntity>().
                 Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, deviceId));
-
+            var devicesResult = await _azureTableStorageClient.ExecuteQueryAsync(query);
             List<DeviceRule> result = new List<DeviceRule>();
-            foreach(DeviceRuleTableEntity entity in _azureTableStorageHelper.ExecuteQuery(query))
+            foreach (DeviceRuleTableEntity entity in devicesResult)
             {
                 result.Add(BuildRuleFromTableEntity(entity));
             }
@@ -113,8 +116,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             DeviceRuleTableEntity incomingEntity = BuildTableEntityFromRule(updatedRule);
 
-            TableStorageResponse<DeviceRule> result = 
-                await _azureTableStorageHelper.DoTableInsertOrReplaceAsync<DeviceRule, DeviceRuleTableEntity>(incomingEntity, BuildRuleFromTableEntity);
+            TableStorageResponse<DeviceRule> result =
+                await _azureTableStorageClient.DoTableInsertOrReplaceAsync<DeviceRule, DeviceRuleTableEntity>(incomingEntity, BuildRuleFromTableEntity);
 
             if (result.Status == TableStorageResponseStatus.Successful)
             {
@@ -125,13 +128,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             return result;
         }
-        
+
         public async Task<TableStorageResponse<DeviceRule>> DeleteDeviceRuleAsync(DeviceRule ruleToDelete)
         {
             DeviceRuleTableEntity incomingEntity = BuildTableEntityFromRule(ruleToDelete);
 
             TableStorageResponse<DeviceRule> result =
-                await _azureTableStorageHelper.DoDeleteAsync<DeviceRule, DeviceRuleTableEntity>(incomingEntity, BuildRuleFromTableEntity);
+                await _azureTableStorageClient.DoDeleteAsync<DeviceRule, DeviceRuleTableEntity>(incomingEntity, BuildRuleFromTableEntity);
 
             if (result.Status == TableStorageResponseStatus.Successful)
             {
@@ -147,9 +150,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             TableQuery<DeviceRuleTableEntity> query = new TableQuery<DeviceRuleTableEntity>();
 
-            return await Task.Run(() =>
-                _azureTableStorageHelper.ExecuteQuery(query)
-            );
+            return await _azureTableStorageClient.ExecuteQueryAsync(query);
         }
 
         private DeviceRuleTableEntity BuildTableEntityFromRule(DeviceRule incomingRule)
@@ -173,7 +174,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private DeviceRule BuildRuleFromTableEntity(DeviceRuleTableEntity tableEntity)
         {
-            if(tableEntity == null)
+            if (tableEntity == null)
             {
                 return null;
             }
@@ -252,15 +253,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private const int blobSaveMinutesInTheFuture = 2;
         private async Task PersistRulesToBlobStorageAsync(List<DeviceRuleBlobEntity> blobList)
         {
-            CloudBlobContainer container = await _blobStorageHelper.BuildBlobContainerAsync();
-
             string updatedJson = JsonConvert.SerializeObject(blobList);
             DateTime saveDate = DateTime.UtcNow.AddMinutes(blobSaveMinutesInTheFuture);
             string dateString = saveDate.ToString("d", _formatInfo);
             string timeString = saveDate.ToString("t", _formatInfo);
 
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference(string.Format(@"{0}\{1}\{2}", dateString, timeString, _blobName));
-            await blockBlob.UploadTextAsync(updatedJson);
+            await _blobStorageManager.UploadTextAsync(updatedJson, string.Format(@"{0}\{1}\{2}"), dateString, timeString);
         }
     }
 }

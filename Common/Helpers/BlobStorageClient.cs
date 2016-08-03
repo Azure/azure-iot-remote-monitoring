@@ -10,15 +10,92 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
     /// <summary>
     /// Helper methods, related to blob storage.
     /// </summary>
-    public class BlobStorageManager : IBlobStorageManager
+    public class BlobStorageClient : IBlobStorageClient
     {
-        private readonly ICloudBlobContainerProvider _blobContainerProvider;
+        private CloudBlobContainer _container;
+        private CloudBlockBlob _blob;
+        private readonly CloudBlobClient _blobClient;
+        private readonly string _containerName;
+        private readonly string _blobName;
 
-        public BlobStorageManager(string connectionString, string containerName)
+        public BlobStorageClient(string connectionString, string containerName, string blobName)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            _blobContainerProvider = new CloudBlobContainerProvider(blobClient, containerName);
+            _blobClient = storageAccount.CreateCloudBlobClient();
+            _containerName = containerName;
+            _blobName = blobName;
+        }
+        private async Task<CloudBlobContainer> GetCloudBlobContainerAsync()
+        {
+            if (_container == null && _containerName != null)
+            {
+                _container = _blobClient.GetContainerReference(_containerName);
+                await _container.CreateIfNotExistsAsync();
+            }
+            return _container;
+        }
+
+        private async Task<CloudBlockBlob> GetCloudBlockBlobAsync()
+        {
+            if (_blob == null && _blobName != null)
+            {
+                CloudBlobContainer container = await GetCloudBlobContainerAsync();
+                _blob = container.GetBlockBlobReference(_blobName);
+            }
+            return _blob;
+        }
+        //private async Task<CloudBlockBlob> GetCloudBlockBlobAsync(string format, string dateString, string timeString)
+        //{
+        //    if (_blob == null && _blobName != null)
+        //    {
+        //        CloudBlobContainer container = await GetCloudBlobContainerAsync();
+        //        _blob = container.GetBlockBlobReference(format, dateString, timeString, _blobName);
+        //    }
+        //    return _blob;
+        //}
+
+        public async Task UploadFromByteArrayAsync(byte[] buffer, int index, int count, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            CloudBlockBlob blob = await this.GetCloudBlockBlobAsync();
+            await blob.UploadFromByteArrayAsync(
+                buffer,
+                index,
+                count,
+                accessCondition,
+                options,
+                operationContext);
+        }
+        
+        public async Task<byte[]> GetBlobData()
+        {
+            CloudBlockBlob blob = await this.GetCloudBlockBlobAsync();
+            bool exists = await blob.ExistsAsync();
+            if (exists)
+            {
+                await blob.FetchAttributesAsync();
+                long blobLength = blob.Properties.Length;
+
+                if (blobLength > 0)
+                {
+                    byte[] existingBytes = new byte[blobLength];
+                    await blob.DownloadToByteArrayAsync(existingBytes, 0);
+                    return existingBytes;
+                }
+            }
+            return null;
+        }
+
+        public async Task<string> GetBlobEtag()
+        {
+            CloudBlockBlob blob = await this.GetCloudBlockBlobAsync();
+            return blob.Properties.ETag;
+        }
+
+        public async Task UploadTextAsync(string data, string format, string dateString, string timeString)
+        {
+            //CloudBlockBlob blob = await this.GetCloudBlockBlobAsync(format, dateString, timeString);
+            CloudBlockBlob blob = await this.GetCloudBlockBlobAsync();
+            await blob.UploadTextAsync(data);
         }
 
         /// <summary>
@@ -36,7 +113,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// </returns>
         public async Task<CloudBlobContainer> BuildBlobContainerAsync()
         {
-            return await _blobContainerProvider.GetCloudBlobContainerAsync();
+            return await this.GetCloudBlobContainerAsync();
         }
 
         /// <summary>
