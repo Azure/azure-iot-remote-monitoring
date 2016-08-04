@@ -23,11 +23,11 @@
                         </div>
                     </div>
                 </p>
-                    <p>
-                        <button class="add_new_button" type="submit" id="apiRegistrationButton">
-                            @Strings.Create
-                        </button>
-                    </p>
+                <p>
+                    <button class="add_new_button" type="submit" id="apiRegistrationButton">
+                        @Strings.Create
+                    </button>
+                </p>
             }
             else
             {
@@ -36,20 +36,26 @@
                 </p>
                 <p class="select_advanced_process_description">
                     @switch (Model.ApiRegistrationProvider)
-                            {
-                                case ApiRegistrationProviderType.Jasper:
-                                    @Strings.ApiRegistrationSelectOptionJasper
-                                    break;
-                                case ApiRegistrationProviderType.Ericsson:
-                                    @Strings.ApiRegistrationSelectOptionEricsson
-                                    break;
+                    {
+                        case ApiRegistrationProviderType.Jasper:
+                            <storng>@Strings.ApiRegistrationSelectOptionJasper</storng>
+                            break;
+                        case ApiRegistrationProviderType.Ericsson:
+                            <storng>@Strings.ApiRegistrationSelectOptionEricsson</storng>
+                            break;
                     }
                 </p>
+                @Html.HiddenFor(model => model.ApiRegistrationProvider)
                 <p>
-                    <button class="button_base edit_button" type="submit" id="apiRegistrationButton">
-                        @Strings.Edit
-                    </button>
-                </p>
+                    <fieldset class="fieldset_button">
+                        <button class="button_base edit_button" type="submit" id="apiRegistrationEditButton">
+                            @Strings.Edit
+                        </button>
+                        <button class="button_base edit_button" type="submit" id="apiRegistrationDeleteButton">
+                            @Strings.Delete
+                        </button>
+                    </fieldset>
+</p>
             }
 
         </li>
@@ -61,15 +67,17 @@
             <button class="add_new_button" type="submit" id="deviceAssociationButton">
                 @Strings.Create
             </button>
+            <button class="add_new_button" type="submit" id="deviceAssociationButton">
+                @Strings.Delete
+            </button>
         </li>
     </ul>
 </div>
 <script type="text/javascript">
     $(window).ready(
         function () {
-                        'use strict';
-
-                        var config = {
+            'use strict';
+            var config = {
                 subheadContent: '',
                 goBackUrl: ''
             };
@@ -87,38 +95,52 @@
 
             IoTApp.Advanced.initSubView(config);
 
-            $('#apiRegistrationButton').click(
-                function () {
-                    var providerSelectFieldId = "#apiRegistrationApiSelection";
-                    $(providerSelectFieldId + "Required").hide();
-                    var selectedProvider = $(providerSelectFieldId).val();
-                    if (!selectedProvider) {
-                        $(providerSelectFieldId + "Required").show();
-                        return;
-                    }
-                    debugger
-                    switch (selectedProvider) {
-                        case 'Jasper': {
-                            IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistrationJasper")');
-                            break;
-                        }
-                        case 'Ericsson': {
-                            IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistrationEricsson")');
-                            break;
-                        }
-                        default:
-                            throw 'Selected provider ' + selectedProvider + ' is not supported';
-                            break;
-
-                    }
+            $('#apiRegistrationButton').click(function () {
+                var providerSelectFieldId = "#apiRegistrationApiSelection";
+                $(providerSelectFieldId + "Required").hide();
+                var selectedProvider = $(providerSelectFieldId).val();
+                if (!selectedProvider) {
+                    $(providerSelectFieldId + "Required").show();
+                    return;
                 }
-            );
+                redirectToApiRegistration(selectedProvider);
+            });
+
+            $('#apiRegistrationEditButton').click(function () {
+                var selectedProvider = $("#ApiRegistrationProvider").val();
+                redirectToApiRegistration(selectedProvider);
+            });
+
+            $("#apiRegistrationDeleteButton").bind("click", function () {
+                $.post('/Advanced/DeleteRegistration', { }, function (response) {
+
+                    location.reload();
+                });
+            });
 
             $('#deviceAssociationButton').click(
                 function () {
                     IoTApp.Advanced.redirecToPartial('@Url.Action("DeviceAssociation")');
                 }
             );
+
+          
+
+            function redirectToApiRegistration(selectedProvider) {
+                switch (selectedProvider) {
+                    case 'Jasper': {
+                        IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistrationJasper")');
+                        break;
+                    }
+                    case 'Ericsson': {
+                        IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistrationEricsson")');
+                        break;
+                    }
+                    default:
+                        throw 'Selected provider ' + selectedProvider + ' is not supported';
+                        break;
+                }
+            }
         }
     );
 </script>

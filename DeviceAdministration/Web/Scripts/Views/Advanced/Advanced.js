@@ -127,7 +127,6 @@
             enableAllInput();
             $("#saveButton").prop("disabled", false);
             $("#editButton").prop("disabled", true);
-
         });
     }
 

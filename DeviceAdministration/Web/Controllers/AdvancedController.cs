@@ -130,6 +130,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return true;
         }
 
+        public bool DeleteRegistration()
+        {
+            return _apiRegistrationRepository.DeleteApiDetails();
+        }
+
         [RequirePermission(Permission.HealthBeat)]
         public ActionResult HealthBeat()
         {

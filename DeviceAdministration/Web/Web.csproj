@@ -247,7 +247,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_GlobalResources\Strings.Designer.cs">
+    <Compile Include="App_GlobalResources\Strings1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
@@ -671,6 +671,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <CustomToolNamespace>GlobalResources</CustomToolNamespace>
+      <LastGenOutput>Strings1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="App_GlobalResources\Strings.ru.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>

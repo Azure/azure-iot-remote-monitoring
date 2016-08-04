@@ -215,7 +215,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have already connected to an cellular API provider. The provider you have selected is.
+        ///   Looks up a localized string similar to You have already connected to an cellular API provider. The provider you have selected is:.
         /// </summary>
         public static string ApiAmendmentDescription {
             get {
@@ -931,6 +931,15 @@ namespace GlobalResources {
         public static string DefaultSolutionName {
             get {
                 return ResourceManager.GetString("DefaultSolutionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
         
