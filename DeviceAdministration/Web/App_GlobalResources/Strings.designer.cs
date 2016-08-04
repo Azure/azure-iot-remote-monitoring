@@ -215,6 +215,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have already connected to an cellular API provider. The provider you have selected is.
+        /// </summary>
+        public static string ApiAmendmentDescription {
+            get {
+                return ResourceManager.GetString("ApiAmendmentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To edit click &apos;Edit&apos;. Do remove this connection click &apos;Delete&apos;.
+        /// </summary>
+        public static string ApiAmendmentInstruction {
+            get {
+                return ResourceManager.GetString("ApiAmendmentInstruction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cellular API Registration.
         /// </summary>
         public static string ApiRegistration {

@@ -669,7 +669,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="App_GlobalResources\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
       <CustomToolNamespace>GlobalResources</CustomToolNamespace>
     </EmbeddedResource>

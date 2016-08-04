@@ -1689,4 +1689,11 @@
   <data name="EricssonHelpLink" xml:space="preserve">
     <value>https://www.ericsson.com/microsoft-iot</value>
   </data>
+  <data name="ApiAmendmentDescription" xml:space="preserve">
+    <value>You have already connected to an cellular API provider. The provider you have selected is</value>
+    <comment>Message for user</comment>
+  </data>
+  <data name="ApiAmendmentInstruction" xml:space="preserve">
+    <value>To edit click 'Edit'. Do remove this connection click 'Delete'</value>
+  </data>
 </root>

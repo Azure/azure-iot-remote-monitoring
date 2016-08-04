@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.ApiRegistrationModel
 
 <div>
@@ -30,6 +31,20 @@
             }
             else
             {
+                <p class="select_advanced_process_description">
+                    @Strings.ApiAmendmentDescription
+                </p>
+                <p class="select_advanced_process_description">
+                    @switch (Model.ApiRegistrationProvider)
+                            {
+                                case ApiRegistrationProviderType.Jasper:
+                                    @Strings.ApiRegistrationSelectOptionJasper
+                                    break;
+                                case ApiRegistrationProviderType.Ericsson:
+                                    @Strings.ApiRegistrationSelectOptionEricsson
+                                    break;
+                    }
+                </p>
                 <p>
                     <button class="button_base edit_button" type="submit" id="apiRegistrationButton">
                         @Strings.Edit
@@ -52,9 +67,9 @@
 <script type="text/javascript">
     $(window).ready(
         function () {
-            'use strict';
+                        'use strict';
 
-            var config = {
+                        var config = {
                 subheadContent: '',
                 goBackUrl: ''
             };
