@@ -126,32 +126,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             CloudBlockBlob blockBlob;
             if ((blockBlob = blobItem as CloudBlockBlob) != null)
             {
-                if ((blockBlob.Properties != null) &&
-                    blockBlob.Properties.LastModified.HasValue &&
-                    (blockBlob.Properties.LastModified.Value.LocalDateTime >= minTime))
+                if (blockBlob.Properties?.LastModified != null && (blockBlob.Properties.LastModified.Value.LocalDateTime >= minTime))
                 {
                     return true;
                 }
             }
             return false;
-        }
-
-        /// <summary>
-        /// Builds a CloudBlobContainer from provided settings.
-        /// </summary>
-        /// <param name="connectionString">
-        /// A connection string for the Cloud Storage Account to which the 
-        /// CloudBlobContainer will belong.
-        /// </param>
-        /// <param name="containerName">
-        /// The CloudBlobContainer's container name.
-        /// </param>
-        /// <returns>
-        /// A CloudBlobContainer, built from provided settings.
-        /// </returns>
-        public async Task<CloudBlobContainer> BuildBlobContainerAsync()
-        {
-            return await this.GetCloudBlobContainerAsync();
         }
 
         /// <summary>
@@ -164,7 +144,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// blobItem's last modified date, or null, of such could not be 
         /// extracted.
         /// </returns>
-        public DateTime? ExtractBlobItemDate(IListBlobItem blobItem)
+        private DateTime? ExtractBlobItemDate(IListBlobItem blobItem)
         {
             if (blobItem == null)
             {
@@ -206,7 +186,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// <returns>
         /// A concattenation of all the blob listing's resulting segments.
         /// </returns>
-        public async Task<IEnumerable<IListBlobItem>> LoadBlobItemsAsync(
+        private async Task<IEnumerable<IListBlobItem>> LoadBlobItemsAsync(
             Func<BlobContinuationToken, Task<BlobResultSegment>> segmentLoader)
         {
             if (segmentLoader == null)

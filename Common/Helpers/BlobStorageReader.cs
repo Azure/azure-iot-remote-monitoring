@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 {
-    public interface IBlobStorageReader : IEnumerable<Stream>
+    public interface IBlobStorageReader : IEnumerable<Tuple<Stream,DateTime?>>
     {
         
     }
@@ -20,7 +21,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         }
 
 
-        public IEnumerator<Stream> GetEnumerator()
+        public IEnumerator<Tuple<Stream, DateTime?>> GetEnumerator()
         {
             CloudBlockBlob blockBlob;
             foreach (var blob in _blobs)
@@ -31,7 +32,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 }
                 var stream = new MemoryStream();
                 blockBlob.DownloadToStream(stream);
-                yield return stream;
+                    yield return
+                        new Tuple<Stream, DateTime?>(stream, blockBlob.Properties.LastModified?.LocalDateTime);
             }
         }
 

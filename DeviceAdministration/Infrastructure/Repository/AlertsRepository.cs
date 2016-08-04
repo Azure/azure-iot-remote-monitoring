@@ -77,7 +77,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var alertBlobReader = await _blobStorageManager.GetReader(deviceAlertsDataPrefix);
             foreach (var alertStream in alertBlobReader)
             {
-                var segment = ProduceAlertHistoryItemsAsync(alertStream);
+                var segment = ProduceAlertHistoryItemsAsync(alertStream.Item1);
                 IEnumerable<AlertHistoryItemModel> filteredSegment = segment.Where(t => t?.Timestamp != null && (t.Timestamp.Value > minTime));
 
                 var unfilteredCount = segment.Count();

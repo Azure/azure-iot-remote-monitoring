@@ -70,7 +70,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {    
                 try
                 {
-                    blobModels = LoadBlobTelemetryModels(telemetryStream, telemetryFields);
+                    blobModels = LoadBlobTelemetryModels(telemetryStream.Item1, telemetryFields);
                 }
                 catch
                 {
@@ -133,7 +133,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {             
                 try
                 {
-                    blobModels = LoadBlobTelemetrySummaryModels(telemetryStream);
+                    blobModels = LoadBlobTelemetrySummaryModels(telemetryStream.Item1, telemetryStream.Item2);
                 }
                 catch
                 {
@@ -282,7 +282,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return models;
         }
 
-        private static List<DeviceTelemetrySummaryModel> LoadBlobTelemetrySummaryModels(Stream stream)
+        private static List<DeviceTelemetrySummaryModel> LoadBlobTelemetrySummaryModels(Stream stream, DateTime? lastModifiedTime)
         {
             Debug.Assert(stream != null, "stream is a null reference.");
 
@@ -347,14 +347,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         model.TimeFrameMinutes = number;
                     }
 
-                    // Translate LastModified to local time zone.  DateTimeOffsets 
-                    // don't do this automatically.  This is for equivalent behavior 
-                    // with parsed DateTimes.
-                    if ((blob.Properties != null) &&
-                        blob.Properties.LastModified.HasValue)
-                    {
-                        model.Timestamp = blob.Properties.LastModified.Value.LocalDateTime;
-                    }
+                    model.Timestamp = lastModifiedTime;
 
                     models.Add(model);
                 }
