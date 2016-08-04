@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands
 {
@@ -7,6 +8,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Co
         /// <summary>
         /// Serialziation deserialziation constructor.
         /// </summary>
+        [JsonConstructor]
         internal Command()
         {
             Parameters = new List<Parameter>();

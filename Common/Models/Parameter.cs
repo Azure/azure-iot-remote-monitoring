@@ -1,10 +1,13 @@
-﻿namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
+﻿using Newtonsoft.Json;
+
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 {
     public class Parameter
     {
         /// <summary>
         /// Serialization deserialization constructor.
         /// </summary>
+        [JsonConstructor]
         internal Parameter()
         {
         }

@@ -1,7 +1,10 @@
+using Newtonsoft.Json;
+
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 {
     public class Telemetry
     {
+        [JsonConverter]
         public Telemetry()
         {
             

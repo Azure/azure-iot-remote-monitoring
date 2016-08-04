@@ -98,7 +98,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
         private static void AssignDeviceProperties(DeviceModel device)
         {
             int randomId = Rand.Next(0, _possibleDeviceLocations.Count - 1);
-            if (device.DeviceProperties == null)
+            if (device?.DeviceProperties == null)
             {
                 throw new DeviceRequiredPropertyNotFoundException("Required DeviceProperties not found");
             }
