@@ -215,7 +215,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have already connected to an cellular API provider. The provider you have selected is:.
+        ///   Looks up a localized string similar to You have already connected to an cellular API provider. You can only have one connection at a time. If you would like to create a new one then you need to delete the current provider connection. The provider you have selected is:.
         /// </summary>
         public static string ApiAmendmentDescription {
             get {
