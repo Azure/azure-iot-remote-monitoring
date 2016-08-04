@@ -8,8 +8,8 @@
     <ProjectGuid>{008E8267-1703-4108-904A-99C1B9ED8F7A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests</RootNamespace>
-    <AssemblyName>Infrastructure.UnitTests</AssemblyName>
+    <RootNamespace>Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests</RootNamespace>
+    <AssemblyName>UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

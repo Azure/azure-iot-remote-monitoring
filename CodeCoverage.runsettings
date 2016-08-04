@@ -8,8 +8,10 @@
           <CodeCoverage>
             <ModulePaths>
               <Include>
-                <ModulePath>.*\.dll$</ModulePath>
-                <ModulePath>.*\.exe$</ModulePath>
+                <ModulePath>.*WebJob.*</ModulePath>
+				<ModulePath>.*Common.*</ModulePath>
+				<ModulePath>.*Web.*</ModulePath>
+				<ModulePath>.*Infrastructure.*</ModulePath>
               </Include>
               <Exclude>
                 <ModulePath>.*UnitTests.*</ModulePath>
