@@ -82,7 +82,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             builder.RegisterType<DocDbRestUtility>().As<IDocDbRestUtility>();
             builder.RegisterType<ApiRegistrationRepository>().As<IApiRegistrationRepository>();
             builder.RegisterType<JasperCredentialsProvider>().As<ICredentialProvider>();
-            builder.RegisterType<JasperCellularService>().As<IExternalCellularService>();
+            builder.RegisterType<ExternalCellularService>().As<IExternalCellularService>();
+            builder.RegisterType<JasperCellularService>().As<IJasperCellularService>();
         }
     }
 }

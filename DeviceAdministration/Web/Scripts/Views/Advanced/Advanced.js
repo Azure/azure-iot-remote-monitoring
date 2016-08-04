@@ -104,7 +104,8 @@
                 BaseUrl: $.trim($("#BaseUrl").val()),
                 LicenceKey: $.trim($("#LicenceKey").val()),
                 Username: $.trim($("#Username").val()),
-                Password: $.trim($("#Password").val())
+                Password: $.trim($("#Password").val()),
+                ApiRegistrationProvider: $.trim($("#ApiRegistrationProvider").val())
             }
 
             $.post('/Advanced/SaveRegistration', { apiModel: registrationModel }, function(response) {

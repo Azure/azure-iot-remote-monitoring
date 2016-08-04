@@ -11,6 +11,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Extensions;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -37,10 +38,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View();
         }
 
-        public PartialViewResult ApiRegistration()
+        public PartialViewResult SelectAdvancedProcess()
         {
             var registrationModel = _apiRegistrationRepository.RecieveDetails();
-            return PartialView("_ApiRegistration", registrationModel);
+            return PartialView("_SelectAdvancedProcess", registrationModel);
+        }
+
+        public PartialViewResult ApiRegistrationJasper()
+        {
+            var registrationModel = _apiRegistrationRepository.RecieveDetails();
+            if(registrationModel.ApiRegistrationProvider == null)
+            {
+                registrationModel.ApiRegistrationProvider = ApiRegistrationProviderType.Jasper;
+            }
+            return PartialView("_ApiRegistrationJasper", registrationModel);
+        }
+
+        public PartialViewResult ApiRegistrationEricsson()
+        {
+            var registrationModel = _apiRegistrationRepository.RecieveDetails();
+            if (registrationModel.ApiRegistrationProvider == null)
+            {
+                registrationModel.ApiRegistrationProvider = ApiRegistrationProviderType.Ericsson;
+            }
+            return PartialView("_ApiRegistrationEricsson", registrationModel);
         }
 
         public async Task<PartialViewResult> DeviceAssociation()
@@ -98,31 +119,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public bool SaveRegistration(ApiRegistrationModel apiModel)
         {
             _apiRegistrationRepository.AmendRegistration(apiModel);
+            var registrationModel = _apiRegistrationRepository.RecieveDetails();
 
-            //use a simple call to verify creds
-            try
-            {
-                _cellularService.GetTerminals();
-            }
-            catch (CellularConnectivityException exception)
-            {
-                //API does not give error code for the remote name.
-                if (exception.Message.Contains(Strings.RemoteNameNotResolved) ||
-                    exception.Message == CellularInvalidCreds ||
-                    exception.Message == CellularInvalidLicense)
-                {
-                    _apiRegistrationRepository.DeleteApiDetails();
-                    return false;
-                }
+            //var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.CellularProvider.ConvertCellularProviderEnum());
+            //if (!credentialsAreValid)
+            //{
+            //    _apiRegistrationRepository.DeleteApiDetails();
+            //}
 
-              //the user may have valid creds but no devices. Which throws exception from API this is ok.
-            }
             return true;
-        }
-
-        public PartialViewResult SelectAdvancedProcess()
-        {
-            return PartialView("_SelectAdvancedProcess");
         }
 
         [RequirePermission(Permission.HealthBeat)]

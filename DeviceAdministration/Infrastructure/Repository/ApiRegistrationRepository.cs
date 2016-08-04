@@ -5,6 +5,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using System;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -28,8 +29,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     Password = apiRegistrationModel.Password,
                     BaseUrl = apiRegistrationModel.BaseUrl,
                     Username = apiRegistrationModel.Username,
-                    LicenceKey = apiRegistrationModel.LicenceKey
-                };
+                    LicenceKey = apiRegistrationModel.LicenceKey,
+                    ApiRegistrationProviderType = ApiRegistrationTableEntity
+                                                    .ConvertApiProviderTypeToInt(apiRegistrationModel.ApiRegistrationProvider.Value)
+            };
 
                 _table.Execute(TableOperation.InsertOrMerge(incomingEntity));
             }
@@ -44,7 +47,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var query = new TableQuery<ApiRegistrationTableEntity>().
                 Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal,
-                    ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationProviderType.Jasper)));
+                    ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationKey.Default)));
 
             var response = _table.ExecuteQuery(query);
             if (response == null) return new ApiRegistrationModel();
@@ -59,23 +62,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 Username = apiRegistrationTableEntity.Username,
                 BaseUrl = apiRegistrationTableEntity.BaseUrl,
                 LicenceKey = apiRegistrationTableEntity.LicenceKey,
-                Password = apiRegistrationTableEntity.Password
+                Password = apiRegistrationTableEntity.Password,
+                ApiRegistrationProvider = ApiRegistrationTableEntity
+                                            .ConvertIntToApiProvider(apiRegistrationTableEntity.ApiRegistrationProviderType)
             };
 
         }
 
         public bool IsApiRegisteredInAzure()
         {
-            var retrieveOperation = TableOperation.Retrieve<ApiRegistrationTableEntity>(ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationProviderType.Jasper),
-                                        ApiRegistrationTableEntity.GetRowKey(ApiRegistrationProviderType.Jasper));
+            var retrieveOperation = TableOperation.Retrieve<ApiRegistrationTableEntity>(ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationKey.Default),
+                                        ApiRegistrationTableEntity.GetRowKey(ApiRegistrationKey.Default));
             var retrievedResult = _table.Execute(retrieveOperation);
             return retrievedResult.Result != null;
         }
 
         public bool DeleteApiDetails()
         {
-            var entity = new DynamicTableEntity(ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationProviderType.Jasper),
-                                ApiRegistrationTableEntity.GetRowKey(ApiRegistrationProviderType.Jasper));
+            var entity = new DynamicTableEntity(ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationKey.Default),
+                                ApiRegistrationTableEntity.GetRowKey(ApiRegistrationKey.Default));
             entity.ETag = "*";
             _table.Execute(TableOperation.Delete(entity));
             return true;

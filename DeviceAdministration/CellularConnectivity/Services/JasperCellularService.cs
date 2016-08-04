@@ -6,12 +6,15 @@ using DeviceManagement.Infrustructure.Connectivity.Exceptions;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using DeviceManagement.Infrustructure.Connectivity.Proxies;
+using Resources;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Services
 {
-    public class JasperCellularService : IExternalCellularService
+    public class JasperCellularService : IJasperCellularService
     {
         private readonly ICredentialProvider _credentialProvider;
+        private const string CellularInvalidCreds = "400200";
+        private const string CellularInvalidLicense = "400100";
 
         public JasperCellularService(ICredentialProvider credentialProvider)
         {
@@ -116,6 +119,44 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         private IJasperTerminalClientProxy BuildJasperTerminalClientProxy()
         {
             return new JasperTerminalClientProxy(_credentialProvider.Provide());
+        }
+
+        /// <summary>
+        /// The API does not have a way to validate credentials so this method calls
+        /// GetTerminals() and checks the response for validation errors.
+        /// </summary>
+        /// <returns>True if valid. False if not valid</returns>
+        public bool ValidateCredentials()
+        {
+            var isValid = false;
+            var validationError = false;
+            
+            // make the simple API call
+            try
+            {
+                GetTerminals();
+            }
+            catch (CellularConnectivityException exception)
+            {
+                //Check for validation errors
+                if (exception.Message.Contains(Strings.RemoteNameNotResolved) ||
+                    exception.Message == CellularInvalidCreds ||
+                    exception.Message == CellularInvalidLicense)
+                {
+                    validationError = true;
+                }
+                else
+                {
+                    validationError = false;
+                }
+            }
+
+            // if no errors then credentials are valid
+            if (!validationError)
+            {
+                isValid = true;
+            }
+            return isValid;
         }
     }
 }
