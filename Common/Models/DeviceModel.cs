@@ -6,6 +6,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 {
     public class DeviceModel
     {
+        /// <summary>
+        /// Creates a new instance of a DeviceModel.
+        /// </summary>
+        public DeviceModel()
+        {
+            Commands = new List<Command>();
+            CommandHistory = new List<CommandHistory>();
+            Telemetry = new List<Telemetry>();
+        }
+
         public DeviceProperties DeviceProperties { get; set; }
         public SystemProperties SystemProperties { get; set; }
         public List<Command> Commands { get; set; }

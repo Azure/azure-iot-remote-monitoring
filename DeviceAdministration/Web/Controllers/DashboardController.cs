@@ -1,5 +1,4 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
+﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
@@ -96,7 +95,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     string deviceId;
                     try
                     {
-                        deviceId = DeviceSchemaHelper.GetDeviceID(devInfo);
+                        deviceId = devInfo.DeviceProperties.DeviceID;
                     }
                     catch (DeviceRequiredPropertyNotFoundException)
                     {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
@@ -68,44 +67,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     "filter");
             }
 
-            Func<DeviceProperties, dynamic> getValue =
-                ReflectionHelper.ProducePropertyValueExtractor(
+            Func<DeviceProperties, dynamic> getValue = ReflectionHelper.ProducePropertyValueExtractor(
                     filter.ColumnName,
                     false,
                     false);
 
-            Func<DeviceModel, bool> applyFilter =
-                (item) =>
+            Func<DeviceModel, bool> applyFilter = (item) =>
+            {
+                if (item == null)
                 {
-                    dynamic columnValue;
-                    DeviceProperties deviceProperties;
+                    throw new ArgumentNullException("item");
+                }
 
-                    if (item == null)
-                    {
-                        throw new ArgumentNullException("item");
-                    }
+                if ((filter.FilterType == FilterType.Status) ||
+                    string.Equals(
+                        filter.ColumnName,
+                        "Status",
+                        StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return GetValueMatchesStatus(item, filter.FilterValue);
+                }
 
-                    if ((filter.FilterType == FilterType.Status) ||
-                        string.Equals(
-                            filter.ColumnName,
-                            "Status",
-                            StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        return GetValueMatchesStatus(item, filter.FilterValue);
-                    }
+                if (item.DeviceProperties == null)
+                {
+                    return false;
+                }
 
-                    try
-                    {
-                        deviceProperties = DeviceSchemaHelper.GetDeviceProperties(item);
-                    }
-                    catch (DeviceRequiredPropertyNotFoundException)
-                    {
-                        return false;
-                    }
-
-                    columnValue = getValue(deviceProperties);
-                    return GetValueSatisfiesFilter(columnValue, filter);
-                };
+                dynamic columnValue = getValue(item.DeviceProperties);
+                return GetValueSatisfiesFilter(columnValue, filter);
+            };
 
             return list.Where(applyFilter).AsQueryable();
         }
@@ -127,27 +117,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return false;
             }
 
-            string normalizedStatus = statusName.ToUpperInvariant();
-            bool? value;
-            try
-            {
-                value = DeviceSchemaHelper.GetHubEnabledState(item);
-            }
-            catch (DeviceRequiredPropertyNotFoundException)
-            {
-                value = null;
-            }
+            var normalizedStatus = statusName.ToUpperInvariant();
+            var enabledState = item.DeviceProperties?.HubEnabledState == null ? (bool?) null : item.DeviceProperties.GetHubEnabledState();
 
             switch (normalizedStatus)
             {
                 case "RUNNING":
-                    return value == true;
+                    return enabledState == true;
 
                 case "DISABLED":
-                    return value == false;
+                    return enabledState == false;
 
                 case "PENDING":
-                    return !value.HasValue;
+                    return !enabledState.HasValue;
 
                 default:
                     throw new ArgumentOutOfRangeException("statusName", statusName, "statusName has an unhandled status value.");

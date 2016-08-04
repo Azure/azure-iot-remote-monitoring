@@ -27,5 +27,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
+
+        public bool GetHubEnabledState()
+        {
+            return HubEnabledState.HasValue && HubEnabledState.Value;
+        }
     }
 }

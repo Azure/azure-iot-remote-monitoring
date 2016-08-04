@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
@@ -155,8 +155,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                     //Check the HubEnabledState since this is actually displayed and make sure it's in a good format
                     //Should not be required for strongly typed object
                     //DeviceSchemaHelperND.FixDeviceSchema(deviceInfo);
+                    if (deviceInfo.IoTHub == null)
+                    {
+                        throw new DeviceRequiredPropertyNotFoundException("'IoTHubProperties' property is missing");
+                    }
 
-                    string name = DeviceSchemaHelper.GetConnectionDeviceId(deviceInfo);
+                    string name = deviceInfo.IoTHub.ConnectionDeviceGenerationId;
                     Trace.TraceInformation("ProcessEventAsync -- DeviceInfo: {0}", name);
                     await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(deviceInfo);
 

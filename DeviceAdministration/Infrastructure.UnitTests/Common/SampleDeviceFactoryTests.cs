@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Xunit;
 
@@ -30,7 +30,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void TestGetSampleSimulatedDevice()
         {
-            var d = DeviceSchemaHelper.BuildDeviceStructure("test", true, null);
+            var d = DeviceCreatorHelper.BuildDeviceStructure("test", true, null);
             Assert.NotNull(d);
             Assert.Equal("test", d.DeviceProperties.DeviceID);
             Assert.Equal("normal", d.DeviceProperties.DeviceState);

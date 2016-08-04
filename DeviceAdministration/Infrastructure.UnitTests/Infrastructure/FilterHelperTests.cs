@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
@@ -587,7 +587,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private void TestNullDeviceProperties(FilterType filterType)
         {
-            DeviceModel device = DeviceSchemaHelper.BuildDeviceStructure(Guid.NewGuid().ToString(), true, null);
+            DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(Guid.NewGuid().ToString(), true, null);
 
             device.DeviceProperties = null;
 
@@ -628,14 +628,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelper.FilterDeviceList(list, filters).ToList<DeviceModel>();
+            var results = FilterHelper.FilterDeviceList(list, filters).ToList();
 
             Assert.Equal(2, results.Count());
-
-            Assert.Throws<DeviceRequiredPropertyNotFoundException>(
-                () => DeviceSchemaHelper.GetDeviceProperties(results[0]));
-
-            Assert.Equal("EnabledNull", results[1].DeviceProperties.DeviceID.ToString());
+            Assert.Null(results[0].DeviceProperties);
+            Assert.Equal("EnabledNull", results[1].DeviceProperties.DeviceID);
         }
 
         [Fact]
@@ -652,10 +649,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelper.FilterDeviceList(list, filters).ToList<DeviceModel>();
+            var results = FilterHelper.FilterDeviceList(list, filters).ToList();
 
             Assert.Equal(1, results.Count());
-            Assert.Equal("EnabledTrue", results[0].DeviceProperties.DeviceID.ToString());
+            Assert.Equal("EnabledTrue", results[0].DeviceProperties.DeviceID);
         }
 
         [Fact]
@@ -672,10 +669,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
             };
 
-            var results = FilterHelper.FilterDeviceList(list, filters).ToList<DeviceModel>();
+            var results = FilterHelper.FilterDeviceList(list, filters).ToList();
 
             Assert.Equal(1, results.Count());
-            Assert.Equal("EnabledFalse", results[0].DeviceProperties.DeviceID.ToString());
+            Assert.Equal("EnabledFalse", results[0].DeviceProperties.DeviceID);
         }
 
         private static IQueryable<DeviceModel> GetListWithEnabledTestValues()
@@ -693,7 +690,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             list[3].DeviceProperties.HubEnabledState = false;
             list[3].DeviceProperties.DeviceID = "EnabledFalse";
 
-            return list.AsQueryable<DeviceModel>();
+            return list.AsQueryable();
         }
 
         #endregion
@@ -741,19 +738,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private static DeviceModel GetDefaultTestDevice()
         {
-            DeviceModel device = DeviceSchemaHelper.BuildDeviceStructure("DeviceID-Test", true, null);
-            DeviceProperties props = DeviceSchemaHelper.GetDeviceProperties(device);
-            props.CreatedTime = new DateTime(2000, 01, 01);
-            props.DeviceState = "DeviceState-Test";
-            props.HubEnabledState = true;
-            props.FirmwareVersion = "FirmwareVersion-Test";
-            props.InstalledRAM = "InstalledRAM-Test";
-            props.Manufacturer = "Manufacturer-Test";
-            props.ModelNumber = "ModelNumber-Test";
-            props.Platform = "Platform-Test";
-            props.Processor = "Processor-Test";
-            props.SerialNumber = "SerialNumber-Test";
-            props.UpdatedTime = new DateTime(2000, 01, 01);
+            var device = DeviceCreatorHelper.BuildDeviceStructure("DeviceID-Test", true, null);
+
+            device.DeviceProperties.CreatedTime = new DateTime(2000, 01, 01);
+            device.DeviceProperties.DeviceState = "DeviceState-Test";
+            device.DeviceProperties.HubEnabledState = true;
+            device.DeviceProperties.FirmwareVersion = "FirmwareVersion-Test";
+            device.DeviceProperties.InstalledRAM = "InstalledRAM-Test";
+            device.DeviceProperties.Manufacturer = "Manufacturer-Test";
+            device.DeviceProperties.ModelNumber = "ModelNumber-Test";
+            device.DeviceProperties.Platform = "Platform-Test";
+            device.DeviceProperties.Processor = "Processor-Test";
+            device.DeviceProperties.SerialNumber = "SerialNumber-Test";
+            device.DeviceProperties.UpdatedTime = new DateTime(2000, 01, 01);
 
             return device;
         }
