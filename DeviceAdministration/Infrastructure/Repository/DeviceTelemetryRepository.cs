@@ -173,7 +173,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 stream.Position = 0;
                 reader = new StreamReader(stream);
-
+                
                 IEnumerable<StrDict> strdicts = ParsingHelper.ParseCsv(reader).ToDictionaries();
                 DeviceTelemetryModel model;
                 string str;
@@ -293,7 +293,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 stream.Position = 0;
                 reader = new StreamReader(stream);
-
+                
                 IEnumerable<StrDict> strdicts = ParsingHelper.ParseCsv(reader).ToDictionaries();
                 DeviceTelemetrySummaryModel model;
                 double number;
