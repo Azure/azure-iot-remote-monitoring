@@ -21,12 +21,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class AlertsRepository : IAlertsRepository
     {
         // column names in ASA job output
-        public const string DEVICE_ID_COLUMN_NAME = "deviceid";
-        public const string READING_TYPE_COLUMN_NAME = "readingtype";
-        public const string READING_VALUE_COLUMN_NAME = "reading";
-        public const string THRESHOLD_VALUE_COLUMN_NAME = "threshold";
-        public const string RULE_OUTPUT_COLUMN_NAME = "ruleoutput";
-        public const string TIME_COLUMN_NAME = "time";
+        private const string DEVICE_ID_COLUMN_NAME = "deviceid";
+        private const string READING_TYPE_COLUMN_NAME = "readingtype";
+        private const string READING_VALUE_COLUMN_NAME = "reading";
+        private const string THRESHOLD_VALUE_COLUMN_NAME = "threshold";
+        private const string RULE_OUTPUT_COLUMN_NAME = "ruleoutput";
+        private const string TIME_COLUMN_NAME = "time";
 
         private readonly IBlobStorageClient _blobStorageManager;
         private readonly string deviceAlertsDataPrefix;

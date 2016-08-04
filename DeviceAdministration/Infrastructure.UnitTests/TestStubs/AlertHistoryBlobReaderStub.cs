@@ -36,9 +36,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     ob.With(x => x.Timestamp, new DateTime(_year, _month, _date))
                         .With(x => x.Value, _value.ToString()));
             var alertItems = fixture.CreateMany<AlertHistoryItemModel>();
-            var blobData = AlertsRepository.DEVICE_ID_COLUMN_NAME + "," + AlertsRepository.READING_VALUE_COLUMN_NAME +
-                          "," + AlertsRepository.RULE_OUTPUT_COLUMN_NAME + "," + AlertsRepository.TIME_COLUMN_NAME +
-                          Environment.NewLine;
+            var blobData = "deviceid,reading,ruleoutput,time" + Environment.NewLine;
             blobData = alertItems.Aggregate(blobData,
                 (current, item) =>
                     current +
