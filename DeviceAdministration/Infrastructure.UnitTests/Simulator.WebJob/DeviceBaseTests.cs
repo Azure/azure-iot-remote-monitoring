@@ -26,8 +26,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _telemetryFactoryMock = new Mock<ITelemetryFactory>();
             _configurationProviderMock = new Mock<IConfigurationProvider>();
             _transport = new Mock<ITransport>();
-            deviceBase = new DeviceBase(_loggerMock.Object, _transportFactory.Object, _telemetryFactoryMock.Object,
-                _configurationProviderMock.Object);
+            deviceBase = new DeviceBase(_loggerMock.Object, _transportFactory.Object, _telemetryFactoryMock.Object, _configurationProviderMock.Object);
         }
 
         [Fact]

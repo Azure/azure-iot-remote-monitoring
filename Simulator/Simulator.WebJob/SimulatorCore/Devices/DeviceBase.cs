@@ -86,6 +86,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         protected virtual void InitDeviceInfo(InitialDeviceConfig config)
         {
             DeviceModel initialDevice = SampleDeviceFactory.GetSampleSimulatedDevice(config.DeviceId, config.Key);
+            DeviceProperties = initialDevice.DeviceProperties;
             Commands = initialDevice.Commands ?? new List<Command>();
             Telemetry = initialDevice.Telemetry ?? new List<Common.Models.Telemetry>();
             HostName = config.HostName;
