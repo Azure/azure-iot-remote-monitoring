@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
@@ -375,23 +375,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new ArgumentNullException("devicePropertyValueModels");
             }
 
-            DeviceProperties deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
-            if (deviceProperties == null)
+            if (device.DeviceProperties == null)
             {
-                throw new ArgumentException("device.DeviceProperties is a null reference.", "device");
+                throw new DeviceRequiredPropertyNotFoundException("Required DeviceProperties not found");
             }
 
-            if ((dynamicMetaObjectProvider = deviceProperties as IDynamicMetaObjectProvider) != null)
+            if ((dynamicMetaObjectProvider = device.DeviceProperties as IDynamicMetaObjectProvider) != null)
             {
                 ApplyPropertyValueModels(dynamicMetaObjectProvider, devicePropertyValueModels);
             }
-            else if ((typeDescriptor = deviceProperties as ICustomTypeDescriptor) != null)
+            else if ((typeDescriptor = device.DeviceProperties as ICustomTypeDescriptor) != null)
             {
                 ApplyPropertyValueModels(typeDescriptor, devicePropertyValueModels);
             }
             else
             {
-                ApplyPropertyValueModels((object)deviceProperties, devicePropertyValueModels);
+                ApplyPropertyValueModels(device.DeviceProperties, devicePropertyValueModels);
             }
         }
 
@@ -1103,7 +1102,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             List<string> sampleIds = SampleDeviceFactory.GetDefaultDeviceNames();
             foreach(string id in sampleIds)
             {
-                DeviceModel device = DeviceSchemaHelper.BuildDeviceStructure(id, true, null);
+                DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(id, true, null);
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
                 await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             }
@@ -1125,8 +1124,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 foreach (DeviceModel device in devices)
                 {
-                    DeviceProperties props = DeviceSchemaHelper.GetDeviceProperties(device);
-                    if (props.Longitude == null || props.Latitude == null)
+                    if (device.DeviceProperties == null)
+                    {
+                        throw new DeviceRequiredPropertyNotFoundException("Required DeviceProperties not found");
+                    }
+
+                    if (device.DeviceProperties.Longitude == null || device.DeviceProperties.Latitude == null)
                     {
                         continue;
                     }
@@ -1136,8 +1139,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                     try
                     {
-                        latitude = DeviceSchemaHelper.GetDeviceProperties(device).Latitude.Value;
-                        longitude = DeviceSchemaHelper.GetDeviceProperties(device).Longitude.Value;
+                        latitude = device.DeviceProperties.Latitude.Value;
+                        longitude = device.DeviceProperties.Longitude.Value;
                     }
                     catch (FormatException)
                     {
@@ -1146,7 +1149,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                     var location = new DeviceLocationModel()
                     {
-                        DeviceId = DeviceSchemaHelper.GetDeviceID(device),
+                        DeviceId = device.DeviceProperties.DeviceID,
                         Longitude = longitude,
                         Latitude = latitude
                     };

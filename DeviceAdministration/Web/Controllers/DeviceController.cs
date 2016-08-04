@@ -9,7 +9,7 @@ using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using DeviceManagement.Infrustructure.Connectivity.Services;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
@@ -191,17 +191,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private async Task<ActionResult> Add(UnregisteredDeviceModel model)
         {
-            Debug.Assert(model != null, "model is a null reference.");
-            Debug.Assert(
-                model.DeviceType != null,
-                "model.DeviceType is a null reference.");
-
-            DeviceWithKeys deviceWithKeys = await AddDeviceAsync(model);
+            var deviceWithKeys = await AddDeviceAsync(model);
             var newDevice = new RegisteredDeviceModel
             {
                 HostName = _iotHubName,
                 DeviceType = model.DeviceType,
-                DeviceId = DeviceSchemaHelper.GetDeviceID(deviceWithKeys.Device),
+                DeviceId = deviceWithKeys.Device.DeviceProperties.DeviceID,
                 PrimaryKey = deviceWithKeys.SecurityKeys.PrimaryKey,
                 SecondaryKey = deviceWithKeys.SecurityKeys.SecondaryKey,
                 InstructionsUrl = model.DeviceType.InstructionsUrl
@@ -221,11 +216,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>()
             };
 
-            DeviceModel device = await _deviceLogic.GetDeviceAsync(deviceId);
-            if (!object.ReferenceEquals(device, null))
+            var device = await _deviceLogic.GetDeviceAsync(deviceId);
+            if (device != null)
             {
-                model.DeviceId = DeviceSchemaHelper.GetDeviceID(device);
+                if (device.DeviceProperties == null)
+                {
+                    throw new DeviceRequiredPropertyNotFoundException("Required DeviceProperties not found");
+                }
 
+                model.DeviceId = device.DeviceProperties.DeviceID;
                 propValModels = _deviceLogic.ExtractDevicePropertyValuesModels(device);
                 propValModels = ApplyDevicePropertyOrdering(propValModels);
 
@@ -239,13 +238,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             if (model != null)
             {
-                DeviceModel device = await _deviceLogic.GetDeviceAsync(model.DeviceId);
+                var device = await _deviceLogic.GetDeviceAsync(model.DeviceId);
                 if (device != null)
                 {
-                    _deviceLogic.ApplyDevicePropertyValueModels(
-                        device,
-                        model.DevicePropertyValueModels);
-
+                    _deviceLogic.ApplyDevicePropertyValueModels(device, model.DevicePropertyValueModels);
                     await _deviceLogic.UpdateDeviceAsync(device);
                 }
             }
@@ -258,16 +254,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             IEnumerable<DevicePropertyValueModel> propModels;
 
-            DeviceModel device = await _deviceLogic.GetDeviceAsync(deviceId);
-            if (object.ReferenceEquals(device, null))
+            var device = await _deviceLogic.GetDeviceAsync(deviceId);
+            if (device == null)
             {
                 throw new InvalidOperationException("Unable to load device with deviceId " + deviceId);
+            }
+
+            if (device.DeviceProperties == null)
+            {
+                throw new DeviceRequiredPropertyNotFoundException("'DeviceProperties' property is missing");
             }
 
             DeviceDetailModel deviceModel = new DeviceDetailModel
             {
                 DeviceID = deviceId,
-                HubEnabledState = DeviceSchemaHelper.GetHubEnabledState(device),
+                HubEnabledState = device.DeviceProperties.GetHubEnabledState(),
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>()
             };
 
@@ -353,7 +354,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 unregisteredDeviceModel.DeviceType != null,
                 "unregisteredDeviceModel.DeviceType is a null reference.");
 
-	        DeviceModel device = DeviceSchemaHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
+	        DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
                 unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
             
             DeviceWithKeys addedDevice = await this._deviceLogic.AddDeviceAsync(device);

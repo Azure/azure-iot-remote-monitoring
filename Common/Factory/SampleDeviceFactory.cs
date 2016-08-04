@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 
@@ -61,7 +62,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         public static DeviceModel GetSampleSimulatedDevice(string deviceId, string key)
         {
-            DeviceModel device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, true, null);
+            DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(deviceId, true, null);
 
             AssignDeviceProperties(device);
             device.ObjectType = OBJECT_TYPE_DEVICE_INFO;
@@ -84,7 +85,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
                     randomNumber.Next(99999),
                     randomNumber.Next(99999));
 
-            var device = DeviceSchemaHelper.BuildDeviceStructure(deviceId, false, null);
+            var device = DeviceCreatorHelper.BuildDeviceStructure(deviceId, false, null);
             device.ObjectName = "IoT Device Description";
 
             AssignDeviceProperties(device);
@@ -96,20 +97,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         private static void AssignDeviceProperties(DeviceModel device)
         {
-            int randomId = Rand.Next(0, _possibleDeviceLocations.Count - 1); 
-            var deviceProperties = DeviceSchemaHelper.GetDeviceProperties(device);
-            deviceProperties.HubEnabledState = true;
-            deviceProperties.Manufacturer = "Contoso Inc.";
-            deviceProperties.ModelNumber = "MD-" + randomId;
-            deviceProperties.SerialNumber = "SER" + randomId;
-            deviceProperties.FirmwareVersion = "1." + randomId;
-            deviceProperties.Platform = "Plat-" + randomId;
-            deviceProperties.Processor = "i3-" + randomId;
-            deviceProperties.InstalledRAM = randomId + " MB";
+            int randomId = Rand.Next(0, _possibleDeviceLocations.Count - 1);
+            if (device.DeviceProperties == null)
+            {
+                throw new DeviceRequiredPropertyNotFoundException("Required DeviceProperties not found");
+            }
+
+            device.DeviceProperties.HubEnabledState = true;
+            device.DeviceProperties.Manufacturer = "Contoso Inc.";
+            device.DeviceProperties.ModelNumber = "MD-" + randomId;
+            device.DeviceProperties.SerialNumber = "SER" + randomId;
+            device.DeviceProperties.FirmwareVersion = "1." + randomId;
+            device.DeviceProperties.Platform = "Plat-" + randomId;
+            device.DeviceProperties.Processor = "i3-" + randomId;
+            device.DeviceProperties.InstalledRAM = randomId + " MB";
 
             // Choose a location among the 16 above and set Lat and Long for device properties
-            deviceProperties.Latitude = _possibleDeviceLocations[randomId].Latitude;
-            deviceProperties.Longitude = _possibleDeviceLocations[randomId].Longitude;
+            device.DeviceProperties.Latitude = _possibleDeviceLocations[randomId].Latitude;
+            device.DeviceProperties.Longitude = _possibleDeviceLocations[randomId].Longitude;
         }
 
         private static void AssignTelemetry(DeviceModel device)

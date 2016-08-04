@@ -157,9 +157,8 @@
     <Compile Include="Configurations\ConfigurationProvider.cs" />
     <Compile Include="Configurations\EnvironmentDescription.cs" />
     <Compile Include="Configurations\IConfigurationProvider.cs" />
-    <Compile Include="DeviceSchema\CommandSchemaHelper.cs" />
-    <Compile Include="DeviceSchema\DeviceSchemaHelper.cs" />
-    <Compile Include="DeviceSchema\EventSchemaHelper.cs" />
+    <Compile Include="Helpers\DeviceCreatorHelper.cs" />
+    <Compile Include="Helpers\EventSchemaHelper.cs" />
     <Compile Include="Exceptions\DeviceRequiredPropertyNotFoundException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Factory\SampleDeviceFactory.cs" />

@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices;

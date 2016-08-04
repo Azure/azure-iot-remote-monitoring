@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dynamitey;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 {
     /// <summary>
     /// Helper class to encapsulate interactions with the event schema (messages from the device).

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
@@ -206,11 +205,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceNotRegisteredException(deviceId);
             }
 
-            DeviceProperties deviceProps = DeviceSchemaHelper.GetDeviceProperties(existingDevice);
-            deviceProps.HubEnabledState = isEnabled;
-            DeviceSchemaHelper.UpdateUpdatedTime(existingDevice);
 
-            return (await _docDbRestUtil.UpdateDocumentAsync<DeviceModel>(existingDevice)).ToObject<DeviceModel>();
+            if (existingDevice.DeviceProperties == null)
+            {
+                throw new DeviceRequiredPropertyNotFoundException("Required DeviceProperties not found");
+            }
+
+            existingDevice.DeviceProperties.HubEnabledState = isEnabled;
+            existingDevice.DeviceProperties.UpdatedTime = DateTime.UtcNow;
+
+            return (await _docDbRestUtil.UpdateDocumentAsync(existingDevice)).ToObject<DeviceModel>();
         }
 
         public async Task<DeviceListQueryResult> GetDeviceList(DeviceListQuery query)
@@ -248,29 +252,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             // look for all devices that contain the search value in one of the DeviceProperties Properties
             return deviceList.Where(filter).AsQueryable();
         }
-       
+
         private bool SearchTypePropertiesForValue(DeviceModel device, string search)
         {
-            DeviceProperties devProps = null;
-
             // if the device or its system properties are null then
             // there's nothing that can be searched on
-            if ((device == null) ||
-                ((devProps = DeviceSchemaHelper.GetDeviceProperties(device)) == null))
-            {
-                return false;
-            }
-
-            try
-            {
-                devProps = DeviceSchemaHelper.GetDeviceProperties(device);
-            }
-            catch (DeviceRequiredPropertyNotFoundException)
-            {
-                devProps = null;
-            }
-
-            if (devProps == null)
+            if (device?.DeviceProperties == null)
             {
                 return false;
             }
@@ -278,14 +265,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             // iterate through the DeviceProperties Properties and look for the search value
             // case insensitive search
             var upperCaseSearch = search.ToUpperInvariant();
-            return devProps.ToKeyValuePairs().Any(
-                t =>
+            return device.DeviceProperties.ToKeyValuePairs().Any(t =>
                     (t.Value != null) &&
                     t.Value.ToString().ToUpperInvariant().Contains(upperCaseSearch));
         }
 
         private IQueryable<DeviceModel> SortDeviceList(IQueryable<DeviceModel> deviceList, string sortColumn, QuerySortOrder sortOrder)
-        { 
+        {
             // if a sort column was not provided then return the full device list in its original sort
             if (string.IsNullOrWhiteSpace(sortColumn))
             {
@@ -298,43 +284,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     false,
                     false);
 
-            Func<DeviceModel, dynamic> keySelector =
-                (item) =>
+            Func<DeviceModel, dynamic> keySelector = (item) =>
+            {
+                if (item?.DeviceProperties == null)
                 {
-                    DeviceProperties deviceProperties;
+                    return null;
+                }
 
-                    if (item == null)
-                    {
-                        return null;
-                    }
+                if (string.Equals("hubEnabledState", sortColumn, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return item.DeviceProperties.GetHubEnabledState();
+                }
 
-                    if (string.Equals(
-                        "hubEnabledState",
-                        sortColumn,
-                        StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        try
-                        {
-                            return DeviceSchemaHelper.GetHubEnabledState(item);
-                        }
-                        catch (DeviceRequiredPropertyNotFoundException)
-                        {
-                            return null;
-                        }
-                    }
-
-                    try
-                    {
-                        deviceProperties =
-                            DeviceSchemaHelper.GetDeviceProperties(item);
-                    }
-                    catch (DeviceRequiredPropertyNotFoundException)
-                    {
-                        return null;
-                    }
-
-                    return getPropVal(deviceProperties);
-                };
+                return getPropVal(item.DeviceProperties);
+            };
 
             if (sortOrder == QuerySortOrder.Ascending)
             {

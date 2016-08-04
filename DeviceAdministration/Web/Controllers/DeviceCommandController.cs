@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
@@ -41,10 +40,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<ActionResult> Index(string deviceId)
         {
             DeviceModel device = await _deviceLogic.GetDeviceAsync(deviceId);
+            if (device.DeviceProperties == null)
+            {
+                throw new DeviceRequiredPropertyNotFoundException("'DeviceProperties' property is missing");
+            }
            
             IList<SelectListItem> commandListItems = CommandListItems(device);
 
-            bool deviceIsEnabled = DeviceSchemaHelper.GetHubEnabledState(device) == true;
+            bool deviceIsEnabled = device.DeviceProperties.GetHubEnabledState();
 
             DeviceCommandModel deviceCommandsModel = new DeviceCommandModel
             {
@@ -52,12 +55,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 CommandsJson = JsonConvert.SerializeObject(device.Commands),
                 SendCommandModel = new SendCommandModel
                 {
-                    DeviceId = DeviceSchemaHelper.GetDeviceID(device),
+                    DeviceId = device.DeviceProperties.DeviceID,
                     CommandSelectList = commandListItems,
                     CanSendDeviceCommands = deviceIsEnabled &&
                         PermsChecker.HasPermission(Permission.SendCommandToDevices)
                 },
-                DeviceId = DeviceSchemaHelper.GetDeviceID(device)
+                DeviceId = device.DeviceProperties.DeviceID
             };
 
             return View(deviceCommandsModel);
