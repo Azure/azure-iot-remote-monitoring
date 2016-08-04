@@ -2,6 +2,7 @@
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,37 +11,63 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 {
-    public class AzureTableStorageHelper : IAzureTableStorageHelper
+    public class AzureTableStorageClient : IAzureTableStorageClient
     {
-        private readonly string _storageConnectionString;
-        private readonly string _tableName;
         private CloudTable _table;
+        private readonly CloudTableClient _tableClient;
+        private readonly string _tableName;
 
-        public AzureTableStorageHelper(string storageConnectionString, string tableName)
+        public AzureTableStorageClient(string storageConnectionString, string tableName)
         {
-            _storageConnectionString = storageConnectionString;
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
+            _tableClient = storageAccount.CreateCloudTableClient();
             _tableName = tableName;
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_storageConnectionString);
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            _table = tableClient.GetTableReference(_tableName);
         }
-
-        public async Task<CloudTable> GetTableAsync()
+        private async Task<CloudTable> GetCloudTableAsync()
         {
-            await _table.CreateIfNotExistsAsync();
+            if (_table == null && _tableName != null)
+            {
+                _table = _tableClient.GetTableReference(_tableName);
+                await _table.CreateIfNotExistsAsync();
+            }
             return _table;
         }
-
-        public CloudTable GetTable()
+        private CloudTable GetCloudTable()
         {
+            if (_table != null)
+            {
+                return _table;
+            }
+            _table = _tableClient.GetTableReference(_tableName);
             _table.CreateIfNotExists();
             return _table;
+        }
+
+        public TableResult Execute(TableOperation tableOperation)
+        {
+            CloudTable table = this.GetCloudTable();
+            return table.Execute(tableOperation);
+        }
+        public async Task<TableResult> ExecuteAsync(TableOperation operation)
+        {
+            CloudTable table = await this.GetCloudTableAsync();
+            return await table.ExecuteAsync(operation);
+        }
+        public IEnumerable<T> ExecuteQuery<T>(TableQuery<T> tableQuery) where T : TableEntity, new()
+        {
+            CloudTable table = this.GetCloudTable();
+            return table.ExecuteQuery(tableQuery);
+        }
+        public async Task<IEnumerable<T>> ExecuteQueryAsync<T>(TableQuery<T> tableQuery) where T : TableEntity, new()
+        {
+            CloudTable table = await this.GetCloudTableAsync();
+            return table.ExecuteQuery(tableQuery);
         }
 
         public async Task<TableStorageResponse<TResult>> DoTableInsertOrReplaceAsync<TResult, TInput>(TInput incomingEntity,
             Func<TInput, TResult> tableEntityToModelConverter) where TInput : TableEntity
         {
-            var table = await GetTableAsync();
+            CloudTable table = await this.GetCloudTableAsync();
 
             // Simply doing an InsertOrReplace will not do any concurrency checking, according to 
             // http://azure.microsoft.com/en-us/blog/managing-concurrency-in-microsoft-azure-storage-2/
@@ -60,20 +87,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 operation = TableOperation.Insert(incomingEntity);
             }
 
-            return await PerformTableOperation<TResult, TInput>(table, operation, incomingEntity, tableEntityToModelConverter);
+            return await PerformTableOperation<TResult, TInput>(operation, incomingEntity, tableEntityToModelConverter);
         }
 
         public async Task<TableStorageResponse<TResult>> DoDeleteAsync<TResult, TInput>(TInput incomingEntity,
             Func<TInput, TResult> tableEntityToModelConverter) where TInput : TableEntity
         {
-            var azureTable = await GetTableAsync();
             TableOperation operation = TableOperation.Delete(incomingEntity);
-            return await PerformTableOperation<TResult, TInput>(azureTable, operation, incomingEntity, tableEntityToModelConverter);
+            return await PerformTableOperation<TResult, TInput>(operation, incomingEntity, tableEntityToModelConverter);
         }
 
-        private async Task<TableStorageResponse<TResult>> PerformTableOperation<TResult, TInput>(CloudTable table,
-            TableOperation operation, TInput incomingEntity, Func<TInput, TResult> tableEntityToModelConverter) where TInput : TableEntity
+        private async Task<TableStorageResponse<TResult>> PerformTableOperation<TResult, TInput>(TableOperation operation, TInput incomingEntity, Func<TInput, TResult> tableEntityToModelConverter) where TInput : TableEntity
         {
+            CloudTable table = await this.GetCloudTableAsync();
             var result = new TableStorageResponse<TResult>();
 
             try

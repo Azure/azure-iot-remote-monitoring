@@ -63,11 +63,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             builder.RegisterType<DocDbRestUtility>()
                 .As<IDocDbRestUtility>();
 
-            builder.RegisterType<BlobStorageHelper>()
-                .As<IBlobStorageHelper>();
+            builder.RegisterType<AzureTableStorageClientFactory>()
+                .As<IAzureTableStorageClientFactory>();
 
-            builder.RegisterType<AzureTableStorageHelper>()
-                .As<IAzureTableStorageHelper>();
+            builder.RegisterType<BlobStorageClientFactory>()
+                .As<IBlobStorageClientFactory>();
         }
     }
 }

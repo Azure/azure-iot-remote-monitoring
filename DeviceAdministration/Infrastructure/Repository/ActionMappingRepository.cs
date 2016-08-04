@@ -13,15 +13,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class ActionMappingRepository : IActionMappingRepository
     {
-        private readonly string _blobName;
-        private readonly IBlobStorageHelper _blobStorageHelper;
+        private readonly IBlobStorageClient _blobStorageManager;
 
-        public ActionMappingRepository(IConfigurationProvider configurationProvider)
+        public ActionMappingRepository(IConfigurationProvider configurationProvider, IBlobStorageClientFactory blobStorageClientFactory)
         {
+            string blobName = configurationProvider.GetConfigurationSettingValue("ActionMappingStoreBlobName");
             string connectionString = configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString");
             string containerName = configurationProvider.GetConfigurationSettingValue("ActionMappingStoreContainerName");
-            _blobName = configurationProvider.GetConfigurationSettingValue("ActionMappingStoreBlobName");
-            _blobStorageHelper = new BlobStorageHelper(connectionString, containerName);
+            _blobStorageManager = blobStorageClientFactory.CreateClient(connectionString, containerName, blobName);
         }
 
         public async Task<List<ActionMapping>> GetAllMappingsAsync()
@@ -55,10 +54,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             string newJsonData = JsonConvert.SerializeObject(existingMappings);
             byte[] newBytes = Encoding.UTF8.GetBytes(newJsonData);
 
-            CloudBlobContainer container = await _blobStorageHelper.BuildBlobContainerAsync();
-            CloudBlockBlob blob = container.GetBlockBlobReference(_blobName);
-
-            await blob.UploadFromByteArrayAsync(
+            await _blobStorageManager.UploadFromByteArrayAsync(
                 newBytes,
                 0,
                 newBytes.Length,
@@ -69,28 +65,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private async Task<ActionMappingBlobResults> GetActionsAndEtagAsync()
         {
-            CloudBlobContainer container = await _blobStorageHelper.BuildBlobContainerAsync();
-            CloudBlockBlob blob = container.GetBlockBlobReference(_blobName);
-            bool exists = await blob.ExistsAsync();
-
             var mappings = new List<ActionMapping>();
+            byte[] blobData = await _blobStorageManager.GetBlobData();
 
-            if (exists)
+            if (blobData.Length > 0)
             {
-                await blob.FetchAttributesAsync();
-                long blobLength = blob.Properties.Length;
-
-                if (blobLength > 0)
-                {
-                    byte[] existingBytes = new byte[blobLength];
-                    await blob.DownloadToByteArrayAsync(existingBytes, 0);
-
-                    // get the existing mappings in object form
-                    string existingJsonData = Encoding.UTF8.GetString(existingBytes);
-                    mappings = JsonConvert.DeserializeObject<List<ActionMapping>>(existingJsonData);
-                }
-
-                return new ActionMappingBlobResults(mappings, blob.Properties.ETag);
+                // get the existing mappings in object form
+                string existingJsonData = Encoding.UTF8.GetString(blobData);
+                mappings = JsonConvert.DeserializeObject<List<ActionMapping>>(existingJsonData);
+                string etag = await _blobStorageManager.GetBlobEtag();
+                return new ActionMappingBlobResults(mappings, etag);
             }
 
             // if it doesn't exist, return the empty list and an empty string for the ETag

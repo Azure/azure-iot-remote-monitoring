@@ -17,21 +17,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly string _storageAccountConnectionString;
         private const string _settingsTableName = "UserSettings";
         private const string _settingsTablePartitionKey = "settings";
-        private readonly IAzureTableStorageHelper _azureTableStorageHelper;
+        private readonly IAzureTableStorageClient _azureTableStorageClient;
 
-        public UserSettingsRepository(IConfigurationProvider configProvider)
+        public UserSettingsRepository(IConfigurationProvider configProvider, AzureTableStorageClientFactory tableStorageClientFactory)
         {
             _storageAccountConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
-            _azureTableStorageHelper = new AzureTableStorageHelper(_storageAccountConnectionString, _settingsTableName);
+            _azureTableStorageClient = tableStorageClientFactory.CreateClient(_storageAccountConnectionString, _settingsTableName);
         }
 
         public async Task<UserSetting> GetUserSettingValueAsync(string settingKey)
         {
-            var settingsTable = await _azureTableStorageHelper.GetTableAsync();
             TableOperation query = TableOperation.Retrieve<UserSettingTableEntity>(_settingsTablePartitionKey, settingKey);
 
             TableResult response = await Task.Run(() =>
-                settingsTable.Execute(query)
+                _azureTableStorageClient.Execute(query)
             );
 
             UserSetting result = null;
@@ -63,7 +62,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 incomingEntity.ETag = setting.Etag;
             }
 
-            TableStorageResponse<UserSetting> result = await _azureTableStorageHelper.DoTableInsertOrReplaceAsync<UserSetting, UserSettingTableEntity>(incomingEntity, (tableEntity) =>
+            TableStorageResponse<UserSetting> result = await _azureTableStorageClient.DoTableInsertOrReplaceAsync<UserSetting, UserSettingTableEntity>(incomingEntity, (tableEntity) =>
                 {
                     if (tableEntity == null)
                     {
