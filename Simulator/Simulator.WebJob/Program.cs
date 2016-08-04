@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices.Factory;
@@ -119,6 +120,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
             // Dependencies to inject into the Bulk Device Tester
             var logger = new TraceLogger();
             var configProvider = new ConfigurationProvider();
+            var tableStorageClientFactory = new AzureTableStorageClientFactory();
             var telemetryFactory = new CoolerTelemetryFactory(logger);
 
             var serializer = new JsonSerialize();
@@ -133,7 +135,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
             }
             else
             {
-                deviceStorage = new VirtualDeviceTableStorage(configProvider);
+                deviceStorage = new VirtualDeviceTableStorage(configProvider,tableStorageClientFactory);
             }
 
             IDeviceFactory deviceFactory = new CoolerDeviceFactory();
