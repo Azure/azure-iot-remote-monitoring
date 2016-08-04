@@ -1,6 +1,4 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+﻿namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 {
     public class BlobStorageClientFactory : IBlobStorageClientFactory
     {
@@ -9,10 +7,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         public BlobStorageClientFactory() : this(null)
         {
         }
+
         public BlobStorageClientFactory(IBlobStorageClient customClient)
         {
             _blobStorageClient = customClient;
         }
+
         public IBlobStorageClient CreateClient(string storageConnectionString, string containerName)
         {
             if (_blobStorageClient == null)

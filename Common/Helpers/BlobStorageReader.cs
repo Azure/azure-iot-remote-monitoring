@@ -6,9 +6,8 @@ using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 {
-    public interface IBlobStorageReader : IEnumerable<Tuple<Stream,DateTime?>>
+    public interface IBlobStorageReader : IEnumerable<Tuple<Stream, DateTime?>>
     {
-        
     }
 
     internal class BlobStorageReader : IBlobStorageReader
@@ -17,7 +16,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
         public BlobStorageReader(IEnumerable<IListBlobItem> blobs)
         {
-            this._blobs = blobs;
+            _blobs = blobs;
         }
 
 
@@ -32,8 +31,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 }
                 var stream = new MemoryStream();
                 blockBlob.DownloadToStream(stream);
-                    yield return
-                        new Tuple<Stream, DateTime?>(stream, blockBlob.Properties.LastModified?.LocalDateTime);
+                yield return
+                    new Tuple<Stream, DateTime?>(stream, blockBlob.Properties.LastModified?.LocalDateTime);
             }
         }
 

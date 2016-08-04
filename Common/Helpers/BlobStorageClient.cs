@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
@@ -9,14 +8,14 @@ using Microsoft.WindowsAzure.Storage.Blob;
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 {
     /// <summary>
-    /// Helper methods, related to blob storage.
+    ///     Helper methods, related to blob storage.
     /// </summary>
     public class BlobStorageClient : IBlobStorageClient
     {
-        private CloudStorageAccount _storageAccount;
-        private CloudBlobContainer _container;
         private readonly CloudBlobClient _blobClient;
         private readonly string _containerName;
+        private CloudBlobContainer _container;
+        private readonly CloudStorageAccount _storageAccount;
 
         public BlobStorageClient(string connectionString, string containerName)
         {
@@ -24,10 +23,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             _blobClient = _storageAccount.CreateCloudBlobClient();
             _containerName = containerName;
         }
-        
-        public async Task UploadFromByteArrayAsync(string blobName, byte[] buffer, int index, int count, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+
+        public async Task UploadFromByteArrayAsync(string blobName, byte[] buffer, int index, int count,
+            AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
-            CloudBlockBlob blob = await this.CreateCloudBlockBlobAsync(blobName);
+            var blob = await CreateCloudBlockBlobAsync(blobName);
             await blob.UploadFromByteArrayAsync(
                 buffer,
                 index,
@@ -36,19 +36,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 options,
                 operationContext);
         }
-        
+
         public async Task<byte[]> GetBlobData(string blobName)
         {
-            CloudBlockBlob blob = await this.CreateCloudBlockBlobAsync(blobName);
-            bool exists = await blob.ExistsAsync();
+            var blob = await CreateCloudBlockBlobAsync(blobName);
+            var exists = await blob.ExistsAsync();
             if (exists)
             {
                 await blob.FetchAttributesAsync();
-                long blobLength = blob.Properties.Length;
+                var blobLength = blob.Properties.Length;
 
                 if (blobLength > 0)
                 {
-                    byte[] existingBytes = new byte[blobLength];
+                    var existingBytes = new byte[blobLength];
                     await blob.DownloadToByteArrayAsync(existingBytes, 0);
                     return existingBytes;
                 }
@@ -58,13 +58,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
         public async Task<string> GetBlobEtag(string blobName)
         {
-            CloudBlockBlob blob = await this.CreateCloudBlockBlobAsync(blobName);
+            var blob = await CreateCloudBlockBlobAsync(blobName);
             return blob.Properties.ETag;
         }
 
         public async Task UploadTextAsync(string blobName, string data)
         {
-            CloudBlockBlob blob = await this.CreateCloudBlockBlobAsync(blobName);
+            var blob = await CreateCloudBlockBlobAsync(blobName);
             await blob.UploadTextAsync(data);
         }
 
@@ -72,7 +72,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         {
             await CreateCloudBlobContainerAsync();
 
-            var blobs = await this.LoadBlobItemsAsync(async (token) =>
+            var blobs = await LoadBlobItemsAsync(async token =>
             {
                 return await _container.ListBlobsSegmentedAsync(
                     prefix,
@@ -89,12 +89,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 blobs = blobs.OrderByDescending(t => ExtractBlobItemDate(t));
                 if (minTime != null)
                 {
-                    blobs = blobs.Where(t => this.FilterLessThanTime(t, minTime.Value));
+                    blobs = blobs.Where(t => FilterLessThanTime(t, minTime.Value));
                 }
             }
 
             return new BlobStorageReader(blobs);
         }
+
         private async Task CreateCloudBlobContainerAsync()
         {
             if (_container == null && _containerName != null)
@@ -121,7 +122,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             CloudBlockBlob blockBlob;
             if ((blockBlob = blobItem as CloudBlockBlob) != null)
             {
-                if (blockBlob.Properties?.LastModified != null && (blockBlob.Properties.LastModified.Value.LocalDateTime >= minTime))
+                if (blockBlob.Properties?.LastModified != null &&
+                    (blockBlob.Properties.LastModified.Value.LocalDateTime >= minTime))
                 {
                     return true;
                 }
@@ -130,14 +132,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         }
 
         /// <summary>
-        /// Exctract's a blob item's last modified date.
+        ///     Exctract's a blob item's last modified date.
         /// </summary>
         /// <param name="blobItem">
-        /// The blob item, for which to extract a last modified date.
+        ///     The blob item, for which to extract a last modified date.
         /// </param>
         /// <returns>
-        /// blobItem's last modified date, or null, of such could not be 
-        /// extracted.
+        ///     blobItem's last modified date, or null, of such could not be
+        ///     extracted.
         /// </returns>
         private DateTime? ExtractBlobItemDate(IListBlobItem blobItem)
         {
@@ -173,13 +175,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         }
 
         /// <summary>
-        /// Load's a blob listing's items.
+        ///     Load's a blob listing's items.
         /// </summary>
         /// <param name="segmentLoader">
-        /// A func for getting the blob listing's next segment.
+        ///     A func for getting the blob listing's next segment.
         /// </param>
         /// <returns>
-        /// A concattenation of all the blob listing's resulting segments.
+        ///     A concattenation of all the blob listing's resulting segments.
         /// </returns>
         private async Task<IEnumerable<IListBlobItem>> LoadBlobItemsAsync(
             Func<BlobContinuationToken, Task<BlobResultSegment>> segmentLoader)
@@ -191,9 +193,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
             IEnumerable<IListBlobItem> blobItems = new IListBlobItem[0];
 
-            BlobResultSegment segment = await segmentLoader(null);
+            var segment = await segmentLoader(null);
             while ((segment != null) &&
-                (segment.Results != null))
+                   (segment.Results != null))
             {
                 blobItems = blobItems.Concat(segment.Results);
 

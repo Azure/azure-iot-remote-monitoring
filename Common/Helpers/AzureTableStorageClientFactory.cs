@@ -1,6 +1,4 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+﻿namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 {
     public class AzureTableStorageClientFactory : IAzureTableStorageClientFactory
     {
@@ -9,10 +7,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         public AzureTableStorageClientFactory() : this(null)
         {
         }
+
         public AzureTableStorageClientFactory(IAzureTableStorageClient customClient)
         {
             _tableStorageClient = customClient;
         }
+
         public IAzureTableStorageClient CreateClient(string storageConnectionString, string tableName)
         {
             if (_tableStorageClient == null)

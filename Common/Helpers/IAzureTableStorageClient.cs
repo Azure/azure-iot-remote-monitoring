@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
@@ -11,8 +10,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
     {
         Task<TableStorageResponse<TResult>> DoTableInsertOrReplaceAsync<TResult, TInput>(TInput incomingEntity,
             Func<TInput, TResult> tableEntityToModelConverter) where TInput : TableEntity;
+
         Task<TableStorageResponse<TResult>> DoDeleteAsync<TResult, TInput>(TInput incomingEntity,
             Func<TInput, TResult> tableEntityToModelConverter) where TInput : TableEntity;
+
         TableResult Execute(TableOperation tableOperation);
         Task<TableResult> ExecuteAsync(TableOperation operation);
         IEnumerable<T> ExecuteQuery<T>(TableQuery<T> tableQuery) where T : TableEntity, new();
