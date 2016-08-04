@@ -3,6 +3,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 using System;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
+using Microsoft.Azure.Devices;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport
 {

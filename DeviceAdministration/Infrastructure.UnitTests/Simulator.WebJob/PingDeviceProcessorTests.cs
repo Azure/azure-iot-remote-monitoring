@@ -7,13 +7,17 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
 using Moq;
-using Ploeh.AutoFixture;
 using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.Simulator.WebJob
 {
     public class PingDeviceProcessorTests
     {
+        private readonly Mock<ILogger> _loggerMock;
+        private readonly Mock<ITransportFactory> _transportFactory;
+        private readonly Mock<ITelemetryFactory> _telemetryFactoryMock;
+        private readonly Mock<IConfigurationProvider> _configurationProviderMock;
+        private readonly IDevice deviceBase;
         public PingDeviceProcessorTests()
         {
             _loggerMock = new Mock<ILogger>();
@@ -25,20 +29,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 _configurationProviderMock.Object);
         }
 
-        private readonly Mock<ILogger> _loggerMock;
-        private readonly Mock<ITransportFactory> _transportFactory;
-        private readonly Mock<ITelemetryFactory> _telemetryFactoryMock;
-        private readonly Mock<IConfigurationProvider> _configurationProviderMock;
-        private readonly IDevice deviceBase;
-
         [Fact]
-        public async void testProcessor()
+        public async void TestCommandCannotComplete()
         {
-            var history = new CommandHistory("test");
+            var history = new CommandHistory("CommandShouldNotComplete");
             var command = new DeserializableCommand(history, "LockToken");
             var processor = new PingDeviceProcessor(deviceBase);
 
             var r = await processor.HandleCommandAsync(command);
+            Assert.Equal(r, CommandProcessingResult.CannotComplete);
+        }
+        [Fact]
+        public async void TestCommandSuccess()
+        {
+            var history = new CommandHistory("PingDevice");
+            var command = new DeserializableCommand(history, "LockToken");
+            var processor = new PingDeviceProcessor(deviceBase);
+
+            var r = await processor.HandleCommandAsync(command);
+            Assert.Equal(r, CommandProcessingResult.Success);
         }
     }
 }
