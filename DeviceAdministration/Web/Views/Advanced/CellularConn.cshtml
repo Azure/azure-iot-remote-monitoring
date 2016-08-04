@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+
 @{
     ViewBag.Title = @Strings.CellularConnViewTitle;
 }
@@ -20,7 +21,7 @@
     <div class="content_outer">
         <div class="content_inner">
             <div id="content">
-                @Html.Partial("_SelectAdvancedProcess")
+                <!-- content loads here -->
             </div>
         </div>
     </div>
@@ -35,7 +36,7 @@
             contentId: '#content',
             subheadId: '.header_main__subhead',
         };
-
         IoTApp.Advanced.init(config);
+        IoTApp.Advanced.redirecToPartial('@Url.Action("SelectAdvancedProcess")');
     })();
 </script>

@@ -38,17 +38,29 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View();
         }
 
+        public PartialViewResult SelectAdvancedProcess()
+        {
+            var registrationModel = _apiRegistrationRepository.RecieveDetails();
+            return PartialView("_SelectAdvancedProcess", registrationModel);
+        }
+
         public PartialViewResult ApiRegistrationJasper()
         {
             var registrationModel = _apiRegistrationRepository.RecieveDetails();
-            registrationModel.CellularProvider = CellularProviderEnum.Ericsson;
+            if(registrationModel.ApiRegistrationProvider == null)
+            {
+                registrationModel.ApiRegistrationProvider = ApiRegistrationProviderType.Jasper;
+            }
             return PartialView("_ApiRegistrationJasper", registrationModel);
         }
 
         public PartialViewResult ApiRegistrationEricsson()
         {
             var registrationModel = _apiRegistrationRepository.RecieveDetails();
-            registrationModel.CellularProvider = CellularProviderEnum.Ericsson;
+            if (registrationModel.ApiRegistrationProvider == null)
+            {
+                registrationModel.ApiRegistrationProvider = ApiRegistrationProviderType.Ericsson;
+            }
             return PartialView("_ApiRegistrationEricsson", registrationModel);
         }
 
@@ -107,19 +119,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public bool SaveRegistration(ApiRegistrationModel apiModel)
         {
             _apiRegistrationRepository.AmendRegistration(apiModel);
+            var registrationModel = _apiRegistrationRepository.RecieveDetails();
 
-            var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.CellularProvider.ConvertCellularProviderEnum());
-            if (!credentialsAreValid)
-            {
-                _apiRegistrationRepository.DeleteApiDetails();
-            }
+            //var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.CellularProvider.ConvertCellularProviderEnum());
+            //if (!credentialsAreValid)
+            //{
+            //    _apiRegistrationRepository.DeleteApiDetails();
+            //}
 
             return true;
-        }
-
-        public PartialViewResult SelectAdvancedProcess()
-        {
-            return PartialView("_SelectAdvancedProcess");
         }
 
         [RequirePermission(Permission.HealthBeat)]

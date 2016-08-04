@@ -105,7 +105,7 @@
                 LicenceKey: $.trim($("#LicenceKey").val()),
                 Username: $.trim($("#Username").val()),
                 Password: $.trim($("#Password").val()),
-                CellularProvider: $.trim($("#CellularProvider").val())
+                ApiRegistrationProvider: $.trim($("#ApiRegistrationProvider").val())
             }
 
             $.post('/Advanced/SaveRegistration', { apiModel: registrationModel }, function(response) {

@@ -1,28 +1,42 @@
 ﻿@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.ApiRegistrationModel
+
 <div>
     <ul class="list_select_select_advanced_process">
         <li class="list_item_select_advanced_process">
             <h2 class="select_advanced_process_subhead">@Strings.ApiRegistrationTitle</h2>
-            <p class="select_advanced_process_description">
-                @Strings.ApiRegistrationDescription
-            </p>
-            <p>
-                <div class="form-group">
-                    <select class="form-control" id="apiRegistrationApiSelection">
-                        <option value="">@Strings.ApiRegistrationSelectOptionInitial</option>
-                        <option value="jasper">@Strings.ApiRegistrationSelectOptionJasper</option>
-                        <option value="ericsson">@Strings.ApiRegistrationSelectOptionEricsson</option>
-                    </select>
-                    <div class="api_check_field" id="apiRegistrationApiSelectionRequired">
-                        @Strings.RequiredValue
+            @if (Model.ApiRegistrationProvider == null)
+            {
+                <p class="select_advanced_process_description">
+                    @Strings.ApiRegistrationDescription
+                </p>
+                <p>
+                    <div class="form-group">
+                        <select class="form-control" id="apiRegistrationApiSelection">
+                            <option value="">@Strings.ApiRegistrationSelectOptionInitial</option>
+                            <option value="Jasper">@Strings.ApiRegistrationSelectOptionJasper</option>
+                            <option value="Ericsson">@Strings.ApiRegistrationSelectOptionEricsson</option>
+                        </select>
+                        <div class="api_check_field" id="apiRegistrationApiSelectionRequired">
+                            @Strings.RequiredValue
+                        </div>
                     </div>
-                </div>
-            </p>
-            <p>
-                <button class="add_new_button" type="submit" id="apiRegistrationButton">
-                    @Strings.Create
-                </button>
-            </p>
+                </p>
+                    <p>
+                        <button class="add_new_button" type="submit" id="apiRegistrationButton">
+                            @Strings.Create
+                        </button>
+                    </p>
+            }
+            else
+            {
+                <p>
+                    <button class="button_base edit_button" type="submit" id="apiRegistrationButton">
+                        @Strings.Edit
+                    </button>
+                </p>
+            }
+
         </li>
         <li class="list_item_select_advanced_process">
             <h2 class="select_advanced_process_subhead">@Strings.DeviceAssociationTitle</h2>
@@ -67,11 +81,20 @@
                         $(providerSelectFieldId + "Required").show();
                         return;
                     }
-                    if (selectedProvider === 'jasper') {
-                        IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistrationJasper")');
-                    }
-                    else {
-                        IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistrationEricsson")');
+                    debugger
+                    switch (selectedProvider) {
+                        case 'Jasper': {
+                            IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistrationJasper")');
+                            break;
+                        }
+                        case 'Ericsson': {
+                            IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistrationEricsson")');
+                            break;
+                        }
+                        default:
+                            throw 'Selected provider ' + selectedProvider + ' is not supported';
+                            break;
+
                     }
                 }
             );
