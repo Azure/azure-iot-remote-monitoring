@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://api.dcp.ericsson.net/ApiStatus" name="ApiStatusService" targetNamespace="http://api.dcp.ericsson.net/ApiStatus" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema targetNamespace="http://api.dcp.ericsson.net/ApiStatus" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="Echo" nillable="true" type="tns:echo" />
+      <xs:element name="EchoResponse" nillable="true" type="tns:echoResponse" />
+      <xs:complexType name="echo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="echoResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </types>
+  <message name="ApiStatus_echo">
+    <part name="echo" element="tns:Echo" />
+  </message>
+  <message name="ApiStatus_echoResponse">
+    <part name="echoResponse" element="tns:EchoResponse" />
+  </message>
+  <portType name="ApiStatus">
+    <operation name="echo" parameterOrder="echo">
+      <input message="tns:ApiStatus_echo" />
+      <output message="tns:ApiStatus_echoResponse" />
+    </operation>
+  </portType>
+  <binding name="ApiStatusBinding" type="tns:ApiStatus">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="echo">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="ApiStatusService">
+    <port name="ApiStatusPort" binding="tns:ApiStatusBinding">
+      <soap:address location="https://serviceportal.telenorconnexion.com/dcpapi/ApiStatus" />
+    </port>
+  </service>
+</definitions>
