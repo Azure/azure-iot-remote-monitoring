@@ -175,6 +175,7 @@
     <Compile Include="Helpers\IBlobStorageClient.cs" />
     <Compile Include="Mapper\TypeMapper.cs" />
     <Compile Include="Mapper\MappingValidator.cs" />
+    <Compile Include="Models\BlobContents.cs" />
     <Compile Include="Models\CommandHistory.cs" />
     <Compile Include="Models\DeviceModel.cs" />
     <Compile Include="Models\DeviceProperties.cs" />

@@ -10,6 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -77,7 +78,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var alertBlobReader = await _blobStorageManager.GetReader(deviceAlertsDataPrefix);
             foreach (var alertStream in alertBlobReader)
             {
-                var segment = ProduceAlertHistoryItemsAsync(alertStream.Item1);
+                var segment = ProduceAlertHistoryItemsAsync(alertStream.Data);
                 IEnumerable<AlertHistoryItemModel> filteredSegment = segment.Where(t => t?.Timestamp != null && (t.Timestamp.Value > minTime));
 
                 var unfilteredCount = segment.Count();

@@ -70,7 +70,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {    
                 try
                 {
-                    blobModels = LoadBlobTelemetryModels(telemetryStream.Item1, telemetryFields);
+                    blobModels = LoadBlobTelemetryModels(telemetryStream.Data, telemetryFields);
                 }
                 catch
                 {
@@ -133,7 +133,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {             
                 try
                 {
-                    blobModels = LoadBlobTelemetrySummaryModels(telemetryStream.Item1, telemetryStream.Item2);
+                    blobModels = LoadBlobTelemetrySummaryModels(telemetryStream.Data, telemetryStream.LastModifiedTime);
                 }
                 catch
                 {

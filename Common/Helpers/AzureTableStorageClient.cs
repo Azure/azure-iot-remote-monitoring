@@ -81,11 +81,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
         private async Task<CloudTable> GetCloudTableAsync()
         {
-            if (_table == null && _tableName != null)
+            if (_table != null)
             {
-                _table = _tableClient.GetTableReference(_tableName);
-                await _table.CreateIfNotExistsAsync();
+                return _table;
             }
+            _table = _tableClient.GetTableReference(_tableName);
+            await _table.CreateIfNotExistsAsync();
             return _table;
         }
 
