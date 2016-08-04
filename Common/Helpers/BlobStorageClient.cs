@@ -15,23 +15,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
     {
         private CloudStorageAccount _storageAccount;
         private CloudBlobContainer _container;
-        private CloudBlockBlob _blob;
         private readonly CloudBlobClient _blobClient;
         private readonly string _containerName;
-        private readonly string _blobName;
 
-        public BlobStorageClient(string connectionString, string containerName, string blobName)
+        public BlobStorageClient(string connectionString, string containerName)
         {
             _storageAccount = CloudStorageAccount.Parse(connectionString);
             _blobClient = _storageAccount.CreateCloudBlobClient();
             _containerName = containerName;
-            _blobName = blobName;
         }
         
-        public async Task UploadFromByteArrayAsync(byte[] buffer, int index, int count, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        public async Task UploadFromByteArrayAsync(string blobName, byte[] buffer, int index, int count, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
-            await this.CreateCloudBlockBlobAsync();
-            await _blob.UploadFromByteArrayAsync(
+            CloudBlockBlob blob = await this.CreateCloudBlockBlobAsync(blobName);
+            await blob.UploadFromByteArrayAsync(
                 buffer,
                 index,
                 count,
@@ -40,35 +37,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 operationContext);
         }
         
-        public async Task<byte[]> GetBlobData()
+        public async Task<byte[]> GetBlobData(string blobName)
         {
-            await this.CreateCloudBlockBlobAsync();
-            bool exists = await _blob.ExistsAsync();
+            CloudBlockBlob blob = await this.CreateCloudBlockBlobAsync(blobName);
+            bool exists = await blob.ExistsAsync();
             if (exists)
             {
-                await _blob.FetchAttributesAsync();
-                long blobLength = _blob.Properties.Length;
+                await blob.FetchAttributesAsync();
+                long blobLength = blob.Properties.Length;
 
                 if (blobLength > 0)
                 {
                     byte[] existingBytes = new byte[blobLength];
-                    await _blob.DownloadToByteArrayAsync(existingBytes, 0);
+                    await blob.DownloadToByteArrayAsync(existingBytes, 0);
                     return existingBytes;
                 }
             }
             return null;
         }
 
-        public async Task<string> GetBlobEtag()
+        public async Task<string> GetBlobEtag(string blobName)
         {
-            await this.CreateCloudBlockBlobAsync();
-            return _blob.Properties.ETag;
+            CloudBlockBlob blob = await this.CreateCloudBlockBlobAsync(blobName);
+            return blob.Properties.ETag;
         }
 
-        public async Task UploadTextAsync(string data)
+        public async Task UploadTextAsync(string blobName, string data)
         {
-            await this.CreateCloudBlockBlobAsync();
-            await _blob.UploadTextAsync(data);
+            CloudBlockBlob blob = await this.CreateCloudBlockBlobAsync(blobName);
+            await blob.UploadTextAsync(data);
         }
 
         public async Task<IBlobStorageReader> GetReader(string prefix, DateTime? minTime = null)
@@ -107,13 +104,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             }
         }
 
-        private async Task CreateCloudBlockBlobAsync()
+        private async Task<CloudBlockBlob> CreateCloudBlockBlobAsync(string blobName)
         {
-            if (_blob == null && _blobName != null)
+            CloudBlockBlob blob;
+            if (blobName != null)
             {
                 await CreateCloudBlobContainerAsync();
-                _blob = _container.GetBlockBlobReference(_blobName);
+                blob = _container.GetBlockBlobReference(blobName);
+                return blob;
             }
+            return null;
         }
 
         private bool FilterLessThanTime(IListBlobItem blobItem, DateTime minTime)

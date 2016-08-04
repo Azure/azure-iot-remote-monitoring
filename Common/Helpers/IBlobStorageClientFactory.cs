@@ -2,6 +2,6 @@
 {
     public interface IBlobStorageClientFactory
     {
-        IBlobStorageClient CreateClient(string storageConnectionString, string containerName, string blobName);
+        IBlobStorageClient CreateClient(string storageConnectionString, string containerName);
     }
 }

@@ -41,7 +41,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _telemetryDataPrefix = configProvider.GetConfigurationSettingValue("TelemetryDataPrefix");
             string telemetryStoreConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
             _telemetrySummaryPrefix = configProvider.GetConfigurationSettingValue("TelemetrySummaryPrefix");
-            _blobStorageManager = blobStorageClientFactory.CreateClient(telemetryStoreConnectionString,telemetryContainerName, null);
+            _blobStorageManager = blobStorageClientFactory.CreateClient(telemetryStoreConnectionString,telemetryContainerName);
         }
 
         /// <summary>

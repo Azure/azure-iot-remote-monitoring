@@ -14,13 +14,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class ActionMappingRepository : IActionMappingRepository
     {
         private readonly IBlobStorageClient _blobStorageManager;
+        private readonly string _blobName;
 
         public ActionMappingRepository(IConfigurationProvider configurationProvider, IBlobStorageClientFactory blobStorageClientFactory)
         {
             string blobName = configurationProvider.GetConfigurationSettingValue("ActionMappingStoreBlobName");
             string connectionString = configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString");
             string containerName = configurationProvider.GetConfigurationSettingValue("ActionMappingStoreContainerName");
-            _blobStorageManager = blobStorageClientFactory.CreateClient(connectionString, containerName, blobName);
+            _blobName = blobName;
+            _blobStorageManager = blobStorageClientFactory.CreateClient(connectionString, containerName);
         }
 
         public async Task<List<ActionMapping>> GetAllMappingsAsync()
@@ -55,6 +57,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             byte[] newBytes = Encoding.UTF8.GetBytes(newJsonData);
 
             await _blobStorageManager.UploadFromByteArrayAsync(
+                _blobName,
                 newBytes,
                 0,
                 newBytes.Length,
@@ -66,14 +69,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private async Task<ActionMappingBlobResults> GetActionsAndEtagAsync()
         {
             var mappings = new List<ActionMapping>();
-            byte[] blobData = await _blobStorageManager.GetBlobData();
+            byte[] blobData = await _blobStorageManager.GetBlobData(_blobName);
 
             if (blobData.Length > 0)
             {
                 // get the existing mappings in object form
                 string existingJsonData = Encoding.UTF8.GetString(blobData);
                 mappings = JsonConvert.DeserializeObject<List<ActionMapping>>(existingJsonData);
-                string etag = await _blobStorageManager.GetBlobEtag();
+                string etag = await _blobStorageManager.GetBlobEtag(_blobName);
                 return new ActionMappingBlobResults(mappings, etag);
             }
 

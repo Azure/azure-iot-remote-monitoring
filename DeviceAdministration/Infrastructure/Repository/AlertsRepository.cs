@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             string alertsContainerConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
             string alertsStoreContainerName = configProvider.GetConfigurationSettingValue("AlertsStoreContainerName");
-            this._blobStorageManager = blobStorageClientFactory.CreateClient(alertsContainerConnectionString, alertsStoreContainerName, null);
+            this._blobStorageManager = blobStorageClientFactory.CreateClient(alertsContainerConnectionString, alertsStoreContainerName);
             this.deviceAlertsDataPrefix = configProvider.GetConfigurationSettingValue("DeviceAlertsDataPrefix");
         }
 

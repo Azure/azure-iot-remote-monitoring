@@ -30,7 +30,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly string _deviceRulesBlobStoreContainerName;
         private readonly string _deviceRulesNormalizedTableName;
         private readonly IAzureTableStorageClient _azureTableStorageClient;
-        private readonly IBlobStorageClientFactory _blobStorageClientFactory;
+        private readonly IBlobStorageClient _blobStorageClient;
 
         private DateTimeFormatInfo _formatInfo;
 
@@ -41,7 +41,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _deviceRulesNormalizedTableName = configurationProvider.GetConfigurationSettingValue("DeviceRulesTableName");
             _azureTableStorageClient = tableStorageClientFactory.CreateClient(_storageAccountConnectionString, _deviceRulesNormalizedTableName);
             _blobName = configurationProvider.GetConfigurationSettingValue("AsaRefDataRulesBlobName");
-            _blobStorageClientFactory = blobStorageClientFactory;
+            _blobStorageClient = blobStorageClientFactory.CreateClient(_storageAccountConnectionString, _deviceRulesBlobStoreContainerName);
 
             // note: InvariantCulture is read-only, so use en-US and hardcode all relevant aspects
             CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
@@ -259,8 +259,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             string timeString = saveDate.ToString("t", _formatInfo);
             string blobName = string.Format(@"{0}\{1}\{2}", dateString, timeString, _blobName);
 
-            var blobStorageManager = _blobStorageClientFactory.CreateClient(_storageAccountConnectionString, _deviceRulesBlobStoreContainerName, blobName);
-            await blobStorageManager.UploadTextAsync(updatedJson);
+            await _blobStorageClient.UploadTextAsync(blobName, updatedJson);
         }
     }
 }

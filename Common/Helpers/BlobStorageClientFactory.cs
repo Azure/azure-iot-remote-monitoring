@@ -13,11 +13,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         {
             _blobStorageClient = customClient;
         }
-        public IBlobStorageClient CreateClient(string storageConnectionString, string containerName, string blobName)
+        public IBlobStorageClient CreateClient(string storageConnectionString, string containerName)
         {
             if (_blobStorageClient == null)
             {
-                _blobStorageClient = new BlobStorageClient(storageConnectionString, containerName, blobName);
+                _blobStorageClient = new BlobStorageClient(storageConnectionString, containerName);
             }
             return _blobStorageClient;
         }
