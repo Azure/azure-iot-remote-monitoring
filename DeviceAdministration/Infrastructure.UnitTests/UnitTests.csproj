@@ -53,6 +53,10 @@
       <HintPath>..\..\packages\Microsoft.Azure.Devices.1.0.11\lib\net451\Microsoft.Azure.Devices.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Web\Bin\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Security">
       <HintPath>..\..\packages\Mono.Security.3.2.3.0\lib\net45\Mono.Security.dll</HintPath>
       <Private>True</Private>
@@ -129,7 +133,6 @@
     <Compile Include="Common\SampleDeviceFactoryTests.cs" />
     <Compile Include="Infrastructure\ActionLogicTest.cs" />
     <Compile Include="Infrastructure\CommandParameterTypeLogicTests.cs" />
-    <Compile Include="Common\DeviceSchemaHelperTests.cs" />
     <Compile Include="Common\ExceptionSerializationTests.cs" />
     <Compile Include="Infrastructure\DeviceLogicTests.cs" />
     <Compile Include="Infrastructure\DeviceRulesLogicTests.cs" />
@@ -143,15 +146,20 @@
     <Compile Include="Simulator.WebJob\PingDeviceProcessorTests.cs" />
     <Compile Include="TestStubs\HttpMessageHandlerStub.cs" />
     <Compile Include="TestStubs\RandomGeneratorStub.cs" />
-    <Compile Include="Web\AdvancedControllerTests.cs" />
-    <Compile Include="Web\ActionControllerTests.cs" />
-    <Compile Include="Web\DeviceRulesControllerTests.cs" />
-    <Compile Include="Web\DeviceCommandControllerTests.cs" />
-    <Compile Include="Web\DashboardControllerTests.cs" />
-    <Compile Include="Web\DeviceControllerTests.cs" />
+    <Compile Include="Web\Controllers\AdvancedControllerTests.cs" />
+    <Compile Include="Web\Controllers\ActionControllerTests.cs" />
+    <Compile Include="Web\Controllers\DeviceRulesControllerTests.cs" />
+    <Compile Include="Web\Controllers\DeviceCommandControllerTests.cs" />
+    <Compile Include="Web\Controllers\DashboardControllerTests.cs" />
+    <Compile Include="Web\Controllers\DeviceControllerTests.cs" />
     <Compile Include="Web\Helpers\CellularExtensionsTests.cs" />
     <Compile Include="Web\Helpers\DeviceDisplayHelperTests.cs" />
     <Compile Include="Web\Helpers\JasperCredentialProviderTests.cs" />
+    <Compile Include="Web\WebApiControllers\DeviceActionsApiControllerTests.cs" />
+    <Compile Include="Web\WebApiControllers\DeviceApiControllerTests.cs" />
+    <Compile Include="Web\WebApiControllers\DeviceTypesControllerTests.cs" />
+    <Compile Include="Web\WebApiControllers\KeyApiControllerTests.cs" />
+    <Compile Include="Web\WebApiControllers\WebApiTestHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

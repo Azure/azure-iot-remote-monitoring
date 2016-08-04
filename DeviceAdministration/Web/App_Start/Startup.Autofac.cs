@@ -86,8 +86,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             builder.RegisterType<JasperCredentialsProvider>().As<ICredentialProvider>();
             builder.RegisterType<JasperCellularService>().As<IExternalCellularService>();
             builder.RegisterType<CellularExtensions>().As<ICellularExtensions>();
-            builder.RegisterType<BlobStorageHelper>().As<IBlobStorageHelper>();
-            builder.RegisterType<AzureTableStorageHelper>().As<IAzureTableStorageHelper>();
+            builder.RegisterType<AzureTableStorageClientFactory>().As<IAzureTableStorageClientFactory>();
+            builder.RegisterType<BlobStorageClientFactory>().As<IBlobStorageClientFactory>();
         }
     }
 }

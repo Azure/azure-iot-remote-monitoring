@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors;
@@ -85,7 +86,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         protected virtual void InitDeviceInfo(InitialDeviceConfig config)
         {
             DeviceModel initialDevice = SampleDeviceFactory.GetSampleSimulatedDevice(config.DeviceId, config.Key);
-            DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(initialDevice);
+            DeviceProperties = initialDevice.DeviceProperties;
             Commands = initialDevice.Commands ?? new List<Command>();
             Telemetry = initialDevice.Telemetry ?? new List<Common.Models.Telemetry>();
             HostName = config.HostName;
@@ -114,7 +115,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// <returns></returns>
         public virtual DeviceModel GetDeviceInfo()
         {
-            DeviceModel device = DeviceSchemaHelper.BuildDeviceStructure(DeviceID, true, null);
+            DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(DeviceID, true, null);
             device.DeviceProperties = this.DeviceProperties;
             device.Commands = this.Commands ?? new List<Command>();
             device.Telemetry = this.Telemetry ?? new List<Common.Models.Telemetry>();
@@ -122,7 +123,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             device.ObjectType = SampleDeviceFactory.OBJECT_TYPE_DEVICE_INFO;
 
             // Remove the system properties from a device, to better emulate the behavior of real devices when sending device info messages.
-            DeviceSchemaHelper.RemoveSystemPropertiesForSimulatedDeviceInfo(device);
+            device.SystemProperties = null;
 
             return device;
         }
