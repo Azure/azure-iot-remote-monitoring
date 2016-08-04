@@ -283,8 +283,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public ActionResult GetDeviceCellularDetails(string iccid)
         {
             var viewModel = new SimInformationViewModel();
-            viewModel.TerminalDevice = _cellularService.GetSingleTerminalDetails(new Iccid(iccid), CellularProviderEnum.Jasper);
-            viewModel.SessionInfo = _cellularService.GetSingleSessionInfo(new Iccid(iccid), CellularProviderEnum.Jasper).LastOrDefault() ??
+            viewModel.TerminalDevice = _cellularService.GetSingleTerminalDetails(new Iccid(iccid), ApiRegistrationProviderType.Jasper);
+            viewModel.SessionInfo = _cellularService.GetSingleSessionInfo(new Iccid(iccid), ApiRegistrationProviderType.Jasper).LastOrDefault() ??
                                     new SessionInfo();
 
             return PartialView("_CellularInformation", viewModel);

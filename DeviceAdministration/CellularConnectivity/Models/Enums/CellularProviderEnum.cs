@@ -5,7 +5,7 @@ using System.Web;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Models.Enums
 {
-    public enum CellularProviderEnum
+    public enum ApiRegistrationProviderType
     {
         Jasper=1,
         Ericsson=2

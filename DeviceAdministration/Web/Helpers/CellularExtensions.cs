@@ -11,7 +11,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         public static IEnumerable<string> GetListOfAvailableIccids(this IExternalCellularService cellularService, List<dynamic> devices)
         {
-            var fullIccidList = cellularService.GetTerminals(CellularProviderEnum.Jasper).Select(i => i.Id);
+            var fullIccidList = cellularService.GetTerminals(ApiRegistrationProviderType.Jasper).Select(i => i.Id);
             var usedIccidList = GetUsedIccidList(devices).Select(i => i.Id);
             return fullIccidList.Except(usedIccidList);
         }

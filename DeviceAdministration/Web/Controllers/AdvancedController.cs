@@ -12,6 +12,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Extensions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -121,11 +122,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             _apiRegistrationRepository.AmendRegistration(apiModel);
             var registrationModel = _apiRegistrationRepository.RecieveDetails();
 
-            //var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.CellularProvider.ConvertCellularProviderEnum());
-            //if (!credentialsAreValid)
-            //{
-            //    _apiRegistrationRepository.DeleteApiDetails();
-            //}
+            var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.ApiRegistrationProvider.Value.ConvertToExternalEnum());
+            if (!credentialsAreValid)
+            {
+                _apiRegistrationRepository.DeleteApiDetails();
+            }
 
             return true;
         }

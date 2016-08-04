@@ -9,9 +9,9 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
     /// </summary>
     public interface IExternalCellularService
     {
-        List<Iccid> GetTerminals(CellularProviderEnum cellularProvider);
-        bool ValidateCredentials(CellularProviderEnum cellularProvider);
-        Terminal GetSingleTerminalDetails(Iccid iccid, CellularProviderEnum cellularProvider);
-        List<SessionInfo> GetSingleSessionInfo(Iccid iccid, CellularProviderEnum cellularProvider);    
+        List<Iccid> GetTerminals(ApiRegistrationProviderType registrationProvider);
+        bool ValidateCredentials(ApiRegistrationProviderType registrationProvider);
+        Terminal GetSingleTerminalDetails(Iccid iccid, ApiRegistrationProviderType cellularProvider);
+        List<SessionInfo> GetSingleSessionInfo(Iccid iccid, ApiRegistrationProviderType cellularProvider);
     }
 }

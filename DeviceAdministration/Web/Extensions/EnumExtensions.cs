@@ -16,14 +16,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return Enum.IsDefined(typeof(T), s);
         }
 
-        public static DeviceManagement.Infrustructure.Connectivity.Models.Enums.CellularProviderEnum ConvertCellularProviderEnum(this CellularProviderEnum cellularProviderEnum)
+        public static DeviceManagement.Infrustructure.Connectivity.Models.Enums.ApiRegistrationProviderType ConvertCellularProviderEnum(this CellularProviderEnum cellularProviderEnum)
         {
             switch (cellularProviderEnum)
             {
                 case CellularProviderEnum.Jasper:
-                    return DeviceManagement.Infrustructure.Connectivity.Models.Enums.CellularProviderEnum.Jasper;
+                    return DeviceManagement.Infrustructure.Connectivity.Models.Enums.ApiRegistrationProviderType.Jasper;
                 case CellularProviderEnum.Ericsson:
-                    return DeviceManagement.Infrustructure.Connectivity.Models.Enums.CellularProviderEnum.Ericsson;
+                    return DeviceManagement.Infrustructure.Connectivity.Models.Enums.ApiRegistrationProviderType.Ericsson;
                 default:
                     throw new IndexOutOfRangeException($"Could not match enum {cellularProviderEnum.ToString()}");
             }

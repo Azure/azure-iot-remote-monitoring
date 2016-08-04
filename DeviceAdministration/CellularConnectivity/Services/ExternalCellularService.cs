@@ -26,58 +26,58 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             _credentialProvider = credentialProvider;
         }
 
-        public List<Iccid> GetTerminals(CellularProviderEnum cellularProvider)
+        public List<Iccid> GetTerminals(ApiRegistrationProviderType registrationProvider)
         {
             List<Iccid> terminals = new List<Iccid>();
 
-            switch (cellularProvider)
+            switch (registrationProvider)
             {
-                case CellularProviderEnum.Jasper:
+                case ApiRegistrationProviderType.Jasper:
                     terminals = _jasperCellularService.GetTerminals();
                     break;
-                case Models.Enums.CellularProviderEnum.Ericsson:
+                case Models.Enums.ApiRegistrationProviderType.Ericsson:
                     //TODO call ericsson service
                     break;
                 default:
-                    throw new IndexOutOfRangeException($"Could not find a service for '{cellularProvider.ToString()}' provider");
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider.ToString()}' provider");
             }
 
             return terminals;
         }
 
-        public Terminal GetSingleTerminalDetails(Iccid iccid, CellularProviderEnum cellularProvider)
+        public Terminal GetSingleTerminalDetails(Iccid iccid, ApiRegistrationProviderType registrationProvider)
         {
             Terminal terminal = null;
 
-            switch (cellularProvider)
+            switch (registrationProvider)
             {
-                case CellularProviderEnum.Jasper:
+                case ApiRegistrationProviderType.Jasper:
                     terminal = _jasperCellularService.GetSingleTerminalDetails(iccid);
                     break;
-                case CellularProviderEnum.Ericsson:
+                case ApiRegistrationProviderType.Ericsson:
                     //TODO call ericsson service
                     break;
                 default:
-                    throw new IndexOutOfRangeException($"Could not find a service for '{cellularProvider.ToString()}' provider");
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider.ToString()}' provider");
             }
 
             return terminal;
         }
 
-        public List<SessionInfo> GetSingleSessionInfo(Iccid iccid, CellularProviderEnum cellularProvider)
+        public List<SessionInfo> GetSingleSessionInfo(Iccid iccid, ApiRegistrationProviderType registrationProvider)
         {
             List<SessionInfo> sessionInfo = null;
 
-            switch (cellularProvider)
+            switch (registrationProvider)
             {
-                case CellularProviderEnum.Jasper:
+                case ApiRegistrationProviderType.Jasper:
                     sessionInfo = _jasperCellularService.GetSingleSessionInfo(iccid);
                     break;
-                case CellularProviderEnum.Ericsson:
+                case ApiRegistrationProviderType.Ericsson:
                     //TODO call ericsson service
                     break;
                 default:
-                    throw new IndexOutOfRangeException($"Could not find a service for '{cellularProvider.ToString()}' provider");
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider.ToString()}' provider");
             }
 
             return sessionInfo;
@@ -88,20 +88,20 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         /// GetTerminals() and checks the response for validation errors.
         /// </summary>
         /// <returns>True if valid. False if not valid</returns>
-        public bool ValidateCredentials(CellularProviderEnum cellularProvider)
+        public bool ValidateCredentials(ApiRegistrationProviderType registrationProvider)
         {
             bool isValid = false;
 
-            switch (cellularProvider)
+            switch (registrationProvider)
             {
-                case CellularProviderEnum.Jasper:
+                case ApiRegistrationProviderType.Jasper:
                     isValid = _jasperCellularService.ValidateCredentials();
                     break;
-                case CellularProviderEnum.Ericsson:
+                case ApiRegistrationProviderType.Ericsson:
                     //TODO call ericsson service
                     break;
                 default:
-                    throw new IndexOutOfRangeException($"Could not find a service for '{cellularProvider.ToString()}' provider");
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider.ToString()}' provider");
             }
 
             return isValid;
