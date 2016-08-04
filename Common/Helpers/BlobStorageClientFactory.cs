@@ -15,11 +15,8 @@
 
         public IBlobStorageClient CreateClient(string storageConnectionString, string containerName)
         {
-            if (_blobStorageClient == null)
-            {
-                _blobStorageClient = new BlobStorageClient(storageConnectionString, containerName);
-            }
-            return _blobStorageClient;
+            return _blobStorageClient ??
+                   (_blobStorageClient = new BlobStorageClient(storageConnectionString, containerName));
         }
     }
 }

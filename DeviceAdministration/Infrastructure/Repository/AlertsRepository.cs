@@ -21,12 +21,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class AlertsRepository : IAlertsRepository
     {
         // column names in ASA job output
-        private const string DEVICE_ID_COLUMN_NAME = "deviceid";
-        private const string READING_TYPE_COLUMN_NAME = "readingtype";
-        private const string READING_VALUE_COLUMN_NAME = "reading";
-        private const string THRESHOLD_VALUE_COLUMN_NAME = "threshold";
-        private const string RULE_OUTPUT_COLUMN_NAME = "ruleoutput";
-        private const string TIME_COLUMN_NAME = "time";
+        public const string DEVICE_ID_COLUMN_NAME = "deviceid";
+        public const string READING_TYPE_COLUMN_NAME = "readingtype";
+        public const string READING_VALUE_COLUMN_NAME = "reading";
+        public const string THRESHOLD_VALUE_COLUMN_NAME = "threshold";
+        public const string RULE_OUTPUT_COLUMN_NAME = "ruleoutput";
+        public const string TIME_COLUMN_NAME = "time";
 
         private readonly IBlobStorageClient _blobStorageManager;
         private readonly string deviceAlertsDataPrefix;
@@ -128,12 +128,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         true,
                         false) as string;
 
-            var thresholdValue = ReflectionHelper.GetNamedPropertyValue(
-                        expandoObject,
-                        THRESHOLD_VALUE_COLUMN_NAME,
-                        true,
-                        false) as string;
-
             var ruleOutput = ReflectionHelper.GetNamedPropertyValue(
                         expandoObject,
                         RULE_OUTPUT_COLUMN_NAME,
@@ -146,20 +140,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         true,
                         false) as string;
 
-            return BuildModelForItem(ruleOutput, deviceId, readingValue, thresholdValue, time);
+            return BuildModelForItem(ruleOutput, deviceId, readingValue, time);
         }
 
-        private static AlertHistoryItemModel BuildModelForItem(string ruleOutput, string deviceId, string value, string threshold, string time)
+        private static AlertHistoryItemModel BuildModelForItem(string ruleOutput, string deviceId, string value, string time)
         {
             double valDouble;
-            double threshDouble;
             DateTime timeAsDateTime;
 
             if (!string.IsNullOrWhiteSpace(value) &&
-                !string.IsNullOrWhiteSpace(threshold) &&
                 !string.IsNullOrWhiteSpace(deviceId) &&
                 double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out valDouble) &&
-                double.TryParse(threshold, NumberStyles.Float, CultureInfo.InvariantCulture, out threshDouble) &&
                 DateTime.TryParse(time, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out timeAsDateTime))
             {
                 return new AlertHistoryItemModel()
