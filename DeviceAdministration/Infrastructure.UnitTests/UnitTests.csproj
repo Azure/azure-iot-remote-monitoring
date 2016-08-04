@@ -153,6 +153,8 @@
     <Compile Include="Web\Helpers\JasperCredentialProviderTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceActionsApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceApiControllerTests.cs" />
+    <Compile Include="Web\WebApiControllers\DeviceTypesControllerTests.cs" />
+    <Compile Include="Web\WebApiControllers\KeyApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\WebApiTestHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
