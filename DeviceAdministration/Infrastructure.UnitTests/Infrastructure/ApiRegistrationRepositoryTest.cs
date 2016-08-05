@@ -55,10 +55,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var ret = apiRegistrationRepository.RecieveDetails();
             Assert.NotNull(ret);
             Assert.NotNull(savedOp);
-            Assert.Equal(ret.Username, tableEntities.FirstOrDefault().Username);
-            Assert.Equal(ret.BaseUrl, tableEntities.FirstOrDefault().BaseUrl);
-            Assert.Equal(ret.LicenceKey, tableEntities.FirstOrDefault().LicenceKey);
-            Assert.Equal(ret.Password, tableEntities.FirstOrDefault().Password);
+            Assert.Equal(ret.Username, tableEntities.First().Username);
+            Assert.Equal(ret.BaseUrl, tableEntities.First().BaseUrl);
+            Assert.Equal(ret.LicenceKey, tableEntities.First().LicenceKey);
+            Assert.Equal(ret.Password, tableEntities.First().Password);
         }
 
         [Fact]
