@@ -2,7 +2,8 @@
 using System.Web.Http;
 using Xunit;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.Web.WebApiControllers
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.Web.
+    WebApiControllers
 {
     public static class WebApiTestHelpers
     {

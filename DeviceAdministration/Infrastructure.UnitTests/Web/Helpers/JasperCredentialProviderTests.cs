@@ -10,23 +10,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class JasperCredentialProviderTests
     {
-        private JasperCredentialsProvider provider;
         private readonly Mock<IApiRegistrationRepository> apiRegMock;
         private readonly IFixture fixture;
+        private readonly JasperCredentialsProvider provider;
 
         public JasperCredentialProviderTests()
         {
-            this.apiRegMock = new Mock<IApiRegistrationRepository>();
-            this.provider = new JasperCredentialsProvider(this.apiRegMock.Object);
-            this.fixture = new Fixture();
+            apiRegMock = new Mock<IApiRegistrationRepository>();
+            provider = new JasperCredentialsProvider(apiRegMock.Object);
+            fixture = new Fixture();
         }
 
         [Fact]
         public void ProvideTest()
         {
-            var apiReg = this.fixture.Create<ApiRegistrationModel>();
-            this.apiRegMock.Setup(mock => mock.RecieveDetails()).Returns(apiReg);
-            var result = this.provider.Provide();
+            var apiReg = fixture.Create<ApiRegistrationModel>();
+            apiRegMock.Setup(mock => mock.RecieveDetails()).Returns(apiReg);
+            var result = provider.Provide();
             var res = result as JasperCredentials;
             Assert.Equal(res.BaseUrl, apiReg.BaseUrl);
             Assert.Equal(res.LicenceKey, apiReg.LicenceKey);

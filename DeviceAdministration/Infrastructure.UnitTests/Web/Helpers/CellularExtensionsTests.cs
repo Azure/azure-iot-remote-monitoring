@@ -18,25 +18,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public CellularExtensionsTests()
         {
-            this.cellularService = new Mock<IExternalCellularService>();
-            this.cellularExtensions = new CellularExtensions(this.cellularService.Object);
-            this.fixture = new Fixture();
+            cellularService = new Mock<IExternalCellularService>();
+            cellularExtensions = new CellularExtensions(cellularService.Object);
+            fixture = new Fixture();
         }
 
         [Fact]
         public void GetListOfAvailableIccidsTest()
         {
-            var iccids = this.fixture.Create<List<Iccid>>();
+            var iccids = fixture.Create<List<Iccid>>();
             iccids.Add(new Iccid("id1"));
-            IList<DeviceModel> devices = this.fixture.Create<List<DeviceModel>>();
+            IList<DeviceModel> devices = fixture.Create<List<DeviceModel>>();
             var device = new DeviceModel();
             device.DeviceProperties = new DeviceProperties();
             device.DeviceProperties.DeviceID = "id1";
             device.SystemProperties = new SystemProperties();
             device.SystemProperties.ICCID = "id1";
             devices.Add(device);
-            this.cellularService.Setup(mock => mock.GetTerminals()).Returns(iccids);
-            var result = this.cellularExtensions.GetListOfAvailableIccids(devices);
+            cellularService.Setup(mock => mock.GetTerminals()).Returns(iccids);
+            var result = cellularExtensions.GetListOfAvailableIccids(devices);
             Assert.Equal(result.Count(), devices.Count - 1);
             Assert.False(result.Contains("id1"));
         }
@@ -44,15 +44,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void GetListOfAvailableDeviceIDsTest()
         {
-            IList<DeviceModel> devices = this.fixture.Create<List<DeviceModel>>();
-            var device = this.fixture.Create<DeviceModel>();
+            IList<DeviceModel> devices = fixture.Create<List<DeviceModel>>();
+            var device = fixture.Create<DeviceModel>();
             device.SystemProperties = null;
             devices.Add(device);
-            var result = this.cellularExtensions.GetListOfAvailableDeviceIDs(devices);
+            var result = cellularExtensions.GetListOfAvailableDeviceIDs(devices);
             Assert.Equal(result.Count(), 1);
 
-            devices = this.fixture.Create<List<DeviceModel>>();
-            result = this.cellularExtensions.GetListOfAvailableDeviceIDs(devices);
+            devices = fixture.Create<List<DeviceModel>>();
+            result = cellularExtensions.GetListOfAvailableDeviceIDs(devices);
             Assert.Equal(result.Count(), 0);
         }
     }

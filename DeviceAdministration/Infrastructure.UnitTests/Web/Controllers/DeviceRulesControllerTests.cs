@@ -20,15 +20,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public DeviceRulesControllerTests()
         {
-            this.deviceRulesMock = new Mock<IDeviceRulesLogic>();
-            this.deviceRulesController = new DeviceRulesController(this.deviceRulesMock.Object);
-            this.fixture = new Fixture();
+            deviceRulesMock = new Mock<IDeviceRulesLogic>();
+            deviceRulesController = new DeviceRulesController(deviceRulesMock.Object);
+            fixture = new Fixture();
         }
 
         [Fact]
         public async void IndexTest()
         {
-            var result = this.deviceRulesController.Index();
+            var result = deviceRulesController.Index();
             var view = result as ViewResult;
             Assert.NotNull(view);
         }
@@ -36,11 +36,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void GetRulePropertiesTest()
         {
-            var deviceId = this.fixture.Create<string>();
-            var ruleId = this.fixture.Create<string>();
-            var deviceRule = this.fixture.Create<DeviceRule>();
-            this.deviceRulesMock.Setup(mock => mock.GetDeviceRuleAsync(deviceId, ruleId)).ReturnsAsync(deviceRule);
-            var result = await this.deviceRulesController.GetRuleProperties(deviceId, ruleId);
+            var deviceId = fixture.Create<string>();
+            var ruleId = fixture.Create<string>();
+            var deviceRule = fixture.Create<DeviceRule>();
+            deviceRulesMock.Setup(mock => mock.GetDeviceRuleAsync(deviceId, ruleId)).ReturnsAsync(deviceRule);
+            var result = await deviceRulesController.GetRuleProperties(deviceId, ruleId);
             var view = result as PartialViewResult;
             var model = view.Model as EditDeviceRuleModel;
             Assert.Equal(model.RuleId, deviceRule.RuleId);
@@ -55,48 +55,52 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void UpdateRulePropertiesTest()
         {
-            var model = this.fixture.Create<EditDeviceRuleModel>();
+            var model = fixture.Create<EditDeviceRuleModel>();
             model.Threshold = null;
-            var result = await this.deviceRulesController.UpdateRuleProperties(model);
+            var result = await deviceRulesController.UpdateRuleProperties(model);
             var view = result as JsonResult;
             var data = JsonConvert.SerializeObject(view.Data);
             var obj = JsonConvert.SerializeObject(new {error = "The Threshold must be a valid double."});
             Assert.Equal(data, obj);
 
-            var tableResponse = this.fixture.Create<TableStorageResponse<DeviceRule>>();
+            var tableResponse = fixture.Create<TableStorageResponse<DeviceRule>>();
             tableResponse.Status = TableStorageResponseStatus.Successful;
-            model = this.fixture.Create<EditDeviceRuleModel>();
+            model = fixture.Create<EditDeviceRuleModel>();
             model.Threshold = "2.14";
-            this.deviceRulesMock.Setup(mock => mock.SaveDeviceRuleAsync(It.IsAny<DeviceRule>())).ReturnsAsync(tableResponse).Verifiable();
-            result = await this.deviceRulesController.UpdateRuleProperties(model);
+            deviceRulesMock.Setup(mock => mock.SaveDeviceRuleAsync(It.IsAny<DeviceRule>()))
+                .ReturnsAsync(tableResponse)
+                .Verifiable();
+            result = await deviceRulesController.UpdateRuleProperties(model);
             view = result as JsonResult;
             data = JsonConvert.SerializeObject(view.Data);
             obj = JsonConvert.SerializeObject(new {success = true});
             Assert.Equal(data, obj);
 
-            tableResponse = this.fixture.Create<TableStorageResponse<DeviceRule>>();
+            tableResponse = fixture.Create<TableStorageResponse<DeviceRule>>();
             tableResponse.Status = TableStorageResponseStatus.ConflictError;
-            model = this.fixture.Create<EditDeviceRuleModel>();
+            model = fixture.Create<EditDeviceRuleModel>();
             model.Threshold = "2.14";
-            this.deviceRulesMock.Setup(mock => mock.SaveDeviceRuleAsync(It.IsAny<DeviceRule>())).ReturnsAsync(tableResponse).Verifiable();
-            result = await this.deviceRulesController.UpdateRuleProperties(model);
+            deviceRulesMock.Setup(mock => mock.SaveDeviceRuleAsync(It.IsAny<DeviceRule>()))
+                .ReturnsAsync(tableResponse)
+                .Verifiable();
+            result = await deviceRulesController.UpdateRuleProperties(model);
             view = result as JsonResult;
             data = JsonConvert.SerializeObject(view.Data);
             obj = JsonConvert.SerializeObject(new
-                                              {
-                                                  error = "There was a conflict while saving the data. Please verify the data and try again.",
-                                                  entity = JsonConvert.SerializeObject(tableResponse.Entity)
-                                              });
+            {
+                error = "There was a conflict while saving the data. Please verify the data and try again.",
+                entity = JsonConvert.SerializeObject(tableResponse.Entity)
+            });
             Assert.Equal(data, obj);
         }
 
         [Fact]
         public async void GetNewRuleTest()
         {
-            var deviceId = this.fixture.Create<string>();
-            var rule = this.fixture.Create<DeviceRule>();
-            this.deviceRulesMock.Setup(mock => mock.GetNewRuleAsync(deviceId)).ReturnsAsync(rule);
-            var result = await this.deviceRulesController.GetNewRule(deviceId);
+            var deviceId = fixture.Create<string>();
+            var rule = fixture.Create<DeviceRule>();
+            deviceRulesMock.Setup(mock => mock.GetNewRuleAsync(deviceId)).ReturnsAsync(rule);
+            var result = await deviceRulesController.GetNewRule(deviceId);
             var view = result as JsonResult;
             Assert.Equal(JsonConvert.SerializeObject(view.Data), JsonConvert.SerializeObject(rule));
         }
@@ -104,58 +108,61 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void UpdateRuleEnabledStateTest()
         {
-            var ruleModel = this.fixture.Create<EditDeviceRuleModel>();
-            var response = this.fixture.Create<TableStorageResponse<DeviceRule>>();
+            var ruleModel = fixture.Create<EditDeviceRuleModel>();
+            var response = fixture.Create<TableStorageResponse<DeviceRule>>();
             response.Status = TableStorageResponseStatus.Successful;
-            this.deviceRulesMock.Setup(mock => mock.UpdateDeviceRuleEnabledStateAsync(ruleModel.DeviceID, ruleModel.RuleId, ruleModel.EnabledState))
+            deviceRulesMock.Setup(
+                mock =>
+                    mock.UpdateDeviceRuleEnabledStateAsync(ruleModel.DeviceID, ruleModel.RuleId, ruleModel.EnabledState))
                 .ReturnsAsync(response).Verifiable();
-            var result = await this.deviceRulesController.UpdateRuleEnabledState(ruleModel);
+            var result = await deviceRulesController.UpdateRuleEnabledState(ruleModel);
             var view = result as JsonResult;
             var data = JsonConvert.SerializeObject(view.Data);
             var obj = JsonConvert.SerializeObject(new {success = true});
             Assert.Equal(data, obj);
-            this.deviceRulesMock.Verify();
+            deviceRulesMock.Verify();
         }
 
         [Fact]
         public async void DeleteDeviceRuleTest()
         {
-            var response = this.fixture.Create<TableStorageResponse<DeviceRule>>();
+            var response = fixture.Create<TableStorageResponse<DeviceRule>>();
             response.Status = TableStorageResponseStatus.Successful;
-            var deviceId = this.fixture.Create<string>();
-            var ruleId = this.fixture.Create<string>();
-            this.deviceRulesMock.Setup(mock => mock.DeleteDeviceRuleAsync(deviceId, ruleId)).ReturnsAsync(response);
-            var result = await this.deviceRulesController.DeleteDeviceRule(deviceId, ruleId);
+            var deviceId = fixture.Create<string>();
+            var ruleId = fixture.Create<string>();
+            deviceRulesMock.Setup(mock => mock.DeleteDeviceRuleAsync(deviceId, ruleId)).ReturnsAsync(response);
+            var result = await deviceRulesController.DeleteDeviceRule(deviceId, ruleId);
             var view = result as JsonResult;
             var data = JsonConvert.SerializeObject(view.Data);
             var obj = JsonConvert.SerializeObject(new {success = true});
             Assert.Equal(data, obj);
-            this.deviceRulesMock.Verify();
+            deviceRulesMock.Verify();
         }
 
         [Fact]
         public async void EditRulePropertiesTest()
         {
-            var deviceId = this.fixture.Create<string>();
+            var deviceId = fixture.Create<string>();
             string ruleId = null;
-            this.deviceRulesMock.Setup(mock => mock.CanNewRuleBeCreatedForDeviceAsync(deviceId)).ReturnsAsync(false);
-            var result = await this.deviceRulesController.EditRuleProperties(deviceId, ruleId);
+            deviceRulesMock.Setup(mock => mock.CanNewRuleBeCreatedForDeviceAsync(deviceId)).ReturnsAsync(false);
+            var result = await deviceRulesController.EditRuleProperties(deviceId, ruleId);
             var view = result as ViewResult;
             var model = view.Model as EditDeviceRuleModel;
             Assert.Equal(model.DeviceID, deviceId);
 
-            deviceId = this.fixture.Create<string>();
-            ruleId = this.fixture.Create<string>();
-            var ruleModel = this.fixture.Create<DeviceRule>();
+            deviceId = fixture.Create<string>();
+            ruleId = fixture.Create<string>();
+            var ruleModel = fixture.Create<DeviceRule>();
             var availableFields = new Dictionary<string, List<string>>();
-            availableFields["availableDataFields"] = this.fixture.Create<List<string>>();
-            availableFields["availableOperators"] = this.fixture.Create<List<string>>();
-            availableFields["availableRuleOutputs"] = this.fixture.Create<List<string>>();
+            availableFields["availableDataFields"] = fixture.Create<List<string>>();
+            availableFields["availableOperators"] = fixture.Create<List<string>>();
+            availableFields["availableRuleOutputs"] = fixture.Create<List<string>>();
 
-            this.deviceRulesMock.Setup(mock => mock.GetDeviceRuleOrDefaultAsync(deviceId, ruleId)).ReturnsAsync(ruleModel);
-            this.deviceRulesMock.Setup(mock => mock.GetAvailableFieldsForDeviceRuleAsync(ruleModel.DeviceID, ruleModel.RuleId))
+            deviceRulesMock.Setup(mock => mock.GetDeviceRuleOrDefaultAsync(deviceId, ruleId)).ReturnsAsync(ruleModel);
+            deviceRulesMock.Setup(
+                mock => mock.GetAvailableFieldsForDeviceRuleAsync(ruleModel.DeviceID, ruleModel.RuleId))
                 .ReturnsAsync(availableFields);
-            result = await this.deviceRulesController.EditRuleProperties(deviceId, ruleId);
+            result = await deviceRulesController.EditRuleProperties(deviceId, ruleId);
             view = result as ViewResult;
             model = view.Model as EditDeviceRuleModel;
             Assert.Equal(model.AvailableDataFields.Count, availableFields["availableDataFields"].Count);
@@ -166,11 +173,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void RemoveRule()
         {
-            var deviceId = this.fixture.Create<string>();
-            var ruleId = this.fixture.Create<string>();
-            var ruleModel = this.fixture.Create<DeviceRule>();
-            this.deviceRulesMock.Setup(mock => mock.GetDeviceRuleOrDefaultAsync(deviceId, ruleId)).ReturnsAsync(ruleModel);
-            var result = await this.deviceRulesController.RemoveRule(deviceId, ruleId);
+            var deviceId = fixture.Create<string>();
+            var ruleId = fixture.Create<string>();
+            var ruleModel = fixture.Create<DeviceRule>();
+            deviceRulesMock.Setup(mock => mock.GetDeviceRuleOrDefaultAsync(deviceId, ruleId)).ReturnsAsync(ruleModel);
+            var result = await deviceRulesController.RemoveRule(deviceId, ruleId);
             var view = result as ViewResult;
             var model = view.Model as EditDeviceRuleModel;
             Assert.Equal(model.RuleId, ruleModel.RuleId);

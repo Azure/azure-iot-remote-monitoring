@@ -16,10 +16,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class DeviceTelemetryRepositoryTest
     {
-        private Mock<IConfigurationProvider> _configurationProviderMock;
         private readonly Mock<IBlobStorageClient> _blobStorageClientMock;
         private readonly DeviceTelemetryRepository deviceTelemetryRepository;
         private readonly IFixture fixture;
+        private readonly Mock<IConfigurationProvider> _configurationProviderMock;
 
         public DeviceTelemetryRepositoryTest()
         {
@@ -37,25 +37,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void LoadLatestDeviceTelemetryAsyncTest()
         {
-            int year = 2016;
-            int month = 7;
-            int date = 5;
-            DateTime minTime = new DateTime(year, month, date);
+            var year = 2016;
+            var month = 7;
+            var date = 5;
+            var minTime = new DateTime(year, month, date);
 
-            Mock<IBlobStorageReader> blobReader = new Mock<IBlobStorageReader>();
+            var blobReader = new Mock<IBlobStorageReader>();
             var blobData =
                 "deviceid,temperature,humidity,externaltemperature,eventprocessedutctime,partitionid,eventenqueuedutctime,IoTHub" +
                 Environment.NewLine +
-                "test1,34.200411299709423,32.2233033525866,,2016 - 08 - 04T23: 07:14.2549606Z,3,"+minTime+",Record";
+                "test1,34.200411299709423,32.2233033525866,,2016 - 08 - 04T23: 07:14.2549606Z,3," + minTime + ",Record";
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(blobData));
-            var blobContents = new BlobContents() {Data = stream, LastModifiedTime = DateTime.Now};
+            var blobContents = new BlobContents {Data = stream, LastModifiedTime = DateTime.Now};
             var blobContentIterable = new List<BlobContents>();
             blobContentIterable.Add(blobContents);
 
             blobReader.Setup(x => x.GetEnumerator()).Returns(blobContentIterable.GetEnumerator());
             _blobStorageClientMock.Setup(x => x.GetReader(It.IsNotNull<string>(), It.IsAny<DateTime?>()))
                 .ReturnsAsync(blobReader.Object);
-            var telemetryList = await deviceTelemetryRepository.LoadLatestDeviceTelemetryAsync("test1",null,minTime);
+            var telemetryList = await deviceTelemetryRepository.LoadLatestDeviceTelemetryAsync("test1", null, minTime);
             Assert.NotNull(telemetryList);
             Assert.NotEmpty(telemetryList);
             Assert.Equal(telemetryList.First().DeviceId, "test1");
@@ -65,23 +65,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void LoadLatestDeviceTelemetrySummaryAsyncTest()
         {
-            int year = 2016;
-            int month = 7;
-            int date = 5;
-            DateTime minTime = new DateTime(year, month, date);
+            var year = 2016;
+            var month = 7;
+            var date = 5;
+            var minTime = new DateTime(year, month, date);
 
-            Mock<IBlobStorageReader> blobReader = new Mock<IBlobStorageReader>();
+            var blobReader = new Mock<IBlobStorageReader>();
             var blobData = "deviceid,averagehumidity,minimumhumidity,maxhumidity,timeframeminutes" + Environment.NewLine +
                            "test2,37.806204872115607,37.806204872115607,37.806204872115607,5";
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(blobData));
-            var blobContents = new BlobContents() { Data = stream, LastModifiedTime = DateTime.Now };
+            var blobContents = new BlobContents {Data = stream, LastModifiedTime = DateTime.Now};
             var blobContentIterable = new List<BlobContents>();
             blobContentIterable.Add(blobContents);
 
             blobReader.Setup(x => x.GetEnumerator()).Returns(blobContentIterable.GetEnumerator());
             _blobStorageClientMock.Setup(x => x.GetReader(It.IsNotNull<string>(), It.IsAny<DateTime?>()))
                 .ReturnsAsync(blobReader.Object);
-            var telemetrySummaryList = await deviceTelemetryRepository.LoadLatestDeviceTelemetrySummaryAsync("test2", minTime);
+            var telemetrySummaryList =
+                await deviceTelemetryRepository.LoadLatestDeviceTelemetrySummaryAsync("test2", minTime);
             Assert.NotNull(telemetrySummaryList);
             Assert.Equal(telemetrySummaryList.DeviceId, "test2");
             Assert.Equal(telemetrySummaryList.AverageHumidity, 37.806204872115607);

@@ -20,12 +20,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly Mock<IBlobStorageClient> _blobClientMock;
         private readonly ActionMappingRepository actionMappingRepository;
         private readonly Fixture fixture;
+
         public ActionMappingRepositoryTest()
         {
             fixture = new Fixture();
             fixture.Customize(new AutoConfiguredMoqCustomization());
             _blobClientMock = new Mock<IBlobStorageClient>();
-            Mock<IConfigurationProvider> configurationProvicerMock = new Mock<IConfigurationProvider>();
+            var configurationProvicerMock = new Mock<IConfigurationProvider>();
             configurationProvicerMock.Setup(x => x.GetConfigurationSettingValue(It.IsNotNull<string>()))
                 .ReturnsUsingFixture(fixture);
             var blobStorageFactory = new BlobStorageClientFactory(_blobClientMock.Object);
@@ -35,7 +36,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void GetAllMappingsAsyncTest()
         {
-            List<ActionMapping> actionMappings = fixture.Create<List<ActionMapping>>();
+            var actionMappings = fixture.Create<List<ActionMapping>>();
             var actionMappingsString = JsonConvert.SerializeObject(actionMappings);
             var actionMappingBlobData = Encoding.UTF8.GetBytes(actionMappingsString);
             _blobClientMock.Setup(x => x.GetBlobData(It.IsNotNull<string>())).ReturnsAsync(actionMappingBlobData);
@@ -48,14 +49,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void SaveMappingAsyncTest()
         {
-            List<ActionMapping> actionMappings = fixture.Create<List<ActionMapping>>();
+            var actionMappings = fixture.Create<List<ActionMapping>>();
             var actionMappingsString = JsonConvert.SerializeObject(actionMappings);
             var actionMappingBlobData = Encoding.UTF8.GetBytes(actionMappingsString);
             _blobClientMock.Setup(x => x.GetBlobData(It.IsNotNull<string>())).ReturnsAsync(actionMappingBlobData);
             _blobClientMock.Setup(x => x.GetBlobEtag(It.IsNotNull<string>())).ReturnsUsingFixture(fixture);
 
             string saveBuf = null;
-            ActionMapping newActionMapping = new ActionMapping()
+            var newActionMapping = new ActionMapping
             {
                 RuleOutput = "ruleXXXoutput",
                 ActionId = "actionXXXid"
@@ -70,11 +71,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     x.UploadFromByteArrayAsync(It.IsNotNull<string>(), It.IsNotNull<byte[]>(), It.IsNotNull<int>(),
                         It.IsNotNull<int>(),
                         It.IsNotNull<AccessCondition>(), It.IsAny<BlobRequestOptions>(), It.IsAny<OperationContext>()))
-                .Callback<string, byte[], int, int, AccessCondition, BlobRequestOptions, OperationContext>((a,b,c,d,e,f,g) => saveBuf = Encoding.UTF8.GetString(b))
+                .Callback<string, byte[], int, int, AccessCondition, BlobRequestOptions, OperationContext>(
+                    (a, b, c, d, e, f, g) => saveBuf = Encoding.UTF8.GetString(b))
                 .Returns(Task.FromResult(true));
             await actionMappingRepository.SaveMappingAsync(newActionMapping);
             Assert.NotNull(saveBuf);
-            Assert.Equal(actionMappingsString,saveBuf);
+            Assert.Equal(actionMappingsString, saveBuf);
 
             // Existing mapping
             actionMappingBlobData = Encoding.UTF8.GetBytes(actionMappingsString);
@@ -87,7 +89,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     x.UploadFromByteArrayAsync(It.IsNotNull<string>(), It.IsNotNull<byte[]>(), It.IsNotNull<int>(),
                         It.IsNotNull<int>(),
                         It.IsNotNull<AccessCondition>(), It.IsAny<BlobRequestOptions>(), It.IsAny<OperationContext>()))
-                 .Callback<string, byte[], int, int, AccessCondition, BlobRequestOptions, OperationContext>((a, b, c, d, e, f, g) => saveBuf = Encoding.UTF8.GetString(b))
+                .Callback<string, byte[], int, int, AccessCondition, BlobRequestOptions, OperationContext>(
+                    (a, b, c, d, e, f, g) => saveBuf = Encoding.UTF8.GetString(b))
                 .Returns(Task.FromResult(true));
             await actionMappingRepository.SaveMappingAsync(newActionMapping);
             Assert.NotNull(saveBuf);

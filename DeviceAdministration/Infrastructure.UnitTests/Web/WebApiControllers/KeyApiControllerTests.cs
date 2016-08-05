@@ -3,7 +3,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers;
 using Xunit;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.Web.WebApiControllers
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.Web.
+    WebApiControllers
 {
     public class KeyApiControllerTests
     {
@@ -13,16 +14,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public KeyApiControllerTests()
         {
-            this.securityKeyGenerator = new SecurityKeyGenerator();
-            this.keyLogic = new KeyLogic(this.securityKeyGenerator);
-            this.keyApiController = new KeyApiController(this.keyLogic);
-            this.keyApiController.InitializeRequest();
+            securityKeyGenerator = new SecurityKeyGenerator();
+            keyLogic = new KeyLogic(securityKeyGenerator);
+            keyApiController = new KeyApiController(keyLogic);
+            keyApiController.InitializeRequest();
         }
 
         [Fact]
         public async void GetKeysAsyncTest()
         {
-            var res = await this.keyApiController.GetKeysAsync();
+            var res = await keyApiController.GetKeysAsync();
             res.AssertOnError();
             var data = res.ExtractContentDataAs<SecurityKeys>();
             Assert.NotNull(data);

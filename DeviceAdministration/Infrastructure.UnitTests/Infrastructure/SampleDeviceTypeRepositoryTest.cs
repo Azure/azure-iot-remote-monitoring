@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
+﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.Infrastructure
 {
     public class SampleDeviceTypeRepositoryTest
     {
-        private SampleDeviceTypeRepository sampleDeviceTypeRepository;
+        private readonly SampleDeviceTypeRepository sampleDeviceTypeRepository;
 
         public SampleDeviceTypeRepositoryTest()
         {
@@ -18,7 +15,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void GetAllDeviceTypesAsyncTest()
         {
-            List<DeviceType> deviceTypes = await sampleDeviceTypeRepository.GetAllDeviceTypesAsync();
+            var deviceTypes = await sampleDeviceTypeRepository.GetAllDeviceTypesAsync();
             Assert.NotNull(deviceTypes);
             Assert.NotEqual(deviceTypes.Count, 0);
         }
@@ -26,7 +23,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void GetDeviceTypeAsyncTest()
         {
-            DeviceType ret = await sampleDeviceTypeRepository.GetDeviceTypeAsync(1);
+            var ret = await sampleDeviceTypeRepository.GetDeviceTypeAsync(1);
             Assert.NotNull(ret);
             Assert.True(ret.IsSimulatedDevice);
 

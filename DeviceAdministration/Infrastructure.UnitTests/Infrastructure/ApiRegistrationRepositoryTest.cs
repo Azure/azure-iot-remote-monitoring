@@ -27,7 +27,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 .ReturnsUsingFixture(fixture);
             _tableStorageClientMock = new Mock<IAzureTableStorageClient>();
             var tableStorageClientFactory = new AzureTableStorageClientFactory(_tableStorageClientMock.Object);
-            apiRegistrationRepository = new ApiRegistrationRepository(configProviderMock.Object, tableStorageClientFactory);
+            apiRegistrationRepository = new ApiRegistrationRepository(configProviderMock.Object,
+                tableStorageClientFactory);
         }
 
         [Fact]
@@ -36,7 +37,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var apiRegistrationModel = fixture.Create<ApiRegistrationModel>();
             TableOperation savedOp = null;
             _tableStorageClientMock.Setup(x => x.Execute(It.IsNotNull<TableOperation>()))
-                .Callback<TableOperation>((op) => savedOp = op)
+                .Callback<TableOperation>(op => savedOp = op)
                 .Returns(new TableResult());
             var ret = apiRegistrationRepository.AmendRegistration(apiRegistrationModel);
             Assert.True(ret);
@@ -49,9 +50,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var tableEntities = fixture.Create<List<ApiRegistrationTableEntity>>();
             TableQuery<ApiRegistrationTableEntity> savedOp = null;
             _tableStorageClientMock.Setup(x => x.ExecuteQuery(It.IsNotNull<TableQuery<ApiRegistrationTableEntity>>()))
-                .Callback<TableQuery<ApiRegistrationTableEntity>>((op) => savedOp = op)
+                .Callback<TableQuery<ApiRegistrationTableEntity>>(op => savedOp = op)
                 .Returns(tableEntities);
-            ApiRegistrationModel ret = apiRegistrationRepository.RecieveDetails();
+            var ret = apiRegistrationRepository.RecieveDetails();
             Assert.NotNull(ret);
             Assert.NotNull(savedOp);
             Assert.Equal(ret.Username, tableEntities.FirstOrDefault().Username);
@@ -65,8 +66,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             TableOperation savedOp = null;
             _tableStorageClientMock.Setup(x => x.Execute(It.IsNotNull<TableOperation>()))
-                .Callback<TableOperation>((op) => savedOp = op)
-                .Returns(new TableResult() {Result = new JObject()});
+                .Callback<TableOperation>(op => savedOp = op)
+                .Returns(new TableResult {Result = new JObject()});
             var ret = apiRegistrationRepository.IsApiRegisteredInAzure();
             Assert.True(ret);
             Assert.NotNull(savedOp);
@@ -77,7 +78,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             TableOperation savedOp = null;
             _tableStorageClientMock.Setup(x => x.Execute(It.IsNotNull<TableOperation>()))
-                .Callback<TableOperation>((op) => savedOp = op)
+                .Callback<TableOperation>(op => savedOp = op)
                 .Returns(new TableResult());
             var ret = apiRegistrationRepository.DeleteApiDetails();
             Assert.True(ret);
