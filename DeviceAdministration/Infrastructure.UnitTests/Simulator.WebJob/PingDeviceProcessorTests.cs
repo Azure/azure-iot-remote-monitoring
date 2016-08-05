@@ -27,9 +27,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var history = new CommandHistory("CommandShouldNotComplete");
             var command = new DeserializableCommand(history, "LockToken");
-            var processor = new PingDeviceProcessor(_deviceBase.Object);
-
-            var r = await processor.HandleCommandAsync(command);
+    
+            var r = await _pingDeviceProcessor
+                .HandleCommandAsync(command);
             Assert.Equal(r, CommandProcessingResult.CannotComplete);
         }
 
@@ -38,9 +38,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var history = new CommandHistory("PingDevice");
             var command = new DeserializableCommand(history, "LockToken");
-            var processor = new PingDeviceProcessor(_deviceBase.Object);
 
-            var r = await processor.HandleCommandAsync(command);
+            var r = await _pingDeviceProcessor.HandleCommandAsync(command);
             Assert.Equal(r, CommandProcessingResult.Success);
         }
     }
