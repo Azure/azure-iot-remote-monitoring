@@ -9,14 +9,14 @@
             <ModulePaths>
               <Include>
                 <ModulePath>.*WebJob.*</ModulePath>
-				<ModulePath>.*Common.*</ModulePath>
-				<ModulePath>.*Web.*</ModulePath>
-				<ModulePath>.*Infrastructure.*</ModulePath>
+                <ModulePath>.*Common.*</ModulePath>
+                <ModulePath>.*Web.*</ModulePath>
+                <ModulePath>.*Infrastructure.*</ModulePath>
               </Include>
               <Exclude>
                 <ModulePath>.*UnitTests.*</ModulePath>
-				<ModulePath>.*xunit.*</ModulePath>
-				<ModulePath>.*connectivity.*</ModulePath>
+                <ModulePath>.*xunit.*</ModulePath>
+                <ModulePath>.*connectivity.*</ModulePath>
               </Exclude>
             </ModulePaths>
           </CodeCoverage>

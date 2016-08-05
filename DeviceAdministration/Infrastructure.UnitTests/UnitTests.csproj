@@ -134,10 +134,12 @@
     <Compile Include="Infrastructure\ActionLogicTest.cs" />
     <Compile Include="Infrastructure\ActionMappingRepositoryTest.cs" />
     <Compile Include="Infrastructure\AlertsRepositoryTests.cs" />
+    <Compile Include="Infrastructure\ApiRegistrationRepositoryTest.cs" />
     <Compile Include="Infrastructure\CommandParameterTypeLogicTests.cs" />
     <Compile Include="Common\ExceptionSerializationTests.cs" />
     <Compile Include="Infrastructure\DeviceLogicTests.cs" />
     <Compile Include="Infrastructure\DeviceRulesLogicTests.cs" />
+    <Compile Include="Infrastructure\DeviceRulesRepositoryTests.cs" />
     <Compile Include="Infrastructure\DeviceTelemetryLogicTest.cs" />
     <Compile Include="Infrastructure\DeviceTelemetryRepositoryTest.cs" />
     <Compile Include="Infrastructure\FilterHelperTests.cs" />

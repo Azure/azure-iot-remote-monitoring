@@ -11,16 +11,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class DeviceRulesLogicTests
     {
-        private Mock<IDeviceRulesRepository> _deviceRulesRepositoryMock;
-        private Mock<IActionMappingLogic> _actionMappingLogicMock;
-        private IDeviceRulesLogic deviceRulesLogic;
-        private Fixture fixture;
+        private readonly Mock<IActionMappingLogic> _actionMappingLogicMock;
+        private readonly Mock<IDeviceRulesRepository> _deviceRulesRepositoryMock;
+        private readonly IDeviceRulesLogic deviceRulesLogic;
+        private readonly Fixture fixture;
 
         public DeviceRulesLogicTests()
         {
             _deviceRulesRepositoryMock = new Mock<IDeviceRulesRepository>();
             _actionMappingLogicMock = new Mock<IActionMappingLogic>();
-            deviceRulesLogic = new DeviceRulesLogic(_deviceRulesRepositoryMock.Object,_actionMappingLogicMock.Object);
+            deviceRulesLogic = new DeviceRulesLogic(_deviceRulesRepositoryMock.Object, _actionMappingLogicMock.Object);
             fixture = new Fixture();
         }
 
@@ -32,12 +32,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             rules.ForEach(x => x.DeviceID = deviceId);
             _deviceRulesRepositoryMock.Setup(x => x.GetAllRulesForDeviceAsync(deviceId)).ReturnsAsync(rules);
 
-            DeviceRule ret = await deviceRulesLogic.GetDeviceRuleOrDefaultAsync(deviceId, rules[0].RuleId);
-            Assert.Equal(rules[0],ret);
+            var ret = await deviceRulesLogic.GetDeviceRuleOrDefaultAsync(deviceId, rules[0].RuleId);
+            Assert.Equal(rules[0], ret);
 
             ret = await deviceRulesLogic.GetDeviceRuleOrDefaultAsync(deviceId, "RuleNotPresent");
             Assert.NotNull(ret);
-            Assert.Equal(deviceId,ret.DeviceID);
+            Assert.Equal(deviceId, ret.DeviceID);
         }
 
         [Fact]
@@ -47,12 +47,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var rules = fixture.Create<List<DeviceRule>>();
             rules.ForEach(x => x.DeviceID = deviceId);
             _deviceRulesRepositoryMock.Setup(x => x.GetAllRulesForDeviceAsync(deviceId)).ReturnsAsync(rules);
-            _deviceRulesRepositoryMock.Setup(x => x.SaveDeviceRuleAsync(It.IsNotNull<DeviceRule>())).ReturnsAsync(new TableStorageResponse<DeviceRule>());
-            
-            DeviceRule newRule = new DeviceRule();
+            _deviceRulesRepositoryMock.Setup(x => x.SaveDeviceRuleAsync(It.IsNotNull<DeviceRule>()))
+                .ReturnsAsync(new TableStorageResponse<DeviceRule>());
+
+            var newRule = new DeviceRule();
             newRule.InitializeNewRule(deviceId);
             newRule.DataField = rules[0].DataField;
-            TableStorageResponse<DeviceRule> ret = await deviceRulesLogic.SaveDeviceRuleAsync(newRule);
+            var ret = await deviceRulesLogic.SaveDeviceRuleAsync(newRule);
             Assert.NotNull(ret.Entity);
             Assert.Equal(TableStorageResponseStatus.DuplicateInsert, ret.Status);
 
@@ -65,8 +66,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void GetNewRuleAsyncTest()
         {
-            string deviceId = fixture.Create<string>();
-            DeviceRule rule = await deviceRulesLogic.GetNewRuleAsync(deviceId);
+            var deviceId = fixture.Create<string>();
+            var rule = await deviceRulesLogic.GetNewRuleAsync(deviceId);
             Assert.NotNull(rule);
             Assert.Equal(deviceId, rule.DeviceID);
         }
@@ -74,12 +75,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void UpdateDeviceRuleEnabledStateAsyncTest()
         {
-            DeviceRule rule = fixture.Create<DeviceRule>();
-            bool prevState = false;
+            var rule = fixture.Create<DeviceRule>();
+            var prevState = false;
             rule.EnabledState = prevState;
             _deviceRulesRepositoryMock.Setup(x => x.GetDeviceRuleAsync(rule.DeviceID, rule.RuleId)).ReturnsAsync(rule);
             _deviceRulesRepositoryMock.Setup(
-                x => x.SaveDeviceRuleAsync(It.Is<DeviceRule>(o => o.EnabledState != prevState))).ReturnsAsync(new TableStorageResponse<DeviceRule>()).Verifiable();
+                x => x.SaveDeviceRuleAsync(It.Is<DeviceRule>(o => o.EnabledState != prevState)))
+                .ReturnsAsync(new TableStorageResponse<DeviceRule>())
+                .Verifiable();
 
             var res = await deviceRulesLogic.UpdateDeviceRuleEnabledStateAsync(rule.DeviceID, rule.RuleId, true);
             Assert.NotNull(res);

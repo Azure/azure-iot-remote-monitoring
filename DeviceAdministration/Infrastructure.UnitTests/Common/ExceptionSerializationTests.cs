@@ -1,9 +1,9 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
-using Xunit;
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
+using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests
 {
@@ -54,7 +54,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             TestSerialization(e);
         }
-        
+
         [Fact]
         public void TestValidationExceptionWithNoErrorsInList()
         {
@@ -99,7 +99,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 stream.Seek(0, 0);
 
                 // now deserialize into a new object
-                eRoundTripped = (TException)formatter.Deserialize(stream);
+                eRoundTripped = (TException) formatter.Deserialize(stream);
             }
 
             Assert.Equal(eRoundTripped.ToString(), e.ToString());

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,9 +6,7 @@ using System.Text;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.TestStubs;
 using Moq;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
@@ -19,10 +16,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class AlertsRepositoryTests
     {
-        private Mock<IConfigurationProvider> _configurationProviderMock;
         private readonly Mock<IBlobStorageClient> _blobStorageClientMock;
         private readonly AlertsRepository alertsRepository;
         private readonly IFixture fixture;
+        private readonly Mock<IConfigurationProvider> _configurationProviderMock;
 
         public AlertsRepositoryTests()
         {
@@ -39,20 +36,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void LoadLatestAlertHistoryAsyncTest()
         {
-            int year = 2016;
-            int month = 7;
-            int date = 5;
-            string value = "10.0";
-            DateTime minTime = new DateTime(year, month, date);
+            var year = 2016;
+            var month = 7;
+            var date = 5;
+            var value = "10.0";
+            var minTime = new DateTime(year, month, date);
 
             await
                 Assert.ThrowsAsync<ArgumentOutOfRangeException>(
                     async () => await alertsRepository.LoadLatestAlertHistoryAsync(minTime, 0));
 
-            Mock<IBlobStorageReader> blobReader = new Mock<IBlobStorageReader>();
-            var blobData = "deviceid,reading,ruleoutput,time" + Environment.NewLine + "Device123,"+value+",RuleOutput123,"+minTime;
+            var blobReader = new Mock<IBlobStorageReader>();
+            var blobData = "deviceid,reading,ruleoutput,time" + Environment.NewLine + "Device123," + value +
+                           ",RuleOutput123," + minTime;
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(blobData));
-            var blobContents = new BlobContents() { Data = stream, LastModifiedTime = DateTime.Now };
+            var blobContents = new BlobContents {Data = stream, LastModifiedTime = DateTime.Now};
             var blobContentIterable = new List<BlobContents>();
             blobContentIterable.Add(blobContents);
 

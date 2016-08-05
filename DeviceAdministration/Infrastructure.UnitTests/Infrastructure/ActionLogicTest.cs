@@ -1,16 +1,15 @@
 ﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.TestStubs;
-using Moq;
 using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.Infrastructure
 {
     public class ActionLogicTest
     {
-        private IActionRepository _actionRepository;
-        private ActionLogic actionLogic;
-        static public string ENDPOINT = "http://www.Test.Endpoint/";
+        public static string ENDPOINT = "http://www.Test.Endpoint/";
+        private readonly IActionRepository _actionRepository;
+        private readonly ActionLogic actionLogic;
 
         public ActionLogicTest()
         {
@@ -21,12 +20,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void ExecuteLogicAppAsyncTest()
         {
-            string actionId = "Send Message";
-            string deviceId = "TestDeviceID";
-            string measurementName = "TestMeasurementName";
-            double measuredValue = 10.0;
+            var actionId = "Send Message";
+            var deviceId = "TestDeviceID";
+            var measurementName = "TestMeasurementName";
+            var measuredValue = 10.0;
 
-            bool res = await actionLogic.ExecuteLogicAppAsync(actionId, deviceId, measurementName, measuredValue);
+            var res = await actionLogic.ExecuteLogicAppAsync(actionId, deviceId, measurementName, measuredValue);
             Assert.False(res);
 
             await _actionRepository.AddActionEndpoint(actionId, ENDPOINT);

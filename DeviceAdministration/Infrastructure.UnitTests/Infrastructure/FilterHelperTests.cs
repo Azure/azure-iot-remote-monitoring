@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
@@ -18,20 +17,40 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TestFilter(new List<FilterInfo>(), 10);
         }
 
+        #region Test Group: column names should not be case sensitive
+
+        [Fact]
+        public void FilterWithColumnNameDiffCaseShouldWork()
+        {
+            var filters = new List<FilterInfo>
+            {
+                new FilterInfo
+                {
+                    ColumnName = "DEViceid",
+                    FilterType = FilterType.ExactMatchCaseSensitive,
+                    FilterValue = "The one special value"
+                }
+            };
+
+            TestFilter(filters, 1);
+        }
+
+        #endregion
+
         #region Test Group: filtering on missing value should remove all devices
 
         [Fact]
         public void FilterWithMissingValueShouldBeAbleToRemoveAll_Exact_CaseSensitive()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ExactMatchCaseSensitive,
                     FilterValue = "DKFSLKFJDKKD"
                 }
-            }; 
+            };
 
             TestFilter(filters, 0);
         }
@@ -39,9 +58,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void FilterWithMissingValueShouldBeAbleToRemoveAll_Exact_CaseInsensitive()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ExactMatchCaseInsensitive,
@@ -55,9 +74,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void FilterWithMissingValueShouldBeAbleToRemoveAll_StartsWith_CaseSensitive()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.StartsWithCaseSensitive,
@@ -71,9 +90,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void FilterWithMissingValueShouldBeAbleToRemoveAll_StartsWith_CaseInsensitive()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.StartsWithCaseInsensitive,
@@ -87,9 +106,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void FilterWithMissingValueShouldBeAbleToRemoveAll_Contains_CaseSensitive()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ContainsCaseSensitive,
@@ -103,9 +122,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void FilterWithMissingValueShouldBeAbleToRemoveAll_Contains_CaseInsensitive()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ContainsCaseInsensitive,
@@ -123,9 +142,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void FilterShouldReturnOneDevice_Exact_CaseSensitive()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ExactMatchCaseSensitive,
@@ -139,9 +158,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void FilterShouldReturnOneDevice_Exact_CaseInsensitive_SameCase()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ExactMatchCaseInsensitive,
@@ -155,9 +174,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void FilterShouldReturnOneDevice_Exact_CaseInsensitive_DiffCase()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ExactMatchCaseInsensitive,
@@ -171,9 +190,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void FilterShouldReturnOneDevice_StartsWith_CaseInsensitive_SameCase()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.StartsWithCaseInsensitive,
@@ -187,9 +206,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void FilterShouldReturnOneDevice_StartsWith_CaseInsensitive_DiffCase()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.StartsWithCaseInsensitive,
@@ -203,9 +222,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void FilterShouldReturnOneDevice_StartsWith_CaseSensitive()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.StartsWithCaseSensitive,
@@ -219,9 +238,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void FilterShouldReturnOneDevice_Contains_CaseSensitive()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ContainsCaseSensitive,
@@ -235,9 +254,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void FilterShouldReturnOneDevice_Contains_CaseInsensitive_SameCase()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ContainsCaseInsensitive,
@@ -251,9 +270,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void FilterShouldReturnOneDevice_Contains_CaseInsensitive_DiffCase()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ContainsCaseInsensitive,
@@ -271,9 +290,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void CaseSensitiveFilterShouldReturnNothing_Exact_CaseSensitive_DiffCase()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ExactMatchCaseSensitive,
@@ -287,9 +306,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void CaseSensitiveFilterShouldReturnNothing_StartsWith_CaseSensitive_DiffCase()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.StartsWithCaseSensitive,
@@ -303,9 +322,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void CaseSensitiveFilterShouldReturnNothing_Contains_CaseSensitive_DiffCase()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ContainsCaseSensitive,
@@ -323,15 +342,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void MultipleFiltersShouldWorkTogether_RemoveAllDevices()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ExactMatchCaseInsensitive,
                     FilterValue = "The One Special Value"
                 },
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ContainsCaseInsensitive,
@@ -345,15 +364,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void MultipleFiltersShouldWorkTogether_ReturnOneDevice()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ExactMatchCaseInsensitive,
                     FilterValue = "The One Special Value"
                 },
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ContainsCaseInsensitive,
@@ -367,15 +386,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void MultipleFiltersShouldWorkTogether_DifferentColumns_ReturnOneDevice()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ExactMatchCaseInsensitive,
                     FilterValue = "The One Special Value"
                 },
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceState",
                     FilterType = FilterType.ContainsCaseInsensitive,
@@ -389,15 +408,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void MultipleFiltersShouldWorkTogether_DifferentColumns_ReturnNoDevices()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ExactMatchCaseInsensitive,
                     FilterValue = "The One Special Value"
                 },
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceState",
                     FilterType = FilterType.ContainsCaseInsensitive,
@@ -411,25 +430,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void MultipleTripleFiltersShouldWorkTogether_DifferentColumns_ReturnOneDevice()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ExactMatchCaseInsensitive,
-                    FilterValue = "The One Special Value"   // passes one device
+                    FilterValue = "The One Special Value" // passes one device
                 },
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceState",
                     FilterType = FilterType.ContainsCaseInsensitive,
-                    FilterValue = "State"                   // passes all devices
+                    FilterValue = "State" // passes all devices
                 },
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "FirmwareVersion",
                     FilterType = FilterType.ContainsCaseInsensitive,
-                    FilterValue = "WARE"                    // passes all devices
+                    FilterValue = "WARE" // passes all devices
                 }
             };
 
@@ -439,49 +458,29 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void MultipleTripleFiltersShouldWorkTogether_DifferentColumns_ReturnNoDevices()
         {
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = FilterType.ExactMatchCaseInsensitive,
-                    FilterValue = "The One Special Value"  // passes one device
+                    FilterValue = "The One Special Value" // passes one device
                 },
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceState",
                     FilterType = FilterType.ContainsCaseInsensitive,
-                    FilterValue = "State"                  // passes all devices
+                    FilterValue = "State" // passes all devices
                 },
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "FirmwareVersion",
                     FilterType = FilterType.ContainsCaseInsensitive,
-                    FilterValue = "nope"                   // passes no devices
+                    FilterValue = "nope" // passes no devices
                 }
             };
 
             TestFilter(filters, 0);
-        }
-
-        #endregion
-
-        #region Test Group: column names should not be case sensitive
-
-        [Fact]
-        public void FilterWithColumnNameDiffCaseShouldWork()
-        {
-            var filters = new List<FilterInfo>()
-            {
-                new FilterInfo()
-                {
-                    ColumnName = "DEViceid",
-                    FilterType = FilterType.ExactMatchCaseSensitive,
-                    FilterValue = "The one special value"
-                }
-            };
-
-            TestFilter(filters, 1);
         }
 
         #endregion
@@ -528,11 +527,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private void TestNullDeviceId(FilterType filterType)
         {
-            IQueryable<DeviceModel> devicesWithNullDeviceId = GetListWithOneSpecialDeviceIdValue(specialDeviceId: null);
+            var devicesWithNullDeviceId = GetListWithOneSpecialDeviceIdValue(null);
 
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = filterType,
@@ -587,15 +586,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private void TestNullDeviceProperties(FilterType filterType)
         {
-            DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(Guid.NewGuid().ToString(), true, null);
+            var device = DeviceCreatorHelper.BuildDeviceStructure(Guid.NewGuid().ToString(), true, null);
 
             device.DeviceProperties = null;
 
-            var list = new List<DeviceModel>() { device };
+            var list = new List<DeviceModel> {device};
 
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
                     ColumnName = "DeviceID",
                     FilterType = filterType,
@@ -619,11 +618,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var list = GetListWithEnabledTestValues();
 
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
-                    ColumnName = "StatuS",  // intentionally use weird casing for test
+                    ColumnName = "StatuS", // intentionally use weird casing for test
                     FilterValue = "PendinG"
                 }
             };
@@ -640,11 +639,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var list = GetListWithEnabledTestValues();
 
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
-                    ColumnName = "StatuS",  // intentionally use weird casing for test
+                    ColumnName = "StatuS", // intentionally use weird casing for test
                     FilterValue = "RunninG"
                 }
             };
@@ -660,11 +659,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var list = GetListWithEnabledTestValues();
 
-            var filters = new List<FilterInfo>()
+            var filters = new List<FilterInfo>
             {
-                new FilterInfo()
+                new FilterInfo
                 {
-                    ColumnName = "StatuS",  // intentionally use weird casing for test
+                    ColumnName = "StatuS", // intentionally use weird casing for test
                     FilterValue = "DisableD"
                 }
             };
@@ -677,10 +676,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private static IQueryable<DeviceModel> GetListWithEnabledTestValues()
         {
-            List<DeviceModel> list = GetSampleDevices(4).ToList();
+            var list = GetSampleDevices(4).ToList();
 
             list[0].DeviceProperties = null;
-            
+
             list[1].DeviceProperties.HubEnabledState = null;
             list[1].DeviceProperties.DeviceID = "EnabledNull";
 
@@ -701,7 +700,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public void FilterTestInfrastructureShouldWork()
         {
             // make sure the infrastructure is working as expected
-            IQueryable<DeviceModel> list = GetSampleDevices();
+            var list = GetSampleDevices();
 
             Assert.Equal(10, list.Count());
         }
@@ -715,25 +714,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Assert.Equal(expectedCount, filtered.Count());
         }
 
-        private static IQueryable<DeviceModel> GetListWithOneSpecialDeviceIdValue(string specialDeviceId = "The one special value")
+        private static IQueryable<DeviceModel> GetListWithOneSpecialDeviceIdValue(
+            string specialDeviceId = "The one special value")
         {
-            List<DeviceModel> list = GetSampleDevices().ToList();
+            var list = GetSampleDevices().ToList();
 
             list[4].DeviceProperties.DeviceID = specialDeviceId;
 
-            return list.AsQueryable<DeviceModel>();
+            return list.AsQueryable();
         }
 
         private static IQueryable<DeviceModel> GetSampleDevices(int desiredNumberOfDevices = 10)
         {
-            List<DeviceModel> devices = new List<DeviceModel>();
+            var devices = new List<DeviceModel>();
 
-            for (int i = 0; i < desiredNumberOfDevices; ++i)
+            for (var i = 0; i < desiredNumberOfDevices; ++i)
             {
                 devices.Add(GetDefaultTestDevice());
             }
 
-            return devices.AsQueryable<DeviceModel>();
+            return devices.AsQueryable();
         }
 
         private static DeviceModel GetDefaultTestDevice()
