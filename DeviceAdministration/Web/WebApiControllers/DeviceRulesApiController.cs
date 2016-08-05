@@ -39,7 +39,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPost]
         [Route("list")]
         [WebApiRequirePermission(Permission.ViewRules)]
-        public async Task<HttpResponseMessage> GetDeviceRulesAsync([FromBody]JObject requestData)
+        public async Task<HttpResponseMessage> GetDeviceRulesAsDataTablesResponseAsync()
         {
             return await GetServiceResponseAsync<DataTablesResponse<DeviceRule>>(async () =>
             {

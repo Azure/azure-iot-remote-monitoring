@@ -8,8 +8,8 @@
     <ProjectGuid>{008E8267-1703-4108-904A-99C1B9ED8F7A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests</RootNamespace>
-    <AssemblyName>Infrastructure.UnitTests</AssemblyName>
+    <RootNamespace>Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests</RootNamespace>
+    <AssemblyName>UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -195,12 +195,14 @@
   <ItemGroup>
     <Compile Include="Common\SampleDeviceFactoryTests.cs" />
     <Compile Include="Infrastructure\ActionLogicTest.cs" />
+    <Compile Include="Infrastructure\ActionMappingRepositoryTest.cs" />
     <Compile Include="Infrastructure\AlertsRepositoryTests.cs" />
     <Compile Include="Infrastructure\CommandParameterTypeLogicTests.cs" />
     <Compile Include="Common\ExceptionSerializationTests.cs" />
     <Compile Include="Infrastructure\DeviceLogicTests.cs" />
     <Compile Include="Infrastructure\DeviceRulesLogicTests.cs" />
     <Compile Include="Infrastructure\DeviceTelemetryLogicTest.cs" />
+    <Compile Include="Infrastructure\DeviceTelemetryRepositoryTest.cs" />
     <Compile Include="Infrastructure\FilterHelperTests.cs" />
     <Compile Include="Infrastructure\IoTHubRepositoryTests.cs" />
     <Compile Include="Infrastructure\SampleDeviceTypeRepositoryTest.cs" />
@@ -222,8 +224,10 @@
     <Compile Include="Web\Helpers\JasperCredentialProviderTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceActionsApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceApiControllerTests.cs" />
+    <Compile Include="Web\WebApiControllers\DeviceRulesApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceTypesControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\KeyApiControllerTests.cs" />
+    <Compile Include="Web\WebApiControllers\TelemetryApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\WebApiTestHelpers.cs" />
   </ItemGroup>
   <ItemGroup>

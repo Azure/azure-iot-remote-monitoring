@@ -49,9 +49,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 Assert.ThrowsAsync<ArgumentOutOfRangeException>(
                     async () => await alertsRepository.LoadLatestAlertHistoryAsync(minTime, 0));
 
-            
-            _blobStorageClientMock.Setup(x => x.GetReader(It.IsNotNull<string>(), null))
-                .ReturnsAsync(new AlertHistoryBlobReaderStub(year, month, date, value));
+            Mock<IBlobStorageReader> blobReader = new Mock<IBlobStorageReader>();
+            var blobData = "deviceid,reading,ruleoutput,time" + Environment.NewLine + "Device123,"+value+",RuleOutput123,"+minTime;
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(blobData));
+            var blobContents = new BlobContents() { Data = stream, LastModifiedTime = DateTime.Now };
+            var blobContentIterable = new List<BlobContents>();
+            blobContentIterable.Add(blobContents);
+
+            blobReader.Setup(x => x.GetEnumerator()).Returns(blobContentIterable.GetEnumerator());
+            _blobStorageClientMock.Setup(x => x.GetReader(It.IsNotNull<string>(), It.IsAny<DateTime?>()))
+                .ReturnsAsync(blobReader.Object);
             var alertsList = await alertsRepository.LoadLatestAlertHistoryAsync(minTime, 5);
             Assert.NotNull(alertsList);
             Assert.NotEmpty(alertsList);
