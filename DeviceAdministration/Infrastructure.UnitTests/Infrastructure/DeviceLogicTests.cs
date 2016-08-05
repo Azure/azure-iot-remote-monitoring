@@ -46,14 +46,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void GetDevicesTest()
         {
-            var q = fixture.Create<DeviceListQuery>();
-            var r = fixture.Create<DeviceListQueryResult>();
+            var query = fixture.Create<DeviceListQuery>();
+            var result = fixture.Create<DeviceListQueryResult>();
             _deviceRegistryListRepositoryMock.SetupSequence(x => x.GetDeviceList(It.IsAny<DeviceListQuery>()))
-                .ReturnsAsync(r)
+                .ReturnsAsync(result)
                 .ReturnsAsync(new DeviceListQueryResult());
 
 
-            var res = await _deviceLogic.GetDevices(q);
+            var res = await _deviceLogic.GetDevices(query);
             Assert.NotNull(res);
             Assert.NotNull(res.Results);
             Assert.NotEqual(0, res.TotalDeviceCount);
