@@ -134,6 +134,7 @@
     <Compile Include="Infrastructure\ActionLogicTest.cs" />
     <Compile Include="Infrastructure\ActionMappingRepositoryTest.cs" />
     <Compile Include="Infrastructure\AlertsRepositoryTests.cs" />
+    <Compile Include="Infrastructure\ApiRegistrationRepositoryTest.cs" />
     <Compile Include="Infrastructure\CommandParameterTypeLogicTests.cs" />
     <Compile Include="Common\ExceptionSerializationTests.cs" />
     <Compile Include="Infrastructure\DeviceLogicTests.cs" />
