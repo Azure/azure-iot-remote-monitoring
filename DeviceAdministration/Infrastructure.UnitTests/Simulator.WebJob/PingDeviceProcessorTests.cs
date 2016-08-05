@@ -13,20 +13,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class PingDeviceProcessorTests
     {
-        private readonly Mock<ILogger> _loggerMock;
-        private readonly Mock<ITransportFactory> _transportFactory;
-        private readonly Mock<ITelemetryFactory> _telemetryFactoryMock;
-        private readonly Mock<IConfigurationProvider> _configurationProviderMock;
-        private readonly IDevice _deviceBase;
+        private readonly Mock<IDevice> _deviceBase;
+        private PingDeviceProcessor _pingDeviceProcessor;
         public PingDeviceProcessorTests()
         {
-            _loggerMock = new Mock<ILogger>();
-            _transportFactory = new Mock<ITransportFactory>();
-            _telemetryFactoryMock = new Mock<ITelemetryFactory>();
-            _configurationProviderMock = new Mock<IConfigurationProvider>();
 
-            _deviceBase = new DeviceBase(_loggerMock.Object, _transportFactory.Object, _telemetryFactoryMock.Object,
-                _configurationProviderMock.Object);
+            _deviceBase = new Mock<IDevice>();
+            _pingDeviceProcessor = new PingDeviceProcessor(_deviceBase.Object);
         }
 
         [Fact]
@@ -34,7 +27,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var history = new CommandHistory("CommandShouldNotComplete");
             var command = new DeserializableCommand(history, "LockToken");
-            var processor = new PingDeviceProcessor(_deviceBase);
+            var processor = new PingDeviceProcessor(_deviceBase.Object);
 
             var r = await processor.HandleCommandAsync(command);
             Assert.Equal(r, CommandProcessingResult.CannotComplete);
@@ -45,7 +38,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var history = new CommandHistory("PingDevice");
             var command = new DeserializableCommand(history, "LockToken");
-            var processor = new PingDeviceProcessor(_deviceBase);
+            var processor = new PingDeviceProcessor(_deviceBase.Object);
 
             var r = await processor.HandleCommandAsync(command);
             Assert.Equal(r, CommandProcessingResult.Success);
