@@ -11,7 +11,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// <summary>
     /// Testable logic for filtering devices in DocDB
     /// </summary>
-    internal static class FilterHelper
+    public static class FilterHelper
     {
         /// <summary>
         /// Filters the device list with the supplied filters

@@ -38,7 +38,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             List<ActionMapping> existingMappings = existingResults.ActionMappings;
 
             // look for the new mapping
-            var ruleoutput = m.RuleOutput;
             ActionMapping found = existingMappings.FirstOrDefault(a => a.RuleOutput.ToLower() == m.RuleOutput.ToLower());
 
             if (found == null)
