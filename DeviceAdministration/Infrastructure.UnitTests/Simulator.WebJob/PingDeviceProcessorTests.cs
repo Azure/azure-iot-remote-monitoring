@@ -17,7 +17,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private PingDeviceProcessor _pingDeviceProcessor;
         public PingDeviceProcessorTests()
         {
-
             _deviceBase = new Mock<IDevice>();
             _pingDeviceProcessor = new PingDeviceProcessor(_deviceBase.Object);
         }
@@ -28,8 +27,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var history = new CommandHistory("CommandShouldNotComplete");
             var command = new DeserializableCommand(history, "LockToken");
     
-            var r = await _pingDeviceProcessor
-                .HandleCommandAsync(command);
+            var r = await _pingDeviceProcessor.HandleCommandAsync(command);
             Assert.Equal(r, CommandProcessingResult.CannotComplete);
         }
 
