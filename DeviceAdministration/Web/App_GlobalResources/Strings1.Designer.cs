@@ -215,20 +215,29 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have already connected to an cellular API provider. You can only have one connection at a time. If you would like to create a new one then you need to delete the current provider connection. The provider you have selected is:.
+        ///   Looks up a localized string similar to http://microsoft.com.
         /// </summary>
-        public static string ApiAmendmentDescription {
+        public static string ApiProviderGenericHelpUrl {
             get {
-                return ResourceManager.GetString("ApiAmendmentDescription", resourceCulture);
+                return ResourceManager.GetString("ApiProviderGenericHelpUrl", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To edit click &apos;Edit&apos;. Do remove this connection click &apos;Delete&apos;.
+        ///   Looks up a localized string similar to API Provider.
         /// </summary>
-        public static string ApiAmendmentInstruction {
+        public static string ApiProviderLabel {
             get {
-                return ResourceManager.GetString("ApiAmendmentInstruction", resourceCulture);
+                return ResourceManager.GetString("ApiProviderLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have already connected to an cellular API provider. You can only have one connection at a time. If you would like to create a new one then you need to edit the current provider connection and swap. The provider you have selected is:.
+        /// </summary>
+        public static string ApiProviderSwapDescription {
+            get {
+                return ResourceManager.GetString("ApiProviderSwapDescription", resourceCulture);
             }
         }
         

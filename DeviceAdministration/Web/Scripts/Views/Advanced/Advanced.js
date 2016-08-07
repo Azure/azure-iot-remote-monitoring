@@ -6,6 +6,9 @@
     var subheadId;
 
     function disableAllInput() {
+        $("select").each(function () {
+            $("#" + this.id).prop("disabled", true);
+        });
         $("input[type=text]").each(function () {
             $("#" + this.id).prop("disabled", true);
         });
@@ -15,6 +18,9 @@
     }
 
     function enableAllInput() {
+        $("select").each(function () {
+            $("#" + this.id).prop("disabled", false);
+        });
         $("input[type=text]").each(function () {
             $("#" + this.id).prop("disabled", false);
         });
@@ -24,6 +30,9 @@
     }
 
     function clearValidation() {
+        $("select").each(function () {
+            $("#" + this.id + "Required").hide();
+        });
         $("input[type=text]").each(function () {
             $("#" + this.id + "Required").hide();
         });
@@ -45,6 +54,12 @@
 
     function validateAllInput() {
         var valOk = true;
+        $("select").each(function () {
+            if (!$("#" + this.id).val()) {
+                $("#" + this.id + "Required").show();
+                valOk = false;
+            }
+        });
         $("input[type=text]").each(function () {
             if (!$("#" + this.id).val()) {
                 $("#" + this.id + "Required").show();
@@ -70,6 +85,7 @@
 
     var initSubView = function initSubView(config) {
         $(subheadId).text(config.subheadContent);
+        // configure the back button
         if (config.goBackUrl) {
             $(backButtonId).show();
             $(backButtonId).off('click').click(function () {
@@ -78,20 +94,38 @@
         } else {
             $(backButtonId).hide();
         }
+        
+        // configure the selected provider dropdown
+        debugger
+        if (config.selectedProvider) {
+            var providerSelectElement = $('#apiProvider');          
+            var selectedOptionElement = providerSelectElement.find('option[value="' + config.selectedProvider + '"]');
+            if (selectedOptionElement.length > 0) {
+                // if selectedProvider select option found select it and disable the input
+                selectedOptionElement.attr('selected', 'selected');
+                providerSelectElement.attr('disabled', 'disabled');
+            }
+            else {
+                // select the default option if selectedProvider did not mach any of the options
+                providerSelectElement.find('option[value=""]').attr('selected', 'selected');
+            }
+        }
     };
 
     var redirecToPartial = function redirecToPartial(partialUrl) {
         $(contentId).load(partialUrl);
     }
 
-    var initRegistration = function() {
+    var initRegistration = function (config) {
         // set up page
-        if (!checkIfPageHasInputAlready()) {
-            disableAllInput();
-        }
         $(document).tooltip();
 
-        $("#saveButton").prop("disabled", true);
+        if (config.selectedProvider) {
+            $("#saveButton").prop("disabled", true);
+        }
+        else {
+            $("#editButton").prop("disabled", true);
+        }
 
         $("#saveButton").bind("click", function () {
 

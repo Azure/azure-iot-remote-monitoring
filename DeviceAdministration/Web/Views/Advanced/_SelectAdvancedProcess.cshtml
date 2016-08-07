@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.ApiRegistrationModel
 
@@ -10,21 +11,9 @@
             {
                 <p class="select_advanced_process_description">
                     @Strings.ApiRegistrationDescription
-                </p>
+                </p>            
                 <p>
-                    <div class="form-group">
-                        <select class="form-control" id="apiRegistrationApiSelection">
-                            <option value="">@Strings.ApiRegistrationSelectOptionInitial</option>
-                            <option value="Jasper">@Strings.ApiRegistrationSelectOptionJasper</option>
-                            <option value="Ericsson">@Strings.ApiRegistrationSelectOptionEricsson</option>
-                        </select>
-                        <div class="api_check_field" id="apiRegistrationApiSelectionRequired">
-                            @Strings.RequiredValue
-                        </div>
-                    </div>
-                </p>
-                <p>
-                    <button class="add_new_button" type="submit" id="apiRegistrationButton">
+                    <button class="add_new_button" type="submit" id="apiRegistrationCreateButton">
                         @Strings.Create
                     </button>
                 </p>
@@ -32,30 +21,18 @@
             else
             {
                 <p class="select_advanced_process_description">
-                    @Strings.ApiAmendmentDescription
+                    @Strings.ApiProviderSwapDescription
                 </p>
-                <p class="select_advanced_process_description">
-                    @switch (Model.ApiRegistrationProvider)
-                    {
-                        case ApiRegistrationProviderType.Jasper:
-                            <storng>@Strings.ApiRegistrationSelectOptionJasper</storng>
-                            break;
-                        case ApiRegistrationProviderType.Ericsson:
-                            <storng>@Strings.ApiRegistrationSelectOptionEricsson</storng>
-                            break;
-                    }
+                <p>
+                    @Model.ApiRegistrationProvider.ToString()
                 </p>
-                @Html.HiddenFor(model => model.ApiRegistrationProvider)
                 <p>
                     <fieldset class="fieldset_button">
                         <button class="button_base edit_button" type="submit" id="apiRegistrationEditButton">
                             @Strings.Edit
                         </button>
-                        <button class="button_base edit_button" type="submit" id="apiRegistrationDeleteButton">
-                            @Strings.Delete
-                        </button>
                     </fieldset>
-</p>
+                </p>
             }
 
         </li>
@@ -79,43 +56,19 @@
             'use strict';
             var config = {
                 subheadContent: '',
-                goBackUrl: ''
+                goBackUrl: '',
+                selectedProvider: '@Html.JavaScriptString(Model.ApiRegistrationProvider.ToString())'
             };
-
-            var validateApiProviderFields = function () {
-                var valOk = true;
-                $("#apiRegistrationApiSelection").each(function () {
-                    if (!$("#" + this.id).val()) {
-                        $("#" + this.id + "Required").show();
-                        valOk = false;
-                    }
-                });
-                return valOk;
-            }
 
             IoTApp.Advanced.initSubView(config);
 
-            $('#apiRegistrationButton').click(function () {
-                var providerSelectFieldId = "#apiRegistrationApiSelection";
-                $(providerSelectFieldId + "Required").hide();
-                var selectedProvider = $(providerSelectFieldId).val();
-                if (!selectedProvider) {
-                    $(providerSelectFieldId + "Required").show();
-                    return;
-                }
-                redirectToApiRegistration(selectedProvider);
+            $('#apiRegistrationCreateButton').click(function () {
+                IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistration")');
             });
 
+            @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
             $('#apiRegistrationEditButton').click(function () {
-                var selectedProvider = $("#ApiRegistrationProvider").val();
-                redirectToApiRegistration(selectedProvider);
-            });
-
-            $("#apiRegistrationDeleteButton").bind("click", function () {
-                $.post('/Advanced/DeleteRegistration', { }, function (response) {
-
-                    location.reload();
-                });
+                IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistration")');
             });
 
             $('#deviceAssociationButton').click(
@@ -123,24 +76,6 @@
                     IoTApp.Advanced.redirecToPartial('@Url.Action("DeviceAssociation")');
                 }
             );
-
-          
-
-            function redirectToApiRegistration(selectedProvider) {
-                switch (selectedProvider) {
-                    case 'Jasper': {
-                        IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistrationJasper")');
-                        break;
-                    }
-                    case 'Ericsson': {
-                        IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistrationEricsson")');
-                        break;
-                    }
-                    default:
-                        throw 'Selected provider ' + selectedProvider + ' is not supported';
-                        break;
-                }
-            }
         }
     );
 </script>

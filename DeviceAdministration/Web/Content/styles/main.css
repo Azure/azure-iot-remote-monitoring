@@ -1467,7 +1467,7 @@ table#alertHistoryTable tr.selectedAlert {
 .registration_content p {
   margin: 0.4em 0 0.85em 0;
 }
-.registration_textbox {
+.registration_textbox, .registration_select {
   margin: 15px 0;
 }
 .api_save_registration_failed {
@@ -1584,7 +1584,7 @@ table#alertHistoryTable tr.selectedAlert {
   font-size: 1em;
   clear: both;
 }
-.jasper_help_link, .ericsson_help_link {
+api_registration_help_link {
   width: 50%;
   height: 100%;
   float: left;

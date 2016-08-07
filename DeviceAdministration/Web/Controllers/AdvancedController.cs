@@ -45,24 +45,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return PartialView("_SelectAdvancedProcess", registrationModel);
         }
 
-        public PartialViewResult ApiRegistrationJasper()
+        public PartialViewResult ApiRegistration()
         {
             var registrationModel = _apiRegistrationRepository.RecieveDetails();
-            if(registrationModel.ApiRegistrationProvider == null)
-            {
-                registrationModel.ApiRegistrationProvider = ApiRegistrationProviderType.Jasper;
-            }
-            return PartialView("_ApiRegistrationJasper", registrationModel);
-        }
-
-        public PartialViewResult ApiRegistrationEricsson()
-        {
-            var registrationModel = _apiRegistrationRepository.RecieveDetails();
-            if (registrationModel.ApiRegistrationProvider == null)
-            {
-                registrationModel.ApiRegistrationProvider = ApiRegistrationProviderType.Ericsson;
-            }
-            return PartialView("_ApiRegistrationEricsson", registrationModel);
+            return PartialView("_ApiRegistration", registrationModel);
         }
 
         public async Task<PartialViewResult> DeviceAssociation()
@@ -119,14 +105,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public bool SaveRegistration(ApiRegistrationModel apiModel)
         {
-            _apiRegistrationRepository.AmendRegistration(apiModel);
-            var registrationModel = _apiRegistrationRepository.RecieveDetails();
+            try
+            {
+                _apiRegistrationRepository.AmendRegistration(apiModel);
+                var registrationModel = _apiRegistrationRepository.RecieveDetails();
 
-            var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.ApiRegistrationProvider.Value.ConvertToExternalEnum());
-            if (!credentialsAreValid)
+                //var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.ApiRegistrationProvider.ConvertToExternalEnum());
+                //if (!credentialsAreValid)
+                //{
+                //    _apiRegistrationRepository.DeleteApiDetails();
+                //}
+            }
+            catch (Exception ex)
             {
                 _apiRegistrationRepository.DeleteApiDetails();
+                return false;
             }
+
 
             return true;
         }

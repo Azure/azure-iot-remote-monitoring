@@ -31,7 +31,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     Username = apiRegistrationModel.Username,
                     LicenceKey = apiRegistrationModel.LicenceKey,
                     ApiRegistrationProviderType = ApiRegistrationTableEntity
-                                                    .ConvertApiProviderTypeToInt(apiRegistrationModel.ApiRegistrationProvider.Value)
+                                                    .ConvertApiProviderTypeToInt(apiRegistrationModel.ApiRegistrationProvider)
             };
 
                 _table.Execute(TableOperation.InsertOrMerge(incomingEntity));

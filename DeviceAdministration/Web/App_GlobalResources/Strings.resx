@@ -1689,15 +1689,20 @@
   <data name="EricssonHelpLink" xml:space="preserve">
     <value>https://www.ericsson.com/microsoft-iot</value>
   </data>
-  <data name="ApiAmendmentDescription" xml:space="preserve">
-    <value>You have already connected to an cellular API provider. You can only have one connection at a time. If you would like to create a new one then you need to delete the current provider connection. The provider you have selected is:</value>
+  <data name="ApiProviderSwapDescription" xml:space="preserve">
+    <value>You have already connected to an cellular API provider. You can only have one connection at a time. If you would like to create a new one then you need to edit the current provider connection and swap. The provider you have selected is:</value>
     <comment>Message for user</comment>
-  </data>
-  <data name="ApiAmendmentInstruction" xml:space="preserve">
-    <value>To edit click 'Edit'. Do remove this connection click 'Delete'</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
     <comment>Button label</comment>
+  </data>
+  <data name="ApiProviderGenericHelpUrl" xml:space="preserve">
+    <value>http://microsoft.com</value>
+    <comment>Help link url</comment>
+  </data>
+  <data name="ApiProviderLabel" xml:space="preserve">
+    <value>API Provider</value>
+    <comment>Input label</comment>
   </data>
 </root>

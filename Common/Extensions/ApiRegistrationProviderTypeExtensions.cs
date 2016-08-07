@@ -9,8 +9,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
 {
     public static class ApiRegistrationProviderTypeExtensions
     {
-        public static DeviceManagement.Infrustructure.Connectivity.Models.Enums.ApiRegistrationProviderType ConvertToExternalEnum(this ApiRegistrationProviderType providerType)
+        public static DeviceManagement.Infrustructure.Connectivity.Models.Enums.ApiRegistrationProviderType ConvertToExternalEnum(this ApiRegistrationProviderType? providerType)
         {
+            if (!providerType.HasValue) throw new IndexOutOfRangeException($"Could not convert {providerType}.");
             switch (providerType)
             {
                 case ApiRegistrationProviderType.Jasper:
@@ -26,8 +27,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
             }
         }
 
-        public static ApiRegistrationProviderType ConvertFromExternalEnum(this DeviceManagement.Infrustructure.Connectivity.Models.Enums.ApiRegistrationProviderType providerType)
+        public static ApiRegistrationProviderType? ConvertFromExternalEnum(this DeviceManagement.Infrustructure.Connectivity.Models.Enums.ApiRegistrationProviderType? providerType)
         {
+            if (!providerType.HasValue) throw new IndexOutOfRangeException($"Could not convert {providerType}.");
             switch (providerType)
             {
                 case DeviceManagement.Infrustructure.Connectivity.Models.Enums.ApiRegistrationProviderType.Jasper:

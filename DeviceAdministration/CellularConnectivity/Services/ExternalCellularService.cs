@@ -16,8 +16,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
     {
         private readonly ICredentialProvider _credentialProvider;
         private readonly IJasperCellularService _jasperCellularService;
-        private const string CellularInvalidCreds = "400200";
-        private const string CellularInvalidLicense = "400100";
 
         public ExternalCellularService(
             IJasperCellularService jasperCellularService,
@@ -37,6 +35,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                     break;
                 case Models.Enums.ApiRegistrationProviderType.Ericsson:
                     //TODO call ericsson service
+
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider.ToString()}' provider");

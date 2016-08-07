@@ -605,12 +605,11 @@
     <Content Include="Views\Advanced\CellularConn.cshtml" />
     <Content Include="Views\Advanced\HealthBeat.cshtml" />
     <Content Include="Views\Advanced\LogicApps.cshtml" />
-    <Content Include="Views\Advanced\_ApiRegistrationJasper.cshtml" />
+    <Content Include="Views\Advanced\_ApiRegistration.cshtml" />
     <Content Include="Views\Advanced\_DeviceAssociation.cshtml" />
     <Content Include="Views\Advanced\_SelectAdvancedProcess.cshtml" />
     <Content Include="Views\Shared\_NavigationSubmenu.cshtml" />
     <Content Include="Views\Advanced\_IccidAssociation.cshtml" />
-    <Content Include="Views\Advanced\_ApiRegistrationEricsson.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
