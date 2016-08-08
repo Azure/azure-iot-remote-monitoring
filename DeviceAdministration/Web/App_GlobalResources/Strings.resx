@@ -1705,4 +1705,20 @@
     <value>API Provider</value>
     <comment>Input label</comment>
   </data>
+  <data name="ChangeApiProvider" xml:space="preserve">
+    <value>Change API Provider</value>
+    <comment>Button label</comment>
+  </data>
+  <data name="ApiProviderWarningLabel" xml:space="preserve">
+    <value>If you change your provider this will disassociate any connected devices and the current API registration. To change provider click "Change API Provider" below.</value>
+    <comment>Warning label</comment>
+  </data>
+  <data name="ApiProviderWarningPopupInitial" xml:space="preserve">
+    <value>Are you sure you want to change provider? This will disasociate and connected devices and delete your existing connection.</value>
+    <comment>Popup message</comment>
+  </data>
+  <data name="ApiProviderWarningPopupOnSave" xml:space="preserve">
+    <value>You are about to change API providers. This will remove your current association as you can only have one at a time. Are you sure you want to do this?</value>
+    <comment>Popup message</comment>
+  </data>
 </root>

@@ -242,6 +242,33 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If you change your provider this will disassociate any connected devices and the current API registration. To change provider click &quot;Change API Provider&quot; below..
+        /// </summary>
+        public static string ApiProviderWarningLabel {
+            get {
+                return ResourceManager.GetString("ApiProviderWarningLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to change provider? This will disasociate and connected devices and delete your existing connection..
+        /// </summary>
+        public static string ApiProviderWarningPopupInitial {
+            get {
+                return ResourceManager.GetString("ApiProviderWarningPopupInitial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are about to change API providers. This will remove your current association as you can only have one at a time. Are you sure you want to do this?.
+        /// </summary>
+        public static string ApiProviderWarningPopupOnSave {
+            get {
+                return ResourceManager.GetString("ApiProviderWarningPopupOnSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cellular API Registration.
         /// </summary>
         public static string ApiRegistration {
@@ -571,6 +598,15 @@ namespace GlobalResources {
         public static string CellularInvalidCreds {
             get {
                 return ResourceManager.GetString("CellularInvalidCreds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change API Provider.
+        /// </summary>
+        public static string ChangeApiProvider {
+            get {
+                return ResourceManager.GetString("ChangeApiProvider", resourceCulture);
             }
         }
         

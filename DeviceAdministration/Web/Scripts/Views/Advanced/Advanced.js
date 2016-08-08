@@ -96,20 +96,7 @@
         }
         
         // configure the selected provider dropdown
-        debugger
-        if (config.selectedProvider) {
-            var providerSelectElement = $('#apiProvider');          
-            var selectedOptionElement = providerSelectElement.find('option[value="' + config.selectedProvider + '"]');
-            if (selectedOptionElement.length > 0) {
-                // if selectedProvider select option found select it and disable the input
-                selectedOptionElement.attr('selected', 'selected');
-                providerSelectElement.attr('disabled', 'disabled');
-            }
-            else {
-                // select the default option if selectedProvider did not mach any of the options
-                providerSelectElement.find('option[value=""]').attr('selected', 'selected');
-            }
-        }
+        selectApiProvider(config.apiRegistrationProvider);
     };
 
     var redirecToPartial = function redirecToPartial(partialUrl) {
@@ -120,14 +107,26 @@
         // set up page
         $(document).tooltip();
 
-        if (config.selectedProvider) {
-            $("#saveButton").prop("disabled", true);
+        if (config.apiRegistrationProvider) {
+            $("#saveButton").prop("disabled", false);
+            $("#editButton").prop("disabled", true);
         }
         else {
             $("#editButton").prop("disabled", true);
         }
 
         $("#saveButton").bind("click", function () {
+            var apiProvider = $.trim($("#apiRegistrationProvider").val())
+            var providerHasChanged = apiProvider && apiProvider !== config.apiRegistrationProvider;
+            var confirmSave = !providerHasChanged;          
+            debugger
+            // if the provider is set and has changed then show warning message
+            if (providerHasChanged) {
+                confirmSave = confirm(config.apiProviderChangeWarningMessageOnSave);
+            }
+
+            // if not confirmed then bail
+            if (!confirmSave) return;
 
             clearValidation();
             if (!validateAllInput()) {
@@ -139,17 +138,19 @@
                 LicenceKey: $.trim($("#LicenceKey").val()),
                 Username: $.trim($("#Username").val()),
                 Password: $.trim($("#Password").val()),
-                ApiRegistrationProvider: $.trim($("#ApiRegistrationProvider").val())
+                apiRegistrationProvider: $.trim($("#apiRegistrationProvider").val())
             }
 
             $.post('/Advanced/SaveRegistration', { apiModel: registrationModel }, function(response) {
 
                 if (response === "True") {
+                    selectApiProvider(config.apiRegistrationProvider);
                     $("#registrationFailed").hide();
                     $("#registrationPassed").show();
                     $("#saveButton").prop("disabled", true);
                     $("#editButton").prop("disabled", false);
                     disableAllInput();
+                    config.apiRegistrationProvider = registrationModel.apiRegistrationProvider;
                 } else {
                     $("#registrationPassed").hide();
                     $("#registrationFailed").show();
@@ -158,9 +159,15 @@
         });
 
         $("#editButton").bind("click", function () {
-            enableAllInput();
-            $("#saveButton").prop("disabled", false);
-            $("#editButton").prop("disabled", true);
+            enableApiRegistrationEdit(config.apiRegistrationProvider, false);
+        });
+
+        $("#changeApiRegistrationProviderButton").bind("click", function () {
+            var confirmed = confirm(config.apiProviderChangeWarningMessageInitial);
+            if(confirmed){
+                $('#apiRegistrationProvider').prop("disabled", false)
+                enableApiRegistrationEdit(config.apiRegistrationProvider, true);
+            }
         });
     }
 
@@ -186,6 +193,31 @@
         });
 
         $("#associateSucceeded").hide();
+    }
+
+    var selectApiProvider = function(providerName, changeProvider){
+        if (providerName) {
+            var providerSelectElement = $('#apiRegistrationProvider');
+            var selectedOptionElement = providerSelectElement.find('option[value="' + providerName + '"]');
+            if (selectedOptionElement.length > 0) {
+                // if apiRegistrationProvider select option found select it and disable the input
+                selectedOptionElement.attr('selected', 'selected');
+                if (!changeProvider) {
+                    providerSelectElement.attr('disabled', 'disabled');
+                }               
+            }
+            else {
+                // select the default option if apiRegistrationProvider did not mach any of the options
+                providerSelectElement.find('option[value=""]').attr('selected', 'selected');
+            }
+        }
+    }
+
+    var enableApiRegistrationEdit = function (apiRegistrationProvider, changeProvider) {
+        enableAllInput();
+        selectApiProvider(apiRegistrationProvider, changeProvider);
+        $("#saveButton").prop("disabled", false);
+        $("#editButton").prop("disabled", true);
     }
 
     return {

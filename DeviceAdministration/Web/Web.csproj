@@ -378,7 +378,12 @@
     <Content Include="Content\img\sort_both.png" />
     <Content Include="Content\img\sort_desc.png" />
     <Content Include="Content\img\sort_desc_disabled.png" />
-    <Content Include="Content\styles\main.css" />
+    <Content Include="Content\styles\main.css">
+      <DependentUpon>main.less</DependentUpon>
+    </Content>
+    <Content Include="Content\styles\main.min.css">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
     <Content Include="Content\styles\visuals.min.css" />
     <Content Include="Content\styles\bootstrap\dropdowns.less" />
     <Content Include="Content\styles\bootstrap\bootstrap.less" />
@@ -421,6 +426,10 @@
     <Content Include="Content\styles\bootstrap\mixins\text-emphasis.less" />
     <Content Include="Content\styles\bootstrap\mixins\text-overflow.less" />
     <Content Include="Content\styles\bootstrap\mixins\vendor-prefixes.less" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />

@@ -10,16 +10,19 @@
             <h2 class="registration_description">@Strings.ApiProviderLabel</h2>
             <fieldset class="registration_select">
                 <div class="form-group">
-                    <select class="api_input" id="ApiRegistrationProvider">
+                    <select class="api_input" id="apiRegistrationProvider">
                         <option value="">@Strings.ApiRegistrationSelectOptionInitial</option>
                         <option value="Jasper">@Strings.ApiRegistrationSelectOptionJasper</option>
                         <option value="Ericsson">@Strings.ApiRegistrationSelectOptionEricsson</option>
                     </select>
-                    <div class="api_check_field" id="ApiRegistrationProviderRequired">
+                    <div class="api_check_field" id="apiRegistrationProviderRequired">
                         @Strings.RequiredValue
                     </div>
                 </div>
-            </fieldset>
+            </fieldset>           
+            <p class="api_warning_label">
+                @Strings.ApiProviderWarningLabel
+            </p>
             <h2 class="registration_description">@Strings.BaseUrlLabel</h2>
             <div>
                 @Html.TextBoxFor(model => model.BaseUrl, new { id = "BaseUrl", title = Strings.BaseUrlToolTip, @class = "api_input" })
@@ -66,6 +69,7 @@
     <fieldset class="fieldset_button">
         <button id="editButton" class="button_base registration_edit_input" type="button">@Strings.Edit</button>
         <button id="saveButton" class="button_base registration_save_input" type="button">@Strings.Save</button>
+        <button id="changeApiRegistrationProviderButton" class="button_base registration_change_provder_input" type="button">@Strings.ChangeApiProvider</button>
     </fieldset>
     <div class="api_save_registration_failed" id="registrationFailed">
         @Strings.ApiRegistrationFailed
@@ -102,12 +106,14 @@
 <script type="text/javascript">
     $(window).ready(
         function () {
-        'use strict';
-        var config = {
-                    subheadContent: '@Html.JavaScriptString(Strings.ApiRegistrationTitleJasper)',
-                    goBackUrl: '@Url.Action("SelectAdvancedProcess")',
-                    selectedProvider: '@Html.JavaScriptString(Model.ApiRegistrationProvider.ToString())'
-                };
+            'use strict';
+            var config = {
+                subheadContent: '@Html.JavaScriptString(Strings.ApiRegistrationTitleJasper)',
+                goBackUrl: '@Url.Action("SelectAdvancedProcess")',
+                apiRegistrationProvider: '@Html.JavaScriptString(Model.ApiRegistrationProvider.ToString())',
+                apiProviderChangeWarningMessageInitial: '@Html.JavaScriptString(Strings.ApiProviderWarningPopupInitial)',
+                apiProviderChangeWarningMessageOnSave: '@Html.JavaScriptString(Strings.ApiProviderWarningPopupOnSave)'
+            };
             IoTApp.Advanced.initSubView(config);
             IoTApp.Advanced.initRegistration(config);
         }
