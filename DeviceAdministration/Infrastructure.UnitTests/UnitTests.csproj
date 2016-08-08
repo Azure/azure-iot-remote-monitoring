@@ -212,7 +212,8 @@
     <Compile Include="Common\SampleDataGeneratorTests.cs" />
     <Compile Include="Simulator.WebJob\DeviceBaseTests.cs" />
     <Compile Include="Simulator.WebJob\PingDeviceProcessorTests.cs" />
-    <Compile Include="TestStubs\AlertHistoryBlobReaderStub.cs" />
+    <Compile Include="Simulator.WebJob\StartCommandProcessorTests.cs" />
+    <Compile Include="Simulator.WebJob\StopCommandProcessorTests.cs" />
     <Compile Include="TestStubs\HttpMessageHandlerStub.cs" />
     <Compile Include="TestStubs\RandomGeneratorStub.cs" />
     <Compile Include="Web\Controllers\AdvancedControllerTests.cs" />
