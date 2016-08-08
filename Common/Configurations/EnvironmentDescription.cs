@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Xml;
 using System.Xml.XPath;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations
 {
@@ -71,7 +71,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
             {
                 if (errorOnNull)
                 {
-                    throw new ArgumentException("{0} was not found".FormatInvariant(settingName));
+                    var message = string.Format(CultureInfo.InvariantCulture, "{0} was not found", settingName);
+                    throw new ArgumentException(message);
                 }
             }
             return result;
@@ -79,7 +80,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
 
         XmlNode GetSettingNode(string settingName)
         {
-            string xpath = SettingXpath.FormatInvariant(settingName);
+            string xpath = string.Format(CultureInfo.InvariantCulture, SettingXpath, settingName);
             return this.document.SelectSingleNode(xpath);
         }
     }
