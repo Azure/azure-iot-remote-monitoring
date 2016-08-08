@@ -19,6 +19,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             get { return _commandHistory.Name; }
         }
 
+        public DeserializableCommand(CommandHistory history, string lockToken)
+        {
+           this._commandHistory = history;
+           this._lockToken = lockToken;
+        }
+
         public DeserializableCommand(Client.Message message, ISerialize serializer)
         {
             if (message == null)
