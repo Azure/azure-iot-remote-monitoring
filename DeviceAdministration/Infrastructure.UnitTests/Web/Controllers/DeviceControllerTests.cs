@@ -21,40 +21,37 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class DeviceControllerTests
     {
-        private readonly Mock<IApiRegistrationRepository> apiRegistrationRepository;
-        private readonly Mock<ICellularExtensions> cellulerExtensionsMock;
-        private readonly DeviceController deviceController;
-        private readonly Mock<IDeviceLogic> deviceLogicMock;
-        private readonly Fixture fixture;
+        private readonly Mock<IApiRegistrationRepository> _apiRegistrationRepository;
+        private readonly Mock<ICellularExtensions> _cellulerExtensionsMock;
+        private readonly DeviceController _deviceController;
+        private readonly Mock<IDeviceLogic> _deviceLogicMock;
+        private readonly Fixture _fixture;
 
         public DeviceControllerTests()
         {
-            deviceLogicMock = new Mock<IDeviceLogic>();
-            IDeviceTypeLogic deviceTypeLogic = new DeviceTypeLogic(new SampleDeviceTypeRepository());
+            _deviceLogicMock = new Mock<IDeviceLogic>();
+            _cellulerExtensionsMock = new Mock<ICellularExtensions>();
+            _apiRegistrationRepository = new Mock<IApiRegistrationRepository>();
+
             var configProviderMock = new Mock<IConfigurationProvider>();
-            cellulerExtensionsMock = new Mock<ICellularExtensions>();
-            apiRegistrationRepository = new Mock<IApiRegistrationRepository>();
+            configProviderMock
+                .Setup(mock => mock.GetConfigurationSettingValue(("iotHub.HostName")))
+                .Returns("hubName");
 
-            configProviderMock.Setup(mock => mock.GetConfigurationSettingValue(("iotHub.HostName"))).Returns("hubName");
-            deviceController = new DeviceController(deviceLogicMock.Object,
-                deviceTypeLogic,
+            _deviceController = new DeviceController(
+                _deviceLogicMock.Object,
+                new DeviceTypeLogic(new SampleDeviceTypeRepository()),
                 configProviderMock.Object,
-                apiRegistrationRepository.Object,
-                cellulerExtensionsMock.Object);
+                _apiRegistrationRepository.Object,
+                _cellulerExtensionsMock.Object);
 
-            fixture = new Fixture();
-        }
-
-        [Fact]
-        public void IndexTest()
-        {
-            var result = deviceController.Index();
+            _fixture = new Fixture();
         }
 
         [Fact]
         public async void AddDeviceTestTest()
         {
-            var result = await deviceController.AddDevice();
+            var result = await _deviceController.AddDevice();
             var viewResult = result as ViewResult;
             var model = viewResult.Model as List<DeviceType>;
             Assert.Equal(model.Count, 2);
@@ -64,16 +61,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void SelectTypeTest()
         {
-            var deviceType = fixture.Create<DeviceType>();
-            var devices = fixture.Create<DeviceListQueryResult>();
-            var iccids = fixture.Create<List<string>>();
+            var deviceType = _fixture.Create<DeviceType>();
+            var devices = _fixture.Create<DeviceListQueryResult>();
+            var iccids = _fixture.Create<List<string>>();
 
-            apiRegistrationRepository.Setup(repo => repo.IsApiRegisteredInAzure()).Returns(true);
-            deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(devices);
-            cellulerExtensionsMock.Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>()))
+            _apiRegistrationRepository.Setup(repo => repo.IsApiRegisteredInAzure()).Returns(true);
+            _deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(devices);
+            _cellulerExtensionsMock.Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>()))
                 .Returns(iccids);
 
-            var result = await deviceController.SelectType(deviceType);
+            var result = await _deviceController.SelectType(deviceType);
             var viewResult = result as PartialViewResult;
             var model = viewResult.Model as UnregisteredDeviceModel;
             var viewBag = viewResult.ViewBag;
@@ -83,8 +80,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Assert.Equal(viewBag.AvailableIccids, iccids);
 
             //IsApiRegisteredInAzure returns false
-            apiRegistrationRepository.Setup(repo => repo.IsApiRegisteredInAzure()).Returns(false);
-            result = await deviceController.SelectType(deviceType);
+            _apiRegistrationRepository.Setup(repo => repo.IsApiRegisteredInAzure()).Returns(false);
+            result = await _deviceController.SelectType(deviceType);
             viewResult = result as PartialViewResult;
             model = viewResult.Model as UnregisteredDeviceModel;
             viewBag = viewResult.ViewBag;
@@ -93,10 +90,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Assert.False(viewBag.CanHaveIccid);
 
             //GetListOfAvailableIccids throws
-            apiRegistrationRepository.Setup(repo => repo.IsApiRegisteredInAzure()).Returns(true);
-            cellulerExtensionsMock.Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>()))
+            _apiRegistrationRepository.Setup(repo => repo.IsApiRegisteredInAzure()).Returns(true);
+            _cellulerExtensionsMock.Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>()))
                 .Throws(new CellularConnectivityException(new Exception()));
-            result = await deviceController.SelectType(deviceType);
+            result = await _deviceController.SelectType(deviceType);
             viewResult = result as PartialViewResult;
             model = viewResult.Model as UnregisteredDeviceModel;
             viewBag = viewResult.ViewBag;
@@ -108,15 +105,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void AddDeviceCreateTest()
         {
-            var button = fixture.Create<string>();
-            var deviceModel = fixture.Create<UnregisteredDeviceModel>();
-            var devices = fixture.Create<DeviceListQueryResult>();
-            var iccids = fixture.Create<List<string>>();
+            var button = _fixture.Create<string>();
+            var deviceModel = _fixture.Create<UnregisteredDeviceModel>();
+            var devices = _fixture.Create<DeviceListQueryResult>();
+            var iccids = _fixture.Create<List<string>>();
 
-            apiRegistrationRepository.Setup(repo => repo.IsApiRegisteredInAzure()).Returns(true);
-            deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(devices);
-            deviceLogicMock.Setup(mock => mock.GetDeviceAsync(It.IsAny<string>())).ReturnsAsync(new DeviceModel());
-            var result = await deviceController.AddDeviceCreate(button, deviceModel);
+            _apiRegistrationRepository.Setup(repo => repo.IsApiRegisteredInAzure()).Returns(true);
+            _deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(devices);
+            _deviceLogicMock.Setup(mock => mock.GetDeviceAsync(It.IsAny<string>())).ReturnsAsync(new DeviceModel());
+            var result = await _deviceController.AddDeviceCreate(button, deviceModel);
 
             var viewResult = result as PartialViewResult;
             var model = viewResult.Model as UnregisteredDeviceModel;
@@ -128,9 +125,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void EditDevicePropertiesTest()
         {
-            var editModel = fixture.Create<EditDevicePropertiesModel>();
-            deviceLogicMock.Setup(mock => mock.GetDeviceAsync(It.IsAny<string>())).ReturnsAsync(new DeviceModel());
-            var result = await deviceController.EditDeviceProperties(editModel);
+            var editModel = _fixture.Create<EditDevicePropertiesModel>();
+            _deviceLogicMock.Setup(mock => mock.GetDeviceAsync(It.IsAny<string>())).ReturnsAsync(new DeviceModel());
+            var result = await _deviceController.EditDeviceProperties(editModel);
             Assert.NotNull(result);
 
             //TODO: doesn't work
@@ -140,23 +137,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void EditDevicePropertiesWithDeviceIdTest()
         {
-            var deviceId = fixture.Create<string>();
-            var deviceModel = fixture.Create<DeviceModel>();
-            deviceModel.DeviceProperties = fixture.Create<DeviceProperties>();
+            var deviceId = _fixture.Create<string>();
+            var deviceModel = _fixture.Create<DeviceModel>();
+            deviceModel.DeviceProperties = _fixture.Create<DeviceProperties>();
             deviceModel.DeviceProperties.DeviceID = deviceId;
-            var propModel = fixture.Create<IEnumerable<DevicePropertyValueModel>>();
-            deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(deviceModel);
-            deviceLogicMock.Setup(mock => mock.ExtractDevicePropertyValuesModels(deviceModel)).Returns(propModel);
+            var propModel = _fixture.Create<IEnumerable<DevicePropertyValueModel>>();
+            _deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(deviceModel);
+            _deviceLogicMock.Setup(mock => mock.ExtractDevicePropertyValuesModels(deviceModel)).Returns(propModel);
 
-            var result = await deviceController.EditDeviceProperties(deviceId);
+            var result = await _deviceController.EditDeviceProperties(deviceId);
             var view = result as ViewResult;
             var model = view.Model as EditDevicePropertiesModel;
             Assert.NotNull(model.DevicePropertyValueModels);
             Assert.Equal(model.DevicePropertyValueModels.Count, propModel.Count());
 
 
-            deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(null);
-            result = await deviceController.EditDeviceProperties(deviceId);
+            _deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(null);
+            result = await _deviceController.EditDeviceProperties(deviceId);
             view = result as ViewResult;
             model = view.Model as EditDevicePropertiesModel;
             Assert.Equal(model.DevicePropertyValueModels.Count, 0);
@@ -165,13 +162,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void GetDeviceDetailsTest()
         {
-            var deviceId = fixture.Create<string>();
-            var deviceModel = fixture.Create<DeviceModel>();
-            deviceModel.DeviceProperties = fixture.Create<DeviceProperties>();
+            var deviceId = _fixture.Create<string>();
+            var deviceModel = _fixture.Create<DeviceModel>();
+            deviceModel.DeviceProperties = _fixture.Create<DeviceProperties>();
             deviceModel.DeviceProperties.DeviceID = deviceId;
-            deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(deviceModel);
+            _deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(deviceModel);
 
-            var result = await deviceController.GetDeviceDetails(deviceId);
+            var result = await _deviceController.GetDeviceDetails(deviceId);
             var view = result as PartialViewResult;
             var model = view.Model as DeviceDetailModel;
             Assert.Equal(model.DeviceID, deviceId);
@@ -179,17 +176,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Assert.Equal(model.IsCellular, true);
             Assert.Equal(model.Iccid, deviceModel.SystemProperties.ICCID);
 
-            deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(null);
-            await Assert.ThrowsAsync<InvalidOperationException>(() => deviceController.GetDeviceDetails(deviceId));
+            _deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(null);
+            await Assert.ThrowsAsync<InvalidOperationException>(() => _deviceController.GetDeviceDetails(deviceId));
         }
 
         [Fact]
         public async void GetDeviceKeysTest()
         {
-            var keys = fixture.Create<SecurityKeys>();
-            var deviceId = fixture.Create<string>();
-            deviceLogicMock.Setup(mock => mock.GetIoTHubKeysAsync(deviceId)).ReturnsAsync(keys);
-            var keyModel = await deviceController.GetDeviceKeys(deviceId);
+            var keys = _fixture.Create<SecurityKeys>();
+            var deviceId = _fixture.Create<string>();
+            _deviceLogicMock.Setup(mock => mock.GetIoTHubKeysAsync(deviceId)).ReturnsAsync(keys);
+            var keyModel = await _deviceController.GetDeviceKeys(deviceId);
             var viewResult = keyModel as PartialViewResult;
             var model = viewResult.Model as SecurityKeysModel;
             Assert.Equal(model.PrimaryKey, keys.PrimaryKey);
@@ -199,14 +196,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void GetDeviceCellularDetailsTest()
         {
-            var iccId = fixture.Create<string>();
-            var terminalDevice = fixture.Create<Terminal>();
-            var sessionInfo = fixture.Create<List<SessionInfo>>();
-            cellulerExtensionsMock.Setup(mock => mock.GetSingleTerminalDetails(It.IsAny<Iccid>()))
+            var iccId = _fixture.Create<string>();
+            var terminalDevice = _fixture.Create<Terminal>();
+            var sessionInfo = _fixture.Create<List<SessionInfo>>();
+            _cellulerExtensionsMock.Setup(mock => mock.GetSingleTerminalDetails(It.IsAny<Iccid>()))
                 .Returns(terminalDevice);
-            cellulerExtensionsMock.Setup(mock => mock.GetSingleSessionInfo(It.IsAny<Iccid>())).Returns(sessionInfo);
+            _cellulerExtensionsMock.Setup(mock => mock.GetSingleSessionInfo(It.IsAny<Iccid>())).Returns(sessionInfo);
 
-            var result = deviceController.GetDeviceCellularDetails(iccId);
+            var result = _deviceController.GetDeviceCellularDetails(iccId);
             var viewResult = result as PartialViewResult;
             var model = viewResult.Model as SimInformationViewModel;
             Assert.Equal(model.TerminalDevice, terminalDevice);
@@ -216,8 +213,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void RemoveDeviceTest()
         {
-            var deviceID = fixture.Create<string>();
-            var result = deviceController.RemoveDevice(deviceID);
+            var deviceID = _fixture.Create<string>();
+            var result = _deviceController.RemoveDevice(deviceID);
             var viewResult = result as ViewResult;
             var model = viewResult.Model as RegisteredDeviceModel;
             Assert.Equal(model.HostName, "hubName");
@@ -227,10 +224,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void DeleteDeviceTest()
         {
-            var deviceID = fixture.Create<string>();
-            deviceLogicMock.Setup(mock => mock.RemoveDeviceAsync(deviceID)).Returns(Task.FromResult(true));
-            await deviceController.DeleteDevice(deviceID);
-            deviceLogicMock.Verify(mock => mock.RemoveDeviceAsync(deviceID), Times.Once());
+            var deviceID = _fixture.Create<string>();
+            _deviceLogicMock.Setup(mock => mock.RemoveDeviceAsync(deviceID)).Returns(Task.FromResult(true));
+            await _deviceController.DeleteDevice(deviceID);
+            _deviceLogicMock.Verify(mock => mock.RemoveDeviceAsync(deviceID), Times.Once());
         }
     }
 }

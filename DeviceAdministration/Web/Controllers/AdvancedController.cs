@@ -3,27 +3,24 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DeviceManagement.Infrustructure.Connectivity.Exceptions;
-using DeviceManagement.Infrustructure.Connectivity.Services;
 using GlobalResources;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
     public class AdvancedController : Controller
     {
+        private const string CellularInvalidCreds = "400200";
+        private const string CellularInvalidLicense = "400100";
+
         private readonly IApiRegistrationRepository _apiRegistrationRepository;
         private readonly ICellularExtensions _cellularExtensions;
         private readonly IDeviceLogic _deviceLogic;
-        private const string CellularInvalidCreds = "400200";
-        private const string CellularInvalidLicense = "400100";
 
         public AdvancedController(IDeviceLogic deviceLogic,
             IApiRegistrationRepository apiRegistrationRepository,

@@ -6,7 +6,6 @@ using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Newtonsoft.Json;
@@ -93,8 +92,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateRuleEnabledState(EditDeviceRuleModel ruleModel)
         {
-            TableStorageResponse<DeviceRule> response = await _deviceRulesLogic.UpdateDeviceRuleEnabledStateAsync(ruleModel.DeviceID, 
-                ruleModel.RuleId, ruleModel.EnabledState);
+            TableStorageResponse<DeviceRule> response = await _deviceRulesLogic.UpdateDeviceRuleEnabledStateAsync(
+                ruleModel.DeviceID, 
+                ruleModel.RuleId, 
+                ruleModel.EnabledState);
 
             return BuildRuleUpdateResponse(response);
         }
