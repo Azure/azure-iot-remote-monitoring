@@ -17,29 +17,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class DeviceCommandControllerTests
     {
-        private readonly Mock<ICommandParameterTypeLogic> commandParamLogicMock;
-        private readonly DeviceCommandController deviceCommandController;
-        private readonly Mock<IDeviceLogic> deviceLogicMock;
+        private readonly Mock<ICommandParameterTypeLogic> _commandParamLogicMock;
+        private readonly DeviceCommandController _deviceCommandController;
+        private readonly Mock<IDeviceLogic> _deviceLogicMock;
 
         private readonly Fixture fixture;
 
         public DeviceCommandControllerTests()
         {
-            commandParamLogicMock = new Mock<ICommandParameterTypeLogic>();
-            deviceLogicMock = new Mock<IDeviceLogic>();
-            deviceCommandController = new DeviceCommandController(deviceLogicMock.Object, commandParamLogicMock.Object);
+            _commandParamLogicMock = new Mock<ICommandParameterTypeLogic>();
+            _deviceLogicMock = new Mock<IDeviceLogic>();
+            _deviceCommandController = new DeviceCommandController(_deviceLogicMock.Object, _commandParamLogicMock.Object);
             fixture = new Fixture();
         }
 
         [Fact]
         public async void IndexTest()
         {
-            var deviceID = fixture.Create<string>();
+            var deviceId = fixture.Create<string>();
             var device = fixture.Create<DeviceModel>();
             device.DeviceProperties.HubEnabledState = false;
             device.Commands = fixture.Create<List<Command>>();
-            deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceID)).ReturnsAsync(device);
-            var result = await deviceCommandController.Index(deviceID);
+            _deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(device);
+
+            var result = await _deviceCommandController.Index(deviceId);
+
             var view = result as ViewResult;
             var model = view.Model as DeviceCommandModel;
             Assert.Equal(model.CommandHistory, device.CommandHistory);
@@ -57,7 +59,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var deviceId = fixture.Create<string>();
             var command = fixture.Create<Command>();
 
-            var result = deviceCommandController.Command(deviceId, command);
+            var result = _deviceCommandController.Command(deviceId, command);
+
             var view = result as PartialViewResult;
             var model = view.Model as CommandModel;
             Assert.Equal(model.DeviceId, deviceId);
@@ -70,19 +73,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var parameters = fixture.Create<object>();
             var commandModel = fixture.Create<CommandModel>();
-            commandParamLogicMock.Setup(mock => mock.Get(It.IsAny<string>(), It.IsAny<object>())).Returns(parameters);
-            deviceLogicMock.Setup(
-                mock =>
-                    mock.SendCommandAsync(commandModel.DeviceId, commandModel.Name,
-                        It.IsAny<IDictionary<string, object>>()))
+            _commandParamLogicMock
+                .Setup(mock => mock.Get(It.IsAny<string>(), It.IsAny<object>()))
+                .Returns(parameters);
+
+            _deviceLogicMock
+                .Setup(mock => mock.SendCommandAsync(commandModel.DeviceId, commandModel.Name, It.IsAny<IDictionary<string, object>>()))
                 .Returns(Task.FromResult(true)).Verifiable();
 
-            var result = await deviceCommandController.SendCommand(commandModel);
+            var result = await _deviceCommandController.SendCommand(commandModel);
             var view = result as JsonResult;
+
             Assert.NotNull(view);
-            commandParamLogicMock.Verify(
-                mock => mock.Get(commandModel.Parameters.First().Type, commandModel.Parameters.First().Value));
-            deviceLogicMock.Verify();
+            _commandParamLogicMock.Verify(mock => mock.Get(commandModel.Parameters.First().Type, commandModel.Parameters.First().Value));
+            _deviceLogicMock.Verify();
         }
 
         [Fact]
@@ -91,20 +95,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var deviceId = fixture.Create<string>();
             var name = fixture.Create<string>();
             var commandJson = fixture.Create<IDictionary<string, object>>();
-            deviceLogicMock.Setup(mock => mock.SendCommandAsync(deviceId, name, It.IsAny<IDictionary<string, object>>()))
+            _deviceLogicMock
+                .Setup(mock => mock.SendCommandAsync(deviceId, name, It.IsAny<IDictionary<string, object>>()))
                 .Returns(Task.FromResult(true));
 
-            var result =
-                await deviceCommandController.ResendCommand(deviceId, name, JsonConvert.SerializeObject(commandJson));
+            var result = await _deviceCommandController.ResendCommand(deviceId, name, JsonConvert.SerializeObject(commandJson));
+
             var view = result as JsonResult;
             var data = JsonConvert.SerializeObject(view.Data);
             var obj = JsonConvert.SerializeObject(new {wasSent = true});
             Assert.Equal(data, obj);
 
-            deviceLogicMock.Setup(mock => mock.SendCommandAsync(deviceId, name, It.IsAny<IDictionary<string, object>>()))
+            _deviceLogicMock
+                .Setup(mock => mock.SendCommandAsync(deviceId, name, It.IsAny<IDictionary<string, object>>()))
                 .Throws(new Exception());
-            result =
-                await deviceCommandController.ResendCommand(deviceId, name, JsonConvert.SerializeObject(commandJson));
+
+            result = await _deviceCommandController.ResendCommand(deviceId, name, JsonConvert.SerializeObject(commandJson));
+
             view = result as JsonResult;
             data = JsonConvert.SerializeObject(view.Data);
             obj = JsonConvert.SerializeObject(new {error = "Failed to send device"});

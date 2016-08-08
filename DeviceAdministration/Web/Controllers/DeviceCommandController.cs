@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Newtonsoft.Json;
@@ -57,8 +53,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     DeviceId = device.DeviceProperties.DeviceID,
                     CommandSelectList = commandListItems,
-                    CanSendDeviceCommands = deviceIsEnabled &&
-                        PermsChecker.HasPermission(Permission.SendCommandToDevices)
+                    CanSendDeviceCommands = deviceIsEnabled && PermsChecker.HasPermission(Permission.SendCommandToDevices)
                 },
                 DeviceId = device.DeviceProperties.DeviceID
             };
@@ -71,7 +66,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [ValidateAntiForgeryToken]
         public ActionResult Command(string deviceId, Command command)
         {
-            CommandModel model = new CommandModel
+            var model = new CommandModel
             {
                 DeviceId = deviceId,
                 Name = command.Name,
