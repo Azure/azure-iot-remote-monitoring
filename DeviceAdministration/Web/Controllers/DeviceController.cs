@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using DeviceManagement.Infrustructure.Connectivity.Exceptions;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
-using DeviceManagement.Infrustructure.Connectivity.Services;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
@@ -31,8 +29,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly IDeviceLogic _deviceLogic;
         private readonly IDeviceTypeLogic _deviceTypeLogic;
         private readonly ICellularExtensions _cellularExtensions;
-
-        private readonly string _iotHubName = string.Empty;
+        private readonly string _iotHubName;
 
         public DeviceController(IDeviceLogic deviceLogic, IDeviceTypeLogic deviceTypeLogic,
             IConfigurationProvider configProvider,
@@ -328,8 +325,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View("Index");
         }
 
-        private static IEnumerable<DevicePropertyValueModel> ApplyDevicePropertyOrdering(
-            IEnumerable<DevicePropertyValueModel> devicePropertyModels)
+        private static IEnumerable<DevicePropertyValueModel> ApplyDevicePropertyOrdering(IEnumerable<DevicePropertyValueModel> devicePropertyModels)
         {
             Debug.Assert(
                 devicePropertyModels != null,
