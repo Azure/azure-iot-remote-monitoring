@@ -237,6 +237,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var connectionDeviceId = DeviceSchemaHelper.GetConnectionDeviceId(device);
             dynamic existingDevice = await GetDeviceAsync(connectionDeviceId);
 
+            if (existingDevice == null)
+            {
+                device.CommandHistory = new JArray();
+                device.DeviceProperties.CreatedTime = DateTime.UtcNow.ToString("o");
+                return await _deviceRegistryCrudRepository.AddDeviceAsync(device);
+            }
+
             // Save the command history, original created date, and system properties (if any) of the existing device
             if (DeviceSchemaHelper.GetDeviceProperties(existingDevice) != null)
             {
