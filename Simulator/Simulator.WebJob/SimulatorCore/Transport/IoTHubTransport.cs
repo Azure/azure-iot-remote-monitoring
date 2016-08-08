@@ -7,6 +7,7 @@ using Microsoft.Azure.Devices.Client;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
@@ -84,7 +85,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public async Task SendEventAsync(Guid eventId, dynamic eventData)
         {
             byte[] bytes;
-            string objectType = EventSchemaHelper.GetObjectType(eventData);
+            string objectType = this.GetObjectType(eventData);
             var objectTypePrefix = _configurationProvider.GetConfigurationSettingValue("ObjectTypePrefix");
 
             if (!string.IsNullOrWhiteSpace(objectType) && !string.IsNullOrEmpty(objectTypePrefix))
@@ -260,6 +261,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                             ex);
                     }
                 });
+        }
+
+        private string GetObjectType(dynamic eventData)
+        {
+            if (eventData == null)
+            {
+                throw new ArgumentNullException("eventData");
+            }
+
+            var propertyInfo = eventData.GetType().GetProperty("ObjectType");
+            if (propertyInfo == null)
+                return "";
+            var value = propertyInfo.GetValue(eventData, null);
+            return value == null ? "" : value.ToString();
         }
 
         /// <summary>

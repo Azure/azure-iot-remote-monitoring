@@ -10,15 +10,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repositor
 {
     public class VirtualDeviceTableStorage : IVirtualDeviceStorage
     {
-        private readonly string _storageConnectionString;
-        private readonly string _deviceTableName;
         private readonly IAzureTableStorageClient _azureTableStorageClient;
 
         public VirtualDeviceTableStorage(IConfigurationProvider configProvider, IAzureTableStorageClientFactory tableStorageClientFactory)
         {
-            _storageConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
-            _deviceTableName = configProvider.GetConfigurationSettingValue("device.TableName");
-            _azureTableStorageClient = tableStorageClientFactory.CreateClient(_storageConnectionString, _deviceTableName);
+            var storageConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
+            var deviceTableName = configProvider.GetConfigurationSettingValue("device.TableName");
+            _azureTableStorageClient = tableStorageClientFactory.CreateClient(storageConnectionString, deviceTableName);
         }
 
         public async Task<List<InitialDeviceConfig>> GetDeviceListAsync()
