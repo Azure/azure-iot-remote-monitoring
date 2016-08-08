@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic
 {
@@ -131,9 +130,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
         }
 
-        private static object ParseBase64(string value)
+        private static object ParseBase64(string base64String)
         {
-            return value.IsBase64() ? value : null;
+            var isBase64 = false;
+            if (string.IsNullOrEmpty(base64String) ||
+                base64String.Length%4 != 0 ||
+                base64String.Contains(" ") ||
+                base64String.Contains("\t") ||
+                base64String.Contains("\r") ||
+                base64String.Contains("\n"))
+            {
+                isBase64 = false;
+            }
+
+            // now do the real test
+            try
+            {
+                Convert.FromBase64String(base64String);
+                isBase64 = true;
+            }
+            catch (FormatException)
+            {
+                isBase64 = false;
+            }
+
+            return isBase64 ? base64String : null;
         }
 
         private static object ParseDecimal(string value)
