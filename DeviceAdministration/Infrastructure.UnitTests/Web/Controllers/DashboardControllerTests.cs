@@ -58,7 +58,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Assert.Equal(model.DeviceIdsForDropdown.Count, 0);
             Assert.Equal(model.MapApiQueryKey, string.Empty);
         }
-
-        public async void 
     }
 }
