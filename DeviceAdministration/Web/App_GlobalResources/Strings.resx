@@ -1516,7 +1516,7 @@
     <comment>(Unused)</comment>
   </data>
   <data name="ApiRegistrationDescription" xml:space="preserve">
-    <value>Register this solution with the API from your cellular connectivity provider by selecting from the dropdown and cpressing "Create"</value>
+    <value>Register this solution with the API from your cellular connectivity provider by clicking 'Create' and filling in your details.</value>
     <comment>Tile subheading.</comment>
   </data>
   <data name="ApiRegistrationTitleJasper" xml:space="preserve">

@@ -106,20 +106,23 @@
     var initRegistration = function (config) {
         // set up page
         $(document).tooltip();
+        initApiRegistrationFields(config);
 
         if (config.apiRegistrationProvider) {
             $("#saveButton").prop("disabled", false);
             $("#editButton").prop("disabled", true);
+            $("#changeApiRegistrationProviderButton").prop("disabled", false);
         }
         else {
             $("#editButton").prop("disabled", true);
+            $("#changeApiRegistrationProviderButton").prop("disabled", true);
         }
 
         $("#saveButton").bind("click", function () {
             var apiProvider = $.trim($("#apiRegistrationProvider").val())
-            var providerHasChanged = apiProvider && apiProvider !== config.apiRegistrationProvider;
+            var providerHasChanged = apiProvider && config.apiRegistrationProvider && apiProvider !== config.apiRegistrationProvider;
             var confirmSave = !providerHasChanged;          
-            debugger
+            
             // if the provider is set and has changed then show warning message
             if (providerHasChanged) {
                 confirmSave = confirm(config.apiProviderChangeWarningMessageOnSave);
@@ -151,6 +154,7 @@
                     $("#editButton").prop("disabled", false);
                     disableAllInput();
                     config.apiRegistrationProvider = registrationModel.apiRegistrationProvider;
+                    $("#changeApiRegistrationProviderButton").prop("disabled", false);
                 } else {
                     $("#registrationPassed").hide();
                     $("#registrationFailed").show();
@@ -209,6 +213,52 @@
             else {
                 // select the default option if apiRegistrationProvider did not mach any of the options
                 providerSelectElement.find('option[value=""]').attr('selected', 'selected');
+            }
+        }
+    }
+
+    var initApiRegistrationFields = function (config) {
+        $('#apiRegistrationProvider').on('change', function (event) {
+            event.preventDefault();
+            showApiRegistrationFields(this.value);
+        });
+        
+        var selectedProvider = config.apiRegistrationProvider;
+        if (selectedProvider) {
+            showApiRegistrationFields(selectedProvider);
+        }
+        else {
+            hideApiRegistrationFields();
+        }
+    }
+
+    var hideApiRegistrationFields = function () {
+        $("#BaseUrl").closest('fieldset').hide();
+        $("#LicenceKey").closest('fieldset').hide();
+        $("#Username").closest('fieldset').hide();
+        $("#Password").closest('fieldset').hide();
+    }
+
+    var showApiRegistrationFields = function (selectedProvider) {
+        function showSharedFields() {
+            $("#BaseUrl").closest('fieldset').show();
+            $("#Username").closest('fieldset').show();
+            $("#Password").closest('fieldset').show();
+        }
+        switch(selectedProvider){
+            case 'Jasper': {
+                showSharedFields();
+                $("#LicenceKey").closest('fieldset').show();
+                break;
+            }
+            case 'Ericsson': {
+                showSharedFields();
+                $("#LicenceKey").closest('fieldset').hide();
+                break;
+            }
+            default: {
+                hideApiRegistrationFields();
+                break;
             }
         }
     }

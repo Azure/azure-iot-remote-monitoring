@@ -23,13 +23,13 @@
             <p class="api_warning_label">
                 @Strings.ApiProviderWarningLabel
             </p>
-            <h2 class="registration_description">@Strings.BaseUrlLabel</h2>
-            <div>
+            <fieldset>
+                <h2 class="registration_description">@Strings.BaseUrlLabel</h2>
                 @Html.TextBoxFor(model => model.BaseUrl, new { id = "BaseUrl", title = Strings.BaseUrlToolTip, @class = "api_input" })
-            </div>
-            <div class="api_check_field" id="BaseUrlRequired">
-                @Strings.RequiredValue
-            </div>
+                <div class="api_check_field" id="BaseUrlRequired">
+                    @Strings.RequiredValue
+                </div>
+            </fieldset>
         </div>
     </fieldset>
     <fieldset class="registration_content">

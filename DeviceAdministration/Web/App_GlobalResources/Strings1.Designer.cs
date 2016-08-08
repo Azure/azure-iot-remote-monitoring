@@ -278,7 +278,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Register this solution with the API from your cellular connectivity provider by selecting from the dropdown and cpressing &quot;Create&quot;.
+        ///   Looks up a localized string similar to Register this solution with the API from your cellular connectivity provider by clicking &apos;Create&apos; and filling in your details..
         /// </summary>
         public static string ApiRegistrationDescription {
             get {
