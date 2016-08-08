@@ -11,7 +11,8 @@ using Newtonsoft.Json.Linq;
 using Ploeh.AutoFixture;
 using Xunit;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.Web.WebApiControllers
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.Web.
+    WebApiControllers
 {
     public class DeviceApiControllerTests
     {
@@ -21,17 +22,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public DeviceApiControllerTests()
         {
-            this.deviceLogic = new Mock<IDeviceLogic>();
-            this.deviceApiController = new DeviceApiController(this.deviceLogic.Object);
-            this.deviceApiController.InitializeRequest();
-            this.fixture = new Fixture();
+            deviceLogic = new Mock<IDeviceLogic>();
+            deviceApiController = new DeviceApiController(deviceLogic.Object);
+            deviceApiController.InitializeRequest();
+            fixture = new Fixture();
         }
 
         [Fact]
         public async void GenerateSampleDevicesAsyncTest()
         {
-            this.deviceLogic.Setup(mock => mock.GenerateNDevices(5)).Returns(Task.FromResult(true));
-            var res = await this.deviceApiController.GenerateSampleDevicesAsync(5);
+            deviceLogic.Setup(mock => mock.GenerateNDevices(5)).Returns(Task.FromResult(true));
+            var res = await deviceApiController.GenerateSampleDevicesAsync(5);
             res.AssertOnError();
             var data = res.ExtractContentDataAs<bool>();
             Assert.True(data);
@@ -40,10 +41,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void GetDeviceAsyncTest()
         {
-            var deviceId = this.fixture.Create<string>();
-            var device = this.fixture.Create<DeviceModel>();
-            this.deviceLogic.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(device);
-            var res = await this.deviceApiController.GetDeviceAsync(deviceId);
+            var deviceId = fixture.Create<string>();
+            var device = fixture.Create<DeviceModel>();
+            deviceLogic.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(device);
+            var res = await deviceApiController.GetDeviceAsync(deviceId);
             res.AssertOnError();
             var data = res.ExtractContentDataAs<DeviceModel>();
             Assert.Equal(data, device);
@@ -52,9 +53,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void GetDeviceAsyncWFilterTest()
         {
-            var devices = this.fixture.Create<DeviceListQueryResult>();
-            this.deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(devices);
-            var res = await this.deviceApiController.GetDevicesAsync();
+            var devices = fixture.Create<DeviceListQueryResult>();
+            deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(devices);
+            var res = await deviceApiController.GetDevicesAsync();
             res.AssertOnError();
             var data = res.ExtractContentDataAs<List<DeviceModel>>();
             Assert.Equal(data, devices.Results);
@@ -63,12 +64,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void GetDevicesTest()
         {
-            var reqData = this.fixture.Create<DataTablesRequest>();
+            var reqData = fixture.Create<DataTablesRequest>();
             reqData.SortColumns.ForEach(col => col.ColumnIndexAsString = 0.ToString());
-            var devices = this.fixture.Create<DeviceListQueryResult>();
+            var devices = fixture.Create<DeviceListQueryResult>();
 
-            this.deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(devices);
-            var res = await this.deviceApiController.GetDevices(JObject.FromObject(reqData));
+            deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(devices);
+            var res = await deviceApiController.GetDevices(JObject.FromObject(reqData));
 
             res.AssertOnError();
             var data = res.ExtractContentAs<DataTablesResponse<DeviceModel>>();
@@ -81,9 +82,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void RemoveDeviceAsyncTest()
         {
-            var deviceId = this.fixture.Create<string>();
-            this.deviceLogic.Setup(mock => mock.RemoveDeviceAsync(deviceId)).Returns(Task.FromResult(true));
-            var res = await this.deviceApiController.RemoveDeviceAsync(deviceId);
+            var deviceId = fixture.Create<string>();
+            deviceLogic.Setup(mock => mock.RemoveDeviceAsync(deviceId)).Returns(Task.FromResult(true));
+            var res = await deviceApiController.RemoveDeviceAsync(deviceId);
             var data = res.ExtractContentDataAs<bool>();
             Assert.True(data);
         }
@@ -91,38 +92,38 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void AddDeviceAsyncTest()
         {
-            var device = this.fixture.Create<DeviceModel>();
-            var deviceWKeys = this.fixture.Create<DeviceWithKeys>();
+            var device = fixture.Create<DeviceModel>();
+            var deviceWKeys = fixture.Create<DeviceWithKeys>();
 
-            this.deviceLogic.Setup(mock => mock.AddDeviceAsync(device)).ReturnsAsync(deviceWKeys);
-            var res = await this.deviceApiController.AddDeviceAsync(device);
+            deviceLogic.Setup(mock => mock.AddDeviceAsync(device)).ReturnsAsync(deviceWKeys);
+            var res = await deviceApiController.AddDeviceAsync(device);
             res.AssertOnError();
             var data = res.ExtractContentDataAs<DeviceWithKeys>();
             Assert.Equal(data, deviceWKeys);
 
-            await Assert.ThrowsAsync<HttpResponseException>(() => this.deviceApiController.AddDeviceAsync(null));
+            await Assert.ThrowsAsync<HttpResponseException>(() => deviceApiController.AddDeviceAsync(null));
         }
 
         [Fact]
         public async void UpdateDeviceAsyncTest()
         {
-            var device = this.fixture.Create<DeviceModel>();
-            this.deviceLogic.Setup(mock => mock.UpdateDeviceAsync(device)).ReturnsAsync(device);
-            var res = await this.deviceApiController.UpdateDeviceAsync(device);
+            var device = fixture.Create<DeviceModel>();
+            deviceLogic.Setup(mock => mock.UpdateDeviceAsync(device)).ReturnsAsync(device);
+            var res = await deviceApiController.UpdateDeviceAsync(device);
             res.AssertOnError();
             var data = res.ExtractContentDataAs<bool>();
             Assert.True(data);
 
-            await Assert.ThrowsAsync<HttpResponseException>(() => this.deviceApiController.UpdateDeviceAsync(null));
+            await Assert.ThrowsAsync<HttpResponseException>(() => deviceApiController.UpdateDeviceAsync(null));
         }
 
         [Fact]
         public async void GetDeviceKeysAsyncTest()
         {
-            var id = this.fixture.Create<string>();
-            var keys = this.fixture.Create<SecurityKeys>();
-            this.deviceLogic.Setup(mock => mock.GetIoTHubKeysAsync(id)).ReturnsAsync(keys);
-            var res = await this.deviceApiController.GetDeviceKeysAsync(id);
+            var id = fixture.Create<string>();
+            var keys = fixture.Create<SecurityKeys>();
+            deviceLogic.Setup(mock => mock.GetIoTHubKeysAsync(id)).ReturnsAsync(keys);
+            var res = await deviceApiController.GetDeviceKeysAsync(id);
             res.AssertOnError();
             var data = res.ExtractContentDataAs<SecurityKeys>();
             Assert.Equal(data, keys);
@@ -131,13 +132,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void UpdateDeviceEnabledStatusTest()
         {
-            var deviceId = this.fixture.Create<string>();
-            var device = this.fixture.Create<DeviceModel>();
+            var deviceId = fixture.Create<string>();
+            var device = fixture.Create<DeviceModel>();
             var request = new JObject();
             request.Add("isEnabled", true);
 
-            this.deviceLogic.Setup(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, true)).ReturnsAsync(device);
-            var res = await this.deviceApiController.UpdateDeviceEnabledStatus(deviceId, request);
+            deviceLogic.Setup(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, true)).ReturnsAsync(device);
+            var res = await deviceApiController.UpdateDeviceEnabledStatus(deviceId, request);
             res.AssertOnError();
             var data = res.ExtractContentDataAs<bool>();
             Assert.True(data);
@@ -146,12 +147,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void SendCommand()
         {
-            var deviceId = this.fixture.Create<string>();
-            var commandName = this.fixture.Create<string>();
-            var parameters = this.fixture.Create<IDictionary<string, string>>();
+            var deviceId = fixture.Create<string>();
+            var commandName = fixture.Create<string>();
+            var parameters = fixture.Create<IDictionary<string, string>>();
 
-            this.deviceLogic.Setup(mock => mock.SendCommandAsync(deviceId, commandName, parameters)).Returns(Task.FromResult(true));
-            var res = await this.deviceApiController.SendCommand(deviceId, commandName, parameters);
+            deviceLogic.Setup(mock => mock.SendCommandAsync(deviceId, commandName, parameters))
+                .Returns(Task.FromResult(true));
+            var res = await deviceApiController.SendCommand(deviceId, commandName, parameters);
             res.AssertOnError();
             var data = res.ExtractContentDataAs<bool>();
             Assert.True(data);
@@ -160,15 +162,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void DeleteAllDevices()
         {
-            var devices = this.fixture.Create<DeviceListQueryResult>();
+            var devices = fixture.Create<DeviceListQueryResult>();
             DeviceListQuery saveObject = null;
-            this.deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>()))
+            deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>()))
                 .Callback<DeviceListQuery>(obj => saveObject = obj)
                 .ReturnsAsync(devices);
 
-            this.deviceLogic.Setup(mock => mock.RemoveDeviceAsync(It.IsAny<string>())).Returns(Task.FromResult(true));
+            deviceLogic.Setup(mock => mock.RemoveDeviceAsync(It.IsAny<string>())).Returns(Task.FromResult(true));
 
-            var res = await this.deviceApiController.DeleteAllDevices();
+            var res = await deviceApiController.DeleteAllDevices();
             Assert.Equal(saveObject.Skip, 0);
             Assert.Equal(saveObject.Take, 1000);
             Assert.Equal(saveObject.SortColumn, "DeviceID");

@@ -12,25 +12,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class ActionControllerTests
     {
-        private readonly ActionsController actionsController;
-        private readonly Mock<IActionMappingLogic> actionMappingMock;
         private readonly Mock<IActionLogic> actionLogicMock;
+        private readonly Mock<IActionMappingLogic> actionMappingMock;
+        private readonly ActionsController actionsController;
         private readonly Fixture fixture;
 
         public ActionControllerTests()
         {
-            this.actionMappingMock = new Mock<IActionMappingLogic>();
-            this.actionLogicMock = new Mock<IActionLogic>();
-            this.actionsController = new ActionsController(this.actionMappingMock.Object,
-                                                           this.actionLogicMock.Object);
+            actionMappingMock = new Mock<IActionMappingLogic>();
+            actionLogicMock = new Mock<IActionLogic>();
+            actionsController = new ActionsController(actionMappingMock.Object,
+                actionLogicMock.Object);
 
-            this.fixture = new Fixture();
+            fixture = new Fixture();
         }
 
         [Fact]
         public void IndexTest()
         {
-            var result = this.actionsController.Index();
+            var result = actionsController.Index();
             var view = result as ViewResult;
             var model = view.Model as ActionPropertiesModel;
             Assert.NotNull(model);
@@ -39,18 +39,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void GetAvailableLogicAppActionsTest()
         {
-            var actionIds = this.fixture.Create<List<string>>();
-            this.actionLogicMock.Setup(mock => mock.GetAllActionIdsAsync()).ReturnsAsync(actionIds);
+            var actionIds = fixture.Create<List<string>>();
+            actionLogicMock.Setup(mock => mock.GetAllActionIdsAsync()).ReturnsAsync(actionIds);
 
-            var result = await this.actionsController.GetAvailableLogicAppActions();
+            var result = await actionsController.GetAvailableLogicAppActions();
             var viewResult = result as PartialViewResult;
             var model = viewResult.Model as ActionPropertiesModel;
             Assert.Equal(model.UpdateActionModel.ActionSelectList.Count, actionIds.Count);
             Assert.Equal(model.UpdateActionModel.ActionSelectList.First().Text, actionIds.First());
             Assert.Equal(model.UpdateActionModel.ActionSelectList.First().Value, actionIds.First());
 
-            this.actionLogicMock.Setup(mock => mock.GetAllActionIdsAsync()).ReturnsAsync(null);
-            result = await this.actionsController.GetAvailableLogicAppActions();
+            actionLogicMock.Setup(mock => mock.GetAllActionIdsAsync()).ReturnsAsync(null);
+            result = await actionsController.GetAvailableLogicAppActions();
             viewResult = result as PartialViewResult;
             model = viewResult.Model as ActionPropertiesModel;
             Assert.Equal(model.UpdateActionModel.ActionSelectList.Count, 0);
@@ -59,9 +59,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void UpdateActionTest()
         {
-            string ruleOutput = this.fixture.Create<string>();
-            string actionId = this.fixture.Create<string>();
-            var actionMapping = await this.actionsController.UpdateAction(ruleOutput, actionId);
+            var ruleOutput = fixture.Create<string>();
+            var actionId = fixture.Create<string>();
+            var actionMapping = await actionsController.UpdateAction(ruleOutput, actionId);
             Assert.Equal(actionMapping.RuleOutput, ruleOutput);
             Assert.Equal(actionMapping.ActionId, actionId);
         }

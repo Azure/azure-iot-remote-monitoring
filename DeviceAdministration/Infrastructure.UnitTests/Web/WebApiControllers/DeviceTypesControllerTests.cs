@@ -6,7 +6,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers;
 using Xunit;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.Web.WebApiControllers
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.UnitTests.Web.
+    WebApiControllers
 {
     public class DeviceTypesControllerTests
     {
@@ -15,15 +16,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public DeviceTypesControllerTests()
         {
-            this.deviceTypeLogic = new DeviceTypeLogic(new SampleDeviceTypeRepository());
-            this.deviceTypesController = new DeviceTypesController(this.deviceTypeLogic);
-            this.deviceTypesController.InitializeRequest();
+            deviceTypeLogic = new DeviceTypeLogic(new SampleDeviceTypeRepository());
+            deviceTypesController = new DeviceTypesController(deviceTypeLogic);
+            deviceTypesController.InitializeRequest();
         }
 
         [Fact]
         public async void GetAllDeviceTypesTest()
         {
-            var result = await this.deviceTypesController.GetAllDeviceTypes();
+            var result = await deviceTypesController.GetAllDeviceTypes();
             result.AssertOnError();
             var data = result.ExtractContentDataAs<List<DeviceType>>();
             Assert.Equal(data.Count, 2);
@@ -33,11 +34,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void GetDeviceTypeTests()
         {
-            var res = await this.deviceTypesController.GetDeviceType(1);
+            var res = await deviceTypesController.GetDeviceType(1);
             res.AssertOnError();
             var data = res.ExtractContentDataAs<DeviceType>();
             Assert.Equal(data.Name, "Simulated Device");
-            res = await this.deviceTypesController.GetDeviceType(2);
+            res = await deviceTypesController.GetDeviceType(2);
             res.AssertOnError();
             data = res.ExtractContentDataAs<DeviceType>();
             Assert.Equal(data.Name, "Custom Device");

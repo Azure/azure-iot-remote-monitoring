@@ -22,20 +22,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void MaxEqualToMinShouldThrowException()
         {
-             Assert.Throws<ArgumentOutOfRangeException>(() => new SampleDataGenerator(45, 45));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new SampleDataGenerator(45, 45));
         }
 
         [Fact]
         public void MaxEqualToThresholdShouldThrowException()
         {
-             Assert.Throws<ArgumentOutOfRangeException>(() => new SampleDataGenerator(5, 10, 10, 25));
-
+            Assert.Throws<ArgumentOutOfRangeException>(() => new SampleDataGenerator(5, 10, 10, 25));
         }
 
         [Fact]
         public void PeakIntervalZeroShouldThrowException()
         {
-             Assert.Throws<ArgumentOutOfRangeException>(() => new SampleDataGenerator(5, 10, 15, 0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new SampleDataGenerator(5, 10, 15, 0));
         }
 
         [Fact]
@@ -44,7 +43,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             double value = 0;
             IRandomGenerator randomGenerator = new RandomGeneratorStub(0.99);
             var sampleData = new SampleDataGenerator(5, 10, randomGenerator);
-            for (int i = 0; i < 100; i++)
+            for (var i = 0; i < 100; i++)
             {
                 value = Math.Round(sampleData.GetNextValue(), 2);
                 Assert.True(value <= 10);
@@ -57,21 +56,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             double value = 0;
             IRandomGenerator randomGenerator = new RandomGeneratorStub(0.01);
             var sampleData = new SampleDataGenerator(5, 10, randomGenerator);
-            for (int i = 0; i < 100; i++)
+            for (var i = 0; i < 100; i++)
             {
-                value =  Math.Round(sampleData.GetNextValue(), 2);
+                value = Math.Round(sampleData.GetNextValue(), 2);
                 Assert.True(value >= 5);
-            }   
+            }
         }
 
         [Fact]
         public void ExpectingPeaks()
         {
-            int numberExpectedPeaks = 4;
-            int peaksSeen = 0;
+            var numberExpectedPeaks = 4;
+            var peaksSeen = 0;
             double value;
             var sampleData = new SampleDataGenerator(5, 10, 15, 25);
-            for (int i = 0; i < 120; i++)
+            for (var i = 0; i < 120; i++)
             {
                 value = Math.Round(sampleData.GetNextValue(), 2);
                 if (value > 15)
@@ -85,11 +84,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void ExcludingPeaks()
         {
-            int numberExpectedPeaks = 0;
-            int peaksSeen = 0;
+            var numberExpectedPeaks = 0;
+            var peaksSeen = 0;
             double value;
             var sampleData = new SampleDataGenerator(5, 10);
-            for (int i = 0; i < 120; i++)
+            for (var i = 0; i < 120; i++)
             {
                 value = Math.Round(sampleData.GetNextValue(), 2);
                 if (value > 10)
@@ -114,7 +113,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             sampleData.GetNextValue();
 
             sampleData.ShiftSubsequentData(200);
-            
+
             sampleData.GetNextValue();
 
             sampleData.ShiftSubsequentData(2000);

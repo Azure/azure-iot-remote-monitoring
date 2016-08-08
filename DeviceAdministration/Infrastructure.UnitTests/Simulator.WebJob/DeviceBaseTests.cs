@@ -12,12 +12,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class DeviceBaseTests
     {
-        private readonly Mock<ILogger> _loggerMock;
-        private readonly Mock<ITransportFactory> _transportFactory;
-        private readonly Mock<ITelemetryFactory> _telemetryFactoryMock;
         private readonly Mock<IConfigurationProvider> _configurationProviderMock;
-        private Mock<ITransport> _transport;
+        private readonly Mock<ILogger> _loggerMock;
+        private readonly Mock<ITelemetryFactory> _telemetryFactoryMock;
+        private readonly Mock<ITransportFactory> _transportFactory;
         private readonly DeviceBase deviceBase;
+        private Mock<ITransport> _transport;
 
         public DeviceBaseTests()
         {
@@ -26,7 +26,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _telemetryFactoryMock = new Mock<ITelemetryFactory>();
             _configurationProviderMock = new Mock<IConfigurationProvider>();
             _transport = new Mock<ITransport>();
-            deviceBase = new DeviceBase(_loggerMock.Object, _transportFactory.Object, _telemetryFactoryMock.Object, _configurationProviderMock.Object);
+            deviceBase = new DeviceBase(_loggerMock.Object, _transportFactory.Object, _telemetryFactoryMock.Object,
+                _configurationProviderMock.Object);
         }
 
         [Fact]

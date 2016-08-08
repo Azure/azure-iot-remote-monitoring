@@ -37,17 +37,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             Assert.Throws<ArgumentNullException>(() => DeviceDisplayHelper.BuildAvailableCommandNameSet(null));
 
-            var model = this.fixture.Create<DeviceCommandModel>();
+            var model = fixture.Create<DeviceCommandModel>();
             model.SendCommandModel = null;
             var res = DeviceDisplayHelper.BuildAvailableCommandNameSet(model);
             Assert.Equal(res.Count, 0);
 
-            model = this.fixture.Create<DeviceCommandModel>();
+            model = fixture.Create<DeviceCommandModel>();
             model.SendCommandModel.CommandSelectList = null;
             res = DeviceDisplayHelper.BuildAvailableCommandNameSet(model);
             Assert.Equal(res.Count, 0);
 
-            model = this.fixture.Create<DeviceCommandModel>();
+            model = fixture.Create<DeviceCommandModel>();
             model.SendCommandModel.CommandSelectList.Add(null);
             res = DeviceDisplayHelper.BuildAvailableCommandNameSet(model);
             Assert.Equal(res.Count, model.SendCommandModel.CommandSelectList.Count - 1);
@@ -72,11 +72,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var res = DeviceDisplayHelper.GetLocalizedCommandResultText("", "");
             Assert.Equal(res.Key, "Pending");
             Assert.Equal(res.Value, "");
-            
+
             res = DeviceDisplayHelper.GetLocalizedCommandResultText("Success", "");
             Assert.Equal(res.Value, "");
             Assert.Equal(res.Key, "Success");
-            
+
             res = DeviceDisplayHelper.GetLocalizedCommandResultText("Expired", "");
             Assert.Equal(res.Key, "Error");
             Assert.Equal(res.Value, "Expired");
@@ -108,4 +108,3 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
     }
 }
-    

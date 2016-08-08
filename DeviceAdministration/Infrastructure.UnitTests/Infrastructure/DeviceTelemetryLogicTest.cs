@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
@@ -11,9 +10,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class DeviceTelemetryLogicTest
     {
-        private Mock<IDeviceTelemetryRepository> _deviceTelemetryRepositoryMock;
-        private DeviceTelemetryLogic _deviceTelemetryLogic;
-        private Fixture fixture;
+        private readonly DeviceTelemetryLogic _deviceTelemetryLogic;
+        private readonly Mock<IDeviceTelemetryRepository> _deviceTelemetryRepositoryMock;
+        private readonly Fixture fixture;
 
         public DeviceTelemetryLogicTest()
         {
@@ -25,8 +24,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void ProduceGetLatestDeviceAlertTimeTest()
         {
-            List<AlertHistoryItemModel> history = fixture.Create<List<AlertHistoryItemModel>>();
-            Func<string, DateTime?> getAlertTime = _deviceTelemetryLogic.ProduceGetLatestDeviceAlertTime(history);
+            var history = fixture.Create<List<AlertHistoryItemModel>>();
+            var getAlertTime = _deviceTelemetryLogic.ProduceGetLatestDeviceAlertTime(history);
 
             Assert.Equal(history[0].Timestamp, getAlertTime(history[0].DeviceId));
         }
