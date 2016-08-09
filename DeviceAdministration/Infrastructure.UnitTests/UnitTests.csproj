@@ -193,6 +193,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AzureRetryHelperTests.cs" />
     <Compile Include="Common\SampleDeviceFactoryTests.cs" />
     <Compile Include="Common\VirtualDeviceTableStorageTests.cs" />
     <Compile Include="Infrastructure\ActionLogicTest.cs" />
