@@ -1,47 +1,22 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
     public class DeviceRegistryRepository : IDeviceRegistryCrudRepository, IDeviceRegistryListRepository
     {
-        // Configuration strings for use in accessing the DocumentDB, Database and DocumentCollection
-        readonly string _endpointUri;
-        readonly string _authorizationKey;
-        readonly string _databaseId;
-        readonly string _documentCollectionName;
+        private readonly IDocumentDBClient<DeviceModel> _documentClient;
 
-        IDocDbRestUtility _docDbRestUtil;
-
-        public DeviceRegistryRepository(IConfigurationProvider configProvider, IDocDbRestUtility docDbRestUtil)
+        public DeviceRegistryRepository(IDocumentDBClient<DeviceModel> documentClient)
         {
-            if (configProvider == null)
-            {
-                throw new ArgumentNullException("configProvider");
-            }
-
-            _endpointUri = configProvider.GetConfigurationSettingValue("docdb.EndpointUrl");
-            _authorizationKey = configProvider.GetConfigurationSettingValue("docdb.PrimaryAuthorizationKey");
-            _databaseId = configProvider.GetConfigurationSettingValue("docdb.DatabaseId");
-            _documentCollectionName = configProvider.GetConfigurationSettingValue("docdb.DocumentCollectionId");
-
-
-            _docDbRestUtil = docDbRestUtil;
-            Task.Run(() => _docDbRestUtil.InitializeDatabase()).Wait();
-            Task.Run(() => _docDbRestUtil.InitializeCollection()).Wait();
+            _documentClient = documentClient;
         }
 
         /// <summary>
@@ -50,32 +25,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns>All documents in the collection</returns>
         private async Task<List<DeviceModel>> GetAllDevicesAsync()
         {
-            IEnumerable docs;
-            List<DeviceModel> deviceList = new List<DeviceModel>();
-            List<DeviceModel> tmpDeviceList = new List<DeviceModel>();
-
-            string query = "SELECT VALUE root FROM root";
-            string continuationToken = null;
-            int pageSize = 500;
-            do
-            {
-                DocDbRestQueryResult result = await _docDbRestUtil.QueryCollectionAsync(query, null, pageSize, continuationToken);
-
-                docs =
-                    ReflectionHelper.GetNamedPropertyValue(
-                        result,
-                        "ResultSet",
-                        true,
-                        false) as IEnumerable;
-
-                tmpDeviceList = JsonConvert.DeserializeObject<List<DeviceModel>>(docs.ToString());
-                deviceList.AddRange(tmpDeviceList);
-
-                continuationToken = result.ContinuationToken;
-
-            } while (!String.IsNullOrEmpty(continuationToken));
-
-            return (deviceList.Count != 0 ? deviceList : null);
+            var devices = await _documentClient.QueryAsync();
+            return devices.ToList();
         }
 
         /// <summary>
@@ -85,19 +36,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns>Device instance if present, null if a device was not found with the provided deviceId</returns>
         public async Task<DeviceModel> GetDeviceAsync(string deviceId)
         {
-            JToken result = null;
-
-            Dictionary<string, Object> queryParams = new Dictionary<string, Object>();
-            queryParams.Add("@id", deviceId);
-            DocDbRestQueryResult response = await _docDbRestUtil.QueryCollectionAsync("SELECT VALUE root FROM root WHERE (root.DeviceProperties.DeviceID = @id)", queryParams);
-            JArray foundDevices = response.ResultSet;
-
-            if (foundDevices != null && foundDevices.Count > 0)
-            {
-                result = foundDevices.Children().ElementAt(0);
-                return result.ToObject<DeviceModel>();
-            }
-            return null;
+            var query = await _documentClient.QueryAsync();
+            var devices = query.Where(x => x.DeviceProperties.DeviceID == deviceId).ToList();
+            return devices.FirstOrDefault();
         }
 
         /// <summary>
@@ -108,29 +49,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns></returns>
         public async Task<DeviceModel> AddDeviceAsync(DeviceModel device)
         {
-            string deviceId = device.DeviceProperties.DeviceID;
-            DeviceModel existingDevice = await this.GetDeviceAsync(deviceId);
+            if (string.IsNullOrEmpty(device.id))
+            {
+                device.id = Guid.NewGuid().ToString();
+            }
 
+            var deviceId = device.id;
+            DeviceModel existingDevice = await GetDeviceAsync(deviceId);
             if (existingDevice != null)
             {
                 throw new DeviceAlreadyRegisteredException(deviceId);
             }
 
-            device = (await _docDbRestUtil.SaveNewDocumentAsync<DeviceModel>(device)).ToObject<DeviceModel>();
-
+            await _documentClient.SaveAsync(deviceId, device);
             return device;
         }
 
         public async Task RemoveDeviceAsync(string deviceId)
         {
-            DeviceModel existingDevice = await this.GetDeviceAsync(deviceId);
-
+            DeviceModel existingDevice = await GetDeviceAsync(deviceId);
             if (existingDevice == null)
             {
                 throw new DeviceNotRegisteredException(deviceId);
             }
 
-            await _docDbRestUtil.DeleteDocumentAsync<DeviceModel>(existingDevice);
+            await _documentClient.DeleteAsync(deviceId);
         }
 
         /// <summary>
@@ -151,13 +94,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceRequiredPropertyNotFoundException("'DeviceID' property is missing");
             }
 
-            string deviceId = device.DeviceProperties.DeviceID;
-
-            DeviceModel existingDevice = await this.GetDeviceAsync(deviceId);
-
+            DeviceModel existingDevice = await GetDeviceAsync(device.id);
             if (existingDevice == null)
             {
-                throw new DeviceNotRegisteredException(deviceId);
+                throw new DeviceNotRegisteredException(device.id);
             }
 
             string incomingRid = device._rid ?? "";
@@ -192,13 +132,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             device.DeviceProperties.UpdatedTime = DateTime.UtcNow;
-
-            return (await _docDbRestUtil.UpdateDocumentAsync<DeviceModel>(device)).ToObject<DeviceModel>();
+            await _documentClient.SaveAsync(device.id, device);
+            return device;
         }
 
         public async Task<DeviceModel> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
         {
-            DeviceModel existingDevice = await this.GetDeviceAsync(deviceId);
+            DeviceModel existingDevice = await GetDeviceAsync(deviceId);
 
             if (existingDevice == null)
             {
@@ -213,8 +153,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             existingDevice.DeviceProperties.HubEnabledState = isEnabled;
             existingDevice.DeviceProperties.UpdatedTime = DateTime.UtcNow;
-
-            return (await _docDbRestUtil.UpdateDocumentAsync(existingDevice)).ToObject<DeviceModel>();
+            await _documentClient.SaveAsync(deviceId, existingDevice);
+            return existingDevice;
         }
 
         public async Task<DeviceListQueryResult> GetDeviceList(DeviceListQuery query)
@@ -246,8 +186,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return deviceList;
             }
 
-            Func<DeviceModel, bool> filter =
-                (d) => this.SearchTypePropertiesForValue(d, search);
+            Func<DeviceModel, bool> filter = (d) => this.SearchTypePropertiesForValue(d, search);
 
             // look for all devices that contain the search value in one of the DeviceProperties Properties
             return deviceList.Where(filter).AsQueryable();
@@ -278,12 +217,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return deviceList;
             }
 
-            Func<DeviceProperties, dynamic> getPropVal =
-                ReflectionHelper.ProducePropertyValueExtractor(
-                    sortColumn,
-                    false,
-                    false);
-
+            Func<DeviceProperties, dynamic> getPropVal = ReflectionHelper.ProducePropertyValueExtractor(sortColumn, false, false);
             Func<DeviceModel, dynamic> keySelector = (item) =>
             {
                 if (item?.DeviceProperties == null)
