@@ -54,14 +54,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 device.id = Guid.NewGuid().ToString();
             }
 
-            var deviceId = device.id;
-            DeviceModel existingDevice = await GetDeviceAsync(deviceId);
+            var id = device.id;
+            DeviceModel existingDevice = await GetDeviceAsync(id);
             if (existingDevice != null)
             {
-                throw new DeviceAlreadyRegisteredException(deviceId);
+                throw new DeviceAlreadyRegisteredException(id);
             }
 
-            await _documentClient.SaveAsync(deviceId, device);
+            await _documentClient.SaveAsync(id, device);
             return device;
         }
 
