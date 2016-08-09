@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices;
+﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Telemetry;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Telemetry.Factory;
 using Moq;
@@ -28,6 +29,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
             this.factory.PopulateDeviceWithTelemetryEvents(device);
 
             Assert.Equal(device.TelemetryEvents.Count, 2);
+            Assert.IsType<StartupTelemetry>(device.TelemetryEvents[0]);
+            Assert.IsType<RemoteMonitorTelemetry>(device.TelemetryEvents[1]);
         }
     }
 }
