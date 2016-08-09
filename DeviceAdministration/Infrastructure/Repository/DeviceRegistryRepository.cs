@@ -94,10 +94,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceRequiredPropertyNotFoundException("'DeviceID' property is missing");
             }
 
-            DeviceModel existingDevice = await GetDeviceAsync(device.id);
+            DeviceModel existingDevice = await GetDeviceAsync(device.DeviceProperties.DeviceID);
             if (existingDevice == null)
             {
-                throw new DeviceNotRegisteredException(device.id);
+                throw new DeviceNotRegisteredException(device.DeviceProperties.DeviceID);
             }
 
             string incomingRid = device._rid ?? "";
@@ -153,7 +153,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             existingDevice.DeviceProperties.HubEnabledState = isEnabled;
             existingDevice.DeviceProperties.UpdatedTime = DateTime.UtcNow;
-            await _documentClient.SaveAsync(deviceId, existingDevice);
+            await _documentClient.SaveAsync(existingDevice.id, existingDevice);
             return existingDevice;
         }
 
