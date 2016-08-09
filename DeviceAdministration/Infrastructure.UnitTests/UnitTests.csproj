@@ -218,6 +218,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\SampleDataGeneratorTests.cs" />
     <Compile Include="Simulator.WebJob\AppConfigRepositoryTests.cs" />
+    <Compile Include="Simulator.WebJob\ChangeSetPointTempCommandProcessorTests.cs" />
     <Compile Include="Simulator.WebJob\ConcreteTelemetryTests.cs" />
     <Compile Include="Simulator.WebJob\DeserializableCommandTest.cs" />
     <Compile Include="Simulator.WebJob\DeviceBaseTests.cs" />
