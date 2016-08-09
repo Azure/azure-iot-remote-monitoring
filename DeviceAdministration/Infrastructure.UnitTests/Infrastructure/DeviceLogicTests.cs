@@ -314,11 +314,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var isEnabled = this.fixture.Create<bool>();
             var device = this.fixture.Create<DeviceModel>();
             this._iotHubRepositoryMock.Setup(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled)).ReturnsAsync(new Device());
-            this._deviceRegistryCrudRepositoryMock.Setup(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled)).ReturnsAsync(device);
+            this._deviceRegistryCrudRepositoryMock.SetupSequence(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled))
+                .ReturnsAsync(device)
+                .Throws<Exception>();
             var res = await this._deviceLogic.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
             Assert.Equal(res, device);
 
-            this._deviceRegistryCrudRepositoryMock.Setup(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled)).Throws<Exception>();
             this._iotHubRepositoryMock.Setup(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, !isEnabled)).ReturnsAsync(new Device());
             await Assert.ThrowsAsync<Exception>(async () => await this._deviceLogic.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled));
         }
