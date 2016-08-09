@@ -214,6 +214,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\SampleDataGeneratorTests.cs" />
     <Compile Include="Simulator.WebJob\DeviceBaseTests.cs" />
+    <Compile Include="Simulator.WebJob\DiagnosticTelemetryCommandProcessorTests.cs" />
     <Compile Include="Simulator.WebJob\PingDeviceProcessorTests.cs" />
     <Compile Include="Simulator.WebJob\StartCommandProcessorTests.cs" />
     <Compile Include="Simulator.WebJob\StopCommandProcessorTests.cs" />
