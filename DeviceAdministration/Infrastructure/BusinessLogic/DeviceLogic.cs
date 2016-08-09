@@ -367,9 +367,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             DeviceModel device,
             IEnumerable<DevicePropertyValueModel> devicePropertyValueModels)
         {
-            IDynamicMetaObjectProvider dynamicMetaObjectProvider;
-            ICustomTypeDescriptor typeDescriptor;
-
             if (device == null)
             {
                 throw new ArgumentNullException("device");
@@ -384,29 +381,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 throw new DeviceRequiredPropertyNotFoundException("Required DeviceProperties not found");
             }
-
-            if ((dynamicMetaObjectProvider = device.DeviceProperties as IDynamicMetaObjectProvider) != null)
-            {
-                ApplyPropertyValueModels(dynamicMetaObjectProvider, devicePropertyValueModels);
-            }
-            else if ((typeDescriptor = device.DeviceProperties as ICustomTypeDescriptor) != null)
-            {
-                ApplyPropertyValueModels(typeDescriptor, devicePropertyValueModels);
-            }
-            else
-            {
-                ApplyPropertyValueModels(device.DeviceProperties, devicePropertyValueModels);
-            }
+            ApplyPropertyValueModels(device.DeviceProperties, devicePropertyValueModels);
         }
 
         public IEnumerable<DevicePropertyValueModel> ExtractDevicePropertyValuesModels(
            DeviceModel device)
         {
             DeviceProperties deviceProperties;
-            IDynamicMetaObjectProvider dynamicMetaObjectProvider;
             string hostNameValue;
             IEnumerable<DevicePropertyValueModel> propValModels;
-            ICustomTypeDescriptor typeDescriptor;
 
             if (device == null)
             {
@@ -416,22 +399,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             deviceProperties = device.DeviceProperties;
             if (deviceProperties == null)
             {
-                throw new ArgumentException("device.DeviceProperties is a null reference.", "device");
+                throw new DeviceRequiredPropertyNotFoundException("Required DeviceProperties not found");
             }
 
-            if ((dynamicMetaObjectProvider = deviceProperties as IDynamicMetaObjectProvider) != null)
-            {
-                propValModels = ExtractPropertyValueModels(dynamicMetaObjectProvider);
-            }
-            else if ((typeDescriptor = deviceProperties as ICustomTypeDescriptor) != null)
-            {
-                propValModels = ExtractPropertyValueModels(typeDescriptor);
-            }
-            else
-            {
-                propValModels = ExtractPropertyValueModels((object)deviceProperties);
-            }
-
+            propValModels = ExtractPropertyValueModels((object)deviceProperties);
             hostNameValue = _configProvider.GetConfigurationSettingValue("iotHub.HostName");
 
             if (!string.IsNullOrEmpty(hostNameValue))
@@ -466,10 +437,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             PropertyInfo propInfo;
             DevicePropertyMetadata propMetadata;
             MethodInfo setter;
-
-            Debug.Assert(deviceProperties != null, "deviceProperties is a null reference.");
-
-            Debug.Assert(devicePropertyValueModels != null, "devicePropertyValueModels is a null reference.");
 
             devicePropertyIndex = GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
 
@@ -515,181 +482,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }
 
                 setter.Invoke(deviceProperties, args);
-            }
-        }
-
-        private static void ApplyPropertyValueModels(
-            ICustomTypeDescriptor deviceProperties,
-            IEnumerable<DevicePropertyValueModel> devicePropertyValueModels)
-        {
-            Dictionary<string, DevicePropertyMetadata> devicePropertyIndex;
-            Dictionary<string, PropertyDescriptor> propIndex;
-            PropertyDescriptor propDesc;
-            DevicePropertyMetadata propMetadata;
-
-            Debug.Assert(deviceProperties != null, "deviceProperties is a null reference.");
-
-            Debug.Assert(devicePropertyValueModels != null, "devicePropertyValueModels is a null reference.");
-
-            devicePropertyIndex = GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
-
-            propIndex = new Dictionary<string, PropertyDescriptor>();
-            foreach (PropertyDescriptor pd in deviceProperties.GetProperties())
-            {
-                propIndex[pd.Name] = pd;
-            }
-
-            foreach (DevicePropertyValueModel propVal in devicePropertyValueModels)
-            {
-                if ((propVal == null) || string.IsNullOrEmpty(propVal.Name))
-                {
-                    continue;
-                }
-
-                // Pass through properties that don't have a specified 
-                // configuration.
-                if (devicePropertyIndex.TryGetValue(propVal.Name, out propMetadata) && !propMetadata.IsEditable)
-                {
-                    continue;
-                }
-
-                if (!propIndex.TryGetValue(propVal.Name, out propDesc) || propDesc.IsReadOnly)
-                {
-                    continue;
-                }
-
-                propDesc.SetValue(deviceProperties, propVal.Value);
-            }
-        }
-
-        private static void ApplyPropertyValueModels(
-            IDynamicMetaObjectProvider deviceProperties,
-            IEnumerable<DevicePropertyValueModel> devicePropertyValueModels)
-        {
-            Dictionary<string, DevicePropertyMetadata> devicePropertyIndex;
-            HashSet<string> dynamicProperties;
-            DevicePropertyMetadata propMetadata;
-
-            Debug.Assert(
-                deviceProperties != null,
-                "deviceProperties is a null reference.");
-
-            Debug.Assert(
-                devicePropertyValueModels != null,
-                "devicePropertyValueModels is a null reference.");
-
-            devicePropertyIndex =
-                GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
-
-            dynamicProperties = 
-                new HashSet<string>(
-                    D.Dynamic.GetMemberNames(deviceProperties, true));
-
-            foreach (DevicePropertyValueModel propVal in devicePropertyValueModels)
-            {
-                if ((propVal == null) ||
-                    string.IsNullOrEmpty(propVal.Name))
-                {
-                    continue;
-                }
-
-                if (!dynamicProperties.Contains(propVal.Name))
-                {
-                    continue;
-                }
-
-                // Pass through properties that don't have a specified 
-                // configuration.
-                if (devicePropertyIndex.TryGetValue(propVal.Name, out propMetadata) && !propMetadata.IsEditable)
-                {
-                    continue;
-                }
-
-                D.Dynamic.InvokeSet(
-                    deviceProperties, 
-                    propVal.Name, 
-                    propVal.Value);
-            }
-        }
-
-
-        private static IEnumerable<DevicePropertyValueModel> ExtractPropertyValueModels(
-            ICustomTypeDescriptor deviceProperties)
-        {
-            DevicePropertyValueModel currentData;
-            object currentValue;
-            Dictionary<string, DevicePropertyMetadata> devicePropertyIndex;
-            int editableOrdering;
-            bool isDisplayedRegistered;
-            bool isDisplayedUnregistered;
-            bool isEditable;
-            int nonediableOrdering;
-            DevicePropertyMetadata propertyMetadata;
-
-            Debug.Assert(deviceProperties != null, "deviceProperties is a null reference.");
-
-            devicePropertyIndex = GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
-
-            // For now, display r/o properties first.
-            editableOrdering = 1;
-            nonediableOrdering = int.MinValue;
-
-            foreach (PropertyDescriptor prop in deviceProperties.GetProperties())
-            {
-                if (devicePropertyIndex.TryGetValue(prop.Name, out propertyMetadata))
-                {
-                    isDisplayedRegistered = propertyMetadata.IsDisplayedForRegisteredDevices;
-                    isDisplayedUnregistered = propertyMetadata.IsDisplayedForUnregisteredDevices;
-                    isEditable = propertyMetadata.IsEditable;
-
-                }
-                else
-                {
-                    isDisplayedRegistered = isEditable = true;
-                    isDisplayedUnregistered = false;
-                }
-
-                if (!isDisplayedRegistered && !isDisplayedUnregistered)
-                {
-                    continue;
-                }
-
-                // Mark R/O properties as not-ediable.
-                if (prop.IsReadOnly)
-                {
-                    isEditable = false;
-                }
-
-                currentData = new DevicePropertyValueModel()
-                {
-                    Name = prop.Name,
-                    PropertyType = propertyMetadata.PropertyType
-                };
-
-                if (isEditable)
-                {
-                    currentData.IsEditable = true;
-                    currentData.DisplayOrder = editableOrdering++;
-                }
-                else
-                {
-                    currentData.IsEditable = false;
-                    currentData.DisplayOrder = nonediableOrdering++;
-                }
-
-                currentData.IsIncludedWithUnregisteredDevices = isDisplayedUnregistered;
-
-                currentValue = prop.GetValue(deviceProperties);
-                if (currentValue == null)
-                {
-                    currentData.Value = string.Empty;
-                }
-                else
-                {
-                    currentData.Value = string.Format(CultureInfo.InvariantCulture, "{0}", currentValue);
-                }
-
-                yield return currentData;
             }
         }
 
@@ -769,85 +561,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 currentData.IsIncludedWithUnregisteredDevices = isDisplayedUnregistered;
 
                 currentValue = getMethod.Invoke(deviceProperties, ReflectionHelper.EmptyArray);
-                if (currentValue == null)
-                {
-                    currentData.Value = string.Empty;
-                }
-                else
-                {
-                    currentData.Value = string.Format(CultureInfo.InvariantCulture, "{0}", currentValue);
-                }
-
-                yield return currentData;
-            }
-        }
-
-        private static IEnumerable<DevicePropertyValueModel> ExtractPropertyValueModels(
-            IDynamicMetaObjectProvider deviceProperties)
-        {
-            DevicePropertyValueModel currentData;
-            object currentValue;
-            Dictionary<string, DevicePropertyMetadata> devicePropertyIndex;
-            int editableOrdering;
-            bool isDisplayedRegistered;
-            bool isDisplayedUnregistered;
-            bool isEditable;
-            int nonediableOrdering;
-            DevicePropertyMetadata propertyMetadata;
-            PropertyType propertyType;
-
-            Debug.Assert(deviceProperties != null, "deviceProperties is a null reference.");
-
-            devicePropertyIndex = GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
-
-            // For now, display r/o properties first.
-            editableOrdering = 1;
-            nonediableOrdering = int.MinValue;
-
-            foreach (string propertyName in D.Dynamic.GetMemberNames(deviceProperties, true))
-            {
-                if (devicePropertyIndex.TryGetValue(propertyName, out propertyMetadata))
-                {
-                    isDisplayedRegistered = propertyMetadata.IsDisplayedForRegisteredDevices;
-                    isDisplayedUnregistered = propertyMetadata.IsDisplayedForUnregisteredDevices;
-                    isEditable = propertyMetadata.IsEditable;
-
-                    propertyType = propertyMetadata.PropertyType;
-                }
-                else
-                {
-                    isDisplayedRegistered = isEditable = true;
-                    isDisplayedUnregistered = false;
-
-                    propertyType = PropertyType.String;
-                }
-
-                if (!isDisplayedRegistered && !isDisplayedUnregistered)
-                {
-                    continue;
-                }
-
-                currentData = new DevicePropertyValueModel()
-                {
-                    Name = propertyName,
-                    PropertyType = propertyType
-                };
-
-                if (isEditable)
-                {
-                    currentData.IsEditable = true;
-                    currentData.DisplayOrder = editableOrdering++;
-                }
-                else
-                {
-                    currentData.IsEditable = false;
-                    currentData.DisplayOrder = nonediableOrdering++;
-                }
-
-                currentData.IsIncludedWithUnregisteredDevices =
-                    isDisplayedUnregistered;
-
-                currentValue = D.Dynamic.InvokeGet(deviceProperties, propertyName);
                 if (currentValue == null)
                 {
                     currentData.Value = string.Empty;
