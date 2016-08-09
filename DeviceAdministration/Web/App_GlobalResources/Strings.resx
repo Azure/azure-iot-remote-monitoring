@@ -1519,10 +1519,6 @@
     <value>Register this solution with the API from your cellular connectivity provider by clicking 'Create' and filling in your details.</value>
     <comment>Tile subheading.</comment>
   </data>
-  <data name="ApiRegistrationTitleJasper" xml:space="preserve">
-    <value>Jasper API Registration</value>
-    <comment>Panel heading. {Locked="Jasper"}{Locked="API"}</comment>
-  </data>
   <data name="CellularConnViewTitle" xml:space="preserve">
     <value>Cellular Conn</value>
     <comment>Panel heading.</comment>
@@ -1683,9 +1679,6 @@
   <data name="ApiRegistrationTitle" xml:space="preserve">
     <value>API Registration</value>
   </data>
-  <data name="ApiRegistrationTitleEricsson" xml:space="preserve">
-    <value>Ericsson API Registration</value>
-  </data>
   <data name="EricssonHelpLink" xml:space="preserve">
     <value>https://www.ericsson.com/microsoft-iot</value>
   </data>
@@ -1713,11 +1706,7 @@
     <value>If you change your provider this will disassociate any connected devices and the current API registration. To change provider click "Change API Provider" below.</value>
     <comment>Warning label</comment>
   </data>
-  <data name="ApiProviderWarningPopupInitial" xml:space="preserve">
-    <value>Are you sure you want to change provider? This will disasociate and connected devices and delete your existing connection.</value>
-    <comment>Popup message</comment>
-  </data>
-  <data name="ApiProviderWarningPopupOnSave" xml:space="preserve">
+  <data name="ApiProviderChangeWarningMessage" xml:space="preserve">
     <value>You are about to change API providers. This will remove your current association as you can only have one at a time. Are you sure you want to do this?</value>
     <comment>Popup message</comment>
   </data>

@@ -107,16 +107,14 @@
         // set up page
         $(document).tooltip();
         initApiRegistrationFields(config);
-
         if (config.apiRegistrationProvider) {
-            $("#saveButton").prop("disabled", false);
-            $("#editButton").prop("disabled", true);
             $("#changeApiRegistrationProviderButton").prop("disabled", false);
         }
         else {
-            $("#editButton").prop("disabled", true);
             $("#changeApiRegistrationProviderButton").prop("disabled", true);
         }
+        $("#saveButton").prop("disabled", true);
+        $("#editButton").prop("disabled", false);
 
         $("#saveButton").bind("click", function () {
             var apiProvider = $.trim($("#apiRegistrationProvider").val())
@@ -125,7 +123,7 @@
             
             // if the provider is set and has changed then show warning message
             if (providerHasChanged) {
-                confirmSave = confirm(config.apiProviderChangeWarningMessageOnSave);
+                confirmSave = confirm(config.apiProviderChangeWarningMessage);
             }
 
             // if not confirmed then bail
@@ -167,11 +165,9 @@
         });
 
         $("#changeApiRegistrationProviderButton").bind("click", function () {
-            var confirmed = confirm(config.apiProviderChangeWarningMessageInitial);
-            if(confirmed){
-                $('#apiRegistrationProvider').prop("disabled", false)
-                enableApiRegistrationEdit(config.apiRegistrationProvider, true);
-            }
+            $('#apiRegistrationProvider').prop("disabled", false)
+            $('#changeApiRegistrationProviderButton').prop("disabled", true)
+            enableApiRegistrationEdit(config.apiRegistrationProvider, true);
         });
     }
 
@@ -218,6 +214,7 @@
     }
 
     var initApiRegistrationFields = function (config) {
+        disableAllInput();
         $('#apiRegistrationProvider').on('change', function (event) {
             event.preventDefault();
             showApiRegistrationFields(this.value);
