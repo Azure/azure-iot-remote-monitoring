@@ -232,6 +232,9 @@
     <Compile Include="Simulator.WebJob\StartCommandProcessorTests.cs" />
     <Compile Include="Simulator.WebJob\StopCommandProcessorTests.cs" />
     <Compile Include="Simulator.WebJob\GenericConcreteTelemetryFactoryTests.cs" />
+    <Compile Include="Simulator.WebJob\CoolerTelemetryFactoryTests.cs" />
+    <Compile Include="Simulator.WebJob\RemoteMonitorTelemetryTests.cs" />
+    <Compile Include="Simulator.WebJob\StartupTelemetryTests.cs" />
     <Compile Include="TestStubs\HttpMessageHandlerStub.cs" />
     <Compile Include="TestStubs\RandomGeneratorStub.cs" />
     <Compile Include="Web\Controllers\AdvancedControllerTests.cs" />
