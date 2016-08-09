@@ -35,19 +35,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
         private readonly Mock<ITransportFactory> _transportFactory;
 
         [Fact]
-        public async void CannotCompleteCommandFromParametersTest()
-        {
-            var history = new CommandHistory("DiagnosticTelemetry");
-            var command = new DeserializableCommand(history, "LockToken");
-            history.Parameters = new ExpandoObject();
-
-            //no active property
-            history.Parameters.Active = false;
-            var r = await _diagnosticTelemetryCommandProcessor.HandleCommandAsync(command);
-            Assert.Equal(r, CommandProcessingResult.RetryLater);
-        }
-
-        [Fact]
         public async void CannotCompleteCommandTests()
         {
             var history = new CommandHistory("CommandShouldNotComplete");
