@@ -73,7 +73,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceNotRegisteredException(deviceId);
             }
 
-            await _documentClient.DeleteAsync(deviceId);
+            await _documentClient.DeleteAsync(existingDevice.id);
         }
 
         /// <summary>
