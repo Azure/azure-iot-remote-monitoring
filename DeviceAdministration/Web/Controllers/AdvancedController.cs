@@ -110,11 +110,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 _apiRegistrationRepository.AmendRegistration(apiModel);
                 var registrationModel = _apiRegistrationRepository.RecieveDetails();
 
-                //var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.ApiRegistrationProvider.ConvertToExternalEnum());
-                //if (!credentialsAreValid)
-                //{
-                //    _apiRegistrationRepository.DeleteApiDetails();
-                //}
+                var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.ApiRegistrationProvider.ConvertToExternalEnum());
+                if (!credentialsAreValid)
+                {
+                    _apiRegistrationRepository.DeleteApiDetails();
+                }
             }
             catch (Exception ex)
             {
