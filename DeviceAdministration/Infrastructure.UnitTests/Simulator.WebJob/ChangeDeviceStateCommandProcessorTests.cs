@@ -1,4 +1,9 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.CommandProcessors;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices;
@@ -12,16 +17,16 @@ using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simulator.WebJob
 {
-    public class ChangeSetPointTempCommandProcessorTests
+    public class ChangeDeviceStateCommandProcessorTests
     {
 
-        private readonly Mock<CoolerDevice> _coolerDevice;
-        private readonly ChangeSetPointTempCommandProcessor _changeSetPointTempCommandProcessor;
-        private readonly Mock<IConfigurationProvider> _configurationProviderMock;
-        private readonly Mock<ILogger> _loggerMock;
-        private readonly Mock<ITelemetryFactory> _telemetryFactoryMock;
-        private readonly Mock<ITransportFactory> _transportFactory;
-        public ChangeSetPointTempCommandProcessorTests()
+        private Mock<CoolerDevice> _coolerDevice;
+        private ChangeDeviceStateCommandProcessor _changeDeviceStateCommandProcessor;
+        private Mock<IConfigurationProvider> _configurationProviderMock;
+        private Mock<ILogger> _loggerMock;
+        private Mock<ITelemetryFactory> _telemetryFactoryMock;
+        private Mock<ITransportFactory> _transportFactory;
+        public ChangeDeviceStateCommandProcessorTests()
         {
             _loggerMock = new Mock<ILogger>();
             _transportFactory = new Mock<ITransportFactory>();
@@ -30,7 +35,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
             _coolerDevice = new Mock<CoolerDevice>(_loggerMock.Object, _transportFactory.Object,
                 _telemetryFactoryMock.Object,
                 _configurationProviderMock.Object);
-            _changeSetPointTempCommandProcessor = new ChangeSetPointTempCommandProcessor(_coolerDevice.Object);
+            _changeDeviceStateCommandProcessor = new ChangeDeviceStateCommandProcessor(_coolerDevice.Object);
         }
 
         [Fact]
@@ -39,7 +44,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
             var history = new CommandHistory("CommandShouldNotComplete");
             var command = new DeserializableCommand(history, "LockToken");
             //null pararameters
-            var r = await _changeSetPointTempCommandProcessor.HandleCommandAsync(command);
+            var r = await _changeDeviceStateCommandProcessor.HandleCommandAsync(command);
             Assert.Equal(r, CommandProcessingResult.CannotComplete);
         }
     }
