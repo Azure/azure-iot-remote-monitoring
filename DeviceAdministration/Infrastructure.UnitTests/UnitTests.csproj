@@ -110,6 +110,10 @@
       <HintPath>..\..\packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Azure.Devices.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.Azure.Devices.Client.1.0.13\lib\net45\Microsoft.Azure.Devices.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\WindowsAzure.Storage.7.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
@@ -214,8 +218,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\SampleDataGeneratorTests.cs" />
     <Compile Include="Simulator.WebJob\CoolerDeviceFactoryTests.cs" />
+    <Compile Include="Simulator.WebJob\AppConfigRepositoryTests.cs" />
+    <Compile Include="Simulator.WebJob\ConcreteTelemetryTests.cs" />
+    <Compile Include="Simulator.WebJob\DeserializableCommandTest.cs" />
     <Compile Include="Simulator.WebJob\DeviceBaseTests.cs" />
     <Compile Include="Simulator.WebJob\PingDeviceProcessorTests.cs" />
+    <Compile Include="Simulator.WebJob\GenericConcreteTelemetryFactoryTests.cs" />
     <Compile Include="TestStubs\HttpMessageHandlerStub.cs" />
     <Compile Include="TestStubs\RandomGeneratorStub.cs" />
     <Compile Include="Web\Controllers\AdvancedControllerTests.cs" />
