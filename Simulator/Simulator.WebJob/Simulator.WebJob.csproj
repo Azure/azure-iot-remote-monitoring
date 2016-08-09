@@ -208,8 +208,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="SimulatorCore\Serialization\ISerialize.cs" />
-    <Compile Include="SimulatorCore\Serialization\JsonSerialize.cs" />
     <Compile Include="Cooler\Telemetry\Data\RemoteMonitorTelemetryData.cs" />
     <Compile Include="Cooler\Telemetry\RemoteMonitorTelemetry.cs" />
     <Compile Include="Cooler\Telemetry\Factory\CoolerTelemetryFactory.cs" />
