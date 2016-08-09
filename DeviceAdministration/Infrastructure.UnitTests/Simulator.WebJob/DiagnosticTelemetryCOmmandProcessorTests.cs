@@ -43,5 +43,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
             var r = await _diagnosticTelemetryCommandProcessor.HandleCommandAsync(command);
             Assert.Equal(r, CommandProcessingResult.CannotComplete);
         }
+
+        [Fact]
+        public async void RetryLaterCommandTests()
+        {
+            var history = new CommandHistory("DiagnosticTelemetry");
+            var command = new DeserializableCommand(history, "LockToken");
+            history.Parameters = new ExpandoObject();
+            history.Parameters.Active = true;
+            //null pararameters
+            var r = await _diagnosticTelemetryCommandProcessor.HandleCommandAsync(command);
+            Assert.Equal(r, CommandProcessingResult.RetryLater);
+        }
     }
 }
