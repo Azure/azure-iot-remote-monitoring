@@ -103,16 +103,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             await _deviceLogic.UpdateDeviceAsync(device);
         }
 
-        public bool SaveRegistration(ApiRegistrationModel apiModel)
+        public async Task<bool> SaveRegistration(ApiRegistrationModel apiModel)
         {
             try
             {
                 var registrationModel = _apiRegistrationRepository.RecieveDetails();
 
+                // if api provider has changed then disassociate all associated devices
                 if(registrationModel.ApiRegistrationProvider != apiModel.ApiRegistrationProvider)
                 {
-                    // TODO
-                    // unregister the API and any connected devices
+                    var disassociateDeviceResult = await DisassociateAllDevices();
+                    if (!disassociateDeviceResult)
+                    {
+                        return false;
+                    }
                 }
 
                 _apiRegistrationRepository.AmendRegistration(apiModel);             
@@ -158,6 +162,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             var devices = await _deviceLogic.GetDevices(query);
             return devices.Results;
+        }
+
+
+        /// <summary>
+        /// Disassociates all devices
+        /// </summary>
+        /// <returns></returns>
+        private async Task<bool> DisassociateAllDevices()
+        {
+            try
+            {
+                var devices = await GetDevices();
+                var connectedDevices = _cellularService.GetListOfConnectedDeviceIds(devices);
+                foreach (dynamic device in connectedDevices)
+                {
+                    device.SystemProperties.ICCID = null;
+                    await _deviceLogic.UpdateDeviceAsync(device);
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
