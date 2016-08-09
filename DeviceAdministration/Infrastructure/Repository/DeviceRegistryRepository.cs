@@ -55,10 +55,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             var id = device.id;
-            DeviceModel existingDevice = await GetDeviceAsync(id);
+            DeviceModel existingDevice = await GetDeviceAsync(device.DeviceProperties.DeviceID);
             if (existingDevice != null)
             {
-                throw new DeviceAlreadyRegisteredException(id);
+                throw new DeviceAlreadyRegisteredException(device.DeviceProperties.DeviceID);
             }
 
             await _documentClient.SaveAsync(id, device);
