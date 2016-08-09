@@ -43,14 +43,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         public async Task<T> GetAsync(string id)
         {
             await InitializeDatabaseIfRequired();
-            var document = await _client.ReadDocumentAsync(UriFactory.CreateDocumentUri(_databaseId, _collectionName, id));
+            var response = await _client.ReadDocumentAsync(UriFactory.CreateDocumentUri(_databaseId, _collectionName, id));
+            return await Deserialize(response.Resource);
 
-            var documentStream = new MemoryStream();
-            document.Resource.SaveTo(documentStream);
-            documentStream.Position = 0;
-
-            var rawDocumentData = await new StreamReader(documentStream).ReadToEndAsync();
-            return JsonConvert.DeserializeObject<T>(rawDocumentData);
         }
 
         /// <summary>
@@ -65,12 +60,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// <summary>
         /// Saves a document to the the db.
         /// </summary>
-        /// <param name="id">The id of the document to save.</param>
         /// <param name="data">The data of the document to save.</param>
-        public async Task SaveAsync(string id, T data)
+        public async Task<T> SaveAsync(T data)
         {
             await InitializeDatabaseIfRequired();
-            await _client.UpsertDocumentAsync(UriFactory.CreateDocumentCollectionUri(_databaseId, _collectionName), data);
+            var response = await _client.UpsertDocumentAsync(UriFactory.CreateDocumentCollectionUri(_databaseId, _collectionName), data);
+            return await Deserialize(response.Resource);
         }
 
         /// <summary>
@@ -126,6 +121,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 }
 
                 throw;
+            }
+        }
+
+        private async Task<T> Deserialize(Document document)
+        {
+            using (var documentStream = new MemoryStream())
+            using (var reader = new StreamReader(documentStream))
+            {
+                document.SaveTo(documentStream);
+                documentStream.Position = 0;
+                var rawDocumentData = await reader.ReadToEndAsync();
+                return JsonConvert.DeserializeObject<T>(rawDocumentData);
             }
         }
     }

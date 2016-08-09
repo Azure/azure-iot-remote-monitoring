@@ -19,9 +19,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// <summary>
         /// Saves a document to the the db.
         /// </summary>
-        /// <param name="id">The id of the document to save.</param>
         /// <param name="data">The data of the document to save.</param>
-        Task SaveAsync(string id, T data);
+        Task<T> SaveAsync(T data);
 
         /// <summary>
         /// Deletes a document from the db.

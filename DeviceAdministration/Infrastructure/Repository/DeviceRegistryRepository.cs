@@ -61,8 +61,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceAlreadyRegisteredException(device.DeviceProperties.DeviceID);
             }
 
-            await _documentClient.SaveAsync(id, device);
-            return device;
+            var savedDevice = await _documentClient.SaveAsync(device);
+            return savedDevice;
         }
 
         public async Task RemoveDeviceAsync(string deviceId)
@@ -132,8 +132,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             device.DeviceProperties.UpdatedTime = DateTime.UtcNow;
-            await _documentClient.SaveAsync(device.id, device);
-            return device;
+            var savedDevice = await _documentClient.SaveAsync(device);
+            return savedDevice;
         }
 
         public async Task<DeviceModel> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
@@ -153,7 +153,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             existingDevice.DeviceProperties.HubEnabledState = isEnabled;
             existingDevice.DeviceProperties.UpdatedTime = DateTime.UtcNow;
-            await _documentClient.SaveAsync(existingDevice.id, existingDevice);
+            await _documentClient.SaveAsync(existingDevice);
             return existingDevice;
         }
 
