@@ -54,7 +54,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 device.id = Guid.NewGuid().ToString();
             }
 
-            var id = device.id;
             DeviceModel existingDevice = await GetDeviceAsync(device.DeviceProperties.DeviceID);
             if (existingDevice != null)
             {
