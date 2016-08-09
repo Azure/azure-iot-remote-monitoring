@@ -2,13 +2,14 @@
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Serialization;
 using Microsoft.Azure.Devices.Client;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport
 {
@@ -17,16 +18,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// </summary>
     public class IoTHubTransport : ITransport
     {
-        private readonly ISerialize _serializer;
         private readonly ILogger _logger;
         private readonly IConfigurationProvider _configurationProvider;
         private readonly IDevice _device;
         private DeviceClient _deviceClient;
         private bool _disposed = false;
 
-        public IoTHubTransport(ISerialize serializer, ILogger logger, IConfigurationProvider configurationProvider, IDevice device)
+        public IoTHubTransport(ILogger logger, IConfigurationProvider configurationProvider, IDevice device)
         {
-            _serializer = serializer;
             _logger = logger;
             _configurationProvider = configurationProvider;
             _device = device;
@@ -96,7 +95,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             //string rawJson = JsonConvert.SerializeObject(eventData);
             //Trace.TraceInformation(rawJson);
 
-            bytes = _serializer.SerializeObject(eventData);
+            bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(eventData));
 
             var message = new Client.Message(bytes);
             message.Properties["EventId"] = eventId.ToString();
@@ -166,7 +165,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             if (message != null)
             {
-                return new DeserializableCommand(message, _serializer);
+                return new DeserializableCommand(message);
             }
 
             return null;
