@@ -15,7 +15,6 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Dat
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Repository;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Serialization;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
@@ -122,9 +121,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
             var configProvider = new ConfigurationProvider();
             var tableStorageClientFactory = new AzureTableStorageClientFactory();
             var telemetryFactory = new CoolerTelemetryFactory(logger);
-
-            var serializer = new JsonSerialize();
-            var transportFactory = new IotHubTransportFactory(serializer, logger, configProvider);
+            
+            var transportFactory = new IotHubTransportFactory(logger, configProvider);
 
             IVirtualDeviceStorage deviceStorage = null;
             var useConfigforDeviceList = Convert.ToBoolean(configProvider.GetConfigurationSettingValueOrDefault("UseConfigForDeviceList", "False"), CultureInfo.InvariantCulture);

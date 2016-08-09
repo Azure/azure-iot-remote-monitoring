@@ -2,19 +2,16 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Serialization;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport
 {
     public class EmptyTransport : ITransport
     {
         private readonly ILogger _logger;
-        private readonly ISerialize _serializer;
 
-        public EmptyTransport(ILogger logger, ISerialize serializer)
+        public EmptyTransport(ILogger logger)
         {
             _logger = logger;
-            _serializer = serializer;
         }
 
         public void Open()
@@ -52,7 +49,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public async Task<DeserializableCommand> ReceiveAsync()
         {
             _logger.LogInfo("ReceiveAsync: waiting...");
-            return await Task.Run(() => new DeserializableCommand(new Client.Message(), _serializer));
+            return await Task.Run(() => new DeserializableCommand(new Client.Message()));
         }
 
         public async Task SignalAbandonedCommand(DeserializableCommand command)
