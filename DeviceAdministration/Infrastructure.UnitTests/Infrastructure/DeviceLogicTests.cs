@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
@@ -30,36 +31,39 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public DeviceLogicTests()
         {
-            _iotHubRepositoryMock = new Mock<IIotHubRepository>();
-            _deviceRegistryCrudRepositoryMock = new Mock<IDeviceRegistryCrudRepository>();
-            _deviceRegistryListRepositoryMock = new Mock<IDeviceRegistryListRepository>();
-            _virtualDeviceStorageMock = new Mock<IVirtualDeviceStorage>();
-            _configProviderMock = new Mock<IConfigurationProvider>();
-            _securityKeyGeneratorMock = new Mock<ISecurityKeyGenerator>();
-            _deviceRulesLogicMock = new Mock<IDeviceRulesLogic>();
-            _deviceLogic = new DeviceLogic(_iotHubRepositoryMock.Object, _deviceRegistryCrudRepositoryMock.Object,
-                _deviceRegistryListRepositoryMock.Object, _virtualDeviceStorageMock.Object,
-                _securityKeyGeneratorMock.Object, _configProviderMock.Object, _deviceRulesLogicMock.Object);
-            fixture = new Fixture();
+            this._iotHubRepositoryMock = new Mock<IIotHubRepository>();
+            this._deviceRegistryCrudRepositoryMock = new Mock<IDeviceRegistryCrudRepository>();
+            this._deviceRegistryListRepositoryMock = new Mock<IDeviceRegistryListRepository>();
+            this._virtualDeviceStorageMock = new Mock<IVirtualDeviceStorage>();
+            this._configProviderMock = new Mock<IConfigurationProvider>();
+            this._securityKeyGeneratorMock = new Mock<ISecurityKeyGenerator>();
+            this._deviceRulesLogicMock = new Mock<IDeviceRulesLogic>();
+            this._deviceLogic = new DeviceLogic(this._iotHubRepositoryMock.Object,
+                                                this._deviceRegistryCrudRepositoryMock.Object,
+                                                this._deviceRegistryListRepositoryMock.Object,
+                                                this._virtualDeviceStorageMock.Object,
+                                                this._securityKeyGeneratorMock.Object,
+                                                this._configProviderMock.Object,
+                                                this._deviceRulesLogicMock.Object);
+            this.fixture = new Fixture();
         }
 
         [Fact]
         public async void GetDevicesTest()
         {
-            var query = fixture.Create<DeviceListQuery>();
-            var result = fixture.Create<DeviceListQueryResult>();
-            _deviceRegistryListRepositoryMock.SetupSequence(x => x.GetDeviceList(It.IsAny<DeviceListQuery>()))
+            var query = this.fixture.Create<DeviceListQuery>();
+            var result = this.fixture.Create<DeviceListQueryResult>();
+            this._deviceRegistryListRepositoryMock.SetupSequence(x => x.GetDeviceList(It.IsAny<DeviceListQuery>()))
                 .ReturnsAsync(result)
                 .ReturnsAsync(new DeviceListQueryResult());
 
-
-            var res = await _deviceLogic.GetDevices(query);
+            var res = await this._deviceLogic.GetDevices(query);
             Assert.NotNull(res);
             Assert.NotNull(res.Results);
             Assert.NotEqual(0, res.TotalDeviceCount);
             Assert.NotEqual(0, res.TotalFilteredCount);
 
-            res = await _deviceLogic.GetDevices(null);
+            res = await this._deviceLogic.GetDevices(null);
             Assert.NotNull(res);
             Assert.Null(res.Results);
             Assert.Equal(0, res.TotalDeviceCount);
@@ -69,76 +73,76 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void GetDeviceAsyncTest()
         {
-            var device = fixture.Create<DeviceModel>();
-            _deviceRegistryCrudRepositoryMock.Setup(x => x.GetDeviceAsync(device.DeviceProperties.DeviceID))
+            var device = this.fixture.Create<DeviceModel>();
+            this._deviceRegistryCrudRepositoryMock.Setup(x => x.GetDeviceAsync(device.DeviceProperties.DeviceID))
                 .ReturnsAsync(device);
 
-            var retDevice = await _deviceLogic.GetDeviceAsync(device.DeviceProperties.DeviceID);
+            var retDevice = await this._deviceLogic.GetDeviceAsync(device.DeviceProperties.DeviceID);
             Assert.Equal(device, retDevice);
 
-            retDevice = await _deviceLogic.GetDeviceAsync("DeviceNotExist");
+            retDevice = await this._deviceLogic.GetDeviceAsync("DeviceNotExist");
             Assert.Null(retDevice);
 
-            retDevice = await _deviceLogic.GetDeviceAsync(null);
+            retDevice = await this._deviceLogic.GetDeviceAsync(null);
             Assert.Null(retDevice);
         }
 
         [Fact]
         public async void AddDeviceAsyncTest()
         {
-            var d1 = fixture.Create<DeviceModel>();
-            _iotHubRepositoryMock.Setup(x => x.AddDeviceAsync(It.IsAny<DeviceModel>(), It.IsAny<SecurityKeys>()))
+            var d1 = this.fixture.Create<DeviceModel>();
+            this._iotHubRepositoryMock.Setup(x => x.AddDeviceAsync(It.IsAny<DeviceModel>(), It.IsAny<SecurityKeys>()))
                 .ReturnsAsync(d1);
 
             //Add device without DeviceProperties
             d1.DeviceProperties = null;
-            await Assert.ThrowsAsync<ValidationException>(async () => await _deviceLogic.AddDeviceAsync(d1));
+            await Assert.ThrowsAsync<ValidationException>(async () => await this._deviceLogic.AddDeviceAsync(d1));
 
             //Add device with Null or empty DeviceId
-            d1.DeviceProperties = fixture.Create<DeviceProperties>();
+            d1.DeviceProperties = this.fixture.Create<DeviceProperties>();
             d1.DeviceProperties.DeviceID = null;
-            await Assert.ThrowsAsync<ValidationException>(async () => await _deviceLogic.AddDeviceAsync(d1));
+            await Assert.ThrowsAsync<ValidationException>(async () => await this._deviceLogic.AddDeviceAsync(d1));
             d1.DeviceProperties.DeviceID = "";
-            await Assert.ThrowsAsync<ValidationException>(async () => await _deviceLogic.AddDeviceAsync(d1));
+            await Assert.ThrowsAsync<ValidationException>(async () => await this._deviceLogic.AddDeviceAsync(d1));
 
             //Add existing device
-            var d2 = fixture.Create<DeviceModel>();
-            _deviceRegistryCrudRepositoryMock.Setup(x => x.GetDeviceAsync(d2.DeviceProperties.DeviceID))
+            var d2 = this.fixture.Create<DeviceModel>();
+            this._deviceRegistryCrudRepositoryMock.Setup(x => x.GetDeviceAsync(d2.DeviceProperties.DeviceID))
                 .ReturnsAsync(d2);
-            await Assert.ThrowsAsync<ValidationException>(async () => await _deviceLogic.AddDeviceAsync(d2));
+            await Assert.ThrowsAsync<ValidationException>(async () => await this._deviceLogic.AddDeviceAsync(d2));
 
-            d1.DeviceProperties.DeviceID = fixture.Create<string>();
+            d1.DeviceProperties.DeviceID = this.fixture.Create<string>();
             var keys = new SecurityKeys("fbsIV6w7gfVUyoRIQFSVgw ==", "1fLjiNCMZF37LmHnjZDyVQ ==");
-            _securityKeyGeneratorMock.Setup(x => x.CreateRandomKeys()).Returns(keys);
-            var hostname = fixture.Create<string>();
-            _configProviderMock.Setup(x => x.GetConfigurationSettingValue(It.IsAny<string>())).Returns(hostname);
+            this._securityKeyGeneratorMock.Setup(x => x.CreateRandomKeys()).Returns(keys);
+            var hostname = this.fixture.Create<string>();
+            this._configProviderMock.Setup(x => x.GetConfigurationSettingValue(It.IsAny<string>())).Returns(hostname);
 
             //Device registry throws exception
-            _deviceRegistryCrudRepositoryMock.Setup(x => x.AddDeviceAsync(It.IsAny<DeviceModel>()))
+            this._deviceRegistryCrudRepositoryMock.Setup(x => x.AddDeviceAsync(It.IsAny<DeviceModel>()))
                 .ThrowsAsync(new Exception());
-            _iotHubRepositoryMock.Setup(x => x.TryRemoveDeviceAsync(It.IsAny<string>())).ReturnsAsync(true).Verifiable();
-            await Assert.ThrowsAsync<Exception>(async () => await _deviceLogic.AddDeviceAsync(d1));
-            _virtualDeviceStorageMock.Verify(x => x.AddOrUpdateDeviceAsync(It.IsAny<InitialDeviceConfig>()),
-                Times.Never());
-            _iotHubRepositoryMock.Verify(x => x.TryRemoveDeviceAsync(d1.DeviceProperties.DeviceID), Times.Once());
+            this._iotHubRepositoryMock.Setup(x => x.TryRemoveDeviceAsync(It.IsAny<string>())).ReturnsAsync(true).Verifiable();
+            await Assert.ThrowsAsync<Exception>(async () => await this._deviceLogic.AddDeviceAsync(d1));
+            this._virtualDeviceStorageMock.Verify(x => x.AddOrUpdateDeviceAsync(It.IsAny<InitialDeviceConfig>()),
+                                                  Times.Never());
+            this._iotHubRepositoryMock.Verify(x => x.TryRemoveDeviceAsync(d1.DeviceProperties.DeviceID), Times.Once());
 
             //Custom device
             d1.IsSimulatedDevice = false;
-            _deviceRegistryCrudRepositoryMock.Setup(x => x.AddDeviceAsync(It.IsAny<DeviceModel>())).ReturnsAsync(d1);
-            var ret = await _deviceLogic.AddDeviceAsync(d1);
-            _virtualDeviceStorageMock.Verify(x => x.AddOrUpdateDeviceAsync(It.IsAny<InitialDeviceConfig>()),
-                Times.Never());
+            this._deviceRegistryCrudRepositoryMock.Setup(x => x.AddDeviceAsync(It.IsAny<DeviceModel>())).ReturnsAsync(d1);
+            var ret = await this._deviceLogic.AddDeviceAsync(d1);
+            this._virtualDeviceStorageMock.Verify(x => x.AddOrUpdateDeviceAsync(It.IsAny<InitialDeviceConfig>()),
+                                                  Times.Never());
             Assert.NotNull(ret);
             Assert.Equal(d1, ret.Device);
             Assert.Equal(keys, ret.SecurityKeys);
 
             //Simulated device
-            _deviceRegistryCrudRepositoryMock.Setup(x => x.AddDeviceAsync(It.IsAny<DeviceModel>())).ReturnsAsync(d1);
-            _virtualDeviceStorageMock.Setup(x => x.AddOrUpdateDeviceAsync(It.IsAny<InitialDeviceConfig>())).Verifiable();
+            this._deviceRegistryCrudRepositoryMock.Setup(x => x.AddDeviceAsync(It.IsAny<DeviceModel>())).ReturnsAsync(d1);
+            this._virtualDeviceStorageMock.Setup(x => x.AddOrUpdateDeviceAsync(It.IsAny<InitialDeviceConfig>())).Verifiable();
             d1.IsSimulatedDevice = true;
-            ret = await _deviceLogic.AddDeviceAsync(d1);
-            _virtualDeviceStorageMock.Verify(x => x.AddOrUpdateDeviceAsync(It.IsAny<InitialDeviceConfig>()),
-                Times.Once());
+            ret = await this._deviceLogic.AddDeviceAsync(d1);
+            this._virtualDeviceStorageMock.Verify(x => x.AddOrUpdateDeviceAsync(It.IsAny<InitialDeviceConfig>()),
+                                                  Times.Once());
             Assert.NotNull(ret);
             Assert.Equal(d1, ret.Device);
             Assert.Equal(keys, ret.SecurityKeys);
@@ -147,38 +151,38 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public async void RemoveDeviceAsyncTest()
         {
-            var deviceId = fixture.Create<string>();
+            var deviceId = this.fixture.Create<string>();
             var device = new Device(deviceId);
-            _iotHubRepositoryMock.Setup(x => x.GetIotHubDeviceAsync(It.IsNotNull<string>())).ReturnsAsync(device);
-            _iotHubRepositoryMock.Setup(x => x.RemoveDeviceAsync(It.IsNotNull<string>())).Returns(Task.FromResult(true));
+            this._iotHubRepositoryMock.Setup(x => x.GetIotHubDeviceAsync(It.IsNotNull<string>())).ReturnsAsync(device);
+            this._iotHubRepositoryMock.Setup(x => x.RemoveDeviceAsync(It.IsNotNull<string>())).Returns(Task.FromResult(true));
 
             //Device not registered with IoTHub
             await
-                Assert.ThrowsAsync<DeviceNotRegisteredException>(async () => await _deviceLogic.RemoveDeviceAsync(null));
+                Assert.ThrowsAsync<DeviceNotRegisteredException>(async () => await this._deviceLogic.RemoveDeviceAsync(null));
 
             //Should pass without any exceptions
-            _virtualDeviceStorageMock.Setup(x => x.RemoveDeviceAsync(It.IsNotNull<string>())).ReturnsAsync(true);
-            _deviceRulesLogicMock.Setup(x => x.RemoveAllRulesForDeviceAsync(It.IsNotNull<string>())).ReturnsAsync(true);
-            await _deviceLogic.RemoveDeviceAsync(deviceId);
-            _virtualDeviceStorageMock.Verify(x => x.RemoveDeviceAsync(deviceId), Times.Once());
-            _deviceRulesLogicMock.Verify(x => x.RemoveAllRulesForDeviceAsync(deviceId), Times.Once());
+            this._virtualDeviceStorageMock.Setup(x => x.RemoveDeviceAsync(It.IsNotNull<string>())).ReturnsAsync(true);
+            this._deviceRulesLogicMock.Setup(x => x.RemoveAllRulesForDeviceAsync(It.IsNotNull<string>())).ReturnsAsync(true);
+            await this._deviceLogic.RemoveDeviceAsync(deviceId);
+            this._virtualDeviceStorageMock.Verify(x => x.RemoveDeviceAsync(deviceId), Times.Once());
+            this._deviceRulesLogicMock.Verify(x => x.RemoveAllRulesForDeviceAsync(deviceId), Times.Once());
 
             //Device registry throws exception
-            _deviceRegistryCrudRepositoryMock.Setup(x => x.RemoveDeviceAsync(It.IsAny<string>()))
+            this._deviceRegistryCrudRepositoryMock.Setup(x => x.RemoveDeviceAsync(It.IsAny<string>()))
                 .Throws(new Exception());
-            _iotHubRepositoryMock.Setup(x => x.TryAddDeviceAsync(It.IsAny<Device>())).ReturnsAsync(true).Verifiable();
-            await Assert.ThrowsAsync<Exception>(async () => await _deviceLogic.RemoveDeviceAsync(deviceId));
-            _iotHubRepositoryMock.Verify(x => x.TryAddDeviceAsync(device), Times.Once());
+            this._iotHubRepositoryMock.Setup(x => x.TryAddDeviceAsync(It.IsAny<Device>())).ReturnsAsync(true).Verifiable();
+            await Assert.ThrowsAsync<Exception>(async () => await this._deviceLogic.RemoveDeviceAsync(deviceId));
+            this._iotHubRepositoryMock.Verify(x => x.TryAddDeviceAsync(device), Times.Once());
         }
 
         [Fact]
         public async void UpdateDeviceAsyncTest()
         {
-            var d = fixture.Create<DeviceModel>();
-            _deviceRegistryCrudRepositoryMock.Setup(x => x.UpdateDeviceAsync(It.IsNotNull<DeviceModel>()))
+            var d = this.fixture.Create<DeviceModel>();
+            this._deviceRegistryCrudRepositoryMock.Setup(x => x.UpdateDeviceAsync(It.IsNotNull<DeviceModel>()))
                 .ReturnsAsync(d);
 
-            var r = await _deviceLogic.UpdateDeviceAsync(d);
+            var r = await this._deviceLogic.UpdateDeviceAsync(d);
             Assert.Equal(d, r);
         }
 
@@ -188,53 +192,56 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             //Device is null
             await
                 Assert.ThrowsAsync<ArgumentNullException>(
-                    async () => await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(null));
+                                                          async () => await this._deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(null));
 
-            var d = fixture.Create<DeviceModel>();
-            _deviceRegistryCrudRepositoryMock.Setup(x => x.GetDeviceAsync(d.DeviceProperties.DeviceID))
+            var d = this.fixture.Create<DeviceModel>();
+            this._deviceRegistryCrudRepositoryMock.Setup(x => x.GetDeviceAsync(d.DeviceProperties.DeviceID))
                 .ReturnsAsync(d);
-            _deviceRegistryCrudRepositoryMock.Setup(x => x.UpdateDeviceAsync(It.IsAny<DeviceModel>()))
+            this._deviceRegistryCrudRepositoryMock.Setup(x => x.UpdateDeviceAsync(It.IsAny<DeviceModel>()))
                 .ReturnsAsync(d);
-            var r = await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(d);
+            var r = await this._deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(d);
             Assert.Equal(d, r);
 
             d.SystemProperties = null;
             d.Telemetry = null;
             d.Commands = null;
-            r = await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(d);
+            r = await this._deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(d);
             Assert.Equal(d, r);
         }
 
         [Fact]
         public async void SendCommandAsyncTest()
         {
-            var d = fixture.Create<DeviceModel>();
-            _deviceRegistryCrudRepositoryMock.Setup(x => x.GetDeviceAsync(d.DeviceProperties.DeviceID))
+            var d = this.fixture.Create<DeviceModel>();
+            this._deviceRegistryCrudRepositoryMock.Setup(x => x.GetDeviceAsync(d.DeviceProperties.DeviceID))
                 .ReturnsAsync(d);
 
             //Invalid device
             await
                 Assert.ThrowsAsync<DeviceNotRegisteredException>(
-                    async () => await _deviceLogic.SendCommandAsync(null, null, null));
+                                                                 async () => await this._deviceLogic.SendCommandAsync(null, null, null));
 
             //Invalid command
             await
                 Assert.ThrowsAsync<UnsupportedCommandException>(
-                    async () =>
-                        await _deviceLogic.SendCommandAsync(d.DeviceProperties.DeviceID, "Invalid command", null));
+                                                                async () =>
+                                                                await
+                                                                this._deviceLogic.SendCommandAsync(d.DeviceProperties.DeviceID,
+                                                                                                   "Invalid command",
+                                                                                                   null));
 
             //Valid command
-            _iotHubRepositoryMock.Setup(x => x.SendCommand(It.IsNotNull<string>(), It.IsNotNull<CommandHistory>()))
+            this._iotHubRepositoryMock.Setup(x => x.SendCommand(It.IsNotNull<string>(), It.IsNotNull<CommandHistory>()))
                 .Returns(Task.FromResult(true));
-            _deviceRegistryCrudRepositoryMock.Setup(x => x.UpdateDeviceAsync(It.IsNotNull<DeviceModel>()))
+            this._deviceRegistryCrudRepositoryMock.Setup(x => x.UpdateDeviceAsync(It.IsNotNull<DeviceModel>()))
                 .ReturnsAsync(new DeviceModel());
-            await _deviceLogic.SendCommandAsync(d.DeviceProperties.DeviceID, d.Commands[0].Name, null);
+            await this._deviceLogic.SendCommandAsync(d.DeviceProperties.DeviceID, d.Commands[0].Name, null);
         }
 
         [Fact]
         public void ExtractLocationsDataTest()
         {
-            var listOfDevices = fixture.Create<List<DeviceModel>>();
+            var listOfDevices = this.fixture.Create<List<DeviceModel>>();
             var latitudes = new List<double>();
             var longitudes = new List<double>();
             var locations = new List<DeviceLocationModel>();
@@ -245,11 +252,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     latitudes.Add(d.DeviceProperties.Latitude.Value);
                     longitudes.Add(d.DeviceProperties.Longitude.Value);
                     locations.Add(new DeviceLocationModel
-                    {
-                        DeviceId = d.DeviceProperties.DeviceID,
-                        Latitude = d.DeviceProperties.Latitude.Value,
-                        Longitude = d.DeviceProperties.Longitude.Value
-                    });
+                                  {
+                                      DeviceId = d.DeviceProperties.DeviceID,
+                                      Latitude = d.DeviceProperties.Latitude.Value,
+                                      Longitude = d.DeviceProperties.Longitude.Value
+                                  });
                 }
                 catch (Exception)
                 {
@@ -261,7 +268,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var minLong = longitudes.Min() - offset;
             var maxLong = longitudes.Max() + offset;
 
-            var res = _deviceLogic.ExtractLocationsData(listOfDevices);
+            var res = this._deviceLogic.ExtractLocationsData(listOfDevices);
             Assert.NotNull(res);
             Assert.Equal(JsonConvert.SerializeObject(locations), JsonConvert.SerializeObject(res.DeviceLocationList));
             Assert.Equal(minLat, res.MinimumLatitude);
@@ -269,10 +276,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Assert.Equal(minLong, res.MinimumLongitude);
             Assert.Equal(maxLong, res.MaximumLongitude);
 
-            res = _deviceLogic.ExtractLocationsData(null);
+            res = this._deviceLogic.ExtractLocationsData(null);
             Assert.NotNull(res);
             Assert.Equal(JsonConvert.SerializeObject(new List<DeviceLocationModel>()),
-                JsonConvert.SerializeObject(res.DeviceLocationList));
+                         JsonConvert.SerializeObject(res.DeviceLocationList));
             Assert.Equal(47.6 - offset, res.MinimumLatitude);
             Assert.Equal(47.6 + offset, res.MaximumLatitude);
             Assert.Equal(-122.3 - offset, res.MinimumLongitude);
@@ -282,22 +289,85 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [Fact]
         public void ExtractTelemetryTest()
         {
-            var d = fixture.Create<DeviceModel>();
+            var d = this.fixture.Create<DeviceModel>();
             var exp = new List<DeviceTelemetryFieldModel>();
             foreach (var t in d.Telemetry)
             {
                 exp.Add(new DeviceTelemetryFieldModel
-                {
-                    DisplayName = t.DisplayName,
-                    Name = t.Name,
-                    Type = t.Type
-                });
+                        {
+                            DisplayName = t.DisplayName,
+                            Name = t.Name,
+                            Type = t.Type
+                        });
             }
 
-            Assert.Null(_deviceLogic.ExtractTelemetry(null));
+            Assert.Null(this._deviceLogic.ExtractTelemetry(null));
 
-            var res = _deviceLogic.ExtractTelemetry(d);
+            var res = this._deviceLogic.ExtractTelemetry(d);
             Assert.Equal(JsonConvert.SerializeObject(exp), JsonConvert.SerializeObject(res));
+        }
+
+        [Fact]
+        public async void UpdateDeviceEnabledStatusAsyncTest()
+        {
+            var deviceId = this.fixture.Create<string>();
+            var isEnabled = this.fixture.Create<bool>();
+            var device = this.fixture.Create<DeviceModel>();
+            this._iotHubRepositoryMock.Setup(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled)).ReturnsAsync(new Device());
+            this._deviceRegistryCrudRepositoryMock.Setup(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled)).ReturnsAsync(device);
+            var res = await this._deviceLogic.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled);
+            Assert.Equal(res, device);
+
+            this._deviceRegistryCrudRepositoryMock.Setup(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled)).Throws<Exception>();
+            this._iotHubRepositoryMock.Setup(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, !isEnabled)).ReturnsAsync(new Device());
+            await Assert.ThrowsAsync<Exception>(async () => await this._deviceLogic.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled));
+        }
+
+        [Fact]
+        public void ApplyDevicePropertyValueModelsTest()
+        {
+            var device = this.fixture.Create<DeviceModel>();
+            var devicePropertyValueModels = this.fixture.Create<IEnumerable<DevicePropertyValueModel>>();
+            this._deviceLogic.ApplyDevicePropertyValueModels(device, devicePropertyValueModels);
+
+            Assert.Throws<ArgumentNullException>(() => this._deviceLogic.ApplyDevicePropertyValueModels(null, devicePropertyValueModels));
+            Assert.Throws<ArgumentNullException>(() => this._deviceLogic.ApplyDevicePropertyValueModels(device, null));
+            device.DeviceProperties = null;
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(
+                                                                   () =>
+                                                                   this._deviceLogic.ApplyDevicePropertyValueModels(device, devicePropertyValueModels));
+        }
+
+        [Fact]
+        public async void ExtractDevicePropertyValuesModelsTest()
+        {
+            var device = this.fixture.Create<DeviceModel>();
+            this._configProviderMock.Setup(mock => mock.GetConfigurationSettingValue("iotHub.HostName")).Returns("hostName");
+            var res = this._deviceLogic.ExtractDevicePropertyValuesModels(device);
+            Assert.Equal(res.Count(), 19);
+            Assert.Equal(res.Last().Name, "HostName");
+            Assert.Equal(res.Last().Value, "hostName");
+
+            Assert.Throws<ArgumentNullException>(() => this._deviceLogic.ExtractDevicePropertyValuesModels(null));
+            device.DeviceProperties = null;
+            Assert.Throws<DeviceRequiredPropertyNotFoundException>(
+                                                                   () =>
+                                                                   this._deviceLogic.ExtractDevicePropertyValuesModels(device));
+        }
+
+        [Fact]
+        public async void GenerateNDevicesTest()
+        {
+            var device = this.fixture.Create<DeviceModel>();
+            this._iotHubRepositoryMock.Setup(mock => mock.AddDeviceAsync(It.IsAny<DeviceModel>(), It.IsAny<SecurityKeys>()))
+                .ReturnsAsync(new DeviceModel());
+
+            this._deviceRegistryCrudRepositoryMock.Setup(mock => mock.AddDeviceAsync(It.IsAny<DeviceModel>())).ReturnsAsync(device);
+            this._configProviderMock.Setup(mock => mock.GetConfigurationSettingValue("iotHub.HostName")).Returns("hostName");
+            this._virtualDeviceStorageMock.Setup(mock => mock.AddOrUpdateDeviceAsync(It.IsAny<InitialDeviceConfig>())).Returns(Task.FromResult(true));
+
+            await this._deviceLogic.GenerateNDevices(10);
+            this._deviceRegistryCrudRepositoryMock.Verify(mock => mock.AddDeviceAsync(It.IsAny<DeviceModel>()), Times.Exactly(10));
         }
     }
 }
