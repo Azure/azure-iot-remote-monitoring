@@ -88,6 +88,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             builder.RegisterType<CellularExtensions>().As<ICellularExtensions>();
             builder.RegisterType<AzureTableStorageClientFactory>().As<IAzureTableStorageClientFactory>();
             builder.RegisterType<BlobStorageClientFactory>().As<IBlobStorageClientFactory>();
+            builder.RegisterGeneric(typeof(DocumentDBClient<>)).As(typeof(IDocumentDBClient<>));
         }
     }
 }
