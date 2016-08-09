@@ -107,8 +107,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             try
             {
-                _apiRegistrationRepository.AmendRegistration(apiModel);
                 var registrationModel = _apiRegistrationRepository.RecieveDetails();
+
+                if(registrationModel.ApiRegistrationProvider != apiModel.ApiRegistrationProvider)
+                {
+                    // TODO
+                    // unregister the API and any connected devices
+                }
+
+                _apiRegistrationRepository.AmendRegistration(apiModel);             
 
                 var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.ApiRegistrationProvider.ConvertToExternalEnum());
                 if (!credentialsAreValid)
@@ -121,7 +128,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 _apiRegistrationRepository.DeleteApiDetails();
                 return false;
             }
-
 
             return true;
         }
