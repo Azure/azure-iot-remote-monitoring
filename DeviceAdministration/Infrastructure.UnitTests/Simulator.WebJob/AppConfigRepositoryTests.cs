@@ -19,12 +19,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private AppConfigRepository repo;
 
         private string testHostName;
+        private string testKey;
+        private string testDeviceId;
 
         public AppConfigRepositoryTests()
         {
             this._loggerMock = new Mock<ILogger>();
             this._configurationProviderMock = new Mock<IConfigurationProvider>();
             this.testHostName = "testHostName";
+            this.testKey = "testKey";
+            this.testDeviceId = "testDeviceId";
 
             this._configurationProviderMock.Setup(mock => mock.GetConfigurationSettingValue("iotHub.HostName")).Returns(this.testHostName);
 
@@ -57,11 +61,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             InitialDeviceConfig device = new InitialDeviceConfig()
             {
-                DeviceId = "testDeviceId",
-                HostName = "testHostName",
-                Key = "testKey"
+                DeviceId = this.testDeviceId,
+                HostName = this.testHostName,
+                Key = this.testKey
             };
 
+            //should fail before GetDeviceListAsync initializes the known list of devices
             await this.repo.AddOrUpdateDeviceAsync(device);
 
             //get all devices 
@@ -71,7 +76,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             //repeat and it should be added
             await this.repo.AddOrUpdateDeviceAsync(device);
-            Assert.NotNull(await this.repo.GetDeviceAsync(device.DeviceId));
+            var returnedDevice = await this.repo.GetDeviceAsync(device.DeviceId);
+            Assert.NotNull(returnedDevice);
+            Assert.Equal(returnedDevice.Key, this.testKey);
+            Assert.Equal(returnedDevice.HostName, this.testHostName);
 
             //repeat and it should be updated
             string changedKey = "changedKey";
@@ -91,14 +99,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             InitialDeviceConfig device = new InitialDeviceConfig()
             {
-                DeviceId = "testDeviceId",
-                HostName = "testHostName",
-                Key = "testKey"
+                DeviceId = this.testDeviceId,
+                HostName = this.testHostName,
+                Key = this.testKey
             };
 
             Assert.False(await this.repo.RemoveDeviceAsync(device.DeviceId));
 
-            List<InitialDeviceConfig> devices = await this.repo.GetDeviceListAsync();
+            await this.repo.GetDeviceListAsync();
             await this.repo.AddOrUpdateDeviceAsync(device);
 
             Assert.True(await this.repo.RemoveDeviceAsync(device.DeviceId));
