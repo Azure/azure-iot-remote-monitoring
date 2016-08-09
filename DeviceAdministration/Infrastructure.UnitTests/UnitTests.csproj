@@ -213,6 +213,7 @@
     <Compile Include="Infrastructure\SampleDeviceTypeRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\SampleDataGeneratorTests.cs" />
+    <Compile Include="Simulator.WebJob\CoolerDeviceFactoryTests.cs" />
     <Compile Include="Simulator.WebJob\DeviceBaseTests.cs" />
     <Compile Include="Simulator.WebJob\PingDeviceProcessorTests.cs" />
     <Compile Include="TestStubs\HttpMessageHandlerStub.cs" />
