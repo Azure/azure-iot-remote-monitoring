@@ -1,8 +1,9 @@
 ﻿using System.Diagnostics;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Serialization;
 using System;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport
 {
@@ -25,16 +26,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
            this._lockToken = lockToken;
         }
 
-        public DeserializableCommand(Client.Message message, ISerialize serializer)
+        public DeserializableCommand(Client.Message message)
         {
             if (message == null)
             {
                 throw new ArgumentNullException("message");
-            }
-
-            if (serializer == null)
-            {
-                throw new ArgumentNullException("serializer");
             }
 
             Debug.Assert(
@@ -44,7 +40,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             byte[] messageBytes = message.GetBytes(); // this needs to be saved if needed later, because it can only be read once from the original Message
 
-            _commandHistory = serializer.DeserializeObject<CommandHistory>(messageBytes);
+            string jsonData = Encoding.UTF8.GetString(messageBytes);
+            _commandHistory = JsonConvert.DeserializeObject<CommandHistory>(jsonData);
         }
 
         public CommandHistory CommandHistory
