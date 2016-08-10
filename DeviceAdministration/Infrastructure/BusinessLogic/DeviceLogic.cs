@@ -402,7 +402,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceRequiredPropertyNotFoundException("Required DeviceProperties not found");
             }
 
-            propValModels = ExtractPropertyValueModels((object)deviceProperties);
+            propValModels = ExtractPropertyValueModels(deviceProperties);
             hostNameValue = _configProvider.GetConfigurationSettingValue("iotHub.HostName");
 
             if (!string.IsNullOrEmpty(hostNameValue))
@@ -426,7 +426,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         private static void ApplyPropertyValueModels(
-            object deviceProperties,
+            DeviceProperties deviceProperties,
             IEnumerable<DevicePropertyValueModel> devicePropertyValueModels)
         {
             object[] args;
@@ -486,7 +486,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         private static IEnumerable<DevicePropertyValueModel> ExtractPropertyValueModels(
-            object deviceProperties)
+            DeviceProperties deviceProperties)
         {
             DevicePropertyValueModel currentData;
             object currentValue;
@@ -500,7 +500,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             int nonediableOrdering;
             DevicePropertyMetadata propertyMetadata;
 
-            Debug.Assert(deviceProperties != null, "deviceProperties is a null reference.");
+            if (deviceProperties == null)
+            {
+                throw new ArgumentNullException("deviceProperties is a null reference.");
+            }
 
             devicePropertyIndex = GetDevicePropertyConfiguration().ToDictionary(t => t.Name);
 
