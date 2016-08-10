@@ -11,7 +11,7 @@ using Moq;
 using Ploeh.AutoFixture;
 
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simulator.WebJob
 {
     class StartupTelemetryTests
     {
