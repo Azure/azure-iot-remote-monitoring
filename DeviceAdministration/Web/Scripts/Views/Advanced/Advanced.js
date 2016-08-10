@@ -223,7 +223,6 @@
 
     var initApiRegistrationFields = function (config) {
         disableAllInput();
-        debugger
         $('#apiRegistrationProvider').on('change', function (event) {
             event.preventDefault();
             clearAllInputs();
