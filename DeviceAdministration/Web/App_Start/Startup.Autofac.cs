@@ -2,7 +2,6 @@
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
-using DeviceManagement.Infrustructure.Connectivity.Services;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Utility;
@@ -12,6 +11,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Help
 using Owin;
 using System.Reflection;
 using System.Web.Mvc;
+using DeviceManagement.Infrustructure.Connectivity;
+using DeviceManagement.Infrustructure.Connectivity.Clients;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
 {
@@ -83,7 +84,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             builder.RegisterType<ApiRegistrationRepository>().As<IApiRegistrationRepository>();
             builder.RegisterType<JasperCredentialsProvider>().As<ICredentialProvider>();
             builder.RegisterType<ExternalCellularService>().As<IExternalCellularService>();
-            builder.RegisterType<JasperCellularService>().As<IJasperCellularService>();
+
         }
     }
 }

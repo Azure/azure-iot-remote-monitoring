@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace EricssonConsoleApiTester
+namespace DeviceManagement.Infrustructure.Connectivity.Models.Security
 {
     [Serializable]
     [DataContract(Namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd")] // This object serialize specific namespace
-    public class Security
+    public class EricssonSecurity
     {
         [DataMember] // This object serialize without namespace
-        public UsernameToken UsernameToken;
+        public EricssonUsernameToken UsernameToken;
     }
 
 
-    public class UsernameToken : IXmlSerializable
+    public class EricssonUsernameToken : IXmlSerializable
     {
 
         public string Username

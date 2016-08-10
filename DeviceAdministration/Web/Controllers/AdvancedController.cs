@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DeviceManagement.Infrustructure.Connectivity;
 using DeviceManagement.Infrustructure.Connectivity.Exceptions;
-using DeviceManagement.Infrustructure.Connectivity.Services;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;

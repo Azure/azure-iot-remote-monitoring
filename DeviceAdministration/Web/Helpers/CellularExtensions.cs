@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DeviceManagement.Infrustructure.Connectivity;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
-using DeviceManagement.Infrustructure.Connectivity.Services;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using DeviceManagement.Infrustructure.Connectivity.Models.Enums;
 
@@ -11,7 +11,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         public static IEnumerable<string> GetListOfAvailableIccids(this IExternalCellularService cellularService, List<dynamic> devices)
         {
-            var fullIccidList = cellularService.GetTerminals(ApiRegistrationProviderType.Jasper).Select(i => i.Id);
+            var fullIccidList = cellularService.GetTerminals().Select(i => i.Id);
             var usedIccidList = GetUsedIccidList(devices).Select(i => i.Id);
             return fullIccidList.Except(usedIccidList);
         }

@@ -1,39 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
-using DeviceManagement.Infrustructure.Connectivity.Models.Security;
-using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.terminal;
-using DeviceManagement.Infrustructure.Connectivity.Exceptions;
-using DeviceManagement.Infrustructure.Connectivity.Proxies;
+using DeviceManagement.Infrustructure.Connectivity.Clients;
 using DeviceManagement.Infrustructure.Connectivity.Models.Enums;
+using DeviceManagement.Infrustructure.Connectivity.Models.Security;
+using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 
-namespace DeviceManagement.Infrustructure.Connectivity.Services
+namespace DeviceManagement.Infrustructure.Connectivity
 {
     public class ExternalCellularService : IExternalCellularService
     {
         private readonly ICredentialProvider _credentialProvider;
-        private readonly IJasperCellularService _jasperCellularService;
 
-        public ExternalCellularService(
-            IJasperCellularService jasperCellularService,
-            ICredentialProvider credentialProvider)
+        public ExternalCellularService(ICredentialProvider credentialProvider)
         {
             _credentialProvider = credentialProvider;
         }
 
-        public List<Iccid> GetTerminals(ApiRegistrationProviderType registrationProvider)
+        public List<Iccid> GetTerminals()
         {
             List<Iccid> terminals = new List<Iccid>();
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
             switch (registrationProvider)
             {
                 case ApiRegistrationProviderType.Jasper:
-                    terminals = _jasperCellularService.GetTerminals();
+
+                    terminals = new JasperCellularClient(_credentialProvider).GetTerminals();
                     break;
-                case Models.Enums.ApiRegistrationProviderType.Ericsson:
+                case ApiRegistrationProviderType.Ericsson:
                     //TODO call ericsson service
 
                     break;
@@ -44,14 +38,15 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return terminals;
         }
 
-        public Terminal GetSingleTerminalDetails(Iccid iccid, ApiRegistrationProviderType registrationProvider)
+        public Terminal GetSingleTerminalDetails(Iccid iccid)
         {
             Terminal terminal = null;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
             switch (registrationProvider)
             {
                 case ApiRegistrationProviderType.Jasper:
-                    terminal = _jasperCellularService.GetSingleTerminalDetails(iccid);
+                    terminal = new JasperCellularClient(_credentialProvider).GetSingleTerminalDetails(iccid);
                     break;
                 case ApiRegistrationProviderType.Ericsson:
                     //TODO call ericsson service
@@ -63,14 +58,15 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return terminal;
         }
 
-        public List<SessionInfo> GetSingleSessionInfo(Iccid iccid, ApiRegistrationProviderType registrationProvider)
+        public List<SessionInfo> GetSingleSessionInfo(Iccid iccid)
         {
             List<SessionInfo> sessionInfo = null;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
             switch (registrationProvider)
             {
                 case ApiRegistrationProviderType.Jasper:
-                    sessionInfo = _jasperCellularService.GetSingleSessionInfo(iccid);
+                    sessionInfo = new JasperCellularClient(_credentialProvider).GetSingleSessionInfo(iccid);
                     break;
                 case ApiRegistrationProviderType.Ericsson:
                     //TODO call ericsson service
@@ -87,14 +83,15 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         /// GetTerminals() and checks the response for validation errors.
         /// </summary>
         /// <returns>True if valid. False if not valid</returns>
-        public bool ValidateCredentials(ApiRegistrationProviderType registrationProvider)
+        public bool ValidateCredentials()
         {
             bool isValid = false;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
             switch (registrationProvider)
             {
                 case ApiRegistrationProviderType.Jasper:
-                    isValid = _jasperCellularService.ValidateCredentials();
+                    isValid = new JasperCellularClient(_credentialProvider).ValidateCredentials();
                     break;
                 case ApiRegistrationProviderType.Ericsson:
                     //TODO call ericsson service

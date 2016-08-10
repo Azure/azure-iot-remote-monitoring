@@ -22,6 +22,9 @@ namespace EricssonConsoleApiTester
             apiStatusClient.Endpoint.Address = EricssonEndpointBuilder.GetAuthorizedEndpoint("https://serviceportal.telenorconnexion.com/dcpapi/ApiStatus");
 
             var response1 = apiStatusClient.echo(new echo());
+          
+        
+          
 
 
             //sub tester - get a single sim information

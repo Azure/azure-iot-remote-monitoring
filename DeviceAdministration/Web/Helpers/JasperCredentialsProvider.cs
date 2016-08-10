@@ -1,4 +1,4 @@
-﻿using DeviceManagement.Infrustructure.Connectivity.Models.Jasper;
+﻿using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 
@@ -16,12 +16,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public ICredentials Provide()
         {
             var apiRegistration = _registrationRepository.RecieveDetails();
-            return new JasperCredentials()
+            return new CellularCredentials()
             {
                 BaseUrl = apiRegistration.BaseUrl,
                 LicenceKey = apiRegistration.LicenceKey,
                 Password = apiRegistration.Password,
-                Username = apiRegistration.Username
+                Username = apiRegistration.Username,
+                ApiRegistrationProvider = apiRegistration.ApiRegistrationProvider
             };
         }
     }

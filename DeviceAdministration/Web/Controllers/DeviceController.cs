@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DeviceManagement.Infrustructure.Connectivity;
 using DeviceManagement.Infrustructure.Connectivity.Exceptions;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
-using DeviceManagement.Infrustructure.Connectivity.Services;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
@@ -283,8 +283,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public ActionResult GetDeviceCellularDetails(string iccid)
         {
             var viewModel = new SimInformationViewModel();
-            viewModel.TerminalDevice = _cellularService.GetSingleTerminalDetails(new Iccid(iccid), ApiRegistrationProviderType.Jasper);
-            viewModel.SessionInfo = _cellularService.GetSingleSessionInfo(new Iccid(iccid), ApiRegistrationProviderType.Jasper).LastOrDefault() ??
+            viewModel.TerminalDevice = _cellularService.GetSingleTerminalDetails(new Iccid(iccid));
+            viewModel.SessionInfo = _cellularService.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ??
                                     new SessionInfo();
 
             return PartialView("_CellularInformation", viewModel);

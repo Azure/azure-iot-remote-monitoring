@@ -29,8 +29,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Proxies
                 cycleStartDate = cycleStartDate
             };
 
-
-            
             return _service.GetTerminalUsageDataDetails(request);
         }
 

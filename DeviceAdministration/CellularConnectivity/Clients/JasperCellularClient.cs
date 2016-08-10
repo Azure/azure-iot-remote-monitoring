@@ -7,15 +7,15 @@ using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using DeviceManagement.Infrustructure.Connectivity.Proxies;
 
-namespace DeviceManagement.Infrustructure.Connectivity.Services
+namespace DeviceManagement.Infrustructure.Connectivity.Clients
 {
-    public class JasperCellularService : IJasperCellularService
+    public class JasperCellularClient 
     {
         private readonly ICredentialProvider _credentialProvider;
         private const string CellularInvalidCreds = "400200";
         private const string CellularInvalidLicense = "400100";
 
-        public JasperCellularService(ICredentialProvider credentialProvider)
+        public JasperCellularClient(ICredentialProvider credentialProvider)
         {
             _credentialProvider = credentialProvider;
         }

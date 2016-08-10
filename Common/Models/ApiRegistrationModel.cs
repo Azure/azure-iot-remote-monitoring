@@ -6,6 +6,6 @@
         public string LicenceKey { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public ApiRegistrationProviderType? ApiRegistrationProvider { get; set; }
+        public DeviceManagement.Infrustructure.Connectivity.Models.Enums.ApiRegistrationProviderType? ApiRegistrationProvider { get; set; }
     }
 }

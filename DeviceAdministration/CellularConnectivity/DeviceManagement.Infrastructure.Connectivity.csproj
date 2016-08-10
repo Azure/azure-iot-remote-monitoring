@@ -33,19 +33,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Builders\EricssonServiceBuilder.cs" />
     <Compile Include="Builders\JasperServiceBuilder.cs" />
     <Compile Include="Constants\JasperApiConstants.cs" />
     <Compile Include="Exceptions\CellularConnectivityException.cs" />
     <Compile Include="Argument.cs" />
     <Compile Include="Models\Enums\CellularProviderEnum.cs" />
+    <Compile Include="Models\Security\EricssonSecurity.cs" />
     <Compile Include="Proxies\AuthenticationValidationProxy.cs" />
     <Compile Include="Proxies\IAuthenticationValidationProxy.cs" />
-    <Compile Include="Services\ExternalCellularService.cs" />
-    <Compile Include="Services\IJasperCellularService.cs" />
+    <Compile Include="Service References\EricssonApiService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Clients\EricssonCellularClient.cs" />
+    <Compile Include="ExternalCellularService.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="Models\Security\ICredentialProvider.cs" />
     <Compile Include="Models\Security\ICredentials.cs" />
-    <Compile Include="Services\IExternalCellularService.cs" />
+    <Compile Include="IExternalCellularService.cs" />
     <Compile Include="Models\Billing\DataUsage.cs" />
     <Compile Include="Models\Billing\DataUsageDetail.cs" />
     <Compile Include="Models\TerminalDevice\Iccid.cs" />
@@ -54,10 +61,10 @@
     <Compile Include="Models\Security\SecurityHeader.cs" />
     <Compile Include="Models\TerminalDevice\SessionInfo.cs" />
     <Compile Include="Models\TerminalDevice\Terminal.cs" />
-    <Compile Include="Services\JasperCellularService.cs" />
+    <Compile Include="Clients\JasperCellularClient.cs" />
     <Compile Include="Proxies\IJasperBillingClientProxy.cs" />
     <Compile Include="Proxies\IJasperTerminalClientProxy.cs" />
-    <Compile Include="Models\Jasper\JasperCredentials.cs" />
+    <Compile Include="Models\Other\CellularCredentials.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -88,6 +95,13 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\EricssonApiService\ApiStatusService.wsdl" />
+    <None Include="Service References\EricssonApiService\DeviceManagement.Infrustructure.Connectivity.EricssonApiService.echoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonApiService\DeviceManagement.Infrustructure.Connectivity.EricssonApiService.echoResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Web References\com.jasperwireless.spark.billing\Billing.wsdl" />
     <None Include="Web References\com.jasperwireless.spark.billing\GetInvoiceResponse.datasource">
@@ -245,9 +259,30 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Channels" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\EricssonApiService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EricssonApiService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EricssonApiService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EricssonApiService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
