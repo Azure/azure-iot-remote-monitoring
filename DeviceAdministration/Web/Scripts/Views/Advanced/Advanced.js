@@ -276,8 +276,8 @@
                     if (disableApiProvider) {
                         disabledFields.push('apiRegistrationProvider')
                     }
+                    enableAllInput(disabledFields);
                 }
-                enableAllInput(disabledFields)
                 $("#LicenceKey").closest('fieldset').show();
                 break;
             }
