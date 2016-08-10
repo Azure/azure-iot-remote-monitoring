@@ -183,10 +183,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 var devices = await GetDevices();
                 var connectedDevices = _cellularService.GetListOfConnectedDeviceIds(devices);
-                foreach (dynamic device in connectedDevices)
+                foreach (dynamic deviceId in connectedDevices)
                 {
-                    device.SystemProperties.ICCID = null;
-                    await _deviceLogic.UpdateDeviceAsync(device);
+                    await UpdateDeviceAssociation(deviceId, null);
                 }
             }
             catch (Exception ex)

@@ -16,8 +16,18 @@
             $("#" + this.id).prop("disabled", true);
         });
     }
+
+    function clearAllInputs() {
+        $("input[type=text]").each(function () {
+            $("#" + this.id).val("");
+        });
+        $("input[type=password]").each(function () {
+            $("#" + this.id).val("");
+        });
+    }
     
     function enableAllInput(excludedInputIds) {
+        disableAllInput();
         function isExcludedInput(inputId, excludedInputIds){
             return typeof excludedInputIds && jQuery.inArray(inputId, excludedInputIds) > -1;
         }
@@ -115,7 +125,6 @@
         initApiRegistrationFields(config);
 
         $("#saveButton").bind("click", function () {
-            debugger
             var apiProvider = $.trim($("#apiRegistrationProvider").val())
             var providerHasChanged = apiProvider && config.apiRegistrationProvider && apiProvider !== config.apiRegistrationProvider;
             var confirmSave = !providerHasChanged;          
@@ -213,11 +222,11 @@
     }
 
     var initApiRegistrationFields = function (config) {
-        debugger
         disableAllInput();
         $('#apiRegistrationProvider').on('change', function (event) {
             event.preventDefault();
-            showApiRegistrationFields(this.value);
+            clearAllInputs();
+            showApiRegistrationFields(this.value, true);
             $("#saveButton").prop("disabled", false);
         });
 
@@ -226,7 +235,7 @@
         
         var selectedProvider = config.apiRegistrationProvider;
         if (selectedProvider) {
-            showApiRegistrationFields(selectedProvider);
+            showApiRegistrationFields(selectedProvider, false, true);
             $("#changeApiRegistrationProviderButton").show();
             $("#saveButton").prop("disabled", true);
             $("#editButton").prop("disabled", false);
@@ -248,23 +257,39 @@
         $("#Password").closest('fieldset').hide();
     }
 
-    var showApiRegistrationFields = function (selectedProvider) {
+    var clearTextInputs = function(){
+
+    }
+
+    var showApiRegistrationFields = function (selectedProvider, enableFields, disableApiProvider) {
         function showSharedFields() {
             $("#BaseUrl").closest('fieldset').show();
             $("#Username").closest('fieldset').show();
             $("#Password").closest('fieldset').show();
         }
+        var disabledFields = []
         switch(selectedProvider){
             case 'Jasper': {
                 showSharedFields();
+                if (enableFields) {
+                    if (disableApiProvider) {
+                        disabledFields.push('apiRegistrationProvider');
+                    }
+                    enableAllInput(disabledFields);
+                }
                 $("#LicenceKey").closest('fieldset').show();
                 break;
             }
             case 'Ericsson': {
                 showSharedFields();
+                if (enableFields) {
+                    disabledFields.push('LicenceKey');
+                    if (disableApiProvider) {
+                        disabledFields.push('apiRegistrationProvider');
+                    }
+                    enableAllInput(disabledFields)
+                }
                 $("#LicenceKey").closest('fieldset').hide();
-                debugger
-                enableAllInput(['LicenceKey']);
                 break;
             }
             default: {
@@ -272,6 +297,18 @@
                 break;
             }
         }
+    }
+
+    var deleteApiRegistration = function () {
+        $.ajax({
+            url: '/Advanced/DeleteRegistration',
+            data: {},
+            async: true,
+            type: "post",
+            success: function () {
+                window.location.reload();
+            }
+        });
     }
 
     var enableApiRegistrationEdit = function (apiRegistrationProvider, changeProvider) {
@@ -286,6 +323,7 @@
         initSubView: initSubView,
         redirecToPartial: redirecToPartial,
         initRegistration: initRegistration,
-        initAssociation: initAssociation
+        initAssociation: initAssociation,
+        deleteApiRegistration: deleteApiRegistration
     };
 }, [jQuery]);
