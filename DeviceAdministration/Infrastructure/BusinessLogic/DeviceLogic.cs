@@ -499,6 +499,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             MethodInfo getMethod;
             int nonediableOrdering;
             DevicePropertyMetadata propertyMetadata;
+            PropertyType propertyType;
 
             if (deviceProperties == null)
             {
@@ -521,11 +522,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     isDisplayedRegistered = propertyMetadata.IsDisplayedForRegisteredDevices;
                     isDisplayedUnregistered = propertyMetadata.IsDisplayedForUnregisteredDevices;
                     isEditable = propertyMetadata.IsEditable;
+                    propertyType = propertyMetadata.PropertyType;
                 }
                 else
                 {
                     isDisplayedRegistered = isEditable = true;
                     isDisplayedUnregistered = false;
+                    propertyType = PropertyType.String;
                 }
 
                 if (!isDisplayedRegistered && !isDisplayedUnregistered)
@@ -547,7 +550,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 currentData = new DevicePropertyValueModel()
                 {
                     Name = prop.Name,
-                    PropertyType = propertyMetadata.PropertyType
+                    PropertyType = propertyType
                 };
 
                 if (isEditable)
@@ -641,70 +644,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 IsDisplayedForRegisteredDevices = true,
                 IsDisplayedForUnregisteredDevices = false,
-                IsEditable = false,
-                Name = "Manufacturer",
-                PropertyType = PropertyType.String
-            };
-
-            yield return new DevicePropertyMetadata()
-            {
-                IsDisplayedForRegisteredDevices = true,
-                IsDisplayedForUnregisteredDevices = false,
-                IsEditable = false,
-                Name = "ModelNumber",
-                PropertyType = PropertyType.String
-            };
-
-            yield return new DevicePropertyMetadata()
-            {
-                IsDisplayedForRegisteredDevices = true,
-                IsDisplayedForUnregisteredDevices = false,
-                IsEditable = false,
-                Name = "SerialNumber",
-                PropertyType = PropertyType.String
-            };
-
-            yield return new DevicePropertyMetadata()
-            {
-                IsDisplayedForRegisteredDevices = true,
-                IsDisplayedForUnregisteredDevices = false,
-                IsEditable = false,
-                Name = "FirmwareVersion",
-                PropertyType = PropertyType.String
-            };
-
-            yield return new DevicePropertyMetadata()
-            {
-                IsDisplayedForRegisteredDevices = true,
-                IsDisplayedForUnregisteredDevices = false,
-                IsEditable = false,
-                Name = "Platform",
-                PropertyType = PropertyType.String
-            };
-
-            yield return new DevicePropertyMetadata()
-            {
-                IsDisplayedForRegisteredDevices = true,
-                IsDisplayedForUnregisteredDevices = false,
-                IsEditable = false,
-                Name = "Processor",
-                PropertyType = PropertyType.String
-            };
-
-            yield return new DevicePropertyMetadata()
-            {
-                IsDisplayedForRegisteredDevices = true,
-                IsDisplayedForUnregisteredDevices = false,
-                IsEditable = false,
-                Name = "InstalledRAM",
-                PropertyType = PropertyType.String
-            };
-
-            yield return new DevicePropertyMetadata()
-            {
-                IsDisplayedForRegisteredDevices = true,
-                IsDisplayedForUnregisteredDevices = false,
-                IsEditable = false,
+                IsEditable = true,
                 Name = "Latitude",
                 PropertyType = PropertyType.Real
             };
@@ -713,46 +653,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 IsDisplayedForRegisteredDevices = true,
                 IsDisplayedForUnregisteredDevices = false,
-                IsEditable = false,
+                IsEditable = true,
                 Name = "Longitude",
                 PropertyType = PropertyType.Real
-            };
-
-
-            yield return new DevicePropertyMetadata()
-            {
-                IsDisplayedForRegisteredDevices = true,
-                IsDisplayedForUnregisteredDevices = false,
-                IsEditable = false,
-                Name = "AvailablePowerSources",
-                PropertyType = PropertyType.String
-            };
-
-            yield return new DevicePropertyMetadata()
-            {
-                IsDisplayedForRegisteredDevices = true,
-                IsDisplayedForUnregisteredDevices = false,
-                IsEditable = false,
-                Name = "PowerSourceVoltage",
-                PropertyType = PropertyType.String
-            };
-
-            yield return new DevicePropertyMetadata()
-            {
-                IsDisplayedForRegisteredDevices = true,
-                IsDisplayedForUnregisteredDevices = false,
-                IsEditable = false,
-                Name = "BatteryLevel",
-                PropertyType = PropertyType.String
-            };
-
-            yield return new DevicePropertyMetadata()
-            {
-                IsDisplayedForRegisteredDevices = true,
-                IsDisplayedForUnregisteredDevices = false,
-                IsEditable = false,
-                Name = "MemoryFree",
-                PropertyType = PropertyType.String
             };
         }
 
