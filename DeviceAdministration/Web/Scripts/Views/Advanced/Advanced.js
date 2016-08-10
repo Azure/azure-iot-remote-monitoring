@@ -125,6 +125,7 @@
         initApiRegistrationFields(config);
 
         $("#saveButton").bind("click", function () {
+            debugger
             var apiProvider = $.trim($("#apiRegistrationProvider").val())
             var providerHasChanged = apiProvider && config.apiRegistrationProvider && apiProvider !== config.apiRegistrationProvider;
             var confirmSave = !providerHasChanged;          
@@ -161,6 +162,7 @@
                     disableAllInput();
                     config.apiRegistrationProvider = registrationModel.apiRegistrationProvider;
                     $("#changeApiRegistrationProviderButton").prop("disabled", false);
+                    $("#changeApiRegistrationProviderButton").show();
                 } else {
                     $("#registrationPassed").hide();
                     $("#registrationFailed").show();
@@ -169,13 +171,15 @@
         });
 
         $("#editButton").bind("click", function () {
-            enableApiRegistrationEdit(config.apiRegistrationProvider, false);
+            debugger
+            enableApiRegistrationEdit(config.apiRegistrationProvider, true);
         });
 
         $("#changeApiRegistrationProviderButton").bind("click", function () {
-            $('#apiRegistrationProvider').prop("disabled", false)
             $('#changeApiRegistrationProviderButton').prop("disabled", true)
-            enableApiRegistrationEdit(config.apiRegistrationProvider, true);
+            $("#saveButton").prop("disabled", false);
+            $("#editButton").prop("disabled", true);
+            showApiRegistrationFields($("#apiRegistrationProvider").val(), true, false);
         });
     }
 
@@ -257,10 +261,6 @@
         $("#Password").closest('fieldset').hide();
     }
 
-    var clearTextInputs = function(){
-
-    }
-
     var showApiRegistrationFields = function (selectedProvider, enableFields, disableApiProvider) {
         function showSharedFields() {
             $("#BaseUrl").closest('fieldset').show();
@@ -282,6 +282,7 @@
             }
             case 'Ericsson': {
                 showSharedFields();
+                $("#LicenceKey").closest('fieldset').hide();
                 if (enableFields) {
                     disabledFields.push('LicenceKey');
                     if (disableApiProvider) {
@@ -289,7 +290,7 @@
                     }
                     enableAllInput(disabledFields)
                 }
-                $("#LicenceKey").closest('fieldset').hide();
+               
                 break;
             }
             default: {
@@ -312,8 +313,8 @@
     }
 
     var enableApiRegistrationEdit = function (apiRegistrationProvider, changeProvider) {
-        enableAllInput();
         selectApiProvider(apiRegistrationProvider, changeProvider);
+        showApiRegistrationFields(apiRegistrationProvider, true, true);
         $("#saveButton").prop("disabled", false);
         $("#editButton").prop("disabled", true);
     }
