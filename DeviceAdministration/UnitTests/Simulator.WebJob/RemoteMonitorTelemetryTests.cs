@@ -15,31 +15,32 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
 {
     class RemoteMonitorTelemetryTests
     {
-    	private Mock<ILogger> _loggerMock;
-    	private string testDeviceId;
-    	private RemoteMonitorTelemetry telemetry;
+        private Mock<ILogger> _loggerMock;
+        private string testDeviceId;
+        private RemoteMonitorTelemetry telemetry;
 
-    	public RemoteMonitorTelemetryTests() {
-    		this._loggerMock = new Mock<ILogger>();
-    		this.testDeviceId = "testDeviceId";
-    	
-    		this.telemetry = new RemoteMonitorTelemetry(this._loggerMock.Object, this.testDeviceId);
-   		}
+        public RemoteMonitorTelemetryTests()
+        {
+            this._loggerMock = new Mock<ILogger>();
+            this.testDeviceId = "testDeviceId";
 
-   		[Fact]
+            this.telemetry = new RemoteMonitorTelemetry(this._loggerMock.Object, this.testDeviceId);
+        }
+
+        [Fact]
         public async void SendEventsAsyncPreCancelledTest()
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
             cancellationTokenSource.Cancel();
 
-   		    int count = 0;
+            int count = 0;
 
-   		    await this.telemetry.SendEventsAsync(cancellationTokenSource.Token, async (obj) =>
-   		    {
-   		        count++;
-   		        await Task.Delay(0);
-   		    });
+            await this.telemetry.SendEventsAsync(cancellationTokenSource.Token, async (obj) =>
+            {
+                count++;
+                await Task.Delay(0);
+            });
 
             Assert.Equal(count, 0);
         }
@@ -64,19 +65,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
         [Fact]
         public async void SendEventsAsyncInactiveTelemetryTest()
         {
-        	this.telemetry.TelemetryActive = false;
+            this.telemetry.TelemetryActive = false;
 
-        	CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
             cancellationTokenSource.CancelAfter(TimeSpan.FromMilliseconds(250));
 
             int count = 0;
 
-   		    await this.telemetry.SendEventsAsync(cancellationTokenSource.Token, async (obj) =>
-   		    {
-   		        count++;
-   		        await Task.Delay(0);
-   		    });
+            await this.telemetry.SendEventsAsync(cancellationTokenSource.Token, async (obj) =>
+            {
+                count++;
+                await Task.Delay(0);
+            });
 
             Assert.Equal(count, 0);
         }
@@ -84,33 +85,33 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
         [Fact]
         public async void SendEventsAsyncActiveTelemetryTest()
         {
-        	CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-   		    await this.telemetry.SendEventsAsync(cancellationTokenSource.Token, async (obj) =>
-   		    {
+            await this.telemetry.SendEventsAsync(cancellationTokenSource.Token, async (obj) =>
+            {
                 Assert.IsType<RemoteMonitorTelemetryData>(obj);
 
-   		        Assert.Null(((RemoteMonitorTelemetryData) obj).ExternalTemperature);
+                Assert.Null(((RemoteMonitorTelemetryData)obj).ExternalTemperature);
 
-   		        Assert.NotNull(((RemoteMonitorTelemetryData) obj).DeviceId);
-   		        Assert.NotNull(((RemoteMonitorTelemetryData) obj).Humidity);
-   		        Assert.NotNull(((RemoteMonitorTelemetryData) obj).Temperature);
+                Assert.NotNull(((RemoteMonitorTelemetryData)obj).DeviceId);
+                Assert.NotNull(((RemoteMonitorTelemetryData)obj).Humidity);
+                Assert.NotNull(((RemoteMonitorTelemetryData)obj).Temperature);
 
-   		        await Task.Delay(0);
+                await Task.Delay(0);
 
-   		        cancellationTokenSource.Cancel();
-   		    });
+                cancellationTokenSource.Cancel();
+            });
         }
 
         [Fact]
         public async void SendEventsAsyncActiveTempTelemetryTest()
         {
-        	this.telemetry.ActivateExternalTemperature = true;
+            this.telemetry.ActivateExternalTemperature = true;
 
-        	CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-   		    await this.telemetry.SendEventsAsync(cancellationTokenSource.Token, async (obj) =>
-   		    {
+            await this.telemetry.SendEventsAsync(cancellationTokenSource.Token, async (obj) =>
+            {
                 Assert.IsType<RemoteMonitorTelemetryData>(obj);
                 Assert.NotNull(((RemoteMonitorTelemetryData)obj).ExternalTemperature);
                 Assert.NotNull(((RemoteMonitorTelemetryData)obj).DeviceId);
