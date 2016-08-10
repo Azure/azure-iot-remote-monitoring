@@ -263,7 +263,7 @@
       <Project>{5959c109-5369-4ff7-8b55-605a79fdf200}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Simulator\Simulator.WebJob\Simulator.WebJob.csproj">
+    <ProjectReference Include="..\Simulator.WebJob\Simulator.WebJob.csproj">
       <Project>{8F0FF371-2306-4210-9C22-0D0657B595DC}</Project>
       <Name>Simulator.WebJob</Name>
     </ProjectReference>
