@@ -10,7 +10,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
     public interface IExternalCellularService
     {
         List<Iccid> GetTerminals(ApiRegistrationProviderType registrationProvider);
-        bool ValidateCredentials(ApiRegistrationProviderType registrationProvider);
+        bool ValidateCredentials();
         Terminal GetSingleTerminalDetails(Iccid iccid, ApiRegistrationProviderType cellularProvider);
         List<SessionInfo> GetSingleSessionInfo(Iccid iccid, ApiRegistrationProviderType cellularProvider);
     }

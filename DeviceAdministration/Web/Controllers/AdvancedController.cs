@@ -103,29 +103,33 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             await _deviceLogic.UpdateDeviceAsync(device);
         }
 
-        public async Task<bool> SaveRegistration(ApiRegistrationModel apiModel)
+        public async Task<bool> SaveRegistration(ApiRegistrationModel newRegistrtionDetails)
         {
             try
             {
-                var registrationModel = _apiRegistrationRepository.RecieveDetails();
+                // get the current registration model
+                var oldRegistrationDetails = _apiRegistrationRepository.RecieveDetails();
+                // ammend the new details
+                _apiRegistrationRepository.AmendRegistration(newRegistrtionDetails);
+
+                // check credentials work. If they do not work revert the change.
+                if (!CheckCredentials())
+                {
+                    _apiRegistrationRepository.AmendRegistration(oldRegistrationDetails);
+                    return false;
+                }
 
                 // if api provider has changed then disassociate all associated devices
-                if(registrationModel.ApiRegistrationProvider != apiModel.ApiRegistrationProvider)
+                if (oldRegistrationDetails.ApiRegistrationProvider != newRegistrtionDetails.ApiRegistrationProvider)
                 {
                     var disassociateDeviceResult = await DisassociateAllDevices();
+                    // if this has failed revert the change
                     if (!disassociateDeviceResult)
                     {
+                        _apiRegistrationRepository.AmendRegistration(oldRegistrationDetails);
                         return false;
                     }
-                }
-
-                _apiRegistrationRepository.AmendRegistration(apiModel);             
-
-                var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.ApiRegistrationProvider.ConvertToExternalEnum());
-                if (!credentialsAreValid)
-                {
-                    _apiRegistrationRepository.DeleteApiDetails();
-                }
+                }           
             }
             catch (Exception ex)
             {
@@ -136,8 +140,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return true;
         }
 
-        public bool DeleteRegistration()
+        public async Task<bool> DeleteRegistration()
         {
+            var disassociateDeviceResult = await DisassociateAllDevices();
+            if (!disassociateDeviceResult)
+            {
+                return false;
+            }
             return _apiRegistrationRepository.DeleteApiDetails();
         }
 
@@ -164,7 +173,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return devices.Results;
         }
 
-
         /// <summary>
         /// Disassociates all devices
         /// </summary>
@@ -183,6 +191,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
             catch (Exception ex)
             {
+                return false;
+            }
+            return true;
+        }
+
+        private bool CheckCredentials()
+        {
+            var credentialsAreValid = _cellularService.ValidateCredentials();
+            if (!credentialsAreValid)
+            {
+                _apiRegistrationRepository.DeleteApiDetails();
                 return false;
             }
             return true;

@@ -87,20 +87,21 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         /// GetTerminals() and checks the response for validation errors.
         /// </summary>
         /// <returns>True if valid. False if not valid</returns>
-        public bool ValidateCredentials(ApiRegistrationProviderType registrationProvider)
+        public bool ValidateCredentials()
         {
             bool isValid = false;
-
-            switch (registrationProvider)
+            var registrationDetails = _credentialProvider.Provide();
+            switch (registrationDetails.ApiRegistrationProviderType)
             {
                 case ApiRegistrationProviderType.Jasper:
                     isValid = _jasperCellularService.ValidateCredentials();
                     break;
                 case ApiRegistrationProviderType.Ericsson:
                     //TODO call ericsson service
+                    isValid = true;
                     break;
                 default:
-                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider.ToString()}' provider");
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationDetails.ApiRegistrationProviderType.ToString()}' provider");
             }
 
             return isValid;
