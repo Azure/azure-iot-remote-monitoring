@@ -67,7 +67,7 @@ namespace DeviceManagement.Infrustructure.Connectivity
                     sessionInfo = new JasperCellularClient(_credentialProvider).GetSingleSessionInfo(iccid);
                     break;
                 case ApiRegistrationProviderType.Ericsson:
-                    //TODO call ericsson service
+                    sessionInfo = new EricssonCellularClient(_credentialProvider).GetSingleSessionInfo(iccid);
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider.ToString()}' provider");

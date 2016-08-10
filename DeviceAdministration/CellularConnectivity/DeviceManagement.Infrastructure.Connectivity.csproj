@@ -49,6 +49,11 @@
     </Compile>
     <Compile Include="Clients\EricssonCellularClient.cs" />
     <Compile Include="ExternalCellularService.cs" />
+    <Compile Include="Service References\EricssonSubscriptionService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Utilities.cs" />
     <Compile Include="Models\Security\ICredentialProvider.cs" />
     <Compile Include="Models\Security\ICredentials.cs" />
@@ -103,6 +108,103 @@
     <None Include="Service References\EricssonApiService\DeviceManagement.Infrustructure.Connectivity.EricssonApiService.echoResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.aggregatedStatus.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.asynchRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.ChangeAlternativeRoamingProviderResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.ChangeAlternativeRoamingProviderResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.ChangeSubscriptionRegionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QueryAvailableRegionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QueryAvailableRegionsResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QueryServiceRequestDetailsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QueryServiceRequestDetailsResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySimResourceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySimResourceResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySimResourceResponse_v2.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySimResourcesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySimResourcesResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySimResource_v2Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySubscriptionChangeBatchesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySubscriptionChangeBatchesResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySubscriptionPackagesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySubscriptionPackages_v2Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySubscriptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySubscriptionsResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySubscriptionsStatusHistoryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySubscriptionStatusChangeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.QuerySubscriptionStatusChangeResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.RequestCustomerLabelChangeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.RequestSubscriptionPackageChangeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.RequestSubscriptionPackageChangeResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.RequestSubscriptionStatusChangeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.RequestSubscriptionStatusChangeResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.subscriptionPackage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.subscriptionPackageWithCompany.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.subscriptionPackageWithTriggerPackage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonSubscriptionService\SubscriptionManagement.wsdl" />
     <None Include="Web References\com.jasperwireless.spark.billing\Billing.wsdl" />
     <None Include="Web References\com.jasperwireless.spark.billing\GetInvoiceResponse.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -271,6 +373,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\EricssonApiService\" />
+    <WCFMetadataStorage Include="Service References\EricssonSubscriptionService\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\EricssonApiService\configuration91.svcinfo" />
@@ -280,6 +383,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\EricssonApiService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EricssonSubscriptionService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EricssonSubscriptionService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EricssonSubscriptionService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

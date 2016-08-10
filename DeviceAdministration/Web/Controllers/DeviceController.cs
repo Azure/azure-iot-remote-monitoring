@@ -284,8 +284,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             var viewModel = new SimInformationViewModel();
             viewModel.TerminalDevice = _cellularService.GetSingleTerminalDetails(new Iccid(iccid));
-            viewModel.SessionInfo = _cellularService.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ??
-                                    new SessionInfo();
+            viewModel.SessionInfo = _cellularService.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ?? new SessionInfo();
 
             return PartialView("_CellularInformation", viewModel);
         }

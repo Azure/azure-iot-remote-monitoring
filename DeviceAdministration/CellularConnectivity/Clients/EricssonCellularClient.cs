@@ -78,7 +78,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public List<SessionInfo> GetSingleSessionInfo(Iccid iccid)
         {
-            throw new NotImplementedException();
+            return new List<SessionInfo>();
         }
 
 
