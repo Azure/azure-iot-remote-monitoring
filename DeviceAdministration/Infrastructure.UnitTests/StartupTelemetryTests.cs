@@ -34,6 +34,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests
             this._loggerMock.Setup(mock => mock.LogInfo(It.IsAny<string>(), this._device.DeviceID));
         }
 
+        [Fact]
         public async void SendEventsAsyncUncancelledTest()
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
@@ -47,6 +48,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests
             this._loggerMock.Verify(mock => mock.LogInfo(It.IsAny<string>(), this._device.DeviceID), Times.Once);
         }
 
+        [Fact]
         public async void SendEventsAsyncCancelledTest()
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
