@@ -86,18 +86,24 @@ namespace DeviceManagement.Infrustructure.Connectivity
         public bool ValidateCredentials()
         {
             bool isValid = false;
+<<<<<<< HEAD:DeviceAdministration/CellularConnectivity/ExternalCellularService.cs
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
             switch (registrationProvider)
+=======
+            var registrationDetails = _credentialProvider.Provide();
+            switch (registrationDetails.ApiRegistrationProviderType)
+>>>>>>> 76813d63307924de20ed2420a73f686b46602cd3:DeviceAdministration/CellularConnectivity/Services/ExternalCellularService.cs
             {
                 case ApiRegistrationProviderType.Jasper:
                     isValid = new JasperCellularClient(_credentialProvider).ValidateCredentials();
                     break;
                 case ApiRegistrationProviderType.Ericsson:
                     //TODO call ericsson service
+                    isValid = true;
                     break;
                 default:
-                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider.ToString()}' provider");
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationDetails.ApiRegistrationProviderType.ToString()}' provider");
             }
 
             return isValid;

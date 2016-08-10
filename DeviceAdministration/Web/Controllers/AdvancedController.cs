@@ -103,25 +103,33 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             await _deviceLogic.UpdateDeviceAsync(device);
         }
 
-        public bool SaveRegistration(ApiRegistrationModel apiModel)
+        public async Task<bool> SaveRegistration(ApiRegistrationModel newRegistrtionDetails)
         {
             try
             {
-                var registrationModel = _apiRegistrationRepository.RecieveDetails();
+                // get the current registration model
+                var oldRegistrationDetails = _apiRegistrationRepository.RecieveDetails();
+                // ammend the new details
+                _apiRegistrationRepository.AmendRegistration(newRegistrtionDetails);
 
-                if(registrationModel.ApiRegistrationProvider != apiModel.ApiRegistrationProvider)
+                // check credentials work. If they do not work revert the change.
+                if (!CheckCredentials())
                 {
-                    // TODO
-                    // unregister the API and any connected devices
+                    _apiRegistrationRepository.AmendRegistration(oldRegistrationDetails);
+                    return false;
                 }
 
-                _apiRegistrationRepository.AmendRegistration(apiModel);             
-
-                var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.ApiRegistrationProvider.ConvertToExternalEnum());
-                if (!credentialsAreValid)
+                // if api provider has changed then disassociate all associated devices
+                if (oldRegistrationDetails.ApiRegistrationProvider != newRegistrtionDetails.ApiRegistrationProvider)
                 {
-                    _apiRegistrationRepository.DeleteApiDetails();
-                }
+                    var disassociateDeviceResult = await DisassociateAllDevices();
+                    // if this has failed revert the change
+                    if (!disassociateDeviceResult)
+                    {
+                        _apiRegistrationRepository.AmendRegistration(oldRegistrationDetails);
+                        return false;
+                    }
+                }           
             }
             catch (Exception ex)
             {
@@ -132,8 +140,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return true;
         }
 
-        public bool DeleteRegistration()
+        public async Task<bool> DeleteRegistration()
         {
+            var disassociateDeviceResult = await DisassociateAllDevices();
+            if (!disassociateDeviceResult)
+            {
+                return false;
+            }
             return _apiRegistrationRepository.DeleteApiDetails();
         }
 
@@ -158,6 +171,40 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             var devices = await _deviceLogic.GetDevices(query);
             return devices.Results;
+        }
+
+        /// <summary>
+        /// Disassociates all devices
+        /// </summary>
+        /// <returns></returns>
+        private async Task<bool> DisassociateAllDevices()
+        {
+            try
+            {
+                var devices = await GetDevices();
+                var connectedDevices = _cellularService.GetListOfConnectedDeviceIds(devices);
+                foreach (dynamic device in connectedDevices)
+                {
+                    device.SystemProperties.ICCID = null;
+                    await _deviceLogic.UpdateDeviceAsync(device);
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool CheckCredentials()
+        {
+            var credentialsAreValid = _cellularService.ValidateCredentials();
+            if (!credentialsAreValid)
+            {
+                _apiRegistrationRepository.DeleteApiDetails();
+                return false;
+            }
+            return true;
         }
     }
 }

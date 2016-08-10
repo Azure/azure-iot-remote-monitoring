@@ -25,6 +25,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     ).Cast<string>().ToList();
         }
 
+        public static IEnumerable<string> GetListOfConnectedDeviceIds(this IExternalCellularService cellularService, List<dynamic> devices)
+        {
+            return (from device in devices
+                    where (device.DeviceProperties != null && device.DeviceProperties.DeviceID != null) &&
+                        (device.SystemProperties == null || device.SystemProperties.ICCID != null)
+                    select device.DeviceProperties.DeviceID.Value
+                    ).Cast<string>().ToList();
+        }
+
         private static IEnumerable<Iccid> GetUsedIccidList(List<dynamic> devices)
         {
             return (from device in devices

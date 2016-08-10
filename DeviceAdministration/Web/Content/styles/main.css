@@ -1571,6 +1571,10 @@ table#alertHistoryTable tr.selectedAlert {
   background-color: #f2f2f2;
   border-color: #e6e6e6;
 }
+.registration_change_provder_input {
+  float: none;
+  clear: both;
+}
 .registration_edit_input,
 .registration_save_input {
   margin-right: 1em;

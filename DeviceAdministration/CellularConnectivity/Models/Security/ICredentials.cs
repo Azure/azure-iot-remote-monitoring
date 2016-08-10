@@ -13,5 +13,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Models.Security
         {
             get; set;
         }
+
     }
 }

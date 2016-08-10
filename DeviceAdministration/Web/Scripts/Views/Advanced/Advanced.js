@@ -16,27 +16,33 @@
             $("#" + this.id).prop("disabled", true);
         });
     }
-
-    function enableAllInput() {
+    
+    function enableAllInput(excludedInputIds) {
+        function isExcludedInput(inputId, excludedInputIds){
+            return typeof excludedInputIds && jQuery.inArray(inputId, excludedInputIds) > -1;
+        }
         $("select").each(function () {
+            if (isExcludedInput(this.id, excludedInputIds)) return;
             $("#" + this.id).prop("disabled", false);
         });
         $("input[type=text]").each(function () {
+            if (isExcludedInput(this.id, excludedInputIds)) return;
             $("#" + this.id).prop("disabled", false);
         });
         $("input[type=password]").each(function () {
+            if (isExcludedInput(this.id, excludedInputIds)) return;
             $("#" + this.id).prop("disabled", false);
         });
     }
 
     function clearValidation() {
-        $("select").each(function () {
+        $("select:enabled").each(function () {
             $("#" + this.id + "Required").hide();
         });
-        $("input[type=text]").each(function () {
+        $("input[type=text]:enabled").each(function () {
             $("#" + this.id + "Required").hide();
         });
-        $("input[type=password]").each(function () {
+        $("input[type=password]:enabled").each(function () {
             $("#" + this.id + "Required").hide();
         });
         $("#registrationFailed").hide();
@@ -54,19 +60,19 @@
 
     function validateAllInput() {
         var valOk = true;
-        $("select").each(function () {
+        $("select:enabled").each(function () {
             if (!$("#" + this.id).val()) {
                 $("#" + this.id + "Required").show();
                 valOk = false;
             }
         });
-        $("input[type=text]").each(function () {
+        $("input[type=text]:enabled").each(function () {
             if (!$("#" + this.id).val()) {
                 $("#" + this.id + "Required").show();
                 valOk = false;
             }
         });
-        $("input[type=password]").each(function () {
+        $("input[type=password]:enabled").each(function () {
             if (!$("#" + this.id).val()) {
                 $("#" + this.id + "Required").show();
                 valOk = false;
@@ -108,24 +114,15 @@
         $(document).tooltip();
         initApiRegistrationFields(config);
 
-        if (config.apiRegistrationProvider) {
-            $("#saveButton").prop("disabled", false);
-            $("#editButton").prop("disabled", true);
-            $("#changeApiRegistrationProviderButton").prop("disabled", false);
-        }
-        else {
-            $("#editButton").prop("disabled", true);
-            $("#changeApiRegistrationProviderButton").prop("disabled", true);
-        }
-
         $("#saveButton").bind("click", function () {
+            debugger
             var apiProvider = $.trim($("#apiRegistrationProvider").val())
             var providerHasChanged = apiProvider && config.apiRegistrationProvider && apiProvider !== config.apiRegistrationProvider;
             var confirmSave = !providerHasChanged;          
             
             // if the provider is set and has changed then show warning message
             if (providerHasChanged) {
-                confirmSave = confirm(config.apiProviderChangeWarningMessageOnSave);
+                confirmSave = confirm(config.apiProviderChangeWarningMessage);
             }
 
             // if not confirmed then bail
@@ -167,11 +164,9 @@
         });
 
         $("#changeApiRegistrationProviderButton").bind("click", function () {
-            var confirmed = confirm(config.apiProviderChangeWarningMessageInitial);
-            if(confirmed){
-                $('#apiRegistrationProvider').prop("disabled", false)
-                enableApiRegistrationEdit(config.apiRegistrationProvider, true);
-            }
+            $('#apiRegistrationProvider').prop("disabled", false)
+            $('#changeApiRegistrationProviderButton').prop("disabled", true)
+            enableApiRegistrationEdit(config.apiRegistrationProvider, true);
         });
     }
 
@@ -218,17 +213,31 @@
     }
 
     var initApiRegistrationFields = function (config) {
+        debugger
+        disableAllInput();
         $('#apiRegistrationProvider').on('change', function (event) {
             event.preventDefault();
             showApiRegistrationFields(this.value);
+            $("#saveButton").prop("disabled", false);
         });
+
+        $("#saveButton").prop("disabled", true);
+        $("#editButton").prop("disabled", false);
         
         var selectedProvider = config.apiRegistrationProvider;
         if (selectedProvider) {
             showApiRegistrationFields(selectedProvider);
+            $("#changeApiRegistrationProviderButton").show();
+            $("#saveButton").prop("disabled", true);
+            $("#editButton").prop("disabled", false);
         }
         else {
             hideApiRegistrationFields();
+            $("#changeApiRegistrationProviderButton").hide();
+            $("#apiRegistrationProviderWarning").hide();
+            $('#apiRegistrationProvider').prop('disabled', false);
+            $("#saveButton").prop("disabled", true);
+            $("#editButton").prop("disabled", true);
         }
     }
 
@@ -254,6 +263,8 @@
             case 'Ericsson': {
                 showSharedFields();
                 $("#LicenceKey").closest('fieldset').hide();
+                debugger
+                enableAllInput(['LicenceKey']);
                 break;
             }
             default: {

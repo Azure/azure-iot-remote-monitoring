@@ -20,9 +20,12 @@
                     </div>
                 </div>
             </fieldset>           
-            <p class="api_warning_label">
-                @Strings.ApiProviderWarningLabel
+            <p id="apiRegistrationProviderWarning" class="api_warning_label">
+                @Strings.ApiProviderWarningLabel             
             </p>
+           <p>
+               <button id="changeApiRegistrationProviderButton" class="button_base registration_change_provder_input" type="button">@Strings.ChangeApiProvider</button>
+           </p>
             <fieldset>
                 <h2 class="registration_description">@Strings.BaseUrlLabel</h2>
                 @Html.TextBoxFor(model => model.BaseUrl, new { id = "BaseUrl", title = Strings.BaseUrlToolTip, @class = "api_input" })
@@ -69,7 +72,6 @@
     <fieldset class="fieldset_button">
         <button id="editButton" class="button_base registration_edit_input" type="button">@Strings.Edit</button>
         <button id="saveButton" class="button_base registration_save_input" type="button">@Strings.Save</button>
-        <button id="changeApiRegistrationProviderButton" class="button_base registration_change_provder_input" type="button">@Strings.ChangeApiProvider</button>
     </fieldset>
     <div class="api_save_registration_failed" id="registrationFailed">
         @Strings.ApiRegistrationFailed
@@ -108,11 +110,10 @@
         function () {
             'use strict';
             var config = {
-                subheadContent: '@Html.JavaScriptString(Strings.ApiRegistrationTitleJasper)',
+                subheadContent: '@Html.JavaScriptString(Strings.ApiRegistrationTitle)',
                 goBackUrl: '@Url.Action("SelectAdvancedProcess")',
                 apiRegistrationProvider: '@Html.JavaScriptString(Model.ApiRegistrationProvider.ToString())',
-                apiProviderChangeWarningMessageInitial: '@Html.JavaScriptString(Strings.ApiProviderWarningPopupInitial)',
-                apiProviderChangeWarningMessageOnSave: '@Html.JavaScriptString(Strings.ApiProviderWarningPopupOnSave)'
+                apiProviderChangeWarningMessage: '@Html.JavaScriptString(Strings.ApiProviderChangeWarningMessage)'
             };
             IoTApp.Advanced.initSubView(config);
             IoTApp.Advanced.initRegistration(config);

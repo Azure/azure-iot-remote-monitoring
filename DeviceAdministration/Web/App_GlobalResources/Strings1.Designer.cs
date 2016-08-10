@@ -215,6 +215,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You are about to change API providers. This will remove your current association as you can only have one at a time. Are you sure you want to do this?.
+        /// </summary>
+        public static string ApiProviderChangeWarningMessage {
+            get {
+                return ResourceManager.GetString("ApiProviderChangeWarningMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to http://microsoft.com.
         /// </summary>
         public static string ApiProviderGenericHelpUrl {
@@ -247,24 +256,6 @@ namespace GlobalResources {
         public static string ApiProviderWarningLabel {
             get {
                 return ResourceManager.GetString("ApiProviderWarningLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to change provider? This will disasociate and connected devices and delete your existing connection..
-        /// </summary>
-        public static string ApiProviderWarningPopupInitial {
-            get {
-                return ResourceManager.GetString("ApiProviderWarningPopupInitial", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You are about to change API providers. This will remove your current association as you can only have one at a time. Are you sure you want to do this?.
-        /// </summary>
-        public static string ApiProviderWarningPopupOnSave {
-            get {
-                return ResourceManager.GetString("ApiProviderWarningPopupOnSave", resourceCulture);
             }
         }
         
@@ -355,24 +346,6 @@ namespace GlobalResources {
         public static string ApiRegistrationTitle {
             get {
                 return ResourceManager.GetString("ApiRegistrationTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ericsson API Registration.
-        /// </summary>
-        public static string ApiRegistrationTitleEricsson {
-            get {
-                return ResourceManager.GetString("ApiRegistrationTitleEricsson", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Jasper API Registration.
-        /// </summary>
-        public static string ApiRegistrationTitleJasper {
-            get {
-                return ResourceManager.GetString("ApiRegistrationTitleJasper", resourceCulture);
             }
         }
         
