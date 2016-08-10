@@ -44,7 +44,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                             if (deviceState != null)
                             {
-                                device.ChangeDeviceState(deviceState.ToString());
+                                await device.ChangeDeviceState(deviceState.ToString());
 
                                 return CommandProcessingResult.Success;
                             }

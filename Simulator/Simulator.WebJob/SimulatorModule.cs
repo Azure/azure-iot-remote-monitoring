@@ -8,8 +8,6 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Dat
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 {
-    using Common.Utility;
-
     public sealed class SimulatorModule : Module
     {
         protected override void Load(ContainerBuilder builder)
@@ -29,7 +27,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             builder.RegisterType<ActionLogic>().As<IActionLogic>();
             builder.RegisterType<DataInitializer>().As<IDataInitializer>();
             builder.RegisterType<ActionRepository>().As<IActionRepository>();
-            builder.RegisterType<DocDbRestUtility>().As<IDocDbRestUtility>();
             builder.RegisterType<AzureTableStorageClientFactory>().As<IAzureTableStorageClientFactory>();
             builder.RegisterType<BlobStorageClientFactory>().As<IBlobStorageClientFactory>();
             builder.RegisterGeneric(typeof(DocumentDBClient<>)).As(typeof(IDocumentDBClient<>));
