@@ -18,7 +18,7 @@ namespace DeviceManagement.Infrustructure.Connectivity
 
         public List<Iccid> GetTerminals()
         {
-            List<Iccid> terminals = new List<Iccid>();
+            List<Iccid> terminals;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
             switch (registrationProvider)
@@ -38,7 +38,7 @@ namespace DeviceManagement.Infrustructure.Connectivity
 
         public Terminal GetSingleTerminalDetails(Iccid iccid)
         {
-            Terminal terminal = null;
+            Terminal terminal;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
             switch (registrationProvider)
@@ -47,7 +47,7 @@ namespace DeviceManagement.Infrustructure.Connectivity
                     terminal = new JasperCellularClient(_credentialProvider).GetSingleTerminalDetails(iccid);
                     break;
                 case ApiRegistrationProviderType.Ericsson:
-                    //TODO call ericsson service
+                    terminal = new EricssonCellularClient(_credentialProvider).GetSingleTerminalDetails(iccid);
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider.ToString()}' provider");

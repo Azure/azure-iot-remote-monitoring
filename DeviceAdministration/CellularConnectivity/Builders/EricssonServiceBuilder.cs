@@ -9,6 +9,7 @@ using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using System.ServiceModel.Channels;
 using System.ServiceModel;
 using DeviceManagement.Infrustructure.Connectivity.EricssonApiService;
+using DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Builders
 {
@@ -23,6 +24,16 @@ namespace DeviceManagement.Infrustructure.Connectivity.Builders
             //end
 
             return new ApiStatusClient(binding,endpointAddress);
+        }
+
+        public static SubscriptionManagementClient GetSubscriptionManagementClient(ICredentials credentials)
+        {
+            // create custom auth endpoint and also programatically add bindings (you need to do this for each type of client)
+            var endpointAddress = GetAuthorizedEndpoint(credentials, $"{credentials.BaseUrl}/dcpapi/SubscriptionManagement");
+            var binding = GetBasicHttpBinding();
+            //end
+
+            return new SubscriptionManagementClient(binding, endpointAddress);
         }
 
 

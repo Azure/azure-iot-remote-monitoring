@@ -36,21 +36,21 @@ namespace EricssonConsoleApiTester
 
 
 
-            //sub tester - get a single sim information
-            //var subscriptionManClient = new SubscriptionManagementClient();
-            //subscriptionManClient.Endpoint.Address =
-            //    EricssonEndpointBuilder.GetAuthorizedEndpoint(
-            //        "https://serviceportal.telenorconnexion.com/dcpapi/SubscriptionManagement");
+            //sub tester -get a single sim information
+            var subscriptionManClient = new SubscriptionManagementClient();
+            subscriptionManClient.Endpoint.Address =
+                EricssonEndpointBuilder.GetAuthorizedEndpoint(
+                    "https://serviceportal.telenorconnexion.com/dcpapi/SubscriptionManagement");
 
-            //var response2 = subscriptionManClient.QuerySimResource(new QuerySimResource()
-            //{
-            //    resource = new resource()
-            //    {
-            //        id = "89460800000105696001",
-            //        type = "icc"
-            //    }
+            var response2 = subscriptionManClient.QuerySimResource(new QuerySimResource()
+            {
+                resource = new resource()
+                {
+                    id = "89460800000105696001",
+                    type = "icc"
+                }
 
-            //});
+            });
 
 
             //var response3 = subscriptionManClient.QuerySimResources(new QuerySimResources()
