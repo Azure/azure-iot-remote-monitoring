@@ -1,5 +1,4 @@
-﻿using System;
-using System.Dynamic;
+﻿using System.Dynamic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.CommandProcessors;
@@ -14,23 +13,25 @@ using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simulator.WebJob
 {
-    public class DiagnosticTelemetryCommandProcessorTests
+    public class ChangeSetPointTempCommandProcessorTests
     {
+
         private readonly Mock<CoolerDevice> _coolerDevice;
-        private readonly DiagnosticTelemetryCommandProcessor _diagnosticTelemetryCommandProcessor;
+        private readonly ChangeSetPointTempCommandProcessor _changeSetPointTempCommandProcessor;
         private readonly Mock<IConfigurationProvider> _configurationProviderMock;
         private readonly Mock<ILogger> _loggerMock;
         private readonly Mock<ITelemetryFactory> _telemetryFactoryMock;
         private readonly Mock<ITransportFactory> _transportFactory;
-        public DiagnosticTelemetryCommandProcessorTests()
+        public ChangeSetPointTempCommandProcessorTests()
         {
             _loggerMock = new Mock<ILogger>();
             _transportFactory = new Mock<ITransportFactory>();
             _telemetryFactoryMock = new Mock<ITelemetryFactory>();
             _configurationProviderMock = new Mock<IConfigurationProvider>();
-            _coolerDevice = new Mock<CoolerDevice>(_loggerMock.Object, _transportFactory.Object, _telemetryFactoryMock.Object,
+            _coolerDevice = new Mock<CoolerDevice>(_loggerMock.Object, _transportFactory.Object,
+                _telemetryFactoryMock.Object,
                 _configurationProviderMock.Object);
-            _diagnosticTelemetryCommandProcessor = new DiagnosticTelemetryCommandProcessor(_coolerDevice.Object);
+            _changeSetPointTempCommandProcessor = new ChangeSetPointTempCommandProcessor(_coolerDevice.Object);
         }
 
         [Fact]
@@ -39,38 +40,42 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
             var history = new CommandHistory("CommandShouldNotComplete");
             var command = new DeserializableCommand(history, "LockToken");
             //null pararameters
-            var r = await _diagnosticTelemetryCommandProcessor.HandleCommandAsync(command);
+            var r = await _changeSetPointTempCommandProcessor.HandleCommandAsync(command);
             Assert.Equal(r, CommandProcessingResult.CannotComplete);
         }
 
         [Fact]
-        public async void CannotCompleteCommandFromParametersTest()
-        { 
-           CommandHistory history = new CommandHistory("DiagnosticTelemetry");
-           var command = new DeserializableCommand(history, "LockToken");
-           history.Parameters = new ExpandoObject();
-           
-            //no active property
-           history.Parameters.Active = false;
-           var r = await _diagnosticTelemetryCommandProcessor.HandleCommandAsync(command);
-           Assert.Equal(r, CommandProcessingResult.RetryLater);
+        public async void CannotCompleteExceptionCommandTests()
+        {
+            var history = new CommandHistory("ChangeSetPointTemp");
+            var command = new DeserializableCommand(history, "LockToken");
+        
+            var r = await _changeSetPointTempCommandProcessor.HandleCommandAsync(command);
+            Assert.Equal(r, CommandProcessingResult.CannotComplete);
         }
 
         [Fact]
-        public async void CommandSuccessTests()
+        public async void NoSetPointParameterCommandTests()
         {
-            var history = new CommandHistory("DiagnosticTelemetry");
+            var history = new CommandHistory("ChangeSetPointTemp");
             var command = new DeserializableCommand(history, "LockToken");
+            history.Parameters = new ExpandoObject();
+            history.Parameters.setpointtemp = "1.0";
 
+            var r = await _changeSetPointTempCommandProcessor.HandleCommandAsync(command);
+            Assert.Equal(r, CommandProcessingResult.RetryLater);
+        }
 
-            var r = await _diagnosticTelemetryCommandProcessor.HandleCommandAsync(command);
+        [Fact]
+        public async void CannotParseAsDoubleCommandTests()
+        {
+            var history = new CommandHistory("ChangeSetPointTemp");
+            var command = new DeserializableCommand(history, "LockToken");
+            history.Parameters = new ExpandoObject();
+            history.Parameters.SetPointTemp = "ThisIsNotADouble";
 
-
-
-        } 
-
-
-
-
+            var r = await _changeSetPointTempCommandProcessor.HandleCommandAsync(command);
+            Assert.Equal(r, CommandProcessingResult.CannotComplete);
+        }
     }
 }
