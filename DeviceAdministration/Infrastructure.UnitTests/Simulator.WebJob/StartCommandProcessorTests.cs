@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
+﻿using System;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.CommandProcessors;
@@ -14,7 +15,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
 {
     public class StartCommandProcessorTests
     {
-        private readonly Mock<CoolerDevice> _coolerDevice;
+        private Mock<CoolerDevice> _coolerDevice;
         private StartCommandProcessor _startCommandProcessor;
         private readonly Mock<IConfigurationProvider> _configurationProviderMock;
         private readonly Mock<ILogger> _loggerMock;

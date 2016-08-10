@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,5 +48,49 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
             var r = await _changeDeviceStateCommandProcessor.HandleCommandAsync(command);
             Assert.Equal(r, CommandProcessingResult.CannotComplete);
         }
+
+        [Fact] public async void DeviceStateNullCommandTests()
+        {
+            var history = new CommandHistory("ChangeDeviceState");
+            var command = new DeserializableCommand(history, "LockToken");
+            //no Device State property
+            history.Parameters = new ExpandoObject();
+            history.Parameters.DevicexxState = "newState";
+            var r = await _changeDeviceStateCommandProcessor.HandleCommandAsync(command);
+            Assert.Equal(r, CommandProcessingResult.RetryLater);
+        }
+
+        [Fact]
+        public async void DevicePropertiesNullCommandTests()
+        {
+            var history = new CommandHistory("ChangeDeviceState");
+            var command = new DeserializableCommand(history, "LockToken");
+            //DeviceProperties are null
+            history.Parameters = new ExpandoObject();
+            history.Parameters.DevicexxState = "newState";
+
+            _coolerDevice.SetupAllProperties();
+            _coolerDevice.Object.DeviceProperties = null;
+
+            var r = await _changeDeviceStateCommandProcessor.HandleCommandAsync(command);
+            Assert.Equal(r, CommandProcessingResult.RetryLater);
+        }
+
+        [Fact]
+        public async void CommandSuccessTests()
+        {
+            var history = new CommandHistory("ChangeDeviceState");
+            var command = new DeserializableCommand(history, "LockToken");
+            //null pararameters
+            history.Parameters = new ExpandoObject();
+            history.Parameters.DeviceState = "newState";
+            _coolerDevice.SetupAllProperties();
+            _coolerDevice.Object.DeviceProperties = new DeviceProperties();
+
+            var r = await _changeDeviceStateCommandProcessor.HandleCommandAsync(command);
+            Assert.Equal(r, CommandProcessingResult.Success);
+        }
+
+
     }
 }
