@@ -485,7 +485,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You&apos;ll find this just below the API key on the API page in Control Center..
+        ///   Looks up a localized string similar to You&apos;ll find this API key in your API Providers system..
         /// </summary>
         public static string BaseUrlToolTip {
             get {
@@ -2159,7 +2159,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You&apos;ll find this at the top left of the API page in Control Center..
+        ///   Looks up a localized string similar to You&apos;ll find this in your API providers system..
         /// </summary>
         public static string LicenseKeyToolTip {
             get {
@@ -2555,7 +2555,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This is the password you use to log into Control Center..
+        ///   Looks up a localized string similar to This is the password you use to log into your API Provider.
         /// </summary>
         public static string PasswordToolTip {
             get {
@@ -3536,7 +3536,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This is the username you use to log into Control Center..
+        ///   Looks up a localized string similar to This is the username you use to log into your API Provider.
         /// </summary>
         public static string UsernameToolTip {
             get {

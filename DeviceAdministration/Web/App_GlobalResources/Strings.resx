@@ -1476,19 +1476,19 @@
     <comment>(Unused)</comment>
   </data>
   <data name="BaseUrlToolTip" xml:space="preserve">
-    <value>You'll find this just below the API key on the API page in Control Center.</value>
+    <value>You'll find this API key in your API Providers system.</value>
     <comment>Input field tooltip.</comment>
   </data>
   <data name="LicenseKeyToolTip" xml:space="preserve">
-    <value>You'll find this at the top left of the API page in Control Center.</value>
+    <value>You'll find this in your API providers system.</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="PasswordToolTip" xml:space="preserve">
-    <value>This is the password you use to log into Control Center.</value>
+    <value>This is the password you use to log into your API Provider</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="UsernameToolTip" xml:space="preserve">
-    <value>This is the username you use to log into Control Center.</value>
+    <value>This is the username you use to log into your API Provider</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="AttachIccidToDevice" xml:space="preserve">
