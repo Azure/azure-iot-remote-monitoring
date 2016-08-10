@@ -2,7 +2,7 @@
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Xunit;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.BusinessLogic
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infrastructure
 {
     public class CommandParameterTypeLogicTests
     {
