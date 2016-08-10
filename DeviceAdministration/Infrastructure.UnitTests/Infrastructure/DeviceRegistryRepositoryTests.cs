@@ -107,7 +107,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
 
             await Assert.ThrowsAsync<DeviceNotRegisteredException>(() => this._deviceRegistryRepository.RemoveDeviceAsync("foobar"));
 
-            this._mockDocumentDBClient.Verify();
+            this._mockDocumentDBClient.VerifyAll();
         }
 
         [Fact]
