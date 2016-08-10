@@ -14,7 +14,7 @@ namespace EricssonConsoleApiTester
         public static EndpointAddress GetAuthorizedEndpoint(string endpointUrl)
         {
             //Create wsse security object
-            var usernameToken = new UsernameToken { Password = "TesTing234dd5", Username = "demo.user18@ericsson.com" };
+            var usernameToken = new UsernameToken { Password = "TesTing2345", Username = "demo.user18@ericsson.com" };
             var security = new EricssonSecurity { UsernameToken = usernameToken };
 
             //Serialize object to xml

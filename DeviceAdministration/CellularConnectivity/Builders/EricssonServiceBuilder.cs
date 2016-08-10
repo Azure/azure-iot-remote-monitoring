@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -16,16 +17,21 @@ namespace DeviceManagement.Infrustructure.Connectivity.Builders
 
         public static ApiStatusClient GetApiStatusClient(ICredentials credentials)
         {
-            var apiStatusClient = new ApiStatusClient();
-            apiStatusClient.Endpoint.Address = GetAuthorizedEndpoint(credentials, $"{credentials.BaseUrl}/dcpapi/ApiStatus");
-            return apiStatusClient;
+            // create custom auth endpoint and also programatically add bindings (you need to do this for each type of client)
+            var endpointAddress = GetAuthorizedEndpoint(credentials, $"{credentials.BaseUrl}/dcpapi/ApiStatus");
+            var binding = GetBasicHttpBinding();
+            //end
+
+            return new ApiStatusClient(binding,endpointAddress);
         }
 
 
+
+        //STATIC HELPERS FOR THIS CLASS
         private static EndpointAddress GetAuthorizedEndpoint(ICredentials credentials, string endpointUrl)
         {
             //Create wsse security object
-            var usernameToken = new EricssonUsernameToken { Password = credentials.Password, Username = credentials.Password };
+            var usernameToken = new EricssonUsernameToken { Password = credentials.Password, Username = credentials.Username };
             var security = new EricssonSecurity { UsernameToken = usernameToken };
 
             //Serialize object to xml
@@ -35,6 +41,12 @@ namespace DeviceManagement.Infrustructure.Connectivity.Builders
             var addressHeader = AddressHeader.CreateAddressHeader("Security", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", security, xmlObjectSerializer);
             return new EndpointAddress(new Uri(endpointUrl), new[] { addressHeader });
         }
+
+        private static BasicHttpBinding GetBasicHttpBinding()
+        {
+            return new BasicHttpBinding { Security = { Mode = BasicHttpSecurityMode.Transport } };
+        }
+
     }
 
 
