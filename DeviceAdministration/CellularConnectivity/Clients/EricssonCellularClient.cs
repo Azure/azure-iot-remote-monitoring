@@ -54,7 +54,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public Terminal GetSingleTerminalDetails(Iccid iccid)
         {
-            var terminal = new Terminal();
+            var terminal = new EricssonTerminal();
             try
             {
                 var subManClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
@@ -64,9 +64,16 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 if(response.simResource.Length <=0) return terminal;
                 var sim = response.simResource.First();
 
+                terminal.Status = sim.simSubscriptionStatus.ToString();
+                terminal.DateOfActivation = sim.firstActivationDate; //todo: check this is correct
                 terminal.Iccid = new Iccid(sim.icc);
                 terminal.Imei = new Imei(sim.imei);
                 terminal.Imsi = new Imsi(sim.imsi);
+                terminal.Msisdn = new Msisdn(sim.msisdn); //todo: needs a view 
+                terminal.RatePlan = sim.productOfferName;
+                terminal.PriceProfileName = sim.priceProfileName;
+                terminal.PdpContextProfileName = sim.pdpContextProfileName;
+                terminal.AccountId = Convert.ToInt32(sim.customerNo); //todo : this will be customer number on the view
 
             }
             catch (Exception)

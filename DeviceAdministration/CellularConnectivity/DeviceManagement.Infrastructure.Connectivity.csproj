@@ -40,6 +40,8 @@
     <Compile Include="Argument.cs" />
     <Compile Include="Models\Enums\CellularProviderEnum.cs" />
     <Compile Include="Models\Security\EricssonSecurity.cs" />
+    <Compile Include="Models\TerminalDevice\EricssonTerminal.cs" />
+    <Compile Include="Models\TerminalDevice\Msisdn.cs" />
     <Compile Include="Proxies\AuthenticationValidationProxy.cs" />
     <Compile Include="Proxies\IAuthenticationValidationProxy.cs" />
     <Compile Include="Service References\EricssonApiService\Reference.cs">
