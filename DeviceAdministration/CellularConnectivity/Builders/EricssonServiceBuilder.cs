@@ -17,15 +17,15 @@ namespace DeviceManagement.Infrustructure.Connectivity.Builders
         public static ApiStatusClient GetApiStatusClient(ICredentials credentials)
         {
             var apiStatusClient = new ApiStatusClient();
-            apiStatusClient.Endpoint.Address = GetAuthorizedEndpoint("https://serviceportal.telenorconnexion.com/dcpapi/ApiStatus");
+            apiStatusClient.Endpoint.Address = GetAuthorizedEndpoint(credentials, $"{credentials.BaseUrl}/dcpapi/ApiStatus");
             return apiStatusClient;
         }
 
 
-        private static EndpointAddress GetAuthorizedEndpoint(string endpointUrl)
+        private static EndpointAddress GetAuthorizedEndpoint(ICredentials credentials, string endpointUrl)
         {
             //Create wsse security object
-            var usernameToken = new EricssonUsernameToken { Password = "TesTing2345", Username = "demo.user18@ericsson.com" };
+            var usernameToken = new EricssonUsernameToken { Password = credentials.Password, Username = credentials.Password };
             var security = new EricssonSecurity { UsernameToken = usernameToken };
 
             //Serialize object to xml

@@ -18,15 +18,12 @@ namespace EricssonConsoleApiTester
         static void Main(string[] args)
         {
             //echo tester
-            var apiStatusClient = new ApiStatusClient();
-            apiStatusClient.Endpoint.Address = EricssonEndpointBuilder.GetAuthorizedEndpoint("https://serviceportal.telenorconnexion.com/dcpapi/ApiStatus");
+            //var apiStatusClient = new ApiStatusClient();
+            //apiStatusClient.Endpoint.Address = EricssonEndpointBuilder.GetAuthorizedEndpoint("https://serviceportal.telenorconnexion.com/dcpapi/ApiStatus");
 
-            var response1 = apiStatusClient.echo(new echo());
+            //var response1 = apiStatusClient.echo(new echo());
           
-        
-          
-
-
+       
             //sub tester - get a single sim information
             var subscriptionManClient = new SubscriptionManagementClient();
             subscriptionManClient.Endpoint.Address =
@@ -44,18 +41,18 @@ namespace EricssonConsoleApiTester
             });
 
 
-            var response3 = subscriptionManClient.QuerySimResources(new QuerySimResources()
-            {
-               resource = new resource()
-               {
-                   type = "customer label",
-                   id = ""
-               },
-               startNumber = 0,
-               range = "100",
-               chunkSize = 100
+            //var response3 = subscriptionManClient.QuerySimResources(new QuerySimResources()
+            //{
+            //   resource = new resource()
+            //   {
+            //       type = "customer label",
+            //       id = ""
+            //   },
+            //   startNumber = 0,
+            //   range = "100",
+            //   chunkSize = 100
               
-            });
+            //});
 
         }
 
