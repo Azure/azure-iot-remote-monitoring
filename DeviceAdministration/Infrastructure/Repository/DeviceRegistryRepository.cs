@@ -19,16 +19,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _documentClient = documentClient;
         }
 
-        /// <summary>
-        /// Queries the DocumentDB and retrieves all documents in the collection
-        /// </summary>
-        /// <returns>All documents in the collection</returns>
-        private async Task<List<DeviceModel>> GetAllDevicesAsync()
-        {
-            var devices = await _documentClient.QueryAsync();
-            return devices.ToList();
-        }
-
+       
         /// <summary>
         /// Queries the DocumentDB and retrieves the device based on its deviceId
         /// </summary>
@@ -36,6 +27,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns>Device instance if present, null if a device was not found with the provided deviceId</returns>
         public async Task<DeviceModel> GetDeviceAsync(string deviceId)
         {
+            if (string.IsNullOrEmpty(deviceId))
+            {
+                throw new ArgumentException(deviceId);
+            }
+
             var query = await _documentClient.QueryAsync();
             var devices = query.Where(x => x.DeviceProperties.DeviceID == deviceId).ToList();
             return devices.FirstOrDefault();
@@ -49,6 +45,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns></returns>
         public async Task<DeviceModel> AddDeviceAsync(DeviceModel device)
         {
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
             if (string.IsNullOrEmpty(device.id))
             {
                 device.id = Guid.NewGuid().ToString();
@@ -66,6 +67,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task RemoveDeviceAsync(string deviceId)
         {
+            if (string.IsNullOrEmpty(deviceId))
+            {
+                throw new ArgumentNullException("deviceId");
+            }
+
             DeviceModel existingDevice = await GetDeviceAsync(deviceId);
             if (existingDevice == null)
             {
@@ -83,12 +89,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns></returns>
         public async Task<DeviceModel> UpdateDeviceAsync(DeviceModel device)
         {
+            if (device == null)
+            {
+                throw new ArgumentNullException("device");
+            }
+
             if (device.DeviceProperties == null)
             {
                 throw new DeviceRequiredPropertyNotFoundException("'DeviceProperties' property is missing");
             }
 
-            if (device.DeviceProperties.DeviceID == null)
+            if (string.IsNullOrEmpty(device.DeviceProperties.DeviceID))
             {
                 throw new DeviceRequiredPropertyNotFoundException("'DeviceID' property is missing");
             }
@@ -131,13 +142,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             device.DeviceProperties.UpdatedTime = DateTime.UtcNow;
-            var savedDevice = await _documentClient.SaveAsync(device);
+            var savedDevice = await this._documentClient.SaveAsync(device);
             return savedDevice;
         }
 
         public async Task<DeviceModel> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
         {
-            DeviceModel existingDevice = await GetDeviceAsync(deviceId);
+            if (string.IsNullOrEmpty(deviceId))
+            {
+                throw new ArgumentNullException("deviceId");
+            }
+
+            DeviceModel existingDevice = await this.GetDeviceAsync(deviceId);
 
             if (existingDevice == null)
             {
@@ -152,8 +168,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             existingDevice.DeviceProperties.HubEnabledState = isEnabled;
             existingDevice.DeviceProperties.UpdatedTime = DateTime.UtcNow;
-            await _documentClient.SaveAsync(existingDevice);
-            return existingDevice;
+            var savedDevice =await this._documentClient.SaveAsync(existingDevice);
+            return savedDevice;
         }
 
         public async Task<DeviceListQueryResult> GetDeviceList(DeviceListQuery query)
@@ -176,6 +192,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 TotalDeviceCount = deviceList.Count,
                 TotalFilteredCount = filteredCount
             };
+        }
+
+        /// <summary>
+        /// Queries the DocumentDB and retrieves all documents in the collection
+        /// </summary>
+        /// <returns>All documents in the collection</returns>
+        private async Task<List<DeviceModel>> GetAllDevicesAsync()
+        {
+            var devices = await _documentClient.QueryAsync();
+            return devices.ToList();
         }
 
         private IQueryable<DeviceModel> SearchDeviceList(IQueryable<DeviceModel> deviceList, string search)
