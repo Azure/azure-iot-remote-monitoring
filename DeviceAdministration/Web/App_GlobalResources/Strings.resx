@@ -1647,7 +1647,7 @@
     <value>Password</value>
     <comment>Section heading.</comment>
   </data>
-  <data name="SimInformationInfoText" xml:space="preserve">
+  <data name="SimInformationInfoTextJasper" xml:space="preserve">
     <value>Delivered through the Jasper Control Center platform</value>
     <comment>{Locked="Jasper"}</comment>
   </data>
@@ -1709,5 +1709,8 @@
   <data name="ApiProviderChangeWarningMessage" xml:space="preserve">
     <value>You are about to change API providers. This will remove your current association as you can only have one at a time. Are you sure you want to do this?</value>
     <comment>Popup message</comment>
+  </data>
+  <data name="SimInformationInfoTextEricsson" xml:space="preserve">
+    <value>Delivered through the Ericsson API</value>
   </data>
 </root>

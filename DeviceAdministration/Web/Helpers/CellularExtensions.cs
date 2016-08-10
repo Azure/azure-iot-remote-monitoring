@@ -9,6 +9,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 {
     public static class CellularExtensions
     {
+        public static ApiRegistrationProviderType GetCellularProvider(this IExternalCellularService cellularService)
+        {
+
+            return ApiRegistrationProviderType.Jasper;
+        }
+
         public static IEnumerable<string> GetListOfAvailableIccids(this IExternalCellularService cellularService, List<dynamic> devices)
         {
             var fullIccidList = cellularService.GetTerminals().Select(i => i.Id);

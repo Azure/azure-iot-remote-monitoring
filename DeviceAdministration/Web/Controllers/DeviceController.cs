@@ -282,10 +282,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [RequirePermission(Permission.ViewDevices)]
         public ActionResult GetDeviceCellularDetails(string iccid)
         {
-            var viewModel = new SimInformationViewModel();
+            var viewModel = new SimInformationViewModel();      
             viewModel.TerminalDevice = _cellularService.GetSingleTerminalDetails(new Iccid(iccid));
             viewModel.SessionInfo = _cellularService.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ?? new SessionInfo();
 
+            var apiProviderDetails = _apiRegistrationRepository.RecieveDetails();
+            viewModel.ApiRegistrationProvider = apiProviderDetails.ApiRegistrationProvider;
+            
             return PartialView("_CellularInformation", viewModel);
         }
 

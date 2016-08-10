@@ -3239,6 +3239,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to First Activation Date.
+        /// </summary>
+        public static string SimFirstActivationDate {
+            get {
+                return ResourceManager.GetString("SimFirstActivationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SIM ICCID.
         /// </summary>
         public static string SimIccid {
@@ -3266,11 +3275,20 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delivered through the Ericsson API.
+        /// </summary>
+        public static string SimInformationInfoTextEricsson {
+            get {
+                return ResourceManager.GetString("SimInformationInfoTextEricsson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delivered through the Jasper Control Center platform.
         /// </summary>
-        public static string SimInformationInfoText {
+        public static string SimInformationInfoTextJasper {
             get {
-                return ResourceManager.GetString("SimInformationInfoText", resourceCulture);
+                return ResourceManager.GetString("SimInformationInfoTextJasper", resourceCulture);
             }
         }
         
