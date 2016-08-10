@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "DeviceAdministration
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "DeviceAdministration\Infrastructure\Infrastructure.csproj", "{54B5B211-B661-42E9-AF2D-87712A37D608}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventProcessor.WebJob", "EventProcessor\EventProcessor.WebJob\EventProcessor.WebJob.csproj", "{588C29C8-3BF8-4CF6-89A7-33D611388E0E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventProcessor.WebJob", "EventProcessor.WebJob\EventProcessor.WebJob.csproj", "{588C29C8-3BF8-4CF6-89A7-33D611388E0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator.WebJob", "Simulator\Simulator.WebJob\Simulator.WebJob.csproj", "{8F0FF371-2306-4210-9C22-0D0657B595DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator.WebJob", "Simulator.WebJob\Simulator.WebJob.csproj", "{8F0FF371-2306-4210-9C22-0D0657B595DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3E3CB1FA-112D-49FB-A60A-71085BF01992}"
 	ProjectSection(SolutionItems) = preProject

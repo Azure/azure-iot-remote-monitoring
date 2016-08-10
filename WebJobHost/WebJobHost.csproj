@@ -82,11 +82,11 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EventProcessor\EventProcessor.WebJob\EventProcessor.WebJob.csproj">
+    <ProjectReference Include="..\EventProcessor.WebJob\EventProcessor.WebJob.csproj">
       <Project>{588c29c8-3bf8-4cf6-89a7-33d611388e0e}</Project>
       <Name>EventProcessor.WebJob</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Simulator\Simulator.WebJob\Simulator.WebJob.csproj">
+    <ProjectReference Include="..\Simulator.WebJob\Simulator.WebJob.csproj">
       <Project>{8f0ff371-2306-4210-9c22-0d0657b595dc}</Project>
       <Name>Simulator.WebJob</Name>
     </ProjectReference>
