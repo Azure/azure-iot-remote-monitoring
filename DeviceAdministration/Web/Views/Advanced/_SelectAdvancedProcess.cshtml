@@ -31,6 +31,9 @@
                         <button class="button_base edit_button" type="submit" id="apiRegistrationEditButton">
                             @Strings.Edit
                         </button>
+                        <button class="button_base delete_api_registration_button" type="submit" id="apiRegistrationDeleteButton">
+                            @Strings.Delete
+                        </button>
                     </fieldset>
                 </p>
             }
@@ -61,6 +64,10 @@
 
             $('#apiRegistrationCreateButton').click(function () {
                 IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistration")');
+            });
+
+            $('#apiRegistrationDeleteButton').click(function () {
+                IoTApp.Advanced.deleteApiRegistration();
             });
 
             @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers

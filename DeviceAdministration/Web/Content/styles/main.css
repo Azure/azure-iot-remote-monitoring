@@ -1514,6 +1514,9 @@ table#alertHistoryTable tr.selectedAlert {
   min-height: 30px;
   box-sizing: content-box;
 }
+.edit_button {
+  margin-right: 1em;
+}
 .add_new_button {
   display: block;
   float: left;
@@ -1525,6 +1528,7 @@ table#alertHistoryTable tr.selectedAlert {
   padding: 0 1em;
   min-height: 32px;
   cursor: pointer;
+  margin-right: 1em;
 }
 .add_new_button:disabled {
   background-color: #ccc;

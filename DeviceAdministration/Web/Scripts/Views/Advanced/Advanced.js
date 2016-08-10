@@ -267,13 +267,13 @@
             $("#Username").closest('fieldset').show();
             $("#Password").closest('fieldset').show();
         }
+        var disabledFields = []
         switch(selectedProvider){
             case 'Jasper': {
                 showSharedFields();
                 if (enableFields) {
-                    var disabledFields = []
                     if (disableApiProvider) {
-                        disabledFields.push('apiRegistrationProvider')
+                        disabledFields.push('apiRegistrationProvider');
                     }
                     enableAllInput(disabledFields);
                 }
@@ -283,9 +283,9 @@
             case 'Ericsson': {
                 showSharedFields();
                 if (enableFields) {
-                    var disabledFields = ['LicenceKey']
+                    disabledFields.push('LicenceKey');
                     if (disableApiProvider) {
-                        disabledFields.push('apiRegistrationProvider')
+                        disabledFields.push('apiRegistrationProvider');
                     }
                     enableAllInput(disabledFields)
                 }
@@ -297,6 +297,18 @@
                 break;
             }
         }
+    }
+
+    var deleteApiRegistration = function () {
+        $.ajax({
+            url: '/Advanced/DeleteRegistration',
+            data: {},
+            async: true,
+            type: "post",
+            success: function () {
+                window.location.reload();
+            }
+        });
     }
 
     var enableApiRegistrationEdit = function (apiRegistrationProvider, changeProvider) {
@@ -311,6 +323,7 @@
         initSubView: initSubView,
         redirecToPartial: redirecToPartial,
         initRegistration: initRegistration,
-        initAssociation: initAssociation
+        initAssociation: initAssociation,
+        deleteApiRegistration: deleteApiRegistration
     };
 }, [jQuery]);
