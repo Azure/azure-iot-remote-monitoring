@@ -5,11 +5,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Co
 {
     public class Command
     {
+
         /// <summary>
         /// Serialziation deserialziation constructor.
         /// </summary>
         [JsonConstructor]
-        internal Command()
+        public Command()
         {
             Parameters = new List<Parameter>();
         }
