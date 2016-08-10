@@ -8,11 +8,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Models.Security
         string Username { get; set; }
         string Password { get; set; }
         string BaseUrl { get; set; }
-
-        ApiRegistrationProviderType? ApiRegistrationProvider
-        {
-            get; set;
-        }
-
+        ApiRegistrationProviderType? ApiRegistrationProvider { get; set; }
     }
 }

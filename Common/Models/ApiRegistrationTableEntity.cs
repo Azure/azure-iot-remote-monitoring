@@ -10,7 +10,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public string LicenceKey { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public int? ApiRegistrationProviderType { get; set; }
+        public DeviceManagement.Infrustructure.Connectivity.Models.Enums.ApiRegistrationProviderType? ApiRegistrationProviderType { get; set; }
 
         // when more providers are available take as param
         public ApiRegistrationTableEntity()

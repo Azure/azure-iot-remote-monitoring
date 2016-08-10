@@ -30,9 +30,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     BaseUrl = apiRegistrationModel.BaseUrl,
                     Username = apiRegistrationModel.Username,
                     LicenceKey = apiRegistrationModel.LicenceKey,
-                    ApiRegistrationProviderType = ApiRegistrationTableEntity
-                                                    .ConvertApiProviderTypeToInt(apiRegistrationModel.ApiRegistrationProvider)
-            };
+                    ApiRegistrationProviderType = apiRegistrationModel.ApiRegistrationProvider
+                };
 
                 _table.Execute(TableOperation.InsertOrMerge(incomingEntity));
             }
@@ -63,8 +62,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 BaseUrl = apiRegistrationTableEntity.BaseUrl,
                 LicenceKey = apiRegistrationTableEntity.LicenceKey,
                 Password = apiRegistrationTableEntity.Password,
-                ApiRegistrationProvider = ApiRegistrationTableEntity
-                                            .ConvertIntToApiProvider(apiRegistrationTableEntity.ApiRegistrationProviderType)
+                ApiRegistrationProvider = apiRegistrationTableEntity.ApiRegistrationProviderType
             };
 
         }
