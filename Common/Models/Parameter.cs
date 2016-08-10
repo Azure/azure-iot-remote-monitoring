@@ -8,7 +8,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         /// Serialization deserialization constructor.
         /// </summary>
         [JsonConstructor]
-        internal Parameter()
+        public Parameter()
         {
         }
 
