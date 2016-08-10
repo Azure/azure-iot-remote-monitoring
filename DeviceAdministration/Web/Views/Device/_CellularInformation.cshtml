@@ -1,21 +1,47 @@
 ﻿@using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice
 @using GlobalResources
+@using DeviceManagement.Infrustructure.Connectivity.Models.Enums
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
 
 <header class="header_grid">
     <a href="#" id="deviceExplorer_CellInformationBack" class="details_grid__button_back grid_subheadhead_detail">@Strings.SimInformationBackText</a>
 </header>
 
-<section class="details_grid_general">
-    <p class="grid_detail_value"><strong>@Strings.SimStatus</strong> @Model.TerminalDevice.Status</p>
-    <p class="grid_detail_value"><strong>@Strings.LastSessionStart @Model.SessionInfo.DateSessionStarted</strong>
-    <p class="grid_detail_value"><strong>@Strings.CurrentRatePlan</strong>@Model.TerminalDevice.RatePlan</p>
-    <p class="grid_detail_value"><strong>@Strings.AggregatedUsage</strong>@Model.TerminalDevice.MonthToDateDataUsage</p>
-    <p class="grid_detail_value"><strong>@Strings.CurrentLimitReached</strong> @Model.TerminalDevice.OverageLimitReached</p>
-    <p class="grid_detail_value"><strong>@Strings.IMEI</strong> @Model.TerminalDevice.Imei.Id</p>
-    <p class="grid_detail_value"><strong>@Strings.IMSI</strong> @Model.TerminalDevice.Imsi.Id</p>
-    <p class="grid_detail_value"><strong>@Strings.ICCID</strong> @Model.TerminalDevice.Iccid.Id</p>
-    <p class="grid_detail_value"><strong>@Strings.AccountId</strong> @Model.TerminalDevice.AccountId</p>
-</section>
+@switch (Model.ApiRegistrationProvider)
+{
+    case ApiRegistrationProviderType.Jasper:
+        {
+            <section class="details_grid_general">
+                <p class="grid_detail_value"><strong>@Strings.SimStatus</strong> @Model.TerminalDevice.Status</p>
+                <p class="grid_detail_value"><strong>@Strings.LastSessionStart @Model.SessionInfo.DateSessionStarted</strong>
+                <p class="grid_detail_value"><strong>@Strings.CurrentRatePlan</strong>@Model.TerminalDevice.RatePlan</p>
+                <p class="grid_detail_value"><strong>@Strings.AggregatedUsage</strong>@Model.TerminalDevice.MonthToDateDataUsage</p>
+                <p class="grid_detail_value"><strong>@Strings.CurrentLimitReached</strong> @Model.TerminalDevice.OverageLimitReached</p>
+                <p class="grid_detail_value"><strong>@Strings.IMEI</strong> @Model.TerminalDevice.Imei.Id</p>
+                <p class="grid_detail_value"><strong>@Strings.IMSI</strong> @Model.TerminalDevice.Imsi.Id</p>
+                <p class="grid_detail_value"><strong>@Strings.ICCID</strong> @Model.TerminalDevice.Iccid.Id</p>
+                <p class="grid_detail_value"><strong>@Strings.AccountId</strong> @Model.TerminalDevice.AccountId</p>
+            </section>
+            <div class="jasper_info_text details_grid_margin">@Strings.SimInformationInfoTextJasper</div>
+            break;
+        }
+    case ApiRegistrationProviderType.Ericsson:
+        {
+            <section class="details_grid_general">
+                <p class="grid_detail_value"><strong>@Strings.SimStatus</strong> @Model.TerminalDevice.Status</p>
+                @*<p class="grid_detail_value"><strong>@Strings.SimFirstActivationDate</strong> @Model.TerminalDevice.DateOfActivation</p>*@               
+                <p class="grid_detail_value"><strong>@Strings.LastSessionStart @Model.SessionInfo.DateSessionStarted</strong>
+                <p class="grid_detail_value"><strong>@Strings.CurrentRatePlan</strong>@Model.TerminalDevice.RatePlan</p>
+                <p class="grid_detail_value"><strong>@Strings.AggregatedUsage</strong>@Model.TerminalDevice.MonthToDateDataUsage</p>
+                <p class="grid_detail_value"><strong>@Strings.CurrentLimitReached</strong> @Model.TerminalDevice.OverageLimitReached</p>
+                <p class="grid_detail_value"><strong>@Strings.IMEI</strong> @Model.TerminalDevice.Imei.Id</p>
+                <p class="grid_detail_value"><strong>@Strings.IMSI</strong> @Model.TerminalDevice.Imsi.Id</p>
+                <p class="grid_detail_value"><strong>@Strings.ICCID</strong> @Model.TerminalDevice.Iccid.Id</p>
+                <p class="grid_detail_value"><strong>@Strings.AccountId</strong> @Model.TerminalDevice.AccountId</p>
+            </section>
+            <div class="ericsson_info_text details_grid_margin">@Strings.SimInformationInfoTextEricsson</div>
+            break;
+        }
+}
 
-<div class="jasper_info_text details_grid_margin">@Strings.SimInformationInfoText</div>
+
