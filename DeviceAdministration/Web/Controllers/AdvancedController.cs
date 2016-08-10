@@ -103,14 +103,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             await _deviceLogic.UpdateDeviceAsync(device);
         }
 
-        public async Task<bool> SaveRegistration(ApiRegistrationModel newRegistrtionDetails)
+        public async Task<bool> SaveRegistration(ApiRegistrationModel apiModel)
         {
             try
             {
                 // get the current registration model
                 var oldRegistrationDetails = _apiRegistrationRepository.RecieveDetails();
                 // ammend the new details
-                _apiRegistrationRepository.AmendRegistration(newRegistrtionDetails);
+                _apiRegistrationRepository.AmendRegistration(apiModel);
 
                 // check credentials work. If they do not work revert the change.
                 if (!CheckCredentials())
@@ -120,7 +120,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 }
 
                 // if api provider has changed then disassociate all associated devices
-                if (oldRegistrationDetails.ApiRegistrationProvider != newRegistrtionDetails.ApiRegistrationProvider)
+                if (oldRegistrationDetails.ApiRegistrationProvider != apiModel.ApiRegistrationProvider)
                 {
                     var disassociateDeviceResult = await DisassociateAllDevices();
                     // if this has failed revert the change

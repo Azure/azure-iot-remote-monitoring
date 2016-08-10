@@ -147,7 +147,6 @@
     <Compile Include="DeviceSchema\EventSchemaHelper.cs" />
     <Compile Include="DeviceSchema\WireCommandSchemaHelper.cs" />
     <Compile Include="Exceptions\DeviceRequiredPropertyNotFoundException.cs" />
-    <Compile Include="Extensions\ApiRegistrationProviderTypeExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Factory\SampleDeviceFactory.cs" />
     <Compile Include="Helpers\AzureRetryHelper.cs" />
