@@ -43,5 +43,39 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
             var r = await _changeSetPointTempCommandProcessor.HandleCommandAsync(command);
             Assert.Equal(r, CommandProcessingResult.CannotComplete);
         }
+
+        [Fact]
+        public async void CannotCompleteExceptionCommandTests()
+        {
+            var history = new CommandHistory("ChangeSetPointTemp");
+            var command = new DeserializableCommand(history, "LockToken");
+        
+            var r = await _changeSetPointTempCommandProcessor.HandleCommandAsync(command);
+            Assert.Equal(r, CommandProcessingResult.CannotComplete);
+        }
+
+        [Fact]
+        public async void NoSetPointParameterCommandTests()
+        {
+            var history = new CommandHistory("ChangeSetPointTemp");
+            var command = new DeserializableCommand(history, "LockToken");
+            history.Parameters = new ExpandoObject();
+            history.Parameters.setpointtemp = "1.0";
+
+            var r = await _changeSetPointTempCommandProcessor.HandleCommandAsync(command);
+            Assert.Equal(r, CommandProcessingResult.RetryLater);
+        }
+
+        [Fact]
+        public async void CannotParseAsDoubleCommandTests()
+        {
+            var history = new CommandHistory("ChangeSetPointTemp");
+            var command = new DeserializableCommand(history, "LockToken");
+            history.Parameters = new ExpandoObject();
+            history.Parameters.SetPointTemp = "ThisIsNotADouble";
+
+            var r = await _changeSetPointTempCommandProcessor.HandleCommandAsync(command);
+            Assert.Equal(r, CommandProcessingResult.CannotComplete);
+        }
     }
 }

@@ -49,7 +49,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
             Assert.Equal(r, CommandProcessingResult.CannotComplete);
         }
 
-        [Fact] public async void DeviceStateNullCommandTests()
+        [Fact]
+        public async void DeviceStateNullCommandTests()
         {
             var history = new CommandHistory("ChangeDeviceState");
             var command = new DeserializableCommand(history, "LockToken");
