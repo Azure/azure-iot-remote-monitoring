@@ -18,17 +18,16 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public bool ValidateCredentials()
         {
-            var isValid = false;
-           
+            var isValid = false;          
             try
             {
                 var apiStatusClient = EricssonServiceBuilder.GetApiStatusClient(_credentialProvider.Provide());
                 apiStatusClient.echo(new echo());
                 isValid = true;
             }
-            catch 
+            catch(Exception ex)
             {
-               
+                isValid = false;
             }    
             return isValid;
         }

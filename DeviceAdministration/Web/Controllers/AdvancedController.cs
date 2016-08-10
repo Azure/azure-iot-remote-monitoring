@@ -120,7 +120,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 }
 
                 // if api provider has changed then disassociate all associated devices
-                if (oldRegistrationDetails.ApiRegistrationProvider != apiModel.ApiRegistrationProvider)
+                if (oldRegistrationDetails != null && oldRegistrationDetails.ApiRegistrationProvider != apiModel.ApiRegistrationProvider)
                 {
                     var disassociateDeviceResult = await DisassociateAllDevices();
                     // if this has failed revert the change
