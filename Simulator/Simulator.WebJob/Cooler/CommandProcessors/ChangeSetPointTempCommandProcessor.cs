@@ -73,7 +73,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     {
                         // Unsupported Device type.
                         return CommandProcessingResult.CannotComplete;
-                }
+                    }
                 }
                 catch (Exception)
                 {

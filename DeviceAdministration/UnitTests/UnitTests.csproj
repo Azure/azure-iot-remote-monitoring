@@ -221,11 +221,16 @@
     <Compile Include="Common\SampleDataGeneratorTests.cs" />
     <Compile Include="Simulator.WebJob\CoolerDeviceFactoryTests.cs" />
     <Compile Include="Simulator.WebJob\AppConfigRepositoryTests.cs" />
+    <Compile Include="Simulator.WebJob\ChangeDeviceStateCommandProcessorTests.cs" />
+    <Compile Include="Simulator.WebJob\ChangeSetPointTempCommandProcessorTests.cs" />
     <Compile Include="Simulator.WebJob\ConcreteTelemetryTests.cs" />
     <Compile Include="Simulator.WebJob\CoolerDeviceTests.cs" />
     <Compile Include="Simulator.WebJob\DeserializableCommandTest.cs" />
     <Compile Include="Simulator.WebJob\DeviceBaseTests.cs" />
+    <Compile Include="Simulator.WebJob\DiagnosticTelemetryCommandProcessorTests.cs" />
     <Compile Include="Simulator.WebJob\PingDeviceProcessorTests.cs" />
+    <Compile Include="Simulator.WebJob\StartCommandProcessorTests.cs" />
+    <Compile Include="Simulator.WebJob\StopCommandProcessorTests.cs" />
     <Compile Include="Simulator.WebJob\GenericConcreteTelemetryFactoryTests.cs" />
     <Compile Include="TestStubs\HttpMessageHandlerStub.cs" />
     <Compile Include="TestStubs\RandomGeneratorStub.cs" />
