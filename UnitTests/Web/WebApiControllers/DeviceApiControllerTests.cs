@@ -158,7 +158,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
             var data = res.ExtractContentDataAs<bool>();
             Assert.True(data);
         }
-
+#if DEBUG
         [Fact]
         public async void DeleteAllDevices()
         {
@@ -178,5 +178,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
             var data = res.ExtractContentDataAs<bool>();
             Assert.True(data);
         }
+#endif
     }
 }
