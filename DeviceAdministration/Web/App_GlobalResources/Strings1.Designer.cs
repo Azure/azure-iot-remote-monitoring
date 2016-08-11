@@ -890,6 +890,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer Number.
+        /// </summary>
+        public static string CustomerNumber {
+            get {
+                return ResourceManager.GetString("CustomerNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Data Field.
         /// </summary>
         public static string DataFieldHeader {
@@ -2560,6 +2569,15 @@ namespace GlobalResources {
         public static string PasswordToolTip {
             get {
                 return ResourceManager.GetString("PasswordToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PDPContext Profile Name.
+        /// </summary>
+        public static string PDPContextProfileName {
+            get {
+                return ResourceManager.GetString("PDPContextProfileName", resourceCulture);
             }
         }
         

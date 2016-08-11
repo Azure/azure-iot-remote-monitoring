@@ -1,0 +1,20 @@
+﻿@using GlobalResources
+@using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice
+@model  Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
+
+@{
+    var erricsonTermal = (EricssonTerminal)Model.TerminalDevice;
+}
+
+<section class="details_grid_general">
+    <p class="grid_detail_value"><strong>@Strings.SimStatus</strong> @erricsonTermal.Status</p>
+    <p class="grid_detail_value"><strong>@Strings.SimFirstActivationDate</strong> @erricsonTermal.DateOfActivation</p>
+    <p class="grid_detail_value"><strong>@Strings.ICCID</strong> @erricsonTermal.Iccid.Id</p>
+    <p class="grid_detail_value"><strong>@Strings.IMEI</strong> @erricsonTermal.Imei.Id</p>
+    <p class="grid_detail_value"><strong>@Strings.IMSI</strong> @erricsonTermal.Imsi.Id</p>
+    <p class="grid_detail_value"><strong>@Strings.CurrentRatePlan</strong>@erricsonTermal.RatePlan</p>
+    <p class="grid_detail_value"><strong>@Strings.LastSessionStart @erricsonTermal.PriceProfileName</strong>
+    <p class="grid_detail_value"><strong>@Strings.CustomerNumber</strong> @erricsonTermal.AccountId</p>
+    <p class="grid_detail_value"><strong>@Strings.PDPContextProfileName</strong>TODO</p>
+</section>
+<div class="ericsson_info_text details_grid_margin">@Strings.SimInformationInfoTextEricsson</div>

@@ -619,6 +619,8 @@
     <Content Include="Views\Advanced\_SelectAdvancedProcess.cshtml" />
     <Content Include="Views\Shared\_NavigationSubmenu.cshtml" />
     <Content Include="Views\Advanced\_IccidAssociation.cshtml" />
+    <Content Include="Views\Device\_CellularInformationJasper.cshtml" />
+    <Content Include="Views\Device\_CellularInformationEricsson.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

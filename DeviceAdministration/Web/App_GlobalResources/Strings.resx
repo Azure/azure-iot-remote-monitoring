@@ -1710,7 +1710,16 @@
     <value>You are about to change API providers. This will remove your current association as you can only have one at a time. Are you sure you want to do this?</value>
     <comment>Popup message</comment>
   </data>
+  <data name="SimFirstActivationDate" xml:space="preserve">
+    <value>First Activation Date</value>
+  </data>
   <data name="SimInformationInfoTextEricsson" xml:space="preserve">
     <value>Delivered through the Ericsson API</value>
+  </data>
+  <data name="CustomerNumber" xml:space="preserve">
+    <value>Customer Number</value>
+  </data>
+  <data name="PDPContextProfileName" xml:space="preserve">
+    <value>PDPContext Profile Name</value>
   </data>
 </root>
