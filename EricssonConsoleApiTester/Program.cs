@@ -42,29 +42,31 @@ namespace EricssonConsoleApiTester
                 EricssonEndpointBuilder.GetAuthorizedEndpoint(
                     "https://serviceportal.telenorconnexion.com/dcpapi/SubscriptionManagement");
 
-            var response2 = subscriptionManClient.QuerySimResource(new QuerySimResource()
+            //var response2 = subscriptionManClient.QuerySimResource(new QuerySimResource()
+            //{
+            //    resource = new resource()
+            //    {
+            //        id = "89460800000105696001",
+            //        type = "icc"
+            //    }
+
+            //});
+
+   
+
+
+            var resp = subscriptionManClient.QuerySubscriptions(new QuerySubscriptionsRequest()
             {
+                maxResults = 10,
                 resource = new resource()
                 {
-                    id = "89460800000105696001",
-                    type = "icc"
+                    id = "240080000569600",
+                    type = "imsi"
                 }
 
             });
 
 
-            //var response3 = subscriptionManClient.QuerySimResources(new QuerySimResources()
-            //{
-            //   resource = new resource()
-            //   {
-            //       type = "customer label",
-            //       id = ""
-            //   },
-            //   startNumber = 0,
-            //   range = "100",
-            //   chunkSize = 100
-
-            //});
 
         }
 
