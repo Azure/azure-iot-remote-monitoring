@@ -10,5 +10,8 @@ namespace DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice
     {
         public string PriceProfileName { get; set; }
         public string PdpContextProfileName { get; set; }
+        public string PricePlan { get; set; }
+        public string AggregatedSimUsage { get; set; }
+        public string CurrentLimits { get; set; }
     }
 }

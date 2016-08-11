@@ -170,6 +170,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aggregated Sim Usage.
+        /// </summary>
+        public static string AggregatedSimUsage {
+            get {
+                return ResourceManager.GetString("AggregatedSimUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Aggregated Usage: .
         /// </summary>
         public static string AggregatedUsage {
@@ -877,6 +886,15 @@ namespace GlobalResources {
         public static string CurrentLimitReached {
             get {
                 return ResourceManager.GetString("CurrentLimitReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Limits.
+        /// </summary>
+        public static string CurrentLimits {
+            get {
+                return ResourceManager.GetString("CurrentLimits", resourceCulture);
             }
         }
         
@@ -2650,6 +2668,15 @@ namespace GlobalResources {
         public static string Price {
             get {
                 return ResourceManager.GetString("Price", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price Plan.
+        /// </summary>
+        public static string PricePlan {
+            get {
+                return ResourceManager.GetString("PricePlan", resourceCulture);
             }
         }
         

@@ -1730,4 +1730,16 @@
     <value>Price Profile Name</value>
     <comment>Label</comment>
   </data>
+  <data name="AggregatedSimUsage" xml:space="preserve">
+    <value>Aggregated Sim Usage</value>
+    <comment>Label</comment>
+  </data>
+  <data name="CurrentLimits" xml:space="preserve">
+    <value>Current Limits</value>
+    <comment>Label</comment>
+  </data>
+  <data name="PricePlan" xml:space="preserve">
+    <value>Price Plan</value>
+    <comment>Label</comment>
+  </data>
 </root>
