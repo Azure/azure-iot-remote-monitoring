@@ -30,11 +30,8 @@ namespace EricssonConsoleApiTester
             }
             catch (Exception)
             {
-
                 throw;
             }
-
-
 
             //sub tester -get a single sim information
             var subscriptionManClient = new SubscriptionManagementClient();
@@ -42,16 +39,25 @@ namespace EricssonConsoleApiTester
                 EricssonEndpointBuilder.GetAuthorizedEndpoint(
                     "https://serviceportal.telenorconnexion.com/dcpapi/SubscriptionManagement");
 
-            var response2 = subscriptionManClient.QuerySimResource(new QuerySimResource()
+            //var response2 = subscriptionManClient.QuerySimResource(new QuerySimResource()
+            //{
+            //    resource = new resource()
+            //    {
+            //        id = "89460800000105696001",
+            //        type = "icc"
+            //    }
+            //});
+
+            QuerySubscriptionsResponse result = subscriptionManClient.QuerySubscriptions(new QuerySubscriptionsRequest()
             {
+                maxResults = 1,
+                customerNo = "00000001",
                 resource = new resource()
                 {
-                    id = "89460800000105696001",
-                    type = "icc"
+                    id = "467190002569600",
+                    type = "msisdn"
                 }
-
             });
-
 
             //var response3 = subscriptionManClient.QuerySimResources(new QuerySimResources()
             //{

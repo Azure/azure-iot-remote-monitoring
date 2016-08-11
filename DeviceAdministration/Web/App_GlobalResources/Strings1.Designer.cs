@@ -2339,11 +2339,11 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Msisdn.
+        ///   Looks up a localized string similar to MSISDN.
         /// </summary>
-        public static string Msisdn {
+        public static string MSISDN {
             get {
-                return ResourceManager.GetString("Msisdn", resourceCulture);
+                return ResourceManager.GetString("MSISDN", resourceCulture);
             }
         }
         
