@@ -2339,6 +2339,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Msisdn.
+        /// </summary>
+        public static string Msisdn {
+            get {
+                return ResourceManager.GetString("Msisdn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Actions.
         /// </summary>
         public static string NavigationMenuItemActions {
@@ -2641,6 +2650,15 @@ namespace GlobalResources {
         public static string Price {
             get {
                 return ResourceManager.GetString("Price", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price Profile Name.
+        /// </summary>
+        public static string PriceProfileName {
+            get {
+                return ResourceManager.GetString("PriceProfileName", resourceCulture);
             }
         }
         

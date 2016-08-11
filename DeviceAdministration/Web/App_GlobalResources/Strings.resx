@@ -1719,7 +1719,15 @@
   <data name="CustomerNumber" xml:space="preserve">
     <value>Customer Number</value>
   </data>
+  <data name="Msisdn" xml:space="preserve">
+    <value>Msisdn</value>
+    <comment>Label</comment>
+  </data>
   <data name="PDPContextProfileName" xml:space="preserve">
     <value>PDPContext Profile Name</value>
+  </data>
+  <data name="PriceProfileName" xml:space="preserve">
+    <value>Price Profile Name</value>
+    <comment>Label</comment>
   </data>
 </root>
