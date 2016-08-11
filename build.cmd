@@ -63,10 +63,10 @@
 @GOTO :Error
 
 :Build
-msbuild RemoteMonitoring.sln /v:m /p:Configuration=%Configuration%
+msbuild RemoteMonitoring.sln /v:m /p:Configuration=%Configuration% /p:Platform="Any CPU"
 
 @IF /I '%ERRORLEVEL%' NEQ '0' (
-    @echo Error msbuild IoTRefImplementation.sln /v:m /t:publish /p:Configuration=%Configuration%
+    @echo Error msbuild IoTRefImplementation.sln /v:m /t:publish /p:Configuration=%Configuration% 
     @goto :Error)
 
 @IF /I '%Command%' == 'Build' (
@@ -74,14 +74,14 @@ msbuild RemoteMonitoring.sln /v:m /p:Configuration=%Configuration%
 
 :Package
 @REM For Zip based deployments for private repos
-msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package
+msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package /p:Configuration=%Configuration% /p:Platform="AnyCPU"
 @IF /I '%ERRORLEVEL%' NEQ '0' (
-    @echo Error msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package
+    @echo Error msbuild DeviceAdministration\Web\Web.csproj /v:m /T:Package /p:Configuration=%Configuration% /p:Platform="AnyCPU"
     @goto :Error)
 
-msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package
+msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /p:Configuration=%Configuration% /p:Platform="AnyCPU"
 @IF /I '%ERRORLEVEL%' NEQ '0' (
-    @echo Error msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package
+    @echo Error msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package /p:Configuration=%Configuration% /p:Platform="AnyCPU"
     @goto :Error)
 
 :Config
