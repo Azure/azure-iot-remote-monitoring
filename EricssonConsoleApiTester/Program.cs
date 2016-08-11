@@ -30,8 +30,11 @@ namespace EricssonConsoleApiTester
             }
             catch (Exception)
             {
+
                 throw;
             }
+
+
 
             //sub tester -get a single sim information
             var subscriptionManClient = new SubscriptionManagementClient();
@@ -46,31 +49,24 @@ namespace EricssonConsoleApiTester
             //        id = "89460800000105696001",
             //        type = "icc"
             //    }
+
             //});
 
-            QuerySubscriptionsResponse result = subscriptionManClient.QuerySubscriptions(new QuerySubscriptionsRequest()
+   
+
+
+            var resp = subscriptionManClient.QuerySubscriptions(new QuerySubscriptionsRequest()
             {
-                maxResults = 1,
-                customerNo = "00000001",
+                maxResults = 10,
                 resource = new resource()
                 {
-                    id = "467190002569600",
-                    type = "msisdn"
+                    id = "240080000569600",
+                    type = "imsi"
                 }
+
             });
 
-            //var response3 = subscriptionManClient.QuerySimResources(new QuerySimResources()
-            //{
-            //   resource = new resource()
-            //   {
-            //       type = "customer label",
-            //       id = ""
-            //   },
-            //   startNumber = 0,
-            //   range = "100",
-            //   chunkSize = 100
 
-            //});
 
         }
 
