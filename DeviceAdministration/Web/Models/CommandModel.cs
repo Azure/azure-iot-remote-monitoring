@@ -88,7 +88,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         public static IEnumerable<ParameterModel> ToParametersModel(this List<Parameter> parameters)
         {
-            if (parameters == null || parameters[0] == null)
+            if (parameters == null || parameters.Count == 0)
             {
                 return new List<ParameterModel>();
             }
