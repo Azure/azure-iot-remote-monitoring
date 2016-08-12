@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 return await Task.Run(async () =>
                 {
-                    using (var client = _handler == null ? new HttpClient() : new HttpClient(_handler))
+                    using (var client = new HttpClient(_handler))
                     {
                         var response = await client.PostAsync(actionIds[actionId],
                             new StringContent(JsonConvert.SerializeObject(
