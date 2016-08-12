@@ -1,8 +1,8 @@
 ﻿Param(
     [Parameter(Mandatory=$True,Position=0)]
-    $environmentName = "rraorm",
+    $environmentName,
     [Parameter(Mandatory=$True,Position=1)]
-    $configuration = "cloud",
+    $configuration,
     [Parameter(Mandatory=$False,Position=2)]
     $azureEnvironmentName = "AzureCloud"
     )
