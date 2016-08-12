@@ -70,7 +70,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var mappings = new List<ActionMapping>();
             byte[] blobData = await _blobStorageManager.GetBlobData(_blobName);
 
-            if (blobData.Length > 0)
+            if (blobData != null && blobData.Length > 0)
             {
                 // get the existing mappings in object form
                 string existingJsonData = Encoding.UTF8.GetString(blobData);
