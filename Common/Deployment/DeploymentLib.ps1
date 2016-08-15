@@ -953,6 +953,26 @@ function FixWebJobZip()
     $zip.Dispose()
 }
 
+function ResourceObjectExists		
+ {		
+    Param(
+        [Parameter(Mandatory=$true,Position=0)] [string] $resourceGroupName,
+        [Parameter(Mandatory=$true,Position=1)] [string] $resourceName,
+        [Parameter(Mandatory=$true,Position=2)] [string] $type
+    )
+     return (GetResourceObject -resourceGroupName $resourceGroupName -resourceName $resourceName -type $type | ?{$_.Name -eq $resourceName}) -ne $null
+ }		
+ 		
+ function GetResourceObject
+ {
+    Param(
+         [Parameter(Mandatory=$true,Position=0)] [string] $resourceGroupName,
+         [Parameter(Mandatory=$true,Position=1)] [string] $resourceName,	
+         [Parameter(Mandatory=$true,Position=2)] [string] $type
+    )
+    return Get-AzureRmResource -ResourceName $resourceName -ResourceGroupName $resourceGroupName -ResourceType $type
+ }
+
 # Variable initialization
 [int]$global:envSettingsChanges = 0;
 $global:timeStampFormat = "o"
