@@ -160,7 +160,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                         throw new DeviceRequiredPropertyNotFoundException("'IoTHubProperties' property is missing");
                     }
 
-                    string name = deviceInfo.IoTHub.ConnectionDeviceGenerationId;
+                    string name = deviceInfo.IoTHub.ConnectionDeviceId;
                     Trace.TraceInformation("ProcessEventAsync -- DeviceInfo: {0}", name);
                     await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(deviceInfo);
 
