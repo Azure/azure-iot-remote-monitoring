@@ -195,7 +195,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                                                           async () => await this._deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(null));
 
             var d = this.fixture.Create<DeviceModel>();
-            this._deviceRegistryCrudRepositoryMock.Setup(x => x.GetDeviceAsync(d.DeviceProperties.DeviceID))
+            this._deviceRegistryCrudRepositoryMock.Setup(x => x.GetDeviceAsync(d.IoTHub.ConnectionDeviceId))
                 .ReturnsAsync(d);
             this._deviceRegistryCrudRepositoryMock.Setup(x => x.UpdateDeviceAsync(It.IsAny<DeviceModel>()))
                 .ReturnsAsync(d);

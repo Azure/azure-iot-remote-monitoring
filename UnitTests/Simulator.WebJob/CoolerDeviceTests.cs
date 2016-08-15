@@ -27,11 +27,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
             _initConfig = _fixture.Create<InitialDeviceConfig>();
             var loggerMock = new Mock<ILogger>();
             _transportMock = new Mock<ITransport>();
-            var transportFactoryMock = new IotHubTransportFactory(null, null, _transportMock.Object);
+            var transportFactoryMock = new Mock<ITransportFactory>();
+            transportFactoryMock.Setup(x => x.CreateTransport(It.IsNotNull<IDevice>())).Returns(_transportMock.Object);
             var telemetryFactoryMock = new Mock<ITelemetryFactory>();
             var configurationProviderMock = new Mock<IConfigurationProvider>();
             var coolerDeviceFactory = new CoolerDeviceFactory();
-            _coolerDevice = coolerDeviceFactory.CreateDevice(loggerMock.Object, transportFactoryMock,
+            _coolerDevice = coolerDeviceFactory.CreateDevice(loggerMock.Object, transportFactoryMock.Object,
                 telemetryFactoryMock.Object, configurationProviderMock.Object, _initConfig) as CoolerDevice;
             loggerMock.Setup(x => x.LogInfo(It.IsAny<string>(), It.IsAny<object[]>()));
         }
