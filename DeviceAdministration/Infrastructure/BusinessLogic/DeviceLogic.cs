@@ -220,7 +220,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             // Get original device document
-            DeviceModel existingDevice = await this.GetDeviceAsync(device.DeviceProperties.DeviceID);
+            DeviceModel existingDevice = await this.GetDeviceAsync(device.IoTHub.ConnectionDeviceId);
 
             // Save the command history, original created date, and system properties (if any) of the existing device
             if (existingDevice.DeviceProperties != null)
