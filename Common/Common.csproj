@@ -217,6 +217,7 @@
     <None Include="Deployment\DeploymentLib.ps1" />
     <None Include="Deployment\PrepareIoTSample.ps1" />
     <None Include="Deployment\LocalMonitoring.json" />
+    <None Include="Deployment\RemoteMonitoringStaging.json" />
     <None Include="Deployment\RemoteMonitoringMapKey.json" />
     <None Include="Deployment\RemoteMonitoring.json" />
     <None Include="packages.config">
