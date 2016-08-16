@@ -349,6 +349,41 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 capturedException.Throw();
             }
 
+            if (repositoryDevice != null && repositoryDevice.IsSimulatedDevice)
+            {
+                if (isEnabled)
+                {
+                    try
+                    {
+                        var securityKeys = await this.GetIoTHubKeysAsync(deviceId);
+                        await _virtualDeviceStorage.AddOrUpdateDeviceAsync(new InitialDeviceConfig()
+                        {
+                            DeviceId = repositoryDevice.DeviceProperties.DeviceID,
+                            HostName = _configProvider.GetConfigurationSettingValue("iotHub.HostName"),
+                            Key = securityKeys.PrimaryKey
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        //if we fail adding to table storage for the device simulator just continue
+                        Trace.TraceError("Failed to add enabled simulated device : {0}", ex.Message);
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        await _virtualDeviceStorage.RemoveDeviceAsync(deviceId);
+                    }
+                    catch (Exception ex)
+                    {
+                        //if an exception occurs while attempting to remove the
+                        //simulated device from table storage do not roll back the changes.
+                        Trace.TraceError("Failed to remove disabled simulated device : {0}", ex.Message);
+                    }
+                }
+            }
+
             return repositoryDevice;
         }
 
