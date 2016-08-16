@@ -99,6 +99,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 if (dce.StatusCode == HttpStatusCode.NotFound)
                 {
                     await _client.CreateDatabaseAsync(new Database { Id = _databaseId });
+                    return;
                 }
 
                 throw;
@@ -118,6 +119,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                     await _client.CreateDocumentCollectionAsync(
                         UriFactory.CreateDatabaseUri(_databaseId),
                         new DocumentCollection { Id = _collectionName });
+                    return;
                 }
 
                 throw;
