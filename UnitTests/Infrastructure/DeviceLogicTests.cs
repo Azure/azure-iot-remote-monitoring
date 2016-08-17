@@ -308,11 +308,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         }
 
         [Fact]
-        public async void UpdateDeviceEnabledStatusAsyncTest()
+        public async void UpdateDeviceEnabledStatusAsyncTest_customDevice()
         {
             var deviceId = this.fixture.Create<string>();
             var isEnabled = this.fixture.Create<bool>();
             var device = this.fixture.Create<DeviceModel>();
+            device.IsSimulatedDevice = false;
             this._iotHubRepositoryMock.Setup(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled)).ReturnsAsync(new Device());
             this._deviceRegistryCrudRepositoryMock.SetupSequence(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled))
                 .ReturnsAsync(device)
@@ -322,6 +323,44 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
 
             this._iotHubRepositoryMock.Setup(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, !isEnabled)).ReturnsAsync(new Device());
             await Assert.ThrowsAsync<Exception>(async () => await this._deviceLogic.UpdateDeviceEnabledStatusAsync(deviceId, isEnabled));
+        }
+
+        [Fact]
+        public async void UpdateDeviceEnabledStatusAsyncTest_simulatedDevice()
+        {
+            var device = this.fixture.Create<DeviceModel>();
+            var keys = fixture.Create<SecurityKeys>();
+            var hostname = "hostname";
+            device.IsSimulatedDevice = true;
+            var deviceId = device.DeviceProperties.DeviceID;
+            InitialDeviceConfig savedConfig = null;
+            this._configProviderMock.Setup(x => x.GetConfigurationSettingValue(It.IsAny<string>())).Returns(hostname);
+            this._iotHubRepositoryMock.Setup(mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, It.IsAny<bool>())).ReturnsAsync(new Device());
+            this._iotHubRepositoryMock.Setup(mock => mock.GetDeviceKeysAsync(deviceId)).ReturnsAsync(keys);
+            this._deviceRegistryCrudRepositoryMock.Setup(
+                mock => mock.UpdateDeviceEnabledStatusAsync(deviceId, It.IsAny<bool>()))
+                .ReturnsAsync(device);
+            this._virtualDeviceStorageMock.Setup(
+                mock => mock.AddOrUpdateDeviceAsync(It.IsNotNull<InitialDeviceConfig>()))
+                .Callback<InitialDeviceConfig>(conf => savedConfig = conf)
+                .Returns(Task.FromResult(true))
+                .Verifiable();
+
+            // Enable simulated device
+            var res = await this._deviceLogic.UpdateDeviceEnabledStatusAsync(deviceId, true);
+            Assert.Equal(res, device);
+            _virtualDeviceStorageMock.Verify();
+            Assert.Equal(deviceId, savedConfig.DeviceId);
+            Assert.Equal(hostname, savedConfig.HostName);
+            Assert.Equal(keys.PrimaryKey, savedConfig.Key);
+
+            this._virtualDeviceStorageMock.Setup(mock => mock.RemoveDeviceAsync(deviceId))
+                .Returns(Task.FromResult(true))
+                .Verifiable();
+            // Disable simulated device
+            res = await this._deviceLogic.UpdateDeviceEnabledStatusAsync(deviceId, false);
+            Assert.Equal(res, device);
+            _virtualDeviceStorageMock.Verify();
         }
 
         [Fact]
