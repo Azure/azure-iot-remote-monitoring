@@ -349,38 +349,42 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 capturedException.Throw();
             }
 
-            if (repositoryDevice != null && repositoryDevice.IsSimulatedDevice)
+            if (repositoryDevice == null || !repositoryDevice.IsSimulatedDevice) return repositoryDevice;
+            return await this.AddOrRemoveSimulatedDevice(repositoryDevice, isEnabled);
+        }
+
+        private async Task<DeviceModel> AddOrRemoveSimulatedDevice(DeviceModel repositoryDevice, bool isEnabled)
+        {
+            var deviceId = repositoryDevice.DeviceProperties.DeviceID;
+            if (isEnabled)
             {
-                if (isEnabled)
+                try
                 {
-                    try
+                    var securityKeys = await this.GetIoTHubKeysAsync(deviceId);
+                    await _virtualDeviceStorage.AddOrUpdateDeviceAsync(new InitialDeviceConfig()
                     {
-                        var securityKeys = await this.GetIoTHubKeysAsync(deviceId);
-                        await _virtualDeviceStorage.AddOrUpdateDeviceAsync(new InitialDeviceConfig()
-                        {
-                            DeviceId = repositoryDevice.DeviceProperties.DeviceID,
-                            HostName = _configProvider.GetConfigurationSettingValue("iotHub.HostName"),
-                            Key = securityKeys.PrimaryKey
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-                        //if we fail adding to table storage for the device simulator just continue
-                        Trace.TraceError("Failed to add enabled simulated device : {0}", ex.Message);
-                    }
+                        DeviceId = deviceId,
+                        HostName = _configProvider.GetConfigurationSettingValue("iotHub.HostName"),
+                        Key = securityKeys.PrimaryKey
+                    });
                 }
-                else
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        await _virtualDeviceStorage.RemoveDeviceAsync(deviceId);
-                    }
-                    catch (Exception ex)
-                    {
-                        //if an exception occurs while attempting to remove the
-                        //simulated device from table storage do not roll back the changes.
-                        Trace.TraceError("Failed to remove disabled simulated device : {0}", ex.Message);
-                    }
+                    //if we fail adding to table storage for the device simulator just continue
+                    Trace.TraceError("Failed to add enabled device to simulated device storage. Device telemetry is expected not to be sent. : {0}", ex.Message);
+                }
+            }
+            else
+            {
+                try
+                {
+                    await _virtualDeviceStorage.RemoveDeviceAsync(deviceId);
+                }
+                catch (Exception ex)
+                {
+                    //if an exception occurs while attempting to remove the
+                    //simulated device from table storage do not roll back the changes.
+                    Trace.TraceError("Failed to remove disabled device from simulated device store. Device will keep sending telemetry data. : {0}", ex.Message);
                 }
             }
 
