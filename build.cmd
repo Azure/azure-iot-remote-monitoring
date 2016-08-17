@@ -42,6 +42,7 @@
 @SET BuildPath=%~dp0Build_Output\%Configuration%
 @SET PowerShellCmd="%windir%\system32\WindowsPowerShell\v1.0\powershell.exe" -ExecutionPolicy Unrestricted -Command
 @SET PublishCmd=%PowerShellCmd% "& ""%DeploymentScripts%\PrepareIoTSample.ps1""" -environmentName %EnvironmentName% -configuration %Configuration% %SuiteArgs%
+@SET PackageCmd=%PowerShellCmd% "& ""%DeploymentScripts%\PackageIoTSample.ps1""" -configuration %Configuration%
 
 @IF /I '%AzureEnvironmentName%' NEQ '' (
     @Set PublishCmd=%PublishCmd% -azureEnvironmentName %AzureEnvironmentName%
@@ -59,6 +60,9 @@
     @GOTO :Config)
 @IF /I '%Command%' == 'Cloud' (
     @GOTO :Build)
+@IF /I '%Command%' == 'Package' (
+    @GOTO :Build)
+
 @ECHO Invalid command '%Command%'
 @GOTO :Error
 
@@ -83,6 +87,10 @@ msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package
 @IF /I '%ERRORLEVEL%' NEQ '0' (
     @echo Error msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package
     @goto :Error)
+
+@IF /I '%Command%' == 'Package' (
+    %PackageCmd%
+    @GOTO :END)
 
 :Config
 %PublishCmd%
