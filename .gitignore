@@ -202,6 +202,3 @@ VendingMachineSample/packages/*
 
 # Merge file remains
 *.orig
-
-#Node
-node_modules
