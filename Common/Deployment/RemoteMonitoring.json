@@ -169,7 +169,7 @@
         "saVersion": "2015-10-01",
         "webVersion": "2015-04-01",
         "bingMapsName": "[concat(parameters('suiteName'), '-map')]",
-        "bingMapsVersion": "2015-07-02",
+        "bingMapsVersion": "2016-08-18",
         "webJobPlanName": "[concat(parameters('suiteName'), '-jobsplan')]",
         "webJobSiteName": "[concat(parameters('suiteName'), '-jobhost')]",
         "webPlanName": "[concat(parameters('suiteName'), '-plan')]",
