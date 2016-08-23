@@ -233,7 +233,7 @@
             "apiVersion": "[variables('iotHubVersion')]",
             "type": "Microsoft.Devices/Iothubs",
             "name": "[parameters('iotHubName')]",
-            "location": "[variables('locationFAKE')]",
+            "location": "[variables('location')]",
             "sku": {
                 "name": "[parameters('iotHubSku')]",
                 "tier": "[parameters('iotHubTier')]",
@@ -302,7 +302,7 @@
                     "type": "eventHubs",
                     "location": "[variables('location')]",
                     "dependsOn": [
-                        "[concat('Microsoft.Servicebus/namespacesFAKE/', parameters('sbName'))]"
+                        "[concat('Microsoft.Servicebus/namespaces/', parameters('sbName'))]"
                     ],
                     "properties": {
                         "path": "[variables('ehRuleOutName')]",
@@ -317,7 +317,7 @@
             "name": "[concat(parameters('suiteName'), '-Telemetry')]",
             "location": "[variables('location')]",
             "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccountsFAKE/', parameters('storageName'))]",
+                "[concat('Microsoft.Storage/storageAccounts/', 'FAKEstorageName')]",
                 "[concat('Microsoft.Devices/Iothubs/', parameters('iotHubName'))]"
             ],
             "tags": {
