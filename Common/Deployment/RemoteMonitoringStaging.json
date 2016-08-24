@@ -166,7 +166,7 @@
         "ehRuleOutName": "[concat(parameters('sbName'), '-ehruleout')]",
         "sbKeyName": "RootManageSharedAccessKey",
         "sbResourceId": "[resourceId('Microsoft.Servicebus/namespaces/authorizationRules', parameters('sbName'), variables('sbKeyName'))]",
-        "saVersion": "2015-10-01",
+        "saVersion": "2015-04-01",
         "webVersion": "2015-04-01",
         "bingMapsName": "[concat(parameters('suiteName'), '-map')]",
         "bingMapsVersion": "2015-07-02",
@@ -317,7 +317,7 @@
             "name": "[concat(parameters('suiteName'), '-Telemetry')]",
             "location": "[variables('location')]",
             "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/', 'FAKEstorageName')]",
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('storageName'))]",
                 "[concat('Microsoft.Devices/Iothubs/', parameters('iotHubName'))]"
             ],
             "tags": {
