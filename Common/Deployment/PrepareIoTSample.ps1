@@ -23,7 +23,7 @@ switch($azureEnvironmentName)
 
         $global:iotHubSuffix = "azure-devices.net"
         $global:docdbSuffix = "documents.azure.com"
-        $global:servicebusSuffix = "servicebus.windows.net"
+        $global:eventhubSuffix = "servicebus.windows.net"
         $global:websiteSuffix = "azurewebsites.net"
         $global:locations = @("East US", "North Europe", "East Asia", "West US", "West Europe", "Southeast Asia", "Japan East", "Japan West", "Australia East", "Australia Southeast")
     }
@@ -40,7 +40,7 @@ switch($azureEnvironmentName)
 
         $global:iotHubSuffix = "azure-devices.de"
         $global:docdbSuffix = "documents.microsoftazure.de"
-        $global:servicebusSuffix = "servicebus.cloudapi.de​"
+        $global:eventhubSuffix = "servicebus.cloudapi.de​"
         $global:websiteSuffix = "azurewebsites.de"
         $global:locations = @("Germany Central", "Germany Northeast")
     }
@@ -57,7 +57,7 @@ switch($azureEnvironmentName)
 
        $global:iotHubSuffix = "azure-devices.cn"
        $global:docdbSuffix = "documents.azure.cn"
-       $global:servicebusSuffix = "servicebus.chinacloudapi.cn"
+       $global:eventhubSuffix = "servicebus.chinacloudapi.cn"
        $global:websiteSuffix = "chinacloudsites.cn"
        $global:locations = @("China North", "China East")
 	}
@@ -142,8 +142,8 @@ if ($suiteExists)
     }
     if (ResourceObjectExists $suitename $eventhubName Microsoft.Eventhub/namespaces)
     {
-        $servicebusSku = GetResourceObject $suitename $eventhubName Microsoft.Eventhub/namespaces
-        $params += @{ehSku=$($servicebusSku.Properties.MessagingSku)}
+        $eventhubSku = GetResourceObject $suitename $eventhubName Microsoft.Eventhub/namespaces
+        $params += @{ehSku=$($eventhubSku.Properties.MessagingSku)}
     }
 }
 
@@ -203,7 +203,7 @@ Write-Host "Suite name: $suitename"
 Write-Host "DocDb Name: $docDbName"
 Write-Host "Storage Name: $($storageAccount.StorageAccountName)"
 Write-Host "IotHub Name: $iotHubName"
-Write-Host "Servicebus Name: $eventhubName"
+Write-Host "Eventhub Name: $eventhubName"
 Write-Host "AAD Tenant: $($global:AADTenant)"
 Write-Host "ResourceGroup Name: $resourceGroupName"
 Write-Host "Deployment template path: $deploymentTemplatePath"

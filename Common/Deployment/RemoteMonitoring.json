@@ -89,14 +89,14 @@
         "ehName": {
             "type": "string",
             "metadata": {
-                "description": "The name of the serviceBus"
+                "description": "The name of the eventHub"
             }
         },
         "ehSku": {
             "type": "int",
             "defaultValue": 1,
             "metadata": {
-                "description": "The servicebus Sku"
+                "description": "The eventhub Sku"
             }
         },
         "packageUri": {

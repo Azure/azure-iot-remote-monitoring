@@ -240,7 +240,7 @@ function ValidateResourceName()
         }
         "microsoft.eventhub/namespaces"
         {
-            $resourceUrl = $global:servicebusSuffix
+            $resourceUrl = $global:eventhubSuffix
             $resourceBaseName = $resourceBaseName.Substring(0, [System.Math]::Min(35, $resourceBaseName.Length))
         }
         "microsoft.web/sites"
