@@ -74,7 +74,7 @@ ClearDNSCache
 InitializeEnvironment $environmentName
 
 # Set environment specific variables 
-$suitename = "LocalRM"
+$suitename = "KapilArmTestRM1"
 $suiteType = "LocalMonitoring"
 $deploymentTemplatePath = "$(Split-Path $MyInvocation.MyCommand.Path)\LocalMonitoring.json"
 $global:site = "https://localhost:44305/"
@@ -140,9 +140,9 @@ if ($suiteExists)
         $params += @{iotHubSku=$($iotHubSku.Sku.Name)}
         $params += @{iotHubTier=$($iotHubSku.Sku.Tier)}
     }
-    if (ResourceObjectExists $suitename $sevicebusName Microsoft.Servicebus/namespaces)
+    if (ResourceObjectExists $suitename $sevicebusName Microsoft.Eventhub/namespaces)
     {
-        $servicebusSku = GetResourceObject $suitename $sevicebusName Microsoft.Servicebus/namespaces
+        $servicebusSku = GetResourceObject $suitename $sevicebusName Microsoft.Eventhub/namespaces
         $params += @{sbSku=$($servicebusSku.Properties.MessagingSku)}
     }
 }

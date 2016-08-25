@@ -14,9 +14,6 @@
     # ActiveDirectory library
     $success = $success -and (LoadLibrary "Microsoft.IdentityModel.Clients.ActiveDirectory" $nugetPath)
 
-    # Servicebus library
-    $success = $success -and (LoadLibrary "WindowsAzure.ServiceBus" $nugetPath "Microsoft.ServiceBus")
-
     # Storage Library
     $success = $success -and (LoadLibrary "WindowsAzure.Storage" $nugetPath "Microsoft.WindowsAzure.Storage")
 
@@ -241,7 +238,7 @@ function ValidateResourceName()
         {
             $resourceUrl = $global:docdbSuffix
         }
-        "microsoft.servicebus/namespaces"
+        "microsoft.eventhub/namespaces"
         {
             $resourceUrl = $global:servicebusSuffix
             $resourceBaseName = $resourceBaseName.Substring(0, [System.Math]::Min(35, $resourceBaseName.Length))
@@ -344,7 +341,7 @@ function GetAzureServicebusName()
         [Parameter(Mandatory=$true,Position=1)] [string] $resourceGroupName,
         [Parameter(Mandatory=$true,Position=2)] [bool] $cloudDeploy
     )
-    return ValidateResourceName ($baseName.PadRight(6,"x")) Microsoft.Servicebus/namespaces $resourceGroupName $cloudDeploy
+    return ValidateResourceName ($baseName.PadRight(6,"x")) Microsoft.Eventhub/namespaces $resourceGroupName $cloudDeploy
 }
 
 function StopExistingStreamAnalyticsJobs()
