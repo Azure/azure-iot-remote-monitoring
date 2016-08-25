@@ -161,11 +161,11 @@
         "location": "[resourceGroup().location]",
         "storageVersion": "2016-01-01",
         "storageId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
-        "sbVersion": "[providers('Microsoft.Eventhub', 'namespaces').apiVersions[0]]",
+        "ehVersion": "[providers('Microsoft.Eventhub', 'namespaces').apiVersions[0]]",
         "ehOutName": "[concat(parameters('sbName'), '-ehout')]",
         "ehRuleOutName": "[concat(parameters('sbName'), '-ehruleout')]",
         "sbKeyName": "RootManageSharedAccessKey",
-        "sbResourceId": "[resourceId('Microsoft.Eventhub/namespaces/authorizationRules', parameters('sbName'), variables('sbKeyName'))]",
+        "ehResourceId": "[resourceId('Microsoft.Eventhub/namespaces/authorizationRules', parameters('sbName'), variables('sbKeyName'))]",
         "saVersion": "2015-10-01",
         "webVersion": "2015-04-01",
         "bingMapsName": "[concat(parameters('suiteName'), '-map')]",
@@ -271,7 +271,7 @@
             ]
         },
         {
-            "apiVersion": "[variables('sbVersion')]",
+            "apiVersion": "[variables('ehVersion')]",
             "name": "[parameters('sbName')]",
             "type": "Microsoft.Eventhub/namespaces",
             "location": "[variables('location')]",
@@ -284,7 +284,7 @@
             },
             "resources": [
                 {
-                    "apiVersion": "[variables('sbVersion')]",
+                    "apiVersion": "[variables('ehVersion')]",
                     "name": "[variables('ehOutName')]",
                     "type": "eventHubs",
                     "location": "[variables('location')]",
@@ -297,7 +297,7 @@
                     }
                 },
                 {
-                    "apiVersion": "[variables('sbVersion')]",
+                    "apiVersion": "[variables('ehVersion')]",
                     "name": "[variables('ehRuleOutName')]",
                     "type": "eventHubs",
                     "location": "[variables('location')]",
@@ -468,7 +468,7 @@
                                 "Properties": {
                                     "EventHubName": "[variables('ehOutName')]",
                                     "ServiceBusNamespace": "[parameters('sbName')]",
-                                    "SharedAccessPolicyKey": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryKey]",
+                                    "SharedAccessPolicyKey": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryKey]",
                                     "SharedAccessPolicyName": "[variables('sbKeyName')]",
                                     "PartitionKey": "PartitionId"
                                 },
@@ -572,7 +572,7 @@
                                 "Properties": {
                                     "EventHubName": "[variables('ehRuleOutName')]",
                                     "ServiceBusNamespace": "[parameters('sbName')]",
-                                    "SharedAccessPolicyKey": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryKey]",
+                                    "SharedAccessPolicyKey": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryKey]",
                                     "SharedAccessPolicyName": "[variables('sbKeyName')]",
                                     "PartitionKey": "PartitionId"
                                 },
@@ -720,10 +720,10 @@
                         "device.StorageConnectionString": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).keys[0].value)]",
                         "device.TableName": "DeviceList",
                         "eventHub.HubName": "[variables('ehOutName')]",
-                        "eventHub.ConnectionString": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]",
+                        "eventHub.ConnectionString": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryConnectionString]",
                         "eventHub.StorageConnectionString": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).keys[0].value)]",
                         "RulesEventHub.Name": "[variables('ehRuleOutName')]",
-                        "RulesEventHub.ConnectionString": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]",
+                        "RulesEventHub.ConnectionString": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryConnectionString]",
                         "ObjectTypePrefix": "",
                         "MapApiQueryKey": "[listSecrets(variables('bingMapsName'), variables('bingMapsVersion')).QueryKey]",
                         "SolutionName": "[variables('webSiteName')]"
@@ -782,10 +782,10 @@
                         "device.StorageConnectionString": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).keys[0].value)]",
                         "device.TableName": "DeviceList",
                         "eventHub.HubName": "[variables('ehOutName')]",
-                        "eventHub.ConnectionString": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]",
+                        "eventHub.ConnectionString": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryConnectionString]",
                         "eventHub.StorageConnectionString": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).keys[0].value)]",
                         "RulesEventHub.Name": "[variables('ehRuleOutName')]",
-                        "RulesEventHub.ConnectionString": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]",
+                        "RulesEventHub.ConnectionString": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryConnectionString]",
                         "ObjectTypePrefix": "",
                         "MapApiQueryKey": "[listSecrets(variables('bingMapsName'), variables('bingMapsVersion')).QueryKey]",
                         "SolutionName": "[variables('webSiteName')]"
@@ -829,7 +829,7 @@
         },
         "ehConnectionString": {
             "type": "string",
-            "value": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]"
+            "value": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryConnectionString]"
         }
     }
 }

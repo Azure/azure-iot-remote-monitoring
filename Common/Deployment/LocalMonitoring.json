@@ -92,11 +92,11 @@
         "location": "[resourceGroup().location]",
         "storageVersion": "2016-01-01",
         "storageId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
-        "sbVersion": "[providers('Microsoft.Eventhub', 'namespaces').apiVersions[0]]",
+        "ehVersion": "[providers('Microsoft.Eventhub', 'namespaces').apiVersions[0]]",
         "ehOutName": "[concat(parameters('suiteName'), '-ehout')]",
         "ehRuleOutName": "[concat(parameters('suiteName'), '-ehruleout')]",
         "sbKeyName": "RootManageSharedAccessKey",
-        "sbResourceId": "[resourceId('Microsoft.Eventhub/namespaces/authorizationRules', parameters('sbName'), variables('sbKeyName'))]",
+        "ehResourceId": "[resourceId('Microsoft.Eventhub/namespaces/authorizationRules', parameters('sbName'), variables('sbKeyName'))]",
         "saVersion": "2015-10-01",
         "docDBVersion": "2015-04-08",
         "docDBResourceId": "[resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('docDBName'))]",
@@ -178,7 +178,7 @@
             ]
         },
         {
-            "apiVersion": "[variables('sbVersion')]",
+            "apiVersion": "[variables('ehVersion')]",
             "name": "[parameters('sbName')]",
             "type": "Microsoft.Eventhub/namespaces",
             "location": "[variables('location')]",
@@ -191,7 +191,7 @@
             },
             "resources": [
                 {
-                    "apiVersion": "[variables('sbVersion')]",
+                    "apiVersion": "[variables('ehVersion')]",
                     "name": "[variables('ehOutName')]",
                     "type": "eventHubs",
                     "location": "[variables('location')]",
@@ -204,7 +204,7 @@
                     }
                 },
                 {
-                    "apiVersion": "[variables('sbVersion')]",
+                    "apiVersion": "[variables('ehVersion')]",
                     "name": "[variables('ehRuleOutName')]",
                     "type": "eventHubs",
                     "location": "[variables('location')]",
@@ -375,7 +375,7 @@
                                 "Properties": {
                                     "EventHubName": "[variables('ehOutName')]",
                                     "ServiceBusNamespace": "[parameters('sbName')]",
-                                    "SharedAccessPolicyKey": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryKey]",
+                                    "SharedAccessPolicyKey": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryKey]",
                                     "SharedAccessPolicyName": "[variables('sbKeyName')]",
                                     "PartitionKey": "PartitionId"
                                 },
@@ -479,7 +479,7 @@
                                 "Properties": {
                                     "EventHubName": "[variables('ehRuleOutName')]",
                                     "ServiceBusNamespace": "[parameters('sbName')]",
-                                    "SharedAccessPolicyKey": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryKey]",
+                                    "SharedAccessPolicyKey": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryKey]",
                                     "SharedAccessPolicyName": "[variables('sbKeyName')]",
                                     "PartitionKey": "PartitionId"
                                 },
@@ -567,7 +567,7 @@
         },
         "ehConnectionString": {
             "type": "string",
-            "value": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]"
+            "value": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryConnectionString]"
         }
     }
 }
