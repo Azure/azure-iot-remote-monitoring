@@ -334,7 +334,7 @@ function GetAzureIotHubName()
     return ValidateResourceName $baseName Microsoft.Devices/iotHubs $resourceGroupName $cloudDeploy
 }
 
-function GetAzureServicebusName()
+function GetAzureEventhubName()
 {
     Param(
         [Parameter(Mandatory=$true,Position=0)] [string] $baseName,

@@ -102,7 +102,7 @@ $suiteExists = (Find-AzureRmResourceGroup -Tag @{Name="IotSuiteType";Value=$suit
 $resourceGroupName = (GetResourceGroup -Name $suiteName -Type $suiteType).ResourceGroupName
 $storageAccount = GetAzureStorageAccount $suiteName $resourceGroupName $cloudDeploy
 $iotHubName = GetAzureIotHubName $suitename $resourceGroupName $cloudDeploy
-$sevicebusName = GetAzureServicebusName $suitename $resourceGroupName $cloudDeploy
+$eventhubName = GetAzureEventhubName $suitename $resourceGroupName $cloudDeploy
 $docDbName = GetAzureDocumentDbName $suitename $resourceGroupName $cloudDeploy
 
 # Setup AAD for webservice
@@ -118,7 +118,7 @@ $params = @{ `
     docDBName=$docDbName; `
     storageName=$($storageAccount.StorageAccountName); `
     iotHubName=$iotHubName; `
-    sbName=$sevicebusName; `
+    ehName=$eventhubName; `
     storageEndpointSuffix=$($global:azureEnvironment.StorageEndpointSuffix)}
 
 # Respect existing Sku values
@@ -140,10 +140,10 @@ if ($suiteExists)
         $params += @{iotHubSku=$($iotHubSku.Sku.Name)}
         $params += @{iotHubTier=$($iotHubSku.Sku.Tier)}
     }
-    if (ResourceObjectExists $suitename $sevicebusName Microsoft.Eventhub/namespaces)
+    if (ResourceObjectExists $suitename $eventhubName Microsoft.Eventhub/namespaces)
     {
-        $servicebusSku = GetResourceObject $suitename $sevicebusName Microsoft.Eventhub/namespaces
-        $params += @{sbSku=$($servicebusSku.Properties.MessagingSku)}
+        $servicebusSku = GetResourceObject $suitename $eventhubName Microsoft.Eventhub/namespaces
+        $params += @{ehSku=$($servicebusSku.Properties.MessagingSku)}
     }
 }
 
@@ -203,7 +203,7 @@ Write-Host "Suite name: $suitename"
 Write-Host "DocDb Name: $docDbName"
 Write-Host "Storage Name: $($storageAccount.StorageAccountName)"
 Write-Host "IotHub Name: $iotHubName"
-Write-Host "Servicebus Name: $sevicebusName"
+Write-Host "Servicebus Name: $eventhubName"
 Write-Host "AAD Tenant: $($global:AADTenant)"
 Write-Host "ResourceGroup Name: $resourceGroupName"
 Write-Host "Deployment template path: $deploymentTemplatePath"
@@ -221,7 +221,7 @@ if ($result.ProvisioningState -ne "Succeeded")
 UpdateResourceGroupState $resourceGroupName Complete
 UpdateEnvSetting "ServiceStoreAccountName" $storageAccount.StorageAccountName
 UpdateEnvSetting "ServiceStoreAccountConnectionString" $result.Outputs['storageConnectionString'].Value
-UpdateEnvSetting "ServiceSBName" $sevicebusName
+UpdateEnvSetting "ServiceSBName" $eventhubName
 UpdateEnvSetting "ServiceSBConnectionString" $result.Outputs['ehConnectionString'].Value
 UpdateEnvSetting "ServiceEHName" $result.Outputs['ehOutName'].Value
 UpdateEnvSetting "IotHubName" $result.Outputs['iotHubHostName'].Value
