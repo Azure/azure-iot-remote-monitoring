@@ -74,7 +74,7 @@ ClearDNSCache
 InitializeEnvironment $environmentName
 
 # Set environment specific variables 
-$suitename = "KapilArmTestRM1"
+$suitename = "LocalRM"
 $suiteType = "LocalMonitoring"
 $deploymentTemplatePath = "$(Split-Path $MyInvocation.MyCommand.Path)\LocalMonitoring.json"
 $global:site = "https://localhost:44305/"
