@@ -58,6 +58,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     Controller = "Advanced",
                     Selected = false,
                     Class = "nav_advanced",
+                    MinimumPermission = Permission.CellularConn,
                 },
             };
         }
