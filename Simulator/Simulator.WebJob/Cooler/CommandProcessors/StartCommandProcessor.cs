@@ -22,8 +22,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             if (deserializableCommand.CommandName == START_TELEMETRY)
             {
-                var command = deserializableCommand.Command;
-
                 try
                 {
                     var device = Device as CoolerDevice;

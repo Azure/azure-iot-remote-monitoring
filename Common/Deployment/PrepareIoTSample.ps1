@@ -27,15 +27,15 @@ switch($azureEnvironmentName)
         $global:websiteSuffix = "azurewebsites.net"
         $global:locations = @("East US", "North Europe", "East Asia", "West US", "West Europe", "Southeast Asia", "Japan East", "Japan West", "Australia East", "Australia Southeast")
     }
-    "AzureGermanyCloud" {
-        if ((Get-AzureEnvironment AzureGermanyCloud) -eq $null)
+    "AzureGermanCloud" {
+        if ((Get-AzureEnvironment AzureGermanCloud) -eq $null)
         {
-            Add-AzureEnvironment –Name AzureGermanyCloud -EnableAdfsAuthentication $False -ActiveDirectoryServiceEndpointResourceId https://management.core.cloudapi.de/ -GalleryUrl https://gallery.cloudapi.de -ServiceManagementUrl https://management.core.cloudapi.de/ -SqlDatabaseDnsSuffix .database.cloudapi.de -StorageEndpointSuffix core.cloudapi.de -ActiveDirectoryAuthority https://login.microsoftonline.de/ -GraphUrl https://graph.cloudapi.de/ -trafficManagerDnsSuffix azuretrafficmanager.de -AzureKeyVaultDnsSuffix vault.microsoftazure.de -AzureKeyVaultServiceEndpointResourceId https://vault.microsoftazure.de -ResourceManagerUrl https://management.microsoftazure.de/ -ManagementPortalUrl https://portal.microsoftazure.de
+            Add-AzureEnvironment –Name AzureGermanCloud -EnableAdfsAuthentication $False -ActiveDirectoryServiceEndpointResourceId https://management.core.cloudapi.de/ -GalleryUrl https://gallery.cloudapi.de -ServiceManagementUrl https://management.core.cloudapi.de/ -SqlDatabaseDnsSuffix .database.cloudapi.de -StorageEndpointSuffix core.cloudapi.de -ActiveDirectoryAuthority https://login.microsoftonline.de/ -GraphUrl https://graph.cloudapi.de/ -trafficManagerDnsSuffix azuretrafficmanager.de -AzureKeyVaultDnsSuffix vault.microsoftazure.de -AzureKeyVaultServiceEndpointResourceId https://vault.microsoftazure.de -ResourceManagerUrl https://management.microsoftazure.de/ -ManagementPortalUrl https://portal.microsoftazure.de
         }
 
-        if ((Get-AzureRMEnvironment AzureGermanyCloud) -eq $null)
+        if ((Get-AzureRMEnvironment AzureGermanCloud) -eq $null)
         {
-            Add-AzureRMEnvironment –Name AzureGermanyCloud -EnableAdfsAuthentication $False -ActiveDirectoryServiceEndpointResourceId https://management.core.cloudapi.de/ -GalleryUrl https://gallery.cloudapi.de -ServiceManagementUrl https://management.core.cloudapi.de/ -SqlDatabaseDnsSuffix .database.cloudapi.de -StorageEndpointSuffix core.cloudapi.de -ActiveDirectoryAuthority https://login.microsoftonline.de/ -GraphUrl https://graph.cloudapi.de/ -trafficManagerDnsSuffix azuretrafficmanager.de -AzureKeyVaultDnsSuffix vault.microsoftazure.de -AzureKeyVaultServiceEndpointResourceId https://vault.microsoftazure.de -ResourceManagerUrl https://management.microsoftazure.de/ -ManagementPortalUrl https://portal.microsoftazure.de
+            Add-AzureRMEnvironment –Name AzureGermanCloud -EnableAdfsAuthentication $False -ActiveDirectoryServiceEndpointResourceId https://management.core.cloudapi.de/ -GalleryUrl https://gallery.cloudapi.de -ServiceManagementUrl https://management.core.cloudapi.de/ -SqlDatabaseDnsSuffix .database.cloudapi.de -StorageEndpointSuffix core.cloudapi.de -ActiveDirectoryAuthority https://login.microsoftonline.de/ -GraphUrl https://graph.cloudapi.de/ -trafficManagerDnsSuffix azuretrafficmanager.de -AzureKeyVaultDnsSuffix vault.microsoftazure.de -AzureKeyVaultServiceEndpointResourceId https://vault.microsoftazure.de -ResourceManagerUrl https://management.microsoftazure.de/ -ManagementPortalUrl https://portal.microsoftazure.de
         }
 
         $global:iotHubSuffix = "azure-devices.de"

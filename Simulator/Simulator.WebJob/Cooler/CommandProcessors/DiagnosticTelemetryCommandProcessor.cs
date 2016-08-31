@@ -1,8 +1,8 @@
 using System;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport;
@@ -26,14 +26,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             if (deserializableCommand.CommandName == DIAGNOSTIC_TELEMETRY)
             {
-                var command = deserializableCommand.Command;
+                CommandHistory commandHistory = deserializableCommand.CommandHistory;
 
                 try
                 {
                     var device = Device as CoolerDevice;
                     if (device != null)
                     {
-                        dynamic parameters = WireCommandSchemaHelper.GetParameters(command);
+                        dynamic parameters = commandHistory.Parameters;
                         if (parameters != null)
                         {
                             dynamic activeAsDynamic = 

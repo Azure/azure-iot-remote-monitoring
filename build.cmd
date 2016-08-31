@@ -42,6 +42,7 @@
 @SET BuildPath=%~dp0Build_Output\%Configuration%
 @SET PowerShellCmd="%windir%\system32\WindowsPowerShell\v1.0\powershell.exe" -ExecutionPolicy Unrestricted -Command
 @SET PublishCmd=%PowerShellCmd% "& ""%DeploymentScripts%\PrepareIoTSample.ps1""" -environmentName %EnvironmentName% -configuration %Configuration% %SuiteArgs%
+@SET PackageCmd=%PowerShellCmd% "& ""%DeploymentScripts%\PackageIoTSample.ps1""" -configuration %Configuration%
 
 @IF /I '%AzureEnvironmentName%' NEQ '' (
     @Set PublishCmd=%PublishCmd% -azureEnvironmentName %AzureEnvironmentName%
@@ -59,6 +60,9 @@
     @GOTO :Config)
 @IF /I '%Command%' == 'Cloud' (
     @GOTO :Build)
+@IF /I '%Command%' == 'Package' (
+    @GOTO :Build)
+
 @ECHO Invalid command '%Command%'
 @GOTO :Error
 
@@ -84,6 +88,10 @@ msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package
     @echo Error msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package
     @goto :Error)
 
+@IF /I '%Command%' == 'Package' (
+    %PackageCmd%
+    @GOTO :END)
+
 :Config
 %PublishCmd%
 
@@ -108,5 +116,5 @@ msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package
 @ECHO   build - build.cmd build
 @ECHO   local deployment: build.cmd local
 @ECHO   cloud deployment: build.cmd cloud release mydeployment
-@ECHO   national cloud deployment: same as above but include CloudName at end (eg. build.cmd local debug AzureGermanyCloud or build.cmd cloud release mydeployment AzureGermanyCloud)
+@ECHO   national cloud deployment: same as above but include CloudName at end (eg. build.cmd local debug AzureGermanCloud or build.cmd cloud release mydeployment AzureGermanCloud)
 :End

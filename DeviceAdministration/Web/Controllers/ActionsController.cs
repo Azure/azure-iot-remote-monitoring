@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 
@@ -48,13 +47,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [RequirePermission(Permission.AssignAction)]
-        public async Task UpdateAction(string ruleOutput, string actionId)
+        public async Task<ActionMapping> UpdateAction(string ruleOutput, string actionId)
         {
             var actionMapping = new ActionMapping();
 
             actionMapping.RuleOutput = ruleOutput;
             actionMapping.ActionId = actionId;
             await _actionMappingLogic.SaveMappingAsync(actionMapping);
+            return actionMapping;
         }
 
         private async Task<List<SelectListItem>> ActionListItems()
@@ -63,7 +63,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             if (actionIds != null)
             {
                 var actionListItems = new List<SelectListItem>();
-                foreach(dynamic actionId in actionIds)
+                foreach(string actionId in actionIds)
                 {
                     var item = new SelectListItem();
                     item.Value = actionId;

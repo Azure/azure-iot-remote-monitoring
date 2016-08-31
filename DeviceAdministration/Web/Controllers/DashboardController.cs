@@ -1,15 +1,14 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
+﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using StringPair = System.Collections.Generic.KeyValuePair<string, string>;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
@@ -23,23 +22,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     [OutputCache(CacheProfile = "NoCacheProfile")]
     public class DashboardController : Controller
     {
-        private const double MaxDeviceSummaryAgeMinutes = 10.0;
         private const int MaxDevicesToDisplayOnDashboard = 200;
 
         private readonly IDeviceLogic _deviceLogic;
-        private readonly IDeviceTelemetryLogic _deviceTelemetryLogic;
         private readonly IConfigurationProvider _configProvider;
 
         /// <summary>
         /// Initializes a new instance of the DashboardController class.
         /// </summary>
-        /// <param name="deviceLogic">
-        /// The IDeviceLogic implementation that the new instance will use.
-        /// </param>
-        /// <param name="deviceTelemetryLogic">
-        /// The IDeviceTelemetryLogic implementation that the new instance will 
-        /// use.
-        /// </param>
+        /// <param name="deviceLogic">The IDeviceLogic implementation that the new instance will use.</param>
+        /// <param name="deviceTelemetryLogic"> The IDeviceTelemetryLogic implementation that the new instance will  use.</param>
+        /// <param name="configProvider">The IConfigurationProvider implementation that the new intance will use.</param>
         public DashboardController(
             IDeviceLogic deviceLogic,
             IDeviceTelemetryLogic deviceTelemetryLogic,
@@ -61,7 +54,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
 
             _deviceLogic = deviceLogic;
-            _deviceTelemetryLogic = deviceTelemetryLogic;
             _configProvider = configProvider;
         }
 
@@ -69,14 +61,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<ActionResult> Index()
         {
             var model = new DashboardModel();
-
-            List<Infrastructure.Models.FilterInfo> filters = new List<Infrastructure.Models.FilterInfo>();
-            filters.Add(new Infrastructure.Models.FilterInfo()
+            var filters = new List<Infrastructure.Models.FilterInfo>
+            {
+                new Infrastructure.Models.FilterInfo()
                 {
-                    ColumnName = "status", 
-                    FilterType = FilterType.Status, 
+                    ColumnName = "status",
+                    FilterType = FilterType.Status,
                     FilterValue = "Running"
-                });
+                }
+            };
+
+
             var query = new DeviceListQuery()
             {
                 Skip = 0,
@@ -86,15 +81,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             };
 
             DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
+
             if ((queryResult != null) && (queryResult.Results != null))
             {
-                foreach (dynamic devInfo in queryResult.Results)
+                foreach (DeviceModel devInfo in queryResult.Results)
                 {
-
                     string deviceId;
                     try
                     {
-                        deviceId = DeviceSchemaHelper.GetDeviceID(devInfo);
+                        deviceId = devInfo.DeviceProperties.DeviceID;
                     }
                     catch (DeviceRequiredPropertyNotFoundException)
                     {

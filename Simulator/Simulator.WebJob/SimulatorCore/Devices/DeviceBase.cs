@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors;
@@ -41,16 +42,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public string HostName { get; set; }
         public string PrimaryAuthKey { get; set; }
 
-        private dynamic _deviceProperties;
-        public dynamic DeviceProperties
+        private DeviceProperties _deviceProperties;
+        public DeviceProperties DeviceProperties
         {
-            get {  return _deviceProperties; }
+            get { return _deviceProperties; }
             set { _deviceProperties = value; }
         }
 
-        public dynamic Commands { get; set; }
+        public List<Command> Commands { get; set; }
 
-        public dynamic Telemetry { get; set; }
+        public List<Common.Models.Telemetry> Telemetry { get; set; }
 
         public List<ITelemetry> TelemetryEvents { get; private set; }
         public bool RepeatEventListForever { get; set; }
@@ -84,10 +85,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         protected virtual void InitDeviceInfo(InitialDeviceConfig config)
         {
-            dynamic initialDevice = SampleDeviceFactory.GetSampleSimulatedDevice(config.DeviceId, config.Key);
-            DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(initialDevice);
-            Commands = CommandSchemaHelper.GetSupportedCommands(initialDevice);
-            Telemetry = CommandSchemaHelper.GetTelemetrySchema(initialDevice);
+            DeviceModel initialDevice = SampleDeviceFactory.GetSampleSimulatedDevice(config.DeviceId, config.Key);
+            DeviceProperties = initialDevice.DeviceProperties;
+            Commands = initialDevice.Commands ?? new List<Command>();
+            Telemetry = initialDevice.Telemetry ?? new List<Common.Models.Telemetry>();
             HostName = config.HostName;
             PrimaryAuthKey = config.Key;
         }
@@ -112,17 +113,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// Generates a DeviceInfo packet for a simulated device to send over the wire
         /// </summary>
         /// <returns></returns>
-        public virtual dynamic GetDeviceInfo()
+        public virtual DeviceModel GetDeviceInfo()
         {
-            dynamic device = DeviceSchemaHelper.BuildDeviceStructure(DeviceID, true, null);
-            device.DeviceProperties = DeviceSchemaHelper.GetDeviceProperties(this);
-            device.Commands = CommandSchemaHelper.GetSupportedCommands(this);
-            device.Telemetry = CommandSchemaHelper.GetTelemetrySchema(this);
+            DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(DeviceID, true, null);
+            device.DeviceProperties = this.DeviceProperties;
+            device.Commands = this.Commands ?? new List<Command>();
+            device.Telemetry = this.Telemetry ?? new List<Common.Models.Telemetry>();
             device.Version = SampleDeviceFactory.VERSION_1_0;
             device.ObjectType = SampleDeviceFactory.OBJECT_TYPE_DEVICE_INFO;
 
             // Remove the system properties from a device, to better emulate the behavior of real devices when sending device info messages.
-            DeviceSchemaHelper.RemoveSystemPropertiesForSimulatedDeviceInfo(device);
+            device.SystemProperties = null;
 
             return device;
         }
@@ -141,7 +142,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                 var loopTasks = new List<Task>
                 {
-                    StartReceiveLoopAsync(token), 
+                    StartReceiveLoopAsync(token),
                     StartSendLoopAsync(token)
                 };
 
@@ -197,7 +198,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 Logger.LogWarning("Device {0} sent all events and is shutting down send loop. (Set RepeatEventListForever = true on the device to loop forever.)", DeviceID);
 
             }
-            catch (TaskCanceledException) 
+            catch (TaskCanceledException)
             {
                 //do nothing if the task was cancelled
             }
@@ -208,7 +209,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             if (token.IsCancellationRequested)
             {
-                Logger.LogInfo("********** Processing Device {0} has been cancelled - StartSendLoopAsync Ending. **********", DeviceID);   
+                Logger.LogInfo("********** Processing Device {0} has been cancelled - StartSendLoopAsync Ending. **********", DeviceID);
             }
         }
 
@@ -243,7 +244,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                             continue;
                         }
 
-                        processingResult = 
+                        processingResult =
                         await RootCommandProcessor.HandleCommandAsync(command);
 
                         switch (processingResult)

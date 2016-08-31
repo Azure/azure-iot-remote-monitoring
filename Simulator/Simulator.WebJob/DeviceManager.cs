@@ -34,7 +34,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// </summary>
         public async Task StartDevicesAsync(List<IDevice> devices)
         {
-            await Task.Run(async() => 
+            await Task.Run(async () =>
             {
                 if (devices == null || !devices.Any())
                     return;
@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                 // wait here until all tasks complete
                 await Task.WhenAll(startDeviceTasks);
-            
+
             }, _token);
         }
 
