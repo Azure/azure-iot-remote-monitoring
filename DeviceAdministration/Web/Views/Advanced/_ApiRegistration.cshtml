@@ -1,6 +1,6 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Constants
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
-@using DeviceManagement.Infrustructure.Connectivity.Models.Enums
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.ApiRegistrationModel
 
 <div class="advanced_left_column">
@@ -85,12 +85,12 @@
 <div class="api_registration_help_link">
     @switch (Model.ApiRegistrationProvider)
     {
-        case ApiRegistrationProviderType.Jasper:
+        case ApiRegistrationProviderTypes.Jasper:
             {
                 <a href="@Strings.JasperHelpLink" target="_blank">Need Help?</a>
                 break;
             }
-        case ApiRegistrationProviderType.Ericsson:
+        case ApiRegistrationProviderTypes.Ericsson:
             {
                 <a href="@Strings.EricssonHelpLink" target="_blank">Need Help?</a>
                 break;

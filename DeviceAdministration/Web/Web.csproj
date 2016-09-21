@@ -112,11 +112,6 @@
       <HintPath>..\..\packages\DotNetty.Transport-signed.0.3.1\lib\net45\DotNetty.Transport.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Infrastructure.Connectivity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.RemoteMonitoring.Infrastructure.Connectivity.1.0.0\lib\Infrastructure.Connectivity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Azure.Amqp, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.Azure.Amqp.1.1.5\lib\net451\Microsoft.Azure.Amqp.dll</HintPath>
@@ -295,7 +290,6 @@
     <Compile Include="DataTables\SortColumn.cs" />
     <Compile Include="Helpers\ICellularExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\JasperCredentialsProvider.cs" />
@@ -731,6 +725,10 @@
     <ProjectReference Include="$(SolutionDir)\Common\Common.csproj">
       <Project>{5959c109-5369-4ff7-8b55-605a79fdf200}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CellularConnectivity\DeviceManagement.Infrastructure.Connectivity.csproj">
+      <Project>{1d674cc1-a1ae-4450-b167-3ccfafcbbdcd}</Project>
+      <Name>DeviceManagement.Infrastructure.Connectivity</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{54b5b211-b661-42e9-af2d-87712a37d608}</Project>

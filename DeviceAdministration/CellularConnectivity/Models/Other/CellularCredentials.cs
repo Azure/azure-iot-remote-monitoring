@@ -1,5 +1,4 @@
-﻿using DeviceManagement.Infrustructure.Connectivity.Models.Enums;
-using DeviceManagement.Infrustructure.Connectivity.Models.Security;
+﻿using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Models.Other
 {
@@ -10,9 +9,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Models.Other
         public string Username { get; set; }
         public string Password { get; set; }
         public string BaseUrl { get; set; }
-        public ApiRegistrationProviderType? ApiRegistrationProvider
-        {
-            get; set;
-        }
+        public string ApiRegistrationProvider { get; set; }
     }
 }

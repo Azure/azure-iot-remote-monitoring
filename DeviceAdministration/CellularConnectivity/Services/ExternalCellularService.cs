@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using DeviceManagement.Infrustructure.Connectivity.Clients;
-using DeviceManagement.Infrustructure.Connectivity.Models.Enums;
+using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 
-namespace DeviceManagement.Infrustructure.Connectivity
+namespace DeviceManagement.Infrustructure.Connectivity.Services
 {
     public class ExternalCellularService : IExternalCellularService
     {
@@ -21,12 +21,13 @@ namespace DeviceManagement.Infrustructure.Connectivity
             List<Iccid> terminals;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
+
             switch (registrationProvider)
             {
-                case ApiRegistrationProviderType.Jasper:
+                case ApiRegistrationProviderTypes.Jasper:
                     terminals = new JasperCellularClient(_credentialProvider).GetTerminals();
                     break;
-                case ApiRegistrationProviderType.Ericsson:
+                case ApiRegistrationProviderTypes.Ericsson:
                     terminals = new EricssonCellularClient(_credentialProvider).GetTerminals();
                     break;
                 default:
@@ -43,10 +44,10 @@ namespace DeviceManagement.Infrustructure.Connectivity
 
             switch (registrationProvider)
             {
-                case ApiRegistrationProviderType.Jasper:
+                case ApiRegistrationProviderTypes.Jasper:
                     terminal = new JasperCellularClient(_credentialProvider).GetSingleTerminalDetails(iccid);
                     break;
-                case ApiRegistrationProviderType.Ericsson:
+                case ApiRegistrationProviderTypes.Ericsson:
                     terminal = new EricssonCellularClient(_credentialProvider).GetSingleTerminalDetails(iccid);
                     break;
                 default:
@@ -63,10 +64,10 @@ namespace DeviceManagement.Infrustructure.Connectivity
 
             switch (registrationProvider)
             {
-                case ApiRegistrationProviderType.Jasper:
+                case ApiRegistrationProviderTypes.Jasper:
                     sessionInfo = new JasperCellularClient(_credentialProvider).GetSingleSessionInfo(iccid);
                     break;
-                case ApiRegistrationProviderType.Ericsson:
+                case ApiRegistrationProviderTypes.Ericsson:
                     sessionInfo = new EricssonCellularClient(_credentialProvider).GetSingleSessionInfo(iccid);
                     break;
                 default:
@@ -88,10 +89,10 @@ namespace DeviceManagement.Infrustructure.Connectivity
 
             switch (registrationProvider)
             {
-                case ApiRegistrationProviderType.Jasper:
+                case ApiRegistrationProviderTypes.Jasper:
                     isValid = new JasperCellularClient(_credentialProvider).ValidateCredentials();
                     break;
-                case ApiRegistrationProviderType.Ericsson:
+                case ApiRegistrationProviderTypes.Ericsson:
                     isValid = new EricssonCellularClient(_credentialProvider).ValidateCredentials();
                     break;
                 default:

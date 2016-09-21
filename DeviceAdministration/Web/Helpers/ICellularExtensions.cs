@@ -8,8 +8,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         List<Iccid> GetTerminals();
         Terminal GetSingleTerminalDetails(Iccid iccid);
+        bool ValidateCredentials();
         List<SessionInfo> GetSingleSessionInfo(Iccid iccid);
         IEnumerable<string> GetListOfAvailableIccids(IList<DeviceModel> devices);
         IEnumerable<string> GetListOfAvailableDeviceIDs(IList<DeviceModel> devices);
+        IEnumerable<string> GetListOfConnectedDeviceIds(IList<DeviceModel> devices);
     }
 }

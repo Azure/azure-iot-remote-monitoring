@@ -38,7 +38,7 @@
     <Compile Include="Constants\JasperApiConstants.cs" />
     <Compile Include="Exceptions\CellularConnectivityException.cs" />
     <Compile Include="Argument.cs" />
-    <Compile Include="Models\Enums\CellularProviderEnum.cs" />
+    <Compile Include="Models\Constants\ApiRegistrationProviderTypes.cs" />
     <Compile Include="Models\Security\EricssonSecurity.cs" />
     <Compile Include="Models\TerminalDevice\EricssonTerminal.cs" />
     <Compile Include="Models\TerminalDevice\Msisdn.cs" />
@@ -50,16 +50,16 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Clients\EricssonCellularClient.cs" />
-    <Compile Include="ExternalCellularService.cs" />
+    <Compile Include="Services\ExternalCellularService.cs" />
     <Compile Include="Service References\EricssonSubscriptionService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Services\IExternalCellularService.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="Models\Security\ICredentialProvider.cs" />
     <Compile Include="Models\Security\ICredentials.cs" />
-    <Compile Include="IExternalCellularService.cs" />
     <Compile Include="Models\Billing\DataUsage.cs" />
     <Compile Include="Models\Billing\DataUsageDetail.cs" />
     <Compile Include="Models\TerminalDevice\Iccid.cs" />
@@ -98,11 +98,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Content\bootstrap-theme.css.map" />
+    <None Include="Content\bootstrap.css.map" />
+    <None Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="fonts\glyphicons-halflings-regular.woff" />
+    <None Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Scripts\jquery-1.9.1.min.map" />
     <None Include="Service References\EricssonApiService\ApiStatusService.wsdl" />
     <None Include="Service References\EricssonApiService\DeviceManagement.Infrustructure.Connectivity.EricssonApiService.echoResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -400,6 +407,18 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -136,27 +136,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             var apiRegModel = _fixture.Create<ApiRegistrationModel>();
             _apiRegistrationRepositoryMock.Setup(mock => mock.AmendRegistration(apiRegModel)).Returns(true);
             _cellularExtensionMock.Setup(mock => mock.GetTerminals()).Returns(new List<Iccid>());
-            var result = _advancedController.SaveRegistration(apiRegModel);
+            var result = await _advancedController.SaveRegistration(apiRegModel);
             Assert.True(result);
 
             var ex = new Exception("The remote name could not be resolved");
             _cellularExtensionMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
-            result = _advancedController.SaveRegistration(apiRegModel);
+            result = await _advancedController.SaveRegistration(apiRegModel);
             Assert.False(result);
 
             ex = new Exception("400200");
             _cellularExtensionMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
-            result = _advancedController.SaveRegistration(apiRegModel);
+            result = await _advancedController.SaveRegistration(apiRegModel);
             Assert.False(result);
 
             ex = new Exception("400100");
             _cellularExtensionMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
-            result = _advancedController.SaveRegistration(apiRegModel);
+            result = await _advancedController.SaveRegistration(apiRegModel);
             Assert.False(result);
 
             ex = new Exception("message");
             _cellularExtensionMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
-            result = _advancedController.SaveRegistration(apiRegModel);
+            result = await _advancedController.SaveRegistration(apiRegModel);
             Assert.True(result);
         }
     }

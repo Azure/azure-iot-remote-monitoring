@@ -6,7 +6,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
-using DeviceManagement.Infrustructure.Connectivity.Models.Enums;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Constants;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -56,17 +56,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             if (apiRegistrationTableEntity == null) return new ApiRegistrationModel();
 
-            var apiRegistrationProvider = apiRegistrationTableEntity.ApiRegistrationProviderType != null ?
-                (ApiRegistrationProviderType)Enum.Parse(typeof(ApiRegistrationProviderType), apiRegistrationTableEntity.ApiRegistrationProviderType) :
-                (ApiRegistrationProviderType?)null;
-
             return new ApiRegistrationModel()
             {
                 Username = apiRegistrationTableEntity.Username,
                 BaseUrl = apiRegistrationTableEntity.BaseUrl,
                 LicenceKey = apiRegistrationTableEntity.LicenceKey,
                 Password = apiRegistrationTableEntity.Password,
-                ApiRegistrationProvider = apiRegistrationProvider
+                ApiRegistrationProvider = apiRegistrationTableEntity.ApiRegistrationProviderType
             };
 
         }

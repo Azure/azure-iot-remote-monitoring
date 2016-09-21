@@ -161,6 +161,7 @@
     <Compile Include="Configurations\ConfigurationProvider.cs" />
     <Compile Include="Configurations\EnvironmentDescription.cs" />
     <Compile Include="Configurations\IConfigurationProvider.cs" />
+    <Compile Include="Constants\ApiRegistrationProviderTypes.cs" />
     <Compile Include="Helpers\DeviceCreatorHelper.cs" />
     <Compile Include="Helpers\DocumentDBClient.cs" />
     <Compile Include="Exceptions\DeviceRequiredPropertyNotFoundException.cs" />

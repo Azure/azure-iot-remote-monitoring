@@ -10,8 +10,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Help
 using Owin;
 using System.Reflection;
 using System.Web.Mvc;
-using DeviceManagement.Infrustructure.Connectivity;
-using DeviceManagement.Infrustructure.Connectivity.Clients;
+using DeviceManagement.Infrustructure.Connectivity.Services;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
 {
@@ -82,7 +82,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             builder.RegisterType<UserSettingsRepository>().As<IUserSettingsRepository>();
             builder.RegisterType<ApiRegistrationRepository>().As<IApiRegistrationRepository>();
             builder.RegisterType<JasperCredentialsProvider>().As<ICredentialProvider>();
-            builder.RegisterType<JasperCellularService>().As<IExternalCellularService>();
+            builder.RegisterType<ExternalCellularService>().As<IExternalCellularService>();
             builder.RegisterType<CellularExtensions>().As<ICellularExtensions>();
             builder.RegisterType<AzureTableStorageClientFactory>().As<IAzureTableStorageClientFactory>();
             builder.RegisterType<BlobStorageClientFactory>().As<IBlobStorageClientFactory>();

@@ -1,5 +1,5 @@
 ﻿@using GlobalResources
-@using DeviceManagement.Infrustructure.Connectivity.Models.Enums
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Constants
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
 
 <header class="header_grid">
@@ -8,12 +8,12 @@
 
 @switch (Model.ApiRegistrationProvider)
 {
-    case ApiRegistrationProviderType.Jasper:
+    case ApiRegistrationProviderTypes.Jasper:
         {
             @Html.Partial("_CellularInformationJasper", Model)
             break;
         }
-        case ApiRegistrationProviderType.Ericsson:
+        case ApiRegistrationProviderTypes.Ericsson:
             {
             @Html.Partial("_CellularInformationEricsson", Model)
             break;

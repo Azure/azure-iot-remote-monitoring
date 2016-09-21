@@ -1,5 +1,4 @@
-﻿using DeviceManagement.Infrustructure.Connectivity.Models.Enums;
-using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
+﻿using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models
 {
@@ -7,6 +6,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         public Terminal TerminalDevice { get; set; }
         public SessionInfo SessionInfo { get; set; }
-        public ApiRegistrationProviderType? ApiRegistrationProvider { get; set;}
+        public string ApiRegistrationProvider { get; set;}
     }
 }

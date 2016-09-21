@@ -1,5 +1,4 @@
-﻿using DeviceManagement.Infrustructure.Connectivity.Models.Jasper;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Moq;

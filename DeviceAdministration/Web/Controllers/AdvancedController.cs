@@ -12,7 +12,6 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Extensions;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -24,8 +23,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly IApiRegistrationRepository _apiRegistrationRepository;
         private readonly ICellularExtensions _cellularExtensions;
         private readonly IDeviceLogic _deviceLogic;
-        private const string CellularInvalidCreds = "400200";
-        private const string CellularInvalidLicense = "400100";
 
         public AdvancedController(IDeviceLogic deviceLogic,
             IApiRegistrationRepository apiRegistrationRepository,
@@ -185,7 +182,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             try
             {
                 var devices = await GetDevices();
-                var connectedDevices = _cellularService.GetListOfConnectedDeviceIds(devices);
+                var connectedDevices = _cellularExtensions.GetListOfConnectedDeviceIds(devices);
                 foreach (dynamic deviceId in connectedDevices)
                 {
                     await UpdateDeviceAssociation(deviceId, null);
@@ -200,7 +197,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private bool CheckCredentials()
         {
-            var credentialsAreValid = _cellularService.ValidateCredentials();
+            var credentialsAreValid = _cellularExtensions.ValidateCredentials();
             if (!credentialsAreValid)
             {
                 _apiRegistrationRepository.DeleteApiDetails();
