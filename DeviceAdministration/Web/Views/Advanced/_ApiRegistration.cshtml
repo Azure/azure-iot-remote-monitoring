@@ -112,7 +112,7 @@
             var config = {
                 subheadContent: '@Html.JavaScriptString(Strings.ApiRegistrationTitle)',
                 goBackUrl: '@Url.Action("SelectAdvancedProcess")',
-                apiRegistrationProvider: '@Html.JavaScriptString(Model.ApiRegistrationProvider.ToString())',
+                apiRegistrationProvider: '@Html.JavaScriptString(Model.ApiRegistrationProvider)',
                 apiProviderChangeWarningMessage: '@Html.JavaScriptString(Strings.ApiProviderChangeWarningMessage)'
             };
             IoTApp.Advanced.initSubView(config);

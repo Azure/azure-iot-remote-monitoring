@@ -76,7 +76,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 terminal.AccountId = Convert.ToInt32(sim.customerNo); //todo : this will be customer number on the view
 
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 return terminal;
             }
