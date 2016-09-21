@@ -7,9 +7,6 @@ using System.ServiceModel.Description;
 using System.Web.Services.Protocols;
 using EricssonConsoleApiTester.ApiStatus;
 using EricssonConsoleApiTester.SubscriptionManagement;
-using Microsoft.Web.Services3;
-using Microsoft.Web.Services3.Security;
-using Microsoft.Web.Services3.Security.Tokens;
 
 namespace EricssonConsoleApiTester
 {

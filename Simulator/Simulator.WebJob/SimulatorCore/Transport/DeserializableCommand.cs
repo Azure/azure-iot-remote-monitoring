@@ -1,6 +1,9 @@
-using System.Diagnostics;
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Serialization;
+﻿using System.Diagnostics;
 using System;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport
 {
@@ -9,24 +12,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// </summary>
     public class DeserializableCommand
     {
-        private readonly dynamic _command;
+        private readonly CommandHistory _commandHistory;
         private readonly string _lockToken;
 
         public string CommandName
         {
-            get { return _command.Name; }
+            get { return _commandHistory.Name; }
         }
 
-        public DeserializableCommand(Client.Message message, ISerialize serializer)
+        public DeserializableCommand(CommandHistory history, string lockToken)
+        {
+           this._commandHistory = history;
+           this._lockToken = lockToken;
+        }
+
+        public DeserializableCommand(Client.Message message)
         {
             if (message == null)
             {
                 throw new ArgumentNullException("message");
-            }
-
-            if (serializer == null)
-            {
-                throw new ArgumentNullException("serializer");
             }
 
             Debug.Assert(
@@ -36,12 +40,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             byte[] messageBytes = message.GetBytes(); // this needs to be saved if needed later, because it can only be read once from the original Message
 
-            _command = serializer.DeserializeObject<dynamic>(messageBytes);
+            string jsonData = Encoding.UTF8.GetString(messageBytes);
+            _commandHistory = JsonConvert.DeserializeObject<CommandHistory>(jsonData);
         }
 
-        public dynamic Command
+        public CommandHistory CommandHistory
         {
-            get { return _command;  }
+            get { return _commandHistory; }
         }
 
         public string LockToken

@@ -1,14 +1,16 @@
 ﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Serialization;
 using Microsoft.Azure.Devices.Client;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport
 {
@@ -17,16 +19,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// </summary>
     public class IoTHubTransport : ITransport
     {
-        private readonly ISerialize _serializer;
         private readonly ILogger _logger;
         private readonly IConfigurationProvider _configurationProvider;
         private readonly IDevice _device;
         private DeviceClient _deviceClient;
         private bool _disposed = false;
 
-        public IoTHubTransport(ISerialize serializer, ILogger logger, IConfigurationProvider configurationProvider, IDevice device)
+        public IoTHubTransport(ILogger logger, IConfigurationProvider configurationProvider, IDevice device)
         {
-            _serializer = serializer;
             _logger = logger;
             _configurationProvider = configurationProvider;
             _device = device;
@@ -84,7 +84,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public async Task SendEventAsync(Guid eventId, dynamic eventData)
         {
             byte[] bytes;
-            string objectType = EventSchemaHelper.GetObjectType(eventData);
+            string objectType = this.GetObjectType(eventData);
             var objectTypePrefix = _configurationProvider.GetConfigurationSettingValue("ObjectTypePrefix");
 
             if (!string.IsNullOrWhiteSpace(objectType) && !string.IsNullOrEmpty(objectTypePrefix))
@@ -96,7 +96,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             //string rawJson = JsonConvert.SerializeObject(eventData);
             //Trace.TraceInformation(rawJson);
 
-            bytes = _serializer.SerializeObject(eventData);
+            bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(eventData));
 
             var message = new Client.Message(bytes);
             message.Properties["EventId"] = eventId.ToString();
@@ -166,7 +166,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             if (message != null)
             {
-                return new DeserializableCommand(message, _serializer);
+                return new DeserializableCommand(message);
             }
 
             return null;
@@ -196,7 +196,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                             "{0}{0}*** Exception: Abandon Command ***{0}{0}Command Name: {1}{0}Command: {2}{0}Exception: {3}{0}{0}",
                             Console.Out.NewLine,
                             command.CommandName,
-                            command.Command,
+                            command.CommandHistory,
                             ex);
                     }
                 });
@@ -226,11 +226,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                             "{0}{0}*** Exception: Complete Command ***{0}{0}Command Name: {1}{0}Command: {2}{0}Exception: {3}{0}{0}",
                             Console.Out.NewLine,
                             command.CommandName,
-                            command.Command,
+                            command.CommandHistory,
                             ex);
                     }
                 });
-            }
+        }
 
         public async Task SignalRejectedCommand(DeserializableCommand command)
         {
@@ -256,10 +256,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                             "{0}{0}*** Exception: Reject Command ***{0}{0}Command Name: {1}{0}Command: {2}{0}Exception: {3}{0}{0}",
                             Console.Out.NewLine,
                             command.CommandName,
-                            command.Command,
+                            command.CommandHistory,
                             ex);
                     }
                 });
+        }
+
+        private string GetObjectType(dynamic eventData)
+        {
+            if (eventData == null)
+            {
+                throw new ArgumentNullException("eventData");
+            }
+
+            var propertyInfo = eventData.GetType().GetProperty("ObjectType");
+            if (propertyInfo == null)
+                return "";
+            var value = propertyInfo.GetValue(eventData, null);
+            return value == null ? "" : value.ToString();
         }
 
         /// <summary>

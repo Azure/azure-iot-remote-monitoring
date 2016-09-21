@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
@@ -32,13 +33,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPost]
         [Route("list")]
         [WebApiRequirePermission(Permission.ViewActions)]
-        public async Task<HttpResponseMessage> GetDeviceActionsAsync([FromBody]JObject requestData)
+        public async Task<HttpResponseMessage> GetDeviceActionsAsDataTablesResponseAsync()
         {
-            return await GetServiceResponseAsync<DataTablesResponse>(async () =>
+            return await GetServiceResponseAsync<DataTablesResponse<ActionMappingExtended>>(async () =>
             {
-                var queryResult = await _actionMappingLogic.GetAllMappingsAsync();
+                List<ActionMappingExtended> queryResult = await _actionMappingLogic.GetAllMappingsAsync();
 
-                var dataTablesResponse = new DataTablesResponse()
+                var dataTablesResponse = new DataTablesResponse<ActionMappingExtended>()
                 {
                     RecordsTotal = queryResult.Count,
                     RecordsFiltered = queryResult.Count,

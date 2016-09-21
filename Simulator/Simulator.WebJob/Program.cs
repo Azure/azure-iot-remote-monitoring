@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices.Factory;
@@ -14,7 +15,6 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Dat
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Repository;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Serialization;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
@@ -119,10 +119,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
             // Dependencies to inject into the Bulk Device Tester
             var logger = new TraceLogger();
             var configProvider = new ConfigurationProvider();
+            var tableStorageClientFactory = new AzureTableStorageClientFactory();
             var telemetryFactory = new CoolerTelemetryFactory(logger);
-
-            var serializer = new JsonSerialize();
-            var transportFactory = new IotHubTransportFactory(serializer, logger, configProvider);
+            
+            var transportFactory = new IotHubTransportFactory(logger, configProvider);
 
             IVirtualDeviceStorage deviceStorage = null;
             var useConfigforDeviceList = Convert.ToBoolean(configProvider.GetConfigurationSettingValueOrDefault("UseConfigForDeviceList", "False"), CultureInfo.InvariantCulture);
@@ -133,7 +133,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
             }
             else
             {
-                deviceStorage = new VirtualDeviceTableStorage(configProvider);
+                deviceStorage = new VirtualDeviceTableStorage(configProvider,tableStorageClientFactory);
             }
 
             IDeviceFactory deviceFactory = new CoolerDeviceFactory();

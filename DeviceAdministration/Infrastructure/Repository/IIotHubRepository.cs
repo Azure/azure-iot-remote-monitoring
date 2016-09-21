@@ -9,12 +9,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public interface IIotHubRepository
     {
         Task<Azure.Devices.Device> GetIotHubDeviceAsync(string deviceId);
-        Task<dynamic> AddDeviceAsync(dynamic device, SecurityKeys securityKeys);
+        Task<DeviceModel> AddDeviceAsync(DeviceModel device, SecurityKeys securityKeys);
         Task<bool> TryAddDeviceAsync(Azure.Devices.Device oldIotHubDevice);
         Task RemoveDeviceAsync(string deviceId);
         Task<bool> TryRemoveDeviceAsync(string deviceId);
-        Task UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled);
-		Task SendCommand(string deviceId, dynamic command);
+        Task<Device> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled);
+        Task SendCommand(string deviceId, CommandHistory command);
         Task<SecurityKeys> GetDeviceKeysAsync(string id);
     }
 }

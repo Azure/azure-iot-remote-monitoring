@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport;
 
@@ -11,14 +13,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public PingDeviceProcessor(IDevice device)
             : base(device)
         {
-            
+
         }
 
-        public async override Task<CommandProcessingResult> HandleCommandAsync(DeserializableCommand deserializableCommand)
+        public override async Task<CommandProcessingResult> HandleCommandAsync(DeserializableCommand deserializableCommand)
         {
             if (deserializableCommand.CommandName == "PingDevice")
             {
-                var command = deserializableCommand.Command;
+                CommandHistory command = deserializableCommand.CommandHistory;
 
                 try
                 {

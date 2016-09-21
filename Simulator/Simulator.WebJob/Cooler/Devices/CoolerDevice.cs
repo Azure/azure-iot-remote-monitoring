@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+﻿using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.CommandProcessors;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Telemetry;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors;
@@ -63,7 +64,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             Logger.LogInfo("Device {0} temperature changed to {1}", DeviceID, setPointTemp);
         }
 
-        public async void ChangeDeviceState(string deviceState)
+        public async Task ChangeDeviceState(string deviceState)
         {
             // simply update the DeviceState property and send updated device info packet
             DeviceProperties.DeviceState = deviceState;

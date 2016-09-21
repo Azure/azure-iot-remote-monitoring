@@ -34,6 +34,3 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-
-// Allow access to assembly internals for unit testing
-[assembly: InternalsVisibleTo("Infrastructure.UnitTests")]
