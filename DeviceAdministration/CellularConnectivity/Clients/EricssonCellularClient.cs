@@ -44,11 +44,11 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             //todo : Stubbed out with real ICCIDs from test account until ericsson sort an endpoint to do what we need
             return new List<Iccid>()
             {
-                new Iccid("89460800000105696001"), 
-                new Iccid("89460800000105696050"), 
-                new Iccid("89460800000105696068"), 
-                new Iccid("89460800000105696100"), 
-                new Iccid("89460800000105696159"), 
+                new Iccid("9883011539830007560"), 
+                new Iccid("89883011539830007560"), 
+                new Iccid("89883011539830007586"), 
+                new Iccid("89883011539830007594"), 
+                new Iccid("89883011539830007602"), 
             };
         }
 

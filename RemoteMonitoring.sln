@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{5959C109-5369-4FF7-8B55-605A79FDF200}"
 EndProject
@@ -18,11 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3E3CB1
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{008E8267-1703-4108-904A-99C1B9ED8F7A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{2101F5D8-84ED-47BC-8254-6505819E17C6} = {2101F5D8-84ED-47BC-8254-6505819E17C6}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebJobHost", "WebJobHost\WebJobHost.csproj", "{350C5961-0778-45F8-9A59-D309FCD653DD}"
@@ -63,10 +58,6 @@ Global
 		{8F0FF371-2306-4210-9C22-0D0657B595DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F0FF371-2306-4210-9C22-0D0657B595DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F0FF371-2306-4210-9C22-0D0657B595DC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{008E8267-1703-4108-904A-99C1B9ED8F7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{008E8267-1703-4108-904A-99C1B9ED8F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{008E8267-1703-4108-904A-99C1B9ED8F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{008E8267-1703-4108-904A-99C1B9ED8F7A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{350C5961-0778-45F8-9A59-D309FCD653DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{350C5961-0778-45F8-9A59-D309FCD653DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{350C5961-0778-45F8-9A59-D309FCD653DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
