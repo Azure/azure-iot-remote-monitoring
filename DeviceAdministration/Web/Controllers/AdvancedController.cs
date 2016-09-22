@@ -54,26 +54,37 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<PartialViewResult> DeviceAssociation()
         {
             IList<DeviceModel> devices = await GetDevices();
-
+            DeviceAssociationModel model;
             try
             {
                 if (_apiRegistrationRepository.IsApiRegisteredInAzure())
                 {
-                    ViewBag.HasRegistration = true;
-                    ViewBag.UnassignedIccidList = _cellularExtensions.GetListOfAvailableIccids(devices);
-                    ViewBag.UnassignedDeviceIds = _cellularExtensions.GetListOfAvailableDeviceIDs(devices);
+                    var registrationModel = _apiRegistrationRepository.RecieveDetails();
+                    model = new DeviceAssociationModel()
+                    {
+                        ApiRegistrationProvider = registrationModel.ApiRegistrationProvider,
+                        HasRegistration = true,
+                        UnassignedIccidList = _cellularExtensions.GetListOfAvailableIccids(devices),
+                        UnassignedDeviceIds = _cellularExtensions.GetListOfAvailableDeviceIDs(devices)
+                    };
                 }
                 else
                 {
-                    ViewBag.HasRegistration = false;
+                    model = new DeviceAssociationModel()
+                    {
+                        HasRegistration = false
+                    };
                 }
             }
             catch (CellularConnectivityException)
             {
-                ViewBag.HasRegistration = false;
+                model = new DeviceAssociationModel()
+                {
+                    HasRegistration = false
+                };
             }
 
-            return PartialView("_DeviceAssociation");
+            return PartialView("_DeviceAssociation", model);
         }
 
         public async Task AssociateIccidWithDevice(string deviceId, string iccid)
