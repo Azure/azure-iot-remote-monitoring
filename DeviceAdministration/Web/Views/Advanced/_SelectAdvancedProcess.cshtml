@@ -1,6 +1,5 @@
 ﻿@using GlobalResources
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
-@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.ApiRegistrationModel
 
 <div>
@@ -65,12 +64,10 @@
             $('#apiRegistrationCreateButton').click(function () {
                 IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistration")');
             });
-
-            $('#apiRegistrationDeleteButton').click(function () {
-                IoTApp.Advanced.deleteApiRegistration();
-            });
-
-            @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+            $('#apiRegistrationDeleteButton')
+                .click(function() {
+                    IoTApp.Advanced.deleteApiRegistration();
+                });
             $('#apiRegistrationEditButton').click(function () {
                 IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistration")');
             });

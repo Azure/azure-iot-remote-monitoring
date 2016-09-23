@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Web.Mvc;
 using DeviceManagement.Infrustructure.Connectivity;
 using DeviceManagement.Infrustructure.Connectivity.Exceptions;
+using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
@@ -159,6 +161,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 return false;
             }
             return _apiRegistrationRepository.DeleteApiDetails();
+        }
+
+        public async Task<bool> AddIccids([FromBody]List<Iccid> Iccids)
+        {
+            return true;
         }
 
         [RequirePermission(Permission.HealthBeat)]

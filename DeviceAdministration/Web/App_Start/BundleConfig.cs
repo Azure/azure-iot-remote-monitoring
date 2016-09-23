@@ -32,6 +32,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
                .Include(
                 "~/Scripts/bootstrap.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/papaparse")
+               .Include(
+                "~/Scripts/papaparse.min.js"));
+
             bundles.Add(new StyleBundle("~/content/css/vendor")
                 .Include(
                 "~/content/styles/datatables.css",

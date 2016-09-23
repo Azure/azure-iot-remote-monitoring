@@ -319,12 +319,47 @@
         $("#editButton").prop("disabled", true);
     }
 
+    var getValidIccidRecords = function (csvResults) {
+        return csvResults.data.filter(function (record) {
+            return record.Id;
+        });
+    }
+
+    var processCsvFileInput = function(fileInput) {
+        var deferred = jQuery.Deferred();
+        $(fileInput).parse({
+            config: {
+                complete: function (results) {
+                    results = getValidIccidRecords(results);
+                    deferred.resolve(results);
+                },
+                header: true
+            },
+            error: function (err) {
+                deferred.reject(err);
+            }
+        });
+        return deferred.promise();
+    }
+
+    var postIccidFileData = function (data) {
+        return $.ajax({
+            url: '/Advanced/AddIccids',
+            data: data,
+            async: true,
+            type: "post",
+            contentType: "application/json"
+        });
+    }
+
     return {
         init : init,
         initSubView: initSubView,
         redirecToPartial: redirecToPartial,
         initRegistration: initRegistration,
         initAssociation: initAssociation,
-        deleteApiRegistration: deleteApiRegistration
+        deleteApiRegistration: deleteApiRegistration,
+        processCsvFileInput: processCsvFileInput,
+        postIccidFileData: postIccidFileData
     };
 }, [jQuery]);

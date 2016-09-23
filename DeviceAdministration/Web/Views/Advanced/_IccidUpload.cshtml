@@ -1,0 +1,37 @@
+﻿@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.DeviceAssociationModel
+
+<fieldset class="registration_content">
+	<div class="iccid_file_upload_input">
+		<p class="iccid_file_upload_description">
+			<!--TODO put this into language files -->
+			Your provicder doesn't have an API to automatically retrieve available ICCIDs for your sims. Use the file upload below to
+			upload the ICCIDs that you have available.
+		</p>
+		<input id="IccidCsv" type="file">
+		<br/>
+	</div>
+</fieldset>
+
+<script type="text/javascript">
+    $(window).ready(
+            function() {
+                'use strict';
+                var config = {
+                    subheadContent: '',
+                    goBackUrl: '',
+                    selectedProvider: '@Html.JavaScriptString(Model.ApiRegistrationProvider)'
+                };
+
+                $('#IccidCsv').on("change", function() {
+                    IoTApp.Advanced.processCsvFileInput(this)
+                      .then(IoTApp.Advanced.postIccidFileData)
+					  .then(function(result) {
+                            debugger
+                       });
+                });
+                IoTApp.Advanced.initSubView(config);
+            });
+</script>
+
+

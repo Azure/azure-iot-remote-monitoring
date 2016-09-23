@@ -490,6 +490,7 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\papaparse.min.js" />
     <Content Include="Scripts\Views\Actions\ActionProperties.js" />
     <Content Include="Scripts\Views\Actions\ActionsIndex.js" />
     <Content Include="Scripts\powerbi-visuals.all.min.js" />
@@ -638,6 +639,7 @@
     <Content Include="Views\Advanced\_IccidAssociation.cshtml" />
     <Content Include="Views\Device\_CellularInformationJasper.cshtml" />
     <Content Include="Views\Device\_CellularInformationEricsson.cshtml" />
+    <Content Include="Views\Advanced\_IccidUpload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
