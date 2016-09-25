@@ -1742,4 +1742,12 @@
     <value>Price Plan</value>
     <comment>Label</comment>
   </data>
+  <data name="DeviceAssociationIccidUploadText" xml:space="preserve">
+    <value>Your provider doesn't have an API to automatically retrieve available ICCIDs for your SIMs. Please use the file upload below to upload the ICCIDs that you have available</value>
+    <comment>Message</comment>
+  </data>
+  <data name="DeviceAssociationNoUnasignedIccidsText" xml:space="preserve">
+    <value />
+    <comment>Messsage</comment>
+  </data>
 </root>

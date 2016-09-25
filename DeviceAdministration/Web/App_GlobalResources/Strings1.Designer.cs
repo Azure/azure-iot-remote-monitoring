@@ -1016,6 +1016,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your provider doesn&apos;t have an API to automatically retrieve available ICCIDs for your SIMs. Please use the file upload below to upload the ICCIDs that you have available.
+        /// </summary>
+        public static string DeviceAssociationIccidUploadText {
+            get {
+                return ResourceManager.GetString("DeviceAssociationIccidUploadText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string DeviceAssociationNoUnasignedIccidsText {
+            get {
+                return ResourceManager.GetString("DeviceAssociationNoUnasignedIccidsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device Association.
         /// </summary>
         public static string DeviceAssociationTitle {
