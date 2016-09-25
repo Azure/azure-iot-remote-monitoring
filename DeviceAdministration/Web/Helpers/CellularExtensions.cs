@@ -2,25 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using DeviceManagement.Infrustructure.Connectivity;
+using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using DeviceManagement.Infrustructure.Connectivity.Services;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 {
     public class CellularExtensions : ICellularExtensions
     {
         private readonly IExternalCellularService _cellularService;
+        private readonly IIccidRepository _iccidRepository;
 
-        public CellularExtensions(IExternalCellularService cellularService)
+        public CellularExtensions(IExternalCellularService cellularService, IIccidRepository iccidRepository)
         {
             if (cellularService == null)
             {
                throw new ArgumentNullException(nameof(cellularService));
             }
 
-            this._cellularService = cellularService;
+            _cellularService = cellularService;
+            _iccidRepository = iccidRepository;
         }
 
         public List<Iccid> GetTerminals()
@@ -38,10 +42,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return this._cellularService.GetSingleSessionInfo(iccid);
         }
 
-        public IEnumerable<string> GetListOfAvailableIccids(IList<DeviceModel> devices)
+        public IEnumerable<string> GetListOfAvailableIccids(IList<DeviceModel> devices, string providerName)
         {
-            var fullIccidList = this._cellularService.GetTerminals().Select(i => i.Id);
-            var usedIccidList = this.GetUsedIccidList(devices).Select(i => i.Id);
+            var fullIccidList = providerName == ApiRegistrationProviderTypes.Ericsson ? 
+                _iccidRepository.GetIccids().Select(e => e.Id) : 
+                _cellularService.GetTerminals().Select(i => i.Id);
+
+            var usedIccidList = GetUsedIccidList(devices).Select(i => i.Id);
             return fullIccidList.Except(usedIccidList);
         }
 

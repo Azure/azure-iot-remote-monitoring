@@ -23,16 +23,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private const string CellularInvalidLicense = "400100";
 
         private readonly IApiRegistrationRepository _apiRegistrationRepository;
+        private readonly IIccidRepository _iccidRepository;
         private readonly ICellularExtensions _cellularExtensions;
         private readonly IDeviceLogic _deviceLogic;
 
         public AdvancedController(IDeviceLogic deviceLogic,
             IApiRegistrationRepository apiRegistrationRepository,
+            IIccidRepository iccidRepository,
             ICellularExtensions cellularExtensions)
         {
             _deviceLogic = deviceLogic;
             _apiRegistrationRepository = apiRegistrationRepository;
             _cellularExtensions = cellularExtensions;
+            _iccidRepository = iccidRepository;
         }
 
         [RequirePermission(Permission.CellularConn)]
@@ -66,7 +69,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     {
                         ApiRegistrationProvider = registrationModel.ApiRegistrationProvider,
                         HasRegistration = true,
-                        UnassignedIccidList = _cellularExtensions.GetListOfAvailableIccids(devices),
+                        UnassignedIccidList = _cellularExtensions.GetListOfAvailableIccids(devices, registrationModel.ApiRegistrationProvider),
                         UnassignedDeviceIds = _cellularExtensions.GetListOfAvailableDeviceIDs(devices)
                     };
                 }
@@ -160,12 +163,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 return false;
             }
+            var deleteAllIccidEntities = _iccidRepository.DeleteAllIccids();
             return _apiRegistrationRepository.DeleteApiDetails();
         }
 
-        public async Task<bool> AddIccids([FromBody]List<Iccid> Iccids)
+        public bool AddIccids([FromBody]List<Iccid> iccids)
         {
-            return true;
+            return _iccidRepository.AddIccids(iccids, "Erricson");
         }
 
         [RequirePermission(Permission.HealthBeat)]

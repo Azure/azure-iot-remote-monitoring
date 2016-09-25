@@ -65,8 +65,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 try
                 {
+                    var registrationModel = _apiRegistrationRepository.RecieveDetails();
                     List<DeviceModel> devices = await GetDevices();
-                    ViewBag.AvailableIccids = _cellularExtensions.GetListOfAvailableIccids(devices);
+                    ViewBag.AvailableIccids = _cellularExtensions.GetListOfAvailableIccids(devices, registrationModel.ApiRegistrationProvider);
                     ViewBag.CanHaveIccid = true;
                 }
                 catch (CellularConnectivityException)
@@ -106,8 +107,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 try
                 {
+                    var registrationModel = _apiRegistrationRepository.RecieveDetails();
                     List<DeviceModel> devices = await GetDevices();
-                    ViewBag.AvailableIccids = _cellularExtensions.GetListOfAvailableIccids(devices);
+                    ViewBag.AvailableIccids = _cellularExtensions.GetListOfAvailableIccids(devices, registrationModel.ApiRegistrationProvider);
                     ViewBag.CanHaveIccid = true;
                 }
                 catch (CellularConnectivityException)

@@ -184,6 +184,7 @@
     <Compile Include="Models\DeviceAssociationModel.cs" />
     <Compile Include="Models\DeviceModel.cs" />
     <Compile Include="Models\DeviceProperties.cs" />
+    <Compile Include="Models\IccidTableEntity.cs" />
     <Compile Include="Models\IoTHub.cs" />
     <Compile Include="Models\SystemProperties.cs" />
     <Compile Include="Models\Telemetry.cs" />

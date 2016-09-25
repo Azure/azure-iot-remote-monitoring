@@ -207,10 +207,12 @@
     <Compile Include="Repository\DeviceTelemetryRepository.cs" />
     <Compile Include="Repository\IAlertsRepository.cs" />
     <Compile Include="Repository\IApiRegistrationRepository.cs" />
+    <Compile Include="Repository\IccidRepository.cs" />
     <Compile Include="Repository\IDeviceRegistryCrudRepository.cs" />
     <Compile Include="Repository\IDeviceRegistryListRepository.cs" />
     <Compile Include="Repository\IDeviceRulesRepository.cs" />
     <Compile Include="Repository\IDeviceTelemetryRepository.cs" />
+    <Compile Include="Repository\IIccidRepository.cs" />
     <Compile Include="Repository\IIotHubRepository.cs" />
     <Compile Include="Repository\IIoTHubDeviceManager.cs" />
     <Compile Include="Repository\IoTHubDeviceManager.cs" />

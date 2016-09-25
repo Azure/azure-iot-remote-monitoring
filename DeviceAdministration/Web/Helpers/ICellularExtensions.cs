@@ -10,7 +10,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         Terminal GetSingleTerminalDetails(Iccid iccid);
         bool ValidateCredentials();
         List<SessionInfo> GetSingleSessionInfo(Iccid iccid);
-        IEnumerable<string> GetListOfAvailableIccids(IList<DeviceModel> devices);
+        IEnumerable<string> GetListOfAvailableIccids(IList<DeviceModel> devices, string providerName);
         IEnumerable<string> GetListOfAvailableDeviceIDs(IList<DeviceModel> devices);
         IEnumerable<string> GetListOfConnectedDeviceIds(IList<DeviceModel> devices);
     }
