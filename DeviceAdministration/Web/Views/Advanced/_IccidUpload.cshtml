@@ -26,8 +26,8 @@
                 $('#IccidCsv').on("change", function() {
                     IoTApp.Advanced.processCsvFileInput(this)
                       .then(IoTApp.Advanced.postIccidFileData)
-					  .then(function(result) {
-							
+					  .then(function() {
+							IoTApp.Advanced.redirecToPartial('@Url.Action("DeviceAssociation")');
                        }, function(error) {
                             console.error(error); 
                         });
