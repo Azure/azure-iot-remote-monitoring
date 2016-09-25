@@ -27,8 +27,10 @@
                     IoTApp.Advanced.processCsvFileInput(this)
                       .then(IoTApp.Advanced.postIccidFileData)
 					  .then(function(result) {
-                            debugger
-                       });
+							
+                       }, function(error) {
+                            console.error(error); 
+                        });
                 });
                 IoTApp.Advanced.initSubView(config);
             });

@@ -345,7 +345,7 @@
     var postIccidFileData = function (data) {
         return $.ajax({
             url: '/Advanced/AddIccids',
-            data: data,
+            data: JSON.stringify(data),
             async: true,
             type: "post",
             contentType: "application/json"
