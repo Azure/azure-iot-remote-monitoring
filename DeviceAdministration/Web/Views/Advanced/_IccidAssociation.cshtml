@@ -10,19 +10,22 @@
 		    @Html.DropDownList("UnassignedDeviceIds", new SelectList(Model.UnassignedDeviceIds, Model.UnassignedDeviceIds), new { @class = "advanced_dropdown" })
 	    </div>
     </fieldset>
-    if (Model.UnassignedIccidList.Any())
-    {
-        <fieldset class="registration_content">
-	        <div class="registration_textbox">
-		        <h2 class="registration_description">@Strings.IccidLabel</h2>
-		        @Html.DropDownList("UnassignedIccids", new SelectList(Model.UnassignedIccidList, Model.UnassignedIccidList), new {@class = "advanced_dropdown"})
-	        </div>
-        </fieldset>
-    }
-    else
-    {
-        <p>You have no unassigned sim cards.</p>
-    }
+		if (Model.UnassignedIccidList.Any())
+		{
+			<fieldset class="registration_content">
+				<div class="registration_textbox">
+					<h2 class="registration_description">@Strings.IccidLabel</h2>
+					@Html.DropDownList("UnassignedIccids", new SelectList(Model.UnassignedIccidList, Model.UnassignedIccidList), new {@class = "advanced_dropdown"})
+				</div>
+			</fieldset>
+		}
+		else
+		{
+			<fieldset class="registration_content">
+				<p class="small">You have no unassigned sim cards.</p>
+			</fieldset>
+		}
+   
 
 	if (Model.ApiRegistrationProvider == ApiRegistrationProviderTypes.Ericsson)
 	{

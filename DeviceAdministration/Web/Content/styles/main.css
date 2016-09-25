@@ -1462,6 +1462,9 @@ table#alertHistoryTable tr.selectedAlert {
 .registration_content p {
   margin: .4em 0 .85em 0;
 }
+.registration_content p.small {
+  font-size: .75em;
+}
 .registration_textbox {
   margin: 15px 0;
 }
