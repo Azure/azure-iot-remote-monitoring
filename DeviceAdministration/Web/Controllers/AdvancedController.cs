@@ -159,12 +159,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<bool> DeleteRegistration()
         {
             var disassociateDeviceResult = await DisassociateAllDevices();
-            if (disassociateDeviceResult)
-            {
-                var deleteAllIccidEntities = _iccidRepository.DeleteAllIccids();
-                return deleteAllIccidEntities && _apiRegistrationRepository.DeleteApiDetails();
-            }
-            return false;
+            if (!disassociateDeviceResult) return false;
+            var deleteAllIccidEntities = _iccidRepository.DeleteAllIccids();
+            return deleteAllIccidEntities && _apiRegistrationRepository.DeleteApiDetails();
         }
 
         public bool AddIccids([FromBody]List<Iccid> iccids)

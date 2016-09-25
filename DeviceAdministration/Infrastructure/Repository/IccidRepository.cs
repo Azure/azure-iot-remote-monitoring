@@ -29,7 +29,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 var incomingEntity = new IccidTableEntity()
                 {
                     Iccid = iccid.Id,
-                    ProviderName = providerName
+                    ProviderName = providerName,
+                    RowKey = iccid.Id
                 };
                 _azureTableStorageClient.Execute(TableOperation.InsertOrMerge(incomingEntity));
             }
@@ -64,10 +65,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var query = new TableQuery<IccidTableEntity>().
                 Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, IccidRegistrationKey.Default.ToString()));
-            var queryResponse = _azureTableStorageClient.ExecuteQuery(query);
-            if (queryResponse == null) return true;
+            var queryResponse = _azureTableStorageClient.ExecuteQuery(query).ToList();
+            if (!queryResponse.Any()) return true;
             var failedDelete = (from iccid in queryResponse let deleted = DeleteIccidTableEntity(iccid) where !deleted select iccid).ToList();
-            return failedDelete.Any();
+            return !failedDelete.Any();
         }
 
         public IList<Iccid> GetIccids()

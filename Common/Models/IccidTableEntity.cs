@@ -9,10 +9,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 {
     public class IccidTableEntity : TableEntity
     {
+        public IccidTableEntity(string iccid)
+        {
+            RowKey = iccid;
+            PartitionKey = IccidRegistrationKey.Default.ToString();
+        }
+
         public IccidTableEntity()
         {
-            this.RowKey = Guid.NewGuid().ToString();
-            this.PartitionKey = IccidRegistrationKey.Default.ToString();
+            PartitionKey = IccidRegistrationKey.Default.ToString();
         }
 
         public string Iccid { get; set; }
