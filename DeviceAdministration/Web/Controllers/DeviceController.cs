@@ -248,13 +248,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         [RequirePermission(Permission.EditDeviceMetadata)]
         [HttpPost]
-        public async Task<bool> ResetDeviceConnection(string deviceId)
+        public async Task<bool> ReconnectDevice(ReconnectDeviceModel model)
         {
-            if(string.IsNullOrWhiteSpace(deviceId)) throw new ArgumentException(nameof(deviceId));
-            var allDevices = await GetDevices();
-            var associatedTermincalIccid = _cellularExtensions.GetAssociatedDeviceTerminalIccid(allDevices, deviceId);
-            if(associatedTermincalIccid == null) throw new DeviceRequiredPropertyNotFoundException($"Could not find associated terminal ICCID for deviceId '{deviceId}'. Cannot reconnect.");
-            return _cellularExtensions.ReconnectDevice(associatedTermincalIccid);
+            if(model == null) throw new ArgumentException(nameof(model));
+            if (string.IsNullOrWhiteSpace(model.DeviceId)) throw new ArgumentException(nameof(model.DeviceId), $"There was no {nameof(model.DeviceId)} on the model");
+            var deviceId = model.DeviceId;
+            var device = await _deviceLogic.GetDeviceAsync(deviceId);
+            if(device.SystemProperties.ICCID == null) throw new DeviceRequiredPropertyNotFoundException($"Could not find ICCID for deviceId '{deviceId}'. Cannot reconnect.");
+            return _cellularExtensions.ReconnectDevice(device);
         }
 
         [RequirePermission(Permission.ViewDevices)]

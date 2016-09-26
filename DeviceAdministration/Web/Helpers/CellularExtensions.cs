@@ -73,9 +73,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return _cellularService.ValidateCredentials();
         }
 
-        public bool ReconnectDevice(Iccid iccid)
+        public bool ReconnectDevice(DeviceModel device)
         {
-            return _cellularService.ReconnectTerminal(iccid);
+            return _cellularService.ReconnectTerminal(device.SystemProperties.ICCID);
         }
 
         public Iccid GetAssociatedDeviceTerminalIccid(IList<DeviceModel> allDevices, string deviceId)

@@ -18,7 +18,11 @@
 <script>
 $(function() {
     $("#resetDeviceConnection").click(function () {
-            IoTApp.DeviceDetails.resetDeviceConnection();
+        IoTApp.DeviceDetails.resetDeviceConnection().then(function(result) {
+            console.log(result);
+        }, function (error) {
+            console.log(error);
+        });
     });
 });
 </script>

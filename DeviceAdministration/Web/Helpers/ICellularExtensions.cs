@@ -13,7 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         IEnumerable<string> GetListOfAvailableIccids(IList<DeviceModel> devices, string providerName);
         IEnumerable<string> GetListOfAvailableDeviceIDs(IList<DeviceModel> devices);
         IEnumerable<string> GetListOfConnectedDeviceIds(IList<DeviceModel> devices);
-        bool ReconnectDevice(Iccid iccid);
+        bool ReconnectDevice(DeviceModel device);
         Iccid GetAssociatedDeviceTerminalIccid(IList<DeviceModel> allDevices, string deviceId);
     }
 }

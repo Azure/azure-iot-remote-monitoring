@@ -77,7 +77,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return sessionInfo;
         }
 
-        public bool ReconnectTerminal(Iccid iccid)
+        public bool ReconnectTerminal(string iccid)
         {
             // TODO integrate with celular clients
             return true;

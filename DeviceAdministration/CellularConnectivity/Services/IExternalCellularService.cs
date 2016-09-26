@@ -12,6 +12,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         bool ValidateCredentials();
         Terminal GetSingleTerminalDetails(Iccid iccid);
         List<SessionInfo> GetSingleSessionInfo(Iccid iccid);
-        bool ReconnectTerminal(Iccid iccid);
+        bool ReconnectTerminal(string iccid);
     }
 }

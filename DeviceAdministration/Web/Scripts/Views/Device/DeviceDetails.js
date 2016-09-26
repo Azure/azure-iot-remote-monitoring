@@ -24,7 +24,7 @@
         $('#loadingElement').show();
 
         var iccid = IoTApp.Helpers.IccidState.getIccidFromCookie();
-        if (iccid == null) {
+        if (iccid === null) {
             renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
             return;
         }
@@ -51,7 +51,7 @@
 
     var onDeviceDetailsDone = function (html) {
 
-        if (self.cachedDeviceHtml  == null) {
+        if (self.cachedDeviceHtml  === null) {
             self.cachedDeviceHtml = html;
         }
 
@@ -204,12 +204,24 @@
         button.on("click", function () {
             retryCallback();
         });
-
         $wrapper.append(button);
         container.html($wrapper);
     }
-    var resetDeviceConnection = function() {
-        console.log("reset device connection clicked");
+    var resetDeviceConnection = function () {
+        $('#loadingElement').show();
+        var url = "/Device/ReconnectDevice";
+        return $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                deviceId: self.deviceId
+            },
+            dataType: 'json'
+        }).then(function() {
+            $('#loadingElement').hide();
+        }, function() {
+            $('#loadingElement').hide();
+        });
     }
     var init = function (deviceId) {
         getDeviceDetailsView(deviceId);
