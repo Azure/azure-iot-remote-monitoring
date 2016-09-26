@@ -208,10 +208,14 @@
         $wrapper.append(button);
         container.html($wrapper);
     }
-
+    var resetDeviceConnection = function() {
+        console.log("reset device connection clicked");
+    }
+    var init = function (deviceId) {
+        getDeviceDetailsView(deviceId);
+    }
     return {
-        init: function (deviceId) {
-            getDeviceDetailsView(deviceId);
-        }
+        init: init,
+        resetDeviceConnection: resetDeviceConnection
     }
 }, [jQuery, resources]);

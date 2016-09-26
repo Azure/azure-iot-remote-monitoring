@@ -1750,4 +1750,8 @@
     <value />
     <comment>Messsage</comment>
   </data>
+  <data name="ResetDeviceConnection" xml:space="preserve">
+    <value>Reset Connection</value>
+    <comment>Button Label</comment>
+  </data>
 </root>

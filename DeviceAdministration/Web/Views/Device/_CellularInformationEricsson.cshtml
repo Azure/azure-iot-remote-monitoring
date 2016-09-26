@@ -22,5 +22,15 @@
     <p class="grid_detail_value"><strong>@Strings.PricePlan </strong>@erricsonTermal.PricePlan</p>
     <p class="grid_detail_value"><strong>@Strings.AggregatedSimUsage </strong>@erricsonTermal.AggregatedSimUsage</p>
     <p class="grid_detail_value"><strong>@Strings.CurrentLimits </strong>@erricsonTermal.CurrentLimits</p>
+    <p class="grid_detail_value"><a id="resetDeviceConnection">@Strings.ResetDeviceConnection </a></p>
 </section>
 <div class="ericsson_info_text details_grid_margin">@Strings.SimInformationInfoTextEricsson</div>
+
+<script>
+$(function() {
+    $("#resetDeviceConnection")
+        .click(function() {
+            IoTApp.DeviceDetails.resetDeviceConnection();
+        });
+});
+</script>

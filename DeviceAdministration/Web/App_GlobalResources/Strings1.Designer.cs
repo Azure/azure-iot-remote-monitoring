@@ -2951,6 +2951,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset Connection.
+        /// </summary>
+        public static string ResetDeviceConnection {
+            get {
+                return ResourceManager.GetString("ResetDeviceConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reset.
         /// </summary>
         public static string ResetLabel {
