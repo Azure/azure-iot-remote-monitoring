@@ -246,11 +246,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return RedirectToAction("Index");
         }
 
+        [RequirePermission(Permission.EditDeviceMetadata)]
+        [HttpPost]
+        public async Task<bool> ResetDeviceConnection(string deviceId)
+        {
+            if(string.IsNullOrWhiteSpace(deviceId)) throw new ArgumentException(nameof(deviceId));
+            var allDevices = await GetDevices();
+            var associatedTermincalIccid = _cellularExtensions.GetAssociatedDeviceTerminalIccid(allDevices, deviceId);
+            if(associatedTermincalIccid == null) throw new DeviceRequiredPropertyNotFoundException($"Could not find associated terminal ICCID for deviceId '{deviceId}'. Cannot reconnect.");
+            return _cellularExtensions.ReconnectDevice(associatedTermincalIccid);
+        }
+
         [RequirePermission(Permission.ViewDevices)]
         public async Task<ActionResult> GetDeviceDetails(string deviceId)
         {
             IEnumerable<DevicePropertyValueModel> propModels;
-
             var device = await _deviceLogic.GetDeviceAsync(deviceId);
             if (device == null)
             {
