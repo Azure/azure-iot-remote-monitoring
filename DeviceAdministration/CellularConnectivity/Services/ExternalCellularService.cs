@@ -77,6 +77,12 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return sessionInfo;
         }
 
+        public bool ReconnectTerminal(Iccid iccid)
+        {
+            // TODO integrate with celular clients
+            return true;
+        }
+
         /// <summary>
         /// The API does not have a way to validate credentials so this method calls
         /// GetTerminals() and checks the response for validation errors.

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DeviceManagement.Infrustructure.Connectivity;
 using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using DeviceManagement.Infrustructure.Connectivity.Services;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
@@ -75,11 +73,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return _cellularService.ValidateCredentials();
         }
 
+        public bool ReconnectDevice(Iccid iccid)
+        {
+            return _cellularService.ReconnectTerminal(iccid);
+        }
+
+        public Iccid GetAssociatedDeviceTerminalIccid(IList<DeviceModel> allDevices, string deviceId)
+        {
+            return (from device in allDevices
+                    where device.DeviceProperties?.DeviceID != null && 
+                        device.SystemProperties?.ICCID != null && 
+                        (device.id != null && device.id == deviceId)
+                    select new Iccid(device.SystemProperties.ICCID)
+                   ).FirstOrDefault();
+        }
+
         private IEnumerable<Iccid> GetUsedIccidList(IList<DeviceModel> devices)
         {
             return (from device in devices
-                    where (device.DeviceProperties != null && device.DeviceProperties.DeviceID != null) &&
-                          (device.SystemProperties != null && device.SystemProperties.ICCID != null)
+                    where device.DeviceProperties?.DeviceID != null && 
+                        device.SystemProperties?.ICCID != null
                     select new Iccid(device.SystemProperties.ICCID)
                    ).ToList();
         }
