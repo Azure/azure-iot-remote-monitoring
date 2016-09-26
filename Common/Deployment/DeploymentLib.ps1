@@ -194,22 +194,19 @@ function UpdateResourceGroupState()
     {
         $tags = $resourceGroup.Tags
         $updated = $false
-        foreach ($tag in $tags)
+        if ($tags.ContainsKey("IoTSuiteState"))
         {
-            if ($tag.Name -eq "IoTSuiteState")
-            {
-                $tag.Value = $state
-                $updated = $true
-			}
-			if ($tag.Name -eq "IoTSuiteVersion" -and $tag.Value -ne $global:version)
-			{
-                $tag.Value = $global:version
-                $updated = $true
-			}
+            $tags.IoTSuiteState = $state
+            $updated = $true
         }
+		if ($tags.ContainsKey("IoTSuiteVersion") -and $tags.IoTSuiteVersion -ne $global:version)
+		{
+            $tags.IoTSuiteVersion = $global:version
+            $updated = $true
+		}
         if (!$updated)
         {
-            $tags += @{Name="IoTSuiteState";Value=$state}
+            $tags += @{"IoTSuiteState" = $state}
         }
         $resourceGroup = Set-AzureRmResourceGroup -Name $resourceGroupName -Tag $tags
     }
