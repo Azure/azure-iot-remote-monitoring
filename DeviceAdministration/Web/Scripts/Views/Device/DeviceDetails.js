@@ -227,6 +227,11 @@
             console.error("There was a problem reconnecting the device.");
         });
     }
+    var deviceActionsSaveClick
+    var attachEventHandlers = function() {
+        $("#simStateSelect").click(resetDeviceConnectionOnClick);
+        $("#subscriptionPackageSelect").click(resetDeviceConnectionOnClick);
+    }
     var toggleInputDisabledProperty = function (disabled) {
         if (disabled) {
             $("#simStateSelect").attr("disabled", "disabled");
@@ -237,10 +242,6 @@
             $("#subscriptionPackageSelect").removeAttr('disabled');
             $("#resetDeviceConnection").removeAttr('disabled');
         }
-    }
-    var attachEventHandlers = function() {
-        $("#simStateSelect").click(resetDeviceConnectionOnClick);
-        $("#subscriptionPackageSelect").click(resetDeviceConnectionOnClick);
     }
     var init = function (deviceId) {
         getDeviceDetailsView(deviceId);
