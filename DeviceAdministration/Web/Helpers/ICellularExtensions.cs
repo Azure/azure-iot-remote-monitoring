@@ -15,5 +15,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         IEnumerable<string> GetListOfConnectedDeviceIds(IList<DeviceModel> devices);
         bool ReconnectDevice(DeviceModel device);
         Iccid GetAssociatedDeviceTerminalIccid(IList<DeviceModel> allDevices, string deviceId);
+        SimStateModel GetCurrentSimState();
+        List<SimStateModel> GetAvailableSimStates();
+        SubscriptionPackageModel GetCurrentSubscriptionPackage();
+        List<SubscriptionPackageModel> GetAvailableSubscriptionPackages();
     }
 }

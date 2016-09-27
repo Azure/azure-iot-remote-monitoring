@@ -33,7 +33,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider.ToString()}' provider");
             }
-
             return terminals;
         }
 

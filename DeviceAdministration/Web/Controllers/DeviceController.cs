@@ -301,7 +301,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             var apiProviderDetails = _apiRegistrationRepository.RecieveDetails();
             viewModel.ApiRegistrationProvider = Convert.ToString(apiProviderDetails.ApiRegistrationProvider);
-            
+            viewModel.AvailableSimStates = _cellularExtensions.GetAvailableSimStates();
+            viewModel.AvailableSubscriptionPackages = _cellularExtensions.GetAvailableSubscriptionPackages();
+
             return PartialView("_CellularInformation", viewModel);
         }
 

@@ -2960,6 +2960,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Send Reconnect.
+        /// </summary>
+        public static string ResetDeviceConnectionAction {
+            get {
+                return ResourceManager.GetString("ResetDeviceConnectionAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reset.
         /// </summary>
         public static string ResetLabel {
@@ -3311,6 +3320,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sim Actions.
+        /// </summary>
+        public static string SimActionsLabel {
+            get {
+                return ResourceManager.GetString("SimActionsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SIM Association.
         /// </summary>
         public static string SimAssociation {
@@ -3379,6 +3397,15 @@ namespace GlobalResources {
         public static string SimInformationInfoTextJasper {
             get {
                 return ResourceManager.GetString("SimInformationInfoTextJasper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SIM State.
+        /// </summary>
+        public static string SimStateLabel {
+            get {
+                return ResourceManager.GetString("SimStateLabel", resourceCulture);
             }
         }
         
@@ -3469,6 +3496,15 @@ namespace GlobalResources {
         public static string StringValidationMessage {
             get {
                 return ResourceManager.GetString("StringValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subscription Package.
+        /// </summary>
+        public static string SubscriptionPackageLabel {
+            get {
+                return ResourceManager.GetString("SubscriptionPackageLabel", resourceCulture);
             }
         }
         

@@ -20,7 +20,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                throw new ArgumentNullException(nameof(cellularService));
             }
-
             _cellularService = cellularService;
             _iccidRepository = iccidRepository;
         }
@@ -88,6 +87,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                    ).FirstOrDefault();
         }
 
+        public SimStateModel GetCurrentSimState()
+        {
+            return GetSampleSimStatusList().FirstOrDefault(s => s.Name == "Active");
+        }
+
+        public List<SimStateModel> GetAvailableSimStates()
+        {
+            var availableSimStates = GetAvailableSimStates();
+            var selectedSubscription = GetCurrentSubscriptionPackage();
+            return markActiveSimState(selectedSubscription.Id, availableSimStates);
+        }
+
+        public SubscriptionPackageModel GetCurrentSubscriptionPackage()
+        {
+            return GetSampleSubscriptionPackages().FirstOrDefault(s => s.Name == "Basic");
+        }
+
+        public List<SubscriptionPackageModel> GetAvailableSubscriptionPackages()
+        {
+            var availableSubscriptions = GetSampleSubscriptionPackages();
+            var selectedSubscription = GetCurrentSubscriptionPackage();
+            return markActiveSubscriptionPackage(selectedSubscription.Id, availableSubscriptions);
+        }
+
         private IEnumerable<Iccid> GetUsedIccidList(IList<DeviceModel> devices)
         {
             return (from device in devices
@@ -95,6 +118,66 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         device.SystemProperties?.ICCID != null
                     select new Iccid(device.SystemProperties.ICCID)
                    ).ToList();
+        }
+
+        /// <summary>
+        /// TODO replace this. Only for mocking
+        /// </summary>
+        /// <returns></returns>
+        private List<SimStateModel> GetSampleSimStatusList()
+        {
+            return new List<SimStateModel>()
+            {
+                new SimStateModel()
+                {
+                    Id = "1",
+                    Name = "Active"
+                },
+                new SimStateModel()
+                {
+                    Id = "2",
+                    Name = "Disabled"
+                }
+            };
+        }
+
+        /// <summary>
+        /// TODO replace this. Only for mocking
+        /// </summary>
+        /// <returns></returns>
+        private List<SubscriptionPackageModel> GetSampleSubscriptionPackages()
+        {
+            return new List<SubscriptionPackageModel>()
+            {
+                new SubscriptionPackageModel()
+                {
+                    Id = "1",
+                    Name = "Basic"
+                },
+                new SubscriptionPackageModel()
+                {
+                    Id = "2",
+                    Name = "Expensive"
+                }
+            };
+        }
+
+        private List<SubscriptionPackageModel> markActiveSubscriptionPackage(string selectedSubscriptionId, List<SubscriptionPackageModel> availableSubscriptionPackages)
+        {
+            return availableSubscriptionPackages.Select(s =>
+            {
+                if (s.Id == selectedSubscriptionId) s.IsActive = true;
+                return s;
+            }).ToList();
+        }
+
+        private List<SimStateModel> markActiveSimState(string selectedSubscriptionId, List<SimStateModel> availableSimStates)
+        {
+            return availableSimStates.Select(s =>
+            {
+                if (s.Id == selectedSubscriptionId) s.IsActive = true;
+                return s;
+            }).ToList();
         }
     }
 }

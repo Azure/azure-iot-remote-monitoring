@@ -1754,4 +1754,20 @@
     <value>Reset Connection</value>
     <comment>Button Label</comment>
   </data>
+  <data name="ResetDeviceConnectionAction" xml:space="preserve">
+    <value>Send Reconnect</value>
+    <comment>Label</comment>
+  </data>
+  <data name="SimActionsLabel" xml:space="preserve">
+    <value>Sim Actions</value>
+    <comment>Label</comment>
+  </data>
+  <data name="SimStateLabel" xml:space="preserve">
+    <value>SIM State</value>
+    <comment>Label</comment>
+  </data>
+  <data name="SubscriptionPackageLabel" xml:space="preserve">
+    <value>Subscription Package</value>
+    <comment>Label</comment>
+  </data>
 </root>
