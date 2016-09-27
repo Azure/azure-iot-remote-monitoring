@@ -16,19 +16,19 @@
     <p class="grid_detail_value"><strong>@Strings.SimStateLabel </strong></p>
     <p class="grid_detail_value">
         <select id="simStateSelect">
-            <option>Option 1</option>
-            <option>Option 2</option>
-            <option>Option 3</option>
-            <option>Option 4</option>
+            @foreach (var simState in @Model.AvailableSimStates)
+            {
+                <option value="@simState.Name">@simState.Name</option>
+            }
         </select>
     </p>
     <p class="grid_detail_value"><strong>@Strings.SubscriptionPackageLabel </strong></p>
     <p class="grid_detail_value">
         <select id="subscriptionPackageSelect">
-            <option>Option 1</option>
-            <option>Option 2</option>
-            <option>Option 3</option>
-            <option>Option 4</option>
+            @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
+            {
+                <option value="@subscriptionPackage.Name">@subscriptionPackage.Name</option>
+            }
         </select>
     </p>
     <p class="grid_detail_value"><strong>@Strings.ResetDeviceConnection </strong></p>
