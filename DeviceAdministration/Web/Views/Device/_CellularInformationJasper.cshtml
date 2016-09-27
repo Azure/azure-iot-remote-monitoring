@@ -2,7 +2,6 @@
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
 
 <section class="details_grid_general">
-    <p class="grid_detail_value"><strong>@Strings.SimStatus</strong> @Model.TerminalDevice.Status</p>
     <p class="grid_detail_value"><strong>@Strings.LastSessionStart </strong> @Model.SessionInfo.DateSessionStarted</p>
     <p class="grid_detail_value"><strong>@Strings.CurrentRatePlan</strong>@Model.TerminalDevice.RatePlan</p>
     <p class="grid_detail_value"><strong>@Strings.AggregatedUsage</strong>@Model.TerminalDevice.MonthToDateDataUsage</p>
@@ -13,6 +12,7 @@
     <p class="grid_detail_value"><strong>@Strings.AccountId</strong> @Model.TerminalDevice.AccountId</p>
     <p class="grid_detail_value"><strong>@Strings.ResetDeviceConnection </strong></p>
     <h4>@Strings.SimActionsLabel</h4>
+    <p class="grid_detail_value"><button id="enableDeviceActionsButton" class="button_base edit_button">@Strings.EnableDeviceActions</button></p>
     <p class="grid_detail_value"><strong>@Strings.SimStateLabel </strong></p>
     <p class="grid_detail_value">
         <select id="simStateSelect">
@@ -32,7 +32,7 @@
         </select>
     </p>
     <p class="grid_detail_value"><strong>@Strings.ResetDeviceConnection </strong></p>
-    <p class="grid_detail_value"><a id="resetDeviceConnection" class="btn">@Strings.ResetDeviceConnectionAction</a></p>
+    <p class="grid_detail_value"><button id="resetDeviceConnection" class="button_base edit_button">@Strings.ResetDeviceConnectionAction</button></p>
 </section>
 <div class="jasper_info_text details_grid_margin">@Strings.SimInformationInfoTextJasper</div>
 

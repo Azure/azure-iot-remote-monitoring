@@ -217,14 +217,35 @@
                 deviceId: self.deviceId
             },
             dataType: 'json'
-        }).then(function() {
-            $('#loadingElement').hide();
-        }, function() {
-            $('#loadingElement').hide();
         });
+    }
+    var resetDeviceConnectionOnClick = function () {
+        return IoTApp.DeviceDetails.resetDeviceConnection().then(function () {
+            $('#loadingElement').hide();
+        }, function () {
+            $('#loadingElement').hide();
+            console.error("There was a problem reconnecting the device.");
+        });
+    }
+    var toggleInputDisabledProperty = function (disabled) {
+        if (disabled) {
+            $("#simStateSelect").attr("disabled", "disabled");
+            $("#subscriptionPackageSelect").attr("disabled", "disabled");
+            $("#resetDeviceConnection").attr("disabled", "disabled");
+        } else {
+            $("#simStateSelect").removeAttr('disabled');
+            $("#subscriptionPackageSelect").removeAttr('disabled');
+            $("#resetDeviceConnection").removeAttr('disabled');
+        }
+    }
+    var attachEventHandlers = function() {
+        $("#simStateSelect").click(resetDeviceConnectionOnClick);
+        $("#subscriptionPackageSelect").click(resetDeviceConnectionOnClick);
     }
     var init = function (deviceId) {
         getDeviceDetailsView(deviceId);
+        toggleInputDisabledProperty(true);
+        attachEventHandlers();
     }
     return {
         init: init,

@@ -1770,4 +1770,8 @@
     <value>Subscription Package</value>
     <comment>Label</comment>
   </data>
+  <data name="EnableDeviceActions" xml:space="preserve">
+    <value>Enable Actions</value>
+    <comment>Button Label</comment>
+  </data>
 </root>

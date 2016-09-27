@@ -1439,6 +1439,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Actions.
+        /// </summary>
+        public static string EnableDeviceActions {
+            get {
+                return ResourceManager.GetString("EnableDeviceActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable Rule.
         /// </summary>
         public static string EnableRule {

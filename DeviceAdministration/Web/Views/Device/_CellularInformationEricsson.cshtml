@@ -23,7 +23,28 @@
     <p class="grid_detail_value"><strong>@Strings.AggregatedSimUsage </strong>@erricsonTermal.AggregatedSimUsage</p>
     <p class="grid_detail_value"><strong>@Strings.CurrentLimits </strong>@erricsonTermal.CurrentLimits</p>
     <p class="grid_detail_value"><strong>@Strings.ResetDeviceConnection </strong></p>
-    <p class="grid_detail_value"><a id="resetDeviceConnection">@Strings.ResetDeviceConnectionAction </a></p>
+    <h4>@Strings.SimActionsLabel</h4>
+    <p class="grid_detail_value"><button id="enableDeviceActionsButton" class="button_base edit_button">@Strings.EnableDeviceActions</button></p>
+    <p class="grid_detail_value"><strong>@Strings.SimStateLabel </strong></p>
+    <p class="grid_detail_value">
+        <select id="simStateSelect" disabled>
+            @foreach (var simState in @Model.AvailableSimStates)
+            {
+                <option value="@simState.Name">@simState.Name</option>
+            }
+        </select>
+    </p>
+    <p class="grid_detail_value"><strong>@Strings.SubscriptionPackageLabel </strong></p>
+    <p class="grid_detail_value">
+        <select id="subscriptionPackageSelect" disabled>
+            @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
+            {
+                <option value="@subscriptionPackage.Name">@subscriptionPackage.Name</option>
+            }
+        </select>
+    </p>
+    <p class="grid_detail_value"><strong>@Strings.ResetDeviceConnection </strong></p>
+    <p class="grid_detail_value"><button id="resetDeviceConnection" class="button_base edit_button" disabled>@Strings.ResetDeviceConnectionAction</button></p>
 </section>
 <div class="ericsson_info_text details_grid_margin">@Strings.SimInformationInfoTextEricsson</div>
 
