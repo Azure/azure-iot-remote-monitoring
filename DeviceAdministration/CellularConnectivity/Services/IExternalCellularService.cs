@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Services
@@ -13,5 +14,9 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         Terminal GetSingleTerminalDetails(Iccid iccid);
         List<SessionInfo> GetSingleSessionInfo(Iccid iccid);
         bool ReconnectTerminal(string iccid);
+        SimState GetCurrentSimState();
+        List<SimState> GetAvailableSimStates();
+        SubscriptionPackage GetCurrentSubscriptionPackage();
+        List<SubscriptionPackage> GetAvailableSubscriptionPackages();
     }
 }

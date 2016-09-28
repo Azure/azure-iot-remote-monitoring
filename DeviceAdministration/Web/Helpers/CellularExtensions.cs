@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
+using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using DeviceManagement.Infrustructure.Connectivity.Services;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
@@ -77,38 +78,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return _cellularService.ReconnectTerminal(device.SystemProperties.ICCID);
         }
 
-        public Iccid GetAssociatedDeviceTerminalIccid(IList<DeviceModel> allDevices, string deviceId)
+        public SimState GetCurrentSimState()
         {
-            return (from device in allDevices
-                    where device.DeviceProperties?.DeviceID != null && 
-                        device.SystemProperties?.ICCID != null && 
-                        (device.id != null && device.id == deviceId)
-                    select new Iccid(device.SystemProperties.ICCID)
-                   ).FirstOrDefault();
+            return _cellularService.GetAvailableSimStates().FirstOrDefault(s => s.Name == "Active");
         }
 
-        public SimStateModel GetCurrentSimState()
+        public SubscriptionPackage GetCurrentSubscriptionPackage()
         {
-            return GetSampleSimStatusList().FirstOrDefault(s => s.Name == "Active");
+            return _cellularService.GetAvailableSubscriptionPackages().FirstOrDefault(s => s.Name == "Basic");
         }
 
-        public SubscriptionPackageModel GetCurrentSubscriptionPackage()
+        public List<SimState> GetAvailableSimStates()
         {
-            return GetSampleSubscriptionPackages().FirstOrDefault(s => s.Name == "Basic");
+            var availableSimStates = _cellularService.GetAvailableSimStates();
+            return markActiveSimState(availableSimStates.First(s => s.Name == "Active").Name, availableSimStates);
         }
 
-        public List<SimStateModel> GetAvailableSimStates()
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages()
         {
-            var availableSimStates = GetSampleSimStatusList();
+            var availableSubscriptions = _cellularService.GetAvailableSubscriptionPackages();
             var selectedSubscription = GetCurrentSubscriptionPackage();
-            return markActiveSimState(selectedSubscription.Id, availableSimStates);
-        }
-
-        public List<SubscriptionPackageModel> GetAvailableSubscriptionPackages()
-        {
-            var availableSubscriptions = GetSampleSubscriptionPackages();
-            var selectedSubscription = GetCurrentSubscriptionPackage();
-            return markActiveSubscriptionPackage(selectedSubscription.Id, availableSubscriptions);
+            return markActiveSubscriptionPackage(availableSubscriptions.First(s => s.Name == "Basic").Name, availableSubscriptions);
         }
 
         private IEnumerable<Iccid> GetUsedIccidList(IList<DeviceModel> devices)
@@ -120,62 +110,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                    ).ToList();
         }
 
-        /// <summary>
-        /// TODO replace this. Only for mocking
-        /// </summary>
-        /// <returns></returns>
-        private List<SimStateModel> GetSampleSimStatusList()
-        {
-            return new List<SimStateModel>()
-            {
-                new SimStateModel()
-                {
-                    Id = "1",
-                    Name = "Active"
-                },
-                new SimStateModel()
-                {
-                    Id = "2",
-                    Name = "Disabled"
-                }
-            };
-        }
-
-        /// <summary>
-        /// TODO replace this. Only for mocking
-        /// </summary>
-        /// <returns></returns>
-        private List<SubscriptionPackageModel> GetSampleSubscriptionPackages()
-        {
-            return new List<SubscriptionPackageModel>()
-            {
-                new SubscriptionPackageModel()
-                {
-                    Id = "1",
-                    Name = "Basic"
-                },
-                new SubscriptionPackageModel()
-                {
-                    Id = "2",
-                    Name = "Expensive"
-                }
-            };
-        }
-
-        private List<SubscriptionPackageModel> markActiveSubscriptionPackage(string selectedSubscriptionId, List<SubscriptionPackageModel> availableSubscriptionPackages)
+        private List<SubscriptionPackage> markActiveSubscriptionPackage(string selectedSubscriptionName, List<SubscriptionPackage> availableSubscriptionPackages)
         {
             return availableSubscriptionPackages.Select(s =>
             {
-                if (s.Id == selectedSubscriptionId) s.IsActive = true;
+                if (s.Id == selectedSubscriptionName) s.IsActive = true;
                 return s;
             }).ToList();
         }
 
-        private List<SimStateModel> markActiveSimState(string selectedSubscriptionId, List<SimStateModel> availableSimStates)
+        private List<SimState> markActiveSimState(string selectedSubscriptionName, List<SimState> availableSimStates)
         {
             return availableSimStates.Select(s =>
             {
-                if (s.Id == selectedSubscriptionId) s.IsActive = true;
+                if (s.Id == selectedSubscriptionName) s.IsActive = true;
                 return s;
             }).ToList();
         }

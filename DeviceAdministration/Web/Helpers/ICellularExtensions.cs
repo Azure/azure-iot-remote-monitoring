@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
@@ -14,10 +15,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         IEnumerable<string> GetListOfAvailableDeviceIDs(IList<DeviceModel> devices);
         IEnumerable<string> GetListOfConnectedDeviceIds(IList<DeviceModel> devices);
         bool ReconnectDevice(DeviceModel device);
-        Iccid GetAssociatedDeviceTerminalIccid(IList<DeviceModel> allDevices, string deviceId);
-        SimStateModel GetCurrentSimState();
-        List<SimStateModel> GetAvailableSimStates();
-        SubscriptionPackageModel GetCurrentSubscriptionPackage();
-        List<SubscriptionPackageModel> GetAvailableSubscriptionPackages();
+        SimState GetCurrentSimState();
+        List<SimState> GetAvailableSimStates();
+        SubscriptionPackage GetCurrentSubscriptionPackage();
+        List<SubscriptionPackage> GetAvailableSubscriptionPackages();
     }
 }

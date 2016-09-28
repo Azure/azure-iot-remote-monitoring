@@ -38,7 +38,10 @@
     <Compile Include="Constants\JasperApiConstants.cs" />
     <Compile Include="Exceptions\CellularConnectivityException.cs" />
     <Compile Include="Argument.cs" />
+    <Compile Include="Models\Other\SubscriptionPackage.cs" />
     <Compile Include="Models\Constants\ApiRegistrationProviderTypes.cs" />
+    <Compile Include="Models\Jasper\JasperCredentials.cs" />
+    <Compile Include="Models\Other\SimState.cs" />
     <Compile Include="Models\Security\EricssonSecurity.cs" />
     <Compile Include="Models\TerminalDevice\EricssonTerminal.cs" />
     <Compile Include="Models\TerminalDevice\Msisdn.cs" />
@@ -419,6 +422,9 @@
     <Content Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Ericsson\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

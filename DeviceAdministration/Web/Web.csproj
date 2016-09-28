@@ -302,6 +302,8 @@
     <Compile Include="Models\EditDeviceRuleModel.cs" />
     <Compile Include="Models\LanguageModel.cs" />
     <Compile Include="Models\ReconnectDeviceModel.cs" />
+    <Compile Include="Models\SimActionModel.cs" />
+    <Compile Include="Models\CellularActionUpdateRequestModel.cs" />
     <Compile Include="Models\SimInformationViewModel.cs" />
     <Compile Include="Models\UpdateActionModel.cs" />
     <Compile Include="Models\AlertHistoryResultsModel.cs" />
@@ -509,6 +511,7 @@
     <Content Include="Scripts\Views\Device\AddDevice.js" />
     <Content Include="Scripts\Views\Device\AddDeviceCopy.js" />
     <Content Include="Scripts\Views\Device\AddDeviceCreate.js" />
+    <Content Include="Scripts\Views\Device\CellularActions.js" />
     <Content Include="Scripts\Views\Device\DeviceDetails.js" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -640,6 +643,7 @@
     <Content Include="Views\Device\_CellularInformationJasper.cshtml" />
     <Content Include="Views\Device\_CellularInformationEricsson.cshtml" />
     <Content Include="Views\Advanced\_IccidUpload.cshtml" />
+    <Content Include="Views\Device\_CellularActions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

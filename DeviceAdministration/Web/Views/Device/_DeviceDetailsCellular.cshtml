@@ -1,4 +1,7 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceDetailModel
+
 <header class="header_grid">
     <h3 class="grid_subheadhead_detail">@Strings.CellularConnectivityManagement</h3>
 </header>
@@ -12,3 +15,8 @@
     </p>
 </section>
 
+<script>
+    $(function () {
+        IoTApp.CellularActions.init('@Html.JavaScriptString(Model.DeviceID)');
+    });
+</script>

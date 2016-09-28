@@ -5,19 +5,21 @@
 <header class="header_grid">
     <a href="#" id="deviceExplorer_CellInformationBack" class="details_grid__button_back grid_subheadhead_detail">@Strings.SimInformationBackText</a>
 </header>
-
-@switch (Model.ApiRegistrationProvider)
-{
-    case ApiRegistrationProviderTypes.Jasper:
+<section class="details_grid_general">
+    @switch (Model.ApiRegistrationProvider)
+    {
+        case ApiRegistrationProviderTypes.Jasper:
         {
             @Html.Partial("_CellularInformationJasper", Model)
             break;
         }
         case ApiRegistrationProviderTypes.Ericsson:
-            {
+        {
             @Html.Partial("_CellularInformationEricsson", Model)
             break;
         }
-}
+    }
 
+    @Html.Partial("_CellularActions", Model)
+</section>
 

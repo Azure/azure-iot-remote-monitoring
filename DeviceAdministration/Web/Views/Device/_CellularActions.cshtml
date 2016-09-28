@@ -1,0 +1,34 @@
+﻿@using GlobalResources
+@using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@model  Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
+<h4>@Strings.SimActionsLabel</h4>
+<p class="grid_detail_value"><strong>@Strings.SimStateLabel </strong></p>
+<p class="grid_detail_value">
+    <select id="simStateSelect" disabled>
+        @foreach (var simState in @Model.AvailableSimStates)
+            {
+            <option value="@simState.Name">@simState.Name</option>
+        }
+    </select>
+</p>
+<p class="grid_detail_value"><strong>@Strings.SubscriptionPackageLabel </strong></p>
+<p class="grid_detail_value">
+    <select id="subscriptionPackageSelect" disabled>
+        @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
+            {
+            <option value="@subscriptionPackage.Name">@subscriptionPackage.Name</option>
+        }
+    </select>
+</p>
+<p class="grid_detail_value"><strong>@Strings.ResetDeviceConnection </strong></p>
+<p class="grid_detail_value"><button id="resetDeviceConnection" class="button_base edit_button" disabled>@Strings.ResetDeviceConnectionAction</button></p>
+<br
+<p class="grid_detail_value"><button id="editActions" class="button_base edit_button">@Strings.Edit</button></p>
+<p class="grid_detail_value"><button id="saveActions" class="button_base edit_button" disabled>@Strings.Save</button></p>
+
+<script>
+    $(function () {
+        IoTApp.CellularActions.initActionForm();
+    });
+</script>

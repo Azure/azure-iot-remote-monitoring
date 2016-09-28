@@ -259,6 +259,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.ViewDevices)]
+        public async Task<bool> CellularActionUpdateRequest(CellularActionUpdateRequestModel model)
+        {
+            return true;
+        }
+
+        [RequirePermission(Permission.ViewDevices)]
         public async Task<ActionResult> GetDeviceDetails(string deviceId)
         {
             IEnumerable<DevicePropertyValueModel> propModels;
@@ -298,7 +304,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var viewModel = new SimInformationViewModel();      
             viewModel.TerminalDevice = _cellularExtensions.GetSingleTerminalDetails(new Iccid(iccid));
             viewModel.SessionInfo = _cellularExtensions.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ?? new SessionInfo();
-
             var apiProviderDetails = _apiRegistrationRepository.RecieveDetails();
             viewModel.ApiRegistrationProvider = Convert.ToString(apiProviderDetails.ApiRegistrationProvider);
             viewModel.AvailableSimStates = _cellularExtensions.GetAvailableSimStates();

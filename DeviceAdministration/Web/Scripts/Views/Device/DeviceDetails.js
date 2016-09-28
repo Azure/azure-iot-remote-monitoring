@@ -207,49 +207,10 @@
         $wrapper.append(button);
         container.html($wrapper);
     }
-    var resetDeviceConnection = function () {
-        $('#loadingElement').show();
-        var url = "/Device/ReconnectDevice";
-        return $.ajax({
-            url: url,
-            type: 'POST',
-            data: {
-                deviceId: self.deviceId
-            },
-            dataType: 'json'
-        });
-    }
-    var resetDeviceConnectionOnClick = function () {
-        return IoTApp.DeviceDetails.resetDeviceConnection().then(function () {
-            $('#loadingElement').hide();
-        }, function () {
-            $('#loadingElement').hide();
-            console.error("There was a problem reconnecting the device.");
-        });
-    }
-    var deviceActionsSaveClick
-    var attachEventHandlers = function() {
-        $("#simStateSelect").click(resetDeviceConnectionOnClick);
-        $("#subscriptionPackageSelect").click(resetDeviceConnectionOnClick);
-    }
-    var toggleInputDisabledProperty = function (disabled) {
-        if (disabled) {
-            $("#simStateSelect").attr("disabled", "disabled");
-            $("#subscriptionPackageSelect").attr("disabled", "disabled");
-            $("#resetDeviceConnection").attr("disabled", "disabled");
-        } else {
-            $("#simStateSelect").removeAttr('disabled');
-            $("#subscriptionPackageSelect").removeAttr('disabled');
-            $("#resetDeviceConnection").removeAttr('disabled');
-        }
-    }
     var init = function (deviceId) {
         getDeviceDetailsView(deviceId);
-        toggleInputDisabledProperty(true);
-        attachEventHandlers();
     }
     return {
-        init: init,
-        resetDeviceConnection: resetDeviceConnection
+        init: init
     }
 }, [jQuery, resources]);

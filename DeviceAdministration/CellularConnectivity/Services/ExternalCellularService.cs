@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DeviceManagement.Infrustructure.Connectivity.Clients;
 using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
+using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 
@@ -80,6 +81,50 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         {
             // TODO integrate with celular clients
             return true;
+        }
+
+        public SimState GetCurrentSimState()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<SimState> GetAvailableSimStates()
+        {
+            return new List<SimState>()
+            {
+                new SimState()
+                {
+                    Id = "1",
+                    Name = "Active"
+                },
+                new SimState()
+                {
+                    Id = "2",
+                    Name = "Disconnected"
+                }
+            };
+        }
+
+        public SubscriptionPackage GetCurrentSubscriptionPackage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages()
+        {
+            return new List<SubscriptionPackage>()
+            {
+                new SubscriptionPackage()
+                {
+                    Id = "1",
+                    Name = "Basic"
+                },
+                new SubscriptionPackage()
+                {
+                    Id = "2",
+                    Name = "Expensive"
+                }
+            };
         }
 
         /// <summary>

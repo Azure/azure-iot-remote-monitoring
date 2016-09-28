@@ -1,49 +1,13 @@
 ﻿@using GlobalResources
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
 
-<section class="details_grid_general">
-    <p class="grid_detail_value"><strong>@Strings.LastSessionStart </strong> @Model.SessionInfo.DateSessionStarted</p>
-    <p class="grid_detail_value"><strong>@Strings.CurrentRatePlan</strong>@Model.TerminalDevice.RatePlan</p>
-    <p class="grid_detail_value"><strong>@Strings.AggregatedUsage</strong>@Model.TerminalDevice.MonthToDateDataUsage</p>
-    <p class="grid_detail_value"><strong>@Strings.CurrentLimitReached</strong> @Model.TerminalDevice.OverageLimitReached</p>
-    <p class="grid_detail_value"><strong>@Strings.IMEI</strong> @Model.TerminalDevice.Imei.Id</p>
-    <p class="grid_detail_value"><strong>@Strings.IMSI</strong> @Model.TerminalDevice.Imsi.Id</p>
-    <p class="grid_detail_value"><strong>@Strings.ICCID</strong> @Model.TerminalDevice.Iccid.Id</p>
-    <p class="grid_detail_value"><strong>@Strings.AccountId</strong> @Model.TerminalDevice.AccountId</p>
-    <p class="grid_detail_value"><strong>@Strings.ResetDeviceConnection </strong></p>
-    <h4>@Strings.SimActionsLabel</h4>
-    <p class="grid_detail_value"><button id="enableDeviceActionsButton" class="button_base edit_button">@Strings.EnableDeviceActions</button></p>
-    <p class="grid_detail_value"><strong>@Strings.SimStateLabel </strong></p>
-    <p class="grid_detail_value">
-        <select id="simStateSelect">
-            @foreach (var simState in @Model.AvailableSimStates)
-            {
-                <option value="@simState.Name">@simState.Name</option>
-            }
-        </select>
-    </p>
-    <p class="grid_detail_value"><strong>@Strings.SubscriptionPackageLabel </strong></p>
-    <p class="grid_detail_value">
-        <select id="subscriptionPackageSelect">
-            @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
-            {
-                <option value="@subscriptionPackage.Name">@subscriptionPackage.Name</option>
-            }
-        </select>
-    </p>
-    <p class="grid_detail_value"><strong>@Strings.ResetDeviceConnection </strong></p>
-    <p class="grid_detail_value"><button id="resetDeviceConnection" class="button_base edit_button">@Strings.ResetDeviceConnectionAction</button></p>
-</section>
+<p class="grid_detail_value"><strong>@Strings.LastSessionStart </strong> @Model.SessionInfo.DateSessionStarted</p>
+<p class="grid_detail_value"><strong>@Strings.CurrentRatePlan</strong>@Model.TerminalDevice.RatePlan</p>
+<p class="grid_detail_value"><strong>@Strings.AggregatedUsage</strong>@Model.TerminalDevice.MonthToDateDataUsage</p>
+<p class="grid_detail_value"><strong>@Strings.CurrentLimitReached</strong> @Model.TerminalDevice.OverageLimitReached</p>
+<p class="grid_detail_value"><strong>@Strings.IMEI</strong> @Model.TerminalDevice.Imei.Id</p>
+<p class="grid_detail_value"><strong>@Strings.IMSI</strong> @Model.TerminalDevice.Imsi.Id</p>
+<p class="grid_detail_value"><strong>@Strings.ICCID</strong> @Model.TerminalDevice.Iccid.Id</p>
+<p class="grid_detail_value"><strong>@Strings.AccountId</strong> @Model.TerminalDevice.AccountId</p>
+<p class="grid_detail_value"><strong>@Strings.ResetDeviceConnection </strong></p>
 <div class="jasper_info_text details_grid_margin">@Strings.SimInformationInfoTextJasper</div>
-
-<script>
-$(function() {
-    $("#resetDeviceConnection").click(function () {
-        IoTApp.DeviceDetails.resetDeviceConnection().then(function(result) {
-            console.log(result);
-        }, function (error) {
-            console.log(error);
-        });
-    });
-});
-</script>
