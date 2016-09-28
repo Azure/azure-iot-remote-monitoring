@@ -253,22 +253,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return RedirectToAction("Index");
         }
 
-        [RequirePermission(Permission.EditDeviceMetadata)]
-        [HttpPost]
-        public async Task<bool> ReconnectDevice(ReconnectDeviceModel model)
-        {
-            if (model == null) throw new ArgumentException(nameof(model));
-            if (string.IsNullOrWhiteSpace(model.DeviceId))
-                throw new ArgumentException(nameof(model.DeviceId),
-                    $"There was no {nameof(model.DeviceId)} on the model");
-            var deviceId = model.DeviceId;
-            var device = await _deviceLogic.GetDeviceAsync(deviceId);
-            if (device.SystemProperties.ICCID == null)
-                throw new DeviceRequiredPropertyNotFoundException(
-                    $"Could not find ICCID for deviceId '{deviceId}'. Cannot reconnect.");
-            return _cellularExtensions.ReconnectDevice(device);
-        }
-
         [RequirePermission(Permission.ViewDevices)]
         [HttpPost]
         public async Task<JsonResult> CellularActionRequest(CellularActionRequestModel model)
@@ -428,22 +412,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     {
                         case CellularActionType.UpdateStatus:
                         {
-                            success = _cellularExtensions.UpdateSimState(device);
+                            success = await _cellularExtensions.UpdateSimState(device);
                             break;
                         }
                         case CellularActionType.UpdateSubscriptionPackage:
                         {
-                            success = _cellularExtensions.UpdateSubscriptionPackage(device);
+                            success = await _cellularExtensions.UpdateSubscriptionPackage(device);
                             break;
                         }
                         case CellularActionType.ReconnectDevice:
                         {
-                            success = _cellularExtensions.ReconnectDevice(device);
+                            success = await _cellularExtensions.ReconnectDevice(device);
                             break;
                         }
                         case CellularActionType.SendSms:
                         {
-                            success = _cellularExtensions.SendSms(device);
+                            success = await _cellularExtensions.SendSms(device);
                             break;
                         }
                         default:

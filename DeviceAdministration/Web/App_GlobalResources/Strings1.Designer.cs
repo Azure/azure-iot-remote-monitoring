@@ -575,6 +575,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Send SMS.
+        /// </summary>
+        public static string CellularActionsSendSmsLabel {
+            get {
+                return ResourceManager.GetString("CellularActionsSendSmsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sim Actions.
         /// </summary>
         public static string CellularActionsSimActionsLabel {

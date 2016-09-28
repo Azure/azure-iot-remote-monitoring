@@ -16,7 +16,7 @@
     self.htmlElementIds = {
         simStateSelect: "#simStateSelect",
         subscriptionPackageSelect: "#subscriptionPackageSelect",
-        resetDeviceConnection: "#resetDeviceConnection",
+        reconnectDevice: "#reconnectDevice",
         saveActions: "#saveActions",
         editActions: "#editActions",
         sendSms: "#sendSms",
@@ -50,13 +50,13 @@
         if (disabled) {
             $(self.htmlElementIds.simStateSelect).attr("disabled", "disabled");
             $(self.htmlElementIds.subscriptionPackageSelect).attr("disabled", "disabled");
-            $(self.htmlElementIds.resetDeviceConnection).attr("disabled", "disabled");
+            $(self.htmlElementIds.reconnectDevice).attr("disabled", "disabled");
             $(self.htmlElementIds.saveActions).attr("disabled", "disabled");
             $(self.htmlElementIds.editActions).removeAttr("disabled");
         } else {
             $(self.htmlElementIds.simStateSelect).removeAttr("disabled");
             $(self.htmlElementIds.subscriptionPackageSelect).removeAttr("disabled");
-            $(self.htmlElementIds.resetDeviceConnection).removeAttr("disabled");
+            $(self.htmlElementIds.reconnectDevice).removeAttr("disabled");
             $(self.htmlElementIds.saveActions).removeAttr("disabled");
             $(self.htmlElementIds.editActions).attr("disabled", "disabled");
         }
@@ -111,6 +111,7 @@
      */
     var generateActionUpdateRequestFromType = function (type) {
         var cellularCellularActionRequestModel = {
+            deviceId: self.deviceId,
             cellularActions: []
         };
         switch (type) {
@@ -158,7 +159,7 @@
         return postActionRequest(requestModel)
             .then(function () {
                 toggleLoadingElement(false);
-            }, function () {
+            }, function (error) {
                 console.error(error);
                 toggleLoadingElement(false);
             });
@@ -168,13 +169,13 @@
      * Callback for the reconnect device button
      *  @returns {Promise} The promise returned from posting to the api
      */
-    var reconnectDeviceConnectionOnClick = function () {
+    var reconnectDeviceOnClick = function () {
         toggleLoadingElement(true);
         var requestModel = generateActionUpdateRequestFromType(self.actionTypes.reconnectDevice);
         return postActionRequest(requestModel)
             .then(function () {
                 toggleLoadingElement(false);
-            }, function () {
+            }, function (error) {
                 console.error(error);
                 toggleLoadingElement(false);
             });
@@ -190,7 +191,7 @@
         return postActionRequest(requestModel)
             .then(function () {
                 toggleLoadingElement(false);
-            }, function () {
+            }, function (error) {
                 console.error(error);
                 toggleLoadingElement(false);
             });
@@ -207,6 +208,7 @@
         $(self.htmlElementIds.editActions).click(editActionsOnClick);
         $(self.htmlElementIds.saveActions).click(saveActionsOnClick);
         $(self.htmlElementIds.sendSms).click(sendSmsOnClick);
+        $(self.htmlElementIds.reconnectDevice).click(reconnectDeviceOnClick);
     }
 
     /*

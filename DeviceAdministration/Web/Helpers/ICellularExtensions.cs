@@ -20,9 +20,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         List<SimState> GetAvailableSimStates();
         SubscriptionPackage GetCurrentSubscriptionPackage();
         List<SubscriptionPackage> GetAvailableSubscriptionPackages();
-        bool UpdateSimState(DeviceModel device);
-        bool UpdateSubscriptionPackage(DeviceModel device);
-        bool ReconnectDevice(DeviceModel device);
-        bool SendSms(DeviceModel device);
+        Task<bool> UpdateSimState(DeviceModel device);
+        Task<bool> UpdateSubscriptionPackage(DeviceModel device);
+        Task<bool> ReconnectDevice(DeviceModel device);
+        Task<bool> SendSms(DeviceModel device);
     }
 }

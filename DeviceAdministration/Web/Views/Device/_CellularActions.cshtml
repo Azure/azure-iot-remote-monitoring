@@ -3,6 +3,10 @@
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @model  Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
 <h4>@Strings.CellularActionsSimActionsLabel</h4>
+<p class="grid_detail_value"><strong>@Strings.CellularActionsResetDeviceConnection </strong></p>
+<p class="grid_detail_value"><button id="reconnectDevice" class="button_base" disabled>@Strings.CellularActionsResetDeviceConnectionAction</button><br /></p>
+<p class="grid_detail_value"><strong>@Strings.CellularActionsSendSmsLabel </strong></p>
+<p class="grid_detail_value"><button id="sendSms" class="button_base" disabled>@Strings.CellularActionsSendSms</button><br /></p>
 <p class="grid_detail_value"><strong>@Strings.CellularActionsSimStateLabel </strong></p>
 <p class="grid_detail_value">
     <select id="simStateSelect" disabled>
@@ -21,13 +25,10 @@
         }
     </select>
 </p>
-<p class="grid_detail_value"><strong>@Strings.CellularActionsResetDeviceConnection </strong></p>
-<p class="grid_detail_value"><button id="resetDeviceConnection" class="button_base edit_button" disabled>@Strings.CellularActionsResetDeviceConnectionAction</button></p>
-<p class="grid_detail_value"><button id="sendSms" class="button_base edit_button" disabled>@Strings.CellularActionsSendSms</button></p>
-<br/>
 <p class="grid_detail_value"><button id="editActions" class="button_base edit_button">@Strings.Edit</button></p>
 <p class="grid_detail_value"><button id="saveActions" class="button_base edit_button" disabled>@Strings.Save</button></p>
-
+<br />
+<br />
 <script>
     $(function () {
         IoTApp.CellularActions.initActionForm();
