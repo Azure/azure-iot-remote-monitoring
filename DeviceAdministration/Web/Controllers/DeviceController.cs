@@ -306,6 +306,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
             return Json(new CellularActionUpdateResponseModel()
             {
+                DeviceId = model.DeviceId,
                 CompletedActions = completedActions,
                 FailedActions = failedActions
             });
