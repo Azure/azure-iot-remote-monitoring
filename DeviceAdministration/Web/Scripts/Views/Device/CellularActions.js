@@ -54,14 +54,14 @@
         var currentFormValues = retrieveActionFormValues();
         if (currentFormValues.subscriptionPackage !== self.initialCellActionSettings.subscriptionPackage) {
             cellularActionUpdateRequestModel.cellularActions.push({
-                type: "SubscriptionPackage",
+                type: "UpdateSubscriptionPackage",
                 currentValue: self.initialCellActionSettings.simStatus,
                 newValue: currentFormValues.subscriptionPackage
             });
         }
         if (currentFormValues.simStatus !== self.initialCellActionSettings.simStatus) {
             cellularActionUpdateRequestModel.cellularActions.push({
-                type: "SimState",
+                type: "UpdateStatus",
                 currentValue: self.initialCellActionSettings.simStatus,
                 newValue: currentFormValues.simStatus
             });
@@ -74,22 +74,17 @@
     }
     var saveActions = function () {
         $("#loadingElement").show();
-        var actionUpdateObject = generateActionUpdateObject();
+        var data = generateActionUpdateObject();
         var url = "/Device/CellularActionUpdateRequest";
-        return $.ajax({
-            url: url,
-            type: "POST",
-            data: {
-                deviceId: self.deviceId,
-                cellularActions: actionUpdateObject
-            },
-            dataType: "application/json"
-        }).then(function() {
-            $("#loadingElement").hide();
-        }, function(error) {
-            console.error(error);
-            $("#loadingElement").hide();
-        });
+        return $.post(url, data)
+            .then(function (data) {
+                $("#loadingElement").hide();
+                debugger
+            }, function (error) {
+                debugger
+                console.error(error);
+                $("#loadingElement").hide();
+            });
     }
     var attachEventHandlers = function () {
         $("#editActions").click(enableActionsForm);

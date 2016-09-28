@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DeviceManagement.Infrustructure.Connectivity;
@@ -19,6 +21,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -259,9 +262,53 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.ViewDevices)]
-        public async Task<bool> CellularActionUpdateRequest(CellularActionUpdateRequestModel model)
+        [HttpPost]
+        public async Task<JsonResult> CellularActionUpdateRequest(CellularActionUpdateRequestModel model)
         {
-            return true;
+            var completedActions = new List<CellularActionModel>();
+            var failedActions = new List<CellularActionModel>();
+            foreach (var action in model.CellularActions)
+            {
+                var success = false;
+                try
+                {
+                    switch (action.Type)
+                    {
+                        case CellularActionType.UpdateStatus:
+                        {
+                            success = _cellularExtensions.UpdateSimState(model.DeviceId);
+                            break;
+                        }
+                        case CellularActionType.UpdateSubscriptionPackage:
+                        {
+                            success =_cellularExtensions.UpdateSimState(model.DeviceId);
+                            break;
+                        }
+                        default:
+                        {
+                            failedActions.Add(action);
+                            break;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    failedActions.Add(action);
+                }
+                if (!success)
+                {
+                    failedActions.Add(action);
+                }
+                else
+                {
+                    completedActions.Add(action);
+                }
+            }
+            return Json(new CellularActionUpdateResponseModel()
+            {
+                CompletedActions = completedActions,
+                FailedActions = failedActions
+            });
         }
 
         [RequirePermission(Permission.ViewDevices)]

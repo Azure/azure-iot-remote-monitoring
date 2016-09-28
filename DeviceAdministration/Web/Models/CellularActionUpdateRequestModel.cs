@@ -8,6 +8,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     public class CellularActionUpdateRequestModel
     {
         public string DeviceId { get; set; }
-        public List<SimActionModel> CellularActions { get; set; }
+        public List<CellularActionModel> CellularActions { get; set; }
     }
 }

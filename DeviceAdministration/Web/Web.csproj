@@ -298,11 +298,12 @@
     <Compile Include="Helpers\DeviceDisplayHelper.cs" />
     <Compile Include="Models\ActionPropertiesModel.cs" />
     <Compile Include="Models\AlertHistoryDeviceModel.cs" />
+    <Compile Include="Models\CellularActionUpdateResponseModel.cs" />
     <Compile Include="Models\CellularConnectivityProviderEnum.cs" />
     <Compile Include="Models\EditDeviceRuleModel.cs" />
     <Compile Include="Models\LanguageModel.cs" />
     <Compile Include="Models\ReconnectDeviceModel.cs" />
-    <Compile Include="Models\SimActionModel.cs" />
+    <Compile Include="Models\CellularActionModel.cs" />
     <Compile Include="Models\CellularActionUpdateRequestModel.cs" />
     <Compile Include="Models\SimInformationViewModel.cs" />
     <Compile Include="Models\UpdateActionModel.cs" />

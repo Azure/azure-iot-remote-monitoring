@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
 using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using DeviceManagement.Infrustructure.Connectivity.Services;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 {
@@ -99,6 +101,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var availableSubscriptions = _cellularService.GetAvailableSubscriptionPackages();
             var selectedSubscription = GetCurrentSubscriptionPackage();
             return markActiveSubscriptionPackage(availableSubscriptions.First(s => s.Name == "Basic").Name, availableSubscriptions);
+        }
+
+        public bool UpdateSimState(string deviceId)
+        {
+            return true;
+        }
+
+        public bool UpdateSubscriptionPackage(string deviceId)
+        {
+            return true;
         }
 
         private IEnumerable<Iccid> GetUsedIccidList(IList<DeviceModel> devices)

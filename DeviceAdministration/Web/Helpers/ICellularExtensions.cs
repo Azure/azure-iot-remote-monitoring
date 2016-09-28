@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 {
@@ -19,5 +21,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         List<SimState> GetAvailableSimStates();
         SubscriptionPackage GetCurrentSubscriptionPackage();
         List<SubscriptionPackage> GetAvailableSubscriptionPackages();
+        bool UpdateSimState(string deviceId);
+        bool UpdateSubscriptionPackage(string deviceId);
     }
 }
