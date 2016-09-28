@@ -21,5 +21,15 @@
     }
 
     @Html.Partial("_CellularActions", Model)
+    @if (Model.ApiRegistrationProvider == ApiRegistrationProviderTypes.Ericsson)
+    {
+        <div class="ericsson_info_text">@Strings.SimInformationInfoTextEricsson</div>
+    }
+    else if(Model.ApiRegistrationProvider == ApiRegistrationProviderTypes.Jasper)
+    {
+        <div class="jasper_info_text">@Strings.SimInformationInfoTextJasper</div>
+        
+    }
+    <br />
 </section>
 
