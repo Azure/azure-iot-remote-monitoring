@@ -75,11 +75,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return _cellularService.ValidateCredentials();
         }
 
-        public bool ReconnectDevice(DeviceModel device)
-        {
-            return _cellularService.ReconnectTerminal(device.SystemProperties.ICCID);
-        }
-
         public SimState GetCurrentSimState()
         {
             return _cellularService.GetAvailableSimStates().FirstOrDefault(s => s.Name == "Active");
@@ -103,12 +98,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return markActiveSubscriptionPackage(availableSubscriptions.First(s => s.Name == "Basic").Name, availableSubscriptions);
         }
 
-        public bool UpdateSimState(string deviceId)
+        public bool UpdateSimState(DeviceModel device)
         {
             return true;
         }
 
-        public bool UpdateSubscriptionPackage(string deviceId)
+        public bool UpdateSubscriptionPackage(DeviceModel device)
+        {
+            return true;
+        }
+
+        public bool ReconnectDevice(DeviceModel device)
+        {
+            return _cellularService.ReconnectTerminal(device.SystemProperties.ICCID);
+        }
+
+        public bool SendSms(DeviceModel device)
         {
             return true;
         }

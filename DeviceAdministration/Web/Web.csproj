@@ -304,7 +304,7 @@
     <Compile Include="Models\LanguageModel.cs" />
     <Compile Include="Models\ReconnectDeviceModel.cs" />
     <Compile Include="Models\CellularActionModel.cs" />
-    <Compile Include="Models\CellularActionUpdateRequestModel.cs" />
+    <Compile Include="Models\CellularActionRequestModel.cs" />
     <Compile Include="Models\SimInformationViewModel.cs" />
     <Compile Include="Models\UpdateActionModel.cs" />
     <Compile Include="Models\AlertHistoryResultsModel.cs" />

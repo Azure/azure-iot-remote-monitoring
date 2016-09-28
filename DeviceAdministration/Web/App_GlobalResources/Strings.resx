@@ -1411,7 +1411,7 @@
     <value>Last Session Start: </value>
     <comment>Read-only field label.</comment>
   </data>
-  <data name="SimStatus" xml:space="preserve">
+  <data name="CellularActionsSimStatus" xml:space="preserve">
     <value>SIM Status: </value>
     <comment>Read-only field label. {Locked="SIM"}</comment>
   </data>
@@ -1750,28 +1750,32 @@
     <value />
     <comment>Messsage</comment>
   </data>
-  <data name="ResetDeviceConnection" xml:space="preserve">
+  <data name="CellularActionsResetDeviceConnection" xml:space="preserve">
     <value>Reset Connection</value>
     <comment>Button Label</comment>
   </data>
-  <data name="ResetDeviceConnectionAction" xml:space="preserve">
+  <data name="CellularActionsResetDeviceConnectionAction" xml:space="preserve">
     <value>Send Reconnect</value>
     <comment>Label</comment>
   </data>
-  <data name="SimActionsLabel" xml:space="preserve">
+  <data name="CellularActionsSimActionsLabel" xml:space="preserve">
     <value>Sim Actions</value>
     <comment>Label</comment>
   </data>
-  <data name="SimStateLabel" xml:space="preserve">
+  <data name="CellularActionsSimStateLabel" xml:space="preserve">
     <value>SIM State</value>
     <comment>Label</comment>
   </data>
-  <data name="SubscriptionPackageLabel" xml:space="preserve">
+  <data name="CellularActionsSubscriptionPackageLabel" xml:space="preserve">
     <value>Subscription Package</value>
     <comment>Label</comment>
   </data>
   <data name="EnableDeviceActions" xml:space="preserve">
     <value>Enable Actions</value>
+    <comment>Button Label</comment>
+  </data>
+  <data name="CellularActionsSendSms" xml:space="preserve">
+    <value>Send SMS</value>
     <comment>Button Label</comment>
   </data>
 </root>

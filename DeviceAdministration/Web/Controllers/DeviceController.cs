@@ -35,7 +35,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly ICellularExtensions _cellularExtensions;
         private readonly string _iotHubName;
 
-        public DeviceController(IDeviceLogic deviceLogic, IDeviceTypeLogic deviceTypeLogic,
+        public DeviceController(IDeviceLogic deviceLogic,
+            IDeviceTypeLogic deviceTypeLogic,
             IConfigurationProvider configProvider,
             IApiRegistrationRepository apiRegistrationRepository,
             ICellularExtensions cellularExtensions)
@@ -70,7 +71,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     var registrationModel = _apiRegistrationRepository.RecieveDetails();
                     List<DeviceModel> devices = await GetDevices();
-                    ViewBag.AvailableIccids = _cellularExtensions.GetListOfAvailableIccids(devices, registrationModel.ApiRegistrationProvider);
+                    ViewBag.AvailableIccids = _cellularExtensions.GetListOfAvailableIccids(devices,
+                        registrationModel.ApiRegistrationProvider);
                     ViewBag.CanHaveIccid = true;
                 }
                 catch (CellularConnectivityException)
@@ -101,7 +103,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             bool onlyValidating = (button != null && button.ToLower().Trim() == "check");
 
             if (ReferenceEquals(null, model) ||
-                (model.GetType() == typeof (object)))
+                (model.GetType() == typeof(object)))
             {
                 model = new UnregisteredDeviceModel();
             }
@@ -112,7 +114,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     var registrationModel = _apiRegistrationRepository.RecieveDetails();
                     List<DeviceModel> devices = await GetDevices();
-                    ViewBag.AvailableIccids = _cellularExtensions.GetListOfAvailableIccids(devices, registrationModel.ApiRegistrationProvider);
+                    ViewBag.AvailableIccids = _cellularExtensions.GetListOfAvailableIccids(devices,
+                        registrationModel.ApiRegistrationProvider);
                     ViewBag.CanHaveIccid = true;
                 }
                 catch (CellularConnectivityException)
@@ -177,7 +180,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     if (exception.Errors != null && exception.Errors.Any())
                     {
-                        exception.Errors.ToList<string>().ForEach(error => ModelState.AddModelError(string.Empty, error));
+                        exception.Errors.ToList<string>()
+                            .ForEach(error => ModelState.AddModelError(string.Empty, error));
                     }
                 }
                 catch (Exception)
@@ -253,63 +257,32 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPost]
         public async Task<bool> ReconnectDevice(ReconnectDeviceModel model)
         {
-            if(model == null) throw new ArgumentException(nameof(model));
-            if (string.IsNullOrWhiteSpace(model.DeviceId)) throw new ArgumentException(nameof(model.DeviceId), $"There was no {nameof(model.DeviceId)} on the model");
+            if (model == null) throw new ArgumentException(nameof(model));
+            if (string.IsNullOrWhiteSpace(model.DeviceId))
+                throw new ArgumentException(nameof(model.DeviceId),
+                    $"There was no {nameof(model.DeviceId)} on the model");
             var deviceId = model.DeviceId;
             var device = await _deviceLogic.GetDeviceAsync(deviceId);
-            if(device.SystemProperties.ICCID == null) throw new DeviceRequiredPropertyNotFoundException($"Could not find ICCID for deviceId '{deviceId}'. Cannot reconnect.");
+            if (device.SystemProperties.ICCID == null)
+                throw new DeviceRequiredPropertyNotFoundException(
+                    $"Could not find ICCID for deviceId '{deviceId}'. Cannot reconnect.");
             return _cellularExtensions.ReconnectDevice(device);
         }
 
         [RequirePermission(Permission.ViewDevices)]
         [HttpPost]
-        public async Task<JsonResult> CellularActionUpdateRequest(CellularActionUpdateRequestModel model)
+        public async Task<JsonResult> CellularActionRequest(CellularActionRequestModel model)
         {
-            var completedActions = new List<CellularActionModel>();
-            var failedActions = new List<CellularActionModel>();
-            foreach (var action in model.CellularActions)
+            if (model == null) throw new ArgumentException(nameof(model));
+            if (string.IsNullOrWhiteSpace(model.DeviceId)) throw new ArgumentException(nameof(model.DeviceId));
+
+            var device = await _deviceLogic.GetDeviceAsync(model.DeviceId);
+            if (device == null)
             {
-                var success = false;
-                try
-                {
-                    switch (action.Type)
-                    {
-                        case CellularActionType.UpdateStatus:
-                        {
-                            success = _cellularExtensions.UpdateSimState(model.DeviceId);
-                            break;
-                        }
-                        case CellularActionType.UpdateSubscriptionPackage:
-                        {
-                            success =_cellularExtensions.UpdateSimState(model.DeviceId);
-                            break;
-                        }
-                        default:
-                        {
-                            failedActions.Add(action);
-                            break;
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    failedActions.Add(action);
-                }
-                if (!success)
-                {
-                    failedActions.Add(action);
-                }
-                else
-                {
-                    completedActions.Add(action);
-                }
+                throw new InvalidOperationException("Unable to load device with deviceId " + model.DeviceId);
             }
-            return Json(new CellularActionUpdateResponseModel()
-            {
-                DeviceId = model.DeviceId,
-                CompletedActions = completedActions,
-                FailedActions = failedActions
-            });
+            var result = processActionRequests(device, model.CellularActions);
+            return Json(result);
         }
 
         [RequirePermission(Permission.ViewDevices)]
@@ -349,9 +322,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [RequirePermission(Permission.ViewDevices)]
         public ActionResult GetDeviceCellularDetails(string iccid)
         {
-            var viewModel = new SimInformationViewModel();      
+            var viewModel = new SimInformationViewModel();
             viewModel.TerminalDevice = _cellularExtensions.GetSingleTerminalDetails(new Iccid(iccid));
-            viewModel.SessionInfo = _cellularExtensions.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ?? new SessionInfo();
+            viewModel.SessionInfo = _cellularExtensions.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ??
+                                    new SessionInfo();
             var apiProviderDetails = _apiRegistrationRepository.RecieveDetails();
             viewModel.ApiRegistrationProvider = Convert.ToString(apiProviderDetails.ApiRegistrationProvider);
             viewModel.AvailableSimStates = _cellularExtensions.GetAvailableSimStates();
@@ -395,7 +369,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View("Index");
         }
 
-        private static IEnumerable<DevicePropertyValueModel> ApplyDevicePropertyOrdering(IEnumerable<DevicePropertyValueModel> devicePropertyModels)
+        private static IEnumerable<DevicePropertyValueModel> ApplyDevicePropertyOrdering(
+            IEnumerable<DevicePropertyValueModel> devicePropertyModels)
         {
             Debug.Assert(
                 devicePropertyModels != null,
@@ -404,7 +379,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return devicePropertyModels.OrderByDescending(
                 t => DeviceDisplayHelper.GetIsCopyControlPropertyName(
                     t.Name)).ThenBy(u => u.DisplayOrder).ThenBy(
-                        v => v.Name);
+                v => v.Name);
         }
 
         private async Task<DeviceWithKeys> AddDeviceAsync(UnregisteredDeviceModel unregisteredDeviceModel)
@@ -417,9 +392,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 unregisteredDeviceModel.DeviceType != null,
                 "unregisteredDeviceModel.DeviceType is a null reference.");
 
-	        DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
-                unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
-            
+            DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
+                unregisteredDeviceModel.DeviceType.IsSimulatedDevice,
+                unregisteredDeviceModel.Iccid);
+
             DeviceWithKeys addedDevice = await this._deviceLogic.AddDeviceAsync(device);
             return addedDevice;
         }
@@ -441,5 +417,64 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return devices.Results;
         }
 
+        private async Task<CellularActionUpdateResponseModel> processActionRequests(DeviceModel device, List<CellularActionModel> actions)
+        {
+            var completedActions = new List<CellularActionModel>();
+            var failedActions = new List<CellularActionModel>();
+            foreach (var action in actions)
+            {
+                var success = false;
+                try
+                {
+                    switch (action.Type)
+                    {
+                        case CellularActionType.UpdateStatus:
+                        {
+                            success = _cellularExtensions.UpdateSimState(device);
+                            break;
+                        }
+                        case CellularActionType.UpdateSubscriptionPackage:
+                        {
+                            success = _cellularExtensions.UpdateSubscriptionPackage(device);
+                            break;
+                        }
+                        case CellularActionType.ReconnectDevice:
+                        {
+                            success = _cellularExtensions.ReconnectDevice(device);
+                            break;
+                        }
+                        case CellularActionType.SendSms:
+                        {
+                            success = _cellularExtensions.SendSms(device);
+                            break;
+                        }
+                        default:
+                        {
+                            failedActions.Add(action);
+                            break;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    failedActions.Add(action);
+                }
+                if (!success)
+                {
+                    failedActions.Add(action);
+                }
+                else
+                {
+                    completedActions.Add(action);
+                }
+            }
+            return new CellularActionUpdateResponseModel()
+            {
+                CompletedActions = completedActions,
+                FailedActions = failedActions
+
+            };
+
+        }
     }
 }

@@ -7,7 +7,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 {
     public class CellularActionUpdateResponseModel
     {
-        public string DeviceId { get; set; }
         public List<CellularActionModel> CompletedActions { get; set; }
         public List<CellularActionModel> FailedActions { get; set; }
         public bool Success => !FailedActions.Any();
