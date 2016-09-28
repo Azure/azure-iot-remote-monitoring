@@ -111,7 +111,8 @@
 
     /**
      * Generate an CellularActionRequestModel from an action type string.
-     * @param {string} type : string representing the action type.
+     * @param {string} type : string representing the action type
+     * @param {any} value : string representing the value to pass with the action if any.
      * @returns {object} The CellularActionRequestModel
      */
     var generateActionUpdateRequestFromType = function (type, value) {
