@@ -277,11 +277,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             if (string.IsNullOrWhiteSpace(model.DeviceId)) throw new ArgumentException(nameof(model.DeviceId));
 
             var device = await _deviceLogic.GetDeviceAsync(model.DeviceId);
-            if (device == null)
-            {
-                throw new InvalidOperationException("Unable to load device with deviceId " + model.DeviceId);
-            }
-            var result = processActionRequests(device, model.CellularActions);
+            if (device == null) throw new InvalidOperationException("Unable to find device with deviceId " + model.DeviceId);
+
+            var result = await processActionRequests(device, model.CellularActions);
             return Json(result);
         }
 

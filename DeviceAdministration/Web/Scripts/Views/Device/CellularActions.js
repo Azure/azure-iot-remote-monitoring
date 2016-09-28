@@ -214,7 +214,6 @@
     */
     var initActionForm = function () {
         if (!self.deviceId) throw new Error("You must call IoTApp.CellularActions.init(deviceId) with a valid device ID first.");
-        debugger
         self.initialCellActionSettings = retrieveActionFormValues();
         toggleInputDisabledProperty(true);
         attachEventHandlers();
