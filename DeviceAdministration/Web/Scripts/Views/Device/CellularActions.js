@@ -20,6 +20,7 @@
         saveActions: "#saveActions",
         editActions: "#editActions",
         sendSms: "#sendSms",
+        sendSmsTextBox: "#sendSmsTextBox",
         loadingElement: "#loadingElement"
     }
     $.ajaxSetup({ cache: false });
@@ -51,12 +52,16 @@
             $(self.htmlElementIds.simStateSelect).attr("disabled", "disabled");
             $(self.htmlElementIds.subscriptionPackageSelect).attr("disabled", "disabled");
             $(self.htmlElementIds.reconnectDevice).attr("disabled", "disabled");
+            $(self.htmlElementIds.sendSms).attr("disabled", "disabled");
+            $(self.htmlElementIds.sendSmsTextBox).attr("disabled", "disabled");
             $(self.htmlElementIds.saveActions).attr("disabled", "disabled");
             $(self.htmlElementIds.editActions).removeAttr("disabled");
         } else {
             $(self.htmlElementIds.simStateSelect).removeAttr("disabled");
             $(self.htmlElementIds.subscriptionPackageSelect).removeAttr("disabled");
             $(self.htmlElementIds.reconnectDevice).removeAttr("disabled");
+            $(self.htmlElementIds.sendSms).removeAttr("disabled");
+            $(self.htmlElementIds.sendSmsTextBox).removeAttr("disabled");
             $(self.htmlElementIds.saveActions).removeAttr("disabled");
             $(self.htmlElementIds.editActions).attr("disabled", "disabled");
         }

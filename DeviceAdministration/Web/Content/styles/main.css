@@ -1122,6 +1122,9 @@ table#alertHistoryTable tr.selectedAlert {
   width: 15px;
   padding-left: 6px;
 }
+.cell_action_button {
+  width: 180px;
+}
 .grid_rules_details {
   overflow: auto;
   background-color: #fff;
@@ -1667,6 +1670,28 @@ table#alertHistoryTable tr.selectedAlert {
 }
 .button_execute {
   clear: both;
+}
+.form_input {
+  margin-bottom: 0.4em;
+  display: block;
+  float: left;
+  width: 90%;
+  margin: .25em 1em 0.4em 0;
+  border: 1px solid #999;
+  background-color: #f2f2f2;
+  font-size: .85em;
+  padding: 0 5px;
+  min-height: 30px;
+  box-sizing: content-box;
+}
+.form_input.space_below {
+  margin-bottom: 20px;
+}
+.button_no_float {
+  float: none;
+}
+.button_no_float.space_below {
+  margin-bottom: 15px;
 }
 .error_noscript {
   background-color: transparent;

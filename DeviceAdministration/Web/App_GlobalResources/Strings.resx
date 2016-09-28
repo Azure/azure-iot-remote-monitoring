@@ -1779,7 +1779,7 @@
     <comment>Button Label</comment>
   </data>
   <data name="CellularActionsSendSmsLabel" xml:space="preserve">
-    <value>Send SMS</value>
+    <value>SMS Text</value>
     <comment>Label</comment>
   </data>
 </root>

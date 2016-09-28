@@ -3,30 +3,29 @@
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @model  Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
 <h4>@Strings.CellularActionsSimActionsLabel</h4>
-<p class="grid_detail_value"><strong>@Strings.CellularActionsResetDeviceConnection </strong></p>
-<p class="grid_detail_value"><button id="reconnectDevice" class="button_base" disabled>@Strings.CellularActionsResetDeviceConnectionAction</button><br /></p>
-<p class="grid_detail_value"><strong>@Strings.CellularActionsSendSmsLabel </strong></p>
-<p class="grid_detail_value"><button id="sendSms" class="button_base" disabled>@Strings.CellularActionsSendSms</button><br /></p>
-<p class="grid_detail_value"><strong>@Strings.CellularActionsSimStateLabel </strong></p>
-<p class="grid_detail_value">
-    <select id="simStateSelect" disabled>
-        @foreach (var simState in @Model.AvailableSimStates)
-            {
-            <option value="@simState.Name">@simState.Name</option>
-        }
-    </select>
-</p>
-<p class="grid_detail_value"><strong>@Strings.CellularActionsSubscriptionPackageLabel </strong></p>
-<p class="grid_detail_value">
-    <select id="subscriptionPackageSelect" disabled>
-        @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
-            {
-            <option value="@subscriptionPackage.Name">@subscriptionPackage.Name</option>
-        }
-    </select>
-</p>
-<p class="grid_detail_value"><button id="editActions" class="button_base edit_button">@Strings.Edit</button></p>
-<p class="grid_detail_value"><button id="saveActions" class="button_base edit_button" disabled>@Strings.Save</button></p>
+<p><strong>@Strings.CellularActionsSimStateLabel </strong></p>
+
+<select id="simStateSelect" class="form_input select_box space_below" disabled>
+    @foreach (var simState in @Model.AvailableSimStates)
+        {
+        <option value="@simState.Name">@simState.Name</option>
+    }
+</select>
+<p><strong>@Strings.CellularActionsSubscriptionPackageLabel </strong></p>
+
+<select id="subscriptionPackageSelect" class="form_input select_box space_below" disabled>
+    @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
+    {
+        <option value="@subscriptionPackage.Name">@subscriptionPackage.Name</option>
+    }
+</select>
+
+<button id="reconnectDevice" class="button_base button_no_float cell_action_button space_below" disabled>@Strings.CellularActionsResetDeviceConnectionAction</button>
+<p><strong>@Strings.CellularActionsSendSmsLabel </strong></p>
+<input type="text" id="sendSmsTextBox" class="form_input text_box space_below" />
+<button id="sendSms" class="button_base button_no_float cell_action_button space_below" disabled>@Strings.CellularActionsSendSms</button>
+<button id="editActions" class="button_base edit_button">@Strings.Edit</button>
+<button id="saveActions" class="button_base edit_button" disabled>@Strings.Save</button>
 <br />
 <br />
 <script>

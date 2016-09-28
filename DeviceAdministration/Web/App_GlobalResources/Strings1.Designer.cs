@@ -575,7 +575,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Send SMS.
+        ///   Looks up a localized string similar to SMS Text.
         /// </summary>
         public static string CellularActionsSendSmsLabel {
             get {
