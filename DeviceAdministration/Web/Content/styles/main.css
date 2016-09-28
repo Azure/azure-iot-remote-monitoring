@@ -1693,6 +1693,9 @@ table#alertHistoryTable tr.selectedAlert {
 .button_no_float.space_below {
   margin-bottom: 15px;
 }
+.text_area.tall {
+  height: 100px;
+}
 .error_noscript {
   background-color: transparent;
   color: #ed1c24;

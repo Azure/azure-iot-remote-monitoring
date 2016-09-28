@@ -94,15 +94,15 @@
         if (currentFormValues.subscriptionPackage !== self.initialCellActionSettings.subscriptionPackage) {
             cellularCellularActionRequestModel.cellularActions.push({
                 type: self.actionTypes.updateSubscriptionPackage,
-                currentValue: self.initialCellActionSettings.simStatus,
-                newValue: currentFormValues.subscriptionPackage
+                previousValue: self.initialCellActionSettings.simStatus,
+                value: currentFormValues.subscriptionPackage
             });
         }
         if (currentFormValues.simStatus !== self.initialCellActionSettings.simStatus) {
             cellularCellularActionRequestModel.cellularActions.push({
                 type: self.actionTypes.updateStatus,
-                currentValue: self.initialCellActionSettings.simStatus,
-                newValue: currentFormValues.simStatus
+                previousValue: self.initialCellActionSettings.simStatus,
+                value: currentFormValues.simStatus
             });
         }
         cellularCellularActionRequestModel.deviceId = self.deviceId;
@@ -114,7 +114,7 @@
      * @param {string} type : string representing the action type.
      * @returns {object} The CellularActionRequestModel
      */
-    var generateActionUpdateRequestFromType = function (type) {
+    var generateActionUpdateRequestFromType = function (type, value) {
         var cellularCellularActionRequestModel = {
             deviceId: self.deviceId,
             cellularActions: []
@@ -123,14 +123,16 @@
             case self.actionTypes.reconnectDevice:
                 {
                     cellularCellularActionRequestModel.cellularActions.push({
-                        type: self.actionTypes.reconnectDevice
+                        type: self.actionTypes.reconnectDevice,
+                        value: value ? value : null
                     });
                     break;
                 }
             case self.actionTypes.sendSms:
                 {
                     cellularCellularActionRequestModel.cellularActions.push({
-                        type: self.actionTypes.sendSms
+                        type: self.actionTypes.sendSms,
+                        value: value ? value : null
                     });
                     break;
                 }
@@ -192,7 +194,8 @@
      */
     var sendSmsOnClick = function () {
         toggleLoadingElement(true);
-        var requestModel = generateActionUpdateRequestFromType(self.actionTypes.sendSms);
+        var smsText = $(self.htmlElementIds.sendSmsTextBox).val();
+        var requestModel = generateActionUpdateRequestFromType(self.actionTypes.sendSms, smsText);
         return postActionRequest(requestModel)
             .then(function () {
                 toggleLoadingElement(false);

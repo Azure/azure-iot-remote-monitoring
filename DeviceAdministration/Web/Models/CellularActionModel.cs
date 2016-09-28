@@ -8,8 +8,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     public class CellularActionModel
     {
         public CellularActionType Type { get; set; }
-        public string CurrentValue { get; set; }
-        public string NewValue { get; set; }
+        public string PreviousValue { get; set; }
+        public string Value { get; set; }
     }
 
     public enum CellularActionType
