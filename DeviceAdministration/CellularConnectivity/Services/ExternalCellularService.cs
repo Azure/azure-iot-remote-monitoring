@@ -92,10 +92,12 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             switch (registrationProvider)
             {
                 case ApiRegistrationProviderTypes.Jasper:
-                    availableStates = getAvailableSimStates();
+                    var jasperClient = new JasperCellularClient(_credentialProvider);
+                    availableStates = jasperClient.GetAvailableSimStates(iccid);
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
-                    availableStates = getAvailableSimStates();
+                    var ericssonClient = new EricssonCellularClient(_credentialProvider);
+                    availableStates = ericssonClient.GetAvailableSimStates(iccid);
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
@@ -111,10 +113,12 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             switch (registrationProvider)
             {
                 case ApiRegistrationProviderTypes.Jasper:
-                    availableSubscriptionPackages = getAvailableSubscriptionPackages();
+                    var jasperClient = new JasperCellularClient(_credentialProvider);
+                    availableSubscriptionPackages = jasperClient.GetAvailableSubscriptionPackages(iccid);
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
-                    availableSubscriptionPackages = getAvailableSubscriptionPackages();
+                    var ericssonClient = new EricssonCellularClient(_credentialProvider);
+                    availableSubscriptionPackages = ericssonClient.GetAvailableSubscriptionPackages(iccid);
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
@@ -124,22 +128,86 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
 
         public async Task<bool> UpdateSimState(string iccid, string updatedState)
         {
-            return true;
+            bool result;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
+
+            switch (registrationProvider)
+            {
+                case ApiRegistrationProviderTypes.Jasper:
+                    var jasperClient = new JasperCellularClient(_credentialProvider);
+                    result = jasperClient.UpdateSimState(iccid, updatedState);
+                    break;
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var ericssonClient = new EricssonCellularClient(_credentialProvider);
+                    result = ericssonClient.UpdateSimState(iccid, updatedState);
+                    break;
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
+            }
+            return result;
         }
 
         public async Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage)
         {
-            return true;
+            bool result;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
+
+            switch (registrationProvider)
+            {
+                case ApiRegistrationProviderTypes.Jasper:
+                    var jasperClient = new JasperCellularClient(_credentialProvider);
+                    result = jasperClient.UpdateSubscriptionPackage(iccid, updatedPackage);
+                    break;
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var ericssonClient = new EricssonCellularClient(_credentialProvider);
+                    result = ericssonClient.UpdateSubscriptionPackage(iccid, updatedPackage);
+                    break;
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
+            }
+            return result;
         }
 
         public async Task<bool> ReconnectTerminal(string iccid)
         {
-            return true;
+            bool result;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
+
+            switch (registrationProvider)
+            {
+                case ApiRegistrationProviderTypes.Jasper:
+                    var jasperClient = new JasperCellularClient(_credentialProvider);
+                    result = jasperClient.ReconnectTerminal(iccid);
+                    break;
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var ericssonClient = new EricssonCellularClient(_credentialProvider);
+                    result = ericssonClient.ReconnectTerminal(iccid);
+                    break;
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
+            }
+            return result;
         }
 
         public async Task<bool> SendSms(string iccid, string smsText)
         {
-            return true;
+            bool result;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
+
+            switch (registrationProvider)
+            {
+                case ApiRegistrationProviderTypes.Jasper:
+                    var jasperClient = new JasperCellularClient(_credentialProvider);
+                    result = jasperClient.SendSms(iccid, smsText);
+                    break;
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var ericssonClient = new EricssonCellularClient(_credentialProvider);
+                    result = ericssonClient.SendSms(iccid, smsText);
+                    break;
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
+            }
+            return result;
         }
 
 

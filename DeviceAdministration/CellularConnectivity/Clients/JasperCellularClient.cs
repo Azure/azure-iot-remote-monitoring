@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.terminal;
 using DeviceManagement.Infrustructure.Connectivity.Exceptions;
+using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using DeviceManagement.Infrustructure.Connectivity.Proxies;
@@ -114,10 +116,24 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             }).ToList();
         }
 
-
-        private IJasperTerminalClientProxy BuildJasperTerminalClientProxy()
+        public bool UpdateSimState(string iccid, string updatedState)
         {
-            return new JasperTerminalClientProxy(_credentialProvider.Provide());
+            return true;
+        }
+
+        public bool UpdateSubscriptionPackage(string iccid, string updatedPackage)
+        {
+            return true;
+        }
+
+        public bool ReconnectTerminal(string iccid)
+        {
+            return true;
+        }
+
+        public bool SendSms(string iccid, string smsText)
+        {
+            return true;
         }
 
         /// <summary>
@@ -157,5 +173,65 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             }
             return isValid;
         }
+
+        public SimState GetCurrentSimState(string iccid)
+        {
+            return GetAvailableSimStates(iccid).FirstOrDefault(s => s.Name == "Active");
+        }
+
+        public List<SimState> GetAvailableSimStates(string iccid)
+        {
+            return new List<SimState>()
+            {
+                new SimState()
+                {
+                    Id = "1",
+                    Name = "Active"
+                },
+                new SimState()
+                {
+                    Id = "2",
+                    Name = "Disconnected"
+                }
+            };
+        }
+
+        /// <summary>
+        /// Gets the current subscription package for a terminal
+        /// </summary>
+        /// <param name="iccid">The iccid of the terminal</param>
+        /// <returns>The subscription package object</returns>
+        public SubscriptionPackage GetCurrentSubscriptionPackage(string iccid)
+        {
+            return GetAvailableSubscriptionPackages(iccid).FirstOrDefault(s => s.Name == "Basic");
+        }
+
+        /// <summary>
+        /// Gets the available subscription packages from the appropriate api provider
+        /// </summary>
+        /// <returns>SubscriptionPackage Model</returns>
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid)
+        {
+            return new List<SubscriptionPackage>()
+            {
+                new SubscriptionPackage()
+                {
+                    Id = "1",
+                    Name = "Basic"
+                },
+                new SubscriptionPackage()
+                {
+                    Id = "2",
+                    Name = "Expensive"
+                }
+            };
+        }
+
+
+        private IJasperTerminalClientProxy BuildJasperTerminalClientProxy()
+        {
+            return new JasperTerminalClientProxy(_credentialProvider.Provide());
+        }
+
     }
 }
