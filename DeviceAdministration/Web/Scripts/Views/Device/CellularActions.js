@@ -157,8 +157,9 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
     }
 
     /**
-     * Generic function for post action request success
-     * @returns {void} 
+     * Generic function for post action request success. Will reload the cellular information details.
+     * @param {any} data the data returned by the api
+     * @returns {any} returns the data passed in so you can chain to another function with .then()
      */
     var onActionRequestSuccess = function (data) {
         IoTApp.DeviceDetails.getCellularDetailsView();
@@ -167,6 +168,7 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
 
     /**
      * Generic function for post action request error
+     * @param {any} error The error returned from the api
      * @returns {void} 
      */
     var onActionRequestError = function (error) {

@@ -88,14 +88,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public List<SimState> GetAvailableSimStates()
         {
             var availableSimStates = _cellularService.GetAvailableSimStates();
-            return markActiveSimState(availableSimStates.First(s => s.Name == "Active").Name, availableSimStates);
+            var currentSimState = GetCurrentSimState();
+            return markActiveSimState(currentSimState.Name, availableSimStates);
         }
 
         public List<SubscriptionPackage> GetAvailableSubscriptionPackages()
         {
             var availableSubscriptions = _cellularService.GetAvailableSubscriptionPackages();
             var selectedSubscription = GetCurrentSubscriptionPackage();
-            return markActiveSubscriptionPackage(availableSubscriptions.First(s => s.Name == "Basic").Name, availableSubscriptions);
+            return markActiveSubscriptionPackage(selectedSubscription.Name, availableSubscriptions);
         }
 
         public async Task<bool> UpdateSimState(DeviceModel device)
