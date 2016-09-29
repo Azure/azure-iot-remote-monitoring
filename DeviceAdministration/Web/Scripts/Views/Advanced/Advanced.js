@@ -176,7 +176,7 @@
         });
 
         $("#changeApiRegistrationProviderButton").bind("click", function () {
-            $('#changeApiRegistrationProviderButton').prop("disabled", true)
+            $('#changeApiRegistrationProviderButton').prop("disabled", true);
             $("#saveButton").prop("disabled", false);
             $("#editButton").prop("disabled", true);
             showApiRegistrationFields($("#apiRegistrationProvider").val(), true, false);
@@ -188,7 +188,7 @@
         IoTApp.Advanced.processCsvFileInput(this)
         .then(IoTApp.Advanced.postIccidFileData)
 		.then(function () {
-		    IoTApp.Advanced.redirecToPartial(url);
+            IoTApp.Advanced.redirecToPartial(url);
 		}, function (error) {
             console.error(error);
 		});

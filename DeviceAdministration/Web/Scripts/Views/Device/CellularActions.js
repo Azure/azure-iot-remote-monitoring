@@ -24,7 +24,8 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
         editActions: "#editActions",
         sendSms: "#sendSms",
         sendSmsTextBox: "#sendSmsTextBox",
-        loadingElement: "#loadingElement"
+        loadingElement: "#loadingElement",
+        cellularActionResultMessage: "#cellularActionResultMessage"
     }
     $.ajaxSetup({ cache: false });
 
@@ -163,7 +164,10 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
      * @returns {any} returns the data passed in so you can chain to another function with .then()
      */
     var onActionRequestSuccess = function (data) {
-        IoTApp.DeviceDetails.getCellularDetailsView();
+        IoTApp.DeviceDetails.getCellularDetailsView()
+            .then(function() {
+                console.log("done");
+            });
         return data;
     }
 
@@ -198,7 +202,8 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
     var reconnectDeviceOnClick = function () {
         toggleLoadingElement(true);
         var requestModel = generateActionUpdateRequestFromType(self.actionTypes.reconnectDevice);
-        return postActionRequest(requestModel).then(onActionRequestSuccess, onActionRequestError);
+        return postActionRequest(requestModel)
+            .then(onActionRequestSuccess, onActionRequestError);
     }
 
     /**

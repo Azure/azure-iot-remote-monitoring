@@ -29,7 +29,7 @@
             return;
         }
 
-        $.get('/Device/GetDeviceCellularDetails', { iccid: iccid }, function (response) {
+        return $.get('/Device/GetDeviceCellularDetails', { iccid: iccid }, function (response) {
             onCellularDetailsDone(response);
         }).fail(function (response) {
             $('#loadingElement').hide();
