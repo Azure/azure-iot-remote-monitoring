@@ -101,12 +101,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public async Task<bool> UpdateSimState(string iccid)
         {
-            return true;
+            return await _cellularService.UpdateSimState(iccid);
         }
 
         public async Task<bool> UpdateSubscriptionPackage(string iccid)
         {
-            return true;
+            return await _cellularService.UpdateSubscriptionPackage(iccid);
         }
 
         public async Task<bool> ReconnectDevice(string iccid)
@@ -116,7 +116,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public async Task<bool> SendSms(string iccid, string smsText)
         {
-            return true;
+            return await _cellularService.SendSms(iccid, smsText);
         }
 
         private IEnumerable<Iccid> GetUsedIccidList(IList<DeviceModel> devices)
