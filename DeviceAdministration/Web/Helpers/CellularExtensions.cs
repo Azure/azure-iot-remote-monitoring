@@ -77,12 +77,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public SimState GetCurrentSimState()
         {
-            return _cellularService.GetAvailableSimStates().FirstOrDefault(s => s.Name == "Active");
+            return _cellularService.GetCurrentSimState();
         }
 
         public SubscriptionPackage GetCurrentSubscriptionPackage()
         {
-            return _cellularService.GetAvailableSubscriptionPackages().FirstOrDefault(s => s.Name == "Basic");
+            return _cellularService.GetCurrentSubscriptionPackage();
         }
 
         public List<SimState> GetAvailableSimStates()

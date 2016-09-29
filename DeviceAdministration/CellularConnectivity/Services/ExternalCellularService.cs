@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DeviceManagement.Infrustructure.Connectivity.Clients;
 using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
 using DeviceManagement.Infrustructure.Connectivity.Models.Other;
@@ -85,7 +86,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
 
         public SimState GetCurrentSimState()
         {
-            throw new NotImplementedException();
+            return GetAvailableSimStates().FirstOrDefault(s => s.Name == "Active");
         }
 
         public List<SimState> GetAvailableSimStates()
@@ -107,7 +108,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
 
         public SubscriptionPackage GetCurrentSubscriptionPackage()
         {
-            throw new NotImplementedException();
+            return GetAvailableSubscriptionPackages().FirstOrDefault(s => s.Name == "Active");
         }
 
         public List<SubscriptionPackage> GetAvailableSubscriptionPackages()
