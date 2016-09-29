@@ -171,7 +171,7 @@ function GetResourceGroup()
         [Parameter(Mandatory=$true,Position=0)] [string] $name,
         [Parameter(Mandatory=$true,Position=1)] [string] $type
     )
-    $resourceGroup = Find-AzureRmResourceGroup -Tag @{Name="IotSuiteType";Value=$type} | ?{$_.Name -eq $name}
+    $resourceGroup = Find-AzureRmResourceGroup -Tag @{"IotSuiteType" = $type} | ?{$_.Name -eq $name}
     if ($resourceGroup -eq $null)
     {
         return New-AzureRmResourceGroup -Name $name -Location $global:AllocationRegion -Tag @{"IoTSuiteType" = $type ; "IoTSuiteVersion" = $global:version ; "IoTSuiteState" = "Created"}
