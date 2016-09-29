@@ -66,7 +66,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\RealtimeTrace\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\SubscriptionManagement\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\SubscriptionTraffic\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -86,6 +96,13 @@
     <None Include="Service References\ApiStatus\EricssonConsoleApiTester.ApiStatus.echoResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\RealtimeTrace\EricssonConsoleApiTester.RealtimeTrace.QueryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RealtimeTrace\EricssonConsoleApiTester.RealtimeTrace.queryResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RealtimeTrace\RealtimeTrace.wsdl" />
     <None Include="Service References\SubscriptionManagement\EricssonConsoleApiTester.SubscriptionManagement.aggregatedStatus.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -216,13 +233,22 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\SubscriptionManagement\SubscriptionManagement.wsdl" />
+    <None Include="Service References\SubscriptionTraffic\EricssonConsoleApiTester.SubscriptionTraffic.queryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SubscriptionTraffic\EricssonConsoleApiTester.SubscriptionTraffic.queryResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SubscriptionTraffic\SubscriptionTrafficService.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\ApiStatus\" />
+    <WCFMetadataStorage Include="Service References\RealtimeTrace\" />
     <WCFMetadataStorage Include="Service References\SubscriptionManagement\" />
+    <WCFMetadataStorage Include="Service References\SubscriptionTraffic\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\SubscriptionManagement\configuration91.svcinfo" />
@@ -247,6 +273,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ApiStatus\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SubscriptionTraffic\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SubscriptionTraffic\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SubscriptionTraffic\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RealtimeTrace\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RealtimeTrace\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\RealtimeTrace\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
