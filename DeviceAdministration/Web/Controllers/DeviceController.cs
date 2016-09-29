@@ -262,8 +262,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             var device = await _deviceLogic.GetDeviceAsync(model.DeviceId);
             if (device == null) throw new InvalidOperationException("Unable to find device with deviceId " + model.DeviceId);
+            var iccid = device.SystemProperties.ICCID;
+            if (string.IsNullOrWhiteSpace(iccid)) throw new InvalidOperationException("Device does not have an ICCID. Cannot complete cellular actions.");
 
-            var result = await processActionRequests(device, model.CellularActions);
+            var result = await processActionRequests(iccid, model.CellularActions);
             return Json(result);
         }
 
@@ -399,7 +401,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return devices.Results;
         }
 
-        private async Task<CellularActionUpdateResponseModel> processActionRequests(DeviceModel device, List<CellularActionModel> actions)
+        private async Task<CellularActionUpdateResponseModel> processActionRequests(string iccid, List<CellularActionModel> actions)
         {
             var completedActions = new List<CellularActionModel>();
             var failedActions = new List<CellularActionModel>();
@@ -412,22 +414,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     {
                         case CellularActionType.UpdateStatus:
                         {
-                            success = await _cellularExtensions.UpdateSimState(device);
+                            success = await _cellularExtensions.UpdateSimState(iccid);
                             break;
                         }
                         case CellularActionType.UpdateSubscriptionPackage:
                         {
-                            success = await _cellularExtensions.UpdateSubscriptionPackage(device);
+                            success = await _cellularExtensions.UpdateSubscriptionPackage(iccid);
                             break;
                         }
                         case CellularActionType.ReconnectDevice:
                         {
-                            success = await _cellularExtensions.ReconnectDevice(device);
+                            success = await _cellularExtensions.ReconnectDevice(iccid);
                             break;
                         }
                         case CellularActionType.SendSms:
                         {
-                            success = await _cellularExtensions.SendSms(device);
+                            success = await _cellularExtensions.SendSms(iccid, action.Value);
                             break;
                         }
                         default:

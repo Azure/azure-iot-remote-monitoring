@@ -99,22 +99,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return markActiveSubscriptionPackage(selectedSubscription.Name, availableSubscriptions);
         }
 
-        public async Task<bool> UpdateSimState(DeviceModel device)
+        public async Task<bool> UpdateSimState(string iccid)
         {
             return true;
         }
 
-        public async Task<bool> UpdateSubscriptionPackage(DeviceModel device)
+        public async Task<bool> UpdateSubscriptionPackage(string iccid)
         {
             return true;
         }
 
-        public async Task<bool> ReconnectDevice(DeviceModel device)
+        public async Task<bool> ReconnectDevice(string iccid)
         {
-            return _cellularService.ReconnectTerminal(device.SystemProperties.ICCID);
+            return _cellularService.ReconnectTerminal(iccid);
         }
 
-        public async Task<bool> SendSms(DeviceModel device)
+        public async Task<bool> SendSms(string iccid, string smsText)
         {
             return true;
         }

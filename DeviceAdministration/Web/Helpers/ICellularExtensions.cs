@@ -20,9 +20,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         List<SimState> GetAvailableSimStates(string iccid);
         SubscriptionPackage GetCurrentSubscriptionPackage(string iccid);
         List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid);
-        Task<bool> UpdateSimState(DeviceModel device);
-        Task<bool> UpdateSubscriptionPackage(DeviceModel device);
-        Task<bool> ReconnectDevice(DeviceModel device);
-        Task<bool> SendSms(DeviceModel device);
+        Task<bool> UpdateSimState(string iccid);
+        Task<bool> UpdateSubscriptionPackage(string iccid);
+        Task<bool> ReconnectDevice(string iccid);
+        Task<bool> SendSms(string iccid, string smsText);
     }
 }
