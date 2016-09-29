@@ -7,7 +7,10 @@
 		<p class="iccid_file_upload_description small">
 			@Strings.DeviceAssociationIccidUploadText
 		</p>
-		<input id="IccidCsv" type="file">
+	    <input id="iccidFileUpload" type="file">
+        <div class="fieldset_button">
+            <button id="uploadIccidButton" type="button">@Strings.Upload</button>
+        </div>
 		<br/>
 	</div>
 </fieldset>
@@ -21,16 +24,6 @@
                     goBackUrl: '',
                     selectedProvider: '@Html.JavaScriptString(Model.ApiRegistrationProvider)'
                 };
-
-                $('#IccidCsv').on("change", function() {
-                    IoTApp.Advanced.processCsvFileInput(this)
-                      .then(IoTApp.Advanced.postIccidFileData)
-					  .then(function() {
-							IoTApp.Advanced.redirecToPartial('@Url.Action("DeviceAssociation")');
-                       }, function(error) {
-                            console.error(error); 
-                        });
-                });
                 IoTApp.Advanced.initSubView(config);
             });
 </script>

@@ -1782,4 +1782,8 @@
     <value>SMS Text</value>
     <comment>Label</comment>
   </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Upload</value>
+    <comment>Button Label</comment>
+  </data>
 </root>
