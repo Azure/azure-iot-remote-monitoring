@@ -3401,6 +3401,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SIM Details.
+        /// </summary>
+        public static string SIMDetails {
+            get {
+                return ResourceManager.GetString("SIMDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First Activation Date.
         /// </summary>
         public static string SimFirstActivationDate {
@@ -3415,15 +3424,6 @@ namespace GlobalResources {
         public static string SimIccid {
             get {
                 return ResourceManager.GetString("SimIccid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SIM Information....
-        /// </summary>
-        public static string SimInformation {
-            get {
-                return ResourceManager.GetString("SimInformation", resourceCulture);
             }
         }
         

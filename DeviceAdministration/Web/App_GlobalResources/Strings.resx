@@ -1399,8 +1399,8 @@
     <value>Cellular Connectivity Management</value>
     <comment>Panel heading.</comment>
   </data>
-  <data name="SimInformation" xml:space="preserve">
-    <value>SIM Information...</value>
+  <data name="SIMDetails" xml:space="preserve">
+    <value>SIM Details</value>
     <comment>Hyperlink label. {Locked="SIM"}</comment>
   </data>
   <data name="ConnectionStatus" xml:space="preserve">
