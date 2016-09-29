@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Clients;
 using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
 using DeviceManagement.Infrustructure.Connectivity.Models.Other;
@@ -78,12 +79,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return sessionInfo;
         }
 
-        public bool ReconnectTerminal(string iccid)
-        {
-            // TODO integrate with celular clients
-            return true;
-        }
-
         public SimState GetCurrentSimState(string iccid)
         {
             return GetAvailableSimStates(iccid).FirstOrDefault(s => s.Name == "Active");
@@ -125,6 +120,26 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
             }
             return availableSubscriptionPackages;
+        }
+
+        public async Task<bool> UpdateSimState(string iccid)
+        {
+            return true;
+        }
+
+        public async Task<bool> UpdateSubscriptionPackage(string iccid)
+        {
+            return true;
+        }
+
+        public async Task<bool> ReconnectTerminal(string iccid)
+        {
+            return true;
+        }
+
+        public async Task<bool> SendSms(string iccid, string smsText)
+        {
+            return true;
         }
 
 

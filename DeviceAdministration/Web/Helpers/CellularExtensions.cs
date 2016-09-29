@@ -111,7 +111,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public async Task<bool> ReconnectDevice(string iccid)
         {
-            return _cellularService.ReconnectTerminal(iccid);
+            return await _cellularService.ReconnectTerminal(iccid);
         }
 
         public async Task<bool> SendSms(string iccid, string smsText)
