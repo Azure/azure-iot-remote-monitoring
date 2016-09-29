@@ -78,6 +78,7 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
     var retrieveActionFormValues = function () {
         var simStatus = $(self.htmlElementIds.simStateSelect).val();
         var subscriptionPackage = $(self.htmlElementIds.subscriptionPackageSelect).val();
+        debugger
         return {
             subscriptionPackage: subscriptionPackage,
             simStatus: simStatus
@@ -97,7 +98,7 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
         if (currentFormValues.subscriptionPackage !== self.initialCellActionSettings.subscriptionPackage) {
             cellularCellularActionRequestModel.cellularActions.push({
                 type: self.actionTypes.updateSubscriptionPackage,
-                previousValue: self.initialCellActionSettings.simStatus,
+                previousValue: self.initialCellActionSettings.subscriptionPackage,
                 value: currentFormValues.subscriptionPackage
             });
         }
