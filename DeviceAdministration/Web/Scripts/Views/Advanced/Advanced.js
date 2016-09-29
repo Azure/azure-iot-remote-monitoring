@@ -195,7 +195,7 @@
     }
 
     var uploadIccidsButtonOnClick = function () {
-
+        $("#iccidFileUpload").click();
     }
 
     var initAssociation = function () {

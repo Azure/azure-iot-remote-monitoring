@@ -1088,7 +1088,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your provider doesn&apos;t have an API to automatically retrieve available ICCIDs for your SIMs. Please use the file upload below to upload the ICCIDs that you have available.
+        ///   Looks up a localized string similar to Your provider doesn&apos;t have an API to automatically retrieve available ICCIDs for your SIMs. Please use the upload button to add the ICCIDs that you have available in CSV format.
         /// </summary>
         public static string DeviceAssociationIccidUploadText {
             get {
