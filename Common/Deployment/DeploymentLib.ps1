@@ -977,7 +977,7 @@ $global:resourceNotFound = "ResourceNotFound"
 $global:serviceNameToken = "ServiceName"
 $global:azurePath = Split-Path $MyInvocation.MyCommand.Path
 $global:version = Get-Content ("{0}\..\..\VERSION.txt" -f $global:azurePath)
-$global:azureVersion = "1.4.0"
+$global:azureVersion = "2.0.0"
 
 # Check version
 $module = Get-Module -ListAvailable | Where-Object{ $_.Name -eq 'Azure' }
