@@ -122,12 +122,12 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return availableSubscriptionPackages;
         }
 
-        public async Task<bool> UpdateSimState(string iccid)
+        public async Task<bool> UpdateSimState(string iccid, string updatedState)
         {
             return true;
         }
 
-        public async Task<bool> UpdateSubscriptionPackage(string iccid)
+        public async Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage)
         {
             return true;
         }

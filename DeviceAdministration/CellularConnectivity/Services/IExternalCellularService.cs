@@ -18,8 +18,8 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         List<SimState> GetAvailableSimStates(string iccid);
         SubscriptionPackage GetCurrentSubscriptionPackage(string iccid);
         List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid);
-        Task<bool> UpdateSimState(string iccid);
-        Task<bool> UpdateSubscriptionPackage(string iccid);
+        Task<bool> UpdateSimState(string iccid, string updatedState);
+        Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage);
         Task<bool> ReconnectTerminal(string iccid);
         Task<bool> SendSms(string iccid, string smsText);
     }

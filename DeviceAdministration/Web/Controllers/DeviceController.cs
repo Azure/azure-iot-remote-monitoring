@@ -414,12 +414,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     {
                         case CellularActionType.UpdateStatus:
                         {
-                            success = await _cellularExtensions.UpdateSimState(iccid);
+                            success = await _cellularExtensions.UpdateSimState(iccid, action.Value);
                             break;
                         }
                         case CellularActionType.UpdateSubscriptionPackage:
                         {
-                            success = await _cellularExtensions.UpdateSubscriptionPackage(iccid);
+                            success = await _cellularExtensions.UpdateSubscriptionPackage(iccid, action.Value);
                             break;
                         }
                         case CellularActionType.ReconnectDevice:
