@@ -84,48 +84,53 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return true;
         }
 
-        public SimState GetCurrentSimState()
+        public SimState GetCurrentSimState(string iccid)
         {
-            return GetAvailableSimStates().FirstOrDefault(s => s.Name == "Active");
+            return GetAvailableSimStates(iccid).FirstOrDefault(s => s.Name == "Active");
         }
 
-        public List<SimState> GetAvailableSimStates()
+        public List<SimState> GetAvailableSimStates(string iccid)
         {
-            return new List<SimState>()
+            List<SimState> availableStates;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
+
+            switch (registrationProvider)
             {
-                new SimState()
-                {
-                    Id = "1",
-                    Name = "Active"
-                },
-                new SimState()
-                {
-                    Id = "2",
-                    Name = "Disconnected"
-                }
-            };
+                case ApiRegistrationProviderTypes.Jasper:
+                    availableStates = getAvailableSimStates();
+                    break;
+                case ApiRegistrationProviderTypes.Ericsson:
+                    availableStates = getAvailableSimStates();
+                    break;
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
+            }
+            return availableStates;
         }
 
-        public SubscriptionPackage GetCurrentSubscriptionPackage()
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid)
         {
-            return GetAvailableSubscriptionPackages().FirstOrDefault(s => s.Name == "Active");
-        }
+            List<SubscriptionPackage> availableSubscriptionPackages;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
-        public List<SubscriptionPackage> GetAvailableSubscriptionPackages()
-        {
-            return new List<SubscriptionPackage>()
+            switch (registrationProvider)
             {
-                new SubscriptionPackage()
-                {
-                    Id = "1",
-                    Name = "Basic"
-                },
-                new SubscriptionPackage()
-                {
-                    Id = "2",
-                    Name = "Expensive"
-                }
-            };
+                case ApiRegistrationProviderTypes.Jasper:
+                    availableSubscriptionPackages = getAvailableSubscriptionPackages();
+                    break;
+                case ApiRegistrationProviderTypes.Ericsson:
+                    availableSubscriptionPackages = getAvailableSubscriptionPackages();
+                    break;
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
+            }
+            return availableSubscriptionPackages;
+        }
+
+
+        public SubscriptionPackage GetCurrentSubscriptionPackage(string iccid)
+        {
+            return GetAvailableSubscriptionPackages(iccid).FirstOrDefault(s => s.Name == "Basic");
         }
 
         /// <summary>
@@ -135,7 +140,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         /// <returns>True if valid. False if not valid</returns>
         public bool ValidateCredentials()
         {
-            bool isValid = false;
+            bool isValid;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
             switch (registrationProvider)
@@ -152,5 +157,44 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
 
             return isValid;
         }
+
+        private List<SimState> getAvailableSimStates()
+        {
+            return new List<SimState>()
+            {
+                new SimState()
+                {
+                    Id = "1",
+                    Name = "Active"
+                },
+                new SimState()
+                {
+                    Id = "2",
+                    Name = "Disconnected"
+                }
+            };
+        }
+
+        /// <summary>
+        /// Gets the available subscription packages from the appropriate api provider
+        /// </summary>
+        /// <returns>SubscriptionPackage Model</returns>
+        private List<SubscriptionPackage> getAvailableSubscriptionPackages()
+        {
+            return new List<SubscriptionPackage>()
+            {
+                new SubscriptionPackage()
+                {
+                    Id = "1",
+                    Name = "Basic"
+                },
+                new SubscriptionPackage()
+                {
+                    Id = "2",
+                    Name = "Expensive"
+                }
+            };
+        }
+
     }
 }

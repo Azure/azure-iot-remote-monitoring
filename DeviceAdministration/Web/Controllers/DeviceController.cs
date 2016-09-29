@@ -310,8 +310,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                                     new SessionInfo();
             var apiProviderDetails = _apiRegistrationRepository.RecieveDetails();
             viewModel.ApiRegistrationProvider = Convert.ToString(apiProviderDetails.ApiRegistrationProvider);
-            viewModel.AvailableSimStates = _cellularExtensions.GetAvailableSimStates();
-            viewModel.AvailableSubscriptionPackages = _cellularExtensions.GetAvailableSubscriptionPackages();
+            viewModel.AvailableSimStates = _cellularExtensions.GetAvailableSimStates(iccid);
+            viewModel.AvailableSubscriptionPackages = _cellularExtensions.GetAvailableSubscriptionPackages(iccid);
             return PartialView("_CellularInformation", viewModel);
         }
 
