@@ -79,7 +79,6 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
     var retrieveActionFormValues = function () {
         var simStatus = $(self.htmlElementIds.simStateSelect).val();
         var subscriptionPackage = $(self.htmlElementIds.subscriptionPackageSelect).val();
-        debugger
         return {
             subscriptionPackage: subscriptionPackage,
             simStatus: simStatus
@@ -165,7 +164,7 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
      */
     var onActionRequestSuccess = function (data) {
         IoTApp.DeviceDetails.getCellularDetailsView()
-            .then(function() {
+            .then(function () {
                 console.log("done");
             });
         return data;

@@ -20,7 +20,7 @@
 
     }
 
-    var getCellularDetailsView = function () {
+    var getCellularDetailsView = function (actionResult) {
         $('#loadingElement').show();
 
         var iccid = IoTApp.Helpers.IccidState.getIccidFromCookie();
@@ -31,7 +31,7 @@
 
         return $.get('/Device/GetDeviceCellularDetails', { iccid: iccid }, function (response) {
             onCellularDetailsDone(response);
-        }).fail(function (response) {
+        }).fail(function (response, actionResult) {
             $('#loadingElement').hide();
             renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
         });
