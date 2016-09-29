@@ -1,4 +1,7 @@
-﻿IoTApp.createModule("IoTApp.CellularActions", function () {
+﻿/**
+ * IoTApp.CellularActions module that is used in the device information secion of the solution 
+ */
+IoTApp.createModule("IoTApp.CellularActions", function () {
     "use strict";
     /*
      * Module variable initialization
@@ -153,6 +156,24 @@
         }
     }
 
+    /**
+     * Generic function for post action request success
+     * @returns {void} 
+     */
+    var onActionRequestSuccess = function (data) {
+        IoTApp.DeviceDetails.getCellularDetailsView();
+        return data;
+    }
+
+    /**
+     * Generic function for post action request error
+     * @returns {void} 
+     */
+    var onActionRequestError = function (error) {
+        toggleLoadingElement(false);
+        console.error(error);
+    }
+
     /*
      * Event Handlers and event handler registration
      */
@@ -164,13 +185,7 @@
     var saveActionsOnClick = function () {
         toggleLoadingElement(true);
         var requestModel = generateActionUpdateRequestFromInputs();
-        return postActionRequest(requestModel)
-            .then(function () {
-                toggleLoadingElement(false);
-            }, function (error) {
-                console.error(error);
-                toggleLoadingElement(false);
-            });
+        return postActionRequest(requestModel).then(onActionRequestSuccess, onActionRequestError);
     }
 
     /**
@@ -180,13 +195,7 @@
     var reconnectDeviceOnClick = function () {
         toggleLoadingElement(true);
         var requestModel = generateActionUpdateRequestFromType(self.actionTypes.reconnectDevice);
-        return postActionRequest(requestModel)
-            .then(function () {
-                toggleLoadingElement(false);
-            }, function (error) {
-                console.error(error);
-                toggleLoadingElement(false);
-            });
+        return postActionRequest(requestModel).then(onActionRequestSuccess, onActionRequestError);
     }
 
     /**
@@ -197,13 +206,7 @@
         toggleLoadingElement(true);
         var smsText = $(self.htmlElementIds.sendSmsTextBox).val();
         var requestModel = generateActionUpdateRequestFromType(self.actionTypes.sendSms, smsText);
-        return postActionRequest(requestModel)
-            .then(function () {
-                toggleLoadingElement(false);
-            }, function (error) {
-                console.error(error);
-                toggleLoadingElement(false);
-            });
+        return postActionRequest(requestModel).then(onActionRequestSuccess, onActionRequestError);
     }
 
     /**
@@ -229,8 +232,11 @@
         toggleInputDisabledProperty(true);
         attachEventHandlers();
     }
-    var init = function (deviceId) {
-        self.deviceId = deviceId;
+    var init = function () {
+        var deviceId = IoTApp.Helpers.DeviceIdState.getDeviceIdFromCookie();
+        if (deviceId) {
+            self.deviceId = IoTApp.Helpers.DeviceIdState.getDeviceIdFromCookie();
+        }
     }
     return {
         init: init,

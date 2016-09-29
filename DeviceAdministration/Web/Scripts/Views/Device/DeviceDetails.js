@@ -211,6 +211,7 @@
         getDeviceDetailsView(deviceId);
     }
     return {
-        init: init
+        init: init,
+        getCellularDetailsView: getCellularDetailsView
     }
 }, [jQuery, resources]);
