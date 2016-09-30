@@ -191,7 +191,16 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
     var saveActionsOnClick = function () {
         toggleLoadingElement(true);
         var requestModel = generateActionUpdateRequestFromInputs();
-        return postActionRequest(requestModel).then(onActionRequestSuccess, onActionRequestError);
+        if (requestModel.cellularActions.length <= 0) {
+            toggleLoadingElement(false);
+            return $.Deferred().resolve().promise();
+        }
+        return postActionRequest(requestModel).then(function (response) {
+            IoTApp.DeviceDetails.onCellularDetailsDone(response);
+        }, function () {
+            self.toggleLoadingElement(false);
+            IoTApp.DeviceDetails.renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
+        });
     }
 
     /**
@@ -213,7 +222,12 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
         toggleLoadingElement(true);
         var smsText = $(self.htmlElementIds.sendSmsTextBox).val();
         var requestModel = generateActionUpdateRequestFromType(self.actionTypes.sendSms, smsText);
-        return postActionRequest(requestModel).then(onActionRequestSuccess, onActionRequestError);
+        return postActionRequest(requestModel).then(function (response) {
+            IoTApp.DeviceDetails.onCellularDetailsDone(response);
+        }, function () {
+            self.toggleLoadingElement(false);
+            IoTApp.DeviceDetails.renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
+        });
     }
 
     /**

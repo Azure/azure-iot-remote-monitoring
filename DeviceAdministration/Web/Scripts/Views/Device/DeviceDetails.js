@@ -20,21 +20,8 @@
 
     }
 
-    var getCellularDetailsView = function (actionResult) {
-        $('#loadingElement').show();
-
-        var iccid = IoTApp.Helpers.IccidState.getIccidFromCookie();
-        if (iccid === null) {
-            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
-            return;
-        }
-
-        return $.get('/Device/GetDeviceCellularDetails', { iccid: iccid }, function (response) {
-            onCellularDetailsDone(response);
-        }).fail(function (response, actionResult) {
-            $('#loadingElement').hide();
-            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
-        });
+    var getCellularDetailsView = function (iccid) {
+        return $.get("/Device/GetDeviceCellularDetails", { iccid: iccid });
     }
 
     var onCellularDetailsDone = function (html) {
@@ -57,11 +44,11 @@
             return;
         }
 
-        getCellularDetailsView().then(function() {
-            debugger
+        getCellularDetailsView(iccid).then(function (response) {
             onCellularDetailsDone(response);
         }, function () {
-
+            $('#loadingElement').hide();
+            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
         });
     }
 
@@ -228,6 +215,7 @@
     }
     return {
         init: init,
-        getCellularDetailsView: displayCellularDetailsView
+        getCellularDetailsView: displayCellularDetailsView,
+        onCellularDetailsDone: onCellularDetailsDone
     }
 }, [jQuery, resources]);
