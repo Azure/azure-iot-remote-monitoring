@@ -20,22 +20,8 @@
 
     }
 
-    var getCellularDetailsView = function () {
-        $('#loadingElement').show();
-
-        var iccid = IoTApp.Helpers.IccidState.getIccidFromCookie();
-        if (iccid === null) {
-            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
-            return;
-        }
-
-        $.get('/Device/GetDeviceCellularDetails', { iccid: iccid }, function (response) {
-            onCellularDetailsDone(response);
-        }).fail(function (response) {
-            $('#loadingElement').hide();
-            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
-        });
-
+    var getCellularDetailsView = function (iccid) {
+        return $.get("/Device/GetDeviceCellularDetails", { iccid: iccid });
     }
 
     var onCellularDetailsDone = function (html) {
@@ -46,6 +32,23 @@
         $("#deviceExplorer_CellInformationBack").on("click", function () {
             $('#details_grid_container').empty();
             onDeviceDetailsDone(self.cachedDeviceHtml);
+        });
+    }
+
+    var displayCellularDetailsView = function () {
+        $('#loadingElement').show();
+
+        var iccid = IoTApp.Helpers.IccidState.getIccidFromCookie();
+        if (iccid === null) {
+            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
+            return;
+        }
+
+        getCellularDetailsView(iccid).then(function (response) {
+            onCellularDetailsDone(response);
+        }, function () {
+            $('#loadingElement').hide();
+            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
         });
     }
 
@@ -65,7 +68,7 @@
 
         $("#deviceExplorer_cellInformation").on("click", function () {
             $('#details_grid_container').empty();
-            getCellularDetailsView();
+            displayCellularDetailsView();
         });
 
         $('#deviceExplorer_authKeys').on('click', function () {
@@ -212,6 +215,7 @@
     }
     return {
         init: init,
-        getCellularDetailsView: getCellularDetailsView
+        getCellularDetailsView: displayCellularDetailsView,
+        onCellularDetailsDone: onCellularDetailsDone
     }
 }, [jQuery, resources]);

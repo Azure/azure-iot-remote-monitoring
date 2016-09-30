@@ -254,22 +254,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.ViewDevices)]
-        [HttpPost]
-        public async Task<JsonResult> CellularActionRequest(CellularActionRequestModel model)
-        {
-            if (model == null) throw new ArgumentException(nameof(model));
-            if (string.IsNullOrWhiteSpace(model.DeviceId)) throw new ArgumentException(nameof(model.DeviceId));
-
-            var device = await _deviceLogic.GetDeviceAsync(model.DeviceId);
-            if (device == null) throw new InvalidOperationException("Unable to find device with deviceId " + model.DeviceId);
-            var iccid = device.SystemProperties.ICCID;
-            if (string.IsNullOrWhiteSpace(iccid)) throw new InvalidOperationException("Device does not have an ICCID. Cannot complete cellular actions.");
-
-            var result = await processActionRequests(iccid, model.CellularActions);
-            return Json(result);
-        }
-
-        [RequirePermission(Permission.ViewDevices)]
         public async Task<ActionResult> GetDeviceDetails(string deviceId)
         {
             IEnumerable<DevicePropertyValueModel> propModels;
@@ -306,14 +290,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [RequirePermission(Permission.ViewDevices)]
         public ActionResult GetDeviceCellularDetails(string iccid)
         {
-            var viewModel = new SimInformationViewModel();
-            viewModel.TerminalDevice = _cellularExtensions.GetSingleTerminalDetails(new Iccid(iccid));
-            viewModel.SessionInfo = _cellularExtensions.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ??
-                                    new SessionInfo();
-            var apiProviderDetails = _apiRegistrationRepository.RecieveDetails();
-            viewModel.ApiRegistrationProvider = Convert.ToString(apiProviderDetails.ApiRegistrationProvider);
-            viewModel.AvailableSimStates = _cellularExtensions.GetAvailableSimStates(iccid);
-            viewModel.AvailableSubscriptionPackages = _cellularExtensions.GetAvailableSubscriptionPackages(iccid);
+            var viewModel = generateSimInformationViewModel(iccid);
+            return PartialView("_CellularInformation", viewModel);
+        }
+
+        [RequirePermission(Permission.ViewDevices)]
+        [HttpPost]
+        public async Task<ActionResult> CellularActionRequest(CellularActionRequestModel model)
+        {
+            if (model == null) throw new ArgumentException(nameof(model));
+            if (string.IsNullOrWhiteSpace(model.DeviceId)) throw new ArgumentException(nameof(model.DeviceId));
+
+            var device = await _deviceLogic.GetDeviceAsync(model.DeviceId);
+            if (device == null) throw new InvalidOperationException("Unable to find device with deviceId " + model.DeviceId);
+            var iccid = device.SystemProperties.ICCID;
+            if (string.IsNullOrWhiteSpace(iccid)) throw new InvalidOperationException("Device does not have an ICCID. Cannot complete cellular actions.");
+
+            CellularActionUpdateResponseModel result = await processActionRequests(iccid, model.CellularActions);
+            var viewModel = generateSimInformationViewModel(iccid, result);
             return PartialView("_CellularInformation", viewModel);
         }
 
@@ -459,6 +453,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             };
 
+        }
+
+        private SimInformationViewModel generateSimInformationViewModel(string iccid, CellularActionUpdateResponseModel actionResponstModel = null)
+        {
+            var viewModel = new SimInformationViewModel();
+            viewModel.TerminalDevice = _cellularExtensions.GetSingleTerminalDetails(new Iccid(iccid));
+            viewModel.SessionInfo = _cellularExtensions.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ??
+                                    new SessionInfo();
+            var apiProviderDetails = _apiRegistrationRepository.RecieveDetails();
+            viewModel.ApiRegistrationProvider = Convert.ToString(apiProviderDetails.ApiRegistrationProvider);
+            viewModel.AvailableSimStates = _cellularExtensions.GetAvailableSimStates(iccid);
+            viewModel.AvailableSubscriptionPackages = _cellularExtensions.GetAvailableSubscriptionPackages(iccid);
+            viewModel.CellularActionUpdateResponse = actionResponstModel;
+            return viewModel;
         }
     }
 }
