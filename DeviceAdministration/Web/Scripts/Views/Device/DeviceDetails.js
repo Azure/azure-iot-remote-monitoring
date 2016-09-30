@@ -35,7 +35,6 @@
             $('#loadingElement').hide();
             renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
         });
-
     }
 
     var onCellularDetailsDone = function (html) {
@@ -46,6 +45,23 @@
         $("#deviceExplorer_CellInformationBack").on("click", function () {
             $('#details_grid_container').empty();
             onDeviceDetailsDone(self.cachedDeviceHtml);
+        });
+    }
+
+    var displayCellularDetailsView = function () {
+        $('#loadingElement').show();
+
+        var iccid = IoTApp.Helpers.IccidState.getIccidFromCookie();
+        if (iccid === null) {
+            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
+            return;
+        }
+
+        getCellularDetailsView().then(function() {
+            debugger
+            onCellularDetailsDone(response);
+        }, function () {
+
         });
     }
 
@@ -65,7 +81,7 @@
 
         $("#deviceExplorer_cellInformation").on("click", function () {
             $('#details_grid_container').empty();
-            getCellularDetailsView();
+            displayCellularDetailsView();
         });
 
         $('#deviceExplorer_authKeys').on('click', function () {
@@ -212,6 +228,6 @@
     }
     return {
         init: init,
-        getCellularDetailsView: getCellularDetailsView
+        getCellularDetailsView: displayCellularDetailsView
     }
 }, [jQuery, resources]);

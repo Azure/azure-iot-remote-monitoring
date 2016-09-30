@@ -265,7 +265,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var iccid = device.SystemProperties.ICCID;
             if (string.IsNullOrWhiteSpace(iccid)) throw new InvalidOperationException("Device does not have an ICCID. Cannot complete cellular actions.");
 
-            var result = await processActionRequests(iccid, model.CellularActions);
+            CellularActionUpdateResponseModel result = await processActionRequests(iccid, model.CellularActions);
             return Json(result);
         }
 
