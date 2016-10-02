@@ -75,47 +75,48 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return _cellularService.ValidateCredentials();
         }
 
-        public SimState GetCurrentSimState()
+        public SimState GetCurrentSimState(string iccid)
         {
-            return _cellularService.GetAvailableSimStates().FirstOrDefault(s => s.Name == "Active");
+            return _cellularService.GetCurrentSimState(iccid);
         }
 
-        public SubscriptionPackage GetCurrentSubscriptionPackage()
+        public SubscriptionPackage GetCurrentSubscriptionPackage(string iccid)
         {
-            return _cellularService.GetAvailableSubscriptionPackages().FirstOrDefault(s => s.Name == "Basic");
+            return _cellularService.GetCurrentSubscriptionPackage(iccid);
         }
 
-        public List<SimState> GetAvailableSimStates()
+        public List<SimState> GetAvailableSimStates(string iccid)
         {
-            var availableSimStates = _cellularService.GetAvailableSimStates();
-            return markActiveSimState(availableSimStates.First(s => s.Name == "Active").Name, availableSimStates);
+            var availableSimStates = _cellularService.GetAvailableSimStates(iccid);
+            var currentSimState = GetCurrentSimState(iccid);
+            return markActiveSimState(currentSimState.Name, availableSimStates);
         }
 
-        public List<SubscriptionPackage> GetAvailableSubscriptionPackages()
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid)
         {
-            var availableSubscriptions = _cellularService.GetAvailableSubscriptionPackages();
-            var selectedSubscription = GetCurrentSubscriptionPackage();
-            return markActiveSubscriptionPackage(availableSubscriptions.First(s => s.Name == "Basic").Name, availableSubscriptions);
+            var availableSubscriptions = _cellularService.GetAvailableSubscriptionPackages(iccid);
+            var selectedSubscription = GetCurrentSubscriptionPackage(iccid);
+            return markActiveSubscriptionPackage(selectedSubscription.Name, availableSubscriptions);
         }
 
-        public async Task<bool> UpdateSimState(DeviceModel device)
+        public async Task<bool> UpdateSimState(string iccid, string updatedState)
         {
-            return true;
+            return await _cellularService.UpdateSimState(iccid, updatedState);
         }
 
-        public async Task<bool> UpdateSubscriptionPackage(DeviceModel device)
+        public async Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage)
         {
-            return true;
+            return await _cellularService.UpdateSubscriptionPackage(iccid, updatedPackage);
         }
 
-        public async Task<bool> ReconnectDevice(DeviceModel device)
+        public async Task<bool> ReconnectDevice(string iccid)
         {
-            return _cellularService.ReconnectTerminal(device.SystemProperties.ICCID);
+            return await _cellularService.ReconnectTerminal(iccid);
         }
 
-        public async Task<bool> SendSms(DeviceModel device)
+        public async Task<bool> SendSms(string iccid, string smsText)
         {
-            return true;
+            return await _cellularService.SendSms(iccid, smsText);
         }
 
         private IEnumerable<Iccid> GetUsedIccidList(IList<DeviceModel> devices)

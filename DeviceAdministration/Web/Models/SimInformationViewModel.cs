@@ -13,5 +13,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public string ApiRegistrationProvider { get; set;}
         public List<SimState> AvailableSimStates { get; set; }
         public List<SubscriptionPackage> AvailableSubscriptionPackages { get; set; }
+        public CellularActionUpdateResponseModel CellularActionUpdateResponse { get; set; }
     }
 }

@@ -26,6 +26,18 @@
 <button id="reconnectDevice" class="button_base button_no_float cell_action_button space_below" disabled>@Strings.CellularActionsResetDeviceConnectionAction</button>
 <button id="editActions" class="button_base edit_button">@Strings.Edit</button>
 <button id="saveActions" class="button_base edit_button" disabled>@Strings.Save</button>
+@if (Model.CellularActionUpdateResponse != null)
+{
+    if (Model.CellularActionUpdateResponse.Success)
+    {
+        <p class="action_succeeded">Success</p>
+    }
+    else
+    {
+        <p class="action_error">Error</p>
+    }
+}
+
 <br />
 <br />
 <script>

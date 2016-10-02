@@ -176,14 +176,31 @@
         });
 
         $("#changeApiRegistrationProviderButton").bind("click", function () {
-            $('#changeApiRegistrationProviderButton').prop("disabled", true)
+            $('#changeApiRegistrationProviderButton').prop("disabled", true);
             $("#saveButton").prop("disabled", false);
             $("#editButton").prop("disabled", true);
             showApiRegistrationFields($("#apiRegistrationProvider").val(), true, false);
         });
     }
 
-    var initAssociation = function() {
+    var iccidFileUploadOnChange = function () {
+        var url = '/Advanced/DeviceAssociation';
+        IoTApp.Advanced.processCsvFileInput(this)
+        .then(IoTApp.Advanced.postIccidFileData)
+		.then(function () {
+            IoTApp.Advanced.redirecToPartial(url);
+		}, function (error) {
+            console.error(error);
+		});
+    }
+
+    var uploadIccidsButtonOnClick = function () {
+        $("#iccidFileUpload").click();
+    }
+
+    var initAssociation = function () {
+        $("#iccidFileUpload").on("change", iccidFileUploadOnChange);
+        $("#uploadIccidButton").on("click", uploadIccidsButtonOnClick);
         $("#associateButton").bind("click", function () {
             var deviceId = $("#UnassignedDeviceIds option:selected").text();
             var iccid = $("#UnassignedIccids option:selected").text();

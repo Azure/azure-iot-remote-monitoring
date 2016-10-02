@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 
@@ -13,10 +14,13 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         bool ValidateCredentials();
         Terminal GetSingleTerminalDetails(Iccid iccid);
         List<SessionInfo> GetSingleSessionInfo(Iccid iccid);
-        bool ReconnectTerminal(string iccid);
-        SimState GetCurrentSimState();
-        List<SimState> GetAvailableSimStates();
-        SubscriptionPackage GetCurrentSubscriptionPackage();
-        List<SubscriptionPackage> GetAvailableSubscriptionPackages();
+        SimState GetCurrentSimState(string iccid);
+        List<SimState> GetAvailableSimStates(string iccid);
+        SubscriptionPackage GetCurrentSubscriptionPackage(string iccid);
+        List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid);
+        Task<bool> UpdateSimState(string iccid, string updatedState);
+        Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage);
+        Task<bool> ReconnectTerminal(string iccid);
+        Task<bool> SendSms(string iccid, string smsText);
     }
 }

@@ -1,4 +1,7 @@
-﻿IoTApp.createModule("IoTApp.CellularActions", function () {
+﻿/**
+ * IoTApp.CellularActions module that is used in the device information secion of the solution 
+ */
+IoTApp.createModule("IoTApp.CellularActions", function () {
     "use strict";
     /*
      * Module variable initialization
@@ -21,7 +24,8 @@
         editActions: "#editActions",
         sendSms: "#sendSms",
         sendSmsTextBox: "#sendSmsTextBox",
-        loadingElement: "#loadingElement"
+        loadingElement: "#loadingElement",
+        cellularActionResultMessage: "#cellularActionResultMessage"
     }
     $.ajaxSetup({ cache: false });
 
@@ -94,7 +98,7 @@
         if (currentFormValues.subscriptionPackage !== self.initialCellActionSettings.subscriptionPackage) {
             cellularCellularActionRequestModel.cellularActions.push({
                 type: self.actionTypes.updateSubscriptionPackage,
-                previousValue: self.initialCellActionSettings.simStatus,
+                previousValue: self.initialCellActionSettings.subscriptionPackage,
                 value: currentFormValues.subscriptionPackage
             });
         }
@@ -111,7 +115,8 @@
 
     /**
      * Generate an CellularActionRequestModel from an action type string.
-     * @param {string} type : string representing the action type.
+     * @param {string} type : string representing the action type
+     * @param {any} value : string representing the value to pass with the action if any.
      * @returns {object} The CellularActionRequestModel
      */
     var generateActionUpdateRequestFromType = function (type, value) {
@@ -152,6 +157,29 @@
         }
     }
 
+    /**
+     * Generic function for post action request success. Will reload the cellular information details.
+     * @param {any} data the data returned by the api
+     * @returns {any} returns the data passed in so you can chain to another function with .then()
+     */
+    var onActionRequestSuccess = function (data) {
+        IoTApp.DeviceDetails.getCellularDetailsView()
+            .then(function () {
+                console.log("done");
+            });
+        return data;
+    }
+
+    /**
+     * Generic function for post action request error
+     * @param {any} error The error returned from the api
+     * @returns {void} 
+     */
+    var onActionRequestError = function (error) {
+        toggleLoadingElement(false);
+        console.error(error);
+    }
+
     /*
      * Event Handlers and event handler registration
      */
@@ -163,13 +191,16 @@
     var saveActionsOnClick = function () {
         toggleLoadingElement(true);
         var requestModel = generateActionUpdateRequestFromInputs();
-        return postActionRequest(requestModel)
-            .then(function () {
-                toggleLoadingElement(false);
-            }, function (error) {
-                console.error(error);
-                toggleLoadingElement(false);
-            });
+        if (requestModel.cellularActions.length <= 0) {
+            toggleLoadingElement(false);
+            return $.Deferred().resolve().promise();
+        }
+        return postActionRequest(requestModel).then(function (response) {
+            IoTApp.DeviceDetails.onCellularDetailsDone(response);
+        }, function () {
+            self.toggleLoadingElement(false);
+            IoTApp.DeviceDetails.renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
+        });
     }
 
     /**
@@ -180,12 +211,7 @@
         toggleLoadingElement(true);
         var requestModel = generateActionUpdateRequestFromType(self.actionTypes.reconnectDevice);
         return postActionRequest(requestModel)
-            .then(function () {
-                toggleLoadingElement(false);
-            }, function (error) {
-                console.error(error);
-                toggleLoadingElement(false);
-            });
+            .then(onActionRequestSuccess, onActionRequestError);
     }
 
     /**
@@ -196,13 +222,12 @@
         toggleLoadingElement(true);
         var smsText = $(self.htmlElementIds.sendSmsTextBox).val();
         var requestModel = generateActionUpdateRequestFromType(self.actionTypes.sendSms, smsText);
-        return postActionRequest(requestModel)
-            .then(function () {
-                toggleLoadingElement(false);
-            }, function (error) {
-                console.error(error);
-                toggleLoadingElement(false);
-            });
+        return postActionRequest(requestModel).then(function (response) {
+            IoTApp.DeviceDetails.onCellularDetailsDone(response);
+        }, function () {
+            self.toggleLoadingElement(false);
+            IoTApp.DeviceDetails.renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
+        });
     }
 
     /**
@@ -228,8 +253,11 @@
         toggleInputDisabledProperty(true);
         attachEventHandlers();
     }
-    var init = function (deviceId) {
-        self.deviceId = deviceId;
+    var init = function () {
+        var deviceId = IoTApp.Helpers.DeviceIdState.getDeviceIdFromCookie();
+        if (deviceId) {
+            self.deviceId = IoTApp.Helpers.DeviceIdState.getDeviceIdFromCookie();
+        }
     }
     return {
         init: init,

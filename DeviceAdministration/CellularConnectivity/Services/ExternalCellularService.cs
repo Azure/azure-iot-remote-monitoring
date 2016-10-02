@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Clients;
 using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
 using DeviceManagement.Infrustructure.Connectivity.Models.Other;
@@ -77,54 +79,141 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return sessionInfo;
         }
 
-        public bool ReconnectTerminal(string iccid)
+        public SimState GetCurrentSimState(string iccid)
         {
-            // TODO integrate with celular clients
-            return true;
+            return GetAvailableSimStates(iccid).FirstOrDefault(s => s.Name == "Active");
         }
 
-        public SimState GetCurrentSimState()
+        public List<SimState> GetAvailableSimStates(string iccid)
         {
-            throw new NotImplementedException();
-        }
+            List<SimState> availableStates;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
-        public List<SimState> GetAvailableSimStates()
-        {
-            return new List<SimState>()
+            switch (registrationProvider)
             {
-                new SimState()
-                {
-                    Id = "1",
-                    Name = "Active"
-                },
-                new SimState()
-                {
-                    Id = "2",
-                    Name = "Disconnected"
-                }
-            };
+                case ApiRegistrationProviderTypes.Jasper:
+                    var jasperClient = new JasperCellularClient(_credentialProvider);
+                    availableStates = jasperClient.GetAvailableSimStates(iccid);
+                    break;
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var ericssonClient = new EricssonCellularClient(_credentialProvider);
+                    availableStates = ericssonClient.GetAvailableSimStates(iccid);
+                    break;
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
+            }
+            return availableStates;
         }
 
-        public SubscriptionPackage GetCurrentSubscriptionPackage()
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid)
         {
-            throw new NotImplementedException();
-        }
+            List<SubscriptionPackage> availableSubscriptionPackages;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
-        public List<SubscriptionPackage> GetAvailableSubscriptionPackages()
-        {
-            return new List<SubscriptionPackage>()
+            switch (registrationProvider)
             {
-                new SubscriptionPackage()
-                {
-                    Id = "1",
-                    Name = "Basic"
-                },
-                new SubscriptionPackage()
-                {
-                    Id = "2",
-                    Name = "Expensive"
-                }
-            };
+                case ApiRegistrationProviderTypes.Jasper:
+                    var jasperClient = new JasperCellularClient(_credentialProvider);
+                    availableSubscriptionPackages = jasperClient.GetAvailableSubscriptionPackages(iccid);
+                    break;
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var ericssonClient = new EricssonCellularClient(_credentialProvider);
+                    availableSubscriptionPackages = ericssonClient.GetAvailableSubscriptionPackages(iccid);
+                    break;
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
+            }
+            return availableSubscriptionPackages;
+        }
+
+        public async Task<bool> UpdateSimState(string iccid, string updatedState)
+        {
+            bool result;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
+
+            switch (registrationProvider)
+            {
+                case ApiRegistrationProviderTypes.Jasper:
+                    var jasperClient = new JasperCellularClient(_credentialProvider);
+                    result = jasperClient.UpdateSimState(iccid, updatedState);
+                    break;
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var ericssonClient = new EricssonCellularClient(_credentialProvider);
+                    result = ericssonClient.UpdateSimState(iccid, updatedState);
+                    break;
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
+            }
+            return result;
+        }
+
+        public async Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage)
+        {
+            bool result;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
+
+            switch (registrationProvider)
+            {
+                case ApiRegistrationProviderTypes.Jasper:
+                    var jasperClient = new JasperCellularClient(_credentialProvider);
+                    result = jasperClient.UpdateSubscriptionPackage(iccid, updatedPackage);
+                    break;
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var ericssonClient = new EricssonCellularClient(_credentialProvider);
+                    result = ericssonClient.UpdateSubscriptionPackage(iccid, updatedPackage);
+                    break;
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
+            }
+            return result;
+        }
+
+        public async Task<bool> ReconnectTerminal(string iccid)
+        {
+            bool result;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
+
+            switch (registrationProvider)
+            {
+                case ApiRegistrationProviderTypes.Jasper:
+                    var jasperClient = new JasperCellularClient(_credentialProvider);
+                    result = jasperClient.ReconnectTerminal(iccid);
+                    break;
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var ericssonClient = new EricssonCellularClient(_credentialProvider);
+                    result = ericssonClient.ReconnectTerminal(iccid);
+                    break;
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
+            }
+            return result;
+        }
+
+        public async Task<bool> SendSms(string iccid, string smsText)
+        {
+            bool result;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
+
+            switch (registrationProvider)
+            {
+                case ApiRegistrationProviderTypes.Jasper:
+                    var jasperClient = new JasperCellularClient(_credentialProvider);
+                    result = jasperClient.SendSms(iccid, smsText);
+                    break;
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var ericssonClient = new EricssonCellularClient(_credentialProvider);
+                    result = ericssonClient.SendSms(iccid, smsText);
+                    break;
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
+            }
+            return result;
+        }
+
+
+        public SubscriptionPackage GetCurrentSubscriptionPackage(string iccid)
+        {
+            return GetAvailableSubscriptionPackages(iccid).FirstOrDefault(s => s.Name == "Basic");
         }
 
         /// <summary>
@@ -134,7 +223,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         /// <returns>True if valid. False if not valid</returns>
         public bool ValidateCredentials()
         {
-            bool isValid = false;
+            bool isValid;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
             switch (registrationProvider)
@@ -151,5 +240,44 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
 
             return isValid;
         }
+
+        private List<SimState> getAvailableSimStates()
+        {
+            return new List<SimState>()
+            {
+                new SimState()
+                {
+                    Id = "1",
+                    Name = "Active"
+                },
+                new SimState()
+                {
+                    Id = "2",
+                    Name = "Disconnected"
+                }
+            };
+        }
+
+        /// <summary>
+        /// Gets the available subscription packages from the appropriate api provider
+        /// </summary>
+        /// <returns>SubscriptionPackage Model</returns>
+        private List<SubscriptionPackage> getAvailableSubscriptionPackages()
+        {
+            return new List<SubscriptionPackage>()
+            {
+                new SubscriptionPackage()
+                {
+                    Id = "1",
+                    Name = "Basic"
+                },
+                new SubscriptionPackage()
+                {
+                    Id = "2",
+                    Name = "Expensive"
+                }
+            };
+        }
+
     }
 }

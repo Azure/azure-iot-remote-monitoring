@@ -1088,7 +1088,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your provider doesn&apos;t have an API to automatically retrieve available ICCIDs for your SIMs. Please use the file upload below to upload the ICCIDs that you have available.
+        ///   Looks up a localized string similar to Your provider doesn&apos;t have an API to automatically retrieve available ICCIDs for your SIMs. Please use the upload button to add the ICCIDs that you have available in CSV format.
         /// </summary>
         public static string DeviceAssociationIccidUploadText {
             get {
@@ -3401,6 +3401,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SIM Details.
+        /// </summary>
+        public static string SIMDetails {
+            get {
+                return ResourceManager.GetString("SIMDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First Activation Date.
         /// </summary>
         public static string SimFirstActivationDate {
@@ -3415,15 +3424,6 @@ namespace GlobalResources {
         public static string SimIccid {
             get {
                 return ResourceManager.GetString("SimIccid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SIM Information....
-        /// </summary>
-        public static string SimInformation {
-            get {
-                return ResourceManager.GetString("SimInformation", resourceCulture);
             }
         }
         
@@ -3694,6 +3694,15 @@ namespace GlobalResources {
         public static string UpdateActionsIsDisabled {
             get {
                 return ResourceManager.GetString("UpdateActionsIsDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload.
+        /// </summary>
+        public static string Upload {
+            get {
+                return ResourceManager.GetString("Upload", resourceCulture);
             }
         }
         

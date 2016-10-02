@@ -5,38 +5,40 @@
 @if (Model.HasRegistration)
 {
     <fieldset class="registration_content">
-	    <div class="registration_textbox">
-		    <h2 class="registration_description">@Strings.DeviceId</h2>
-		    @Html.DropDownList("UnassignedDeviceIds", new SelectList(Model.UnassignedDeviceIds, Model.UnassignedDeviceIds), new { @class = "advanced_dropdown" })
-	    </div>
+        <div class="registration_textbox">
+            <h2 class="registration_description">@Strings.DeviceId</h2>
+            @Html.DropDownList("UnassignedDeviceIds", new SelectList(Model.UnassignedDeviceIds, Model.UnassignedDeviceIds), new { @class = "advanced_dropdown" })
+        </div>
     </fieldset>
-		if (Model.UnassignedIccidList.Any())
-		{
-			<fieldset class="registration_content">
-				<div class="registration_textbox">
-					<h2 class="registration_description">@Strings.IccidLabel</h2>
-					@Html.DropDownList("UnassignedIccids", new SelectList(Model.UnassignedIccidList, Model.UnassignedIccidList), new {@class = "advanced_dropdown"})
-				</div>
-			</fieldset>
-		}
-		else
-		{
-			<fieldset class="registration_content">
-				<p class="small">@Strings.DeviceAssociationNoUnasignedIccidsText</p>
-			</fieldset>
-		}
-   
+    if (Model.UnassignedIccidList.Any())
+    {
+        <fieldset class="registration_content">
+            <div class="registration_textbox">
+                <h2 class="registration_description">@Strings.IccidLabel</h2>
+                @Html.DropDownList("UnassignedIccids", new SelectList(Model.UnassignedIccidList, Model.UnassignedIccidList), new { @class = "advanced_dropdown" })
+            </div>
+        </fieldset>
+            <fieldset class="registration_content">
+                <div class="fieldset_button">
+                    <button id="associateButton" class="add_new_button" type="button">@Strings.Associate</button>
+                    <br />
+                </div>
+            </fieldset>
+    }
+    else
+    {
+        <fieldset class="registration_content">
+            <p class="small">@Strings.DeviceAssociationNoUnasignedIccidsText</p>
+        </fieldset>
+    }
 
-	if (Model.ApiRegistrationProvider == ApiRegistrationProviderTypes.Ericsson)
-	{
-	    Html.RenderPartial("_IccidUpload");
-	}
 
-    <div class="fieldset_button">
-		<button id="associateButton" class="add_new_button" type="button">@Strings.Associate</button>
-	</div>
+    if (Model.ApiRegistrationProvider == ApiRegistrationProviderTypes.Ericsson)
+    {
+        Html.RenderPartial("_IccidUpload");
+    }
     <div id="associateSucceeded" class="registration_succeeded">
-	    <h2>&#10004; <span id="associateSucceededText"></span></h2>
+        <h2>&#10004; <span id="associateSucceededText"></span></h2>
     </div>
     <script>
         "use strict";

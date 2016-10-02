@@ -16,13 +16,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         IEnumerable<string> GetListOfAvailableIccids(IList<DeviceModel> devices, string providerName);
         IEnumerable<string> GetListOfAvailableDeviceIDs(IList<DeviceModel> devices);
         IEnumerable<string> GetListOfConnectedDeviceIds(IList<DeviceModel> devices);
-        SimState GetCurrentSimState();
-        List<SimState> GetAvailableSimStates();
-        SubscriptionPackage GetCurrentSubscriptionPackage();
-        List<SubscriptionPackage> GetAvailableSubscriptionPackages();
-        Task<bool> UpdateSimState(DeviceModel device);
-        Task<bool> UpdateSubscriptionPackage(DeviceModel device);
-        Task<bool> ReconnectDevice(DeviceModel device);
-        Task<bool> SendSms(DeviceModel device);
+        SimState GetCurrentSimState(string iccid);
+        List<SimState> GetAvailableSimStates(string iccid);
+        SubscriptionPackage GetCurrentSubscriptionPackage(string iccid);
+        List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid);
+        Task<bool> UpdateSimState(string iccid, string updatedState);
+        Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage);
+        Task<bool> ReconnectDevice(string iccid);
+        Task<bool> SendSms(string iccid, string smsText);
     }
 }
