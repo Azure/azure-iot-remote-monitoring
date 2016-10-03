@@ -194,6 +194,21 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             };
         }
 
+        public List<SimState> GetValidTargetSimStates(SimState currentState)
+        {
+            return new List<SimState>()
+            {
+                new SimState()
+                {
+                    Name = "Active"
+                },
+                new SimState()
+                {
+                    Name = "Disconnected"
+                }
+            };
+        }
+
         /// <summary>
         /// Gets the current subscription package for a terminal
         /// </summary>

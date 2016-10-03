@@ -14,8 +14,8 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         bool ValidateCredentials();
         Terminal GetSingleTerminalDetails(Iccid iccid);
         List<SessionInfo> GetSingleSessionInfo(Iccid iccid);
-        SimState GetCurrentSimState(string iccid);
-        List<SimState> GetAvailableSimStates(string iccid);
+        List<SimState> GetAllAvailableSimStates(string iccid);
+        List<SimState> GetValidTargetSimStates(SimState currentState);
         List<SubscriptionPackage> GetAvailableSubscriptionPackages();
         Task<bool> UpdateSimState(string iccid, string updatedState);
         Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage);

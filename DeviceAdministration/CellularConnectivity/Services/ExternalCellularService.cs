@@ -79,12 +79,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return sessionInfo;
         }
 
-        public SimState GetCurrentSimState(string iccid)
-        {
-            return GetAvailableSimStates(iccid).FirstOrDefault(s => s.Name == "Active");
-        }
-
-        public List<SimState> GetAvailableSimStates(string iccid)
+        public List<SimState> GetAllAvailableSimStates(string iccid)
         {
             List<SimState> availableStates;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
@@ -97,7 +92,28 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
-                    availableStates = ericssonClient.GetAvailableSimStates(iccid);
+                    availableStates = ericssonClient.GetAllAvailableSimStates();
+                    break;
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
+            }
+            return availableStates;
+        }
+
+        public List<SimState> GetValidTargetSimStates(SimState currentState)
+        {
+            List<SimState> availableStates;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
+
+            switch (registrationProvider)
+            {
+                case ApiRegistrationProviderTypes.Jasper:
+                    var jasperClient = new JasperCellularClient(_credentialProvider);
+                    availableStates = jasperClient.GetValidTargetSimStates(currentState);
+                    break;
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var ericssonClient = new EricssonCellularClient(_credentialProvider);
+                    availableStates = ericssonClient.GetValidTargetSimStates(currentState);
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");

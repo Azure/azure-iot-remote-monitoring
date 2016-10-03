@@ -90,14 +90,14 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             return new List<SessionInfo>();
         }
 
-        public SimState GetCurrentSimState(string iccid)
-        {
-            return GetAvailableSimStates(iccid).FirstOrDefault(s => s.Name == "Active");
-        }
-
-        public List<SimState> GetAvailableSimStates(string iccid)
+        public List<SimState> GetAllAvailableSimStates()
         {
             return GetSimStatesFromEricssonSimStateEnum();
+        }
+
+        public List<SimState> GetValidTargetSimStates(SimState currentState)
+        {
+            return GetValidTargetSimStatesFromEricssonEnum(currentState);
         }
 
         /// <summary>
@@ -134,7 +134,26 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             });
         }
 
-        public static List<SimState> GetSimStatesFromEricssonSimStateEnum()
+        public List<SimState> GetValidTargetSimStatesFromEricssonEnum(SimState currentState)
+        {
+            var validTargets =  allValidTargetStates().Select(simState => new SimState()
+            {
+                Name = simState.ToString(),
+                IsActive = false
+            }).ToList();
+            var selected = validTargets.FirstOrDefault(s => s.Name == currentState.Name);
+            if (selected == null)
+            {
+                validTargets.Add(currentState);
+            }
+            else
+            {
+                selected.IsActive = true;
+            }
+            return validTargets;
+        }
+
+        public List<SimState> GetSimStatesFromEricssonSimStateEnum()
         {
             return Enum.GetNames(typeof(subscriptionStatus)).Select(simStateName => new SimState()
             {
@@ -156,6 +175,17 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         public bool SendSms(string iccid, string smsText)
         {
             return true;
+        }
+
+        private List<subscriptionStatus> allValidTargetStates()
+        {
+            return new List<subscriptionStatus>()
+            {
+                subscriptionStatus.Active,
+                subscriptionStatus.Deactivated,
+                subscriptionStatus.Terminated,
+                subscriptionStatus.Pause
+            };
         }
 
     }
