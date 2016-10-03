@@ -7,11 +7,14 @@
 </header>
 <section class="details_grid_general">
     <h4>@Strings.CellularInformationLabel</h4>
-    
-    <button id="editCellularInformation" class="button_base edit_button">@Strings.Edit</button>
-    <button id="saveCellularInformation" class="button_base edit_button" disabled>@Strings.Save</button>
-
-    <p><strong>@Strings.CellularInformationSimStateLabel </strong>
+    <p>
+        <button id="editCellularInformation" class="button_base edit_button">@Strings.Edit</button>
+        <button id="saveCellularInformation" class="button_base edit_button" disabled>@Strings.Save</button>
+    </p>
+    <br/>
+    <br />
+    <p>
+        <strong>@Strings.CellularInformationSimStateLabel </strong>
     </p>
     <select id="simStateSelect" class="form_input select_box space_below" disabled>
         @foreach (var simState in @Model.AvailableSimStates)
@@ -20,7 +23,8 @@
         }
     </select>
 
-    <p><strong>@Strings.CellularInformationRatePlanLabel </strong>
+    <p>
+        <strong>@Strings.CellularInformationRatePlanLabel </strong>
     </p>
     <select id="subscriptionPackageSelect" class="form_input select_box space_below" disabled>
         @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
@@ -45,15 +49,15 @@
     @switch (Model.ApiRegistrationProvider)
     {
         case ApiRegistrationProviderTypes.Jasper:
-        {
-            @Html.Partial("_CellularInformationJasper", Model)
-            break;
-        }
+            {
+                @Html.Partial("_CellularInformationJasper", Model)
+                break;
+            }
         case ApiRegistrationProviderTypes.Ericsson:
-        {
-            @Html.Partial("_CellularInformationEricsson", Model)
-            break;
-        }
+            {
+                @Html.Partial("_CellularInformationEricsson", Model)
+                break;
+            }
     }
 
     @Html.Partial("_CellularActions", Model)
@@ -66,7 +70,7 @@
         <div class="jasper_info_text">@Strings.SimInformationInfoTextJasper</div>
 
     }
-    <br/>
+    <br />
 </section>
 
 <script>
