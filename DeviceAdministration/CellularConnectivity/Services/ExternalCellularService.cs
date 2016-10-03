@@ -250,12 +250,10 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             {
                 new SimState()
                 {
-                    Id = "1",
                     Name = "Active"
                 },
                 new SimState()
                 {
-                    Id = "2",
                     Name = "Disconnected"
                 }
             };

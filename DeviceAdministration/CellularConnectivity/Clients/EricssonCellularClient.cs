@@ -97,19 +97,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public List<SimState> GetAvailableSimStates(string iccid)
         {
-            return new List<SimState>()
-            {
-                new SimState()
-                {
-                    Id = "1",
-                    Name = "Active"
-                },
-                new SimState()
-                {
-                    Id = "2",
-                    Name = "Disconnected"
-                }
-            };
+            return GetSimStatesFromEricssonSimStateEnum();
         }
 
         /// <summary>
@@ -164,6 +152,15 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             {
                 serviceRequestId = serviceRequestId
             });
+        }
+
+        public static List<SimState> GetSimStatesFromEricssonSimStateEnum()
+        {
+            return Enum.GetNames(typeof(subscriptionStatus)).Select(simStateName => new SimState()
+            {
+                Name = simStateName,
+                IsActive = false
+            }).ToList();
         }
 
         public bool UpdateSubscriptionPackage(string iccid, string updatedPackage)

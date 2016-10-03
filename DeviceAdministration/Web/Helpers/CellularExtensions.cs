@@ -85,11 +85,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return _cellularService.GetCurrentSubscriptionPackage(iccid);
         }
 
-        public List<SimState> GetAvailableSimStates(string iccid)
+        public List<SimState> GetAvailableSimStates(string iccid, string currentState)
         {
             var availableSimStates = _cellularService.GetAvailableSimStates(iccid);
-            var currentSimState = GetCurrentSimState(iccid);
-            return markActiveSimState(currentSimState.Name, availableSimStates);
+            return markActiveSimState(currentState, availableSimStates);
         }
 
         public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid)
@@ -141,7 +140,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             return availableSimStates.Select(s =>
             {
-                if (s.Id == selectedSubscriptionName) s.IsActive = true;
+                if (s.Name == selectedSubscriptionName) s.IsActive = true;
                 return s;
             }).ToList();
         }

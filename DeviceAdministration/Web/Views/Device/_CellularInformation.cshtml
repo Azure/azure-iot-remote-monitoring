@@ -19,7 +19,7 @@
     <select id="simStateSelect" class="form_input select_box space_below" disabled>
         @foreach (var simState in @Model.AvailableSimStates)
         {
-            <option value="@simState.Name">@simState.Name</option>
+            <option value="@simState.Name" selected="@simState.IsActive">@simState.Name</option>
         }
     </select>
 
@@ -29,7 +29,7 @@
     <select id="subscriptionPackageSelect" class="form_input select_box space_below" disabled>
         @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
         {
-            <option value="@subscriptionPackage.Name">@subscriptionPackage.Name</option>
+            <option value="@subscriptionPackage.Name" selected="@subscriptionPackage.IsActive">@subscriptionPackage.Name</option>
         }
     </select>
 

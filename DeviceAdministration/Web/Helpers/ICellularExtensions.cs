@@ -17,7 +17,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         IEnumerable<string> GetListOfAvailableDeviceIDs(IList<DeviceModel> devices);
         IEnumerable<string> GetListOfConnectedDeviceIds(IList<DeviceModel> devices);
         SimState GetCurrentSimState(string iccid);
-        List<SimState> GetAvailableSimStates(string iccid);
+        List<SimState> GetAvailableSimStates(string iccid, string currentState);
         SubscriptionPackage GetCurrentSubscriptionPackage(string iccid);
         List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid);
         Task<bool> UpdateSimState(string iccid, string updatedState);

@@ -185,12 +185,10 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             {
                 new SimState()
                 {
-                    Id = "1",
                     Name = "Active"
                 },
                 new SimState()
                 {
-                    Id = "2",
                     Name = "Disconnected"
                 }
             };
