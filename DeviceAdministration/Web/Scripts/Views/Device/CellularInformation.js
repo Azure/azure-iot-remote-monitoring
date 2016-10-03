@@ -97,7 +97,7 @@ IoTApp.createModule("IoTApp.CellularInformation", function () {
 
     /**
      * Generic function for post action request success. Will reload the cellular information details.
-     * @param {any} data the data returned by the api
+     * @param {any} response the data returned by the api
      * @returns {Promise} Returns the promise returned by IoTApp.DeviceDetails.onCellularDetailsDone
      */
     var onActionRequestSuccess = function (response) {
