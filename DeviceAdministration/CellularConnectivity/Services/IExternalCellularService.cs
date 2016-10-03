@@ -16,8 +16,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         List<SessionInfo> GetSingleSessionInfo(Iccid iccid);
         SimState GetCurrentSimState(string iccid);
         List<SimState> GetAvailableSimStates(string iccid);
-        SubscriptionPackage GetCurrentSubscriptionPackage(string iccid);
-        List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid);
+        List<SubscriptionPackage> GetAvailableSubscriptionPackages();
         Task<bool> UpdateSimState(string iccid, string updatedState);
         Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage);
         Task<bool> ReconnectTerminal(string iccid);

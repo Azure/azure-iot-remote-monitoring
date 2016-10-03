@@ -201,14 +201,14 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         /// <returns>The subscription package object</returns>
         public SubscriptionPackage GetCurrentSubscriptionPackage(string iccid)
         {
-            return GetAvailableSubscriptionPackages(iccid).FirstOrDefault(s => s.Name == "Basic");
+            return GetAvailableSubscriptionPackages().FirstOrDefault(s => s.Name == "Basic");
         }
 
         /// <summary>
         /// Gets the available subscription packages from the appropriate api provider
         /// </summary>
         /// <returns>SubscriptionPackage Model</returns>
-        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid)
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages()
         {
             return new List<SubscriptionPackage>()
             {

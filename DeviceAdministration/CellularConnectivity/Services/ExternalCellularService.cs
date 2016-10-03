@@ -105,20 +105,26 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return availableStates;
         }
 
-        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid)
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages()
         {
-            List<SubscriptionPackage> availableSubscriptionPackages;
+            List<SubscriptionPackage> availableSubscriptionPackages = new List<SubscriptionPackage>();
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
             switch (registrationProvider)
             {
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
-                    availableSubscriptionPackages = jasperClient.GetAvailableSubscriptionPackages(iccid);
+                    availableSubscriptionPackages = jasperClient.GetAvailableSubscriptionPackages();
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
-                    availableSubscriptionPackages = ericssonClient.GetAvailableSubscriptionPackages(iccid);
+                    var subscriptionQueryResponse = ericssonClient.GetAvailableSubscriptionPackages();
+                    availableSubscriptionPackages.AddRange(subscriptionQueryResponse.Select(
+                        subscription => new SubscriptionPackage()
+                    {
+                        Name = subscription.subscriptionPackageName,
+                        IsActive = false
+                    }));
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
@@ -214,9 +220,9 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         }
 
 
-        public SubscriptionPackage GetCurrentSubscriptionPackage(string iccid)
+        public SubscriptionPackage GetCurrentSubscriptionPackage(string currentSubscriptionName)
         {
-            return GetAvailableSubscriptionPackages(iccid).FirstOrDefault(s => s.Name == "Basic");
+            return GetAvailableSubscriptionPackages().FirstOrDefault(s => s.Name == currentSubscriptionName);
         }
 
         /// <summary>

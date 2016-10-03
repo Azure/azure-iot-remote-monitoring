@@ -101,34 +101,14 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         }
 
         /// <summary>
-        /// Gets the current subscription package for a terminal
-        /// </summary>
-        /// <param name="iccid">The iccid of the terminal</param>
-        /// <returns>The subscription package object</returns>
-        public SubscriptionPackage GetCurrentSubscriptionPackage(string iccid)
-        {
-            return GetAvailableSubscriptionPackages(iccid).FirstOrDefault(s => s.Name == "Basic");
-        }
-
-        /// <summary>
         /// Gets the available subscription packages from the appropriate api provider
         /// </summary>
         /// <returns>SubscriptionPackage Model</returns>
-        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid)
+        public subscriptionPackage[] GetAvailableSubscriptionPackages()
         {
-            return new List<SubscriptionPackage>()
-            {
-                new SubscriptionPackage()
-                {
-                    Id = "1",
-                    Name = "Basic"
-                },
-                new SubscriptionPackage()
-                {
-                    Id = "2",
-                    Name = "Expensive"
-                }
-            };
+            var subscriptionManagementClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
+            var availableSubscriptions = subscriptionManagementClient.QuerySubscriptionPackages(new QuerySubscriptionPackages());
+            return availableSubscriptions;
         }
 
         public RequestSubscriptionStatusChangeResponse UpdateSimState(string iccid, subscriptionStatusRequest updatedState)

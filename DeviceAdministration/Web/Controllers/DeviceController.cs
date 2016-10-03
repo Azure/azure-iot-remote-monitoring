@@ -464,7 +464,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var apiProviderDetails = _apiRegistrationRepository.RecieveDetails();
             viewModel.ApiRegistrationProvider = Convert.ToString(apiProviderDetails.ApiRegistrationProvider);
             viewModel.AvailableSimStates = _cellularExtensions.GetAvailableSimStates(iccid, viewModel.TerminalDevice.Status);
-            viewModel.AvailableSubscriptionPackages = _cellularExtensions.GetAvailableSubscriptionPackages(iccid);
+            viewModel.AvailableSubscriptionPackages = _cellularExtensions.GetAvailableSubscriptionPackages(viewModel.TerminalDevice.RatePlan);
             viewModel.CellularActionUpdateResponse = actionResponstModel;
             return viewModel;
         }
