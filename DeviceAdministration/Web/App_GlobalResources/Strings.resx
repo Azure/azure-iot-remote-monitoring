@@ -1411,7 +1411,7 @@
     <value>Last Session Start: </value>
     <comment>Read-only field label.</comment>
   </data>
-  <data name="CellularActionsSimStatus" xml:space="preserve">
+  <data name="CellularInformationSimStatus" xml:space="preserve">
     <value>SIM Status: </value>
     <comment>Read-only field label. {Locked="SIM"}</comment>
   </data>
@@ -1762,12 +1762,12 @@
     <value>Sim Actions</value>
     <comment>Label</comment>
   </data>
-  <data name="CellularActionsSimStateLabel" xml:space="preserve">
+  <data name="CellularInformationSimStateLabel" xml:space="preserve">
     <value>SIM State</value>
     <comment>Label</comment>
   </data>
-  <data name="CellularActionsSubscriptionPackageLabel" xml:space="preserve">
-    <value>Subscription Package</value>
+  <data name="CellularInformationRatePlanLabel" xml:space="preserve">
+    <value>Rate Plan</value>
     <comment>Label</comment>
   </data>
   <data name="EnableDeviceActions" xml:space="preserve">
@@ -1785,5 +1785,8 @@
   <data name="Upload" xml:space="preserve">
     <value>Upload</value>
     <comment>Button Label</comment>
+  </data>
+  <data name="CellularInformationLabel" xml:space="preserve">
+    <value>SIM Properties</value>
   </data>
 </root>

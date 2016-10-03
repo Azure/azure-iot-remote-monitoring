@@ -29,6 +29,7 @@
 /// <reference path="views/device/adddevicecopy.js" />
 /// <reference path="views/device/adddevicecreate.js" />
 /// <reference path="views/device/cellularactions.js" />
+/// <reference path="views/device/cellularinformation.js" />
 /// <reference path="Views/Device/DeviceDetails.js" />
 /// <reference path="Views/Device/DeviceIndex.js" />
 /// <reference path="views/device/deviceselecttype.js" />

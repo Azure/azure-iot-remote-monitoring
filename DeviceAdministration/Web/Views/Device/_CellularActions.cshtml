@@ -3,41 +3,23 @@
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @model  Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
 <h4>@Strings.CellularActionsSimActionsLabel</h4>
-<p><strong>@Strings.CellularActionsSimStateLabel </strong></p>
-
-<select id="simStateSelect" class="form_input select_box space_below" disabled>
-    @foreach (var simState in @Model.AvailableSimStates)
-        {
-        <option value="@simState.Name">@simState.Name</option>
-    }
-</select>
-<p><strong>@Strings.CellularActionsSubscriptionPackageLabel </strong></p>
-
-<select id="subscriptionPackageSelect" class="form_input select_box space_below" disabled>
-    @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
-    {
-        <option value="@subscriptionPackage.Name">@subscriptionPackage.Name</option>
-    }
-</select>
-
 <p><strong>@Strings.CellularActionsSendSmsLabel </strong></p>
 <textarea type="text" id="sendSmsTextBox" class="form_input text_area tall space_below" ></textarea>
-<button id="sendSms" class="button_base button_no_float cell_action_button space_below" disabled>@Strings.CellularActionsSendSms</button>
-<button id="reconnectDevice" class="button_base button_no_float cell_action_button space_below" disabled>@Strings.CellularActionsResetDeviceConnectionAction</button>
-<button id="editActions" class="button_base edit_button">@Strings.Edit</button>
-<button id="saveActions" class="button_base edit_button" disabled>@Strings.Save</button>
-@if (Model.CellularActionUpdateResponse != null)
-{
-    if (Model.CellularActionUpdateResponse.Success)
+<button id="sendSms" class="button_base button_no_float cell_action_button space_below">@Strings.CellularActionsSendSms</button>
+<button id="reconnectDevice" class="button_base button_no_float cell_action_button space_below">@Strings.CellularActionsResetDeviceConnectionAction</button>
+<div id="cellularActionsResults">
+    @if (Model.CellularActionUpdateResponse != null)
     {
-        <p class="action_succeeded">Success</p>
+        if (Model.CellularActionUpdateResponse.Success)
+        {
+            <p class="action_succeeded">Success</p>
+        }
+        else
+        {
+            <p class="action_error">Error</p>
+        }
     }
-    else
-    {
-        <p class="action_error">Error</p>
-    }
-}
-
+</div>
 <br />
 <br />
 <script>

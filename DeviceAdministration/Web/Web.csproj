@@ -514,6 +514,7 @@
     <Content Include="Scripts\Views\Device\AddDeviceCopy.js" />
     <Content Include="Scripts\Views\Device\AddDeviceCreate.js" />
     <Content Include="Scripts\Views\Device\CellularActions.js" />
+    <Content Include="Scripts\Views\Device\CellularInformation.js" />
     <Content Include="Scripts\Views\Device\DeviceDetails.js" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />

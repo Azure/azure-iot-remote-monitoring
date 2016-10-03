@@ -593,33 +593,6 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SIM State.
-        /// </summary>
-        public static string CellularActionsSimStateLabel {
-            get {
-                return ResourceManager.GetString("CellularActionsSimStateLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SIM Status: .
-        /// </summary>
-        public static string CellularActionsSimStatus {
-            get {
-                return ResourceManager.GetString("CellularActionsSimStatus", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Subscription Package.
-        /// </summary>
-        public static string CellularActionsSubscriptionPackageLabel {
-            get {
-                return ResourceManager.GetString("CellularActionsSubscriptionPackageLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cellular Conn.
         /// </summary>
         public static string CellularConn {
@@ -643,6 +616,42 @@ namespace GlobalResources {
         public static string CellularConnViewTitle {
             get {
                 return ResourceManager.GetString("CellularConnViewTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SIM Properties.
+        /// </summary>
+        public static string CellularInformationLabel {
+            get {
+                return ResourceManager.GetString("CellularInformationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rate Plan.
+        /// </summary>
+        public static string CellularInformationRatePlanLabel {
+            get {
+                return ResourceManager.GetString("CellularInformationRatePlanLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SIM State.
+        /// </summary>
+        public static string CellularInformationSimStateLabel {
+            get {
+                return ResourceManager.GetString("CellularInformationSimStateLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SIM Status: .
+        /// </summary>
+        public static string CellularInformationSimStatus {
+            get {
+                return ResourceManager.GetString("CellularInformationSimStatus", resourceCulture);
             }
         }
         

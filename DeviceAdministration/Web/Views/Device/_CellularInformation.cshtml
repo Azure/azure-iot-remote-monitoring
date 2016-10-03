@@ -6,6 +6,42 @@
     <a href="#" id="deviceExplorer_CellInformationBack" class="details_grid__button_back grid_subheadhead_detail">@Strings.SimInformationBackText</a>
 </header>
 <section class="details_grid_general">
+    <h4>@Strings.CellularInformationLabel</h4>
+    
+    <button id="editCellularInformation" class="button_base edit_button">@Strings.Edit</button>
+    <button id="saveCellularInformation" class="button_base edit_button" disabled>@Strings.Save</button>
+
+    <p><strong>@Strings.CellularInformationSimStateLabel </strong>
+    </p>
+    <select id="simStateSelect" class="form_input select_box space_below" disabled>
+        @foreach (var simState in @Model.AvailableSimStates)
+        {
+            <option value="@simState.Name">@simState.Name</option>
+        }
+    </select>
+
+    <p><strong>@Strings.CellularInformationRatePlanLabel </strong>
+    </p>
+    <select id="subscriptionPackageSelect" class="form_input select_box space_below" disabled>
+        @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
+        {
+            <option value="@subscriptionPackage.Name">@subscriptionPackage.Name</option>
+        }
+    </select>
+
+    <div id="updateCellularInformationResults">
+        @if (Model.CellularActionUpdateResponse != null)
+        {
+            if (Model.CellularActionUpdateResponse.Success)
+            {
+                <p class="action_succeeded">Success</p>
+            }
+            else
+            {
+                <p class="action_error">Error</p>
+            }
+        }
+    </div>
     @switch (Model.ApiRegistrationProvider)
     {
         case ApiRegistrationProviderTypes.Jasper:
@@ -25,11 +61,16 @@
     {
         <div class="ericsson_info_text">@Strings.SimInformationInfoTextEricsson</div>
     }
-    else if(Model.ApiRegistrationProvider == ApiRegistrationProviderTypes.Jasper)
+    else if (Model.ApiRegistrationProvider == ApiRegistrationProviderTypes.Jasper)
     {
         <div class="jasper_info_text">@Strings.SimInformationInfoTextJasper</div>
-        
+
     }
-    <br />
+    <br/>
 </section>
 
+<script>
+    $(function () {
+        IoTApp.CellularInformation.init();
+    });
+</script>
