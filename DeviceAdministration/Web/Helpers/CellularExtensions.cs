@@ -125,7 +125,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             return availableSubscriptionPackages.Select(s =>
             {
-                if (s.Id == selectedSubscriptionName) s.IsActive = true;
+                if (s.Name == selectedSubscriptionName) s.IsActive = true;
                 return s;
             }).ToList();
         }

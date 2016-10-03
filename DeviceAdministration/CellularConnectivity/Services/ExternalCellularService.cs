@@ -275,12 +275,10 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             {
                 new SubscriptionPackage()
                 {
-                    Id = "1",
                     Name = "Basic"
                 },
                 new SubscriptionPackage()
                 {
-                    Id = "2",
                     Name = "Expensive"
                 }
             };
