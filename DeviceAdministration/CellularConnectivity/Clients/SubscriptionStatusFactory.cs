@@ -12,13 +12,41 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
     {
         public static subscriptionStatusRequest CreateEricssonSubscriptionStatusRequestEnum(string statusString)
         {
-            subscriptionStatusRequest result;
-            var statusEnum = Enum.TryParse(statusString, out result);
-            if (!statusEnum)
+            subscriptionStatus targetStatus;
+            var statusEnumParsed = Enum.TryParse(statusString, out targetStatus);
+            if (!statusEnumParsed)
             {
                 throw new ArgumentOutOfRangeException(nameof(statusString));
             }
+            var result = CreateSubscriptionStatusRequest(targetStatus);
             return result;
+        }
+
+        public static subscriptionStatusRequest CreateSubscriptionStatusRequest(subscriptionStatus targetStatus)
+        {
+            switch (targetStatus)
+            {
+                case subscriptionStatus.Active:
+                    {
+                        return subscriptionStatusRequest.Activate;
+                    }
+                case subscriptionStatus.Pause:
+                    {
+                        return subscriptionStatusRequest.Pause;
+                    }
+                case subscriptionStatus.Terminated:
+                    {
+                        return subscriptionStatusRequest.Terminate;
+                    }
+                case subscriptionStatus.Deactivated:
+                    {
+                        return subscriptionStatusRequest.Deactivate;
+                    }
+                default:
+                    {
+                        throw new ArgumentOutOfRangeException();
+                    }
+            }
         }
 
         public static SimState CreateSimStateFromEricssonEnum(
