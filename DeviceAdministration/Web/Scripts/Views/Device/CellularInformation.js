@@ -98,13 +98,10 @@ IoTApp.createModule("IoTApp.CellularInformation", function () {
     /**
      * Generic function for post action request success. Will reload the cellular information details.
      * @param {any} data the data returned by the api
-     * @returns {any} returns the data passed in so you can chain to another function with .then()
+     * @returns {Promise} Returns the promise returned by IoTApp.DeviceDetails.onCellularDetailsDone
      */
-    var onActionRequestSuccess = function (data) {
-        return IoTApp.DeviceDetails.getCellularDetailsView()
-            .then(function () {
-                return data;
-            });
+    var onActionRequestSuccess = function (response) {
+        return IoTApp.DeviceDetails.onCellularDetailsDone(response);
     }
 
     /**
@@ -113,7 +110,10 @@ IoTApp.createModule("IoTApp.CellularInformation", function () {
      * @returns {void} 
      */
     var onActionRequestError = function (error) {
-        toggleLoadingElement(false);
+        self.toggleLoadingElement(false);
+        IoTApp.DeviceDetails.renderRetryError(resources.unableToRetrieveDeviceFromService,
+            $('#details_grid_container'),
+            function () { IoTApp.DeviceDetails.getDeviceDetailsView(deviceId); });
         console.error(error);
     }
 
@@ -130,14 +130,10 @@ IoTApp.createModule("IoTApp.CellularInformation", function () {
         var requestModel = generateActionUpdateRequestFromInputs();
         if (requestModel.cellularActions.length <= 0) {
             toggleLoadingElement(false);
+            toggleInputDisabledProperty(true);
             return $.Deferred().resolve().promise();
         }
-        IoTApp.CellularActions.postActionRequest(requestModel).then(function (response) {
-            IoTApp.DeviceDetails.onCellularDetailsDone(response);
-        }, function () {
-            self.toggleLoadingElement(false);
-            IoTApp.DeviceDetails.renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
-        });
+        IoTApp.CellularActions.postActionRequest(requestModel).then(onActionRequestSuccess, onActionRequestError);
     }
 
     /**

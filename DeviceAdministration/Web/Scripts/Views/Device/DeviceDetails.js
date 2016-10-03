@@ -217,6 +217,7 @@
     return {
         init: init,
         getCellularDetailsView: getCellularDetailsView,
-        onCellularDetailsDone: onCellularDetailsDone
+        onCellularDetailsDone: onCellularDetailsDone,
+        displayCellularDetailsView: displayCellularDetailsView
     }
 }, [jQuery, resources]);
