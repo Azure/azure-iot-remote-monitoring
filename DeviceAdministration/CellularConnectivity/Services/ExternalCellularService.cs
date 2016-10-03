@@ -139,7 +139,10 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
-                    result = ericssonClient.UpdateSimState(iccid, updatedState);
+                    var status = SubscriptionStatusFactory.CreateEricssonSubscriptionStatusRequestEnum(updatedState);
+                    var requestResult = ericssonClient.UpdateSimState(iccid, status);
+                    // TODO SR property handle this response
+                    result = true;
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");

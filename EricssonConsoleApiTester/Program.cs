@@ -36,8 +36,35 @@ namespace EricssonConsoleApiTester
                     id = "89883011539830007560",
                     type = "icc"
                 }
-
             });
+
+            var subscriptionStatusChangeResult = subscriptionManClient.RequestSubscriptionStatusChange(new RequestSubscriptionStatusChange()
+            {
+                resource = new SubscriptionManagement.resource()
+                {
+                    id = "89883011539830007560",
+                    type = "icc"
+                },
+                subscriptionStatus = subscriptionStatusRequest.Activate
+            });
+
+            QuerySubscriptionStatusChangeResponse subscriptionStatusChangeReqeustStatus =
+                subscriptionManClient.QuerySubscriptionStatusChange(new QuerySubscriptionStatusChange()
+                {
+                    serviceRequestId = subscriptionStatusChangeResult.serviceRequestId
+                });
+
+            while (subscriptionStatusChangeReqeustStatus.statusRequestResponse != statusRequestResponse.Completed &&
+                   subscriptionStatusChangeReqeustStatus.statusRequestResponse != statusRequestResponse.Rejected)
+            {
+                subscriptionStatusChangeReqeustStatus =
+                subscriptionManClient.QuerySubscriptionStatusChange(new QuerySubscriptionStatusChange()
+                {
+                    serviceRequestId = subscriptionStatusChangeResult.serviceRequestId
+                });
+                System.Threading.Thread.Sleep(20000);
+            }
+
 
             var resp = subscriptionManClient.QuerySubscriptions(new QuerySubscriptionsRequest()
             {

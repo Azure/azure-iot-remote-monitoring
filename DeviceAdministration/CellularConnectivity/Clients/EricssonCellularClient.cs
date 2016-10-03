@@ -143,9 +143,27 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             };
         }
 
-        public bool UpdateSimState(string iccid, string updatedState)
+        public RequestSubscriptionStatusChangeResponse UpdateSimState(string iccid, subscriptionStatusRequest updatedState)
         {
-            return true;
+            var subscriptionManagementClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
+            return subscriptionManagementClient.RequestSubscriptionStatusChange(new RequestSubscriptionStatusChange()
+            {
+                resource = new resource()
+                {
+                    id = iccid,
+                    type = "icc"
+                },
+                subscriptionStatus = updatedState
+            });
+        }
+
+        public QuerySubscriptionStatusChangeResponse UpdateSimState(string serviceRequestId)
+        {
+            var subscriptionManagementClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
+            return subscriptionManagementClient.QuerySubscriptionStatusChange(new QuerySubscriptionStatusChange()
+            {
+                serviceRequestId = serviceRequestId
+            });
         }
 
         public bool UpdateSubscriptionPackage(string iccid, string updatedPackage)

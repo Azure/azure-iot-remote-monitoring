@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="Builders\EricssonServiceBuilder.cs" />
     <Compile Include="Builders\JasperServiceBuilder.cs" />
+    <Compile Include="Clients\SubscriptionStatusFactory.cs" />
     <Compile Include="Constants\JasperApiConstants.cs" />
     <Compile Include="Exceptions\CellularConnectivityException.cs" />
     <Compile Include="Argument.cs" />
