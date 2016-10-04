@@ -206,7 +206,8 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
-                    result = ericssonClient.ReconnectTerminal(iccid);
+                    ericssonClient.ReconnectTerminal(iccid);
+                    result = true;
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");

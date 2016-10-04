@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Builders;
+using DeviceManagement.Infrustructure.Connectivity.DeviceReconnect;
 using DeviceManagement.Infrustructure.Connectivity.EricssonApiService;
 using DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService;
 using DeviceManagement.Infrustructure.Connectivity.Models.Other;
@@ -161,9 +162,17 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             return true;
         }
 
-        public bool ReconnectTerminal(string iccid)
+        public ReconnectResponse ReconnectTerminal(string iccid)
         {
-            return true;
+            var deviceReconnectClient = EricssonServiceBuilder.GetDeviceReconnectClient(_credentialProvider.Provide());
+            return deviceReconnectClient.reconnect(new Reconnect()
+            {
+                resource = new Resource()
+                {
+                    id = iccid,
+                    type = ResourceType.icc
+                }
+            });
         }
 
         public bool SendSms(string iccid, string smsText)
