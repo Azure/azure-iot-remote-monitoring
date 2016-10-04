@@ -23,8 +23,8 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public bool ValidateCredentials()
         {
-           
-            var isValid = false;          
+
+            var isValid = false;
 
             //simple check - if it throws an exception then the creds are no good
             //todo: catch the correct error code
@@ -34,10 +34,10 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 apiStatusClient.echo(new echo());
                 isValid = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 isValid = false;
-            }    
+            }
             return isValid;
         }
 
@@ -60,10 +60,10 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             try
             {
                 var subManClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
-                var response = subManClient.QuerySimResource_v2(new QuerySimResource_v2() { resource = new resource() { id = iccid.Id , type = "icc"} });
+                var response = subManClient.QuerySimResource_v2(new QuerySimResource_v2() { resource = new resource() { id = iccid.Id, type = "icc" } });
 
                 //check it even exists
-                if(response.simResource.Length <=0) return terminal;
+                if (response.simResource.Length <= 0) return terminal;
                 var sim = response.simResource.First();
 
                 terminal.Status = sim.simSubscriptionStatus.ToString();
@@ -97,6 +97,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public List<SimState> GetValidTargetSimStates(SimState currentState)
         {
+            var allValidStates = GetValidTargetSimStatesFromEricssonEnum(currentState);
             return GetValidTargetSimStatesFromEricssonEnum(currentState);
         }
 
@@ -136,21 +137,46 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public List<SimState> GetValidTargetSimStatesFromEricssonEnum(SimState currentState)
         {
-            var validTargets =  allValidTargetStates().Select(simState => new SimState()
+            List<SimState> result;
+            var allValidTargets = allValidTargetStates().Select(simState => new SimState()
             {
                 Name = simState.ToString(),
                 IsActive = false
             }).ToList();
-            var selected = validTargets.FirstOrDefault(s => s.Name == currentState.Name);
+            var selected = allValidTargets.FirstOrDefault(s => s.Name == currentState.Name);
             if (selected == null)
             {
-                validTargets.Add(currentState);
+                allValidTargets.Add(currentState);
             }
             else
             {
                 selected.IsActive = true;
             }
-            return validTargets;
+
+            switch (currentState.Name)
+            {
+                case "Active":
+                    result = allValidTargets.Where(ss => ss.Name == "Deactivated" || ss.Name == "Pause" || ss.Name == "Terminated").ToList();
+                    break;
+                case "Deactivated":
+                    result = allValidTargets.Where(ss => ss.Name == "Active" || ss.Name == "Pause" || ss.Name == "Terminated").ToList();
+                    break;
+                case "Pause":
+                    result = allValidTargets.Where(ss => ss.Name == "Active" || ss.Name == "Terminated").ToList();
+                    break;
+                case "Terminated":
+                    result = allValidTargets.Where(ss => ss.Name == "Active").ToList();
+                    break;
+                default:
+                    {
+                        result = new List<SimState>()
+                        {
+                            currentState
+                        };
+                        break;
+                    }
+            }
+            return ensureCurrentStateIsInList(result, currentState);
         }
 
         public List<SimState> GetSimStatesFromEricssonSimStateEnum()
@@ -186,6 +212,15 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 subscriptionStatus.Terminated,
                 subscriptionStatus.Pause
             };
+        }
+
+        private List<SimState> ensureCurrentStateIsInList(List<SimState> simStateList, SimState currentState)
+        {
+            if (simStateList.All(s => s.Name != currentState.Name))
+            {
+                simStateList.Add(currentState);
+            }
+            return simStateList;
         }
 
     }
