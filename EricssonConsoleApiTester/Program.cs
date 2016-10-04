@@ -82,6 +82,9 @@ namespace EricssonConsoleApiTester
             //    System.Threading.Thread.Sleep(20000);
             //}
 
+            var ericssonSmsClient = new EricssonSmsClient("https://serviceportal.telenorconnexion.com/dcpapi/smsmessaging/v1/outbound/<senderAddress>/requests");
+
+            ericssonSmsClient.DownloadPageAsync();
 
             var resp = subscriptionManClient.QuerySubscriptions(new QuerySubscriptionsRequest()
             {
