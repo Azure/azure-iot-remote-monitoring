@@ -123,6 +123,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public bool UpdateSubscriptionPackage(string iccid, string updatedPackage)
         {
+            var proxy = BuildJasperTerminalClientProxy();
             return true;
         }
 

@@ -327,6 +327,12 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DeviceAdministration\CellularConnectivity\DeviceManagement.Infrastructure.Connectivity.csproj">
+      <Project>{1d674cc1-a1ae-4450-b167-3ccfafcbbdcd}</Project>
+      <Name>DeviceManagement.Infrastructure.Connectivity</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

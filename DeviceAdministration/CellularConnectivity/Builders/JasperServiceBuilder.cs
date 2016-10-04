@@ -5,7 +5,7 @@ using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Builders
 {
-    internal static class JasperServiceBuilder
+    public static class JasperServiceBuilder
     {
         public static BillingService GetBillingService(ICredentials jasperCredentials)
         {
