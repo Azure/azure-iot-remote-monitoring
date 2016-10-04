@@ -557,7 +557,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Send Reconnect.
+        ///   Looks up a localized string similar to Reconnect.
         /// </summary>
         public static string CellularActionsResetDeviceConnectionAction {
             get {

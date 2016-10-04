@@ -1755,7 +1755,7 @@
     <comment>Button Label</comment>
   </data>
   <data name="CellularActionsResetDeviceConnectionAction" xml:space="preserve">
-    <value>Send Reconnect</value>
+    <value>Reconnect</value>
     <comment>Label</comment>
   </data>
   <data name="CellularActionsSimActionsLabel" xml:space="preserve">

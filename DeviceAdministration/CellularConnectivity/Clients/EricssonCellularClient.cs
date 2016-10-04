@@ -97,8 +97,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public List<SimState> GetValidTargetSimStates(SimState currentState)
         {
-            var allValidStates = GetValidTargetSimStatesFromEricssonEnum(currentState);
-            return GetValidTargetSimStatesFromEricssonEnum(currentState);
+            return getValidTargetSimStates(currentState);
         }
 
         /// <summary>
@@ -135,50 +134,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             });
         }
 
-        public List<SimState> GetValidTargetSimStatesFromEricssonEnum(SimState currentState)
-        {
-            List<SimState> result;
-            var allValidTargets = allValidTargetStates().Select(simState => new SimState()
-            {
-                Name = simState.ToString(),
-                IsActive = false
-            }).ToList();
-            var selected = allValidTargets.FirstOrDefault(s => s.Name == currentState.Name);
-            if (selected == null)
-            {
-                allValidTargets.Add(currentState);
-            }
-            else
-            {
-                selected.IsActive = true;
-            }
-
-            switch (currentState.Name)
-            {
-                case "Active":
-                    result = allValidTargets.Where(ss => ss.Name == "Deactivated" || ss.Name == "Pause" || ss.Name == "Terminated").ToList();
-                    break;
-                case "Deactivated":
-                    result = allValidTargets.Where(ss => ss.Name == "Active" || ss.Name == "Pause" || ss.Name == "Terminated").ToList();
-                    break;
-                case "Pause":
-                    result = allValidTargets.Where(ss => ss.Name == "Active" || ss.Name == "Terminated").ToList();
-                    break;
-                case "Terminated":
-                    result = allValidTargets.Where(ss => ss.Name == "Active").ToList();
-                    break;
-                default:
-                    {
-                        result = new List<SimState>()
-                        {
-                            currentState
-                        };
-                        break;
-                    }
-            }
-            return ensureCurrentStateIsInList(result, currentState);
-        }
-
+      
         public List<SimState> GetSimStatesFromEricssonSimStateEnum()
         {
             return Enum.GetNames(typeof(subscriptionStatus)).Select(simStateName => new SimState()
@@ -222,6 +178,51 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             }
             return simStateList;
         }
+
+        private List<SimState> getValidTargetSimStates(SimState currentState)
+        {
+            List<SimState> result;
+            var allValidTargets = allValidTargetStates().Select(simState => new SimState()
+            {
+                Name = simState.ToString(),
+                IsActive = false
+            }).ToList();
+            var selected = allValidTargets.FirstOrDefault(s => s.Name == currentState.Name);
+            if (selected == null)
+            {
+                allValidTargets.Add(currentState);
+            }
+            else
+            {
+                selected.IsActive = true;
+            }
+
+            switch (currentState.Name)
+            {
+                case "Active":
+                    result = allValidTargets.Where(ss => ss.Name == "Deactivated" || ss.Name == "Pause" || ss.Name == "Terminated").ToList();
+                    break;
+                case "Deactivated":
+                    result = allValidTargets.Where(ss => ss.Name == "Active" || ss.Name == "Pause" || ss.Name == "Terminated").ToList();
+                    break;
+                case "Pause":
+                    result = allValidTargets.Where(ss => ss.Name == "Active" || ss.Name == "Terminated").ToList();
+                    break;
+                case "Terminated":
+                    result = allValidTargets.Where(ss => ss.Name == "Active").ToList();
+                    break;
+                default:
+                    {
+                        result = new List<SimState>()
+                        {
+                            currentState
+                        };
+                        break;
+                    }
+            }
+            return ensureCurrentStateIsInList(result, currentState);
+        }
+
 
     }
 }
