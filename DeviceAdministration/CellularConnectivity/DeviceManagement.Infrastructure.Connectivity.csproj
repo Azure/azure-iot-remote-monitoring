@@ -48,6 +48,11 @@
     <Compile Include="Models\TerminalDevice\Msisdn.cs" />
     <Compile Include="Proxies\AuthenticationValidationProxy.cs" />
     <Compile Include="Proxies\IAuthenticationValidationProxy.cs" />
+    <Compile Include="Service References\DeviceReconnect\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\EricssonApiService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -114,6 +119,13 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-1.9.1.min.map" />
+    <None Include="Service References\DeviceReconnect\DeviceManagement.Infrustructure.Connectivity.DeviceReconnect.ReconnectResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DeviceReconnect\DeviceManagement.Infrustructure.Connectivity.DeviceReconnect.reconnectResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DeviceReconnect\DeviceReconnectService.wsdl" />
     <None Include="Service References\EricssonApiService\ApiStatusService.wsdl" />
     <None Include="Service References\EricssonApiService\DeviceManagement.Infrustructure.Connectivity.EricssonApiService.echoResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -385,6 +397,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\DeviceReconnect\" />
     <WCFMetadataStorage Include="Service References\EricssonApiService\" />
     <WCFMetadataStorage Include="Service References\EricssonSubscriptionService\" />
   </ItemGroup>
@@ -423,6 +436,12 @@
     <Content Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <None Include="Service References\DeviceReconnect\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\DeviceReconnect\configuration.svcinfo" />
+    <None Include="Service References\DeviceReconnect\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\Ericsson\" />
