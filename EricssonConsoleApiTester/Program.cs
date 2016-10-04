@@ -6,6 +6,7 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.Web.Services.Protocols;
 using EricssonConsoleApiTester.ApiStatus;
+using EricssonConsoleApiTester.DeviceReconnect;
 using EricssonConsoleApiTester.RealtimeTrace;
 using EricssonConsoleApiTester.SubscriptionManagement;
 using EricssonConsoleApiTester.SubscriptionTraffic;
@@ -38,7 +39,21 @@ namespace EricssonConsoleApiTester
                 }
             });
 
-            var subscriptionQuery = subscriptionManClient.QuerySubscriptionPackages(new QuerySubscriptionPackages());
+            var reconnectClient = new DeviceReconnectClient();
+            reconnectClient.Endpoint.Address =
+                EricssonEndpointBuilder.GetAuthorizedEndpoint(
+                    "https://orange.dcp.ericsson.net/dcpapi/DeviceReconnect");
+
+            reconnectClient.reconnect(new Reconnect()
+            {
+                resource = new Resource()
+                {
+                    id = "89883011539830007560",
+                    type = ResourceType.icc
+                }
+            });
+
+            //var subscriptionQuery = subscriptionManClient.QuerySubscriptionPackages(new QuerySubscriptionPackages());
 
             //var subscriptionStatusChangeResult = subscriptionManClient.RequestSubscriptionStatusChange(new RequestSubscriptionStatusChange()
             //{

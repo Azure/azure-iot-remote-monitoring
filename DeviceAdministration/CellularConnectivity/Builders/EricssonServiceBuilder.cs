@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using System.ServiceModel.Channels;
 using System.ServiceModel;
+using DeviceManagement.Infrustructure.Connectivity.DeviceReconnect;
 using DeviceManagement.Infrustructure.Connectivity.EricssonApiService;
 using DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService;
 
@@ -34,6 +35,16 @@ namespace DeviceManagement.Infrustructure.Connectivity.Builders
             //end
 
             return new SubscriptionManagementClient(binding, endpointAddress);
+        }
+
+        public static DeviceReconnectClient GetDeviceReconnectClient(ICredentials credentials)
+        {
+            // create custom auth endpoint and also programatically add bindings (you need to do this for each type of client)
+            var endpointAddress = GetAuthorizedEndpoint(credentials, $"{credentials.BaseUrl}/dcpapi/DeviceReconnect");
+            var binding = GetBasicHttpBinding();
+            //end
+
+            return new DeviceReconnectClient(binding, endpointAddress);
         }
 
 

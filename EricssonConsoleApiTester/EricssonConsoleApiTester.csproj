@@ -66,6 +66,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\DeviceReconnect\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\RealtimeTrace\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -94,6 +99,13 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\ApiStatus\EricssonConsoleApiTester.ApiStatus.echoResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DeviceReconnect\DeviceReconnectService.wsdl" />
+    <None Include="Service References\DeviceReconnect\EricssonConsoleApiTester.DeviceReconnect.ReconnectResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DeviceReconnect\EricssonConsoleApiTester.DeviceReconnect.reconnectResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\RealtimeTrace\EricssonConsoleApiTester.RealtimeTrace.QueryResponse.datasource">
@@ -246,6 +258,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\ApiStatus\" />
+    <WCFMetadataStorage Include="Service References\DeviceReconnect\" />
     <WCFMetadataStorage Include="Service References\RealtimeTrace\" />
     <WCFMetadataStorage Include="Service References\SubscriptionManagement\" />
     <WCFMetadataStorage Include="Service References\SubscriptionTraffic\" />
@@ -297,6 +310,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\RealtimeTrace\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DeviceReconnect\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DeviceReconnect\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DeviceReconnect\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
