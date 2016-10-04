@@ -146,6 +146,18 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public bool UpdateSubscriptionPackage(string iccid, string updatedPackage)
         {
+            var subscriptionManagementClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
+            var result =
+                subscriptionManagementClient.RequestSubscriptionPackageChange(new RequestSubscriptionPackageChange()
+                {
+                    subscriptionPackage = updatedPackage,
+                    resource = new resource()
+                    {
+                        id = iccid,
+                        type = "icc"
+                    }
+                });
+            //TODO SR should we wait for this process to be complete? It is long running I think.
             return true;
         }
 
