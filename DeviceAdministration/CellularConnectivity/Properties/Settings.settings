@@ -14,5 +14,8 @@
     <Setting Name="Infrastructure_Connectivity_com_jasperwireless_spark_eventplan_EventPlanService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">https://api7.jasperwireless.com/ws/service/eventplan</Value>
     </Setting>
+    <Setting Name="Infrastructure_Connectivity_com_jasper_api_sms_SmsService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://api.jasper.com/ws/service/Sms</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

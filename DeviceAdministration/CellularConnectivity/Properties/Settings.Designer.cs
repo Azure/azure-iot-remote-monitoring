@@ -65,5 +65,15 @@ namespace DeviceManagement.Infrustructure.Connectivity.Properties {
                 return ((string)(this["Infrastructure_Connectivity_com_jasperwireless_spark_eventplan_EventPlanService"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://api.jasper.com/ws/service/Sms")]
+        public string Infrastructure_Connectivity_com_jasper_api_sms_SmsService {
+            get {
+                return ((string)(this["Infrastructure_Connectivity_com_jasper_api_sms_SmsService"]));
+            }
+        }
     }
 }

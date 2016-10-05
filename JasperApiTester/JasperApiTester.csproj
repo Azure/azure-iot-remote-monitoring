@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Services" />
@@ -48,42 +49,74 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\EventPlan\Reference.cs">
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\com.jasper.api.eventplan\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\com.jasper.api.sms\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Service References\EventPlan\Eventplan.wsdl" />
-    <None Include="Service References\EventPlan\JasperAPI.xsd">
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\com.jasper.api.eventplan\ActivateTerminalEventResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\com.jasper.api.eventplan\DeleteTerminalEventResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\com.jasper.api.eventplan\Eventplan.wsdl" />
+    <None Include="Web References\com.jasper.api.eventplan\GetAvailableEventsResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\com.jasper.api.eventplan\GetTerminalEventsResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\com.jasper.api.eventplan\JasperAPI.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\EventPlan\JasperApiTester.EventPlan.ActivateTerminalEventResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <None Include="Web References\com.jasper.api.eventplan\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\EventPlan\JasperApiTester.EventPlan.ActivateTerminalEventResponse1.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <None Include="Web References\com.jasper.api.sms\GetModifiedSMSResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Service References\EventPlan\JasperApiTester.EventPlan.DeleteTerminalEventResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <None Include="Web References\com.jasper.api.sms\GetSMSDetailsResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Service References\EventPlan\JasperApiTester.EventPlan.DeleteTerminalEventResponse1.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <None Include="Web References\com.jasper.api.sms\JasperAPI.xsd">
+      <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\EventPlan\JasperApiTester.EventPlan.GetAvailableEventsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <None Include="Web References\com.jasper.api.sms\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\EventPlan\JasperApiTester.EventPlan.GetAvailableEventsResponse1.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <None Include="Web References\com.jasper.api.sms\SendBulkSMSResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Service References\EventPlan\JasperApiTester.EventPlan.GetTerminalEventsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <None Include="Web References\com.jasper.api.sms\SendBulkSMSToMsisdnResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Service References\EventPlan\JasperApiTester.EventPlan.GetTerminalEventsResponse1.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <None Include="Web References\com.jasper.api.sms\SendSMSResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\com.jasper.api.sms\SendSMSToMsisdnResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\com.jasper.api.sms\Sms.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DeviceAdministration\CellularConnectivity\DeviceManagement.Infrastructure.Connectivity.csproj">
@@ -95,19 +128,31 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\EventPlan\" />
+    <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\EventPlan\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\EventPlan\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\EventPlan\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
+    <WebReferenceUrl Include="https://api.jasper.com/ws/schema/Eventplan.wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\com.jasper.api.eventplan\</RelPath>
+      <UpdateFromURL>https://api.jasper.com/ws/schema/Eventplan.wsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>JasperApiTester_com_jasper_api_eventplan_EventPlanService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://api.jasper.com/ws/schema/Sms.wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\com.jasper.api.sms\</RelPath>
+      <UpdateFromURL>https://api.jasper.com/ws/schema/Sms.wsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>JasperApiTester_com_jasper_api_sms_SmsService</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

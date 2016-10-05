@@ -1,4 +1,5 @@
-﻿using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.billing;
+﻿using DeviceManagement.Infrustructure.Connectivity.com.jasper.api.sms;
+using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.billing;
 using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.echo;
 using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.eventplan;
 using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.terminal;
@@ -41,6 +42,15 @@ namespace DeviceManagement.Infrustructure.Connectivity.Builders
             {
                 securityHeader = GetSecurityHeader(jasperCredentials),
                 Url = "https://" + jasperCredentials.BaseUrl + "/ws/service/eventplan"
+            };
+        }
+
+        public static SmsService GetSmsService(ICredentials jasperCredentials)
+        {
+            return new SmsService()
+            {
+                securityHeader = GetSecurityHeader(jasperCredentials),
+                Url = "https://" + jasperCredentials.BaseUrl + "/ws/service/sms"
             };
         }
 
