@@ -408,22 +408,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     {
                         case CellularActionType.UpdateStatus:
                         {
-                            success = await _cellularExtensions.UpdateSimState(iccid, action.Value);
+                            success = _cellularExtensions.UpdateSimState(iccid, action.Value);
                             break;
                         }
                         case CellularActionType.UpdateSubscriptionPackage:
                         {
-                            success = await _cellularExtensions.UpdateSubscriptionPackage(iccid, action.Value);
+                            success = _cellularExtensions.UpdateSubscriptionPackage(iccid, action.Value);
                             break;
                         }
                         case CellularActionType.ReconnectDevice:
                         {
-                            success = await _cellularExtensions.ReconnectDevice(iccid);
+                            success = _cellularExtensions.ReconnectDevice(iccid);
                             break;
                         }
                         case CellularActionType.SendSms:
                         {
-                            success = await _cellularExtensions.SendSms(iccid, action.Value);
+                            success = _cellularExtensions.SendSms(iccid, action.Value);
                             break;
                         }
                         default:
