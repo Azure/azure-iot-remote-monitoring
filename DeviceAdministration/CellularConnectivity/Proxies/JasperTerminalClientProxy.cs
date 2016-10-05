@@ -24,8 +24,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Proxies
             {
                 licenseKey = _jasperCredentials.LicenceKey,
                 version = JasperApiConstants.PROGRAM_VERSION,
-                simStateSpecified = true,
-                simState = SimStateType.ACTIVATED,
+                simStateSpecified = false,
                 messageId = Guid.NewGuid() + "-" + JasperApiConstants.MESSAGE_ID,
                 since = new DateTime(2013, 1, 1),
                 sinceSpecified = true

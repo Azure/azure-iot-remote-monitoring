@@ -31,26 +31,26 @@ namespace JasperApiTester
             };
             string PROGRAM_VERSION = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            //var terminalService = JasperServiceBuilder.GetTerminalService(credentials);
-            //var result = terminalService.EditTerminal(new EditTerminalRequest()
-            //{
-            //    iccid = iccid,
-            //    messageId = Guid.NewGuid() + "-" + "0",
-            //    version = PROGRAM_VERSION,
-            //    licenseKey = credentials.LicenceKey,
-            //    targetValue = "DEACTIVATED_NAME",
-            //    changeType = 3
-            //});
-
-
-            var eventPlanService = JasperServiceBuilder.GetEventPlanService(credentials);
-            var result = eventPlanService.GetTerminalEvents(new GetTerminalEventsRequest()
+            var terminalService = JasperServiceBuilder.GetTerminalService(credentials);
+            var result = terminalService.EditTerminal(new EditTerminalRequest()
             {
                 iccid = iccid,
                 messageId = Guid.NewGuid() + "-" + "0",
                 version = PROGRAM_VERSION,
-                licenseKey = credentials.LicenceKey
+                licenseKey = credentials.LicenceKey,
+                targetValue = "DEACTIVATED_NAME",
+                changeType = 3
             });
+
+
+            //var eventPlanService = JasperServiceBuilder.GetEventPlanService(credentials);
+            //var result = eventPlanService.GetTerminalEvents(new GetTerminalEventsRequest()
+            //{
+            //    iccid = iccid,
+            //    messageId = Guid.NewGuid() + "-" + "0",
+            //    version = PROGRAM_VERSION,
+            //    licenseKey = credentials.LicenceKey
+            //});
 
             Console.WriteLine("Press ESC to stop");
             do
