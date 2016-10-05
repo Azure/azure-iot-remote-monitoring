@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DeviceManagement.Infrustructure.Connectivity.com.jasper.api.sms;
 using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.terminal;
 using DeviceManagement.Infrustructure.Connectivity.Exceptions;
 using DeviceManagement.Infrustructure.Connectivity.Models.Other;
@@ -115,6 +116,12 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 }
             }).ToList();
         }
+        
+        public SendSMSResponse SendSms(string iccid, string messageText)
+        {
+            var proxy = BuildJasperSmsClientProxy();
+            return proxy.SendSms(iccid, messageText);
+        }
 
         public bool UpdateSimState(string iccid, string updatedState)
         {
@@ -128,11 +135,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         }
 
         public bool ReconnectTerminal(string iccid)
-        {
-            return true;
-        }
-
-        public bool SendSms(string iccid, string smsText)
         {
             return true;
         }
@@ -243,6 +245,11 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         private IJasperTerminalClientProxy BuildJasperTerminalClientProxy()
         {
             return new JasperTerminalClientProxy(_credentialProvider.Provide());
+        }
+
+        private IJasperSmsClientProxy BuildJasperSmsClientProxy()
+        {
+            return new JasperSmsClientProxy(_credentialProvider.Provide());
         }
 
     }

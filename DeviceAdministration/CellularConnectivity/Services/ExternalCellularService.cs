@@ -224,7 +224,9 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             {
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
-                    result = jasperClient.SendSms(iccid, smsText);
+                    jasperClient.SendSms(iccid, smsText);
+                    //TODO SR: Should we do something with the response?
+                    result = true;
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);

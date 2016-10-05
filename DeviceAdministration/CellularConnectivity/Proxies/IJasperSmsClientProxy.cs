@@ -7,6 +7,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Proxies
 {
     internal interface IJasperSmsClientProxy
     {
-        SendSMSResponse SendSms(Iccid iccid, string messageText);
+        SendSMSResponse SendSms(string iccid, string messageText);
     }
 }

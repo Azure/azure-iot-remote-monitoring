@@ -19,14 +19,14 @@ namespace DeviceManagement.Infrustructure.Connectivity.Proxies
             _service = JasperServiceBuilder.GetSmsService(_jasperCredentials);
         }
 
-        public SendSMSResponse SendSms(Iccid iccid, string messageText)
+        public SendSMSResponse SendSms(string iccid, string messageText)
         {
             Argument.CheckIfNull(iccid, "iccid");
             Argument.CheckIfNull(messageText, "messageText");
 
             var request = new SendSMSRequest()
             {
-                sentToIccid = iccid.Id,
+                sentToIccid = iccid,
                 messageId = Guid.NewGuid() + "-" + "0",
                 version = JasperApiConstants.PROGRAM_VERSION,
                 messageText = "hello",
