@@ -1,21 +1,18 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)"
-              GeneratedClassNamespace="DeviceManagement.Infrustructure.Connectivity.Properties"
-              GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DeviceManagement.Infrustructure.Connectivity.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="DeviceManagement_Infrustructure_Connectivity_com_jasperwireless_spark_BillingService"
-             Type="(Web Service URL)" Scope="Application">
+    <Setting Name="DeviceManagement_Infrustructure_Connectivity_com_jasperwireless_spark_BillingService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">https://api7.jasperwireless.com/ws/service/billing</Value>
     </Setting>
-    <Setting Name="DeviceManagement_Infrustructure_Connectivity_com_jasperwireless_spark_terminal_TerminalService"
-             Type="(Web Service URL)" Scope="Application">
+    <Setting Name="DeviceManagement_Infrustructure_Connectivity_com_jasperwireless_spark_terminal_TerminalService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">https://api7.jasperwireless.com/ws/service/terminal</Value>
     </Setting>
-    <Setting Name="DeviceManagement_Infrustructure_Connectivity_com_jasperwireless_spark_echo_EchoService"
-             Type="(Web Service URL)" Scope="Application">
+    <Setting Name="DeviceManagement_Infrustructure_Connectivity_com_jasperwireless_spark_echo_EchoService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">https://api7.jasperwireless.com/ws/service/echo</Value>
+    </Setting>
+    <Setting Name="Infrastructure_Connectivity_com_jasperwireless_spark_eventplan_EventPlanService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://api7.jasperwireless.com/ws/service/eventplan</Value>
     </Setting>
   </Settings>
 </SettingsFile>

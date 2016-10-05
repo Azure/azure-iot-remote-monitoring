@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:jws="http://api.jasperwireless.com/ws/schema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://api.jasperwireless.com/ws/schema" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema xmlns="http://api.jasperwireless.com/ws/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import schemaLocation="JasperAPI.xsd" namespace="http://api.jasperwireless.com/ws/schema" />
+    </xs:schema>
+  </types>
+  <message name="GetAvailableEventsRequest">
+    <part name="body" element="jws:GetAvailableEventsRequest" />
+  </message>
+  <message name="GetAvailableEventsResponse">
+    <part name="body" element="jws:GetAvailableEventsResponse" />
+  </message>
+  <message name="ActivateTerminalEventRequest">
+    <part name="body" element="jws:ActivateTerminalEventRequest" />
+  </message>
+  <message name="ActivateTerminalEventResponse">
+    <part name="body" element="jws:ActivateTerminalEventResponse" />
+  </message>
+  <message name="GetTerminalEventsRequest">
+    <part name="body" element="jws:GetTerminalEventsRequest" />
+  </message>
+  <message name="GetTerminalEventsResponse">
+    <part name="body" element="jws:GetTerminalEventsResponse" />
+  </message>
+  <message name="DeleteTerminalEventRequest">
+    <part name="body" element="jws:DeleteTerminalEventRequest" />
+  </message>
+  <message name="DeleteTerminalEventResponse">
+    <part name="body" element="jws:DeleteTerminalEventResponse" />
+  </message>
+  <portType name="EventPlanPortType">
+    <operation name="GetAvailableEvents">
+      <input message="jws:GetAvailableEventsRequest" />
+      <output message="jws:GetAvailableEventsResponse" />
+    </operation>
+    <operation name="ActivateTerminalEvent">
+      <input message="jws:ActivateTerminalEventRequest" />
+      <output message="jws:ActivateTerminalEventResponse" />
+    </operation>
+    <operation name="GetTerminalEvents">
+      <input message="jws:GetTerminalEventsRequest" />
+      <output message="jws:GetTerminalEventsResponse" />
+    </operation>
+    <operation name="DeleteTerminalEvent">
+      <input message="jws:DeleteTerminalEventRequest" />
+      <output message="jws:DeleteTerminalEventResponse" />
+    </operation>
+  </portType>
+  <binding name="EventPlanBinding" type="jws:EventPlanPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="GetAvailableEvents">
+      <soap:operation soapAction="http://api.jasperwireless.com/ws/service/eventplan/GetAvailableEvents" />
+      <input name="GetAvailableEventsRequest">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </input>
+      <output name="GetAvailableEventsResponse">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </output>
+    </operation>
+    <operation name="ActivateTerminalEvent">
+      <soap:operation soapAction="http://api.jasperwireless.com/ws/service/eventplan/ActivateTerminalEvent" />
+      <input name="ActivateTerminalEventRequest">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </input>
+      <output name="ActivateTerminalEventResponse">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </output>
+    </operation>
+    <operation name="GetTerminalEvents">
+      <soap:operation soapAction="http://api.jasperwireless.com/ws/service/eventplan/GetTerminalEvents" />
+      <input name="GetTerminalEventsRequest">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </input>
+      <output name="GetTerminalEventsResponse">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </output>
+    </operation>
+    <operation name="DeleteTerminalEvent">
+      <soap:operation soapAction="http://api.jasperwireless.com/ws/service/eventplan/DeleteTerminalEvent" />
+      <input name="DeleteTerminalEventRequest">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </input>
+      <output name="DeleteTerminalEventResponse">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </output>
+    </operation>
+  </binding>
+  <service name="EventPlanService">
+    <port name="EventPlanPort" binding="jws:EventPlanBinding">
+      <soap:address location="https://api7.jasperwireless.com/ws/service/eventplan" />
+    </port>
+  </service>
+</definitions>

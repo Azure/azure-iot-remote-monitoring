@@ -99,6 +99,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\com.jasperwireless.spark.eventplan\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\com.jasperwireless.spark.terminal\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -264,6 +269,26 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Web References\com.jasperwireless.spark.eventplan\ActivateTerminalEventResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\com.jasperwireless.spark.eventplan\DeleteTerminalEventResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\com.jasperwireless.spark.eventplan\Eventplan.wsdl" />
+    <None Include="Web References\com.jasperwireless.spark.eventplan\GetAvailableEventsResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\com.jasperwireless.spark.eventplan\GetTerminalEventsResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\com.jasperwireless.spark.eventplan\JasperAPI.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\com.jasperwireless.spark.eventplan\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <None Include="Web References\com.jasperwireless.spark.terminal\AssignOrUpdateIPAddressResponse.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -371,6 +396,17 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>DeviceManagement_Infrustructure_Connectivity_com_jasperwireless_spark_echo_EchoService</CachedSettingsPropName>
     </WebReferenceUrl>
+    <WebReferenceUrl Include="https://spark.jasperwireless.com/ws/schema/Eventplan.wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\com.jasperwireless.spark.eventplan\</RelPath>
+      <UpdateFromURL>https://spark.jasperwireless.com/ws/schema/Eventplan.wsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Infrastructure_Connectivity_com_jasperwireless_spark_eventplan_EventPlanService</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="https://spark.jasperwireless.com/ws/schema/Terminal.wsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\com.jasperwireless.spark.terminal\</RelPath>
@@ -385,6 +421,8 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />

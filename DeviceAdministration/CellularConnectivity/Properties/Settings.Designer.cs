@@ -55,5 +55,15 @@ namespace DeviceManagement.Infrustructure.Connectivity.Properties {
                     "rvice"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://api7.jasperwireless.com/ws/service/eventplan")]
+        public string Infrastructure_Connectivity_com_jasperwireless_spark_eventplan_EventPlanService {
+            get {
+                return ((string)(this["Infrastructure_Connectivity_com_jasperwireless_spark_eventplan_EventPlanService"]));
+            }
+        }
     }
 }
