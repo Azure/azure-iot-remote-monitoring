@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Builders;
+using DeviceManagement.Infrustructure.Connectivity.com.jasper.api.sms;
 using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.eventplan;
 using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.terminal;
 using DeviceManagement.Infrustructure.Connectivity.Clients;
@@ -31,17 +32,26 @@ namespace JasperApiTester
             };
             string PROGRAM_VERSION = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            var terminalService = JasperServiceBuilder.GetTerminalService(credentials);
-            var result = terminalService.EditTerminal(new EditTerminalRequest()
+            var terminalService = JasperServiceBuilder.GetSmsService(credentials);
+            var result = terminalService.SendSMS(new SendSMSRequest()
             {
-                iccid = iccid,
+                sentToIccid = iccid,
                 messageId = Guid.NewGuid() + "-" + "0",
                 version = PROGRAM_VERSION,
-                licenseKey = credentials.LicenceKey,
-                targetValue = "DEACTIVATED_NAME",
-                changeType = 3
+                messageText = "hello",
+                licenseKey = credentials.LicenceKey
             });
 
+            //var terminalService = JasperServiceBuilder.GetTerminalService(credentials);
+            //var result = terminalService.EditTerminal(new EditTerminalRequest()
+            //{
+            //    iccid = iccid,
+            //    messageId = Guid.NewGuid() + "-" + "0",
+            //    version = PROGRAM_VERSION,
+            //    licenseKey = credentials.LicenceKey,
+            //    targetValue = "DEACTIVATED_NAME",
+            //    changeType = 3
+            //});
 
             //var eventPlanService = JasperServiceBuilder.GetEventPlanService(credentials);
             //var result = eventPlanService.GetTerminalEvents(new GetTerminalEventsRequest()

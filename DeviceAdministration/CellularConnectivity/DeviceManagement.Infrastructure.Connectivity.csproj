@@ -48,6 +48,8 @@
     <Compile Include="Models\TerminalDevice\Msisdn.cs" />
     <Compile Include="Proxies\AuthenticationValidationProxy.cs" />
     <Compile Include="Proxies\IAuthenticationValidationProxy.cs" />
+    <Compile Include="Proxies\IJasperSmsClientProxy.cs" />
+    <Compile Include="Proxies\JasperSmsClientProxy.cs" />
     <Compile Include="Service References\DeviceReconnect\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

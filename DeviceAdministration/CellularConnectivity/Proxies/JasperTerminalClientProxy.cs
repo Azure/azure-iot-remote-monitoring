@@ -1,5 +1,6 @@
 ﻿using System;
 using DeviceManagement.Infrustructure.Connectivity.Builders;
+using DeviceManagement.Infrustructure.Connectivity.com.jasper.api.sms;
 using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.terminal;
 using DeviceManagement.Infrustructure.Connectivity.Constants;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;

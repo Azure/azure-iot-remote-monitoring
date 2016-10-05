@@ -204,6 +204,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.com.jasper.api.sms {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://api.jasperwireless.com/ws/service/sms/SendSMS", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
         [return: System.Xml.Serialization.XmlElementAttribute("SendSMSResponse", Namespace="http://api.jasperwireless.com/ws/schema")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("securityHeader")]
         public SendSMSResponse SendSMS([System.Xml.Serialization.XmlElementAttribute(Namespace="http://api.jasperwireless.com/ws/schema")] SendSMSRequest SendSMSRequest) {
             object[] results = this.Invoke("SendSMS", new object[] {
                         SendSMSRequest});
