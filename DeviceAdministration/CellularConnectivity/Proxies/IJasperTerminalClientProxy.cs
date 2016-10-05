@@ -8,5 +8,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Proxies
         GetModifiedTerminalsResponse GetModifiedTerminals();
         GetTerminalDetailsResponse GetSingleTerminalDetails(Iccid iccidList);
         GetSessionInfoResponse GetSingleSessionInfo(Iccid iccid);
+        EditTerminalResponse EditTerminal(Iccid iccid, int changeType, string targetValue);
     }
 }

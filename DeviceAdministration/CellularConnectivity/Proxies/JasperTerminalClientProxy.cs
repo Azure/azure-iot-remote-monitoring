@@ -49,6 +49,20 @@ namespace DeviceManagement.Infrustructure.Connectivity.Proxies
             return _service.GetTerminalDetails(request);
         }
 
+        public EditTerminalResponse EditTerminal(Iccid iccid, int changeType, string targetValue)
+        {
+            var request = new EditTerminalRequest()
+            {
+                licenseKey = _jasperCredentials.LicenceKey,
+                messageId = Guid.NewGuid() + "-" + JasperApiConstants.MESSAGE_ID,
+                version = JasperApiConstants.PROGRAM_VERSION,
+                iccid = iccid.Id,
+                changeType = changeType,
+                targetValue = targetValue
+            };
+            return _service.EditTerminal(request);
+        }
+
         public GetSessionInfoResponse GetSingleSessionInfo(Iccid iccid)
         {
             Argument.CheckIfNull(iccid, "iccid");

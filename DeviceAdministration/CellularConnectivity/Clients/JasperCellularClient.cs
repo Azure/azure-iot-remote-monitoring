@@ -85,6 +85,12 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             };
         }
 
+        public void EditTerminal(Iccid iccid)
+        {
+            var proxy = BuildJasperTerminalClientProxy();
+
+        }
+
         public List<SessionInfo> GetSingleSessionInfo(Iccid iccid)
         {
             var proxy = BuildJasperTerminalClientProxy();
@@ -121,17 +127,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         {
             var proxy = BuildJasperSmsClientProxy();
             return proxy.SendSms(iccid, messageText);
-        }
-
-        public bool UpdateSimState(string iccid, string updatedState)
-        {
-            return true;
-        }
-
-        public bool UpdateSubscriptionPackage(string iccid, string updatedPackage)
-        {
-            var proxy = BuildJasperTerminalClientProxy();
-            return true;
         }
 
         public bool ReconnectTerminal(string iccid)
@@ -241,6 +236,23 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             };
         }
 
+        public EditTerminalResponse EditTerminal(Iccid iccid, int changeType, string targetValue)
+        {
+            var proxy = BuildJasperTerminalClientProxy();
+            return proxy.EditTerminal(iccid, changeType, targetValue);
+        }
+
+        public EditTerminalResponse UpdateSimState(string iccid, string newStatus)
+        {
+            var proxy = BuildJasperTerminalClientProxy();
+            return proxy.EditTerminal(new Iccid(iccid), 3, newStatus);
+        }
+
+        public EditTerminalResponse UpdateSubscriptionPackage(string iccid, string ratePlan)
+        {
+            var proxy = BuildJasperTerminalClientProxy();
+            return proxy.EditTerminal(new Iccid(iccid), 3, ratePlan);
+        }
 
         private IJasperTerminalClientProxy BuildJasperTerminalClientProxy()
         {

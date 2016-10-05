@@ -93,24 +93,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return markActiveSubscriptionPackage(currentSubscriptionPackageName, availableSubscriptions);
         }
 
-        public async Task<bool> UpdateSimState(string iccid, string updatedState)
+        public bool UpdateSimState(string iccid, string updatedState)
         {
-            return await _cellularService.UpdateSimState(iccid, updatedState);
+            return _cellularService.UpdateSimState(iccid, updatedState);
         }
 
-        public async Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage)
+        public bool UpdateSubscriptionPackage(string iccid, string updatedPackage)
         {
-            return await _cellularService.UpdateSubscriptionPackage(iccid, updatedPackage);
+            return _cellularService.UpdateSubscriptionPackage(iccid, updatedPackage);
         }
 
-        public async Task<bool> ReconnectDevice(string iccid)
+        public bool ReconnectDevice(string iccid)
         {
-            return await _cellularService.ReconnectTerminal(iccid);
+            return _cellularService.ReconnectTerminal(iccid);
         }
 
-        public async Task<bool> SendSms(string iccid, string smsText)
+        public bool SendSms(string iccid, string smsText)
         {
-            return await _cellularService.SendSms(iccid, smsText);
+            return _cellularService.SendSms(iccid, smsText);
         }
 
         private IEnumerable<Iccid> GetUsedIccidList(IList<DeviceModel> devices)

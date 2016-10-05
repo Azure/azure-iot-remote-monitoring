@@ -148,52 +148,54 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return availableSubscriptionPackages;
         }
 
-        public async Task<bool> UpdateSimState(string iccid, string updatedState)
+        public bool UpdateSimState(string iccid, string updatedState)
         {
-            bool result;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
-
+            // TODO SR: Figure out if we need to do something with responses
             switch (registrationProvider)
             {
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
-                    result = jasperClient.UpdateSimState(iccid, updatedState);
+                    var jasperResult = jasperClient.UpdateSimState(iccid, updatedState);
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
                     var status = SubscriptionStatusFactory.CreateEricssonSubscriptionStatusRequestEnum(updatedState);
-                    var requestResult = ericssonClient.UpdateSimState(iccid, status);
-                    // TODO SR property handle this response
-                    result = true;
+                    var ericssonResult = ericssonClient.UpdateSimState(iccid, status);
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
             }
-            return result;
+            return true;
         }
 
-        public async Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage)
+        /// <summary>
+        /// Update the subscription package in the selected api registration provider
+        /// </summary>
+        /// <param name="iccid">The iccid string for the terminal</param>
+        /// <param name="updatedPackage">The string value for the updated package name</param>
+        /// <returns>A boolean representing success or failure</returns>
+        public bool UpdateSubscriptionPackage(string iccid, string updatedPackage)
         {
-            bool result;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
-
+            // TODO SR: Figure out if we need to do something with responses
             switch (registrationProvider)
             {
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
-                    result = jasperClient.UpdateSubscriptionPackage(iccid, updatedPackage);
+                    var jasperResponse = jasperClient.UpdateSubscriptionPackage(iccid, updatedPackage);
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
-                    result = ericssonClient.UpdateSubscriptionPackage(iccid, updatedPackage);
+                    var ericssonResponse = ericssonClient.UpdateSubscriptionPackage(iccid, updatedPackage);
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
             }
-            return result;
+            return true;
         }
 
-        public async Task<bool> ReconnectTerminal(string iccid)
+        public bool ReconnectTerminal(string iccid)
         {
             bool result;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
@@ -215,7 +217,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return result;
         }
 
-        public async Task<bool> SendSms(string iccid, string smsText)
+        public bool SendSms(string iccid, string smsText)
         {
             bool result;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
@@ -224,7 +226,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             {
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
-                    jasperClient.SendSms(iccid, smsText);
+                    var response = jasperClient.SendSms(iccid, smsText);
                     //TODO SR: Should we do something with the response?
                     result = true;
                     break;

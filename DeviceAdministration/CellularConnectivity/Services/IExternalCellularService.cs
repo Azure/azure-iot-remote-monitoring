@@ -17,9 +17,9 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         List<SimState> GetAllAvailableSimStates(string iccid);
         List<SimState> GetValidTargetSimStates(SimState currentState);
         List<SubscriptionPackage> GetAvailableSubscriptionPackages();
-        Task<bool> UpdateSimState(string iccid, string updatedState);
-        Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage);
-        Task<bool> ReconnectTerminal(string iccid);
-        Task<bool> SendSms(string iccid, string smsText);
+        bool UpdateSimState(string iccid, string updatedState);
+        bool UpdateSubscriptionPackage(string iccid, string updatedPackage);
+        bool ReconnectTerminal(string iccid);
+        bool SendSms(string iccid, string smsText);
     }
 }
