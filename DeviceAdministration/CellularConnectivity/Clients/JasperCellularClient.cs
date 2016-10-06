@@ -172,39 +172,35 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             return isValid;
         }
 
-        public SimState GetCurrentSimState(string iccid)
+        public List<SimState> GetValidTargetSimStates(string iccid, string currentState)
         {
-            return GetAvailableSimStates(iccid).FirstOrDefault(s => s.Name == "Active");
+            return  GetAvailableSimStates(iccid, currentState).Select(simState => new SimState()
+            {
+                Name = simState.Name,
+                IsActive = currentState == simState.Name
+            }).ToList();
         }
 
-        public List<SimState> GetAvailableSimStates(string iccid)
+        public List<SimState> GetAvailableSimStates(string iccid, string currentState = null)
         {
-            return new List<SimState>()
+            var simStates = new List<SimState>()
             {
                 new SimState()
                 {
-                    Name = "Active"
+                    Name = "ACTIVATED_NAME"
                 },
                 new SimState()
                 {
-                    Name = "Disconnected"
+                    Name = "DEACTIVATED_NAME"
                 }
             };
-        }
 
-        public List<SimState> GetValidTargetSimStates(SimState currentState)
-        {
-            return new List<SimState>()
+            return simStates.Select(simState => new SimState()
             {
-                new SimState()
-                {
-                    Name = "Active"
-                },
-                new SimState()
-                {
-                    Name = "Disconnected"
-                }
-            };
+                Name = simState.Name,
+                IsActive = currentState == simState.Name
+            })
+            .ToList();
         }
 
         /// <summary>

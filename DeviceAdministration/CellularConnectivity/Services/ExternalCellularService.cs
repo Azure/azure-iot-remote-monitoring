@@ -100,7 +100,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return availableStates;
         }
 
-        public List<SimState> GetValidTargetSimStates(SimState currentState)
+        public List<SimState> GetValidTargetSimStates(string iccid, SimState currentState)
         {
             List<SimState> availableStates;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
@@ -109,7 +109,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             {
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
-                    availableStates = jasperClient.GetValidTargetSimStates(currentState);
+                    availableStates = jasperClient.GetValidTargetSimStates(iccid, currentState.Name);
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);

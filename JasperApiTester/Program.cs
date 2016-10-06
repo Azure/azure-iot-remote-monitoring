@@ -32,9 +32,13 @@ namespace JasperApiTester
         static void Main(string[] args)
         {
 
-            var result = TestSendSms();
+            //var sendSmsResult = TestSendSms();
 
-            Console.WriteLine(JsonConvert.SerializeObject(result));
+            //Console.WriteLine(JsonConvert.SerializeObject(sendSmsResult));
+
+            var changeStatusResult = TestChangeTerminalStatus();
+
+            Console.WriteLine(JsonConvert.SerializeObject(changeStatusResult));
 
             Console.WriteLine("Press ESC to stop");
             do
@@ -63,16 +67,16 @@ namespace JasperApiTester
             return eventPlanResult;
         }
 
-        public static EditTerminalResponse TestChangeTerminalStatus(string iccid, ICredentials credentials, string programVersion)
+        public static EditTerminalResponse TestChangeTerminalStatus()
         {
-            var terminalService = JasperServiceBuilder.GetTerminalService(credentials);
+            var terminalService = JasperServiceBuilder.GetTerminalService(Credentials);
             var changeSimStatusResult = terminalService.EditTerminal(new EditTerminalRequest()
             {
-                iccid = iccid,
+                iccid = Iccid,
                 messageId = Guid.NewGuid() + "-" + "0",
-                version = programVersion,
-                licenseKey = credentials.LicenceKey,
-                targetValue = "DEACTIVATED_NAME",
+                version = ProgramVersion,
+                licenseKey = Credentials.LicenceKey,
+                targetValue = "ACTIVATED_NAME",
                 changeType = 3
             });
 

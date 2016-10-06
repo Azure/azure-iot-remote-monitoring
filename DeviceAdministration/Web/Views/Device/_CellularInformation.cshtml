@@ -61,15 +61,22 @@
     }
 
     @Html.Partial("_CellularActions", Model)
-    @if (Model.ApiRegistrationProvider == ApiRegistrationProviderTypes.Ericsson)
+    
+    
+    @switch (Model.ApiRegistrationProvider)
     {
-        <div class="ericsson_info_text">@Strings.SimInformationInfoTextEricsson</div>
+        case ApiRegistrationProviderTypes.Jasper:
+            {
+                <div class="ericsson_info_text">@Strings.SimInformationInfoTextEricsson</div>
+                break;
+            }
+        case ApiRegistrationProviderTypes.Ericsson:
+            {
+                <div class="jasper_info_text">@Strings.SimInformationInfoTextJasper</div>
+                break;
+            }
     }
-    else if (Model.ApiRegistrationProvider == ApiRegistrationProviderTypes.Jasper)
-    {
-        <div class="jasper_info_text">@Strings.SimInformationInfoTextJasper</div>
 
-    }
     <br />
 </section>
 

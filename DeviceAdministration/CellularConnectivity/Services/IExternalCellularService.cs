@@ -15,7 +15,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         Terminal GetSingleTerminalDetails(Iccid iccid);
         List<SessionInfo> GetSingleSessionInfo(Iccid iccid);
         List<SimState> GetAllAvailableSimStates(string iccid);
-        List<SimState> GetValidTargetSimStates(SimState currentState);
+        List<SimState> GetValidTargetSimStates(string iccid, SimState currentState);
         List<SubscriptionPackage> GetAvailableSubscriptionPackages();
         bool UpdateSimState(string iccid, string updatedState);
         bool UpdateSubscriptionPackage(string iccid, string updatedPackage);
