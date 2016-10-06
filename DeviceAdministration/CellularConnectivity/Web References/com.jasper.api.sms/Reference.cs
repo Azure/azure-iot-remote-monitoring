@@ -295,6 +295,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.com.jasper.api.sms {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://api.jasperwireless.com/ws/service/sms/GetModifiedSMS", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
         [return: System.Xml.Serialization.XmlElementAttribute("GetModifiedSMSResponse", Namespace="http://api.jasperwireless.com/ws/schema")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("securityHeader")]
         public GetModifiedSMSResponse GetModifiedSMS([System.Xml.Serialization.XmlElementAttribute(Namespace="http://api.jasperwireless.com/ws/schema")] GetModifiedSMSRequest GetModifiedSMSRequest) {
             object[] results = this.Invoke("GetModifiedSMS", new object[] {
                         GetModifiedSMSRequest});
