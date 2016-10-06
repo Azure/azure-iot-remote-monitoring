@@ -207,7 +207,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         /// Gets the available subscription packages from the appropriate api provider
         /// </summary>
         /// <returns>SubscriptionPackage Model</returns>
-        public List<SubscriptionPackage> GetAvailableSubscriptionPackages()
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid, string currentSubscription)
         {
             return new List<SubscriptionPackage>()
             {

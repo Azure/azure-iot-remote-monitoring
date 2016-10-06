@@ -130,7 +130,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             {
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
-                    availableSubscriptionPackages = jasperClient.GetAvailableSubscriptionPackages();
+                    availableSubscriptionPackages = jasperClient.GetAvailableSubscriptionPackages(iccid, currentSubscription);
                     availableSubscriptionPackages = availableSubscriptionPackages
                         .Select(
                             subscription => new SubscriptionPackage()
