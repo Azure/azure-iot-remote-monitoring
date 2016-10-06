@@ -204,16 +204,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         }
 
         /// <summary>
-        /// Gets the current subscription package for a terminal
-        /// </summary>
-        /// <param name="iccid">The iccid of the terminal</param>
-        /// <returns>The subscription package object</returns>
-        public SubscriptionPackage GetCurrentSubscriptionPackage(string iccid)
-        {
-            return GetAvailableSubscriptionPackages().FirstOrDefault(s => s.Name == "Basic");
-        }
-
-        /// <summary>
         /// Gets the available subscription packages from the appropriate api provider
         /// </summary>
         /// <returns>SubscriptionPackage Model</returns>

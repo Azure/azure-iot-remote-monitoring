@@ -96,7 +96,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             return GetSimStatesFromEricssonSimStateEnum();
         }
 
-        public List<SimState> GetValidTargetSimStates(SimState currentState)
+        public List<SimState> GetValidTargetSimStates(string currentState)
         {
             return getValidTargetSimStates(currentState);
         }
@@ -189,34 +189,25 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             };
         }
 
-        private List<SimState> ensureCurrentStateIsInList(List<SimState> simStateList, SimState currentState)
+        private List<SimState> ensureCurrentStateIsInList(List<SimState> simStateList, string simState)
         {
-            if (simStateList.All(s => s.Name != currentState.Name))
+            if (simStateList.All(s => s.Name != simState))
             {
-                simStateList.Add(currentState);
+                simStateList.Add(new SimState() {IsActive = true, Name = simState });
             }
             return simStateList;
         }
 
-        private List<SimState> getValidTargetSimStates(SimState currentState)
+        private List<SimState> getValidTargetSimStates(string currentState)
         {
             List<SimState> result;
             var allValidTargets = allValidTargetStates().Select(simState => new SimState()
             {
                 Name = simState.ToString(),
-                IsActive = false
+                IsActive = currentState == simState.ToString()
             }).ToList();
-            var selected = allValidTargets.FirstOrDefault(s => s.Name == currentState.Name);
-            if (selected == null)
-            {
-                allValidTargets.Add(currentState);
-            }
-            else
-            {
-                selected.IsActive = true;
-            }
 
-            switch (currentState.Name)
+            switch (currentState)
             {
                 case "Active":
                     result = allValidTargets.Where(ss => ss.Name == "Deactivated" || ss.Name == "Pause" || ss.Name == "Terminated").ToList();
@@ -234,7 +225,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                     {
                         result = new List<SimState>()
                         {
-                            currentState
+                            new SimState() { IsActive = true, Name = currentState }
                         };
                         break;
                     }

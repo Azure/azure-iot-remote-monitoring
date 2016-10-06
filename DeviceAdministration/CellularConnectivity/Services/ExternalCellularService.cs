@@ -100,7 +100,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return availableStates;
         }
 
-        public List<SimState> GetValidTargetSimStates(string iccid, SimState currentState)
+        public List<SimState> GetValidTargetSimStates(string iccid, string currentState)
         {
             List<SimState> availableStates;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
@@ -109,7 +109,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             {
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
-                    availableStates = jasperClient.GetValidTargetSimStates(iccid, currentState.Name);
+                    availableStates = jasperClient.GetValidTargetSimStates(iccid, currentState);
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
@@ -121,9 +121,9 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return availableStates;
         }
 
-        public List<SubscriptionPackage> GetAvailableSubscriptionPackages()
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid, string currentSubscription)
         {
-            List<SubscriptionPackage> availableSubscriptionPackages = new List<SubscriptionPackage>();
+            List<SubscriptionPackage> availableSubscriptionPackages;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
             switch (registrationProvider)
@@ -131,20 +131,33 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
                     availableSubscriptionPackages = jasperClient.GetAvailableSubscriptionPackages();
+                    availableSubscriptionPackages = availableSubscriptionPackages
+                        .Select(
+                            subscription => new SubscriptionPackage()
+                            {
+                                Name = subscription.Name,
+                                IsActive = subscription.Name == currentSubscription
+                            }
+                        ).ToList();
                     break;
+
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
                     var subscriptionQueryResponse = ericssonClient.GetAvailableSubscriptionPackages();
-                    availableSubscriptionPackages.AddRange(subscriptionQueryResponse.Select(
-                        subscription => new SubscriptionPackage()
-                    {
-                        Name = subscription.subscriptionPackageName,
-                        IsActive = false
-                    }));
+                    availableSubscriptionPackages = subscriptionQueryResponse
+                        .Select(
+                            subscription => new SubscriptionPackage()
+                            {
+                                Name = subscription.subscriptionPackageName,
+                                IsActive = subscription.subscriptionPackageName == currentSubscription
+                            }
+                        ).ToList();
                     break;
                 default:
+
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
             }
+
             return availableSubscriptionPackages;
         }
 
@@ -238,12 +251,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
             }
             return result;
-        }
-
-
-        public SubscriptionPackage GetCurrentSubscriptionPackage(string currentSubscriptionName)
-        {
-            return GetAvailableSubscriptionPackages().FirstOrDefault(s => s.Name == currentSubscriptionName);
         }
 
         /// <summary>
