@@ -12,7 +12,7 @@ using DeviceManagement.Infrustructure.Connectivity.Proxies;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Clients
 {
-    public class JasperCellularClient 
+    public class JasperCellularClient
     {
         private readonly ICredentialProvider _credentialProvider;
         private const string CellularInvalidCreds = "400200";
@@ -38,7 +38,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 throw new CellularConnectivityException(e);
             }
 
-            return response.iccids.Select(iccid => new Iccid {Id = iccid}).ToList();
+            return response.iccids.Select(iccid => new Iccid { Id = iccid }).ToList();
         }
 
         public Terminal GetSingleTerminalDetails(Iccid iccid)
@@ -85,12 +85,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             };
         }
 
-        public void EditTerminal(Iccid iccid)
-        {
-            var proxy = BuildJasperTerminalClientProxy();
-
-        }
-
         public List<SessionInfo> GetSingleSessionInfo(Iccid iccid)
         {
             var proxy = BuildJasperTerminalClientProxy();
@@ -122,11 +116,20 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 }
             }).ToList();
         }
-        
+
         public SendSMSResponse SendSms(string iccid, string messageText)
         {
             var proxy = BuildJasperSmsClientProxy();
-            return proxy.SendSms(iccid, messageText);
+            SendSMSResponse response;
+            try
+            {
+                response = proxy.SendSms(iccid, messageText);
+            }
+            catch (Exception e)
+            {
+                throw new CellularConnectivityException(e);
+            }
+            return response;
         }
 
         public bool ReconnectTerminal(string iccid)
@@ -143,7 +146,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         {
             var isValid = false;
             var validationError = false;
-            
+
             // make the simple API call
             try
             {
@@ -174,7 +177,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public List<SimState> GetValidTargetSimStates(string iccid, string currentState)
         {
-            return  GetAvailableSimStates(iccid, currentState).Select(simState => new SimState()
+            return GetAvailableSimStates(iccid, currentState).Select(simState => new SimState()
             {
                 Name = simState.Name,
                 IsActive = currentState == simState.Name
@@ -183,17 +186,26 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public List<SimState> GetAvailableSimStates(string iccid, string currentState = null)
         {
-            var simStates = new List<SimState>()
+            List<SimState> simStates;
+            try
             {
-                new SimState()
+                simStates = new List<SimState>()
                 {
-                    Name = "ACTIVATED_NAME"
-                },
-                new SimState()
-                {
-                    Name = "DEACTIVATED_NAME"
-                }
-            };
+                    new SimState()
+                    {
+                        Name = "ACTIVATED_NAME"
+                    },
+                    new SimState()
+                    {
+                        Name = "DEACTIVATED_NAME"
+                    }
+                };
+
+            }
+            catch (Exception e)
+            {
+                throw new CellularConnectivityException(e);
+            }
 
             return simStates.Select(simState => new SimState()
             {
@@ -225,19 +237,49 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         public EditTerminalResponse EditTerminal(Iccid iccid, int changeType, string targetValue)
         {
             var proxy = BuildJasperTerminalClientProxy();
-            return proxy.EditTerminal(iccid, changeType, targetValue);
+
+            EditTerminalResponse response;
+            try
+            {
+                response = proxy.EditTerminal(iccid, changeType, targetValue);
+            }
+            catch (Exception e)
+            {
+                throw new CellularConnectivityException(e);
+            }
+            return response;
         }
 
         public EditTerminalResponse UpdateSimState(string iccid, string newStatus)
         {
             var proxy = BuildJasperTerminalClientProxy();
-            return proxy.EditTerminal(new Iccid(iccid), 3, newStatus);
+            EditTerminalResponse response;
+            try
+            {
+                response = proxy.EditTerminal(new Iccid(iccid), 3, newStatus);
+            }
+            catch (Exception e)
+            {
+                throw new CellularConnectivityException(e);
+            }
+            return response;
         }
 
         public EditTerminalResponse UpdateSubscriptionPackage(string iccid, string ratePlan)
         {
             var proxy = BuildJasperTerminalClientProxy();
-            return proxy.EditTerminal(new Iccid(iccid), 3, ratePlan);
+            EditTerminalResponse response;
+
+            try
+            {
+                response = proxy.EditTerminal(new Iccid(iccid), 3, ratePlan);
+            }
+            catch (Exception e)
+            {
+                throw new CellularConnectivityException(e);
+            }
+
+            return response;
         }
 
         private IJasperTerminalClientProxy BuildJasperTerminalClientProxy()
