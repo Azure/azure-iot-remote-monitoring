@@ -171,7 +171,7 @@ function GetResourceGroup()
         [Parameter(Mandatory=$true,Position=0)] [string] $name,
         [Parameter(Mandatory=$true,Position=1)] [string] $type
     )
-    $resourceGroup = Find-AzureRmResourceGroup -Tag @{Name="IotSuiteType";Value=$type} | ?{$_.Name -eq $name}
+    $resourceGroup = Find-AzureRmResourceGroup -Tag @{"IotSuiteType" = $type} | ?{$_.Name -eq $name}
     if ($resourceGroup -eq $null)
     {
         return New-AzureRmResourceGroup -Name $name -Location $global:AllocationRegion -Tag @{"IoTSuiteType" = $type ; "IoTSuiteVersion" = $global:version ; "IoTSuiteState" = "Created"}
@@ -194,22 +194,19 @@ function UpdateResourceGroupState()
     {
         $tags = $resourceGroup.Tags
         $updated = $false
-        foreach ($tag in $tags)
+        if ($tags.ContainsKey("IoTSuiteState"))
         {
-            if ($tag.Name -eq "IoTSuiteState")
-            {
-                $tag.Value = $state
-                $updated = $true
-			}
-			if ($tag.Name -eq "IoTSuiteVersion" -and $tag.Value -ne $global:version)
-			{
-                $tag.Value = $global:version
-                $updated = $true
-			}
+            $tags.IoTSuiteState = $state
+            $updated = $true
+        }
+        if ($tags.ContainsKey("IoTSuiteVersion") -and $tags.IoTSuiteVersion -ne $global:version)
+        {
+            $tags.IoTSuiteVersion = $global:version
+            $updated = $true
         }
         if (!$updated)
         {
-            $tags += @{Name="IoTSuiteState";Value=$state}
+            $tags += @{"IoTSuiteState" = $state}
         }
         $resourceGroup = Set-AzureRmResourceGroup -Name $resourceGroupName -Tag $tags
     }
@@ -980,7 +977,7 @@ $global:resourceNotFound = "ResourceNotFound"
 $global:serviceNameToken = "ServiceName"
 $global:azurePath = Split-Path $MyInvocation.MyCommand.Path
 $global:version = Get-Content ("{0}\..\..\VERSION.txt" -f $global:azurePath)
-$global:azureVersion = "1.4.0"
+$global:azureVersion = "2.0.0"
 
 # Check version
 $module = Get-Module -ListAvailable | Where-Object{ $_.Name -eq 'Azure' }
