@@ -7,6 +7,43 @@
     var erricsonTermal = (EricssonTerminal)Model.TerminalDevice;
 }
 
+
+<p>
+    <strong>@Strings.CellularInformationSimStateLabel </strong>
+</p>
+<select id="simStateSelect" class="form_input select_box space_below" disabled>
+    @foreach (var simState in @Model.AvailableSimStates)
+    {
+        <option value="@simState.Name" selected="@simState.IsActive">@simState.Name</option>
+    }
+</select>
+
+<p>
+    <strong>@Strings.CellularInformationRatePlanLabel </strong>
+</p>
+<select id="subscriptionPackageSelect" class="form_input select_box space_below" disabled>
+    @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
+    {
+        <option value="@subscriptionPackage.Name" selected="@subscriptionPackage.IsActive">@subscriptionPackage.Name</option>
+    }
+</select>
+
+<div id="updateCellularInformationResults">
+    @if (Model.CellularActionUpdateResponse != null)
+    {
+        if (Model.CellularActionUpdateResponse.Success)
+        {
+            <p class="success_text">Success</p>
+        }
+        else
+        {
+            <p class="error_text">Error</p>
+        }
+    }
+</div>
+
+
+
 <p class="grid_detail_value"><strong>@Strings.SimFirstActivationDate </strong> @erricsonTermal.DateOfActivation.ConvertToString("ddMMyyyy", "Unknown")</p>
 <p class="grid_detail_value"><strong>@Strings.ICCID </strong> @erricsonTermal.Iccid.Id</p>
 <p class="grid_detail_value"><strong>@Strings.IMEI </strong> @erricsonTermal.Imei.Id</p>

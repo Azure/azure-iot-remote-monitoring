@@ -3,66 +3,35 @@
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
 
 <header class="header_grid">
-    <a href="#" id="deviceExplorer_CellInformationBack" class="details_grid__button_back grid_subheadhead_detail">@Strings.SimInformationBackText</a>
+    <a href="#" id="deviceExplorer_CellInformationBack" class="details_grid__button_back grid_subheadhead_detail">@Strings.Actions</a>
 </header>
+
 <section class="details_grid_general">
-    <h4>@Strings.CellularInformationLabel</h4>
-    <p>
-        <button id="editCellularInformation" class="button_base edit_button">@Strings.Edit</button>
-        <button id="saveCellularInformation" class="button_base edit_button" disabled>@Strings.Save</button>
-    </p>
-    <br/>
+    @Html.Partial("_CellularActions", Model)
     <br />
-    <p>
-        <strong>@Strings.CellularInformationSimStateLabel </strong>
-    </p>
-    <select id="simStateSelect" class="form_input select_box space_below" disabled>
-        @foreach (var simState in @Model.AvailableSimStates)
-        {
-            <option value="@simState.Name" selected="@simState.IsActive">@simState.Name</option>
-        }
-    </select>
+</section>
 
-    <p>
-        <strong>@Strings.CellularInformationRatePlanLabel </strong>
-    </p>
-    <select id="subscriptionPackageSelect" class="form_input select_box space_below" disabled>
-        @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
-        {
-            <option value="@subscriptionPackage.Name" selected="@subscriptionPackage.IsActive">@subscriptionPackage.Name</option>
-        }
-    </select>
+<header class="header_grid">
+    <h3 class="grid_subheadhead_detail">@Strings.SimInformationBackText</h3>
+    <a id="editCellularInformation" class="link_grid_subheadhead_detail">Edit</a>
+    <a id="saveCellularInformation" class="link_grid_subheadhead_detail" style="display: none;">Save</a>
+    <a id="cancelEditCellularInformation" class="link_grid_subheadhead_detail" style="display: none;">Cancel</a>
+</header>
 
-    <div id="updateCellularInformationResults">
-        @if (Model.CellularActionUpdateResponse != null)
-        {
-            if (Model.CellularActionUpdateResponse.Success)
-            {
-                <p class="success_text">Success</p>
-            }
-            else
-            {
-                <p class="error_text">Error</p>
-            }
-        }
-    </div>
+<section class="details_grid_general">
     @switch (Model.ApiRegistrationProvider)
     {
         case ApiRegistrationProviderTypes.Jasper:
-            {
-                @Html.Partial("_CellularInformationJasper", Model)
-                break;
-            }
+        {
+            @Html.Partial("_CellularInformationJasper", Model)
+            break;
+        }
         case ApiRegistrationProviderTypes.Ericsson:
-            {
-                @Html.Partial("_CellularInformationEricsson", Model)
-                break;
-            }
+        {
+            @Html.Partial("_CellularInformationEricsson", Model)
+            break;
+        }
     }
-
-    @Html.Partial("_CellularActions", Model)
-    
-    
     @switch (Model.ApiRegistrationProvider)
     {
         case ApiRegistrationProviderTypes.Jasper:
@@ -76,12 +45,11 @@
                 break;
             }
     }
-
-    <br />
 </section>
 
 <script>
     $(function () {
+        debugger
         IoTApp.CellularInformation.init();
     });
 </script>

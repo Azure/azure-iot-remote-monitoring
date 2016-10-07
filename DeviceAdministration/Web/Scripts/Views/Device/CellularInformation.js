@@ -16,13 +16,20 @@ IoTApp.createModule("IoTApp.CellularInformation", function () {
         subscriptionPackageSelect: "#subscriptionPackageSelect",
         saveCellularInformation: "#saveCellularInformation",
         editCellularInformation: "#editCellularInformation",
+        cancelEditCellularInformation: "#cancelEditCellularInformation",
         loadingElement: "#loadingElement",
-        updateCellularInformationResults: "#updateCellularInformationResults"
+        updateCellularInformationResults: "#updateCellularInformationResults",
+        goBackToDeviceDetails: "#goBackToDeviceDetails"
     }
 
     /*
      * Utility functions
      */
+
+   var resetInputsToInitial = function() {
+       $(self.htmlElementIds.simStateSelect).val(self.initialCellActionSettings.simStatus);
+       $(self.htmlElementIds.subscriptionPackageSelect).val(self.initialCellActionSettings.subscriptionPackage);
+   }
 
     /**
      * Toggle the actions for to between enabled and disabled
@@ -33,14 +40,16 @@ IoTApp.createModule("IoTApp.CellularInformation", function () {
         if (disabled) {
             $(self.htmlElementIds.simStateSelect).attr("disabled", "disabled");
             $(self.htmlElementIds.subscriptionPackageSelect).attr("disabled", "disabled");
-            $(self.htmlElementIds.saveCellularInformation).attr("disabled", "disabled");
-            $(self.htmlElementIds.editCellularInformation).removeAttr("disabled");
+            $(self.htmlElementIds.saveCellularInformation).hide();
+            $(self.htmlElementIds.cancelEditCellularInformation).hide();
+            $(self.htmlElementIds.editCellularInformation).show();
             $(self.updateCellularInformationResults).hide();
         } else {
             $(self.htmlElementIds.simStateSelect).removeAttr("disabled");
             $(self.htmlElementIds.subscriptionPackageSelect).removeAttr("disabled");
-            $(self.htmlElementIds.saveCellularInformation).removeAttr("disabled");
-            $(self.htmlElementIds.editCellularInformation).attr("disabled", "disabled");
+            $(self.htmlElementIds.saveCellularInformation).show();
+            $(self.htmlElementIds.cancelEditCellularInformation).show();
+            $(self.htmlElementIds.editCellularInformation).hide();
             $(self.updateCellularInformationResults).show();
         }
     }
@@ -144,9 +153,20 @@ IoTApp.createModule("IoTApp.CellularInformation", function () {
         toggleInputDisabledProperty(false);
     }
 
+    var cancelEditOnClick = function() {
+        toggleInputDisabledProperty(true);
+        resetInputsToInitial();
+    }
+
+    var goBackOnClick = function() {
+        IoTApp.DeviceDetails.getDeviceDetailsView();
+    }
+
     var attachEventHandlers = function () {
         $(self.htmlElementIds.editCellularInformation).click(editActionsOnClick);
         $(self.htmlElementIds.saveCellularInformation).click(saveActionsOnClick);
+        $(self.htmlElementIds.cancelEditCellularInformation).click(cancelEditOnClick);
+        $(self.htmlElementIds.goBackToDeviceDetails).click(goBackOnClick);
     }
 
     /*

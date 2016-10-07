@@ -212,12 +212,14 @@
         container.html($wrapper);
     }
     var init = function (deviceId) {
+        self.cachedDeviceHtml = null;
         getDeviceDetailsView(deviceId);
     }
     return {
         init: init,
         getCellularDetailsView: getCellularDetailsView,
         onCellularDetailsDone: onCellularDetailsDone,
-        displayCellularDetailsView: displayCellularDetailsView
+        displayCellularDetailsView: displayCellularDetailsView,
+        getDeviceDetailsView: getDeviceDetailsView
     }
 }, [jQuery, resources]);

@@ -1,6 +1,42 @@
 ﻿@using GlobalResources
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
 
+<p>
+    <strong>@Strings.CellularInformationSimStateLabel </strong>
+</p>
+<select id="simStateSelect" class="form_input select_box space_below" disabled>
+    @foreach (var simState in @Model.AvailableSimStates)
+    {
+        <option value="@simState.Name" selected="@simState.IsActive">@simState.Name</option>
+    }
+</select>
+
+<p>
+    <strong>@Strings.CellularInformationRatePlanLabel </strong>
+</p>
+<select id="subscriptionPackageSelect" class="form_input select_box space_below" disabled>
+    @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
+    {
+        <option value="@subscriptionPackage.Name" selected="@subscriptionPackage.IsActive">@subscriptionPackage.Name</option>
+    }
+</select>
+
+<div id="updateCellularInformationResults">
+    @if (Model.CellularActionUpdateResponse != null)
+    {
+        if (Model.CellularActionUpdateResponse.Success)
+        {
+            <p class="success_text">Success</p>
+        }
+        else
+        {
+            <p class="error_text">Error</p>
+        }
+    }
+</div>
+
+
+
 <p class="grid_detail_value"><strong>@Strings.LastSessionStart </strong> @Model.SessionInfo.DateSessionStarted</p>
 <p class="grid_detail_value"><strong>@Strings.CurrentRatePlan</strong>@Model.TerminalDevice.RatePlan</p>
 <p class="grid_detail_value"><strong>@Strings.AggregatedUsage</strong>@Model.TerminalDevice.MonthToDateDataUsage</p>
