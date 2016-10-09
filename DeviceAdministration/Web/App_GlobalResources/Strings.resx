@@ -1789,4 +1789,7 @@
   <data name="CellularInformationLabel" xml:space="preserve">
     <value>SIM Properties</value>
   </data>
+  <data name="CellularInformationSubscriptionPackageLabel" xml:space="preserve">
+    <value>Subscription Package</value>
+  </data>
 </root>

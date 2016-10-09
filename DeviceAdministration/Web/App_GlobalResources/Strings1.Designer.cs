@@ -656,6 +656,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Subscription Package.
+        /// </summary>
+        public static string CellularInformationSubscriptionPackageLabel {
+            get {
+                return ResourceManager.GetString("CellularInformationSubscriptionPackageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 400200.
         /// </summary>
         public static string CellularInvalidCreds {

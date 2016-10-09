@@ -433,9 +433,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    failedActions.Add(action);
+                    success = false;
                 }
                 if (!success)
                 {

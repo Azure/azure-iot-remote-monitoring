@@ -7,9 +7,8 @@
     var erricsonTermal = (EricssonTerminal)Model.TerminalDevice;
 }
 
-
 <p>
-    <strong>@Strings.CellularInformationSimStateLabel </strong>
+    <strong>@Strings.CellularInformationSimStateLabel</strong>
 </p>
 <select id="simStateSelect" class="form_input select_box space_below" disabled>
     @foreach (var simState in @Model.AvailableSimStates)
@@ -19,7 +18,7 @@
 </select>
 
 <p>
-    <strong>@Strings.CellularInformationRatePlanLabel </strong>
+    <strong>@Strings.CellularInformationSubscriptionPackageLabel </strong>
 </p>
 <select id="subscriptionPackageSelect" class="form_input select_box space_below" disabled>
     @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
