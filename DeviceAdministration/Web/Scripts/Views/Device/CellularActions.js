@@ -21,7 +21,8 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
         sendSms: "#sendSms",
         sendSmsTextBox: "#sendSmsTextBox",
         loadingElement: "#loadingElement",
-        cellularActionsResults: "#cellularActionsResults"
+        cellularActionsResults: "#cellularActionsResults",
+        apiRegistrationProvider: "#apiRegistrationProvider"
     }
     $.ajaxSetup({ cache: false });
 
@@ -41,6 +42,14 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
     /*
      * Utility functions
      */
+
+    var confirmDeviceReconnect = function (apiProvider) {
+        var confirmed = false;
+        if (apiProvider === "Jasper") {
+            confirmed = confirm("This operation will close the device connection and the device is expected to reconnect on its own. Are you sure you want to execute this command?")
+        }
+        return confirmed;
+    }
 
     /**
      * Generate an CellularActionRequestModel from an action type string.
@@ -116,10 +125,16 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
      *  @returns {Promise} The promise returned from posting to the api
      */
     var reconnectDeviceOnClick = function () {
-        toggleLoadingElement(true);
-        var requestModel = generateActionUpdateRequestFromType(self.actionTypes.reconnectDevice);
-        return postActionRequest(requestModel)
-            .then(onActionRequestSuccess, onActionRequestError);
+        var apiProvider = $(self.htmlElementIds.apiRegistrationProvider).val();
+        if (confirmDeviceReconnect(apiProvider)) {
+            toggleLoadingElement(true);
+            var requestModel = generateActionUpdateRequestFromType(self.actionTypes.reconnectDevice);
+            return postActionRequest(requestModel)
+                .then(onActionRequestSuccess, onActionRequestError);
+        }
+        else {
+            return $.Deferred().resolve().promise();
+        }
     }
 
     /**

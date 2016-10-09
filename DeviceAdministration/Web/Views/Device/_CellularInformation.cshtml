@@ -18,6 +18,8 @@
     <a id="cancelEditCellularInformation" class="link_grid_subheadhead_detail" style="display: none;">Cancel</a>
 </header>
 
+@Html.HiddenFor(model => model.ApiRegistrationProvider, new { id = "apiRegistrationProvider" })
+
 <section class="details_grid_general">
     @switch (Model.ApiRegistrationProvider)
     {
@@ -36,7 +38,7 @@
     {
         case ApiRegistrationProviderTypes.Jasper:
             {
-                <div class="ericsson_info_text">@Strings.SimInformationInfoTextJasper</div>
+                <div class="jasper_info_text details_grid_margin">@Strings.SimInformationInfoTextJasper</div>
                 break;
             }
         case ApiRegistrationProviderTypes.Ericsson:
@@ -49,7 +51,6 @@
 
 <script>
     $(function () {
-        debugger
         IoTApp.CellularInformation.init();
     });
 </script>

@@ -7,7 +7,7 @@
 <select id="simStateSelect" class="form_input select_box space_below" disabled>
     @foreach (var simState in @Model.AvailableSimStates)
     {
-        <option value="@simState.Name" selected="@simState.IsActive">@simState.Name</option>
+        <option value="@simState.Id" selected="@simState.IsActive">@simState.Name</option>
     }
 </select>
 
@@ -45,4 +45,3 @@
 <p class="grid_detail_value"><strong>@Strings.IMSI</strong> @Model.TerminalDevice.Imsi.Id</p>
 <p class="grid_detail_value"><strong>@Strings.ICCID</strong> @Model.TerminalDevice.Iccid.Id</p>
 <p class="grid_detail_value"><strong>@Strings.AccountId</strong> @Model.TerminalDevice.AccountId</p>
-<div class="jasper_info_text details_grid_margin">@Strings.SimInformationInfoTextJasper</div>

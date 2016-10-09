@@ -13,7 +13,7 @@
 <select id="simStateSelect" class="form_input select_box space_below" disabled>
     @foreach (var simState in @Model.AvailableSimStates)
     {
-        <option value="@simState.Name" selected="@simState.IsActive">@simState.Name</option>
+        <option value="@simState.Id" selected="@simState.IsActive">@simState.Name</option>
     }
 </select>
 
@@ -40,8 +40,6 @@
         }
     }
 </div>
-
-
 
 <p class="grid_detail_value"><strong>@Strings.SimFirstActivationDate </strong> @erricsonTermal.DateOfActivation.ConvertToString("ddMMyyyy", "Unknown")</p>
 <p class="grid_detail_value"><strong>@Strings.ICCID </strong> @erricsonTermal.Iccid.Id</p>

@@ -193,11 +193,13 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 {
                     new SimState()
                     {
-                        Name = "ACTIVATED_NAME"
+                        Name = "Activated",
+                        Id = "ACTIVATED_NAME"
                     },
                     new SimState()
                     {
-                        Name = "DEACTIVATED_NAME"
+                        Name = "Deactivated",
+                        Id = "DEACTIVATED_NAME"
                     }
                 };
 

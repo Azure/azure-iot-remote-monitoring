@@ -8,14 +8,14 @@
     {
         Html.RenderPartial("_IccidUpload");
     }
-    <fieldset class="registration_content">
-        <div class="registration_textbox">
-            <h2 class="registration_description">@Strings.DeviceId</h2>
-            @Html.DropDownList("UnassignedDeviceIds", new SelectList(Model.UnassignedDeviceIds, Model.UnassignedDeviceIds), new { @class = "advanced_dropdown" })
-        </div>
-    </fieldset>
     if (Model.UnassignedIccidList.Any())
     {
+        <fieldset class="registration_content">
+            <div class="registration_textbox">
+                <h2 class="registration_description">@Strings.DeviceId</h2>
+                @Html.DropDownList("UnassignedDeviceIds", new SelectList(Model.UnassignedDeviceIds, Model.UnassignedDeviceIds), new { @class = "advanced_dropdown" })
+            </div>
+        </fieldset>
         <fieldset class="registration_content">
             <div class="registration_textbox">
                 <h2 class="registration_description">@Strings.IccidLabel</h2>
