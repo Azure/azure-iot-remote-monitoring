@@ -81,9 +81,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return availableSimStates;
         }
 
-        public List<SimState> GetValidTargetSimStates(string iccid, string currentState)
+        public List<SimState> GetValidTargetSimStates(string iccid, string currentStateId)
         {
-            var availableSimStates = _cellularService.GetValidTargetSimStates(iccid, currentState);
+            var availableSimStates = _cellularService.GetValidTargetSimStates(iccid, currentStateId);
             return availableSimStates;
         }
 

@@ -100,7 +100,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return availableStates;
         }
 
-        public List<SimState> GetValidTargetSimStates(string iccid, string currentState)
+        public List<SimState> GetValidTargetSimStates(string iccid, string currentStateId)
         {
             List<SimState> availableStates;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
@@ -109,11 +109,11 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             {
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
-                    availableStates = jasperClient.GetValidTargetSimStates(iccid, currentState);
+                    availableStates = jasperClient.GetValidTargetSimStates(iccid, currentStateId);
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
-                    availableStates = ericssonClient.GetValidTargetSimStates(currentState);
+                    availableStates = ericssonClient.GetValidTargetSimStates(currentStateId);
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");

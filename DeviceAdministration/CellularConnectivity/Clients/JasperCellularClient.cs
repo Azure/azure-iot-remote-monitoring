@@ -175,16 +175,12 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             return isValid;
         }
 
-        public List<SimState> GetValidTargetSimStates(string iccid, string currentState)
+        public List<SimState> GetValidTargetSimStates(string iccid, string currentStateId)
         {
-            return GetAvailableSimStates(iccid, currentState).Select(simState => new SimState()
-            {
-                Name = simState.Name,
-                IsActive = currentState == simState.Name
-            }).ToList();
+            return  GetAvailableSimStates(iccid, currentStateId);
         }
 
-        public List<SimState> GetAvailableSimStates(string iccid, string currentState = null)
+        public List<SimState> GetAvailableSimStates(string iccid, string currentStateId = null)
         {
             List<SimState> simStates;
             try
@@ -211,8 +207,9 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
             return simStates.Select(simState => new SimState()
             {
+                Id = simState.Id,
                 Name = simState.Name,
-                IsActive = currentState == simState.Name
+                IsActive = currentStateId == simState.Id
             })
             .ToList();
         }
