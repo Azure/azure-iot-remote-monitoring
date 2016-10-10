@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://api.dcp.ericsson.net/SubscriptionTraffic" name="SubscriptionTrafficService" targetNamespace="http://api.dcp.ericsson.net/SubscriptionTraffic" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema targetNamespace="http://api.dcp.ericsson.net/SubscriptionTraffic" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="Query" type="tns:query" />
+      <xs:element name="QueryResponse" type="tns:queryResponse" />
+      <xs:complexType name="query">
+        <xs:sequence>
+          <xs:element name="resource" type="tns:resource" />
+          <xs:element minOccurs="0" name="range" type="xs:int" />
+          <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="resource">
+        <xs:sequence>
+          <xs:element name="id" type="xs:string" />
+          <xs:element name="type" type="tns:resourceType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="traffic">
+        <xs:sequence>
+          <xs:element name="returnCode" type="xs:int" />
+          <xs:element minOccurs="0" name="imsi" type="xs:string" />
+          <xs:element minOccurs="0" name="msisdn" type="xs:string" />
+          <xs:element minOccurs="0" name="imei" type="xs:string" />
+          <xs:element minOccurs="0" name="sessionStart" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="lastLu" type="tns:lastLu" />
+          <xs:element minOccurs="0" name="gprs" type="tns:gprs" />
+          <xs:element minOccurs="0" name="smsMo" type="tns:sms" />
+          <xs:element minOccurs="0" name="smsMt" type="tns:sms" />
+          <xs:element minOccurs="0" name="lastActivity" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="lastSmsErrorTime" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="lastSmsError" type="xs:string" />
+          <xs:element minOccurs="0" name="customerNo" type="xs:string" />
+          <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="lastLu">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="status" type="xs:string" />
+          <xs:element minOccurs="0" name="gprsStatus" type="xs:string" />
+          <xs:element minOccurs="0" name="timestamp" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="countryCode" type="xs:string" />
+          <xs:element minOccurs="0" name="operatorCode" type="xs:string" />
+          <xs:element minOccurs="0" name="vlrGt" type="xs:string" />
+          <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="gprs">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="pdpActive" type="xs:boolean" />
+          <xs:element minOccurs="0" name="activation" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="ip" type="xs:string" />
+          <xs:element minOccurs="0" name="apn" type="xs:string" />
+          <xs:element minOccurs="0" name="tx" type="xs:double" />
+          <xs:element minOccurs="0" name="lastTx" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="rx" type="xs:double" />
+          <xs:element minOccurs="0" name="lastRx" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="giDestAddress" type="xs:string" />
+          <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sms">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="count" type="xs:int" />
+          <xs:element minOccurs="0" name="lastDest" type="xs:string" />
+          <xs:element minOccurs="0" name="lastSms" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="smsErrorCount" type="xs:int" />
+          <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="queryResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="traffic" nillable="true" type="tns:traffic" />
+          <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="resourceType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="imsi" />
+          <xs:enumeration value="msisdn" />
+          <xs:enumeration value="imei" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </types>
+  <message name="SubscriptionTraffic_queryResponse">
+    <part name="queryResponse" element="tns:QueryResponse" />
+  </message>
+  <message name="SubscriptionTraffic_query">
+    <part name="query" element="tns:Query" />
+  </message>
+  <portType name="SubscriptionTraffic">
+    <operation name="query" parameterOrder="query">
+      <input message="tns:SubscriptionTraffic_query" />
+      <output message="tns:SubscriptionTraffic_queryResponse" />
+    </operation>
+  </portType>
+  <binding name="SubscriptionTrafficBinding" type="tns:SubscriptionTraffic">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="query">
+      <soap:operation soapAction="http://api.dcp.ericsson.net/session/query/query" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="SubscriptionTrafficService">
+    <port name="SubscriptionTrafficPort" binding="tns:SubscriptionTrafficBinding">
+      <soap:address location="https://serviceportal.telenorconnexion.com/dcpapi/SubscriptionTraffic" />
+    </port>
+  </service>
+</definitions>

@@ -106,7 +106,6 @@ namespace EricssonConsoleApiTester
             //    }
             //});
 
-
             //Subscription Traffic - potential for activity.
             var subscriptionTrafficClient = new SubscriptionTrafficClient();
             subscriptionTrafficClient.Endpoint.Address = EricssonEndpointBuilder.GetAuthorizedEndpoint(
