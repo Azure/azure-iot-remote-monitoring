@@ -117,8 +117,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         {
             var subscriptionManagementClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
 
-            var availableSubscriptions = subscriptionManagementClient.QuerySubscriptionPackages(new QuerySubscriptionPackages());
-            var availableSubscriptionPackages = availableSubscriptions
+            var availableSubscriptionPackages = subscriptionManagementClient.QuerySubscriptionPackages(new QuerySubscriptionPackages())
             .Select(
                 subscription => new SubscriptionPackage()
                 {
@@ -126,6 +125,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                     IsActive = subscription.subscriptionPackageName == currentSubscription
                 }
             ).ToList();
+
             return availableSubscriptionPackages;
         }
 

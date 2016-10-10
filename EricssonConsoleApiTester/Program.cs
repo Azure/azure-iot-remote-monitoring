@@ -37,17 +37,17 @@ namespace EricssonConsoleApiTester
             //    }
             //});
 
-            var response1 = subscriptionManClient.QuerySubscriptions(new QuerySubscriptionsRequest()
-            {
-                maxResults= 10,
-                resource = new SubscriptionManagement.resource()
-                {
-                    id = "901312000000466",
-                    type = "imsi"
-                }
-            });
+            //var response1 = subscriptionManClient.QuerySubscriptions(new QuerySubscriptionsRequest()
+            //{
+            //    maxResults= 10,
+            //    resource = new SubscriptionManagement.resource()
+            //    {
+            //        id = "901312000000466",
+            //        type = "imsi"
+            //    }
+            //});
 
-            Console.WriteLine("Hello");
+       
 
             //var reconnectClient = new DeviceReconnectClient();
             //reconnectClient.Endpoint.Address =
@@ -107,19 +107,20 @@ namespace EricssonConsoleApiTester
             //});
 
 
-            ////Subscription Traffic - potential for activity.
-            //var subscriptionTrafficClient = new SubscriptionTrafficClient();
-            //subscriptionTrafficClient.Endpoint.Address = EricssonEndpointBuilder.GetAuthorizedEndpoint(
-            //        "https://orange.dcp.ericsson.net/dcpapi/SubscriptionTraffic");
+            //Subscription Traffic - potential for activity.
+            var subscriptionTrafficClient = new SubscriptionTrafficClient();
+            subscriptionTrafficClient.Endpoint.Address = EricssonEndpointBuilder.GetAuthorizedEndpoint(
+                    "https://orange.dcp.ericsson.net/dcpapi/SubscriptionTraffic");
 
-            //var subResp = subscriptionTrafficClient.query(new query()
-            //{
-            //    resource = new SubscriptionTraffic.resource()
-            //    {
-            //        id = "901312000000466",
-            //        type = resourceType.imsi
-            //    }
-            //});
+            var subResp = subscriptionTrafficClient.query(new query()
+            {
+                resource = new SubscriptionTraffic.resource()
+                {
+                    id = "901312000000466",
+                    type = resourceType.imsi
+                }
+            });
+            Console.WriteLine("Hello");
 
             ////Realtime Trace - PDP? HLR?
             //var realTimeClient = new RealtimeTraceClient();

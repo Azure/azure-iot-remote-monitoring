@@ -288,6 +288,7 @@
     <Compile Include="DataTables\DataTablesResponse.cs" />
     <Compile Include="DataTables\Search.cs" />
     <Compile Include="DataTables\SortColumn.cs" />
+    <Compile Include="Extensions\StringExtentions.cs" />
     <Compile Include="Helpers\ICellularExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />

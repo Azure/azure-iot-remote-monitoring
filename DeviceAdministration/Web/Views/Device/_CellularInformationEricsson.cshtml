@@ -40,19 +40,19 @@
         }
     }
 </div>
-
-<p class="grid_detail_value"><strong>@Strings.SimFirstActivationDate </strong> @erricsonTermal.DateOfActivation.ConvertToString("ddMMyyyy", "Unknown")</p>
-<p class="grid_detail_value"><strong>@Strings.ICCID </strong> @erricsonTermal.Iccid.Id</p>
-<p class="grid_detail_value"><strong>@Strings.IMEI </strong> @erricsonTermal.Imei.Id</p>
-<p class="grid_detail_value"><strong>@Strings.IMSI </strong> @erricsonTermal.Imsi.Id</p>
-<p class="grid_detail_value"><strong>@Strings.MSISDN </strong> @erricsonTermal.Msisdn.Id</p>
-<p class="grid_detail_value"><strong>@Strings.PriceProfileName </strong> @erricsonTermal.PriceProfileName</p>
-<p class="grid_detail_value"><strong>@Strings.PDPContextProfileName </strong>@erricsonTermal.PdpContextProfileName</p>
-<p class="grid_detail_value"><strong>@Strings.CountryCode</strong>@erricsonTermal.CountryCode</p>
-<p class="grid_detail_value"><strong>@Strings.OperatorCode</strong>@erricsonTermal.OperatorCode</p>
-<p class="grid_detail_value"><strong>@Strings.LastData</strong>@erricsonTermal.LastData</p>
-<p class="grid_detail_value"><strong>@Strings.LastPDPContext</strong>@erricsonTermal.LastPDPContext</p>
-<p class="grid_detail_value"><strong>@Strings.CustomerNumber </strong>@erricsonTermal.AccountId</p>
-<p class="grid_detail_value"><strong>@Strings.PricePlan </strong>@erricsonTermal.PricePlan</p>
-<p class="grid_detail_value"><strong>@Strings.AggregatedSimUsage </strong>@erricsonTermal.AggregatedSimUsage</p>
-<p class="grid_detail_value"><strong>@Strings.CurrentLimits </strong>@erricsonTermal.CurrentLimits</p>
+Unavailable
+<p class="grid_detail_value"><strong>@Strings.SimFirstActivationDate </strong> @erricsonTermal.DateOfActivation.ConvertToString("ddMMyyyy", "Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.ICCID </strong> @erricsonTermal.Iccid.Id.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.IMEI </strong> @erricsonTermal.Imei.Id.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.IMSI </strong> @erricsonTermal.Imsi.Id.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.MSISDN </strong> @erricsonTermal.Msisdn.Id.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.PriceProfileName </strong> @erricsonTermal.PriceProfileName.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.PDPContextProfileName </strong>@erricsonTermal.PdpContextProfileName.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.CountryCode</strong>@erricsonTermal.CountryCode.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.OperatorCode</strong>@erricsonTermal.OperatorCode.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.LastData</strong> @erricsonTermal.LastData.ConvertToString("ddMMyyyy", "Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.LastPDPContext</strong>@erricsonTermal.LastPDPContext.ConvertToString("ddMMyyyy", "Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.CustomerNumber </strong>@erricsonTermal.AccountId.ToString().DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.PricePlan </strong>@erricsonTermal.PricePlan.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.AggregatedSimUsage </strong>@erricsonTermal.AggregatedSimUsage.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.CurrentLimits </strong>@erricsonTermal.CurrentLimits.DefaultIfNull("Unavailable")</p>
