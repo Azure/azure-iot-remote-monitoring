@@ -1792,4 +1792,16 @@
   <data name="CellularInformationSubscriptionPackageLabel" xml:space="preserve">
     <value>Subscription Package</value>
   </data>
+  <data name="CountryCode" xml:space="preserve">
+    <value>Country Code</value>
+  </data>
+  <data name="LastData" xml:space="preserve">
+    <value>Last Data</value>
+  </data>
+  <data name="LastPDPContext" xml:space="preserve">
+    <value>Last PDP Context</value>
+  </data>
+  <data name="OperatorCode" xml:space="preserve">
+    <value>Operator Code</value>
+  </data>
 </root>

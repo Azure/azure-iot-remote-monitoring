@@ -131,27 +131,11 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
                     availableSubscriptionPackages = jasperClient.GetAvailableSubscriptionPackages(iccid, currentSubscription);
-                    availableSubscriptionPackages = availableSubscriptionPackages
-                        .Select(
-                            subscription => new SubscriptionPackage()
-                            {
-                                Name = subscription.Name,
-                                IsActive = subscription.Name == currentSubscription
-                            }
-                        ).ToList();
                     break;
 
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
-                    var subscriptionQueryResponse = ericssonClient.GetAvailableSubscriptionPackages();
-                    availableSubscriptionPackages = subscriptionQueryResponse
-                        .Select(
-                            subscription => new SubscriptionPackage()
-                            {
-                                Name = subscription.subscriptionPackageName,
-                                IsActive = subscription.subscriptionPackageName == currentSubscription
-                            }
-                        ).ToList();
+                    availableSubscriptionPackages = ericssonClient.GetAvailableSubscriptionPackages(iccid, currentSubscription);
                     break;
                 default:
 

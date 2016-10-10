@@ -962,6 +962,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Country Code.
+        /// </summary>
+        public static string CountryCode {
+            get {
+                return ResourceManager.GetString("CountryCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
         public static string Create {
@@ -2276,6 +2285,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last Data.
+        /// </summary>
+        public static string LastData {
+            get {
+                return ResourceManager.GetString("LastData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last PDP Context.
+        /// </summary>
+        public static string LastPDPContext {
+            get {
+                return ResourceManager.GetString("LastPDPContext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Session Start: .
         /// </summary>
         public static string LastSessionStart {
@@ -2668,6 +2695,15 @@ namespace GlobalResources {
         public static string OpensInNewTab {
             get {
                 return ResourceManager.GetString("OpensInNewTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operator Code.
+        /// </summary>
+        public static string OperatorCode {
+            get {
+                return ResourceManager.GetString("OperatorCode", resourceCulture);
             }
         }
         

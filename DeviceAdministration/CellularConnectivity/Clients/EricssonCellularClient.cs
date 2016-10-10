@@ -105,11 +105,20 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         /// Gets the available subscription packages from the appropriate api provider
         /// </summary>
         /// <returns>SubscriptionPackage Model</returns>
-        public subscriptionPackage[] GetAvailableSubscriptionPackages()
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid, string currentSubscription)
         {
             var subscriptionManagementClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
+
             var availableSubscriptions = subscriptionManagementClient.QuerySubscriptionPackages(new QuerySubscriptionPackages());
-            return availableSubscriptions;
+            var availableSubscriptionPackages = availableSubscriptions
+            .Select(
+                subscription => new SubscriptionPackage()
+                {
+                    Name = subscription.subscriptionPackageName,
+                    IsActive = subscription.subscriptionPackageName == currentSubscription
+                }
+            ).ToList();
+            return availableSubscriptionPackages;
         }
 
         public RequestSubscriptionStatusChangeResponse UpdateSimState(string iccid, subscriptionStatusRequest updatedState)
