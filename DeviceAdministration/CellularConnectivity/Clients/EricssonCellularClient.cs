@@ -61,11 +61,11 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             try
             {
                 var subManClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
-                var response = subManClient.QuerySimResource_v2(new QuerySimResource_v2() { resource = new resource() { id = iccid.Id, type = "icc" } });
+                var querySimResourceResponse = subManClient.QuerySimResource_v2(new QuerySimResource_v2() { resource = new resource() { id = iccid.Id, type = "icc" } });
 
                 //check it even exists
-                if (response.simResource.Length <= 0) return terminal;
-                var sim = response.simResource.First();
+                if (querySimResourceResponse.simResource.Length <= 0) return terminal;
+                var sim = querySimResourceResponse.simResource.First();
 
                 terminal.Status = sim.simSubscriptionStatus.ToString();
                 terminal.DateOfActivation = sim.firstActivationDate; //todo: check this is correct
@@ -77,6 +77,14 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 terminal.PriceProfileName = sim.priceProfileName;
                 terminal.PdpContextProfileName = sim.pdpContextProfileName;
                 terminal.AccountId = Convert.ToInt32(sim.customerNo); //todo : this will be customer number on the view
+
+                var querySubscriptionsResult = QuerySubscriptions(sim.imsi);
+                if (querySubscriptionsResult.subscriptions.Any())
+                {
+                    var subscription = querySubscriptionsResult.subscriptions.First();
+                    terminal.LastData = DateTime.Compare(subscription.lastData, DateTime.MinValue) != 0 ? subscription.lastData : (DateTime?)null;
+                    terminal.LastPDPContext = DateTime.Compare(subscription.lastPDPContext, DateTime.MinValue) != 0 ? subscription.lastPDPContext : (DateTime?)null;
+                }
 
             }
             catch (Exception exception)
@@ -132,6 +140,20 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                     type = "icc"
                 },
                 subscriptionStatus = updatedState
+            });
+        }
+
+        public QuerySubscriptionsResponse QuerySubscriptions(string imsi)
+        {
+            var subscriptionManagementClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
+            return subscriptionManagementClient.QuerySubscriptions(new QuerySubscriptionsRequest()
+            {
+                maxResults = 10,
+                resource = new resource()
+                {
+                    id = imsi,
+                    type = "imsi"
+                }
             });
         }
 

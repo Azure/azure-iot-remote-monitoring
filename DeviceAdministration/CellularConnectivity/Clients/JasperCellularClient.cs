@@ -228,7 +228,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 },
                 new SubscriptionPackage()
                 {
-                    Name = "Jasper Test Drive Standard Plan"
+                    Name = "Expensive"
                 }
             }.Select(
                 subscription => new SubscriptionPackage()
