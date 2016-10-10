@@ -7,9 +7,11 @@ using DeviceManagement.Infrustructure.Connectivity.Builders;
 using DeviceManagement.Infrustructure.Connectivity.DeviceReconnect;
 using DeviceManagement.Infrustructure.Connectivity.EricssonApiService;
 using DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService;
+using DeviceManagement.Infrustructure.Connectivity.EricssonTrafficManagment;
 using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
+using resource = DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.resource;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Clients
 {
@@ -86,6 +88,14 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                     terminal.LastPDPContext = DateTime.Compare(subscription.lastPDPContext, DateTime.MinValue) != 0 ? subscription.lastPDPContext : (DateTime?)null;
                 }
 
+                var querySubscriptionTraffic = QuerySubscriptionTraffic(sim.imsi);
+                if (querySubscriptionTraffic.traffic.Any())
+                {
+                    var subscription = querySubscriptionTraffic.traffic.First();
+                    terminal.CountryCode = subscription.lastLu.countryCode;
+                    terminal.OperatorCode = subscription.lastLu.operatorCode;
+                }
+
             }
             catch (Exception exception)
             {
@@ -153,6 +163,19 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 {
                     id = imsi,
                     type = "imsi"
+                }
+            });
+        }
+
+        public queryResponse QuerySubscriptionTraffic(string imsi)
+        {
+            var subscriptionTrafficClient = EricssonServiceBuilder.GetSubscriptionTrafficClient(_credentialProvider.Provide());
+            return subscriptionTrafficClient.query(new query()
+            {
+                resource = new EricssonTrafficManagment.resource()
+                {
+                    id = "901312000000466",
+                    type = resourceType.imsi
                 }
             });
         }
