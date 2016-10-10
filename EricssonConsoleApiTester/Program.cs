@@ -111,7 +111,7 @@ namespace EricssonConsoleApiTester
             subscriptionTrafficClient.Endpoint.Address = EricssonEndpointBuilder.GetAuthorizedEndpoint(
                     "https://orange.dcp.ericsson.net/dcpapi/SubscriptionTraffic");
 
-            var subResp = subscriptionTrafficClient.query(new query()
+            queryResponse subResp = subscriptionTrafficClient.query(new query()
             {
                 resource = new SubscriptionTraffic.resource()
                 {

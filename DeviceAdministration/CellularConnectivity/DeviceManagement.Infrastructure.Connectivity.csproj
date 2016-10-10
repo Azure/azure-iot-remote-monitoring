@@ -61,6 +61,11 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Clients\EricssonCellularClient.cs" />
+    <Compile Include="Service References\EricssonTrafficManagment\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Services\ExternalCellularService.cs" />
     <Compile Include="Service References\EricssonSubscriptionService\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -242,6 +247,13 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\EricssonSubscriptionService\SubscriptionManagement.wsdl" />
+    <None Include="Service References\EricssonTrafficManagment\DeviceManagement.Infrustructure.Connectivity.EricssonTrafficManagment.queryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonTrafficManagment\DeviceManagement.Infrustructure.Connectivity.EricssonTrafficManagment.queryResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EricssonTrafficManagment\SubscriptionTrafficService.wsdl" />
     <None Include="Web References\com.jasper.api.sms\GetModifiedSMSResponse.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -482,6 +494,7 @@
     <WCFMetadataStorage Include="Service References\DeviceReconnect\" />
     <WCFMetadataStorage Include="Service References\EricssonApiService\" />
     <WCFMetadataStorage Include="Service References\EricssonSubscriptionService\" />
+    <WCFMetadataStorage Include="Service References\EricssonTrafficManagment\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\EricssonApiService\configuration91.svcinfo" />
@@ -518,6 +531,12 @@
     <Content Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <None Include="Service References\EricssonTrafficManagment\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\EricssonTrafficManagment\configuration.svcinfo" />
+    <None Include="Service References\EricssonTrafficManagment\configuration91.svcinfo" />
     <None Include="Service References\DeviceReconnect\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
