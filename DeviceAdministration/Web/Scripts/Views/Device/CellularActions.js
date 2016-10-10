@@ -43,12 +43,28 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
      * Utility functions
      */
 
+    /**
+     * For confirming that the user wishes to proceed with the device reconnect.
+     * @param {string} apiProvider The selected API Provider
+     * @returns {boolean} true if confirmed, false if cancelled 
+     */
     var confirmDeviceReconnect = function (apiProvider) {
         var confirmed = false;
         if (apiProvider === "Jasper") {
             confirmed = confirm("This operation will close the device connection and the device is expected to reconnect on its own. Are you sure you want to execute this command?")
         }
         return confirmed;
+    }
+
+    /**
+     * Toggle the action buttons and input to disabled or enabled
+     * @param {boolean} disable Flag to whether to disable the inputs 
+     * @returns {void} 
+     */
+    var toggleActionsDisabled = function (disable) {
+        $(self.htmlElementIds.reconnectDevice).prop("disabled", disable);
+        $(self.htmlElementIds.sendSms).prop("disabled", disable);
+        $(self.htmlElementIds.sendSmsTextBox).prop("disabled", disable);
     }
 
     /**
@@ -156,12 +172,13 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
     /*
     * Initialization
     */
-    var initActionForm = function () {
-        if (!self.deviceId) throw new Error("You must call IoTApp.CellularActions.init(deviceId) with a valid device ID first.");
+    var initActionForm = function (simIsInActiveState) {
+        if (!self.deviceId) throw new Error("Please reload the page. No device ID found in cookie.");
         attachEventHandlers();
+        toggleActionsDisabled(!simIsInActiveState);
         $(self.htmlElementIds.cellularActionsResults).hide();
     }
-    var init = function () {
+    var init = function() {
         var deviceId = IoTApp.Helpers.DeviceIdState.getDeviceIdFromCookie();
         if (deviceId) {
             self.deviceId = IoTApp.Helpers.DeviceIdState.getDeviceIdFromCookie();

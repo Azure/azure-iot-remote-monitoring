@@ -79,6 +79,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 terminal.PriceProfileName = sim.priceProfileName;
                 terminal.PdpContextProfileName = sim.pdpContextProfileName;
                 terminal.AccountId = Convert.ToInt32(sim.customerNo); //todo : this will be customer number on the view
+                terminal.IsInActiveState = isAnActiveState(sim.simSubscriptionStatus);
 
                 var querySubscriptionsResult = QuerySubscriptions(sim.imsi);
                 if (querySubscriptionsResult.subscriptions.Any())
@@ -230,6 +231,21 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         public bool SendSms(string iccid, string smsText)
         {
             return true;
+        }
+
+        private bool isAnActiveState(subscriptionStatus status)
+        {
+            switch (status)
+            {
+                case subscriptionStatus.Active:
+                    {
+                        return true;
+                    }
+                default:
+                    {
+                        return false;
+                    }
+            }
         }
 
         private List<subscriptionStatus> allValidTargetStates()

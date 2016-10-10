@@ -11,6 +11,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice
 
         public bool OverageLimitReached { get; set; }
         public string Status { get; set; }
+        public bool IsInActiveState { get; set; }
         public decimal MonthToDateDataUsage { get; set; }
         public string RatePlan { get; set; }
         public long AccountId { get; set; }

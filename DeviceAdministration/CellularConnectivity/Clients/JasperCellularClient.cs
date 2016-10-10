@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.com.jasper.api.sms;
 using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.terminal;
+using DeviceManagement.Infrustructure.Connectivity.Constants;
 using DeviceManagement.Infrustructure.Connectivity.Exceptions;
 using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
@@ -70,6 +71,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 MonthToDateDataUsage = terminal.monthToDateDataUsage,
                 RatePlan = terminal.ratePlan,
                 AccountId = terminal.accountId,
+                IsInActiveState = isAnActiveState(terminal.status),
                 Iccid = new Iccid
                 {
                     Id = terminal.iccid
@@ -177,7 +179,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public List<SimState> GetValidTargetSimStates(string iccid, string currentStateId)
         {
-            return  GetAvailableSimStates(iccid, currentStateId);
+            return GetAvailableSimStates(iccid, currentStateId);
         }
 
         public List<SimState> GetAvailableSimStates(string iccid, string currentStateId = null)
@@ -189,13 +191,13 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 {
                     new SimState()
                     {
-                        Name = "Activated",
-                        Id = "ACTIVATED_NAME"
+                        Name = JasperApiConstants.TerminalStates.ACTIVATED_LABEL,
+                        Id = JasperApiConstants.TerminalStates.ACTIVATED_CODE
                     },
                     new SimState()
                     {
-                        Name = "Deactivated",
-                        Id = "DEACTIVATED_NAME"
+                        Name = JasperApiConstants.TerminalStates.DEACTIVATED_LABEL,
+                        Id = JasperApiConstants.TerminalStates.DEACTIVATED_CODE
                     }
                 };
 
@@ -214,30 +216,30 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             .ToList();
         }
 
-        /// <summary>
-        /// Gets the available subscription packages from the appropriate api provider
-        /// </summary>
-        /// <returns>SubscriptionPackage Model</returns>
-        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid, string currentSubscription)
-        {
-            return new List<SubscriptionPackage>()
-            {
-                new SubscriptionPackage()
-                {
-                    Name = "Basic"
-                },
-                new SubscriptionPackage()
-                {
-                    Name = "Expensive"
-                }
-            }.Select(
-                subscription => new SubscriptionPackage()
-                {
-                    Name = subscription.Name,
-                    IsActive = subscription.Name == currentSubscription
-                }
-            ).ToList();
-        }
+        ///// <summary>
+        ///// Gets the available subscription packages from the appropriate api provider
+        ///// </summary>
+        ///// <returns>SubscriptionPackage Model</returns>
+        //public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid, string currentSubscription)
+        //{
+        //    return new List<SubscriptionPackage>()
+        //    {
+        //        new SubscriptionPackage()
+        //        {
+        //            Name = "Basic"
+        //        },
+        //        new SubscriptionPackage()
+        //        {
+        //            Name = "Expensive"
+        //        }
+        //    }.Select(
+        //        subscription => new SubscriptionPackage()
+        //        {
+        //            Name = subscription.Name,
+        //            IsActive = subscription.Name == currentSubscription
+        //        }
+        //    ).ToList();
+        //}
 
         public EditTerminalResponse EditTerminal(Iccid iccid, int changeType, string targetValue)
         {
@@ -285,6 +287,25 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             }
 
             return response;
+        }
+
+        private bool isAnActiveState(string stateString)
+        {
+            switch (stateString)
+            {
+                case JasperApiConstants.TerminalStates.ACTIVATED_CODE:
+                    {
+                        return true;
+                    }
+                case JasperApiConstants.TerminalStates.DEACTIVATED_CODE:
+                    {
+                        return false;
+                    }
+                default:
+                    {
+                        return false;
+                    }
+            }
         }
 
         private IJasperTerminalClientProxy BuildJasperTerminalClientProxy()
