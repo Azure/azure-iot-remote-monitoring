@@ -21,6 +21,6 @@
 </div>
 <script>
     $(function () {
-        IoTApp.CellularActions.initActionForm();
+        IoTApp.CellularActions.initActionForm(@Html.JavaScriptString(Model.TerminalDevice.IsInActiveState.ToString()));
     });
 </script>

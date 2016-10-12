@@ -216,30 +216,21 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             .ToList();
         }
 
-        ///// <summary>
-        ///// Gets the available subscription packages from the appropriate api provider
-        ///// </summary>
-        ///// <returns>SubscriptionPackage Model</returns>
-        //public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid, string currentSubscription)
-        //{
-        //    return new List<SubscriptionPackage>()
-        //    {
-        //        new SubscriptionPackage()
-        //        {
-        //            Name = "Basic"
-        //        },
-        //        new SubscriptionPackage()
-        //        {
-        //            Name = "Expensive"
-        //        }
-        //    }.Select(
-        //        subscription => new SubscriptionPackage()
-        //        {
-        //            Name = subscription.Name,
-        //            IsActive = subscription.Name == currentSubscription
-        //        }
-        //    ).ToList();
-        //}
+        /// <summary>
+        /// Gets the available subscription packages from the appropriate api provider
+        /// </summary>
+        /// <returns>SubscriptionPackage Model</returns>
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid, string currentSubscription)
+        {
+            return new List<SubscriptionPackage>()
+            {
+                new SubscriptionPackage()
+                {
+                    Name = currentSubscription,
+                    IsActive = true
+                }
+            };
+        }
 
         public EditTerminalResponse EditTerminal(Iccid iccid, int changeType, string targetValue)
         {

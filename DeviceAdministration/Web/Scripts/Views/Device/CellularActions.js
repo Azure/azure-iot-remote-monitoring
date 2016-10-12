@@ -173,6 +173,7 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
     * Initialization
     */
     var initActionForm = function (simIsInActiveState) {
+        debugger
         if (!self.deviceId) throw new Error("Please reload the page. No device ID found in cookie.");
         attachEventHandlers();
         toggleActionsDisabled(!simIsInActiveState);
