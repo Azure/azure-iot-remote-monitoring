@@ -3482,6 +3482,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actions have been disabled because the SIM is not in an active state.
+        /// </summary>
+        public static string SimInformationActionsDisabledMessage {
+            get {
+                return ResourceManager.GetString("SimInformationActionsDisabledMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SIM Information.
         /// </summary>
         public static string SimInformationBackText {

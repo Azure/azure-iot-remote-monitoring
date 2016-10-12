@@ -1804,4 +1804,7 @@
   <data name="OperatorCode" xml:space="preserve">
     <value>Operator Code</value>
   </data>
+  <data name="SimInformationActionsDisabledMessage" xml:space="preserve">
+    <value>Actions have been disabled because the SIM is not in an active state</value>
+  </data>
 </root>

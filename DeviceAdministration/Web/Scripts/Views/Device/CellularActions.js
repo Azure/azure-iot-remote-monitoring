@@ -22,7 +22,9 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
         sendSmsTextBox: "#sendSmsTextBox",
         loadingElement: "#loadingElement",
         cellularActionsResults: "#cellularActionsResults",
-        apiRegistrationProvider: "#apiRegistrationProvider"
+        apiRegistrationProvider: "#apiRegistrationProvider",
+        actionsDisabledMessage: "#actionsDisabledMessage",
+        cellularActions: "#cellularActions"
     }
     $.ajaxSetup({ cache: false });
 
@@ -65,6 +67,14 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
         $(self.htmlElementIds.reconnectDevice).prop("disabled", disable);
         $(self.htmlElementIds.sendSms).prop("disabled", disable);
         $(self.htmlElementIds.sendSmsTextBox).prop("disabled", disable);
+        if (disable) {
+            $(self.htmlElementIds.actionsDisabledMessage).show();
+            $(self.htmlElementIds.cellularActions).hide();
+        } else {
+            $(self.htmlElementIds.actionsDisabledMessage).hide();
+            $(self.htmlElementIds.cellularActions).show();
+        }
+        
     }
 
     /**
