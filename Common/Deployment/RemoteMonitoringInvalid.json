@@ -466,7 +466,7 @@
                         "Properties": {
                             "DataSource": {
                                 "Properties": {
-                                    "EventHubName": "MyEventHub",
+                                    "EventHubName": "[variables('ehOutName')]",
                                     "ServiceBusNamespace": "[parameters('sbName')]",
                                     "SharedAccessPolicyKey": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryKey]",
                                     "SharedAccessPolicyName": "[variables('sbKeyName')]",
@@ -487,7 +487,7 @@
                 "Transformation": {
                     "Name": "DeviceInfoFilter",
                     "Properties": {
-                        "Query": "SELECT * FROM DeviceDataStream Partition By PartitionId WHERE  ObjectType = 'DeviceInfo'",
+                        "Query": "SELECT * FROM DeviceDataStreamInvalid Partition By PartitionId WHERE  ObjectType = 'DeviceInfo'",
                         "StreamingUnits": 1
                     }
                 }
