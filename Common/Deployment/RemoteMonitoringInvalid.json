@@ -466,13 +466,13 @@
                         "Properties": {
                             "DataSource": {
                                 "Properties": {
-                                    "EventHubName": "[variables('ehOutName')]",
+                                    "EventHubName": "MyEventHub",
                                     "ServiceBusNamespace": "[parameters('sbName')]",
                                     "SharedAccessPolicyKey": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryKey]",
                                     "SharedAccessPolicyName": "[variables('sbKeyName')]",
                                     "PartitionKey": "PartitionId"
                                 },
-                                "Type": "Microsoft.ServiceBus/EventHubInvalid"
+                                "Type": "Microsoft.ServiceBus/EventHub"
                             },
                             "Serialization": {
                                 "Properties": {
