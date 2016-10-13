@@ -472,7 +472,7 @@
                                     "SharedAccessPolicyName": "[variables('sbKeyName')]",
                                     "PartitionKey": "PartitionId"
                                 },
-                                "Type": "Microsoft.ServiceBus/EventHubInvalid"
+                                "Type": "Microsoft.ServiceBus/EventHub"
                             },
                             "Serialization": {
                                 "Properties": {
