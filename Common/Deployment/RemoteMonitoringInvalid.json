@@ -86,26 +86,26 @@
                 "description": "The Iothub tier"
             }
         },
-        "ehName": {
+        "sbName": {
             "type": "string",
             "metadata": {
-                "description": "The name of the eventHub"
+                "description": "The name of the serviceBus"
             }
         },
-        "ehSku": {
+        "sbSku": {
             "type": "int",
             "defaultValue": 1,
             "metadata": {
-                "description": "The eventhub Sku"
+                "description": "The servicebus Sku"
             }
         },
         "packageUri": {
             "type": "string",
-            "defaultValue": "http://aka.ms/azureiot/staging/remotemonitoring/web"
+            "defaultValue": "https://aka.ms/azureiot/staging/remotemonitoring/web"
         },
         "webJobPackageUri": {
-            "type": "string",
-            "defaultValue": "http://aka.ms/azureiot/staging/remotemonitoring/webjob"
+          "type": "string",
+          "defaultValue": "https://aka.ms/azureiot/staging/remotemonitoring/webjob"
         },
         "webSku": {
             "type": "string",
@@ -161,15 +161,15 @@
         "location": "[resourceGroup().location]",
         "storageVersion": "2016-01-01",
         "storageId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
-        "ehVersion": "[providers('Microsoft.Eventhub', 'namespaces').apiVersions[0]]",
-        "ehOutName": "[concat(parameters('ehName'), '-ehout')]",
-        "ehRuleOutName": "[concat(parameters('ehName'), '-ehruleout')]",
+        "sbVersion": "[providers('Microsoft.Servicebus', 'namespaces').apiVersions[0]]",
+        "ehOutName": "[concat(parameters('sbName'), '-ehout')]",
+        "ehRuleOutName": "[concat(parameters('sbName'), '-ehruleout')]",
         "sbKeyName": "RootManageSharedAccessKey",
-        "ehResourceId": "[resourceId('Microsoft.Eventhub/namespaces/authorizationRules', parameters('ehName'), variables('sbKeyName'))]",
+        "sbResourceId": "[resourceId('Microsoft.Servicebus/namespaces/authorizationRules', parameters('sbName'), variables('sbKeyName'))]",
         "saVersion": "2015-10-01",
         "webVersion": "2015-04-01",
         "bingMapsName": "[concat(parameters('suiteName'), '-map')]",
-        "bingMapsVersion": "2016-08-18",
+        "bingMapsVersion": "2015-07-02",
         "webJobPlanName": "[concat(parameters('suiteName'), '-jobsplan')]",
         "webJobSiteName": "[concat(parameters('suiteName'), '-jobhost')]",
         "webPlanName": "[concat(parameters('suiteName'), '-plan')]",
@@ -271,25 +271,25 @@
             ]
         },
         {
-            "apiVersion": "[variables('ehVersion')]",
-            "name": "[parameters('ehName')]",
-            "type": "Microsoft.Eventhub/namespaces",
+            "apiVersion": "[variables('sbVersion')]",
+            "name": "[parameters('sbName')]",
+            "type": "Microsoft.Servicebus/namespaces",
             "location": "[variables('location')]",
             "tags": {
                 "IotSuiteType": "[variables('suiteType')]"
             },
             "properties": {
-                "messagingSku": "[parameters('ehSku')]",
+                "messagingSku": "[parameters('sbSku')]",
                 "region": "[variables('location')]"
             },
             "resources": [
                 {
-                    "apiVersion": "[variables('ehVersion')]",
+                    "apiVersion": "[variables('sbVersion')]",
                     "name": "[variables('ehOutName')]",
                     "type": "eventHubs",
                     "location": "[variables('location')]",
                     "dependsOn": [
-                        "[concat('Microsoft.Eventhub/namespaces/', parameters('ehName'))]"
+                        "[concat('Microsoft.Servicebus/namespaces/', parameters('sbName'))]"
                     ],
                     "properties": {
                         "path": "[variables('ehOutName')]",
@@ -297,12 +297,12 @@
                     }
                 },
                 {
-                    "apiVersion": "[variables('ehVersion')]",
+                    "apiVersion": "[variables('sbVersion')]",
                     "name": "[variables('ehRuleOutName')]",
                     "type": "eventHubs",
                     "location": "[variables('location')]",
                     "dependsOn": [
-                        "[concat('Microsoft.Eventhub/namespaces/', parameters('ehName'))]"
+                        "[concat('Microsoft.Servicebus/namespaces/', parameters('sbName'))]"
                     ],
                     "properties": {
                         "path": "[variables('ehRuleOutName')]",
@@ -424,7 +424,7 @@
             "name": "[concat(parameters('suiteName'), '-DeviceInfo')]",
             "location": "[variables('location')]",
             "dependsOn": [
-                "[concat('Microsoft.Eventhub/namespaces/', parameters('ehName'), '/eventHubs/', variables('ehOutName'))]",
+                "[concat('Microsoft.Servicebus/namespaces/', parameters('sbName'), '/eventHubs/', variables('ehOutName'))]",
                 "[concat('Microsoft.Devices/Iothubs/', parameters('iotHubName'))]"
             ],
             "tags": {
@@ -467,8 +467,8 @@
                             "DataSource": {
                                 "Properties": {
                                     "EventHubName": "[variables('ehOutName')]",
-                                    "ServiceBusNamespace": "[parameters('ehName')]",
-                                    "SharedAccessPolicyKey": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryKey]",
+                                    "ServiceBusNamespace": "[parameters('sbName')]",
+                                    "SharedAccessPolicyKey": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryKey]",
                                     "SharedAccessPolicyName": "[variables('sbKeyName')]",
                                     "PartitionKey": "PartitionId"
                                 },
@@ -500,7 +500,7 @@
             "location": "[variables('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Storage/storageAccounts/', parameters('storageName'))]",
-                "[concat('Microsoft.Eventhub/namespaces/', parameters('ehName'), '/eventHubs/', variables('ehRuleOutName'))]",
+                "[concat('Microsoft.Servicebus/namespaces/', parameters('sbName'), '/eventHubs/', variables('ehRuleOutName'))]",
                 "[concat('Microsoft.Devices/Iothubs/', parameters('iotHubName'))]"
             ],
             "tags": {
@@ -571,8 +571,8 @@
                             "DataSource": {
                                 "Properties": {
                                     "EventHubName": "[variables('ehRuleOutName')]",
-                                    "ServiceBusNamespace": "[parameters('ehName')]",
-                                    "SharedAccessPolicyKey": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryKey]",
+                                    "ServiceBusNamespace": "[parameters('sbName')]",
+                                    "SharedAccessPolicyKey": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryKey]",
                                     "SharedAccessPolicyName": "[variables('sbKeyName')]",
                                     "PartitionKey": "PartitionId"
                                 },
@@ -720,10 +720,10 @@
                         "device.StorageConnectionString": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).keys[0].value)]",
                         "device.TableName": "DeviceList",
                         "eventHub.HubName": "[variables('ehOutName')]",
-                        "eventHub.ConnectionString": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryConnectionString]",
+                        "eventHub.ConnectionString": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]",
                         "eventHub.StorageConnectionString": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).keys[0].value)]",
                         "RulesEventHub.Name": "[variables('ehRuleOutName')]",
-                        "RulesEventHub.ConnectionString": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryConnectionString]",
+                        "RulesEventHub.ConnectionString": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]",
                         "ObjectTypePrefix": "",
                         "MapApiQueryKey": "[listSecrets(variables('bingMapsName'), variables('bingMapsVersion')).QueryKey]",
                         "SolutionName": "[variables('webSiteName')]"
@@ -782,10 +782,10 @@
                         "device.StorageConnectionString": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).keys[0].value)]",
                         "device.TableName": "DeviceList",
                         "eventHub.HubName": "[variables('ehOutName')]",
-                        "eventHub.ConnectionString": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryConnectionString]",
+                        "eventHub.ConnectionString": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]",
                         "eventHub.StorageConnectionString": "[concat('DefaultEndpointsProtocol=https;EndpointSuffix=', parameters('storageEndpointSuffix'), ';AccountName=', parameters('storageName'), ';AccountKey=', listkeys(variables('storageId'), variables('storageVersion')).keys[0].value)]",
                         "RulesEventHub.Name": "[variables('ehRuleOutName')]",
-                        "RulesEventHub.ConnectionString": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryConnectionString]",
+                        "RulesEventHub.ConnectionString": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]",
                         "ObjectTypePrefix": "",
                         "MapApiQueryKey": "[listSecrets(variables('bingMapsName'), variables('bingMapsVersion')).QueryKey]",
                         "SolutionName": "[variables('webSiteName')]"
@@ -829,7 +829,7 @@
         },
         "ehConnectionString": {
             "type": "string",
-            "value": "[listkeys(variables('ehResourceId'), variables('ehVersion')).primaryConnectionString]"
+            "value": "[listkeys(variables('sbResourceId'), variables('sbVersion')).primaryConnectionString]"
         }
     }
 }
