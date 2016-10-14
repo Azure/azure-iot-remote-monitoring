@@ -45,7 +45,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var blobReader = new Mock<IBlobStorageReader>();
             var blobData = "deviceid,temperature,humidity,externaltemperature,eventprocessedutctime,partitionid,eventenqueuedutctime,IoTHub" +
                 Environment.NewLine +
-                "test1,34.200411299709423,32.2233033525866,,2016 - 08 - 04T23: 07:14.2549606Z,3," + minTime.ToString("o") + ",Record";
+                "test1,34.200411299709423,32.2233033525866,,2016-08-04T23:07:14.2549606Z,3," + minTime.ToString("o") + ",Record";
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(blobData));
             var blobContents = new BlobContents {Data = stream, LastModifiedTime = DateTime.UtcNow};
             var blobContentIterable = new List<BlobContents>();
