@@ -3,7 +3,7 @@
 The prerequisites for setting up the remote monitoring preconfigured solution are: 
 - Visual Studio 2013 Update 4 or Visual Studio 2015
  - If you are using Visual Studio 2013, also download [Microsoft .NET Framework 4.6.1 Developer Pack and Language Packs][.NET 4.6.1].
-- Azure Powershell 1.4.x (see [How to install and configure Azure PowerShell][powershell]) _Note: a reboot is required if you're installing or updating PowerShell_
+- Azure Powershell 2.0.0 or greater (see [How to install and configure Azure PowerShell][powershell]) _Note: a reboot is required if you're installing or updating PowerShell_
 
 **Note:** You should verify that the NuGet Package Manager is configured correctly in Visual Studio before you continue:
  1. Launch Visual Studio 2013.
