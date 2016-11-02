@@ -45,11 +45,13 @@
 
     var onResendCommandClicked = function() {
         var commandName = $(this).data('command-name');
+        var deliveryType = $(this).data('command-deliverytype');
         var commandJson = $(this).data('command-json');
 
         var command = {
             deviceId: resources.deviceId,
             name: commandName,
+            deliveryType: deliveryType,
             commandJson: JSON.stringify(commandJson)
         };
 
@@ -84,7 +86,7 @@
             "oLanguage": {
                 "sInfo": "Devices List (_TOTAL_)"
             },
-            "order": [3, "desc"],
+            "order": [4, "desc"],
             "pageLength": 1000,
             "columnDefs": [
                 { "width": "200", "targets": 1 }

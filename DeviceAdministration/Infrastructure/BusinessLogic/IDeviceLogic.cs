@@ -19,7 +19,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<DeviceModel> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled);
         Task<SecurityKeys> GetIoTHubKeysAsync(string id);
         Task GenerateNDevices(int deviceCount);
-        Task SendCommandAsync(string deviceId, string commandName, dynamic parameters);
+        Task SendCommandAsync(string deviceId, string commandName, DeliveryType deliveryType, dynamic parameters);
         Task<List<string>> BootstrapDefaultDevices();
         DeviceListLocationsModel ExtractLocationsData(List<DeviceModel> devices);
         IList<DeviceTelemetryFieldModel> ExtractTelemetry(DeviceModel device);

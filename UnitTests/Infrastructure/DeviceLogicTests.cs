@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
@@ -219,7 +220,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             //Invalid device
             await
                 Assert.ThrowsAsync<DeviceNotRegisteredException>(
-                                                                 async () => await this._deviceLogic.SendCommandAsync(null, null, null));
+                                                                 async () => await this._deviceLogic.SendCommandAsync(null, null, DeliveryType.Message, null));
 
             //Invalid command
             await
@@ -228,6 +229,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                                                                 await
                                                                 this._deviceLogic.SendCommandAsync(d.DeviceProperties.DeviceID,
                                                                                                    "Invalid command",
+                                                                                                   DeliveryType.Message,
                                                                                                    null));
 
             //Valid command
@@ -235,7 +237,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 .Returns(Task.FromResult(true));
             this._deviceRegistryCrudRepositoryMock.Setup(x => x.UpdateDeviceAsync(It.IsNotNull<DeviceModel>()))
                 .ReturnsAsync(new DeviceModel());
-            await this._deviceLogic.SendCommandAsync(d.DeviceProperties.DeviceID, d.Commands[0].Name, null);
+            await this._deviceLogic.SendCommandAsync(d.DeviceProperties.DeviceID, d.Commands[0].Name, d.Commands[0].DeliveryType, null);
         }
 
         [Fact]

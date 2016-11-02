@@ -41,6 +41,7 @@
                         <th>@Strings.CommandName</th>
                         <th>@Strings.CommandResult</th>
                         <th>@Strings.CommandValuesSent</th>
+                        <th>@Strings.CommandValuesReturned</th>
                         <th>@Strings.CommandTimeCreated</th>
                         <th>@Strings.CommandTimeUpdated</th>
                         @if (canSendCommands)
@@ -69,6 +70,9 @@
                                 @DynamicValuesHelper.ConvertToJsonString(commandHistoryItem.Parameters)
                             </td>
                             <td>
+                                @commandHistoryItem.ReturnValue
+                            </td>
+                            <td>
                                 @{ resolvedTime = DynamicValuesHelper.ConvertToDateTime(commandHistoryItem.CreatedTime); }
                                 @Html.DisplayFor(m => resolvedTime)
                             </td>
@@ -93,6 +97,7 @@
                                     {
                                         <button class="button_base resend_command"
                                                 data-command-name="@commandName"
+                                                data-command-deliverytype="@commandHistoryItem.DeliveryType"
                                                 data-command-json="@commandHistoryItem.GetParameterString()">
                                             @Strings.Resend
                                         </button>

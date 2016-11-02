@@ -49,6 +49,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             await this.serviceClient.SendAsync(deviceId, message);
         }
 
+        public async Task<CloudToDeviceMethodResult> InvokeDeviceMethodAsync(string deviceId, CloudToDeviceMethod method)
+        {
+            return await this.serviceClient.InvokeDeviceMethodAsync(deviceId, method);
+        }
+
         public async Task CloseAsyncDevice()
         {
             await this.serviceClient.CloseAsync();
