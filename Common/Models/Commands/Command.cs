@@ -25,6 +25,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Co
         }
 
         public string Name { get; set; }
+        public DeliveryType DeliveryType { get; set; }
         public List<Parameter> Parameters { get; set; }
+    }
+
+    public enum DeliveryType
+    {
+        Message,
+        Method
     }
 }

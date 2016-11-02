@@ -13,6 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task RemoveDeviceAsync(string deviceId);
         Task<Device> UpdateDeviceAsync(Device device);
         Task SendAsync(string deviceId, Message message);
+        Task<CloudToDeviceMethodResult> InvokeDeviceMethodAsync(string deviceId, CloudToDeviceMethod method);
         Task CloseAsyncService();
         Task CloseAsyncDevice();
     }

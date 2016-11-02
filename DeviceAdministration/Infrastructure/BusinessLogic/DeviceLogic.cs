@@ -14,12 +14,13 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
-using D = Dynamitey;
 using Newtonsoft.Json.Linq;
+using D = Dynamitey;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic
 {
@@ -273,7 +274,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="commandName">The name of the command</param>
         /// <param name="parameters">The parameters to send</param>
         /// <returns></returns>
-        public async Task SendCommandAsync(string deviceId, string commandName, dynamic parameters)
+        public async Task SendCommandAsync(string deviceId, string commandName, DeliveryType deliveryType, dynamic parameters)
         {
             DeviceModel device = await this.GetDeviceAsync(deviceId);
 
@@ -282,7 +283,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new DeviceNotRegisteredException(deviceId);
             }
 
-            await SendCommandAsyncWithDevice(device, commandName, parameters);
+            await SendCommandAsyncWithDevice(device, commandName, deliveryType, parameters);
         }
 
         /// <summary>
@@ -292,7 +293,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="commandName">Name of the command to send</param>
         /// <param name="parameters">Parameters to send with the command</param>
         /// <returns></returns>
-        private async Task<CommandHistory> SendCommandAsyncWithDevice(DeviceModel device, string commandName, dynamic parameters)
+        private async Task<CommandHistory> SendCommandAsyncWithDevice(DeviceModel device, string commandName, DeliveryType deliveryType, dynamic parameters)
         {
             if (device == null)
             {
@@ -305,7 +306,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new UnsupportedCommandException(deviceId, commandName);
             }
 
-            var commandHistory = new CommandHistory(commandName, parameters);
+            var commandHistory = new CommandHistory(commandName, deliveryType, parameters);
 
             if (device.CommandHistory == null)
             {

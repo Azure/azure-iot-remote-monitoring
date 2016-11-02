@@ -674,6 +674,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to VALUES RETURNED.
+        /// </summary>
+        public static string CommandValuesReturned {
+            get {
+                return ResourceManager.GetString("CommandValuesReturned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to VALUES SENT.
         /// </summary>
         public static string CommandValuesSent {
@@ -1957,6 +1966,15 @@ namespace GlobalResources {
         public static string InvalidKeyType {
             get {
                 return ResourceManager.GetString("InvalidKeyType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invoke Method.
+        /// </summary>
+        public static string InvokeMethod {
+            get {
+                return ResourceManager.GetString("InvokeMethod", resourceCulture);
             }
         }
         

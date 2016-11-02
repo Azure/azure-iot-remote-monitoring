@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 
@@ -35,6 +36,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public static string GetCommandResultClassName(string commandResult)
         {
             FeedbackStatusCode resolvedValue;
+            HttpStatusCode httpStatusCode;
 
             if (Enum.TryParse<FeedbackStatusCode>(
                     commandResult,
@@ -54,6 +56,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         commandResult = "Error";
                         break;
                 }
+            }
+            else if (Enum.TryParse<HttpStatusCode>(
+                    commandResult,
+                    out httpStatusCode))
+            {
+                commandResult =  ((int)httpStatusCode >= 200) && ((int)httpStatusCode <= 299) ? "Success" : "Error";
             }
             else if (string.IsNullOrWhiteSpace(commandResult))
             {

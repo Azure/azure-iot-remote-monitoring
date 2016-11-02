@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.DataTables;
@@ -149,11 +150,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
         {
             var deviceId = fixture.Create<string>();
             var commandName = fixture.Create<string>();
+            var deliveryType = fixture.Create<DeliveryType>();
             var parameters = fixture.Create<IDictionary<string, string>>();
 
-            deviceLogic.Setup(mock => mock.SendCommandAsync(deviceId, commandName, parameters))
+            deviceLogic.Setup(mock => mock.SendCommandAsync(deviceId, commandName, deliveryType, parameters))
                 .Returns(Task.FromResult(true));
-            var res = await deviceApiController.SendCommand(deviceId, commandName, parameters);
+            var res = await deviceApiController.SendCommand(deviceId, commandName, deliveryType, parameters);
             res.AssertOnError();
             var data = res.ExtractContentDataAs<bool>();
             Assert.True(data);

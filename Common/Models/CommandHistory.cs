@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -20,7 +21,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         /// </summary>
         /// <param name="name">The name of the command.</param>
         /// <param name="parameters">Dynamic list of parameters issued with the command.</param>
-        public CommandHistory(string name, dynamic parameters = null)
+        public CommandHistory(string name, DeliveryType deliveryType = DeliveryType.Message, dynamic parameters = null)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -28,16 +29,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
             }
 
             Name = name;
+            DeliveryType = deliveryType;
             MessageId = Guid.NewGuid().ToString();
             CreatedTime = DateTime.UtcNow;
             SetParameters(parameters);
         }
 
         public string Name { get; set; }
+        public DeliveryType DeliveryType { get; set; }
         public string MessageId { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime UpdatedTime { get; set; }
         public string Result { get; set; }
+        public string ReturnValue { get; set; }
         public string ErrorMessage { get; set; }
         public dynamic Parameters { get; set; }
 
