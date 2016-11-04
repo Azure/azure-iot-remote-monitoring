@@ -35,5 +35,5 @@
     @Html.HiddenFor(command => command.DeviceId)
     @Html.HiddenFor(command => command.DeliveryType)
     <button type="submit" id="sendCommand_button" class="button_base button_execute">@(Model.DeliveryType == DeliveryType.Message ? Strings.SendCommand : Strings.InvokeMethod)</button>
-
+    <p class="command_description">@Model.Description</p>
 }

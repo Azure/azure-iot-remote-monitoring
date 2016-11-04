@@ -1,4 +1,4 @@
-﻿/*
+/*
 If any of the included files are moved, missing, or contain Less syntax errors,
 the .less compilation will fail. In this case, the request for this file will
 return an HTTP 404 error.
@@ -737,6 +737,12 @@ nav .selected {
 .command_history__error_message {
   color: #ed1c24;
   word-break: break-all;
+}
+.command_description {
+  clear: both;
+  font-size: 0.8em;
+  color: gray;
+  margin-top: 2.5em;
 }
 /*
     Classes for Command Result come from localized string styling from DeviceDisplayHelper.cs

@@ -30,6 +30,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public string Name { get; set; }
         public string DeviceId { get; set; }
         public DeliveryType DeliveryType { get; set; }
+        public string Description { get; set; }
     }
 
     public class ParameterModel : IValidatableObject

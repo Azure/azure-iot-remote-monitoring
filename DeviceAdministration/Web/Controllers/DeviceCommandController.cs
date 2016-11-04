@@ -71,7 +71,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 DeviceId = deviceId,
                 Name = command.Name,
                 DeliveryType = command.DeliveryType,
-                Parameters = command.Parameters.ToParametersModel().ToList()
+                Parameters = command.Parameters.ToParametersModel().ToList(),
+                Description = command.Description
             };
             return PartialView("_SendCommandForm", model);
         }
