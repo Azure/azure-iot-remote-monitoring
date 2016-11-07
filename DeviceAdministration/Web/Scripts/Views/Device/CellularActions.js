@@ -51,7 +51,7 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
      * @returns {boolean} true if confirmed, false if cancelled 
      */
     var confirmDeviceReconnect = function (apiProvider) {
-        var confirmed = false;
+        var confirmed = true;
         if (apiProvider === "Jasper") {
             confirmed = confirm("This operation will close the device connection and the device is expected to reconnect on its own. Are you sure you want to execute this command?")
         }
@@ -127,6 +127,7 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
      * @returns {void}
      */
     var onActionRequestSuccess = function (response) {
+        ;
         IoTApp.DeviceDetails.onCellularDetailsDone(response);
         $(self.htmlElementIds.cellularActionsResults).show();
     }
@@ -152,6 +153,7 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
      */
     var reconnectDeviceOnClick = function () {
         var apiProvider = $(self.htmlElementIds.apiRegistrationProvider).val();
+        ;
         if (confirmDeviceReconnect(apiProvider)) {
             toggleLoadingElement(true);
             var requestModel = generateActionUpdateRequestFromType(self.actionTypes.reconnectDevice);
@@ -183,7 +185,7 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
     * Initialization
     */
     var initActionForm = function (simIsInActiveState) {
-        debugger
+        
         if (!self.deviceId) throw new Error("Please reload the page. No device ID found in cookie.");
         attachEventHandlers();
         toggleActionsDisabled(!simIsInActiveState);

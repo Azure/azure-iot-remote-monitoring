@@ -16,6 +16,7 @@
 /// <reference path="js.cookie-1.5.1.min.js" />
 /// <reference path="moment.min.js" />
 /// <reference path="moment-with-locales.min.js" />
+/// <reference path="papaparse.min.js" />
 /// <reference path="powerbi-visuals.all.min.js" />
 /// <reference path="views/actions/actionproperties.js" />
 /// <reference path="views/actions/actionsindex.js" />
