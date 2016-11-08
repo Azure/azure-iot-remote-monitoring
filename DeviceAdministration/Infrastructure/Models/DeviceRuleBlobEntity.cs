@@ -10,7 +10,9 @@
         public string DeviceId { get; private set; }
         public double? Temperature { get; set; }
         public double? Humidity { get; set; }
+        public double? ExternalTemperature { get; set; }
         public string TemperatureRuleOutput { get; set; }
         public string HumidityRuleOutput { get; set; }
+        public string ExternalTemperatureRuleOutput { get; set; }
     }
 }

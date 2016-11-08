@@ -1,0 +1,50 @@
+WITH AlarmsData AS 
+(
+SELECT
+     Stream.IoTHub.ConnectionDeviceId AS DeviceId,
+     'Temperature' as ReadingType,
+     Stream.Temperature as Reading,
+     Ref.Temperature as Threshold,
+     Ref.TemperatureRuleOutput as RuleOutput,
+     Stream.EventEnqueuedUtcTime AS [Time]
+FROM IoTTelemetryStream Stream
+JOIN DeviceRulesBlob Ref ON Stream.IoTHub.ConnectionDeviceId = Ref.DeviceID
+WHERE
+     Ref.Temperature IS NOT null AND Stream.Temperature > Ref.Temperature
+
+UNION ALL
+
+SELECT
+     Stream.IoTHub.ConnectionDeviceId AS DeviceId,
+     'Humidity' as ReadingType,
+     Stream.Humidity as Reading,
+     Ref.Humidity as Threshold,
+     Ref.HumidityRuleOutput as RuleOutput,
+     Stream.EventEnqueuedUtcTime AS [Time]
+FROM IoTTelemetryStream Stream
+JOIN DeviceRulesBlob Ref ON Stream.IoTHub.ConnectionDeviceId = Ref.DeviceID
+WHERE
+     Ref.Humidity IS NOT null AND Stream.Humidity > Ref.Humidity
+
+UNION ALL
+
+SELECT
+     Stream.IoTHub.ConnectionDeviceId AS DeviceId,
+     'ExternalTemperature' as ReadingType,
+     Stream.ExternalTemperature as Reading,
+     Ref.ExternalTemperature as Threshold,
+     Ref.ExternalTemperatureRuleOutput as RuleOutput,
+     Stream.EventEnqueuedUtcTime AS [Time]
+FROM IoTTelemetryStream Stream
+JOIN DeviceRulesBlob Ref ON Stream.IoTHub.ConnectionDeviceId = Ref.DeviceID
+WHERE
+     Ref.ExternalTemperature IS NOT null AND Stream.ExternalTemperature > Ref.ExternalTemperature
+)
+
+SELECT *
+INTO DeviceRulesMonitoring
+FROM AlarmsData
+
+SELECT *
+INTO DeviceRulesHub
+FROM AlarmsData

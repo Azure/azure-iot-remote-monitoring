@@ -222,6 +222,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         entity.Temperature = rule.Threshold;
                         entity.TemperatureRuleOutput = rule.RuleOutput;
                     }
+                    if (rule.DataField == DeviceRuleDataFields.ExternalTemperature)
+                    {
+                        entity.ExternalTemperature = rule.Threshold;
+                        entity.ExternalTemperatureRuleOutput = rule.RuleOutput;
+                    }
                     else if (rule.DataField == DeviceRuleDataFields.Humidity)
                     {
                         entity.Humidity = rule.Threshold;
