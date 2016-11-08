@@ -175,7 +175,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
             var res = await deviceApiController.DeleteAllDevices();
             Assert.Equal(saveObject.Skip, 0);
             Assert.Equal(saveObject.Take, 1000);
-            Assert.Equal(saveObject.SortColumn, "DeviceID");
+            Assert.Equal(saveObject.SortColumn, "twin.deviceId");
             res.AssertOnError();
             var data = res.ExtractContentDataAs<bool>();
             Assert.True(data);

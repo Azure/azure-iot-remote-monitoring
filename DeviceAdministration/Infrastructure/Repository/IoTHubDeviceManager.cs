@@ -1,7 +1,15 @@
-﻿using System;
+﻿// Until now, IoT Hub is not stable for running queries (internal server error)
+// We will use application side filtering as workaround. Please uncomment flag below to enable the filtering on IoT Hub side
+#define QUERY_IOTHUB
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -62,6 +70,65 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public async Task CloseAsyncService()
         {
             await this._deviceManager.CloseAsync();
+        }
+
+        public async Task<Twin> GetTwinAsync(string deviceId)
+        {
+            return await _deviceManager.GetTwinAsync(deviceId);
+        }
+
+        public async Task UpdateTwinAsync(string deviceId, Twin twin)
+        {
+            await this._deviceManager.UpdateTwinAsync(deviceId, twin, twin.ETag);
+        }
+
+        public async Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListQuery query)
+        {
+#if QUERY_IOTHUB
+            var sqlQuery = query.GetSQLQuery();
+            var deviceQuery = this._deviceManager.CreateQuery(sqlQuery);
+
+            var twins = new List<Twin>();
+            while (deviceQuery.HasMoreResults)
+            {
+                twins.AddRange(await deviceQuery.GetNextAsTwinAsync());
+            }
+
+            return twins;
+#else
+            // [WORKAROUND] Filtering devices at application side rather than IoT Hub side
+            var devices = await this._deviceManager.GetDevicesAsync(1000);
+            var tasks = devices.Select(device => this._deviceManager.GetTwinAsync(device.Id));
+            var twins = await Task.WhenAll(tasks);
+
+            return twins.Where(twin => query.Filters == null || query.Filters.All(filter =>
+            {
+                if (string.IsNullOrWhiteSpace(filter.ColumnName))
+                {
+                    return true;
+                }
+
+                string value = twin.Get(filter.ColumnName).ToString();
+                int compare = string.Compare(value, filter.FilterValue);
+
+                switch (filter.FilterType)
+                {
+                    case FilterType.EQ: return compare == 0;
+                    case FilterType.NE: return compare != 0;
+                    case FilterType.LT: return compare < 0;
+                    case FilterType.GT: return compare > 0;
+                    case FilterType.LE: return compare <= 0;
+                    case FilterType.GE: return compare >= 0;
+                    case FilterType.IN: throw new NotImplementedException();
+                    default: throw new NotSupportedException();
+                }
+            }));
+#endif
+        }
+
+        public async Task<long> GetDeviceCountAsync()
+        {
+            return (await this._deviceManager.GetRegistryStatisticsAsync()).TotalDeviceCount;
         }
 
         /// <summary>

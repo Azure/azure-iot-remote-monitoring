@@ -245,11 +245,11 @@
             },
             "columns": [
                 {
-                    "data": "deviceProperties.hubEnabledState",
+                    "data": "twin.tags.HubEnabledState",
                     "mRender": function (data) {
-                        if (data === false) {
+                        if (data === "Disabled") {
                             return htmlEncode("false");
-                        } else if (data) {
+                        } else if (data === "Running") {
                             return htmlEncode("true");
                         }
                         return htmlEncode(data);
@@ -257,56 +257,56 @@
                     "name": "hubEnabledState"
                 },
                 {
-                    "data": "deviceProperties.deviceID",
+                    "data": "twin.deviceId",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
                     "name": "deviceId"
                 },
                 {
-                    "data": "deviceProperties.manufacturer",
+                    "data": "twin.properties.reported.Manufacturer",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
                     "name": "manufacturer"
                 },
                 {
-                    "data": "deviceProperties.modelNumber",
+                    "data": "twin.properties.reported.ModelNumber",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
                     "name": "modelNumber"
                 },
                 {
-                    "data": "deviceProperties.serialNumber",
+                    "data": "twin.properties.reported.SerialNumber",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
                     "name": "serialNumber"
                 },
                 {
-                    "data": "deviceProperties.firmwareVersion",
+                    "data": "twin.properties.reported.FirmwareVersion",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
                     "name": "firmwareVersion"
                 },
                 {
-                    "data": "deviceProperties.platform",
+                    "data": "twin.properties.reported.Platform",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
                     "name": "platform"
                 },
                 {
-                    "data": "deviceProperties.processor",
+                    "data": "twin.properties.reported.Processor",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },
                     "name": "processor"
                 },
                 {
-                    "data": "deviceProperties.installedRAM",
+                    "data": "twin.properties.reported.InstalledRAM",
                     "mRender": function (data) {
                         return htmlEncode(data);
                     },

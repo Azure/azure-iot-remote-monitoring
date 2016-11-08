@@ -317,7 +317,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 Skip = 0,
                 Take = MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD,
-                SortColumn = "DeviceID"
+                SortColumn = "twin.deviceId"
             };
 
             string deviceId;
@@ -363,7 +363,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     Skip = 0,
                     Take = MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD,
-                    SortColumn = "DeviceID"
+                    SortColumn = "twin.deviceId"
                 };
 
                 DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);

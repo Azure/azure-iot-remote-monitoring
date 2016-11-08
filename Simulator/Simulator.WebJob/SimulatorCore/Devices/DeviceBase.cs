@@ -1,9 +1,14 @@
-﻿using System;
+﻿// For debugging purpose, we will append some additional characters to the IoT Hub twins, so it
+// will be easier to deteming the data source of the values showing on the frontend
+// To disable this feature, please comment this flag
+#define SOURCEFLAG
+
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
@@ -15,6 +20,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
 using Microsoft.Azure.Devices.Common.Exceptions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices
 {
@@ -142,7 +149,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                 var loopTasks = new List<Task>
                 {
-                    StartReceiveLoopAsync(token),
+                    // [WORKAROUND] Disable receiving C2D message until the C# device SDK was ready
+                    //StartReceiveLoopAsync(token),
                     StartSendLoopAsync(token)
                 };
 
@@ -167,9 +175,37 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// <returns></returns>
         private async Task StartSendLoopAsync(CancellationToken token)
         {
+            Process dmProcess = null;
+
             try
             {
                 Logger.LogInfo("Booting device {0}...", DeviceID);
+
+                var authMethod = new Client.DeviceAuthenticationWithRegistrySymmetricKey(DeviceID, PrimaryAuthKey);
+                var deviceConnectionString = Client.IotHubConnectionStringBuilder.Create(HostName, authMethod).ToString();
+
+                // Device properties (InstalledRAM, Processor, etc.) should be treat as reported proerties
+#if SOURCEFLAG
+                // Add debugging flag to show source of the value
+                var text = JsonConvert.SerializeObject(DeviceProperties, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                var root = JsonConvert.DeserializeObject(text) as JToken;
+
+                foreach (JProperty item in root.Children())
+                {
+                    if (item.Value.Type == JTokenType.String && item.Name != "DeviceID")
+                    {
+                        item.Value = $"{item.Value.ToString()}/I";
+                    }
+                }
+
+                var reportedProperties = JsonConvert.SerializeObject(root, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }).Replace('\"', '\'');
+#else
+                var reportedProperties = JsonConvert.SerializeObject(DeviceProperties, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }).Replace('\"', '\'');
+#endif
+
+                // [WORKAROUND] Launch a standalone simulator to show the device managemnt features until the the C# device SDK was ready
+                dmProcess = Process.Start("DMSimulator", $"/d:\"{deviceConnectionString}\" /p:\"{reportedProperties}\"");
+                Logger.LogInfo($"DMSimulator kicked off for device {DeviceID}, with reported properties: {reportedProperties}");
 
                 do
                 {
@@ -210,6 +246,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             if (token.IsCancellationRequested)
             {
                 Logger.LogInfo("********** Processing Device {0} has been cancelled - StartSendLoopAsync Ending. **********", DeviceID);
+            }
+
+            if (dmProcess != null)
+            {
+                dmProcess.Kill();
+                dmProcess.Dispose();
             }
         }
 

@@ -120,7 +120,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 var listQuery = new DeviceListQuery()
                 {
                     SortOrder = dataTableRequest.SortColumns[0].SortOrder,
-                    SortColumn = dataTableRequest.Columns[sortColumnIndex].Name,
+                    SortColumn = dataTableRequest.Columns[sortColumnIndex].Data,
 
                     SearchQuery = dataTableRequest.Search.Value,
 
@@ -269,7 +269,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     Skip = 0,
                     Take = 1000,
-                    SortColumn = "DeviceID",
+                    SortColumn = "twin.deviceId",
                 };
 
                 DeviceListQueryResult devices = await _deviceLogic.GetDevices(query);

@@ -403,7 +403,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// The list of <see cref="DevicePropertyValueModel" />s for modifying 
         /// <paramref name="device" />.
         /// </param>
-        public void ApplyDevicePropertyValueModels(
+        public virtual void ApplyDevicePropertyValueModels(
             DeviceModel device,
             IEnumerable<DevicePropertyValueModel> devicePropertyValueModels)
         {
@@ -424,7 +424,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             ApplyPropertyValueModels(device.DeviceProperties, devicePropertyValueModels);
         }
 
-        public IEnumerable<DevicePropertyValueModel> ExtractDevicePropertyValuesModels(
+        public virtual IEnumerable<DevicePropertyValueModel> ExtractDevicePropertyValuesModels(
            DeviceModel device)
         {
             DeviceProperties deviceProperties;
