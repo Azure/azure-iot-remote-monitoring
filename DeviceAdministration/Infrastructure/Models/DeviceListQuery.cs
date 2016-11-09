@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 {
@@ -38,5 +40,62 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// Number of devices to return/display
         /// </summary>
         public int Take { get; set; }
+
+        /// <summary>
+        /// Translate the filters in current query to IoT Hub SQL query
+        /// Full text searching, paging and sorting are not supported by the IoT Hub SQL query until now
+        /// </summary>
+        /// <returns>The full SQL query</returns>
+        public string GetSQLQuery()
+        {
+            var condition = GetSQLCondition();
+
+            return string.IsNullOrWhiteSpace(condition) ?
+                "SELECT * FROM devices" :
+                $"SELECT * FROM devices WHERE {condition}";
+        }
+
+        /// <summary>
+        /// Translate the filters in current query to IoT Hub SQL query condition
+        /// Full text searching, paging and sorting are not supported by the IoT Hub SQL query until now
+        /// </summary>
+        /// <returns>The query condition, or empty string if no valid filter found</returns>
+        public string GetSQLCondition()
+        {
+            var filters = Filters?.
+                Where(filter => !string.IsNullOrWhiteSpace(filter.ColumnName))?.
+                Select(filter =>
+                {
+                    string op = null;
+
+                    switch (filter.FilterType)
+                    {
+                        case FilterType.EQ: op = "="; break;
+                        case FilterType.NE: op = "!="; break;
+                        case FilterType.LT: op = "<"; break;
+                        case FilterType.GT: op = ">"; break;
+                        case FilterType.LE: op = "<="; break;
+                        case FilterType.GE: op = ">="; break;
+                        case FilterType.IN: op = "IN"; break;
+                        default: throw new NotSupportedException();
+                    }
+
+                    var value = filter.FilterValue;
+
+                    // For syntax reason, the value should be surrounded by ''
+                    // This feature will be skipped if the value is a number. To compare a number as string, user should surround it by '' manually                    
+                    if (filter.FilterType != FilterType.IN &&
+                        !value.All(c => char.IsDigit(c)) &&
+                        !value.StartsWith("\'") &&
+                        !value.EndsWith("\'"))
+                    {
+                        value = $"\'{value}\'";
+                    }
+
+                    return $"{filter.ColumnName} {op} {value}";
+                });
+
+            return filters == null ? string.Empty : string.Join(" AND ", filters);
+        }
     }
 }

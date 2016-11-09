@@ -144,6 +144,7 @@
     <Compile Include="BusinessLogic\CommandParameterTypeLogic.cs" />
     <Compile Include="BusinessLogic\ActionMappingLogic.cs" />
     <Compile Include="BusinessLogic\DeviceLogic.cs" />
+    <Compile Include="BusinessLogic\DeviceLogicWithIoTHubDM.cs" />
     <Compile Include="BusinessLogic\DeviceRulesLogic.cs" />
     <Compile Include="BusinessLogic\DeviceTelemetryLogic.cs" />
     <Compile Include="BusinessLogic\DeviceTypeLogic.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="Repository\ActionRepository.cs" />
     <Compile Include="Repository\AlertsRepository.cs" />
     <Compile Include="Repository\ApiRegistrationRepository.cs" />
+    <Compile Include="Repository\DeviceRegistryRepositoryWithIoTHubDM.cs" />
     <Compile Include="Repository\DeviceRegistryRepository.cs" />
     <Compile Include="Repository\FilterHelper.cs" />
     <Compile Include="Repository\IActionMappingRepository.cs" />

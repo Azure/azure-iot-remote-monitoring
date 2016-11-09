@@ -198,6 +198,8 @@
   <ItemGroup>
     <Compile Include="Common\AzureRetryHelperTests.cs" />
     <Compile Include="Common\SampleDeviceFactoryTests.cs" />
+    <Compile Include="Common\StringExtensionTests.cs" />
+    <Compile Include="Common\TwinExtensionTests.cs" />
     <Compile Include="Common\VirtualDeviceTableStorageTests.cs" />
     <Compile Include="Infrastructure\ActionLogicTest.cs" />
     <Compile Include="Infrastructure\ActionMappingLogicTests.cs" />
@@ -206,8 +208,11 @@
     <Compile Include="Infrastructure\ApiRegistrationRepositoryTest.cs" />
     <Compile Include="Infrastructure\CommandParameterTypeLogicTests.cs" />
     <Compile Include="Common\ExceptionSerializationTests.cs" />
+    <Compile Include="Infrastructure\DeviceListQueryTests.cs" />
     <Compile Include="Infrastructure\DeviceLogicTests.cs" />
+    <Compile Include="Infrastructure\DeviceLogicWithIoTHubDMTests.cs" />
     <Compile Include="Infrastructure\DeviceRegistryRepositoryTests.cs" />
+    <Compile Include="Infrastructure\DeviceRegistryRepositoryWithIoTHubDMTests.cs" />
     <Compile Include="Infrastructure\DeviceRulesLogicTests.cs" />
     <Compile Include="Infrastructure\DeviceRulesRepositoryTests.cs" />
     <Compile Include="Infrastructure\DeviceTelemetryLogicTest.cs" />

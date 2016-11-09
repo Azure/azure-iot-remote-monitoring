@@ -25,7 +25,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="deviceId">DeviceID of the device to retrieve</param>
         /// <returns>Device instance if present, null if a device was not found with the provided deviceId</returns>
-        public async Task<DeviceModel> GetDeviceAsync(string deviceId)
+        public virtual async Task<DeviceModel> GetDeviceAsync(string deviceId)
         {
             if (string.IsNullOrEmpty(deviceId))
             {
@@ -43,7 +43,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device"></param>
         /// <returns></returns>
-        public async Task<DeviceModel> AddDeviceAsync(DeviceModel device)
+        public virtual async Task<DeviceModel> AddDeviceAsync(DeviceModel device)
         {
             if (device == null)
             {
@@ -87,7 +87,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="device"></param>
         /// <returns></returns>
-        public async Task<DeviceModel> UpdateDeviceAsync(DeviceModel device)
+        public virtual async Task<DeviceModel> UpdateDeviceAsync(DeviceModel device)
         {
             if (device == null)
             {
@@ -146,7 +146,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return savedDevice;
         }
 
-        public async Task<DeviceModel> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
+        public virtual async Task<DeviceModel> UpdateDeviceEnabledStatusAsync(string deviceId, bool isEnabled)
         {
             if (string.IsNullOrEmpty(deviceId))
             {
@@ -172,7 +172,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return savedDevice;
         }
 
-        public async Task<DeviceListQueryResult> GetDeviceList(DeviceListQuery query)
+        public virtual async Task<DeviceListQueryResult> GetDeviceList(DeviceListQuery query)
         {
             List<DeviceModel> deviceList = await this.GetAllDevicesAsync();
 

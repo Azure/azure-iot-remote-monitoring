@@ -23,9 +23,6 @@
         <div class="search_container search_height--fixed">
             <h2 class="search_container__search_subhead">@Strings.FindDevices</h2>
             <div class="search_container__search_details_container">
-                <label for="searchQuery" class="grid_subhead_detail_label">@Strings.SearchDevices</label>
-                <input type="text" name="searchQuery" id="searchQuery" class="search_details_container__text" />
-
                 <h2 class="grid_subhead_detail_label">@Strings.FilterDevices</h2>
                 <a class="search_details_container__filter_add_clause_link">@Strings.AddNewClause</a>
 
@@ -36,17 +33,19 @@
 
                         <label class="filter_template__filter_label filter_group_top" for="filterFieldREPLACE_ME"><span>@Strings.FilterFieldLabel</span></label>
 
-                        <select id="filterFieldREPLACE_ME" name="filterFieldREPLACE_ME" class="search_filter__select">
-                            <option value="Status">@Strings.FilterOptionStatus</option>
-                            <option value="DeviceId" selected>@Strings.FilterOptionDeviceId</option>
-                            <option value="Manufacturer">@Strings.FilterOptionManufacturer</option>
-                            <option value="ModelNumber">@Strings.FilterOptionModelNumber</option>
-                            <option value="SerialNumber">@Strings.FilterOptionSerialNumber</option>
-                            <option value="FirmwareVersion">@Strings.FilterOptionFirmwareVersion</option>
-                            <option value="Platform">@Strings.FilterOptionPlatform</option>
-                            <option value="Processor">@Strings.FilterOptionProcessor</option>
-                            <option value="InstalledRam">@Strings.FilterOptionInstalledRam</option>
-                        </select>
+                        <input type="text" list="filterFieldREPLACE_ME_datalist" id="filterFieldREPLACE_ME" name="filterFieldREPLACE_ME" class="search_filter__select">
+
+                        <datalist id="filterFieldREPLACE_ME_datalist">
+                            <option value="tags.HubEnabledState">@Strings.FilterOptionStatus</option>
+                            <option value="deviceId" selected>@Strings.FilterOptionDeviceId</option>
+                            <option value="properties.reported.Manufacturer">@Strings.FilterOptionManufacturer</option>
+                            <option value="properties.reported.ModelNumber">@Strings.FilterOptionModelNumber</option>
+                            <option value="properties.reported.SerialNumber">@Strings.FilterOptionSerialNumber</option>
+                            <option value="properties.reported.FirmwareVersion">@Strings.FilterOptionFirmwareVersion</option>
+                            <option value="properties.reported.Platform">@Strings.FilterOptionPlatform</option>
+                            <option value="properties.reported.Processor">@Strings.FilterOptionProcessor</option>
+                            <option value="properties.reported.InstalledRam">@Strings.FilterOptionInstalledRam</option>
+                        </datalist>
 
                     </div>
 
@@ -55,12 +54,13 @@
                         <label class="filter_template__filter_label" for="filterOperatorREPLACE_ME"><span>@Strings.FilterOperatorLabel</span></label>
 
                         <select id="filterOperatorREPLACE_ME" name="filterOperatorREPLACE_ME" class="search_filter__select">
-                            <option value="ExactMatchCaseInsensitive">@Strings.FilterOperatorExactInsensitive</option>
-                            <option value="StartsWithCaseInsensitive">@Strings.FilterOperatorStartsWithInsensitive</option>
-                            <option value="ContainsCaseInsensitive" selected>@Strings.FilterOperatorContainsInsensitive</option>
-                            <option value="ExactMatchCaseSensitive">@Strings.FilterOperatorExactSensitive</option>
-                            <option value="StartsWithCaseSensitive">@Strings.FilterOperatorStartsWithSensitive</option>
-                            <option value="ContainsCaseSensitive">@Strings.FilterOperatorContainsSensitive</option>
+                            <option value="EQ">=</option>
+                            <option value="NE">&ne;</option>
+                            <option value="LT">&lt;</option>
+                            <option value="GT">&gt;</option>
+                            <option value="LE">&le;</option>
+                            <option value="GE">&ge;</option>
+                            <option value="IN">IN</option>
                         </select>
 
                     </div>
