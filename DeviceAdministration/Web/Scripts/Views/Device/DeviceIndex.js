@@ -35,7 +35,7 @@
 
         $(window).on("load", function () {
             fixHeights();
-            setGridWidth();
+            setGridWidth();       
         });
 
         $(window).on("resize", function () {
@@ -58,6 +58,29 @@
 
         $('.search_container a').click(function () {
             addFilter();
+        });
+
+        initSpliter();
+    }
+
+    var initSpliter = function () {
+        self.searchPane.resizable({
+            handles: 'e',
+            minWidth: self.searchPane.outerWidth(),
+            maxWidth: '650',
+            resize: function () {
+                setGridWidth();
+            }
+        });
+        self.deviceGrid.resizable({
+            handles: 'w',
+            minWidth: self.deviceGrid.outerWidth(),
+            maxWidth: '650',
+            resize: function () {
+                // Workaround: clear left to keep the panel on the right.
+                $(this).css("left", "");
+                setGridWidth();
+            }
         });
     }
 
