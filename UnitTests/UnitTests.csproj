@@ -199,6 +199,7 @@
     <Compile Include="Common\AzureRetryHelperTests.cs" />
     <Compile Include="Common\SampleDeviceFactoryTests.cs" />
     <Compile Include="Common\StringExtensionTests.cs" />
+    <Compile Include="Common\TwinCollectionExtensionTests.cs" />
     <Compile Include="Common\TwinExtensionTests.cs" />
     <Compile Include="Common\VirtualDeviceTableStorageTests.cs" />
     <Compile Include="Infrastructure\ActionLogicTest.cs" />

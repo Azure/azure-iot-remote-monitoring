@@ -7,6 +7,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic
 {
@@ -64,33 +65,33 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 throw new ArgumentNullException("device");
             }
 
-            var tags = device.Twin.Tags.OfType<KeyValuePair<string, object>>().OrderBy(pair => pair.Key).Select(pair => new DevicePropertyValueModel
+            var tags = device.Twin.Tags.AsEnumerableFlatten().OrderBy(pair => pair.Key).Select(pair => new DevicePropertyValueModel
             {
                 DisplayOrder = 1,
                 IsEditable = true,
                 IsIncludedWithUnregisteredDevices = false,
                 Name = $"tags.{pair.Key}",
-                PropertyType = Models.PropertyType.String,
+                PropertyType = GetObjectType(pair.Value),
                 Value = pair.Value.ToString()
             });
 
-            var desiredProperties = device.Twin.Properties.Desired.OfType<KeyValuePair<string, object>>().OrderBy(pair => pair.Key).Select(pair => new DevicePropertyValueModel
+            var desiredProperties = device.Twin.Properties.Desired.AsEnumerableFlatten().OrderBy(pair => pair.Key).Select(pair => new DevicePropertyValueModel
             {
                 DisplayOrder = 2,
                 IsEditable = true,
                 IsIncludedWithUnregisteredDevices = false,
                 Name = $"properties.desired.{pair.Key}",
-                PropertyType = Models.PropertyType.String,
+                PropertyType = GetObjectType(pair.Value),
                 Value = pair.Value.ToString()
             });
 
-            var reportedProperties = device.Twin.Properties.Reported.OfType<KeyValuePair<string, object>>().OrderBy(pair => pair.Key).Select(pair => new DevicePropertyValueModel
+            var reportedProperties = device.Twin.Properties.Reported.AsEnumerableFlatten().OrderBy(pair => pair.Key).Select(pair => new DevicePropertyValueModel
             {
                 DisplayOrder = 3,
                 IsEditable = false,
                 IsIncludedWithUnregisteredDevices = false,
                 Name = $"properties.reported.{pair.Key}",
-                PropertyType = Models.PropertyType.String,
+                PropertyType = GetObjectType(pair.Value),
                 Value = pair.Value.ToString()
             });
 
@@ -116,6 +117,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             return propValModels;
+        }
+
+        private PropertyType GetObjectType(JValue val)
+        {
+            switch (val.Type)
+            {
+                case JTokenType.Date: return PropertyType.DateTime;
+                case JTokenType.Integer: return PropertyType.Integer;
+                case JTokenType.Float: return PropertyType.Real;
+                default: return PropertyType.String;
+            }
         }
     }
 }

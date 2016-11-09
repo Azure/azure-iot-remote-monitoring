@@ -52,6 +52,19 @@
                     id = "sendCommandLink"
                 })
             </p>
+
+            <p class="grid_detail_value">
+                @Html.ActionLink(
+               Strings.InvokeMethodLabel, "Index", "InvokeMethod",
+               new
+               {
+                   deviceId = Model.DeviceID
+               },
+               new
+               {
+                   id = "invokeMethodLink"
+               })
+            </p>
         }
 
         @if (Model.CanRemoveDevice)
