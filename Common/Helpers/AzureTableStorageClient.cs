@@ -79,6 +79,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             return await PerformTableOperation(operation, incomingEntity, tableEntityToModelConverter);
         }
 
+        public async Task<TableStorageResponse<TResult>> DoTouchAsync<TResult, TInput>(TInput incomingEntity,
+            Func<TInput, TResult> tableEntityToModelConverter)
+            where TInput : TableEntity
+        {
+            var table = await GetCloudTableAsync();
+
+            var retrieveOperation =
+                TableOperation.Retrieve<TInput>(incomingEntity.PartitionKey, incomingEntity.RowKey);
+            var tableResult = await table.ExecuteAsync(retrieveOperation);
+            var retrievedEntity = tableResult.Result as TInput;
+            if (retrievedEntity != null)            {
+                var replaceOperation = TableOperation.Replace(retrievedEntity);
+                return await PerformTableOperation(replaceOperation, retrievedEntity, tableEntityToModelConverter);
+            }
+            return new TableStorageResponse<TResult>
+            {
+                Entity = tableEntityToModelConverter(null),
+                Status = TableStorageResponseStatus.NotFound,
+            };
+        }
+
         private async Task<CloudTable> GetCloudTableAsync()
         {
             if (_table != null)

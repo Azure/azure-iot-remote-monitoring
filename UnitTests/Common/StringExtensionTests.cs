@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
+using System;
 using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
@@ -22,6 +23,28 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
 
             Assert.False(input.TryTrimPrefix(prefix2, out output));
             Assert.Equal(output, input);
+        }
+
+        [Fact]
+        public void AllowedTableKeyTest()
+        {
+            Assert.False(string.Empty.IsAllowedTableKey());
+            Assert.False("".IsAllowedTableKey());
+            Assert.False(" ".IsAllowedTableKey());
+            Assert.False("  ".IsAllowedTableKey());
+
+            Assert.False("ab#c".IsAllowedTableKey());
+            Assert.False("ab?c".IsAllowedTableKey());
+            Assert.False("ab/c".IsAllowedTableKey());
+            Assert.False(@"ab\c".IsAllowedTableKey());
+
+            Assert.False("ab\t".IsAllowedTableKey());
+            Assert.False("ab\n".IsAllowedTableKey());
+            Assert.False("ab\r".IsAllowedTableKey());
+            Assert.False((new string('a', 1025)).IsAllowedTableKey());
+
+            Assert.True("ab中".IsAllowedTableKey());
+            Assert.True(@"ABCabc123""''`!@$%^&*()-_+=[]|{}<>,.:;".IsAllowedTableKey());
         }
     }
 }
