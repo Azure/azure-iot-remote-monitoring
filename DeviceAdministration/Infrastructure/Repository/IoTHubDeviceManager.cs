@@ -1,6 +1,6 @@
 ﻿// Until now, IoT Hub is not stable for running queries (internal server error)
 // We will use application side filtering as workaround. Please uncomment flag below to enable the filtering on IoT Hub side
-#define QUERY_IOTHUB
+//#define QUERY_IOTHUB
 
 using System;
 using System.Collections.Generic;
@@ -108,7 +108,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     return true;
                 }
 
-                string value = twin.Get(filter.ColumnName).ToString();
+                string value = twin.Get(filter.ColumnName)?.ToString();
                 int compare = string.Compare(value, filter.FilterValue);
 
                 switch (filter.FilterType)

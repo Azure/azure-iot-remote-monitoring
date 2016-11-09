@@ -28,19 +28,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
         }
 
         [Fact]
-        public void GetShouldThrowNotSupportedExceptionIfFullNameIsInvalidate()
+        public void GetShouldReturnNullIfFullNameIsInvalidate()
         {
             var twin = new Twin();
 
-            Assert.Throws<NotSupportedException>(() => twin.Get("prefix.x"));
+            Assert.Null(twin.Get("prefix.x"));
         }
 
         [Fact]
-        public void GetShouldThrowArgumentOutOfRangeExceptionIfTagIsNotDefined()
+        public void GetShouldReturnNullIfTagIsNotDefined()
         {
             var twin = new Twin();
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => twin.Get("tags.x"));
+            Assert.Null(twin.Get("tags.x"));
         }
 
         [Fact]

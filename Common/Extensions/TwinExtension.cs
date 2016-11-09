@@ -38,12 +38,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
             {
                 if (flatName.TryTrimPrefix(selector.Key, out name))
                 {
-                    return selector.Value(twin)[name];
+                    var collection = selector.Value(twin);
+                    return collection.Contains(name) ? collection[name] : null;
                 }
             }
 
-            // Throw exception if no selector could be found matching the given flat name
-            throw new NotSupportedException();
+            return null;
         }
 
         /// <summary>
