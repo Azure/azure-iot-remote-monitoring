@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Moq;
 using Ploeh.AutoFixture;
@@ -103,12 +104,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         {
             var commandHistory = fixture.Create<CommandHistory>();
             var deviceId = fixture.Create<string>();
+            commandHistory.DeliveryType = DeliveryType.Message;
+
             deviceManagerMock.Setup(dm => dm.SendAsync(deviceId, It.IsAny<Message>())).Returns(Task.FromResult(true));
             deviceManagerMock.Setup(dm => dm.CloseAsyncDevice()).Returns(Task.FromResult(true));
 
             await iotHubRepository.SendCommand(deviceId, commandHistory);
             deviceManagerMock.Verify(mock => mock.SendAsync(deviceId, It.IsAny<Message>()), Times.Once());
             deviceManagerMock.Verify(mock => mock.CloseAsyncDevice(), Times.Once());
+        }
+
+        [Fact]
+        public async void SendCommandMethod()
+        {
+            var commandHistory = fixture.Create<CommandHistory>();
+            var deviceId = fixture.Create<string>();
+            commandHistory.DeliveryType = DeliveryType.Method;
+
+            deviceManagerMock.Setup(dm => dm.InvokeDeviceMethodAsync(deviceId, It.IsAny<CloudToDeviceMethod>())).ReturnsAsync(new CloudToDeviceMethodResult());
+
+            await iotHubRepository.SendCommand(deviceId, commandHistory);
+            deviceManagerMock.Verify(mock => mock.InvokeDeviceMethodAsync(deviceId, It.IsAny<CloudToDeviceMethod>()), Times.Once());
         }
 
         [Fact]

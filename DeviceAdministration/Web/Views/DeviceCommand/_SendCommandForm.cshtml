@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.CommandModel
 
 @using (Ajax.BeginForm("SendCommand", "DeviceCommand", null,
@@ -10,7 +11,7 @@
             OnSuccess = "IoTApp.DeviceCommand.onSuccess",
             OnComplete = "IoTApp.DeviceCommand.onComplete",
             LoadingElementId = "loadingElement",
-            
+
         }, null))
 {
     @Html.AntiForgeryToken()
@@ -32,6 +33,7 @@
 
     @Html.HiddenFor(command => command.Name)
     @Html.HiddenFor(command => command.DeviceId)
-    <button type="submit" id="sendCommand_button" class="button_base button_execute">@Strings.SendCommand</button>
-
+    @Html.HiddenFor(command => command.DeliveryType)
+    <button type="submit" id="sendCommand_button" class="button_base button_execute">@(Model.DeliveryType == DeliveryType.Message ? Strings.SendCommand : Strings.InvokeMethod)</button>
+    <p class="command_description">@Model.Description</p>
 }

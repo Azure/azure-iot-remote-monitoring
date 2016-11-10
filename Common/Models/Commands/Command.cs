@@ -15,9 +15,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Co
             Parameters = new List<Parameter>();
         }
 
-        public Command(string name, IEnumerable<Parameter> parameters = null ) : this()
+        public Command(string name, DeliveryType deliveryType, string description, IEnumerable<Parameter> parameters = null ) : this()
         {
             Name = name;
+            DeliveryType = deliveryType;
+            Description = description;
             if (parameters != null)
             {
                 Parameters.AddRange(parameters);
@@ -25,6 +27,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Co
         }
 
         public string Name { get; set; }
+        public DeliveryType DeliveryType { get; set; }
         public List<Parameter> Parameters { get; set; }
+        public string Description { get; set; }
+    }
+
+    public enum DeliveryType
+    {
+        Message,
+        Method
     }
 }

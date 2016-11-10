@@ -144,6 +144,7 @@
     <Compile Include="BusinessLogic\CommandParameterTypeLogic.cs" />
     <Compile Include="BusinessLogic\ActionMappingLogic.cs" />
     <Compile Include="BusinessLogic\DeviceLogic.cs" />
+    <Compile Include="BusinessLogic\DeviceLogicWithIoTHubDM.cs" />
     <Compile Include="BusinessLogic\DeviceRulesLogic.cs" />
     <Compile Include="BusinessLogic\DeviceTelemetryLogic.cs" />
     <Compile Include="BusinessLogic\DeviceTypeLogic.cs" />
@@ -183,6 +184,9 @@
     <Compile Include="Models\DeviceTelemetryModel.cs" />
     <Compile Include="Models\DeviceTelemetryFieldModel.cs" />
     <Compile Include="Models\DeviceTelemetrySummaryModel.cs" />
+    <Compile Include="Models\NameCacheEntity.cs" />
+    <Compile Include="Models\NameCacheEntityType.cs" />
+    <Compile Include="Models\NameCacheTableEntity.cs" />
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\DeviceWithKeys.cs" />
     <Compile Include="Models\FilterInfo.cs" />
@@ -198,6 +202,7 @@
     <Compile Include="Repository\ActionRepository.cs" />
     <Compile Include="Repository\AlertsRepository.cs" />
     <Compile Include="Repository\ApiRegistrationRepository.cs" />
+    <Compile Include="Repository\DeviceRegistryRepositoryWithIoTHubDM.cs" />
     <Compile Include="Repository\DeviceRegistryRepository.cs" />
     <Compile Include="Repository\FilterHelper.cs" />
     <Compile Include="Repository\IActionMappingRepository.cs" />
@@ -210,6 +215,8 @@
     <Compile Include="Repository\IDeviceRegistryListRepository.cs" />
     <Compile Include="Repository\IDeviceRulesRepository.cs" />
     <Compile Include="Repository\IDeviceTelemetryRepository.cs" />
+    <Compile Include="Repository\NameCacheRepository.cs" />
+    <Compile Include="Repository\INameCacheRepository.cs" />
     <Compile Include="Repository\IIotHubRepository.cs" />
     <Compile Include="Repository\IIoTHubDeviceManager.cs" />
     <Compile Include="Repository\IoTHubDeviceManager.cs" />

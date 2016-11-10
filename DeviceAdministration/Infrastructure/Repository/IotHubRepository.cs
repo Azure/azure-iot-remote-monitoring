@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
+using Microsoft.Azure.Devices.Common.Exceptions;
 using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
@@ -126,16 +128,36 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task SendCommand(string deviceId, CommandHistory command)
         {
-            var commandAsBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(command));
-            var notificationMessage = new Message(commandAsBytes);
+            if (command.DeliveryType == DeliveryType.Message)
+            {
+                var commandAsBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(command));
+                var notificationMessage = new Message(commandAsBytes);
 
-            notificationMessage.Ack = DeliveryAcknowledgement.Full;
-            notificationMessage.MessageId = command.MessageId;
+                notificationMessage.Ack = DeliveryAcknowledgement.Full;
+                notificationMessage.MessageId = command.MessageId;
 
-            await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
-                                                                await this._deviceManager.SendAsync(deviceId, notificationMessage));
+                await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
+                                                                    await this._deviceManager.SendAsync(deviceId, notificationMessage));
 
-            await this._deviceManager.CloseAsyncDevice();
+                await this._deviceManager.CloseAsyncDevice();
+            }
+            else
+            {
+                var method = new CloudToDeviceMethod(command.Name);
+                method.SetPayloadJson(JsonConvert.SerializeObject(command.Parameters));
+
+                var result = await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
+                                                                    await this._deviceManager.InvokeDeviceMethodAsync(deviceId, method));
+                HttpStatusCode code;
+                if (!Enum.TryParse<HttpStatusCode>(result.Status, out code))
+                {
+                    code = HttpStatusCode.InternalServerError;
+                }
+
+                command.Result = code.ToString();
+                command.ReturnValue = result.GetPayloadAsJson();
+                command.UpdatedTime = DateTime.UtcNow;
+            }
         }
 
         public async Task<SecurityKeys> GetDeviceKeysAsync(string deviceId)

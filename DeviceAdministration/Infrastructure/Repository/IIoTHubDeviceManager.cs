@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -13,7 +15,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task RemoveDeviceAsync(string deviceId);
         Task<Device> UpdateDeviceAsync(Device device);
         Task SendAsync(string deviceId, Message message);
+        Task<CloudToDeviceMethodResult> InvokeDeviceMethodAsync(string deviceId, CloudToDeviceMethod method);
         Task CloseAsyncService();
         Task CloseAsyncDevice();
+        Task<Twin> GetTwinAsync(string deviceId);
+        Task UpdateTwinAsync(string deviceId, Twin twin);
+        Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListQuery query);
+        Task<long> GetDeviceCountAsync();
     }
 }

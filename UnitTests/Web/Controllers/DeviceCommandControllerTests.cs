@@ -78,7 +78,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
                 .Returns(parameters);
 
             _deviceLogicMock
-                .Setup(mock => mock.SendCommandAsync(commandModel.DeviceId, commandModel.Name, It.IsAny<IDictionary<string, object>>()))
+                .Setup(mock => mock.SendCommandAsync(commandModel.DeviceId, commandModel.Name, commandModel.DeliveryType, It.IsAny<IDictionary<string, object>>()))
                 .Returns(Task.FromResult(true)).Verifiable();
 
             var result = await _deviceCommandController.SendCommand(commandModel);
@@ -94,12 +94,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
         {
             var deviceId = fixture.Create<string>();
             var name = fixture.Create<string>();
+            var deliveryType = fixture.Create<DeliveryType>();
             var commandJson = fixture.Create<IDictionary<string, object>>();
             _deviceLogicMock
-                .Setup(mock => mock.SendCommandAsync(deviceId, name, It.IsAny<IDictionary<string, object>>()))
+                .Setup(mock => mock.SendCommandAsync(deviceId, name, deliveryType, It.IsAny<IDictionary<string, object>>()))
                 .Returns(Task.FromResult(true));
 
-            var result = await _deviceCommandController.ResendCommand(deviceId, name, JsonConvert.SerializeObject(commandJson));
+            var result = await _deviceCommandController.ResendCommand(deviceId, name, deliveryType, JsonConvert.SerializeObject(commandJson));
 
             var view = result as JsonResult;
             var data = JsonConvert.SerializeObject(view.Data);
@@ -107,10 +108,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             Assert.Equal(data, obj);
 
             _deviceLogicMock
-                .Setup(mock => mock.SendCommandAsync(deviceId, name, It.IsAny<IDictionary<string, object>>()))
+                .Setup(mock => mock.SendCommandAsync(deviceId, name, deliveryType, It.IsAny<IDictionary<string, object>>()))
                 .Throws(new Exception());
 
-            result = await _deviceCommandController.ResendCommand(deviceId, name, JsonConvert.SerializeObject(commandJson));
+            result = await _deviceCommandController.ResendCommand(deviceId, name, deliveryType, JsonConvert.SerializeObject(commandJson));
 
             view = result as JsonResult;
             data = JsonConvert.SerializeObject(view.Data);

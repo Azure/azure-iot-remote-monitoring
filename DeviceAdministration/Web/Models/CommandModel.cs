@@ -6,6 +6,7 @@ using System.Linq;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models
 {
@@ -28,6 +29,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
         public string Name { get; set; }
         public string DeviceId { get; set; }
+        public DeliveryType DeliveryType { get; set; }
+        public string Description { get; set; }
     }
 
     public class ParameterModel : IValidatableObject

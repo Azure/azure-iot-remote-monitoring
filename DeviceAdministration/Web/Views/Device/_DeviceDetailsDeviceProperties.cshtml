@@ -7,6 +7,13 @@
 @using GlobalResources
 
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceDetailModel
+@{
+    DateTime? resolvedDate;
+    var tags = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("tags."));
+    var desiredProperties = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("properties.desired."));
+    var reportedProperties = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("properties.reported."));
+    var deviceProperties = Model.DevicePropertyValueModels.Except(tags).Except(desiredProperties).Except(reportedProperties);
+}
 <div class="header_grid header_grid_general">
     <h3 class="grid_subheadhead_detail">@Strings.DeviceProperties</h3>
     <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DevicePropertiesFormattedAsStored" />
@@ -22,8 +29,7 @@
 </div>
 
 <section class="details_grid_general" id="deviceDetailsGrid">
-    @{ DateTime? resolvedDate; }
-    @foreach (var propVal in Model.DevicePropertyValueModels)
+    @foreach (var propVal in deviceProperties)
     {
         <h4 class="grid_subhead_detail_label">@DeviceDisplayHelper.GetDevicePropertyFieldLocalName(propVal.Name)</h4>
         if (DeviceDisplayHelper.GetIsCopyControlPropertyName(propVal.Name))
@@ -47,3 +53,76 @@
         }
     }
 </section>
+
+<div class="header_grid header_grid_general">
+    <h3 class="grid_subheadhead_detail">@Strings.Tags</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.TagsTooltip" />
+    @Html.ActionLink(@Strings.Edit, "EditTags", "Device", new { deviceId = Model.DeviceID }, new
+    {
+       id = "edit_tags_link",
+       @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.HubEnabledState == false ? "hidden" : string.Empty).Trim()
+    })
+</div>
+
+<section class="details_grid_general" id="tagsGrid">
+    @foreach (var val in tags)
+    {
+        <h4 class="grid_subhead_detail_label">@val.Name.Substring(5)</h4>
+        if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
+        {
+            <p class="grid_detail_value" name="tagField_@val.Name">@resolvedDate.Value.ToString()</p>
+        }
+        else
+        {
+            <p class="grid_detail_value" name="tagField_@val.Name">@val.Value</p>
+        }
+    }
+</section>
+
+<div class="header_grid header_grid_general">
+    <h3 class="grid_subheadhead_detail">@Strings.DesiredProperties</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DesiredPropertiesTooltip" />
+    @Html.ActionLink(@Strings.Edit, "EditDesiredProperties", "Device", new { deviceId = Model.DeviceID }, new
+    {
+       id = "edit_desiredProperties_link",
+       @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.HubEnabledState == false ? "hidden" : string.Empty).Trim()
+    })
+</div>
+
+<section class="details_grid_general" id="desiredPropertiesGrid">
+    @foreach (var val in desiredProperties)
+    {
+        <h4 class="grid_subhead_detail_label">@val.Name.Substring(19)</h4>
+        if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
+        {
+            <p class="grid_detail_value" name="desiredPropertyField_@val.Name">@resolvedDate.Value.ToString()</p>
+        }
+        else
+        {
+            <p class="grid_detail_value" name="desiredPropertyField_@val.Name">@val.Value</p>
+        }
+    }
+</section>
+
+@if (reportedProperties.Any())
+{
+    <div class="header_grid header_grid_general">
+        <h3 class="grid_subheadhead_detail">@Strings.ReportedProperties</h3>
+        <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.ReportedPropertiesTooltip" />
+    </div>
+
+    <section class="details_grid_general" id="reportedPropertiesGrid">
+        @foreach (var val in reportedProperties)
+        {
+            <h4 class="grid_subhead_detail_label">@val.Name.Substring(20)</h4>
+            if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
+            {
+                <p class="grid_detail_value" name="reportedPropertyField_@val.Name">@resolvedDate.Value.ToString()</p>
+            }
+            else
+            {
+                <p class="grid_detail_value" name="reportedPropertyField_@val.Name">@val.Value</p>
+            }
+        }
+    </section>
+}

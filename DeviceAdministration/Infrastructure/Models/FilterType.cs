@@ -20,6 +20,17 @@
 
         // Contains ("ab" matches "cab", "abc", and "ab" but not "ac")
         ContainsCaseSensitive,
-        ContainsCaseInsensitive
+        ContainsCaseInsensitive,
+
+        // Reminder: IoT Hub does not support operators above.
+        // ToDo: Operators above should be removed later
+
+        EQ, // =
+        NE, // !=
+        LT, // <
+        GT, // >
+        LE, // <=
+        GE, // >=
+        IN  // IN
     }
 }

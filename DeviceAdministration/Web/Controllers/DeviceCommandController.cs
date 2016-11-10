@@ -70,7 +70,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 DeviceId = deviceId,
                 Name = command.Name,
-                Parameters = command.Parameters.ToParametersModel().ToList()
+                DeliveryType = command.DeliveryType,
+                Parameters = command.Parameters.ToParametersModel().ToList(),
+                Description = command.Description
             };
             return PartialView("_SendCommandForm", model);
         }
@@ -93,7 +95,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     }
                 }
 
-                await _deviceLogic.SendCommandAsync(model.DeviceId, model.Name, parameters);
+                await _deviceLogic.SendCommandAsync(model.DeviceId, model.Name, model.DeliveryType, parameters);
  
                 return Json(new {data = model});
             }
@@ -104,13 +106,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPost]
         [RequirePermission(Permission.SendCommandToDevices)]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResendCommand(string deviceId, string name, string commandJson)
+        public async Task<ActionResult> ResendCommand(string deviceId, string name, DeliveryType deliveryType, string commandJson)
         {
             try
             {
                 IDictionary<string, object> commandParameters = JsonConvert.DeserializeObject<Dictionary<string, object>>(commandJson);
 
-                await _deviceLogic.SendCommandAsync(deviceId, name, commandParameters);
+                await _deviceLogic.SendCommandAsync(deviceId, name, deliveryType, commandParameters);
             }
             catch
             {

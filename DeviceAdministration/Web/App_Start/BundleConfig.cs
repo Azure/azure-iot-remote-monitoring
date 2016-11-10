@@ -37,6 +37,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
                 "~/content/styles/datatables.css",
                 "~/content/themes/base/core.css",
                 "~/content/themes/base/dialog.css",
+                "~/content/themes/base/resizable.css",
                 "~/content/styles/visuals.min.css"));
 
             //var lessBundle = new Bundle("~/content/css")

@@ -1670,4 +1670,40 @@
   <data name="InvalidDeviceTelemetryFormat" xml:space="preserve">
     <value>Device {0} has an invalid Telemetry specification on its DeviceInfo</value>
   </data>
+  <data name="CommandValuesReturned" xml:space="preserve">
+    <value>VALUES RETURNED</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="InvokeMethod" xml:space="preserve">
+    <value>Invoke Method</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DesiredProperties" xml:space="preserve">
+    <value>Desired Properties</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ReportedProperties" xml:space="preserve">
+    <value>Reported Properties</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tags</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="DesiredPropertiesTooltip" xml:space="preserve">
+    <value>Desired Properties</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ReportedPropertiesTooltip" xml:space="preserve">
+    <value>Reported Properties</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="TagsTooltip" xml:space="preserve">
+    <value>Tags</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="InvokeMethodLabel" xml:space="preserve">
+    <value>Invoke Method</value>
+    <comment>Hyperlink label.</comment>
+  </data>
 </root>

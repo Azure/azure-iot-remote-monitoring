@@ -125,12 +125,39 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         private static void AssignCommands(DeviceModel device)
         {
-            device.Commands.Add(new Command("PingDevice"));
-            device.Commands.Add(new Command("StartTelemetry"));
-            device.Commands.Add(new Command("StopTelemetry"));
-            device.Commands.Add(new Command("ChangeSetPointTemp", new [] { new Parameter("SetPointTemp", "double") }));
-            device.Commands.Add(new Command("DiagnosticTelemetry", new[] { new Parameter("Active", "boolean") }));
-            device.Commands.Add(new Command("ChangeDeviceState", new[] { new Parameter("DeviceState", "string") }));
+            device.Commands.Add(new Command(
+                "PingDevice",
+                DeliveryType.Message, 
+                "The device responds to this command with an acknowledgement. This is useful for checking that the device is still active and listening."
+            ));
+            device.Commands.Add(new Command(
+                "StartTelemetry", 
+                DeliveryType.Message, 
+                "Instructs the device to start sending telemetry."
+            ));
+            device.Commands.Add(new Command(
+                "StopTelemetry", 
+                DeliveryType.Message, 
+                "Instructs the device to stop sending telemetry."
+            ));
+            device.Commands.Add(new Command(
+                "ChangeSetPointTemp", 
+                DeliveryType.Message, 
+                "Controls the simulated temperature telemetry values the device sends. This is useful for testing back-end logic.", 
+                new [] { new Parameter("SetPointTemp", "double") }
+            ));
+            device.Commands.Add(new Command(
+                "DiagnosticTelemetry", 
+                DeliveryType.Message, 
+                "Controls if the device should send the external temperature as telemetry.", 
+                new[] { new Parameter("Active", "boolean") }
+            ));
+            device.Commands.Add(new Command(
+                "ChangeDeviceState", 
+                DeliveryType.Message, 
+                "Sets the device state metadata property that the device reports. This is useful for testing back-end logic.", 
+                new[] { new Parameter("DeviceState", "string") }
+            ));
         }
 
         public static List<string> GetDefaultDeviceNames()

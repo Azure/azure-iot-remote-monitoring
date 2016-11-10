@@ -674,6 +674,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to VALUES RETURNED.
+        /// </summary>
+        public static string CommandValuesReturned {
+            get {
+                return ResourceManager.GetString("CommandValuesReturned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to VALUES SENT.
         /// </summary>
         public static string CommandValuesSent {
@@ -871,6 +880,24 @@ namespace GlobalResources {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Desired Properties.
+        /// </summary>
+        public static string DesiredProperties {
+            get {
+                return ResourceManager.GetString("DesiredProperties", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Desired Properties.
+        /// </summary>
+        public static string DesiredPropertiesTooltip {
+            get {
+                return ResourceManager.GetString("DesiredPropertiesTooltip", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Unable to add device. An unexpected error occurred..
         /// </summary>
@@ -1961,6 +1988,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invoke Method.
+        /// </summary>
+        public static string InvokeMethod {
+            get {
+                return ResourceManager.GetString("InvokeMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invoke Method.
+        /// </summary>
+        public static string InvokeMethodLabel {
+            get {
+                return ResourceManager.GetString("InvokeMethodLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to IoT Device Administration Portal.
         /// </summary>
         public static string IoTDeviceAdministrationPortal {
@@ -2726,6 +2771,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reported Properties.
+        /// </summary>
+        public static string ReportedProperties {
+            get {
+                return ResourceManager.GetString("ReportedProperties", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Reported Properties.
+        /// </summary>
+        public static string ReportedPropertiesTooltip {
+            get {
+                return ResourceManager.GetString("ReportedPropertiesTooltip", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Either the {0} parameter is missing or the value was not recognized as a valid {1}.
         /// </summary>
         public static string RequestFormatError {
@@ -3274,6 +3337,24 @@ namespace GlobalResources {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        public static string Tags {
+            get {
+                return ResourceManager.GetString("Tags", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        public static string TagsTooltip {
+            get {
+                return ResourceManager.GetString("TagsTooltip", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to 0.00.
         /// </summary>

@@ -5,14 +5,15 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.DataTables;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
@@ -119,7 +120,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 var listQuery = new DeviceListQuery()
                 {
                     SortOrder = dataTableRequest.SortColumns[0].SortOrder,
-                    SortColumn = dataTableRequest.Columns[sortColumnIndex].Name,
+                    SortColumn = dataTableRequest.Columns[sortColumnIndex].Data,
 
                     SearchQuery = dataTableRequest.Search.Value,
 
@@ -240,14 +241,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPost]
         [Route("{deviceId}/commands/{commandName}")]
         [WebApiRequirePermission(Permission.SendCommandToDevices)]
-        public async Task<HttpResponseMessage> SendCommand(string deviceId, string commandName, [FromBody]dynamic parameters)
+        public async Task<HttpResponseMessage> SendCommand(string deviceId, string commandName, [FromUri] DeliveryType deliveryType, [FromBody]dynamic parameters)
         {
             ValidateArgumentNotNullOrWhitespace("deviceId", deviceId);
             ValidateArgumentNotNullOrWhitespace("commandName", commandName);
 
             return await GetServiceResponseAsync(async () =>
             {
-                await _deviceLogic.SendCommandAsync(deviceId, commandName, parameters);
+                await _deviceLogic.SendCommandAsync(deviceId, commandName, deliveryType, parameters);
                 return true;
             });
         }
@@ -268,7 +269,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     Skip = 0,
                     Take = 1000,
-                    SortColumn = "DeviceID",
+                    SortColumn = "twin.deviceId",
                 };
 
                 DeviceListQueryResult devices = await _deviceLogic.GetDevices(query);

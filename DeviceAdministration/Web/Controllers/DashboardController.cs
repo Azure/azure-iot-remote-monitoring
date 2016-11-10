@@ -65,8 +65,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 new Infrastructure.Models.FilterInfo()
                 {
-                    ColumnName = "status",
-                    FilterType = FilterType.Status,
+                    ColumnName = "tags.HubEnabledState",
+                    FilterType = FilterType.EQ,
                     FilterValue = "Running"
                 }
             };
@@ -76,7 +76,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 Skip = 0,
                 Take = MaxDevicesToDisplayOnDashboard,
-                SortColumn = "DeviceID",
+                SortColumn = "twin.deviceId",
                 Filters = filters
             };
 
