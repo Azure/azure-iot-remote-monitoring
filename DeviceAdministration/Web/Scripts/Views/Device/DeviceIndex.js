@@ -256,7 +256,7 @@
             "lengthChange": false,
             "processing": false,
             "serverSide": true,
-            "dom": "<'dataTables_header'ip>lrt?",
+            "dom": "<'dataTables_header'i<'#button_area.pull-right'>p>lrt?",
             "ajax": onDataTableAjaxCalled,
             "language": {
                 "info": resources.deviceList + " (_TOTAL_)",
@@ -342,6 +342,28 @@
             ],
             "order": cookieData.currentSortArray
         });
+
+        var $buttonArea = $('#button_area');
+        
+        $('<button/>', {
+            id: 'editColumnsButton',
+            "class": 'button_base devicelist_toolbar_button devicelist_toolbar_button_gray',
+            text: resources.editColumnsButton,
+            click: function () {
+                toggleDetails();
+                fixHeights();
+            }
+        }).appendTo($buttonArea);
+
+        $('<button/>', {
+            id: 'scheduleJobButton',
+            "class": 'button_base devicelist_toolbar_button',
+            text: resources.scheduleJobButton,
+            click: function () {
+                toggleDetails();
+                fixHeights();
+            }
+        }).appendTo($buttonArea);
 
         self.dataTableContainer.on("draw.dt", onTableDrawn);
         self.dataTableContainer.on("error.dt", function(e, settings, techNote, message) {

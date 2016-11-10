@@ -1706,4 +1706,12 @@
     <value>Invoke Method</value>
     <comment>Hyperlink label.</comment>
   </data>
+  <data name="editColumnsButton" xml:space="preserve">
+    <value>Edit Columns</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="scheduleJobButton" xml:space="preserve">
+    <value>Schedule Job</value>
+    <comment>Button label.</comment>
+  </data>
 </root>

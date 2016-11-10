@@ -1259,6 +1259,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Columns.
+        /// </summary>
+        public static string editColumnsButton {
+            get {
+                return ResourceManager.GetString("editColumnsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Configuration for {0}.
         /// </summary>
         public static string EditDeviceConfiguration {
@@ -3028,6 +3037,15 @@ namespace GlobalResources {
         public static string sbyteCommandErrorMessage {
             get {
                 return ResourceManager.GetString("sbyteCommandErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schedule Job.
+        /// </summary>
+        public static string scheduleJobButton {
+            get {
+                return ResourceManager.GetString("scheduleJobButton", resourceCulture);
             }
         }
         
