@@ -10,14 +10,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </summary>
     public interface IDeviceTwinMethodRegistrationRepository
     {
-        Task<IEnumerable<string>> GetAllDeviceTagNamesAsync();
-        Task<bool> AddDeviceTagNameAsync(string name);
-        Task<bool> DeleteDeviceTagNameAsync(string name);
-        Task<IEnumerable<string>> GetAllDevicePropertyNamesAsync();
-        Task<bool> AddDevicePropertyNameAsync(string name);
-        Task<bool> DeleteDevicePropertyNameAsync(string name);
-        Task<IEnumerable<DeviceMethod>> GetAllDeviceMethodsAsync();
-        Task<bool> AddDeviceMethodAsync(DeviceMethod method);
-        Task<bool> DeleteDeviceMethodAsync(DeviceMethod method);
+        Task<IEnumerable<DeviceTwinMethodEntity>> GetNameListAsync(DeviceTwinMethodEntityType entityType);
+        Task<bool> AddNameAsync(DeviceTwinMethodEntityType entityType, DeviceTwinMethodEntity entity);
+        Task<bool> DeleteNameAsync(DeviceTwinMethodEntityType entityType, string name);
     }
 }

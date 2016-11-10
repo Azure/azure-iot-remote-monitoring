@@ -4,31 +4,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class DeviceTwinMethodTableEntity : TableEntity
     {
-        public DeviceTwinMethodTableEntity(DeviceTwinMethodEntityType entityEnum, string name)
+        public DeviceTwinMethodTableEntity(DeviceTwinMethodEntityType entityType, string name)
         {
-            this.PartitionKey = entityEnum.ToString();
+            this.PartitionKey = entityType.ToString();
             this.RowKey = name;
-            switch (entityEnum)
-            {
-                case DeviceTwinMethodEntityType.Tag:
-                    this.TagName = name;
-                    break;
-                case DeviceTwinMethodEntityType.Property:
-                    this.PropertyName = name;
-                    break;
-                case DeviceTwinMethodEntityType.Method:
-                    this.MethodName = name;
-                    break;
-            }
         }
 
         public DeviceTwinMethodTableEntity() { }
 
-        public string TagName { get; set; }
-
-        public string PropertyName { get; set; }
-
-        public string MethodName { get; set; }
+        [IgnoreProperty]
+        public string Name
+        {
+            get { return this.RowKey; }
+            set { this.RowKey = value; }
+        }
 
         public string MethodParameters { get; set; }
 
