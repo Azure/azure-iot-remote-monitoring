@@ -1,7 +1,7 @@
-MICROSOFT SOFTWARE LICENSE TERMS
-MICROSOFT AZURE IoT SUITE REMOTE MONITORING 
+MICROSOFT SOFTWARE LICENSE TERMS     
+MICROSOFT AZURE IoT SUITE REMOTE MONITORING   
 These license terms are an agreement between Microsoft Corporation (or based on where you live, one of its affiliates) and you. Please read them. They apply to the software named above, which includes the media on which you received it, if any. The terms also apply to any Microsoft
-•	updates, 
+•	updates,
 •	supplements,
 •	Internet-based services, and 
 •	support services
