@@ -2,15 +2,15 @@
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 {
-    public class DeviceTwinMethodTableEntity : TableEntity
+    public class NameCacheTableEntity : TableEntity
     {
-        public DeviceTwinMethodTableEntity(DeviceTwinMethodEntityType entityType, string name)
+        public NameCacheTableEntity(NameCacheEntityType entityType, string name)
         {
             this.PartitionKey = entityType.ToString();
             this.RowKey = name;
         }
 
-        public DeviceTwinMethodTableEntity() { }
+        public NameCacheTableEntity() { }
 
         [IgnoreProperty]
         public string Name

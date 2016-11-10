@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 {
-    public class DeviceTwinMethodEntity
+    public class NameCacheEntity
     {
         public string Name { get; set; }
         public List<Parameter> Parameters { get; set; }

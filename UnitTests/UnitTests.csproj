@@ -218,7 +218,7 @@
     <Compile Include="Infrastructure\DeviceRulesRepositoryTests.cs" />
     <Compile Include="Infrastructure\DeviceTelemetryLogicTest.cs" />
     <Compile Include="Infrastructure\DeviceTelemetryRepositoryTest.cs" />
-    <Compile Include="Infrastructure\DeviceTwinMethodRegistryRepositoryTests.cs" />
+    <Compile Include="Infrastructure\NameCacheRepositoryTests.cs" />
     <Compile Include="Infrastructure\FilterHelperTests.cs" />
     <Compile Include="Infrastructure\IoTHubRepositoryTests.cs" />
     <Compile Include="Infrastructure\SampleDeviceTypeRepositoryTest.cs" />

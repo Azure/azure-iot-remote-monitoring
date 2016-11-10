@@ -184,9 +184,9 @@
     <Compile Include="Models\DeviceTelemetryModel.cs" />
     <Compile Include="Models\DeviceTelemetryFieldModel.cs" />
     <Compile Include="Models\DeviceTelemetrySummaryModel.cs" />
-    <Compile Include="Models\DeviceTwinMethodEntity.cs" />
-    <Compile Include="Models\DeviceTwinMethodEntityType.cs" />
-    <Compile Include="Models\DeviceTwinMethodTableEntity.cs" />
+    <Compile Include="Models\NameCacheEntity.cs" />
+    <Compile Include="Models\NameCacheEntityType.cs" />
+    <Compile Include="Models\NameCacheTableEntity.cs" />
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\DeviceWithKeys.cs" />
     <Compile Include="Models\FilterInfo.cs" />
@@ -215,8 +215,8 @@
     <Compile Include="Repository\IDeviceRegistryListRepository.cs" />
     <Compile Include="Repository\IDeviceRulesRepository.cs" />
     <Compile Include="Repository\IDeviceTelemetryRepository.cs" />
-    <Compile Include="Repository\DeviceTwinMethodRegistrationRepository.cs" />
-    <Compile Include="Repository\IDeviceTwinMethodRegistrationRepository.cs" />
+    <Compile Include="Repository\NameCacheRepository.cs" />
+    <Compile Include="Repository\INameCacheRepository.cs" />
     <Compile Include="Repository\IIotHubRepository.cs" />
     <Compile Include="Repository\IIoTHubDeviceManager.cs" />
     <Compile Include="Repository\IoTHubDeviceManager.cs" />

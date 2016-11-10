@@ -3,7 +3,7 @@
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 {
     [Flags]
-    public enum DeviceTwinMethodEntityType
+    public enum NameCacheEntityType
     {
         DeviceInfo = 1,
         Tag = 2,

@@ -18,40 +18,40 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// Method list in the same table in separate columns. The list maintain
     /// a maximum set of unique tag names, property names and method names.
     /// </summary>
-    public class DeviceTwinMethodRegistrationRepository : IDeviceTwinMethodRegistrationRepository
+    public class NameCacheRepository : INameCacheRepository
     {
         private readonly string _storageAccountConnectionString;
         private readonly IAzureTableStorageClient _azureTableStorageClient;
-        private readonly string _deviceTwinMethodTableName;
+        private readonly string _nameCacheTableName;
 
-        public DeviceTwinMethodRegistrationRepository(IConfigurationProvider configurationProvider, IAzureTableStorageClientFactory tableStorageClientFactory)
+        public NameCacheRepository(IConfigurationProvider configurationProvider, IAzureTableStorageClientFactory tableStorageClientFactory)
         {
             _storageAccountConnectionString = configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString");
-            _deviceTwinMethodTableName = configurationProvider.GetConfigurationSettingValueOrDefault("DeviceTwinMethodTableName", "DeviceTwinMethodList");
-            _azureTableStorageClient = tableStorageClientFactory.CreateClient(_storageAccountConnectionString, _deviceTwinMethodTableName);
+            _nameCacheTableName = configurationProvider.GetConfigurationSettingValueOrDefault("NameCacheTableName", "NameCacheList");
+            _azureTableStorageClient = tableStorageClientFactory.CreateClient(_storageAccountConnectionString, _nameCacheTableName);
         }
 
         /// <summary>
-        /// Get name list for combined DeviceTwinMethodEntityType flags
+        /// Get name list for combined NameCacheEntityType flags
         /// </summary>
         /// <param name="entityType"></param>
         /// <returns>a list of combined names</returns>
-        public async Task<IEnumerable<DeviceTwinMethodEntity>> GetNameListAsync(DeviceTwinMethodEntityType entityType)
+        public async Task<IEnumerable<NameCacheEntity>> GetNameListAsync(NameCacheEntityType entityType)
         {
             List<string> filters = new List<string>();
-            var flags = Enum.GetValues(typeof(DeviceTwinMethodEntityType));
-            foreach (DeviceTwinMethodEntityType flag in flags)
+            var flags = Enum.GetValues(typeof(NameCacheEntityType));
+            foreach (NameCacheEntityType flag in flags)
             {
-                if (entityType.HasFlag(flag) && flag != DeviceTwinMethodEntityType.All && flag != DeviceTwinMethodEntityType.Property)
+                if (entityType.HasFlag(flag) && flag != NameCacheEntityType.All && flag != NameCacheEntityType.Property)
                 {
                     var condition = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, flag.ToString());
                     filters.Add(condition);
                 }
             }
-            TableQuery<DeviceTwinMethodTableEntity> query = new TableQuery<DeviceTwinMethodTableEntity>().Where(string.Join(" or ", filters));
+            TableQuery<NameCacheTableEntity> query = new TableQuery<NameCacheTableEntity>().Where(string.Join(" or ", filters));
             var entities = await _azureTableStorageClient.ExecuteQueryAsync(query);
             return entities.OrderByDescending(e => e.Timestamp).
-                Select(e => new DeviceTwinMethodEntity
+                Select(e => new NameCacheEntity
                 {
                     Name = e.Name,
                     Parameters = JsonConvert.DeserializeObject<List<Parameter>>(e.MethodParameters),
@@ -64,14 +64,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="name"></param>
         /// <returns>true if succeeded, false if failed.</returns>
-        public async Task<bool> AddNameAsync(DeviceTwinMethodEntityType entityType, DeviceTwinMethodEntity entity)
+        public async Task<bool> AddNameAsync(NameCacheEntityType entityType, NameCacheEntity entity)
         {
             CheckSingleEntityType(entityType);
-            DeviceTwinMethodTableEntity tableEntity = new DeviceTwinMethodTableEntity(entityType, entity.Name);
+            NameCacheTableEntity tableEntity = new NameCacheTableEntity(entityType, entity.Name);
             tableEntity.MethodParameters = JsonConvert.SerializeObject(entity.Parameters);
             tableEntity.MethodDescription = entity.Description;
             tableEntity.ETag = "*";
-            var result = await _azureTableStorageClient.DoTableInsertOrReplaceAsync<DeviceTwinMethodEntity, DeviceTwinMethodTableEntity>(tableEntity, BuildDeviceTwinMethodFromTableEntity);
+            var result = await _azureTableStorageClient.DoTableInsertOrReplaceAsync<NameCacheEntity, NameCacheTableEntity>(tableEntity, BuildNameCacheFromTableEntity);
             return (result.Status == TableStorageResponseStatus.Successful);
         }
 
@@ -81,27 +81,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="entityType"></param>
         /// <param name="name"></param>
         /// <returns>true if succeeded, false if failed.</returns>
-        public async Task<bool> DeleteNameAsync(DeviceTwinMethodEntityType entityType, string name)
+        public async Task<bool> DeleteNameAsync(NameCacheEntityType entityType, string name)
         {
             CheckSingleEntityType(entityType);
-            DeviceTwinMethodTableEntity tableEntity = new DeviceTwinMethodTableEntity(entityType, name);
+            NameCacheTableEntity tableEntity = new NameCacheTableEntity(entityType, name);
             tableEntity.ETag = "*";
-            var result = await _azureTableStorageClient.DoDeleteAsync<DeviceTwinMethodEntity, DeviceTwinMethodTableEntity>(tableEntity, BuildDeviceTwinMethodFromTableEntity);
+            var result = await _azureTableStorageClient.DoDeleteAsync<NameCacheEntity, NameCacheTableEntity>(tableEntity, BuildNameCacheFromTableEntity);
             return (result.Status == TableStorageResponseStatus.Successful);
         }
 
-        private void CheckSingleEntityType(DeviceTwinMethodEntityType entityType)
+        private void CheckSingleEntityType(NameCacheEntityType entityType)
         {
-            if (entityType == DeviceTwinMethodEntityType.DeviceInfo
-                || entityType == DeviceTwinMethodEntityType.Tag
-                || entityType == DeviceTwinMethodEntityType.DesiredProperty
-                || entityType == DeviceTwinMethodEntityType.ReportedProperty
-                || entityType == DeviceTwinMethodEntityType.Method)
+            if (entityType == NameCacheEntityType.DeviceInfo
+                || entityType == NameCacheEntityType.Tag
+                || entityType == NameCacheEntityType.DesiredProperty
+                || entityType == NameCacheEntityType.ReportedProperty
+                || entityType == NameCacheEntityType.Method)
                 return;
             throw new ArgumentException("Can only pick up one of the flags: DeviceInfo, Tag, DesiredProperty, ReportedProperty, Method");
         }
 
-        private DeviceTwinMethodEntity BuildDeviceTwinMethodFromTableEntity(DeviceTwinMethodTableEntity tableEntity)
+        private NameCacheEntity BuildNameCacheFromTableEntity(NameCacheTableEntity tableEntity)
         {
             if (tableEntity == null)
             {
@@ -118,14 +118,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 Trace.TraceError("Failed to deserialize object for method parameters: {0}", tableEntity.MethodParameters);
             }
 
-            var deviceTwinMethod = new DeviceTwinMethodEntity
+            var nameCacheEntity = new NameCacheEntity
             {
                 Name = tableEntity?.Name,
                 Parameters = parameters,
                 Description = tableEntity?.MethodDescription,
             };
 
-            return deviceTwinMethod;
+            return nameCacheEntity;
         }
     }
 }
