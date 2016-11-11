@@ -10,6 +10,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class DeviceListQuery
     {
         /// <summary>
+        /// Name saved for the query
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Column-level filter values (can have zero or more)
         /// </summary>
         public List<FilterInfo> Filters { get; set; }
@@ -28,6 +33,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// Requested sorting order
         /// </summary>
         public QuerySortOrder SortOrder { get; set;}
+
+        /// <summary>
+        /// The complete SQL string built from other fields
+        /// </summary>
+        public string Sql { get; set; }
         
         /// <summary>
         /// Number of devices to skip at start of list (if Skip = 50, then 

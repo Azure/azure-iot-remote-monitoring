@@ -197,6 +197,7 @@
     <Compile Include="Models\FilterType.cs" />
     <Compile Include="Models\PropertyType.cs" />
     <Compile Include="Models\QuerySortOrder.cs" />
+    <Compile Include="Models\DeviceListQueryTableEntity.cs" />
     <Compile Include="Models\ServiceResponse.cs" />
     <Compile Include="Models\Error.cs" />
     <Compile Include="Models\UserSetting.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="Repository\AlertsRepository.cs" />
     <Compile Include="Repository\ApiRegistrationRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepositoryWithIoTHubDM.cs" />
+    <Compile Include="Repository\DeviceListQueryRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepository.cs" />
     <Compile Include="Repository\FilterHelper.cs" />
     <Compile Include="Repository\IActionMappingRepository.cs" />
@@ -225,6 +227,7 @@
     <Compile Include="Repository\IIoTHubDeviceManager.cs" />
     <Compile Include="Repository\IoTHubDeviceManager.cs" />
     <Compile Include="Repository\IotHubRepository.cs" />
+    <Compile Include="Repository\IDeviceListQueryRepository.cs" />
     <Compile Include="Repository\IUserSettingsRepository.cs" />
     <Compile Include="Repository\SampleDeviceTypeRepository.cs" />
     <Compile Include="Repository\IDeviceTypeRepository.cs" />
