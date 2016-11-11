@@ -7,7 +7,7 @@ The **prerequisites** for setting up the remote monitoring preconfigured solutio
 
 2. [Windows PowerShell] [windowspowershell] version **4.0** or **higher**. To check for PowerShell version open PowerShell command window and call **$PSVersionTable**. It will display the information about the PowerShell version installed on your PC.
 
-3. Azure Powershell 2.0.0 or greater (see [How to install and configure Azure PowerShell][azurepowershell]) 
+3. Azure PowerShell 2.0.0 or greater (see [How to install and configure Azure PowerShell][azurepowershell]) 
  > Note: a **reboot** is required if you're installing or updating PowerShell
 
 **Note:** You should verify that the NuGet Package Manager is configured correctly in Visual Studio before you continue:
