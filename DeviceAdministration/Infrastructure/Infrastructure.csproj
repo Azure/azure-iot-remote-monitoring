@@ -147,6 +147,7 @@
     <Compile Include="BusinessLogic\DeviceLogicWithIoTHubDM.cs" />
     <Compile Include="BusinessLogic\DeviceRulesLogic.cs" />
     <Compile Include="BusinessLogic\DeviceTelemetryLogic.cs" />
+    <Compile Include="BusinessLogic\NameCacheLogic.cs" />
     <Compile Include="BusinessLogic\DeviceTypeLogic.cs" />
     <Compile Include="BusinessLogic\IActionLogic.cs" />
     <Compile Include="BusinessLogic\IAlertsLogic.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="BusinessLogic\IDeviceLogic.cs" />
     <Compile Include="BusinessLogic\IDeviceRulesLogic.cs" />
     <Compile Include="BusinessLogic\IDeviceTelemetryLogic.cs" />
+    <Compile Include="BusinessLogic\INameCacheLogic.cs" />
     <Compile Include="BusinessLogic\IDeviceTypeLogic.cs" />
     <Compile Include="BusinessLogic\IKeyLogic.cs" />
     <Compile Include="BusinessLogic\ISecurityKeyGenerator.cs" />

@@ -214,6 +214,7 @@
     <Compile Include="Infrastructure\DeviceLogicWithIoTHubDMTests.cs" />
     <Compile Include="Infrastructure\DeviceRegistryRepositoryTests.cs" />
     <Compile Include="Infrastructure\DeviceRegistryRepositoryWithIoTHubDMTests.cs" />
+    <Compile Include="Infrastructure\NameCacheLogicTests.cs" />
     <Compile Include="Infrastructure\DeviceRulesLogicTests.cs" />
     <Compile Include="Infrastructure\DeviceRulesRepositoryTests.cs" />
     <Compile Include="Infrastructure\DeviceTelemetryLogicTest.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Web\WebApiControllers\DeviceActionsApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceRulesApiControllerTests.cs" />
+    <Compile Include="Web\WebApiControllers\NameCacheApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceTypesControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\KeyApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\TelemetryApiControllerTests.cs" />

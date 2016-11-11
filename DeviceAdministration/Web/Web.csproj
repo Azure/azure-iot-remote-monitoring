@@ -345,6 +345,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="WebApiControllers\DeviceRulesApiController.cs" />
+    <Compile Include="WebApiControllers\NameCacheApiController.cs" />
     <Compile Include="WebApiControllers\DeviceTypesApiController.cs" />
     <Compile Include="WebApiControllers\TelemetryApiController.cs" />
     <Compile Include="WebApiControllers\WebApiControllerBase.cs" />
@@ -442,6 +443,7 @@
     <Content Include="Content\styles\bootstrap\mixins\vendor-prefixes.less" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\controls.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <Content Include="Scripts\jquery-datatables-api-extensions.js" />

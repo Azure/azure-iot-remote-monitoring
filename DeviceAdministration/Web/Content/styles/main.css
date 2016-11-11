@@ -1773,6 +1773,19 @@ table#alertHistoryTable tr.selectedAlert {
 #ui-datepicker-div {
   display: none;
 }
+/* UI Auto Complete */
+
+.ui-autocomplete {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: white;
+  color: #333333;
+  border: 1px solid #999999;
+}
+.ui-state-focus {
+  background-color: #f2f2f2;
+}
 /*!
  * Bootstrap v3.3.5 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
