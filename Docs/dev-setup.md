@@ -1,10 +1,14 @@
 # Set up development environment (Windows)
 
-The prerequisites for setting up the remote monitoring preconfigured solution are: 
-- Visual Studio 2013 Update 4 or Visual Studio 2015
+The **prerequisites** for setting up the remote monitoring preconfigured solution are: 
+
+1.  Visual Studio 2013 Update 4 or Visual Studio 2015
  - If you are using Visual Studio 2013, also download [Microsoft .NET Framework 4.6.1 Developer Pack and Language Packs][.NET 4.6.1].
-- Azure Powershell 2.0.0 or greater (see [How to install and configure Azure PowerShell][azurepowershell]) _Note: a reboot is required if you're installing or updating PowerShell_
-- [Windows PowerShell] [windowspowershell] version 4.0 or **higher**. To check for PowerShell version open PowerShell command window and call $PSVersionTable. It will disply the numeric information about the PowerShell version
+
+2. [Windows PowerShell] [windowspowershell] version **4.0** or **higher**. To check for PowerShell version open PowerShell command window and call **$PSVersionTable**. It will display the information about the PowerShell version installed on your PC.
+
+3. Azure Powershell 2.0.0 or greater (see [How to install and configure Azure PowerShell][azurepowershell]) 
+ > Note: a **reboot** is required if you're installing or updating PowerShell
 
 **Note:** You should verify that the NuGet Package Manager is configured correctly in Visual Studio before you continue:
  1. Launch Visual Studio 2013 or Visual Studio 2015.
