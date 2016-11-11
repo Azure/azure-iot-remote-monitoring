@@ -49,7 +49,7 @@
     border: 10px solid @secondary-color;
     overflow: hidden;
     padding: 10px;
-    height: 100%;
+    height: ~"calc(100% - 84px)"; //84px = (border(10px) + padding(10px)) * 2 + offset(44px)
 }
 
 .search_details_container__filter_add_clause_link {

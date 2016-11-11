@@ -458,20 +458,14 @@
     /* Set the heights of scrollable elements for correct overflow behavior */
     function fixHeights() {
         // set height of device details pane
-        var fixedHeightVal = $(window).height() - $(".header_page").height();
+        var fixedHeightVal = $(window).height() - $(".navbar").height();
         $(".height_fixed").height(fixedHeightVal);
 
         // set height of open search pane
-        var fixedHeightSearchVal = $(window).height() -
-            $(".search_container__search_details_button_container").height() -
-            $(self.buttonSearchPane).height() -
-            80;
-
-        $(".search_height--fixed").height(fixedHeightSearchVal);
+        $(".search_height--fixed").height(fixedHeightVal);
 
         // set height of collapsed search pane
-        var fixedHeightSearchClosedVal = $(window).height() - 51;
-        $(".search_height--closed_fixed").height(fixedHeightSearchClosedVal);
+        $(".search_height--closed_fixed").height(fixedHeightVal);
 
         // set height of scrolling filter container inside search pane
         var fixedHeightFilterVal = $(window).height() -

@@ -234,7 +234,7 @@
     /* Set the heights of scrollable elements for correct overflow behavior */
     function fixHeights() {
         // set height of device details pane
-        var fixedHeightVal = $(window).height() - $(".header_page").height();
+        var fixedHeightVal = $(window).height() - $(".navbar").height();
         $(".height_fixed").height(fixedHeightVal);
     }
 

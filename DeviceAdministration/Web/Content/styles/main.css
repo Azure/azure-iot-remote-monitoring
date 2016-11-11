@@ -1004,7 +1004,7 @@ table#alertHistoryTable tr.selectedAlert {
   border: 10px solid #f2f2f2;
   overflow: hidden;
   padding: 10px;
-  height: 100%;
+  height: calc(100% - 84px);
 }
 .search_details_container__filter_add_clause_link {
   display: block;
