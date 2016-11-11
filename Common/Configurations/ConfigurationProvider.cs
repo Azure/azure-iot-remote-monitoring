@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
                     }
                 }
 
-            return this.configuration[configurationSettingName];
+            return this.configuration[configurationSettingName] ?? defaultValue;
         }
 
         void LoadEnvironmentConfig()

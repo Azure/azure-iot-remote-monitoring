@@ -30,6 +30,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             builder.RegisterType<AzureTableStorageClientFactory>().As<IAzureTableStorageClientFactory>();
             builder.RegisterType<BlobStorageClientFactory>().As<IBlobStorageClientFactory>();
             builder.RegisterGeneric(typeof(DocumentDBClient<>)).As(typeof(IDocumentDBClient<>));
+            builder.RegisterType<NameCacheLogic>().As<INameCacheLogic>();
+            builder.RegisterType<NameCacheRepository>().As<INameCacheRepository>();
         }
     }
 }

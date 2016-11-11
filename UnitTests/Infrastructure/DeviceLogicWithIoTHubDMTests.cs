@@ -20,6 +20,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         private readonly Mock<IDeviceRegistryCrudRepository> _deviceRegistryCrudRepositoryMock;
         private readonly Mock<IDeviceRegistryListRepository> _deviceRegistryListRepositoryMock;
         private readonly Mock<IDeviceRulesLogic> _deviceRulesLogicMock;
+        private readonly Mock<INameCacheLogic> _nameCacheLogicMock;
         private readonly Mock<IIotHubRepository> _iotHubRepositoryMock;
         private readonly Mock<ISecurityKeyGenerator> _securityKeyGeneratorMock;
         private readonly Mock<IVirtualDeviceStorage> _virtualDeviceStorageMock;
@@ -34,13 +35,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             this._configProviderMock = new Mock<IConfigurationProvider>();
             this._securityKeyGeneratorMock = new Mock<ISecurityKeyGenerator>();
             this._deviceRulesLogicMock = new Mock<IDeviceRulesLogic>();
+            this._nameCacheLogicMock = new Mock<INameCacheLogic>();
             this._deviceLogic = new DeviceLogicWithIoTHubDM(this._iotHubRepositoryMock.Object,
                                                 this._deviceRegistryCrudRepositoryMock.Object,
                                                 this._deviceRegistryListRepositoryMock.Object,
                                                 this._virtualDeviceStorageMock.Object,
                                                 this._securityKeyGeneratorMock.Object,
                                                 this._configProviderMock.Object,
-                                                this._deviceRulesLogicMock.Object);
+                                                this._deviceRulesLogicMock.Object,
+                                                this._nameCacheLogicMock.Object);
             this.fixture = new Fixture();
         }
 

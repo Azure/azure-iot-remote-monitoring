@@ -10,6 +10,7 @@ using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper;
@@ -33,10 +34,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly IConfigurationProvider _configProvider;
         private readonly ISecurityKeyGenerator _securityKeyGenerator;
         private readonly IDeviceRulesLogic _deviceRulesLogic;
+        private readonly INameCacheLogic _nameCacheLogic;
 
         public DeviceLogic(IIotHubRepository iotHubRepository, IDeviceRegistryCrudRepository deviceRegistryCrudRepository, 
             IDeviceRegistryListRepository deviceRegistryListRepository, IVirtualDeviceStorage virtualDeviceStorage, 
-            ISecurityKeyGenerator securityKeyGenerator, IConfigurationProvider configProvider, IDeviceRulesLogic deviceRulesLogic)
+            ISecurityKeyGenerator securityKeyGenerator, IConfigurationProvider configProvider, IDeviceRulesLogic deviceRulesLogic, INameCacheLogic nameCacheLogic)
         {
             _iotHubRepository = iotHubRepository;
             _deviceRegistryCrudRepository = deviceRegistryCrudRepository;
@@ -45,6 +47,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _securityKeyGenerator = securityKeyGenerator;
             _configProvider = configProvider;
             _deviceRulesLogic = deviceRulesLogic;
+            _nameCacheLogic = nameCacheLogic;
         }
 
         public async Task<DeviceListQueryResult> GetDevices(DeviceListQuery q)
@@ -884,6 +887,40 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             else
             {
                 return null;
+            }
+        }
+
+        public async Task AddToNameCache(DeviceModel device)
+        {
+            Twin twin = device.Twin;
+            if (twin == null)
+            {
+                await _nameCacheLogic.AddNameAsync(nameof(device.DeviceProperties.DeviceID));
+                PropertyInfo[] properties = device.DeviceProperties.GetType().GetProperties();
+                var reportedProperties = properties.Select(async p =>
+                    await _nameCacheLogic.AddNameAsync("reported." + p.Name));
+                device.Commands.Select(async c => await _nameCacheLogic.AddMethodAsync(c));
+            }
+            else
+            {
+                await _nameCacheLogic.AddNameAsync(nameof(device.Twin.DeviceId));
+
+                foreach (var p in twin.Tags.AsEnumerableFlatten())
+                {
+                    await _nameCacheLogic.AddNameAsync("tags." + p.Key);
+                }
+                foreach (var p in twin.Properties.Desired.AsEnumerableFlatten())
+                {
+                    await _nameCacheLogic.AddNameAsync("desired." + p.Key);
+                }
+                foreach (var p in twin.Properties.Reported.AsEnumerableFlatten())
+                {
+                    await _nameCacheLogic.AddNameAsync("reported." + p.Key);
+                }
+            }
+            foreach (var command in device.Commands)
+            {
+                await _nameCacheLogic.AddMethodAsync(command);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
@@ -38,9 +39,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<bool> AddMethodAsync(Command method)
         {
+            var parameterTypes = method.Parameters.Select(p => p.Type).ToList();
+            string normalizedMethodName = string.Format("{0}({1})", method.Name, string.Join(",", parameterTypes));
             var entity = new NameCacheEntity()
             {
-                Name = method.Name,
+                Name = normalizedMethodName,
                 Description = method.Description,
                 Parameters = method.Parameters
             };

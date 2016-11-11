@@ -163,7 +163,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                     string name = deviceInfo.IoTHub.ConnectionDeviceId;
                     Trace.TraceInformation("ProcessEventAsync -- DeviceInfo: {0}", name);
                     await _deviceLogic.UpdateDeviceFromDeviceInfoPacketAsync(deviceInfo);
-
+                    await _deviceLogic.AddToNameCache(deviceInfo);
                     break;
                 default:
                     Trace.TraceInformation("Unknown version {0} provided in Device Info packet", versionAsString);
