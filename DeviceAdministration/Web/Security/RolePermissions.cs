@@ -131,6 +131,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             AssignRolesToPermission(Permission.CellularConn,
                 ADMIN_ROLE_NAME);
+
+            AssignRolesToPermission(Permission.ViewJobs,
+                NATIVE_CLIENT_ROLE_NAME,
+                READ_ONLY_ROLE_NAME,
+                ADMIN_ROLE_NAME);
+
+            AssignRolesToPermission(Permission.ManageJobs,
+                ADMIN_ROLE_NAME);
         }
 
         /// <summary>

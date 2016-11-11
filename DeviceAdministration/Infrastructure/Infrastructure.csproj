@@ -65,7 +65,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Devices, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Devices.1.1.0-preview-004\lib\net451\Microsoft.Azure.Devices.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Devices.1.1.0-preview-005\lib\net451\Microsoft.Azure.Devices.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Devices.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -186,6 +186,8 @@
     <Compile Include="Models\DeviceTelemetryModel.cs" />
     <Compile Include="Models\DeviceTelemetryFieldModel.cs" />
     <Compile Include="Models\DeviceTelemetrySummaryModel.cs" />
+    <Compile Include="Models\Job.cs" />
+    <Compile Include="Models\JobSummary.cs" />
     <Compile Include="Models\NameCacheEntity.cs" />
     <Compile Include="Models\NameCacheEntityType.cs" />
     <Compile Include="Models\NameCacheTableEntity.cs" />

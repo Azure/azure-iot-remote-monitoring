@@ -25,6 +25,8 @@
         ViewTelemetry,
         HealthBeat,
         LogicApps,
-        CellularConn
+        CellularConn,
+        ViewJobs,
+        ManageJobs
     }
 }
