@@ -22,8 +22,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             //TODO: mock code
             var queries = new List<Query>();
-            queries.Add(new Query() { Name= "SampleQuery1", QueryString = " DeviceState = \"normal\"", IsTemporary = false });
-            queries.Add(new Query() { Name = "SampleQuery2", QueryString = " Properties.Reported.ModelNumber = \"MD-2\"" });
+            queries.Add(new Query() { Name= "SampleQuery1", QueryString = "DeviceState = \"normal\"", IsTemporary = false });
+            queries.Add(new Query() { Name = "SampleQuery2", QueryString = "reported.ModelNumber = \"MD-2\"" });
 
             return await GetServiceResponseAsync<IEnumerable<Query>>(async () =>
             {
@@ -63,8 +63,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             //TODO: mock code
             var result = new MatchingDevices();
-            result.matchedCount = 10;
-            result.unmatchCount = 1;
+            result.MatchedCount = 10;
+            result.UnMatchCount = 1;
 
             return await GetServiceResponseAsync<MatchingDevices>(async () =>
             {

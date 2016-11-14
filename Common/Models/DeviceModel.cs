@@ -16,8 +16,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
             Telemetry = new List<Telemetry>();
         }
 
-        public Twin DeviceTwin { get; set; }
-
         public DeviceProperties DeviceProperties { get; set; }
         public SystemProperties SystemProperties { get; set; }
         public List<Command> Commands { get; set; }

@@ -25,8 +25,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var deviceListColumns = new List<DeviceListColumns>();
             deviceListColumns.Add(new DeviceListColumns() { Name = "Status" });
             deviceListColumns.Add(new DeviceListColumns() { Name = "DeviceId" });
-            deviceListColumns.Add(new DeviceListColumns() { Name = "Property.reported.Manufacture", Alias = "Manufacture" });
-            deviceListColumns.Add(new DeviceListColumns() { Name = "Property.reported.Model", Alias = "Model" });
+            deviceListColumns.Add(new DeviceListColumns() { Name = "reported.Manufacture", Alias = "Manufacture" });
+            deviceListColumns.Add(new DeviceListColumns() { Name = "reported.Model", Alias = "Model" });
 
             return await GetServiceResponseAsync<IEnumerable<DeviceListColumns>>(async () =>
             {

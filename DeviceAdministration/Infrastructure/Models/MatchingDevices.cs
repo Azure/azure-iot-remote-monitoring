@@ -2,8 +2,8 @@
 {
     public class MatchingDevices
     {
-        public int matchedCount { get; set; }
+        public int MatchedCount { get; set; }
 
-        public int unmatchCount { get; set; }
+        public int UnMatchCount { get; set; }
     }
 }

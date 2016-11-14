@@ -312,7 +312,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 Tags = new TwinCollection()
             };
 
-            result.Results.Add(new DeviceModel() { DeviceTwin = sampleTwin, IsSimulatedDevice = true });
+            result.Results.Add(new DeviceModel() { Twin = sampleTwin, IsSimulatedDevice = true });
 
             return await GetServiceResponseAsync<DeviceListQueryResult>(async () => (await Task.FromResult(result)));
         }
