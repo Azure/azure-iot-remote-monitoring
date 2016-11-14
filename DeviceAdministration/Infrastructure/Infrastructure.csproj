@@ -171,6 +171,7 @@
     <Compile Include="Models\ActionMappingExtended.cs" />
     <Compile Include="Models\ActionModel.cs" />
     <Compile Include="Models\AlertHistoryItemModel.cs" />
+    <Compile Include="Models\DeviceJobHistoryModel.cs" />
     <Compile Include="Models\MatchingDevices.cs" />
     <Compile Include="Models\Query.cs" />
     <Compile Include="Models\DeviceListQueryResult.cs" />

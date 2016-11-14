@@ -10,7 +10,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     /// 
     /// Includes methods to return related models for the config sections.
     /// </summary>
-    public class DeviceDetailModel 
+    public class DeviceDetailModel
     {
         public string DeviceID
         {
@@ -18,8 +18,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             set;
         }
 
-        public bool HasKeyViewingPerm 
-        { 
+        public bool HasKeyViewingPerm
+        {
             get
             {
                 return PermsChecker.HasPermission(Permission.ViewDeviceSecurityKeys);
@@ -54,7 +54,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             get
             {
-               return PermsChecker.HasPermission(Permission.DisableEnableDevices);
+                return PermsChecker.HasPermission(Permission.DisableEnableDevices);
             }
         }
 
@@ -97,6 +97,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         public List<DevicePropertyValueModel> DevicePropertyValueModels
+        {
+            get;
+            set;
+        }
+
+        public List<DeviceJobHistoryModel> DeviceJobHistory
         {
             get;
             set;

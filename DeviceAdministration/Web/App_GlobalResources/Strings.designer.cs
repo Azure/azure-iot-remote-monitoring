@@ -888,7 +888,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("DesiredProperties", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Desired Properties.
         /// </summary>
@@ -897,7 +897,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("DesiredPropertiesTooltip", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Unable to add device. An unexpected error occurred..
         /// </summary>
@@ -1261,9 +1261,9 @@ namespace GlobalResources {
         /// <summary>
         ///   Looks up a localized string similar to Edit Columns.
         /// </summary>
-        public static string editColumnsButton {
+        public static string EditColumns {
             get {
-                return ResourceManager.GetString("editColumnsButton", resourceCulture);
+                return ResourceManager.GetString("EditColumns", resourceCulture);
             }
         }
         
@@ -2013,7 +2013,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("InvokeMethodLabel", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to IoT Device Administration Portal.
         /// </summary>
@@ -2663,6 +2663,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recent Jobs.
+        /// </summary>
+        public static string RecentJobs {
+            get {
+                return ResourceManager.GetString("RecentJobs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recent Jobs.
+        /// </summary>
+        public static string RecentJobsTooltip {
+            get {
+                return ResourceManager.GetString("RecentJobsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registered But Not Present.
         /// </summary>
         public static string RegisteredButNotPresent {
@@ -2787,7 +2805,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("ReportedProperties", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Reported Properties.
         /// </summary>
@@ -2796,7 +2814,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("ReportedPropertiesTooltip", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Either the {0} parameter is missing or the value was not recognized as a valid {1}.
         /// </summary>
@@ -3043,9 +3061,18 @@ namespace GlobalResources {
         /// <summary>
         ///   Looks up a localized string similar to Schedule Job.
         /// </summary>
-        public static string scheduleJobButton {
+        public static string ScheduleJob {
             get {
-                return ResourceManager.GetString("scheduleJobButton", resourceCulture);
+                return ResourceManager.GetString("ScheduleJob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SCHEDULE JOB.
+        /// </summary>
+        public static string ScheduleJobPanelLabel {
+            get {
+                return ResourceManager.GetString("ScheduleJobPanelLabel", resourceCulture);
             }
         }
         
@@ -3363,7 +3390,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("Tags", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Tags.
         /// </summary>
@@ -3372,7 +3399,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("TagsTooltip", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to 0.00.
         /// </summary>
@@ -3527,6 +3554,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Properties or Tags.
+        /// </summary>
+        public static string UpdateTwin {
+            get {
+                return ResourceManager.GetString("UpdateTwin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Username.
         /// </summary>
         public static string UsernameLabel {
@@ -3586,6 +3622,15 @@ namespace GlobalResources {
         public static string VersionMustBeLessThan200Characters {
             get {
                 return ResourceManager.GetString("VersionMustBeLessThan200Characters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View all ({0}).
+        /// </summary>
+        public static string ViewAll {
+            get {
+                return ResourceManager.GetString("ViewAll", resourceCulture);
             }
         }
         

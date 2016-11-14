@@ -288,6 +288,7 @@
     <Compile Include="Controllers\DeviceCommandController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\DeviceRulesController.cs" />
+    <Compile Include="Controllers\JobController.cs" />
     <Compile Include="DataTables\Column.cs" />
     <Compile Include="DataTables\DataTablesRequest.cs" />
     <Compile Include="DataTables\DataTablesResponse.cs" />
@@ -638,6 +639,7 @@
     <Content Include="Views\Advanced\_SelectAdvancedProcess.cshtml" />
     <Content Include="Views\Shared\_NavigationSubmenu.cshtml" />
     <Content Include="Views\Advanced\_IccidAssociation.cshtml" />
+    <Content Include="Views\Job\_ScheduleJob.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

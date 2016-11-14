@@ -1,4 +1,6 @@
-﻿namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
+﻿using System;
+
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 {
     /// <summary>
     /// A model that describes how a Device's property should be displayed.
@@ -57,6 +59,15 @@
         /// Gets or sets the described property's current value.
         /// </summary>
         public string Value
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Get the last updated date time of the described property
+        /// </summary>
+        public DateTime LastUpdatedUtc
         {
             get;
             set;

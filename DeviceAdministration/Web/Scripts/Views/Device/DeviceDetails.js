@@ -6,6 +6,8 @@
 
     var getDeviceDetailsView = function (deviceId) {
         $('#loadingElement').show();
+        $('.details_grid_closed').text(resources.deviceDetailsPanelLabel);
+        $('.details_grid__grid_subhead').text(resources.deviceDetailsPanelLabel);
         self.deviceId = deviceId;
 
         $.get('/Device/GetDeviceDetails', { deviceId: deviceId }, function (response) {
@@ -17,7 +19,22 @@
             $('#loadingElement').hide();
             renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
         });
+    }
 
+    var getScheduleJobView = function () {
+        $('#loadingElement').show();
+        $('.details_grid_closed').text(resources.scheduleJobPanelLabel);
+        $('.details_grid__grid_subhead').text(resources.scheduleJobPanelLabel);
+
+        $.get('/Job/ScheduleJob', {}, function (response) {
+            if (!$(".details_grid").is(':visible')) {
+                IoTApp.DeviceIndex.toggleDetails();
+            }
+            onScheduleJobReady(response);
+        }).fail(function (response) {
+            $('#loadingElement').hide();
+            renderRetryError('Something wrong...', $('#details_grid_container'), function () { getScheduleJobView(); });
+        });
     }
 
     var getCellularDetailsView = function () {
@@ -128,6 +145,14 @@
         });
     }
 
+    var onScheduleJobReady = function (html) {
+        $('#loadingElement').hide();
+        $('#details_grid_container').empty();
+        $('#details_grid_container').html(html);
+
+        setDetailsPaneLoaderHeight();
+    }
+
     var setDetailsPaneLoaderHeight = function () {
         /* Set the height of the Device Details progress animation background to accommodate scrolling */
         var progressAnimationHeight = $("#details_grid_container").height() + $(".details_grid__grid_subhead.button_details_grid").outerHeight();
@@ -210,8 +235,7 @@
     }
 
     return {
-        init: function (deviceId) {
-            getDeviceDetailsView(deviceId);
-        }
+        init: getDeviceDetailsView,
+        scheduleJob: getScheduleJobView
     }
 }, [jQuery, resources]);

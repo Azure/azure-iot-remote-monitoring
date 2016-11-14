@@ -20,10 +20,10 @@
     @if (Model.IsDeviceEditEnabled)
     {
         @Html.ActionLink(@Strings.Edit, "EditDeviceProperties", "Device", new { deviceId = Model.DeviceID }, new
-        {
-            id = "edit_metadata_link",
-            @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.HubEnabledState == false ? "hidden" : string.Empty).Trim()
-        })
+   {
+       id = "edit_metadata_link",
+       @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.HubEnabledState == false ? "hidden" : string.Empty).Trim()
+   })
     }
 
 </div>
@@ -58,10 +58,10 @@
     <h3 class="grid_subheadhead_detail">@Strings.Tags</h3>
     <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.TagsTooltip" />
     @Html.ActionLink(@Strings.Edit, "EditTags", "Device", new { deviceId = Model.DeviceID }, new
-    {
-       id = "edit_tags_link",
-       @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.HubEnabledState == false ? "hidden" : string.Empty).Trim()
-    })
+{
+    id = "edit_tags_link",
+    @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.HubEnabledState == false ? "hidden" : string.Empty).Trim()
+})
 </div>
 
 <section class="details_grid_general" id="tagsGrid">
@@ -83,10 +83,10 @@
     <h3 class="grid_subheadhead_detail">@Strings.DesiredProperties</h3>
     <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DesiredPropertiesTooltip" />
     @Html.ActionLink(@Strings.Edit, "EditDesiredProperties", "Device", new { deviceId = Model.DeviceID }, new
-    {
-       id = "edit_desiredProperties_link",
-       @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.HubEnabledState == false ? "hidden" : string.Empty).Trim()
-    })
+{
+    id = "edit_desiredProperties_link",
+    @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.HubEnabledState == false ? "hidden" : string.Empty).Trim()
+})
 </div>
 
 <section class="details_grid_general" id="desiredPropertiesGrid">
@@ -123,6 +123,28 @@
             {
                 <p class="grid_detail_value" name="reportedPropertyField_@val.Name">@val.Value</p>
             }
+        }
+    </section>
+}
+
+@if (Model.DeviceJobHistory.Any())
+{
+    <div class="header_grid header_grid_general">
+        <h3 class="grid_subheadhead_detail">@Strings.RecentJobs</h3>
+        <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.RecentJobsTooltip" />
+        @Html.ActionLink(@Strings.ViewAll, "ViewAllJobHistory", "Device", new { deviceId = Model.DeviceID }, new
+   {
+       id = "viewall_link",
+       @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.DeviceJobHistory.Count() <= 5 ? "hidden" : string.Empty).Trim()
+   })
+    </div>
+
+    <section class="details_grid_general" id="reportedPropertiesGrid">
+        @foreach (var job in Model.DeviceJobHistory.OrderByDescending(j => j.LastUpdatedUtc).Take(5))
+        {
+            <h4 class="grid_subhead_detail_label">@job.Name</h4>
+            <p class="grid_detail_value" name="jobField_status_@job.Name">@job.Status</p>
+            <p class="grid_detail_value" name="jobField_lastUpdated_@job.Name">@job.LastUpdatedUtc</p>
         }
     </section>
 }
