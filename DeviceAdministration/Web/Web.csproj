@@ -347,7 +347,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="WebApiControllers\DeviceRulesApiController.cs" />
+    <Compile Include="WebApiControllers\QueryGeneratorApiController.cs" />
+    <Compile Include="WebApiControllers\QueryNameApiController.cs" />
+    <Compile Include="WebApiControllers\QueryApiController.cs" />
     <Compile Include="WebApiControllers\JobApiController.cs" />
+    <Compile Include="WebApiControllers\DeviceListColumnsApiController.cs" />
     <Compile Include="WebApiControllers\NameCacheApiController.cs" />
     <Compile Include="WebApiControllers\DeviceTypesApiController.cs" />
     <Compile Include="WebApiControllers\TelemetryApiController.cs" />
