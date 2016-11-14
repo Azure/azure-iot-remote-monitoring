@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions
@@ -9,47 +8,67 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
     {
         /// <summary>
         /// Enumerate all the items inside TwinCollection (tags or properties), output the flat name and value (as JVaule)
-        /// Reminder: It could only be used on Twin which use JContainer for hierarchical values. The Twin retrieved from IoT Hub is a good sample
+        /// Reminder: It could only be used on Twin which use TwinCollection or JContainer for hierarchical values. The Twin retrieved from IoT Hub is a good sample
         /// </summary>
         /// <param name="collection">Twin.Tag, Twin.Properties.Desired or Twin.Properties.Reported</param>
+        /// <param name="prefix">Custom specified prefix for all items, e.g. "tags."</param>
         /// <returns>Enumerator returns the flat name and value</returns>
-        static public IEnumerable<KeyValuePair<string, JValue>> AsEnumerableFlatten(this TwinCollection collection)
+        static public IEnumerable<KeyValuePair<string, JValue>> AsEnumerableFlatten(this TwinCollection collection, string prefix = "")
         {
-            var tokenCollection = collection
-                .OfType<KeyValuePair<string, object>>()
-                .Select(pair => new KeyValuePair<string, JToken>(pair.Key, pair.Value as JToken))
-                .Where(pair => pair.Value != null);
-
-            return GetFlattenProperties(tokenCollection);
-        }
-
-        static private IEnumerable<KeyValuePair<string, JValue>> GetFlattenProperties(IEnumerable<KeyValuePair<string, JToken>> collection, string prefix = "")
-        {
-            foreach (var pair in collection)
+            foreach (KeyValuePair<string, object> pair in collection)
             {
-                if (pair.Value is JArray)
+                if (pair.Value is TwinCollection)
                 {
-                    continue;
+                    var results = AsEnumerableFlatten(pair.Value as TwinCollection, $"{prefix}{pair.Key}.");
+                    foreach (var result in results)
+                    {
+                        yield return result;
+                    }
                 }
                 else if (pair.Value is JContainer)
                 {
-                    var subCollection = (pair.Value as JContainer)
-                        .Children<JProperty>()
-                        .Select(p => new KeyValuePair<string, JToken>(p.Name, p.Value));
-
-                    foreach (var subProperty in GetFlattenProperties(subCollection, $"{prefix}{pair.Key}."))
+                    var results = AsEnumerableFlatten(pair.Value as JContainer, $"{prefix}{pair.Key}.");
+                    foreach (var result in results)
                     {
-                        yield return subProperty;
+                        yield return result;
                     }
                 }
                 else if (pair.Value is JValue)
                 {
                     yield return new KeyValuePair<string, JValue>($"{prefix}{pair.Key}", pair.Value as JValue);
                 }
+#if DEBUG
                 else
                 {
-                    throw new ApplicationException();
+                    throw new ApplicationException($"Unexpected TwinCollection item type: {pair.Value.GetType().FullName} @ {prefix}{pair.Key}");
                 }
+#endif
+            }
+        }
+
+        static private IEnumerable<KeyValuePair<string, JValue>> AsEnumerableFlatten(this JContainer container, string prefix = "")
+        {
+            foreach (var child in container.Children<JProperty>())
+            {
+                if (child.Value is JContainer)
+                {
+                    var results = AsEnumerableFlatten(child.Value as JContainer, $"{prefix}{child.Name}.");
+                    foreach (var result in results)
+                    {
+                        yield return result;
+                    }
+                }
+                else if (child.Value is JValue)
+                {
+                    yield return new KeyValuePair<string, JValue>($"{prefix}{child.Name}", child.Value as JValue);
+                }
+
+#if DEBUG
+                else
+                {
+                    throw new ApplicationException($"Unexpected TwinCollection item JTokenType: {child.Value.Type} @ {prefix}{child.Name}");
+                }
+#endif
             }
         }
     }
