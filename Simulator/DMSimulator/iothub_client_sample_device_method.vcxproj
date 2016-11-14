@@ -9,14 +9,6 @@
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="MinSizeRel|Win32">
-      <Configuration>MinSizeRel</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="RelWithDebInfo|Win32">
-      <Configuration>RelWithDebInfo</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGUID>{88C4CAFE-3DA8-4CDC-A7DC-1A8635DBE533}</ProjectGUID>
@@ -38,18 +30,6 @@
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
-    <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
-    <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -59,30 +39,18 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">iothub_client_sample_device_method.dir\Debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">iothub_client_sample_device_method.dir\Debug\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">DMSimulator</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">iothub_client_sample_device_method.dir\Release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">iothub_client_sample_device_method.dir\Release\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">DMSimulator</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">iothub_client_sample_device_method.dir\MinSizeRel\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">iothub_client_sample_device_method.dir\MinSizeRel\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">DMSimulator</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.exe</TargetExt>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkIncremental>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">iothub_client_sample_device_method.dir\RelWithDebInfo\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">iothub_client_sample_device_method.dir\RelWithDebInfo\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">DMSimulator</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.exe</TargetExt>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">true</LinkIncremental>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">true</GenerateManifest>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -121,8 +89,9 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Users/xisheng/cmake_Win32/iothub_client/samples/iothub_client_sample_device_method/Debug/iothub_client_sample_device_method.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Users/xisheng/cmake_Win32/iothub_client/samples/iothub_client_sample_device_method/Debug/iothub_client_sample_device_method.pdb</ProgramDataBaseFile>
+      <ImportLibrary>
+      </ImportLibrary>
+      <ProgramDataBaseFile>$(OutputPath)$(TargetName).pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -168,101 +137,9 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Users/xisheng/cmake_Win32/iothub_client/samples/iothub_client_sample_device_method/Release/iothub_client_sample_device_method.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Users/xisheng/cmake_Win32/iothub_client/samples/iothub_client_sample_device_method/Release/iothub_client_sample_device_method.pdb</ProgramDataBaseFile>
-      <SubSystem>Console</SubSystem>
-      <Version>
-      </Version>
-    </Link>
-    <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-    </ProjectReference>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc\azure_c_shared_utility;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\..\parson;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-uamqp-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-umqtt-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\samples\iothub_client_sample_device_method\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
-      <CompileAs>CompileAsC</CompileAs>
-      <DisableSpecificWarnings>4232</DisableSpecificWarnings>
-      <ExceptionHandling>
-      </ExceptionHandling>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <Optimization>MinSpace</Optimization>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <TreatWarningAsError>true</TreatWarningAsError>
-      <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;ARCHITECTURE_x86=1;GB_MEASURE_MEMORY_FOR_THIS;GB_DEBUG_ALLOC;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
-    </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;ARCHITECTURE_x86=1;GB_MEASURE_MEMORY_FOR_THIS;GB_DEBUG_ALLOC;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc\azure_c_shared_utility;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\..\parson;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-uamqp-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-umqtt-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\samples\iothub_client_sample_device_method\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
-    <Midl>
-      <AdditionalIncludeDirectories>D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc\azure_c_shared_utility;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\..\parson;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-uamqp-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-umqtt-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\samples\iothub_client_sample_device_method\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
-      <HeaderFileName>%(Filename).h</HeaderFileName>
-      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
-    </Midl>
-    <Link>
-      <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\..\MinSizeRel\iothub_client_mqtt_transport.lib;..\..\MinSizeRel\iothub_client.lib;..\..\..\azure-umqtt-c\MinSizeRel\umqtt.lib;..\..\..\azure-c-shared-utility\MinSizeRel\aziotsharedutil.lib;crypt32.lib;winhttp.lib;crypt32.lib;winhttp.lib;ws2_32.lib;secur32.lib;rpcrt4.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Users/xisheng/cmake_Win32/iothub_client/samples/iothub_client_sample_device_method/MinSizeRel/iothub_client_sample_device_method.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Users/xisheng/cmake_Win32/iothub_client/samples/iothub_client_sample_device_method/MinSizeRel/iothub_client_sample_device_method.pdb</ProgramDataBaseFile>
-      <SubSystem>Console</SubSystem>
-      <Version>
-      </Version>
-    </Link>
-    <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-    </ProjectReference>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc\azure_c_shared_utility;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\..\parson;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-uamqp-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-umqtt-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\samples\iothub_client_sample_device_method\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
-      <CompileAs>CompileAsC</CompileAs>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4232</DisableSpecificWarnings>
-      <ExceptionHandling>
-      </ExceptionHandling>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <Optimization>MaxSpeed</Optimization>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <TreatWarningAsError>true</TreatWarningAsError>
-      <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;ARCHITECTURE_x86=1;GB_MEASURE_MEMORY_FOR_THIS;GB_DEBUG_ALLOC;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
-    </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;ARCHITECTURE_x86=1;GB_MEASURE_MEMORY_FOR_THIS;GB_DEBUG_ALLOC;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc\azure_c_shared_utility;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\..\parson;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-uamqp-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-umqtt-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\samples\iothub_client_sample_device_method\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
-    <Midl>
-      <AdditionalIncludeDirectories>D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc\azure_c_shared_utility;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\..\parson;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-uamqp-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-umqtt-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\samples\iothub_client_sample_device_method\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
-      <HeaderFileName>%(Filename).h</HeaderFileName>
-      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
-    </Midl>
-    <Link>
-      <AdditionalOptions> /machine:X86 /debug %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\..\RelWithDebInfo\iothub_client_mqtt_transport.lib;..\..\RelWithDebInfo\iothub_client.lib;..\..\..\azure-umqtt-c\RelWithDebInfo\umqtt.lib;..\..\..\azure-c-shared-utility\RelWithDebInfo\aziotsharedutil.lib;crypt32.lib;winhttp.lib;crypt32.lib;winhttp.lib;ws2_32.lib;secur32.lib;rpcrt4.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Users/xisheng/cmake_Win32/iothub_client/samples/iothub_client_sample_device_method/RelWithDebInfo/iothub_client_sample_device_method.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Users/xisheng/cmake_Win32/iothub_client/samples/iothub_client_sample_device_method/RelWithDebInfo/iothub_client_sample_device_method.pdb</ProgramDataBaseFile>
+      <ImportLibrary>
+      </ImportLibrary>
+      <ProgramDataBaseFile>$(OutputPath)$(TargetName).pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -273,23 +150,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\samples\iothub_client_sample_device_method\iothub_client_sample_device_method.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="C:/Users/xisheng/cmake_Win32/ZERO_CHECK.vcxproj">
-      <Project>6017D29B-29D8-4899-94B8-06CD62B8E1F1</Project>
-    </ProjectReference>
-    <ProjectReference Include="C:/Users/xisheng/cmake_Win32/azure-c-shared-utility/aziotsharedutil.vcxproj">
-      <Project>67A85008-2406-477D-A7BB-4D89D173655B</Project>
-    </ProjectReference>
-    <ProjectReference Include="C:/Users/xisheng/cmake_Win32/iothub_client/iothub_client.vcxproj">
-      <Project>5DC205E1-474D-4E41-BB84-8710AF3072C8</Project>
-    </ProjectReference>
-    <ProjectReference Include="C:/Users/xisheng/cmake_Win32/iothub_client/iothub_client_mqtt_transport.vcxproj">
-      <Project>33EBCA0B-B3F0-4E7A-A8F4-86349EE56310</Project>
-    </ProjectReference>
-    <ProjectReference Include="C:/Users/xisheng/cmake_Win32/azure-umqtt-c/umqtt.vcxproj">
-      <Project>5C20D4DA-FCB8-45B5-B868-058B578DE6E5</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
