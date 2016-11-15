@@ -71,18 +71,6 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_CRT_SECURE_NO_WARNINGS;ARCHITECTURE_x86=1;GB_MEASURE_MEMORY_FOR_THIS;GB_DEBUG_ALLOC;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_CRT_SECURE_NO_WARNINGS;ARCHITECTURE_x86=1;GB_MEASURE_MEMORY_FOR_THIS;GB_DEBUG_ALLOC;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc\azure_c_shared_utility;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\..\parson;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-uamqp-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-umqtt-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\samples\iothub_client_sample_device_method\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
-    <Midl>
-      <AdditionalIncludeDirectories>D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc\azure_c_shared_utility;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\..\parson;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-uamqp-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-umqtt-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\samples\iothub_client_sample_device_method\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
-      <HeaderFileName>%(Filename).h</HeaderFileName>
-      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
-    </Midl>
     <Link>
       <AdditionalOptions> /machine:X86 /debug %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;.\lib\iothub_client_mqtt_transport.lib;.\lib\iothub_client.lib;.\lib\umqtt.lib;.\lib\aziotsharedutil.lib;crypt32.lib;winhttp.lib;ws2_32.lib;secur32.lib;rpcrt4.lib</AdditionalDependencies>
@@ -119,18 +107,6 @@
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;ARCHITECTURE_x86=1;GB_MEASURE_MEMORY_FOR_THIS;GB_DEBUG_ALLOC;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc\azure_c_shared_utility;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\..\parson;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-uamqp-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-umqtt-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\samples\iothub_client_sample_device_method\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
-    <Midl>
-      <AdditionalIncludeDirectories>D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc\azure_c_shared_utility;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\..\parson;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-c-shared-utility\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-uamqp-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\azure-umqtt-c\inc;D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\samples\iothub_client_sample_device_method\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
-      <HeaderFileName>%(Filename).h</HeaderFileName>
-      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
-    </Midl>
     <Link>
       <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;.\lib\iothub_client_mqtt_transport.lib;.\lib\iothub_client.lib;.\lib\umqtt.lib;.\lib\aziotsharedutil.lib;crypt32.lib;winhttp.lib;ws2_32.lib;secur32.lib;rpcrt4.lib</AdditionalDependencies>
@@ -149,7 +125,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="D:\ReferenceProjects\azure-iot-sdks-preview\c\iothub_client\samples\iothub_client_sample_device_method\iothub_client_sample_device_method.c" />
+    <ClCompile Include=".\iothub_client_sample_device_method.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
