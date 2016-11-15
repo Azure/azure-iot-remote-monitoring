@@ -6,7 +6,7 @@
 
     var getDeviceDetailsView = function (deviceId) {
         $('#loadingElement').show();
-        $('.details_grid_closed').text(resources.deviceDetailsPanelLabel);
+        $('.details_grid_closed__grid_subhead').text(resources.deviceDetailsPanelLabel);
         $('.details_grid__grid_subhead').text(resources.deviceDetailsPanelLabel);
         self.deviceId = deviceId;
 
@@ -23,7 +23,7 @@
 
     var getScheduleJobView = function () {
         $('#loadingElement').show();
-        $('.details_grid_closed').text(resources.scheduleJobPanelLabel);
+        $('.details_grid_closed__grid_subhead').text(resources.scheduleJobPanelLabel);
         $('.details_grid__grid_subhead').text(resources.scheduleJobPanelLabel);
 
         $.get('/Job/ScheduleJob', {}, function (response) {
