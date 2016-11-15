@@ -325,6 +325,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View("Index");
         }
 
+        [RequirePermission(Permission.ViewDevices)]
+        public ActionResult GetDeviceListColumns()
+        {
+            var columns = "[ { name: 'DeviceId', alias: 'DeviceId' } ]";
+            return PartialView("_DeviceListColumns", columns);
+        }
+
         private static IEnumerable<DevicePropertyValueModel> ApplyDevicePropertyOrdering(IEnumerable<DevicePropertyValueModel> devicePropertyModels)
         {
             Debug.Assert(

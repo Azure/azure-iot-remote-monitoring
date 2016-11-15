@@ -32,6 +32,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
                .Include(
                 "~/Scripts/bootstrap.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
+                "~/Scripts/knockout-{version}.js"));
+
             bundles.Add(new StyleBundle("~/content/css/vendor")
                 .Include(
                 "~/content/styles/datatables.css",

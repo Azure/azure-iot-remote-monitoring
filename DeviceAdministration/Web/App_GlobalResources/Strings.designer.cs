@@ -888,7 +888,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("DesiredProperties", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Desired Properties.
         /// </summary>
@@ -897,7 +897,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("DesiredPropertiesTooltip", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Unable to add device. An unexpected error occurred..
         /// </summary>
@@ -1453,6 +1453,15 @@ namespace GlobalResources {
         public static string FailedToUpdateActionId {
             get {
                 return ResourceManager.GetString("FailedToUpdateActionId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to update columns.
+        /// </summary>
+        public static string FailedToUpdateColumns {
+            get {
+                return ResourceManager.GetString("FailedToUpdateColumns", resourceCulture);
             }
         }
         
@@ -2013,7 +2022,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("InvokeMethodLabel", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to IoT Device Administration Portal.
         /// </summary>
@@ -2787,7 +2796,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("ReportedProperties", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Reported Properties.
         /// </summary>
@@ -2796,7 +2805,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("ReportedPropertiesTooltip", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Either the {0} parameter is missing or the value was not recognized as a valid {1}.
         /// </summary>
@@ -3095,6 +3104,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Selected Columns.
+        /// </summary>
+        public static string SelectedColumns {
+            get {
+                return ResourceManager.GetString("SelectedColumns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send.
         /// </summary>
         public static string Send {
@@ -3363,7 +3381,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("Tags", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Tags.
         /// </summary>
@@ -3372,7 +3390,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("TagsTooltip", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to 0.00.
         /// </summary>
@@ -3469,6 +3487,15 @@ namespace GlobalResources {
         public static string UnableToRetrieveAlertsHistoryFromService {
             get {
                 return ResourceManager.GetString("UnableToRetrieveAlertsHistoryFromService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to retrieve columns from service.
+        /// </summary>
+        public static string UnableToRetrieveColumnsFromService {
+            get {
+                return ResourceManager.GetString("UnableToRetrieveColumnsFromService", resourceCulture);
             }
         }
         

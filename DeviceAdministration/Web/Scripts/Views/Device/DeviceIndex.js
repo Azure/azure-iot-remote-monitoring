@@ -350,8 +350,11 @@
             "class": 'button_base devicelist_toolbar_button devicelist_toolbar_button_gray',
             text: resources.editColumnsButton,
             click: function () {
-                toggleDetails();
-                fixHeights();
+                if (!self.deviceGrid.is(':visible')) {
+                    toggleDetails();
+                }
+
+                IoTApp.DeviceListColumns.init();
             }
         }).appendTo($buttonArea);
 
@@ -593,6 +596,8 @@
         var filterHtml = templateHtml.replace(/REPLACE_ME/g, filterNum);
         return filterHtml;
     }
+
+    
 
     return {
         init: init,

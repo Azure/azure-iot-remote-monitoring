@@ -481,6 +481,8 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\js.cookie-1.5.1.min.js" />
+    <Content Include="Scripts\knockout-3.4.0.debug.js" />
+    <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
@@ -547,6 +549,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Views\Device\DeviceIndex.js" />
+    <Content Include="Scripts\Views\Device\DeviceListColumns.js" />
     <Content Include="Scripts\Views\Device\DeviceSelectType.js" />
     <Content Include="Scripts\Views\Device\EditDeviceProperties.js" />
     <Content Include="Scripts\Views\Device\RemoveDevice.js" />
@@ -631,6 +634,7 @@
     <Content Include="Views\Advanced\_SelectAdvancedProcess.cshtml" />
     <Content Include="Views\Shared\_NavigationSubmenu.cshtml" />
     <Content Include="Views\Advanced\_IccidAssociation.cshtml" />
+    <Content Include="Views\Device\_DeviceListColumns.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

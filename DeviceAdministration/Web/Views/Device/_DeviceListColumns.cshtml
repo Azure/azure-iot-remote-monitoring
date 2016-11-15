@@ -1,0 +1,45 @@
+﻿@using System.Globalization
+@using GlobalResources
+
+<div class="device_list_columns_container">
+    <div class="name_selector_container">
+        <input class="name_selector__text" placeholder="Property or tag name" />
+        <button class="name_add__button">+</button>
+    </div>
+    <div class="header_grid header_grid_general">
+        <h3 class="grid_subheadhead_detail">@Strings.SelectedColumns</h3>
+    </div>
+
+    <section class="details_grid_columns" id="selectedColumnsGrid">
+        <div data-bind="foreach: columns">
+            <div class="device_list_columns_item">
+                <!--ko if: $parent.editingItem() != $data -->
+                <span data-bind="text: name" /> (<span data-bind="text: alias" />)
+                <!-- /ko -->
+                <!--ko if: $parent.editingItem() == $data -->
+                <input class="device_list_columns_displayname_text" data-bind="value: alias, event: {keypress: $parent.checkKey, blur: $parent.close}" />
+                <!-- /ko -->
+                <div class="device_list_columns_toolbar">
+                    <!--ko if: $parent.editingItem() != $data -->
+                    <img src="~/Content/img/button_back.svg" class="device_list_columns_toolbar_button" data-bind="click: $parent.edit" />
+                    <img src="~/Content/img/button_page_prev.svg" class="device_list_columns_toolbar_button" data-bind="click: $parent.moveUp" />
+                    <img src="~/Content/img/button_page_next.svg" class="device_list_columns_toolbar_button" data-bind="click: $parent.moveDown" />
+                    <img src="~/Content/img/icon_add.svg" class="device_list_columns_toolbar_button" data-bind="click: $parent.remove" />
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="device_list_columns_button_container_spaceholder"></div>
+    <div class="device_list_columns_button_container">
+        <button type="button" onclick="IoTApp.DeviceListColumns.updateColumns()" class="button_base search_details_button_container__search_button">
+            @Strings.Update
+        </button>
+        <button type="button" onclick="IoTApp.DeviceListColumns.close()" class="search_details_button_container__reset_button">
+            @Strings.Cancel
+        </button>
+    </div>
+</div>
+<script>
+    IoTApp.DeviceListColumns.setColumns(@Html.Raw(Model));
+</script>

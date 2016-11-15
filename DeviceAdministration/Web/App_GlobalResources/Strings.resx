@@ -1714,4 +1714,16 @@
     <value>Schedule Job</value>
     <comment>Button label.</comment>
   </data>
+  <data name="SelectedColumns" xml:space="preserve">
+    <value>Selected Columns</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FailedToUpdateColumns" xml:space="preserve">
+    <value>Failed to update columns</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveColumnsFromService" xml:space="preserve">
+    <value>Unable to retrieve columns from service</value>
+    <comment>Error message.</comment>
+  </data>
 </root>
