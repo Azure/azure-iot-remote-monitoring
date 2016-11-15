@@ -123,7 +123,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Devices, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Devices.1.1.0-preview-004\lib\net451\Microsoft.Azure.Devices.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.Azure.Devices.1.1.0-preview-005\lib\net451\Microsoft.Azure.Devices.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Devices.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -287,6 +288,7 @@
     <Compile Include="Controllers\DeviceCommandController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\DeviceRulesController.cs" />
+    <Compile Include="Controllers\JobController.cs" />
     <Compile Include="DataTables\Column.cs" />
     <Compile Include="DataTables\DataTablesRequest.cs" />
     <Compile Include="DataTables\DataTablesResponse.cs" />
@@ -332,6 +334,7 @@
     <Compile Include="Security\WebApiRequirePermissionAttribute.cs" />
     <Compile Include="WebApiControllers\DeviceActionsApiController.cs" />
     <Compile Include="WebApiControllers\DeviceApiController.cs" />
+    <Compile Include="WebApiControllers\DeviceTwinApiController.cs" />
     <Compile Include="Navigation\NavigationMenu.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -345,6 +348,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="WebApiControllers\DeviceRulesApiController.cs" />
+    <Compile Include="WebApiControllers\QueryGeneratorApiController.cs" />
+    <Compile Include="WebApiControllers\QueryNameApiController.cs" />
+    <Compile Include="WebApiControllers\QueryApiController.cs" />
+    <Compile Include="WebApiControllers\JobApiController.cs" />
+    <Compile Include="WebApiControllers\DeviceListColumnsApiController.cs" />
     <Compile Include="WebApiControllers\NameCacheApiController.cs" />
     <Compile Include="WebApiControllers\DeviceTypesApiController.cs" />
     <Compile Include="WebApiControllers\TelemetryApiController.cs" />
@@ -634,6 +642,7 @@
     <Content Include="Views\Advanced\_SelectAdvancedProcess.cshtml" />
     <Content Include="Views\Shared\_NavigationSubmenu.cshtml" />
     <Content Include="Views\Advanced\_IccidAssociation.cshtml" />
+    <Content Include="Views\Job\_ScheduleJob.cshtml" />
     <Content Include="Views\Device\_DeviceListColumns.cshtml" />
   </ItemGroup>
   <ItemGroup>

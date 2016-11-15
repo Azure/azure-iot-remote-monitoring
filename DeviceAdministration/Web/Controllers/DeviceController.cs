@@ -96,7 +96,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             bool onlyValidating = (button != null && button.ToLower().Trim() == "check");
 
             if (ReferenceEquals(null, model) ||
-                (model.GetType() == typeof (object)))
+                (model.GetType() == typeof(object)))
             {
                 model = new UnregisteredDeviceModel();
             }
@@ -263,7 +263,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 DeviceID = deviceId,
                 HubEnabledState = device.DeviceProperties.GetHubEnabledState(),
-                DevicePropertyValueModels = new List<DevicePropertyValueModel>()
+                DevicePropertyValueModels = new List<DevicePropertyValueModel>(),
+                DeviceJobHistory = device.Jobs.Select(j=>new DeviceJobHistoryModel
+                {
+                    Name = j.JobID, //ToDo: Get the display name from job table to replace the internal ID
+                    Status = j.Status,
+                    LastUpdatedUtc = j.LastUpdatedTimeUtc
+                }).ToList()
             };
 
             propModels = _deviceLogic.ExtractDevicePropertyValuesModels(device);
@@ -273,7 +279,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             // check if value is cellular by checking iccid property
             deviceModel.IsCellular = device.SystemProperties.ICCID != null;
-            deviceModel.Iccid = device.SystemProperties.ICCID; // todo: try get rid of null checks
+            deviceModel.Iccid = device.SystemProperties.ICCID; // todo: try get rid of null checks            
 
             return PartialView("_DeviceDetails", deviceModel);
         }
@@ -354,9 +360,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 unregisteredDeviceModel.DeviceType != null,
                 "unregisteredDeviceModel.DeviceType is a null reference.");
 
-	        DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
+            DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
                 unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
-            
+
             DeviceWithKeys addedDevice = await this._deviceLogic.AddDeviceAsync(device);
             return addedDevice;
         }

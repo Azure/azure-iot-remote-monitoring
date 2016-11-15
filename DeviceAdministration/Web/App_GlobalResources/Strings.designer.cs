@@ -1261,9 +1261,9 @@ namespace GlobalResources {
         /// <summary>
         ///   Looks up a localized string similar to Edit Columns.
         /// </summary>
-        public static string editColumnsButton {
+        public static string EditColumns {
             get {
-                return ResourceManager.GetString("editColumnsButton", resourceCulture);
+                return ResourceManager.GetString("EditColumns", resourceCulture);
             }
         }
         
@@ -2672,6 +2672,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recent Jobs.
+        /// </summary>
+        public static string RecentJobs {
+            get {
+                return ResourceManager.GetString("RecentJobs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recent Jobs.
+        /// </summary>
+        public static string RecentJobsTooltip {
+            get {
+                return ResourceManager.GetString("RecentJobsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registered But Not Present.
         /// </summary>
         public static string RegisteredButNotPresent {
@@ -3052,9 +3070,18 @@ namespace GlobalResources {
         /// <summary>
         ///   Looks up a localized string similar to Schedule Job.
         /// </summary>
-        public static string scheduleJobButton {
+        public static string ScheduleJob {
             get {
-                return ResourceManager.GetString("scheduleJobButton", resourceCulture);
+                return ResourceManager.GetString("ScheduleJob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SCHEDULE JOB.
+        /// </summary>
+        public static string ScheduleJobPanelLabel {
+            get {
+                return ResourceManager.GetString("ScheduleJobPanelLabel", resourceCulture);
             }
         }
         
@@ -3554,6 +3581,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Properties or Tags.
+        /// </summary>
+        public static string UpdateTwin {
+            get {
+                return ResourceManager.GetString("UpdateTwin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Username.
         /// </summary>
         public static string UsernameLabel {
@@ -3613,6 +3649,15 @@ namespace GlobalResources {
         public static string VersionMustBeLessThan200Characters {
             get {
                 return ResourceManager.GetString("VersionMustBeLessThan200Characters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View all ({0}).
+        /// </summary>
+        public static string ViewAll {
+            get {
+                return ResourceManager.GetString("ViewAll", resourceCulture);
             }
         }
         

@@ -26,6 +26,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             if (device != null)
             {
                 device.Twin = await this._deviceManager.GetTwinAsync(deviceId);
+                device.Jobs = await this._deviceManager.GetJobsByDeviceIDAsync(deviceId);
             }
 
             return device;

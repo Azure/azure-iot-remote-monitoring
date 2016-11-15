@@ -1706,12 +1706,32 @@
     <value>Invoke Method</value>
     <comment>Hyperlink label.</comment>
   </data>
-  <data name="editColumnsButton" xml:space="preserve">
+  <data name="EditColumns" xml:space="preserve">
     <value>Edit Columns</value>
     <comment>Button label.</comment>
   </data>
-  <data name="scheduleJobButton" xml:space="preserve">
+  <data name="ScheduleJob" xml:space="preserve">
     <value>Schedule Job</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ScheduleJobPanelLabel" xml:space="preserve">
+    <value>SCHEDULE JOB</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="UpdateTwin" xml:space="preserve">
+    <value>Edit Properties or Tags</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RecentJobs" xml:space="preserve">
+    <value>Recent Jobs</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="RecentJobsTooltip" xml:space="preserve">
+    <value>Recent Jobs</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
+    <value>View all ({0})</value>
     <comment>Button label.</comment>
   </data>
   <data name="SelectedColumns" xml:space="preserve">

@@ -71,8 +71,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 IsEditable = true,
                 IsIncludedWithUnregisteredDevices = false,
                 Name = $"tags.{pair.Key}",
-                PropertyType = GetObjectType(pair.Value),
-                Value = pair.Value.ToString()
+                PropertyType = GetObjectType(pair.Value.Value),
+                Value = pair.Value.Value.ToString()
             });
 
             var desiredProperties = device.Twin.Properties.Desired.AsEnumerableFlatten().OrderBy(pair => pair.Key).Select(pair => new DevicePropertyValueModel
@@ -81,8 +81,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 IsEditable = true,
                 IsIncludedWithUnregisteredDevices = false,
                 Name = $"properties.desired.{pair.Key}",
-                PropertyType = GetObjectType(pair.Value),
-                Value = pair.Value.ToString()
+                PropertyType = GetObjectType(pair.Value.Value),
+                Value = pair.Value.Value.ToString()
             });
 
             var reportedProperties = device.Twin.Properties.Reported.AsEnumerableFlatten().OrderBy(pair => pair.Key).Select(pair => new DevicePropertyValueModel
@@ -91,8 +91,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 IsEditable = false,
                 IsIncludedWithUnregisteredDevices = false,
                 Name = $"properties.reported.{pair.Key}",
-                PropertyType = GetObjectType(pair.Value),
-                Value = pair.Value.ToString()
+                PropertyType = GetObjectType(pair.Value.Value),
+                Value = pair.Value.Value.ToString()
             });
 
             propValModels = tags.Concat(desiredProperties).Concat(reportedProperties);

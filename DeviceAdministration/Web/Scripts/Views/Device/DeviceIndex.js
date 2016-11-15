@@ -348,7 +348,7 @@
         $('<button/>', {
             id: 'editColumnsButton',
             "class": 'button_base devicelist_toolbar_button devicelist_toolbar_button_gray',
-            text: resources.editColumnsButton,
+            text: resources.editColumns,
             click: function () {
                 if (!self.deviceGrid.is(':visible')) {
                     toggleDetails();
@@ -361,10 +361,9 @@
         $('<button/>', {
             id: 'scheduleJobButton',
             "class": 'button_base devicelist_toolbar_button',
-            text: resources.scheduleJobButton,
+            text: resources.scheduleJob,
             click: function () {
-                toggleDetails();
-                fixHeights();
+                self.deviceDetails.scheduleJob();
             }
         }).appendTo($buttonArea);
 

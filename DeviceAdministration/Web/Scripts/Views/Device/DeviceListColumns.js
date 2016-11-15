@@ -54,7 +54,7 @@
         self.preHead = $('.details_grid__grid_subhead').html();
         self.preContent = $('#details_grid_container').html();
 
-        $('.details_grid__grid_subhead').html(resources.editColumnsButton);
+        $('.details_grid__grid_subhead').html(resources.editColumns);
         $('#loadingElement').show();
 
         $.get('/Device/GetDeviceListColumns', function (response) {

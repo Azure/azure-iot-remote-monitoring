@@ -35,6 +35,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public IoTHub IoTHub { get; set; }
 
         public Twin Twin { get; set; }
+        public IEnumerable<JobQueryResult> Jobs { get; set; }
 
         public override string ToString()
         {

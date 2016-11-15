@@ -1,0 +1,65 @@
+﻿@using GlobalResources
+
+<div class="header_grid header_grid_general">
+    <h3 class="grid_subheadhead_detail">Job</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="Jobs" />
+</div>
+
+<section class="details_grid_general" id="jobsGrid">
+    <p class="grid_detail_value">
+        @Html.ActionLink(
+                Strings.UpdateTwin, "ScheduleTwinUpdate", "Job",
+                new
+                {
+                    //ToDo: pass query to backend
+                },
+                new
+                {
+                    id = "scheduleTwinUpdateLink"
+                })
+    </p>
+
+    <p class="grid_detail_value">
+        @Html.ActionLink(
+                Strings.InvokeMethod, "ScheduleDeviceMethod", "Job",
+                new
+                {
+                    //ToDo: pass query to backend
+                },
+                new
+                {
+                    id = "scheduleDeviceMethodLink"
+                })
+    </p>
+</section>
+
+<div class="header_grid header_grid_general">
+    <h3 class="grid_subheadhead_detail">Job History for the Query</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="Job History" />
+</div>
+
+<section class="details_grid_general" id="jobHistoryGrid">
+    <p class="grid_detail_value">
+        @Html.ActionLink(
+                "fwVersionUpdate", "GetJobDetail", "Job",
+                new
+                {
+                },
+                new
+                {
+                    id = "historyLink"
+                })
+    </p>
+
+    <p class="grid_detail_value">
+        @Html.ActionLink(
+                "StopTelemetry", "GetJobDetail", "Job",
+                new
+                {
+                },
+                new
+                {
+                    id = "historyLink"
+                })
+    </p>
+</section>

@@ -291,5 +291,55 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 #endif
 
+        [HttpGet]
+        [Route("")]
+        [WebApiRequirePermission(Permission.ViewDevices)]
+        public async Task<HttpResponseMessage> GetDevicesByQueryAsync([FromUri] string queryName, [FromUri]string jobId = null)
+        {
+            // todo: generate some value
+            var result = new DeviceListQueryResult();
+            result.TotalDeviceCount = 10;
+            result.TotalFilteredCount = 1;
+
+            var sampleTwin = new Twin()
+            {
+                DeviceId = "deviceID1",
+                Properties = new TwinProperties()
+                {
+                    Desired = new TwinCollection() { },
+                    Reported = new TwinCollection() { }
+                },
+                Tags = new TwinCollection()
+            };
+
+            result.Results.Add(new DeviceModel() { Twin = sampleTwin, IsSimulatedDevice = true });
+
+            return await GetServiceResponseAsync<DeviceListQueryResult>(async () => (await Task.FromResult(result)));
+        }
+
+        [HttpGet]
+        [Route("{deviceId}/methods")]
+        [WebApiRequirePermission(Permission.ViewActions)]
+        public async Task<HttpResponseMessage> GetMethodByDeviceIdAsync(string deviceId)
+        {
+            // TODO: get twin object and find reported.methods
+            var methods = new List<string>();
+            methods.Add("method1:int");
+            methods.Add("method2(int,datetime):int");
+
+            return await GetServiceResponseAsync<IEnumerable<string>>(async () => (await Task.FromResult(methods)));
+        }
+
+        [HttpPost]
+        [Route("{deviceId}/methods/{methodName}")]
+        [WebApiRequirePermission(Permission.SendCommandToDevices)]
+        public async Task<HttpResponseMessage> InvokeMethod(string deviceId, string commandName, [FromBody]dynamic parameters)
+        {
+            return await GetServiceResponseAsync(async () =>
+            {
+                //await _deviceLogic.SendCommandAsync(deviceId, commandName, deliveryType, parameters);
+                await Task.FromResult(true);
+            });
+        }
     }
 }

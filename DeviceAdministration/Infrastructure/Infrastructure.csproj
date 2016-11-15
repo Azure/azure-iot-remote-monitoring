@@ -65,7 +65,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Devices, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Devices.1.1.0-preview-004\lib\net451\Microsoft.Azure.Devices.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Devices.1.1.0-preview-005\lib\net451\Microsoft.Azure.Devices.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Devices.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -171,6 +171,9 @@
     <Compile Include="Models\ActionMappingExtended.cs" />
     <Compile Include="Models\ActionModel.cs" />
     <Compile Include="Models\AlertHistoryItemModel.cs" />
+    <Compile Include="Models\DeviceJobHistoryModel.cs" />
+    <Compile Include="Models\MatchingDevices.cs" />
+    <Compile Include="Models\Query.cs" />
     <Compile Include="Models\DeviceListQueryResult.cs" />
     <Compile Include="Models\DeviceListQuery.cs" />
     <Compile Include="Models\DeviceListLocationsModel.cs" />
@@ -186,6 +189,9 @@
     <Compile Include="Models\DeviceTelemetryModel.cs" />
     <Compile Include="Models\DeviceTelemetryFieldModel.cs" />
     <Compile Include="Models\DeviceTelemetrySummaryModel.cs" />
+    <Compile Include="Models\DeviceListColumns.cs" />
+    <Compile Include="Models\Job.cs" />
+    <Compile Include="Models\JobSummary.cs" />
     <Compile Include="Models\NameCacheEntity.cs" />
     <Compile Include="Models\NameCacheEntityType.cs" />
     <Compile Include="Models\NameCacheTableEntity.cs" />
@@ -195,6 +201,7 @@
     <Compile Include="Models\FilterType.cs" />
     <Compile Include="Models\PropertyType.cs" />
     <Compile Include="Models\QuerySortOrder.cs" />
+    <Compile Include="Models\DeviceListQueryTableEntity.cs" />
     <Compile Include="Models\ServiceResponse.cs" />
     <Compile Include="Models\Error.cs" />
     <Compile Include="Models\UserSetting.cs" />
@@ -205,6 +212,7 @@
     <Compile Include="Repository\AlertsRepository.cs" />
     <Compile Include="Repository\ApiRegistrationRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepositoryWithIoTHubDM.cs" />
+    <Compile Include="Repository\DeviceListQueryRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepository.cs" />
     <Compile Include="Repository\FilterHelper.cs" />
     <Compile Include="Repository\IActionMappingRepository.cs" />
@@ -223,6 +231,7 @@
     <Compile Include="Repository\IIoTHubDeviceManager.cs" />
     <Compile Include="Repository\IoTHubDeviceManager.cs" />
     <Compile Include="Repository\IotHubRepository.cs" />
+    <Compile Include="Repository\IDeviceListQueryRepository.cs" />
     <Compile Include="Repository\IUserSettingsRepository.cs" />
     <Compile Include="Repository\SampleDeviceTypeRepository.cs" />
     <Compile Include="Repository\IDeviceTypeRepository.cs" />
