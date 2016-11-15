@@ -897,9 +897,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 await _nameCacheLogic.AddNameAsync(nameof(device.DeviceProperties.DeviceID));
                 PropertyInfo[] properties = device.DeviceProperties.GetType().GetProperties();
-                var reportedProperties = properties.Select(async p =>
-                    await _nameCacheLogic.AddNameAsync("reported." + p.Name));
-                device.Commands.Select(async c => await _nameCacheLogic.AddMethodAsync(c));
+                foreach(var property in properties)
+                {
+                    if(property.Name == nameof(DeviceProperties.DeviceID )) {
+                        await _nameCacheLogic.AddNameAsync(property.Name);
+                    }
+                    else
+                    {
+                        await _nameCacheLogic.AddNameAsync("reported." + property.Name);
+                    }
+                }
+                foreach(var command in device.Commands)
+                {
+                    await _nameCacheLogic.AddMethodAsync(command);
+                }
             }
             else
             {
