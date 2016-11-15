@@ -202,3 +202,5 @@ VendingMachineSample/packages/*
 
 # Merge file remains
 *.orig
+/RemoteMonitoring.VC.db
+/RemoteMonitoring.VC.VC.opendb

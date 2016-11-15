@@ -33,9 +33,9 @@
         if (data && data.length > 0) {
             //save source data
             $element.data('nameList', data);
-            var items = data.map(function (item) {
-                return item.name;
-            });
+
+            var filters = $element.data('nameListFilters');
+            var items = dataToStringArray(data, filters);
 
             $element.autocomplete({
                 source: items,
@@ -44,7 +44,34 @@
                 $(this).autocomplete("search", $(this).val());
             });
         }
-    }
+    };
+
+    var applyFilters = function ($element, filters) {
+        var data = $element.data('nameList');
+        if (data) {
+            var items = dataToStringArray(data, filters);
+            $element.autocomplete('option', 'source', items);
+        }
+        else {
+            $element.data('nameListFilters', filters);
+        }
+    };
+
+    var dataToStringArray = function (data, filters) {
+        var result = data;
+
+        if (filters) {
+            result = result.filter(function (item) {
+                return filters.indexOf(item.name) === -1;
+            });
+        }
+
+        result = result.map(function (item) {
+            return item.name;
+        });
+
+        return result;
+    };
 
     var getSelectedItem = function ($element) {
         var result;
@@ -75,6 +102,7 @@
         create: create,
         loadNameList: loadNameList,
         getSelectedItem: getSelectedItem,
-        NameListType: NameListType
+        NameListType: NameListType,
+        applyFilters: applyFilters
     };
 }, [jQuery]);

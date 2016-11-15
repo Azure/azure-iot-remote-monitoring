@@ -14,17 +14,22 @@
         <div data-bind="foreach: columns">
             <div class="device_list_columns_item">
                 <!--ko if: $parent.editingItem() != $data -->
-                <span data-bind="text: name" /> (<span data-bind="text: alias" />)
+                <span data-bind="text: alias" /> (<span data-bind="text: name" />)
                 <!-- /ko -->
                 <!--ko if: $parent.editingItem() == $data -->
                 <input class="device_list_columns_displayname_text" data-bind="value: alias, event: {keypress: $parent.checkKey, blur: $parent.close}" />
                 <!-- /ko -->
                 <div class="device_list_columns_toolbar">
                     <!--ko if: $parent.editingItem() != $data -->
-                    <img src="~/Content/img/button_back.svg" class="device_list_columns_toolbar_button" data-bind="click: $parent.edit" />
-                    <img src="~/Content/img/button_page_prev.svg" class="device_list_columns_toolbar_button" data-bind="click: $parent.moveUp" />
-                    <img src="~/Content/img/button_page_next.svg" class="device_list_columns_toolbar_button" data-bind="click: $parent.moveDown" />
-                    <img src="~/Content/img/icon_add.svg" class="device_list_columns_toolbar_button" data-bind="click: $parent.remove" />
+                    <img src="~/Content/img/button_back.svg" title="@Strings.Edit" class="device_list_columns_toolbar_button" data-bind="click: $parent.edit" />
+                    <img src="~/Content/img/button_page_prev.svg" title="@Strings.MoveUp" class="device_list_columns_toolbar_button" data-bind="click: $parent.moveUp" />
+                    <img src="~/Content/img/button_page_next.svg" title="@Strings.MoveDown" class="device_list_columns_toolbar_button" data-bind="click: $parent.moveDown" />
+                    <!--ko ifnot: $parent.isReserved($data) -->
+                    <img src="~/Content/img/icon_add.svg" title="@Strings.Delete" class="device_list_columns_toolbar_button" data-bind="click: $parent.remove" />
+                    <!-- /ko -->
+                    <!--ko if: $parent.isReserved($data) -->
+                    <img src="~/Content/img/icon_add.svg" title="@Strings.Delete" class="device_list_columns_toolbar_button"  />
+                    <!-- /ko -->
                     <!-- /ko -->
                 </div>
             </div>

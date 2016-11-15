@@ -1746,4 +1746,16 @@
     <value>Unable to retrieve columns from service</value>
     <comment>Error message.</comment>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Move down</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Move up</value>
+    <comment>Button label.</comment>
+  </data>
 </root>

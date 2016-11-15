@@ -2,6 +2,7 @@
     "use strict";
     
     var self = this;
+    self.reservedColumnNames = ['DeviceId', 'Status'];
     self.model = {
         columns: ko.observableArray([]),
         editingItem: ko.observable(null),
@@ -25,6 +26,7 @@
         },
         remove: function (column) {
             self.model.columns.remove(column);
+            applyFilters();
         },
         edit: function (column) {
             self.model.editingItem(column);
@@ -47,25 +49,32 @@
             }
 
             return true;
+        },
+        isReserved: function (column) {
+            return self.reservedColumnNames.indexOf(column.name) > -1;
         }
     };
 
     var getDeviceListColumnsView = function () {
-        self.preHead = $('.details_grid__grid_subhead').html();
-        self.preContent = $('#details_grid_container').html();
+        if (!isEditColumnsMode()) {
+            $(".button_details_grid").on("click", closeButtonClick);
 
-        $('.details_grid__grid_subhead').html(resources.editColumns);
-        $('#loadingElement').show();
+            self.preHead = $('.details_grid__grid_subhead').html();
+            self.preContent = $('#details_grid_container').html();
 
-        $.get('/Device/GetDeviceListColumns', function (response) {
-            if (!$(".details_grid").is(':visible')) {
-                IoTApp.DeviceIndex.toggleDetails();
-            }
-            onDeviceListColumnsDone(response);
-        }).fail(function (response) {
-            $('#loadingElement').hide();
-            renderRetryError(resources.unableToRetrieveColumnsFromService, $('#details_grid_container'), function () { getDeviceListColumnsView(deviceId); });
-        });
+            $('.details_grid__grid_subhead').html(resources.editColumns);
+            $('#loadingElement').show();
+
+            $.get('/Device/GetDeviceListColumns', function (response) {
+                if (!$(".details_grid").is(':visible')) {
+                    IoTApp.DeviceIndex.toggleDetails();
+                }
+                onDeviceListColumnsDone(response);
+            }).fail(function (response) {
+                $('#loadingElement').hide();
+                renderRetryError(resources.unableToRetrieveColumnsFromService, $('#details_grid_container'), function () { getDeviceListColumnsView(deviceId); });
+            });
+        }
     };
 
     var onDeviceListColumnsDone = function (html) {
@@ -77,12 +86,23 @@
         $('.device_list_columns_button_container').appendTo($('.details_grid'));
 
         IoTApp.Controls.NameSelector.create($('.name_selector__text'), { type: IoTApp.Controls.NameSelector.NameListType.tag | IoTApp.Controls.NameSelector.NameListType.property });
+        applyFilters();
         $('.name_add__button').click(addColumn);
-        $('.name_selector__text').keydown(function (e) {
+        $('.name_selector__text').keyup(function (e) {
             if (e.keyCode === 13) {
                 addColumn();
             }
         });
+    };
+
+    var isEditColumnsMode = function () {
+        return $('.details_grid__grid_subhead').html() === resources.editColumns;
+    };
+
+    var closeButtonClick = function () {
+        if (isEditColumnsMode()) {
+            close(true);
+        }
     };
 
     var setColumns = function (columns) {
@@ -100,6 +120,15 @@
         }
 
         $('.name_selector__text').val('');
+        applyFilters();
+    };
+
+    var applyFilters = function () {
+        var filters = self.model.columns().map(function (column) {
+            return column.name;
+        });
+
+        IoTApp.Controls.NameSelector.applyFilters($('.name_selector__text'), filters);
     };
 
     var createDefaultDisplayName = function (columnName) {
@@ -126,10 +155,13 @@
         });
     };
 
-    var close = function () {
-        $('details_grid__grid_subhead').html(self.preHead);
-        self.preContent = $('details_grid_container').html(self.preContent);
-        IoTApp.DeviceIndex.toggleDetails();
+    var close = function (noNeedToggle) {
+        $(".button_details_grid").off("click", closeButtonClick);
+        $('.details_grid__grid_subhead').html(self.preHead);
+        self.preContent = $('#details_grid_container').html(self.preContent);
+        if (!noNeedToggle) {
+            IoTApp.DeviceIndex.toggleDetails();
+        }
     };
 
     return {

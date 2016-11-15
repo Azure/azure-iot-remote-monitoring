@@ -334,7 +334,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [RequirePermission(Permission.ViewDevices)]
         public ActionResult GetDeviceListColumns()
         {
-            var columns = "[ { name: 'DeviceId', alias: 'DeviceId' } ]";
+            // Mock sample data
+            var columns = "[ { name: 'DeviceId', alias: 'DeviceId' }, { name: 'Status', alias: 'Status' } ]";
             return PartialView("_DeviceListColumns", columns);
         }
 
