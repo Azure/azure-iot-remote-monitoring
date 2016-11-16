@@ -2,7 +2,7 @@
     "use strict";
     
     var self = this;
-    self.reservedColumnNames = ['DeviceId', 'Status'];
+    self.reservedColumnNames = ['DeviceId', 'tags.HubEnabledState'];
     self.model = {
         columns: ko.observableArray([]),
         editingItem: ko.observable(null),
@@ -139,7 +139,7 @@
 
     var updateColumns = function () {
         $('#loadingElement').show();
-        var url = 'api/v1/deviceListColumns/UpdateDeviceListColumns'
+        var url = '/api/v1/deviceListColumns'
         $.ajax({
             url: url,
             data: self.model.columns(),
@@ -147,6 +147,7 @@
             success: function (result) {
                 $('#loadingElement').hide();
                 close();
+                IoTApp.DeviceIndex.reinitializeDeviceList();
             },
             error: function () {
                 $('#loadingElement').hide();

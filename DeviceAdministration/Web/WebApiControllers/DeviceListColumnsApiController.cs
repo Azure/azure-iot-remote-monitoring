@@ -23,10 +23,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             // TODO: get user related to this call
             var deviceListColumns = new List<DeviceListColumns>();
-            deviceListColumns.Add(new DeviceListColumns() { Name = "Status" });
-            deviceListColumns.Add(new DeviceListColumns() { Name = "DeviceId" });
-            deviceListColumns.Add(new DeviceListColumns() { Name = "reported.Manufacture", Alias = "Manufacture" });
-            deviceListColumns.Add(new DeviceListColumns() { Name = "reported.Model", Alias = "Model" });
+            deviceListColumns.Add(new DeviceListColumns() { Name = "tags.HubEnabledState", Alias = "Status" });
+            deviceListColumns.Add(new DeviceListColumns() { Name = "deviceId" });
+            deviceListColumns.Add(new DeviceListColumns() { Name = "reported.Manufacturer", Alias = "Manufacturer" });
+            deviceListColumns.Add(new DeviceListColumns() { Name = "reported.ModelNumber", Alias = "Model Number" });
+            deviceListColumns.Add(new DeviceListColumns() { Name = "reported.SerialNumber", Alias = "Serial Number" });
+            deviceListColumns.Add(new DeviceListColumns() { Name = "reported.FirmwareVersion", Alias = "Firmware Version" });
+            deviceListColumns.Add(new DeviceListColumns() { Name = "reported.Platform", Alias = "Platform" });
+            deviceListColumns.Add(new DeviceListColumns() { Name = "reported.Processor", Alias = "Processor" });
+            deviceListColumns.Add(new DeviceListColumns() { Name = "reported.InstalledRAM", Alias = "Installed RAM" });
 
             return await GetServiceResponseAsync<IEnumerable<DeviceListColumns>>(async () =>
             {

@@ -212,7 +212,58 @@
         $(cells_status_pending).html(resources.pending);
     }
 
-    var _initializeDatatable = function() {
+    var _initializeDatatable = function () {
+        var onDataLoaded = function (data) {
+            var header = $("#deviceTable thead tr").empty();
+            var columns = [];
+            var columnDefs = [];
+            data.forEach(function (column, index) {
+                var columnOption = {
+                    data: "twin." + (column.name.indexOf("reported.") === 0 || column.name.indexOf("desired.") === 0 ? "properties." : "") + column.name,
+                    mRender: function (data) {
+                        return htmlEncode(data);
+                    },
+                    name: column.alias || column.name
+                };
+
+                if (column.name === "tags.HubEnabledState") {
+                    columnOption.mRender = function (data) {
+                        if (data === "Disabled") {
+                            return htmlEncode("false");
+                        } else if (data === "Running") {
+                            return htmlEncode("true");
+                        }
+                        return htmlEncode(data);
+                    };
+
+                    columnDefs.push({ className: "table_status", "targets": [index] });
+                }
+
+                if (column.name === "deviceId") {
+                    columnDefs.push({ "searchable": true, "targets": [index] });
+                }
+
+                columns.push(columnOption);
+
+                $('<th />')
+                    .text(columnOption.name)
+                    .attr('title', column.name)
+                    .appendTo(header);
+            });
+
+            _initializeDatatableImpl(columns, columnDefs);
+        }
+
+        $.ajax({
+            url: '/api/v1/deviceListColumns',
+            type: 'GET',
+            success: function (result) {
+                onDataLoaded(result.data);
+            }
+        });
+    }
+
+    var _initializeDatatableImpl = function(columns, columnDefs) {
         var cookieData = getUiStateFromCookie();
 
         populateSearchPaneFromCookieData(cookieData);
@@ -241,13 +292,7 @@
             IoTApp.Helpers.DeviceIdState.saveDeviceIdToCookie(data);
         }
 
-        var htmlEncode = function (data) {
-            // "trick" to HTML encode data from JS--essentially dip it in a <div> and pull it out again
-            return data ? $('<div/>').text(data).html() : null;
-        }
-
-        //$.fn.dataTable.ext.legacy.ajax = true;
-        self.dataTable = self.dataTableContainer.DataTable({
+        var options = {
             "autoWidth": false,
             "pageLength": 20,
             "displayStart": cookieData.start,
@@ -266,82 +311,12 @@
                     "next": resources.nextPaging
                 }
             },
-            "columns": [
-                {
-                    "data": "twin.tags.HubEnabledState",
-                    "mRender": function (data) {
-                        if (data === "Disabled") {
-                            return htmlEncode("false");
-                        } else if (data === "Running") {
-                            return htmlEncode("true");
-                        }
-                        return htmlEncode(data);
-                    },
-                    "name": "hubEnabledState"
-                },
-                {
-                    "data": "twin.deviceId",
-                    "mRender": function (data) {
-                        return htmlEncode(data);
-                    },
-                    "name": "deviceId"
-                },
-                {
-                    "data": "twin.properties.reported.Manufacturer",
-                    "mRender": function (data) {
-                        return htmlEncode(data);
-                    },
-                    "name": "manufacturer"
-                },
-                {
-                    "data": "twin.properties.reported.ModelNumber",
-                    "mRender": function (data) {
-                        return htmlEncode(data);
-                    },
-                    "name": "modelNumber"
-                },
-                {
-                    "data": "twin.properties.reported.SerialNumber",
-                    "mRender": function (data) {
-                        return htmlEncode(data);
-                    },
-                    "name": "serialNumber"
-                },
-                {
-                    "data": "twin.properties.reported.FirmwareVersion",
-                    "mRender": function (data) {
-                        return htmlEncode(data);
-                    },
-                    "name": "firmwareVersion"
-                },
-                {
-                    "data": "twin.properties.reported.Platform",
-                    "mRender": function (data) {
-                        return htmlEncode(data);
-                    },
-                    "name": "platform"
-                },
-                {
-                    "data": "twin.properties.reported.Processor",
-                    "mRender": function (data) {
-                        return htmlEncode(data);
-                    },
-                    "name": "processor"
-                },
-                {
-                    "data": "twin.properties.reported.InstalledRAM",
-                    "mRender": function (data) {
-                        return htmlEncode(data);
-                    },
-                    "name": "installedRAM"
-                }
-            ],
-            "columnDefs": [
-                { className: "table_status", "targets": [0] },
-                { "searchable": true, "targets": [1] }
-            ],
+            "columns": columns,
+            "columnDefs": columnDefs,
             "order": cookieData.currentSortArray
-        });
+        };
+        //$.fn.dataTable.ext.legacy.ajax = true;
+        self.dataTable = self.dataTableContainer.DataTable(options);
 
         var $buttonArea = $('#button_area');
         
@@ -388,6 +363,16 @@
                 $('.grid_container')[0].scrollTop = $("tbody .selected").offset().top - $('.grid_container').offset().top - 50;
             }
         }
+    }
+
+    var reinitializeDeviceList = function () {
+        self.dataTable.destroy();
+        _initializeDatatable();
+    }
+
+    var htmlEncode = function (data) {
+        // "trick" to HTML encode data from JS--essentially dip it in a <div> and pull it out again
+        return data ? $('<div/>').text(data).html() : null;
     }
 
     var onDataTableAjaxCalled = function (data, fnCallback) {
@@ -602,7 +587,8 @@
         init: init,
         toggleDetails: toggleDetails,
         reloadGrid: reloadGrid,
-        resetSearch: resetSearch
+        resetSearch: resetSearch,
+        reinitializeDeviceList: reinitializeDeviceList
     }
 }, [jQuery, resources]);
 
