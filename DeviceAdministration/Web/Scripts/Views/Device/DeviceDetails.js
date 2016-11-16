@@ -17,7 +17,7 @@
             onDeviceDetailsDone(response);
         }).fail(function (response) {
             $('#loadingElement').hide();
-            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
+            IoTApp.Helpers.RenderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
         });
     }
 
@@ -33,7 +33,7 @@
             onScheduleJobReady(response);
         }).fail(function (response) {
             $('#loadingElement').hide();
-            renderRetryError('Something wrong...', $('#details_grid_container'), function () { getScheduleJobView(); });
+            IoTApp.Helpers.RenderRetryError('Something wrong...', $('#details_grid_container'), function () { getScheduleJobView(); });
         });
     }
 
@@ -42,7 +42,7 @@
 
         var iccid = IoTApp.Helpers.IccidState.getIccidFromCookie();
         if (iccid == null) {
-            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
+            IoTApp.Helpers.RenderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
             return;
         }
 
@@ -50,7 +50,7 @@
             onCellularDetailsDone(response);
         }).fail(function (response) {
             $('#loadingElement').hide();
-            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
+            IoTApp.Helpers.RenderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
         });
 
     }
@@ -212,26 +212,6 @@
         $('#loadingElement').hide();
         $('.deviceExplorer_detailLevel_authKeys').remove();
         $('#deviceExplorer_authKeys').parent().html(html);
-    }
-
-    var renderRetryError = function (errorMessage, container, retryCallback) {
-        var $wrapper = $('<div />');
-        var $paragraph = $('<p />');
-
-        $wrapper.addClass('device_detail_error');
-        $wrapper.append($paragraph);
-        var node = document.createTextNode(errorMessage);
-        $paragraph.append(node);
-        $paragraph.addClass('device_detail_error__information');
-
-        var button = $('<button class="button_base device_detail_error__retry_button">' + resources.retry + '</button>');
-
-        button.on("click", function () {
-            retryCallback();
-        });
-
-        $wrapper.append(button);
-        container.html($wrapper);
     }
 
     return {

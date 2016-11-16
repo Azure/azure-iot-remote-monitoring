@@ -21,7 +21,7 @@
             onRulePropertiesDone(response);
         }).fail(function (response) {
             $('#loadingElement').hide();
-            renderRetryError(resources.unableToRetrieveRuleFromService, $('#details_grid_container'), function () { getRulePropertiesView(); });
+            IoTApp.Helpers.RenderRetryError(resources.unableToRetrieveRuleFromService, $('#details_grid_container'), function () { getRulePropertiesView(); });
         });
     }
 
@@ -46,26 +46,6 @@
 
         $(".loader_container_details").height(progressAnimationHeight);
     };
-
-    var renderRetryError = function (errorMessage, container, retryCallback) {
-        var $wrapper = $('<div />');
-        var $paragraph = $('<p />');
-
-        $wrapper.addClass('device_detail_error');
-        $wrapper.append($paragraph);
-        var node = document.createTextNode(errorMessage);
-        $paragraph.append(node);
-        $paragraph.addClass('device_detail_error__information');
-
-        var button = $('<button class="button_base device_detail_error__retry_button">' + resources.retry + '</button>');
-
-        button.on("click", function () {
-            retryCallback();
-        });
-
-        $wrapper.append(button);
-        container.html($wrapper);
-    }
 
     var onBegin = function () {
         $('#button_rule_status').attr("disabled", "disabled");

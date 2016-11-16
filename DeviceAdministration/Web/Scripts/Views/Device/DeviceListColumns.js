@@ -72,7 +72,7 @@
                 onDeviceListColumnsDone(response);
             }).fail(function (response) {
                 $('#loadingElement').hide();
-                renderRetryError(resources.unableToRetrieveColumnsFromService, $('#details_grid_container'), function () { getDeviceListColumnsView(deviceId); });
+                IoTApp.Helpers.RenderRetryError(resources.unableToRetrieveColumnsFromService, $('#details_grid_container'), function () { getDeviceListColumnsView(); });
             });
         }
     };

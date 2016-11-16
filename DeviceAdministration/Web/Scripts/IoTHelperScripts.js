@@ -152,6 +152,31 @@ IoTApp.createModule("IoTApp.Helpers.QueryString", function () {
     }
 });
 
+IoTApp.createModule("IoTApp.Helpers.RenderRetryError", function () {
+
+    var renderRetryError = function (errorMessage, container, retryCallback) {
+        var $wrapper = $('<div />');
+        var $paragraph = $('<p />');
+
+        $wrapper.addClass('device_detail_error');
+        $wrapper.append($paragraph);
+        var node = document.createTextNode(errorMessage);
+        $paragraph.append(node);
+        $paragraph.addClass('device_detail_error__information');
+
+        var button = $('<button class="button_base device_detail_error__retry_button">' + resources.retry + '</button>');
+
+        button.on("click", function () {
+            retryCallback();
+        });
+
+        $wrapper.append(button);
+        container.html($wrapper);
+    }
+
+    return renderRetryError;
+});
+
 $(function () {
     "use strict";
 
