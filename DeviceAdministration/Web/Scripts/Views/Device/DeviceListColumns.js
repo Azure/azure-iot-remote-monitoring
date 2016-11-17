@@ -142,7 +142,7 @@
         var url = '/api/v1/deviceListColumns'
         $.ajax({
             url: url,
-            data: self.model.columns(),
+            data: { '': self.model.columns() },
             type: 'PUT',
             success: function (result) {
                 $('#loadingElement').hide();

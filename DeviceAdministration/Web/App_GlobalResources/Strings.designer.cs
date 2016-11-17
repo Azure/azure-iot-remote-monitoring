@@ -1439,6 +1439,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while retrieving the list of columns..
+        /// </summary>
+        public static string FailedToRetrieveColumns {
+            get {
+                return ResourceManager.GetString("FailedToRetrieveColumns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while retrieving the list of devices..
         /// </summary>
         public static string FailedToRetrieveDevices {

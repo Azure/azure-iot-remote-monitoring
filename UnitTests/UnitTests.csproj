@@ -210,6 +210,7 @@
     <Compile Include="Infrastructure\ApiRegistrationRepositoryTest.cs" />
     <Compile Include="Infrastructure\CommandParameterTypeLogicTests.cs" />
     <Compile Include="Common\ExceptionSerializationTests.cs" />
+    <Compile Include="Infrastructure\DeviceListColumnsRepositoryTests.cs" />
     <Compile Include="Infrastructure\DeviceListQueryRepositoryTests.cs" />
     <Compile Include="Infrastructure\DeviceListQueryTests.cs" />
     <Compile Include="Infrastructure\DeviceLogicTests.cs" />
@@ -258,6 +259,7 @@
     <Compile Include="Web\WebApiControllers\DeviceActionsApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceRulesApiControllerTests.cs" />
+    <Compile Include="Web\WebApiControllers\DeviceListColumnsApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\NameCacheApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceTypesControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\KeyApiControllerTests.cs" />

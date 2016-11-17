@@ -254,11 +254,18 @@
             _initializeDatatableImpl(columns, columnDefs);
         }
 
+        $('.retry_message_container').empty();
+        $('.loader_container').show();
+
         $.ajax({
             url: '/api/v1/deviceListColumns',
             type: 'GET',
             success: function (result) {
                 onDataLoaded(result.data);
+            },
+            error: function () {
+                $('.loader_container').hide();
+                IoTApp.Helpers.RenderRetryError(resources.failedToRetrieveColumns, $('.retry_message_container'), function () { _initializeDatatable(); });
             }
         });
     }
@@ -351,10 +358,13 @@
         initDetails();
 
         /* DataTables workaround - reset progress animation display for use with DataTables api */
-        $('.loader_container').css('display', 'block');
-        $('.loader_container').css('background-color', '#ffffff');
         self.dataTableContainer.on('processing.dt', function (e, settings, processing) {
-            $('.loader_container').css('display', processing ? 'block' : 'none');
+            if (processing) {
+                $('.loader_container').show();
+            }
+            else {
+                $('.loader_container').hide();
+            }
             _setGridContainerScrollPositionIfRowIsSelected();
         });
         
@@ -366,6 +376,8 @@
     }
 
     var reinitializeDeviceList = function () {
+        $("#deviceTable thead tr").empty();
+        self.dataTable.clear();
         self.dataTable.destroy();
         _initializeDatatable();
     }

@@ -89,6 +89,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             builder.RegisterType<BlobStorageClientFactory>().As<IBlobStorageClientFactory>();
             builder.RegisterGeneric(typeof(DocumentDBClient<>)).As(typeof(IDocumentDBClient<>));
             builder.RegisterType<NameCacheRepository>().As<INameCacheRepository>();
+            builder.RegisterType<DeviceListColumnsRepository>().As<IDeviceListColumnsRepository>();
         }
     }
 }

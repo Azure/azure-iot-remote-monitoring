@@ -26,12 +26,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
         private readonly DeviceController _deviceController;
         private readonly Mock<IDeviceLogic> _deviceLogicMock;
         private readonly Fixture _fixture;
+        private readonly Mock<IDeviceListColumnsRepository> _deviceListColumnsRepository;
 
         public DeviceControllerTests()
         {
             _deviceLogicMock = new Mock<IDeviceLogic>();
             _cellulerExtensionsMock = new Mock<ICellularExtensions>();
             _apiRegistrationRepository = new Mock<IApiRegistrationRepository>();
+            _deviceListColumnsRepository = new Mock<IDeviceListColumnsRepository>();
 
             var configProviderMock = new Mock<IConfigurationProvider>();
             configProviderMock
@@ -43,7 +45,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
                 new DeviceTypeLogic(new SampleDeviceTypeRepository()),
                 configProviderMock.Object,
                 _apiRegistrationRepository.Object,
-                _cellulerExtensionsMock.Object);
+                _cellulerExtensionsMock.Object,
+                _deviceListColumnsRepository.Object);
 
             _fixture = new Fixture();
         }

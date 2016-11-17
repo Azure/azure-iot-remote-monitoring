@@ -1758,4 +1758,8 @@
     <value>Move up</value>
     <comment>Button label.</comment>
   </data>
+  <data name="FailedToRetrieveColumns" xml:space="preserve">
+    <value>An error occurred while retrieving the list of columns.</value>
+    <comment>Error message.</comment>
+  </data>
 </root>

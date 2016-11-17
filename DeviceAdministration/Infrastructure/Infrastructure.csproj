@@ -172,6 +172,7 @@
     <Compile Include="Models\ActionModel.cs" />
     <Compile Include="Models\AlertHistoryItemModel.cs" />
     <Compile Include="Models\DeviceJobHistoryModel.cs" />
+    <Compile Include="Models\DeviceListColumnsTableEntity.cs" />
     <Compile Include="Models\MatchingDevices.cs" />
     <Compile Include="Models\Query.cs" />
     <Compile Include="Models\DeviceListQueryResult.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Repository\ActionRepository.cs" />
     <Compile Include="Repository\AlertsRepository.cs" />
     <Compile Include="Repository\ApiRegistrationRepository.cs" />
+    <Compile Include="Repository\DeviceListColumnsRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepositoryWithIoTHubDM.cs" />
     <Compile Include="Repository\DeviceListQueryRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepository.cs" />
@@ -221,6 +223,7 @@
     <Compile Include="Repository\DeviceTelemetryRepository.cs" />
     <Compile Include="Repository\IAlertsRepository.cs" />
     <Compile Include="Repository\IApiRegistrationRepository.cs" />
+    <Compile Include="Repository\IDeviceListColumnsRepository.cs" />
     <Compile Include="Repository\IDeviceRegistryCrudRepository.cs" />
     <Compile Include="Repository\IDeviceRegistryListRepository.cs" />
     <Compile Include="Repository\IDeviceRulesRepository.cs" />

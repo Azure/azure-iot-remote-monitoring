@@ -17,7 +17,7 @@
                 <span data-bind="text: alias" /> (<span data-bind="text: name" />)
                 <!-- /ko -->
                 <!--ko if: $parent.editingItem() == $data -->
-                <input class="device_list_columns_displayname_text" data-bind="value: alias, event: {keypress: $parent.checkKey, blur: $parent.close}" />
+                <input class="device_list_columns_displayname_text" data-bind="textInput: alias, event: {keypress: $parent.checkKey, blur: $parent.close}" />
                 <!-- /ko -->
                 <div class="device_list_columns_toolbar">
                     <!--ko if: $parent.editingItem() != $data -->
