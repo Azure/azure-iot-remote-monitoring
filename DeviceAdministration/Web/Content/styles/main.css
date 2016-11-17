@@ -363,6 +363,25 @@ nav .selected {
   width: 273px;
   padding: 10px 20px;
 }
+.grid_detail_lastUpdated {
+  font-size: 0.75em;
+  color: lightgray;
+  margin-bottom: 1em;
+}
+.grid_detail_jobStatus {
+  font-size: 0.75em;
+  color: #333333;
+  margin-bottom: 1em;
+  margin-left: 1em;
+}
+.grid_container_job {
+  width: 90px;
+}
+.link_grid_jobName {
+  font-size: 0.9em;
+  display: inline-block;
+  width: calc(100% - 90px);
+}
 .grid_container {
   float: left;
   clear: none;
@@ -401,6 +420,12 @@ nav .selected {
 .grid_container_page {
   float: right;
   margin: 0 15px 0 0;
+}
+.overflow_auto {
+  overflow: auto;
+}
+.clear_both {
+  clear: both;
 }
 .hidden {
   display: none;

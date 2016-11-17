@@ -67,7 +67,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <summary>
         /// Get the last updated date time of the described property
         /// </summary>
-        public DateTime LastUpdatedUtc
+        public DateTime? LastUpdatedUtc
         {
             get;
             set;

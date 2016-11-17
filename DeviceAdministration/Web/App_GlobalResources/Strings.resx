@@ -1758,4 +1758,60 @@
     <value>Move up</value>
     <comment>Button label.</comment>
   </data>
+  <data name="LastUpdatedFormatString" xml:space="preserve">
+    <value>{0} ago</value>
+    <comment>LastUpdated format string.</comment>
+  </data>
+  <data name="DayPlural" xml:space="preserve">
+    <value>Days</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="DaySingular" xml:space="preserve">
+    <value>Day</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="HourPlural" xml:space="preserve">
+    <value>Hours</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="HourSingular" xml:space="preserve">
+    <value>Hour</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MinutePlural" xml:space="preserve">
+    <value>Minutes</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MinuteSingular" xml:space="preserve">
+    <value>Minute</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MonthPlural" xml:space="preserve">
+    <value>Months</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MonthSingular" xml:space="preserve">
+    <value>Month</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="TimeSpanMin" xml:space="preserve">
+    <value>&lt; 1 Minute</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="WeekPlural" xml:space="preserve">
+    <value>Weeks</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="WeekSingular" xml:space="preserve">
+    <value>Week</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="YearPlural" xml:space="preserve">
+    <value>Years</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="YearSingular" xml:space="preserve">
+    <value>Year</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
 </root>

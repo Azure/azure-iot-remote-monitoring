@@ -162,6 +162,7 @@
     <Compile Include="Configurations\EnvironmentDescription.cs" />
     <Compile Include="Configurations\IConfigurationProvider.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Extensions\TimeSpanExtension.cs" />
     <Compile Include="Extensions\TwinCollectionExtension.cs" />
     <Compile Include="Extensions\TwinExtension.cs" />
     <Compile Include="Helpers\DeviceCreatorHelper.cs" />

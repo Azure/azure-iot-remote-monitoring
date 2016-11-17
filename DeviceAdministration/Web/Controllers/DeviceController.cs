@@ -264,11 +264,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 DeviceID = deviceId,
                 HubEnabledState = device.DeviceProperties.GetHubEnabledState(),
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>(),
-                DeviceJobHistory = device.Jobs.Select(j=>new DeviceJobHistoryModel
+                DeviceJobHistory = device.Jobs.Select(j => new DeviceJobHistoryModel
                 {
-                    Name = j.JobID, //ToDo: Get the display name from job table to replace the internal ID
-                    Status = j.Status,
-                    LastUpdatedUtc = j.LastUpdatedTimeUtc
+                    JobID = j.JobID,
+                    JobName = $"${j.JobID}", //ToDo: Get the display name from job table to replace the internal ID
+                    JobStatus = j.Status,
+                    JobLastUpdatedTimeUtc = j.LastUpdatedTimeUtc
                 }).ToList()
             };
 

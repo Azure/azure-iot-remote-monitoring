@@ -82,7 +82,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 IsIncludedWithUnregisteredDevices = false,
                 Name = $"properties.desired.{pair.Key}",
                 PropertyType = GetObjectType(pair.Value.Value),
-                Value = pair.Value.Value.ToString()
+                Value = pair.Value.Value.ToString(),
+                LastUpdatedUtc = pair.Value.LastUpdated
             });
 
             var reportedProperties = device.Twin.Properties.Reported.AsEnumerableFlatten().OrderBy(pair => pair.Key).Select(pair => new DevicePropertyValueModel
@@ -92,7 +93,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 IsIncludedWithUnregisteredDevices = false,
                 Name = $"properties.reported.{pair.Key}",
                 PropertyType = GetObjectType(pair.Value.Value),
-                Value = pair.Value.Value.ToString()
+                Value = pair.Value.Value.ToString(),
+                LastUpdatedUtc = pair.Value.LastUpdated
             });
 
             propValModels = tags.Concat(desiredProperties).Concat(reportedProperties);
