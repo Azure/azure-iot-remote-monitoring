@@ -199,6 +199,7 @@
   <ItemGroup>
     <Compile Include="Common\AzureRetryHelperTests.cs" />
     <Compile Include="Common\SampleDeviceFactoryTests.cs" />
+    <Compile Include="Common\SkipByNameContractResolverTests.cs" />
     <Compile Include="Common\StringExtensionTests.cs" />
     <Compile Include="Common\TimeSpanExtensionTests.cs" />
     <Compile Include="Common\TwinCollectionExtensionTests.cs" />
