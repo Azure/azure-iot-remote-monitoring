@@ -1,17 +1,32 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
     [RoutePrefix("api/v1/queries")]
     public class QueryApiController : WebApiControllerBase
     {
-        public QueryApiController()
+        private IQueryLogic _queryLogic;
+        public QueryApiController(IQueryLogic queryLogic)
         {
+            _queryLogic = queryLogic;
+        }
+
+        [HttpGet]
+        [Route("")]
+        [WebApiRequirePermission(Permission.ViewDevices)]
+        //api/v1/queries
+        public async Task<HttpResponseMessage> GetRecentQueries(int max=3)
+        {
+            return await GetServiceResponseAsync<IEnumerable<Query>>(async () =>
+            {
+                return await _queryLogic.GetRecentQueriesAsync(max);
+            });
         }
 
         [HttpGet]
@@ -20,14 +35,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         //api/v1/queries/{queryName}
         public async Task<HttpResponseMessage> GetQuery(string queryName)
         {
-            //TODO: mock code
-            var queries = new List<Query>();
-            queries.Add(new Query() { Name= "SampleQuery1", QueryString = "DeviceState = \"normal\"", IsTemporary = false });
-            queries.Add(new Query() { Name = "SampleQuery2", QueryString = "reported.ModelNumber = \"MD-2\"" });
-
-            return await GetServiceResponseAsync<IEnumerable<Query>>(async () =>
+            return await GetServiceResponseAsync<Query>(async () =>
             {
-                return await Task.FromResult(queries);
+                return await _queryLogic.GetQueryAsync(queryName);
             });
         }
 
@@ -36,10 +46,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewDevices)]
         public async Task<HttpResponseMessage> AddQuery(Query query)
         {
-            //TODO: mock code
-            return await GetServiceResponseAsync<Query>(async () =>
+            return await GetServiceResponseAsync<bool>(async () =>
             {
-                return await Task.FromResult(query);
+                return await _queryLogic.AddQueryAsync(query);
             });
         }
         
@@ -48,10 +57,43 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewDevices)]
         public async Task<HttpResponseMessage> DeleteQuery(string queryName)
         {
-            //TODO: mock code
-            return await GetServiceResponseAsync(async () =>
+            return await GetServiceResponseAsync<bool>(async () =>
             {
-                return await Task.FromResult(true);
+                return await _queryLogic.DeleteQueryAsync(queryName);
+            });
+        }
+
+        [HttpGet]
+        [Route("~/api/v1/availableQueryName/{queryNamePrefix}")]
+        [WebApiRequirePermission(Permission.ViewDevices)]
+        //api/v1/availableQueryName/{queryNamePrefix}
+        public async Task<HttpResponseMessage> GetAvailableQueryName(string queryNamePrefix)
+        {
+            return await GetServiceResponseAsync<string>(async () =>
+            {
+                return await _queryLogic.GetAvailableQueryNameAsync(queryNamePrefix);
+            });
+        }
+
+        [HttpPost]
+        [Route("~/api/v1/generateSql")]
+        [WebApiRequirePermission(Permission.ViewDevices)]
+        public async Task<HttpResponseMessage> GenerateSql(Query query)
+        {
+            return await GetServiceResponseAsync<string>(async () =>
+            {
+                return await Task.FromResult(_queryLogic.GenerateSql(query.Filters));
+            });
+        }
+
+        [HttpGet]
+        [Route("~/api/v1/queryList")]
+        [WebApiRequirePermission(Permission.ViewDevices)]
+        public async Task<HttpResponseMessage> GetQueryList()
+        {
+            return await GetServiceResponseAsync<IEnumerable<string>>(async () =>
+            {
+                return await _queryLogic.GetQueryNameList();
             });
         }
 
@@ -71,6 +113,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 return await Task.FromResult(result);
             });
         }
-
     }
 }

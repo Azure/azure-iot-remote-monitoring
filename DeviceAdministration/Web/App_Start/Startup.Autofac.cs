@@ -67,6 +67,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
 
             builder.RegisterType<AlertsLogic>().As<IAlertsLogic>();
             builder.RegisterType<NameCacheLogic>().As<INameCacheLogic>();
+            builder.RegisterType<QueryLogic>().As<IQueryLogic>();
 
             //Repositories
             builder.RegisterType<IotHubRepository>().As<IIotHubRepository>();
@@ -91,6 +92,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             builder.RegisterType<NameCacheRepository>().As<INameCacheRepository>();
             builder.RegisterType<DeviceListColumnsRepository>().As<IDeviceListColumnsRepository>();
             builder.RegisterType<JobRepository>().As<IJobRepository>();
+            builder.RegisterType<DeviceListQueryRepository>().As<IDeviceListQueryRepository>();
         }
     }
 }

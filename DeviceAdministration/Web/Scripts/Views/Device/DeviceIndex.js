@@ -12,6 +12,7 @@
         self.buttonSearchPane = $(".search_container__search_subhead");
         self.searchPane = $(".search_container");
         self.searchPaneClosed = $(".search_container_closed");
+        self.filterNameList = [];
 
         Cookies.json = true;
 
@@ -56,8 +57,48 @@
                 }
             });
 
-        $('.search_container a').click(function () {
+        $('#findQueryBox').on(
+            'keypress',
+            function (e) {
+                var ENTER_KEY_CODE = 13;
+                if (e.keyCode === ENTER_KEY_CODE) {
+                    findQuery($(this).val());
+                    return false;
+                }
+            });
+
+        initQueryNameList();
+        _cacheFilterNameList();
+
+        $('#addNewClause').click(function () {
             addFilter();
+        });
+
+        $('#clearClauses').click(function () {
+            clearClauses(false);
+        });
+
+        $('#searchTypeSelect').change(function () {
+            $('.filter_display_group').toggle();
+            $('.query_display_group').toggle();
+            updateSqlBox(getFilterDataModel());
+        });
+
+        $('.search_container__query_search_type_filter').click(function () {
+            $('.filter_display_group').toggle();
+            $('.query_display_group').toggle();
+            updateSqlBox(getFilterDataModel());
+        });
+
+        $('.search_container__query_search_type_query').click(function () {
+            $('.filter_display_group').toggle();
+            $('.query_display_group').toggle();
+        });
+
+        showRecentQueries();
+
+        $('#recent_query').click(function () {
+            $('#recentQueryNameList').toggle();
         });
 
         initSpliter();
@@ -100,6 +141,7 @@
                 currentSortArray: [[1, "asc"]],
                 start: 0,
                 searchQuery: '',
+                queryName: '',
                 filters: [],
                 searchPaneOpen: false
             };
@@ -115,6 +157,7 @@
         if (data) {
             uiState.start = data.start;
             uiState.searchQuery = data.search.value;
+            uiState.queryName = data.queryName;
             uiState.filters = data.filters;
         } else {
             if (uiState.start === undefined) {
@@ -390,6 +433,7 @@
     var onDataTableAjaxCalled = function (data, fnCallback) {
         
         data.search.value = $('#searchQuery').val();
+        data.queryName = $('#queryNameBox').val();
         data.filters = [];
         for (var i = 0; i < filterCount; ++i) {
 
@@ -470,7 +514,7 @@
         var fixedHeightFilterVal = $(window).height() -
             $(".search_container__search_details_button_container").height() -
             $(self.buttonSearchPane).height() -
-            270;
+            470;
 
         $("#filter_holder").height(fixedHeightFilterVal);
     }
@@ -565,6 +609,8 @@
         // hide the status as soon as it is shown
         $('#filterStatusControl' + filterCount).hide();
 
+        applyFilterNameList($('#filterField' + filterCount));
+
         // wire up for dynamic control changes
         $('#filterField' + filterCount).change(function (i) {
             // create a closure for each filter clause for filterCount (now i)
@@ -593,14 +639,249 @@
         return filterHtml;
     }
 
+    var getFilterDataModel = function () {
+        var filters = [];
+        for (var i = 0; i < filterCount; ++i) {
+            var columnName = $('#filterField' + i).val().trim();
+            if (!columnName) continue;
+            filters.push({
+                "ColumnName": columnName,
+                "FilterType": $('#filterOperator' + i).val(),
+                "FilterValue": $('#filterValue' + i).val(),
+            });
+        }
+        return filters;
+    }
+
+    var updateSqlBox = function (filters) {
+        $.ajax({
+            url: "/api/v1/generateSql",
+            type: 'POST',
+            dataType: 'json',
+            data: { Name: 'any', Filters: filters },
+            success: function (result) {
+                $('#sqlBox').val(result.data);
+            },
+            error: function () {
+                IoTApp.Helpers.Dialog.displayError(resources.failedToGenerateSql);
+            }
+        });
+
+    }
     
+    var buildNewQuery = function () {
+        var prefix = "MyNewQuery";
+        $.ajax({
+            url: "/api/v1/availableQueryName/" + prefix,
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                $('#queryNameBox').val(result.data);
+                $('.search_container__query_links').removeClass('selected_query');
+                clearClauses(false);
+                updateSqlBox(getFilterDataModel());
+            },
+            error: function () {
+                IoTApp.Helpers.Dialog.displayError(resources.failedToGetAvailableQueryName);
+            }
+        });
+    }
+
+    var saveQuery = function () {
+        var queryName = $('#queryNameBox').val();
+        var sql = $('#sqlBox').val();
+        var url = "/api/v1/queries";
+        var filters = getFilterDataModel();
+        if (!queryName || sql === '' && filters.length == 0) {
+            IoTApp.Helpers.Dialog.displayError(resources.queryIsEmpty);
+            return;
+        }
+        return $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                Name: queryName,
+                Filters: filters,
+                Sql: sql,
+                IsTemporary: false,
+            },
+            dataType: 'json',
+            success: function (result) {
+                showRecentQueries();
+                initQueryNameList();
+                return result.data;
+            },
+            error: function () {
+                IoTApp.Helpers.Dialog.displayError(resources.failedToSaveQuery);
+            }
+        });
+    }
+
+    var deleteQuery = function () {
+        var url = "/api/v1/queries/" + $('#queryNameBox').val();
+        return $.ajax({
+            url: url,
+            type: 'DELETE',
+            dataType: 'json',
+            success: function (result) {
+                showRecentQueries();
+                $('#queryNameBox').val('');
+                clearClauses(false);
+            },
+            error: function () {
+                IoTApp.Helpers.Dialog.displayError(resources.failedToDeleteQuery);
+            }
+        });
+    }
+
+    var showRecentQueries = function () {
+        var url = "/api/v1/queries";
+        return $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                var recentQueryArea = $('#recentQueryNameList');
+                recentQueryArea.empty();
+                for (var i = 0; i < result.data.length; ++i) {
+                    $('<a/>', {
+                        id: 'queryName' + i,
+                        "class": 'search_container__query_links',
+                        text: result.data[i].name,
+                        click: function () {
+                            selectQuery(this);
+                        }
+                    }).appendTo(recentQueryArea);
+                };
+            },
+            error: function () {
+                IoTApp.Helpers.Dialog.displayError(resources.failedToGetRecentQuery);
+            }
+        });
+    }
+
+    var selectQuery = function (queryLink) {
+        var url = "/api/v1/queries/" + queryLink.text;
+        return $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                var query = result.data;
+                $('#queryNameBox').val(query.name);
+                $('.search_container__query_links').removeClass('selected_query');
+                $(queryLink).addClass('selected_query');
+                updateFilters(query.filters);
+                updateSqlBox(getFilterDataModel());
+            },
+            error: function () {
+                IoTApp.Helpers.Dialog.displayError(resources.failedToGetQuery);
+            }
+        });
+    }
+
+    var findQuery = function (queryName) {
+        var url = "/api/v1/queries/" + queryName;
+        return $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                var query = result.data;
+                $('#queryNameBox').val(queryName);
+                $('.search_container__query_links').removeClass('selected_query');
+                updateFilters(query.filters);
+                updateSqlBox(getFilterDataModel());
+            },
+            error: function () {
+                IoTApp.Helpers.Dialog.displayError(resources.failedToGetQuery + " : " + queryName);
+            }
+        });
+    }
+
+    var updateFilters = function (filters) {
+        if (!filters) {
+            clearClauses(false);
+            return;
+        }
+        clearClauses(true);
+        filterCount = filters.length;
+        filters.forEach(function (filter, i) {
+            $('#filter_holder').append(getFilterHtml(i));
+            applyFilterNameList($('#filterField' + i));
+            var newColumn = $('#filterField' + i).val(filter.columnName);
+            $('#filterOperator' + i).val(filter.filterType);
+            $('#filterValue' + i).val(filter.filterValue);
+            $('#filterStatusControl' + i).hide();
+            // wire up for dynamic control changes
+            $('#filterField' + i).change(function (i) {
+                // create a closure for each filter clause for filterCount (now i)
+                return function () {
+                    if (newColumn === 'Status') {
+                        $('#filterOperatorControl' + i).hide();
+                        $('#filterValueControl' + i).hide();
+                        $('#filterStatusControl' + i).show();
+                    } else {
+                        $('#filterOperatorControl' + i).show();
+                        $('#filterValueControl' + i).show();
+                        $('#filterStatusControl' + i).hide();
+                    }
+                }
+            });
+        });
+    }
+
+    var clearClauses = function (empty) {
+        $('#filter_holder').empty();
+        filterCount = 0;
+        if (empty) return;
+        $('#filter_holder').append(getFilterHtml(0));
+        applyFilterNameList($('#filterField0'));
+        $('#filterStatusControl0').hide();
+        filterCount = 1;
+    }
+
+    var initQueryNameList = function () {
+        return $.ajax({
+            url: '/api/v1/queryList',
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                IoTApp.Controls.NameSelector.create($('#findQueryBox'), null, result.data);
+            }
+        });
+    }
+
+    var _cacheFilterNameList = function () {
+        var url = "/api/v1/namecache/list/" + (IoTApp.Controls.NameSelector.NameListType.deviceInfo | IoTApp.Controls.NameSelector.NameListType.tag | IoTApp.Controls.NameSelector.NameListType.property);
+        return $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                self.filterNameList = result.data;
+            }
+        });
+    }
+
+    var applyFilterNameList = function ($element){
+        if (self.filterNameList){
+            IoTApp.Controls.NameSelector.create($element, null, self.filterNameList);
+        }else {
+            IoTApp.Controls.NameSelector.create($element, { type: IoTApp.Controls.NameSelector.NameListType.deviceInfo | IoTApp.Controls.NameSelector.NameListType.tag | IoTApp.Controls.NameSelector.NameListType.property });
+        }
+    }
 
     return {
         init: init,
         toggleDetails: toggleDetails,
         reloadGrid: reloadGrid,
         resetSearch: resetSearch,
-        reinitializeDeviceList: reinitializeDeviceList
+        reinitializeDeviceList: reinitializeDeviceList,
+        showRecentQueries: showRecentQueries,
+        saveQuery: saveQuery,
+        deleteQuery: deleteQuery,
+        buildNewQuery: buildNewQuery,
     }
 }, [jQuery, resources]);
 

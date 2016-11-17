@@ -34,6 +34,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return entities.Count() > 0;
         }
 
+        public async Task<DeviceListQuery> GetQueryAsync(string name)
+        {
+            TableQuery<DeviceListQueryTableEntity> query = new TableQuery<DeviceListQueryTableEntity>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, name));
+            var entities = await _azureTableStorageClient.ExecuteQueryAsync(query);
+            if (entities.Count() == 0) return null;
+            var entity = entities.First();
+            return new DeviceListQuery
+            {
+                Name = entity.Name,
+                Filters = JsonConvert.DeserializeObject<List<FilterInfo>>(entity.Filters),
+                Sql = entity.Sql,
+            };
+        }
+
         public async Task<bool> SaveQueryAsync(DeviceListQuery query, bool force = false)
         {
             // if force = false and query already exists, count>0
@@ -42,21 +56,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return false;
             }
             string filters = JsonConvert.SerializeObject(query.Filters, Formatting.None, new StringEnumConverter());
-            DeviceListQueryTableEntity entity = new DeviceListQueryTableEntity(query.Name);
-            entity.PartitionKey = _queryTablePartitionKey;
+            DeviceListQueryTableEntity entity = new DeviceListQueryTableEntity(_queryTablePartitionKey, query.Name);
             entity.ETag = "*";
             entity.Filters = filters;
             entity.SortColumn = query.SortColumn;
             entity.SortOrder = query.SortOrder.ToString();
             string filterQuery = query.GetSQLQuery().Trim();
-            entity.Sql = query.Sql.Trim().Equals(filterQuery, StringComparison.InvariantCultureIgnoreCase) ? filterQuery : query.Sql.Trim();
+            entity.Sql = query.IsAdvancedQuery ? filterQuery : query.Sql.Trim();
             var result = await _azureTableStorageClient.DoTableInsertOrReplaceAsync(entity, BuildQueryModelFromEntity);
             return (result.Status == TableStorageResponseStatus.Successful);
         }
 
         public async Task<bool> TouchQueryAsync(string name)
         {
-            DeviceListQueryTableEntity entity = new DeviceListQueryTableEntity(name);
+            DeviceListQueryTableEntity entity = new DeviceListQueryTableEntity(_queryTablePartitionKey, name);
             entity.PartitionKey = _queryTablePartitionKey;
             var result = await _azureTableStorageClient.DoTouchAsync(entity, BuildQueryModelFromEntity);
             return result.Status == TableStorageResponseStatus.Successful;
@@ -64,7 +77,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<bool> DeleteQueryAsync(string name)
         {
-            DeviceListQueryTableEntity entity = new DeviceListQueryTableEntity(name);
+            DeviceListQueryTableEntity entity = new DeviceListQueryTableEntity(_queryTablePartitionKey, name);
             entity.ETag = "*";
             var result = await _azureTableStorageClient.DoDeleteAsync(entity, BuildQueryModelFromEntity);
             return (result.Status == TableStorageResponseStatus.Successful);
@@ -83,6 +96,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 return ordered.Select(e => BuildQueryModelFromEntity(e));
             }
+        }
+
+        public async Task<IEnumerable<string>> GetQueryNameListAsync()
+        {
+            TableQuery<DeviceListQueryTableEntity> query = new TableQuery<DeviceListQueryTableEntity>();
+            var entities = await _azureTableStorageClient.ExecuteQueryAsync(query);
+            var ordered = entities.OrderBy(e => e.Name);
+            return ordered.Select(e => e.Name);
         }
 
         private DeviceListQuery BuildQueryModelFromEntity(DeviceListQueryTableEntity entity)

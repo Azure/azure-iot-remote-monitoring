@@ -147,6 +147,7 @@
     <Compile Include="BusinessLogic\DeviceLogicWithIoTHubDM.cs" />
     <Compile Include="BusinessLogic\DeviceRulesLogic.cs" />
     <Compile Include="BusinessLogic\DeviceTelemetryLogic.cs" />
+    <Compile Include="BusinessLogic\IQueryLogic.cs" />
     <Compile Include="BusinessLogic\NameCacheLogic.cs" />
     <Compile Include="BusinessLogic\DeviceTypeLogic.cs" />
     <Compile Include="BusinessLogic\IActionLogic.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="BusinessLogic\IKeyLogic.cs" />
     <Compile Include="BusinessLogic\ISecurityKeyGenerator.cs" />
     <Compile Include="BusinessLogic\KeyLogic.cs" />
+    <Compile Include="BusinessLogic\QueryLogic.cs" />
     <Compile Include="BusinessLogic\SecurityKeyGenerator.cs" />
     <Compile Include="Exceptions\DeviceAdministrationExceptionBase.cs" />
     <Compile Include="Exceptions\DeviceNotRegisteredException.cs" />
@@ -169,6 +171,7 @@
     <Compile Include="Exceptions\JobNotFoundException.cs" />
     <Compile Include="Exceptions\JobRepositoryRemoveException.cs" />
     <Compile Include="Exceptions\JobRepositorySaveException.cs" />
+    <Compile Include="Exceptions\QueryNotFoundException.cs" />
     <Compile Include="Exceptions\UnsupportedCommandException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Models\ActionMapping.cs" />

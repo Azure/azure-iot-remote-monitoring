@@ -1816,6 +1816,61 @@
   </data>
   <data name="FailedToRetrieveColumns" xml:space="preserve">
     <value>An error occurred while retrieving the list of columns.</value>
+  </data>
+  <data name="AddNewQuery" xml:space="preserve">
+    <value>NEW QUERY</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="FindQuery" xml:space="preserve">
+    <value>Find a query</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="ShowRecentQueries" xml:space="preserve">
+    <value>Recent queries</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="TypeOfSearch" xml:space="preserve">
+    <value>Type of search</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="SearchType" xml:space="preserve">
+    <value>TYPE OF SEARCH</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="ClearClauses" xml:space="preserve">
+    <value>- CLEAR CLAUSE</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FailedToDeleteQuery" xml:space="preserve">
+    <value>Failed to delete query.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetAvailableQueryName" xml:space="preserve">
+    <value>Failed to find available name, please retry.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetQuery" xml:space="preserve">
+    <value>Failed to get query.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetRecentQuery" xml:space="preserve">
+    <value>Failed to get recent queries.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToSaveQuery" xml:space="preserve">
+    <value>Failed to save query.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SearchTypeFilters" xml:space="preserve">
+    <value>FILTER</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="SearchTypeQuery" xml:space="preserve">
+    <value>QUERY</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="QueryIsEmpty" xml:space="preserve">
+    <value>The query name or filters are empty.</value>
     <comment>Error message.</comment>
   </data>
 </root>

@@ -48,6 +48,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         }
 
         [Fact]
+        public async void GetQueryAsyncTest()
+        {
+            var tableEntities = fixture.CreateMany<DeviceListQueryTableEntity>(1);
+            tableEntities.First().Filters = "[{'ColumnName': 'Status', 'FilterType': 'EQ', 'FilterValue': 'Enabled'}]";
+            _tableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListQueryTableEntity>>()))
+                .ReturnsAsync(tableEntities);
+            var ret = await deviceListQueryRepository.GetQueryAsync(tableEntities.First().Name);
+            Assert.Equal(ret.Name, tableEntities.First().Name);
+
+            _tableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListQueryTableEntity>>()))
+               .ReturnsAsync(new List<DeviceListQueryTableEntity>());
+            ret = await deviceListQueryRepository.GetQueryAsync("any");
+            Assert.Null(ret);
+        }
+
+        [Fact]
         public async void SaveQueryAsyncTest()
         {
             var newQuery = fixture.Create<DeviceListQuery>();
@@ -177,6 +193,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             ret = await deviceListQueryRepository.GetRecentQueriesAsync(max);
             Assert.Equal(max, ret.Count());
             Assert.Equal(tableEntities.OrderByDescending(e => e.Timestamp).Take(max).Select(e => e.Name).ToArray(), ret.Select(e => e.Name).ToArray());
+        }
+
+        [Fact]
+        public async void GetQueryNameListAsyncTest()
+        {
+            var tableEntities = fixture.CreateMany<DeviceListQueryTableEntity>(40);
+            tableEntities.Select(e => e.Filters = "[{'ColumnName': 'Status', 'FilterType': 'EQ', 'FilterValue': 'Enabled'}]");
+            _tableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListQueryTableEntity>>()))
+                .ReturnsAsync(tableEntities.OrderBy(e => e.Name));
+            var ret = await deviceListQueryRepository.GetQueryNameListAsync();
+            Assert.Equal(40, ret.Count());
+            Assert.Equal(tableEntities.OrderBy(e => e.Name).Select(e => e.Name).ToArray(), ret.ToArray());
         }
     }
 }

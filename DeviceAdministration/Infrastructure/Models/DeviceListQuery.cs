@@ -21,6 +21,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         /// <summary>
         /// General, overarching search query (not specific to a column)
+        /// (To be obsoleted)
         /// </summary>
         public string SearchQuery { get; set; }
         
@@ -106,6 +107,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 });
 
             return filters == null ? string.Empty : string.Join(" AND ", filters);
+        }
+
+        public bool IsAdvancedQuery
+        {
+            get
+            {
+                return !(string.Compare(GetSQLQuery().Trim(), GetSQLQuery().Trim(), StringComparison.InvariantCultureIgnoreCase) == 0);
+            }
         }
     }
 }

@@ -22,10 +22,46 @@
 
         <div class="search_container search_height--fixed">
             <h2 class="search_container__search_subhead">@Strings.FindDevices</h2>
-            <div class="search_container__search_details_container">
-                <h2 class="grid_subhead_detail_label">@Strings.FilterDevices</h2>
-                <a class="search_details_container__filter_add_clause_link">@Strings.AddNewClause</a>
 
+            <div class="search_container__search_query_container">
+                <div>
+                    <label class="search_container__query_find_query_label"><span>O</span></label>
+                    <input type="text" class="search_container__query_find_query_box" id="findQueryBox" />
+                </div>
+
+                <div>
+                    <label class="search_container__query_new_query_label"><span>+</span></label>
+                    <a class="search_container__query_new_query_link" id="new_query" href="#" onclick="IoTApp.DeviceIndex.buildNewQuery()">@Strings.AddNewQuery</a>
+                </div>
+                <div>
+                    <label class="search_container__query_recent_query_label"><span>^</span></label>
+                    <a class="search_container__query_recent_query_link" id="recent_query" onclick="IoTApp.DeviceIndex.showRecentQueries()">@Strings.ShowRecentQueries</a>
+                </div>
+                <div id="recentQueryNameList">
+                    <!--
+                    <a class="search_container__query_links" href="#">SampleQuery1</a>
+                    <a class="search_container__query_links" href="#">SampleQuery2</a>
+                    <a class="search_container__query_links" href="#">SampleQuery3</a>
+                    -->
+                </div>
+            </div>
+
+            <div class="search_container__search_details_container">
+                <div>
+                    <div>
+                        <input class="search_container__query_name_text" id="queryNameBox" />
+                        <a href="#"><img class="search_container__query_save_as" src="~/Content/img/icon_saveas.png" /></a>
+                        <a href="#" onclick="IoTApp.DeviceIndex.deleteQuery()"><img class="search_container__query_delete" src="~/Content/img/icon_delete.png" /></a>
+                        <a href="#" onclick="IoTApp.DeviceIndex.saveQuery()"><img class="search_container__query_save" src="~/Content/img/icon_save.png" /></a>
+                    </div>
+                    <div>
+                        <label class="search_container__query_search_type_label">@Strings.SearchType</label>
+                        <select class="search_container__query_search_type_select" id="searchTypeSelect">
+                            <option selected value="@Strings.SearchTypeQuery">@Strings.SearchTypeFilters</option>
+                            <option value="@Strings.SearchTypeQuery">@Strings.SearchTypeQuery</option>
+                        </select>
+                    </div>
+                </div>
                 <!-- This template is copied for each filter clause -->
                 <div id="filter_template" class="search_filter" style="display: none;">
 
@@ -33,19 +69,7 @@
 
                         <label class="filter_template__filter_label filter_group_top" for="filterFieldREPLACE_ME"><span>@Strings.FilterFieldLabel</span></label>
 
-                        <input type="text" list="filterFieldREPLACE_ME_datalist" id="filterFieldREPLACE_ME" name="filterFieldREPLACE_ME" class="search_filter__select">
-
-                        <datalist id="filterFieldREPLACE_ME_datalist">
-                            <option value="tags.HubEnabledState">@Strings.FilterOptionStatus</option>
-                            <option value="deviceId" selected>@Strings.FilterOptionDeviceId</option>
-                            <option value="properties.reported.Manufacturer">@Strings.FilterOptionManufacturer</option>
-                            <option value="properties.reported.ModelNumber">@Strings.FilterOptionModelNumber</option>
-                            <option value="properties.reported.SerialNumber">@Strings.FilterOptionSerialNumber</option>
-                            <option value="properties.reported.FirmwareVersion">@Strings.FilterOptionFirmwareVersion</option>
-                            <option value="properties.reported.Platform">@Strings.FilterOptionPlatform</option>
-                            <option value="properties.reported.Processor">@Strings.FilterOptionProcessor</option>
-                            <option value="properties.reported.InstalledRam">@Strings.FilterOptionInstalledRam</option>
-                        </datalist>
+                        <input type="text" id="filterFieldREPLACE_ME" name="filterFieldREPLACE_ME" class="search_filter__select">
 
                     </div>
 
@@ -90,10 +114,20 @@
                 </div>
                 <!-- End filter clause template -->
 
-                <div class="search_details_container__filter_holder" id="filter_holder">
+                <div class="search_details_container__filter_holder filter_display_group" id="filter_holder">
+                </div>
+
+                <div id="filters_container" class="search_details_container__filter_add_clause_container filter_display_group">
+                    <a class="search_details_container__filter_add_clause_link" id="addNewClause">@Strings.AddNewClause</a>
+                    <a class="search_details_container__filter_clear_clauses_link" id="clearClauses">@Strings.ClearClauses</a>
+                </div>
+
+                <div class="search_details_container__sql_container query_display_group" id="sql_container" style="display:none">
+                    <textarea id="sqlBox" class="search_details_container__sql_box query_display_group" style="display:none">SELECT * FROM Devices</textarea>
                 </div>
                 
                 <div class="search_container__search_details_button_container">
+
                     <button type="button" onclick="IoTApp.DeviceIndex.reloadGrid()" class="button_base search_details_button_container__search_button">
                         @Strings.FindLabel
                     </button>
@@ -171,7 +205,13 @@
         scheduleJobPanelLabel: '@Html.JavaScriptString(Strings.ScheduleJobPanelLabel)',
         unableToRetrieveColumnsFromService: '@Html.JavaScriptString(Strings.UnableToRetrieveColumnsFromService)',
         failedToUpdateColumns: '@Html.JavaScriptString(Strings.FailedToUpdateColumns)',
-        failedToRetrieveColumns: '@Html.JavaScriptString(Strings.FailedToRetrieveColumns)'
+        failedToRetrieveColumns: '@Html.JavaScriptString(Strings.FailedToRetrieveColumns)',
+        failedToGetQuery: '@Html.JavaScriptString(Strings.FailedToGetQuery)',
+        failedToSaveQuery: '@Html.JavaScriptString(Strings.FailedToSaveQuery)',
+        failedToGetRecentQuery: '@Html.JavaScriptString(Strings.FailedToGetRecentQuery)',
+        failedToDeleteQuery: '@Html.JavaScriptString(Strings.FailedToDeleteQuery)',
+        failedToGetAvailableQueryName: '@Html.JavaScriptString(Strings.FailedToGetAvailableQueryName)',
+        queryIsEmpty: '@Html.JavaScriptString(Strings.QueryIsEmpty)',
     };
 </script>
 

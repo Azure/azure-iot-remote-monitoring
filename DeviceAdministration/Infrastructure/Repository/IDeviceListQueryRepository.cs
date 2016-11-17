@@ -30,6 +30,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<bool> SaveQueryAsync(DeviceListQuery query, bool force);
 
         /// <summary>
+        /// Get the query by name.
+        /// </summary>
+        /// <param name="queryName"></param>
+        /// <returns></returns>
+        Task<DeviceListQuery> GetQueryAsync(string queryName);
+
+        /// <summary>
         /// Return recenty queries executed recently, sorted by timestamp.
         /// </summary>
         /// <returns>a set of queries</returns>
@@ -41,5 +48,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="name"></param>
         /// <returns>true if succeed</returns>
         Task<bool> DeleteQueryAsync(string name);
+
+        /// <summary>
+        /// Get suggestion list of query names
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<string>> GetQueryNameListAsync();
     }
 }
