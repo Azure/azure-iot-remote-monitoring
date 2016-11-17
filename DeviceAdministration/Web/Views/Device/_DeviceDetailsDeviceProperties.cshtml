@@ -1,6 +1,7 @@
 ﻿@using System.Globalization
 @using System.Collections.Generic
 @using System.Globalization
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
@@ -13,6 +14,7 @@
     var desiredProperties = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("properties.desired."));
     var reportedProperties = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("properties.reported."));
     var deviceProperties = Model.DevicePropertyValueModels.Except(tags).Except(desiredProperties).Except(reportedProperties);
+    var utcNow = DateTime.UtcNow;
 }
 <div class="header_grid header_grid_general">
     <h3 class="grid_subheadhead_detail">@Strings.DeviceProperties</h3>
@@ -48,7 +50,7 @@
             }
             else
             {
-                <p class=" grid_detail_value" name="deviceField_@propVal.Name">@propVal.Value</p>
+                <p class="grid_detail_value" name="deviceField_@propVal.Name">@propVal.Value</p>
             }
         }
     }
@@ -93,14 +95,19 @@
     @foreach (var val in desiredProperties)
     {
         <h4 class="grid_subhead_detail_label">@val.Name.Substring(19)</h4>
-        if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
-        {
-            <p class="grid_detail_value" name="desiredPropertyField_@val.Name">@resolvedDate.Value.ToString()</p>
-        }
-        else
-        {
-            <p class="grid_detail_value" name="desiredPropertyField_@val.Name">@val.Value</p>
-        }
+        <div>
+            <p class="grid_detail_value" name="desiredPropertyField_@val.Name">
+                @if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
+                {
+                    @resolvedDate.Value.ToString()
+                }
+                else
+                {
+                    @val.Value
+                }
+                <span class="grid_detail_lastUpdated pull-right" name="desiredPropertyField_lastUpdated_@val.Name">@TimeSpanExtension.ToFloorShortString(utcNow - val.LastUpdatedUtc, Strings.LastUpdatedFormatString)</span>
+            </p>
+        </div>
     }
 </section>
 
@@ -115,14 +122,19 @@
         @foreach (var val in reportedProperties)
         {
             <h4 class="grid_subhead_detail_label">@val.Name.Substring(20)</h4>
-            if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
-            {
-                <p class="grid_detail_value" name="reportedPropertyField_@val.Name">@resolvedDate.Value.ToString()</p>
-            }
-            else
-            {
-                <p class="grid_detail_value" name="reportedPropertyField_@val.Name">@val.Value</p>
-            }
+            <div>
+                <p class="grid_detail_value" name="reportedPropertyField_@val.Name">
+                    @if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
+                    {
+                        @resolvedDate.Value.ToString()
+                    }
+                    else
+                    {
+                        @val.Value
+                    }
+                    <span class="grid_detail_lastUpdated pull-right" name="reportedPropertyField_lastUpdated_@val.Name">@TimeSpanExtension.ToFloorShortString(utcNow - val.LastUpdatedUtc, Strings.LastUpdatedFormatString)</span>
+                </p>
+            </div>
         }
     </section>
 }
@@ -140,11 +152,29 @@
     </div>
 
     <section class="details_grid_general" id="reportedPropertiesGrid">
-        @foreach (var job in Model.DeviceJobHistory.OrderByDescending(j => j.LastUpdatedUtc).Take(5))
+        @foreach (var job in Model.DeviceJobHistory.OrderByDescending(j => j.JobLastUpdatedTimeUtc).Take(5))
         {
-            <h4 class="grid_subhead_detail_label">@job.Name</h4>
-            <p class="grid_detail_value" name="jobField_status_@job.Name">@job.Status</p>
-            <p class="grid_detail_value" name="jobField_lastUpdated_@job.Name">@job.LastUpdatedUtc</p>
+            <div class="overflow_auto">
+                @Html.ActionLink(@job.JobName, "Select", "Job", new { jobId = job.JobID }, new { @class = "link_grid_jobName" })
+                <div class="grid_container_job pull-right">
+                    @switch (job.JobStatus)
+                    {
+                        case "completed":
+                            <img src="~/Content/img/icon_status_all_clear.svg" class="details_grid_info pull-left" />
+                            break;
+                        case "failed":
+                            <img src="~/Content/img/icon_status_alarm.svg" class="details_grid_info pull-left" />
+                            break;
+                        default:
+                            <img src="~/Content/img/icon_status_information.svg" class="details_grid_info pull-left" />
+                            break;
+                    }
+                    <p class="grid_detail_jobStatus pull-right">@job.JobStatus</p>
+                </div>
+                <div class="clear_both">
+                    <p class="grid_detail_lastUpdated pull-right" name="jobField_lastUpdated_@job.JobName">@TimeSpanExtension.ToFloorShortString(utcNow - job.JobLastUpdatedTimeUtc, Strings.LastUpdatedFormatString)</p>
+                </div>
+            </div>
         }
     </section>
 }

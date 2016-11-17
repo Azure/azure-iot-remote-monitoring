@@ -854,6 +854,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Days.
+        /// </summary>
+        public static string DayPlural {
+            get {
+                return ResourceManager.GetString("DayPlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Day.
+        /// </summary>
+        public static string DaySingular {
+            get {
+                return ResourceManager.GetString("DaySingular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid decimal; expected a format like &apos;-12.3456&apos; or &apos;98765.43&apos;.
         /// </summary>
         public static string decimalCommandErrorMessage {
@@ -1862,6 +1880,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hours.
+        /// </summary>
+        public static string HourPlural {
+            get {
+                return ResourceManager.GetString("HourPlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hour.
+        /// </summary>
+        public static string HourSingular {
+            get {
+                return ResourceManager.GetString("HourSingular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Humidity.
         /// </summary>
         public static string Humidity {
@@ -2123,6 +2159,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} ago.
+        /// </summary>
+        public static string LastUpdatedFormatString {
+            get {
+                return ResourceManager.GetString("LastUpdatedFormatString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Let me define my own Device ID.
         /// </summary>
         public static string LetMeDefineMyOwnDeviceId {
@@ -2285,6 +2330,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Minutes.
+        /// </summary>
+        public static string MinutePlural {
+            get {
+                return ResourceManager.GetString("MinutePlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minute.
+        /// </summary>
+        public static string MinuteSingular {
+            get {
+                return ResourceManager.GetString("MinuteSingular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Model Number must be less than 200 characters long..
         /// </summary>
         public static string ModelNameMustBeLessThan200Characters {
@@ -2308,6 +2371,24 @@ namespace GlobalResources {
         public static string ModelNumberHeader {
             get {
                 return ResourceManager.GetString("ModelNumberHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Months.
+        /// </summary>
+        public static string MonthPlural {
+            get {
+                return ResourceManager.GetString("MonthPlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Month.
+        /// </summary>
+        public static string MonthSingular {
+            get {
+                return ResourceManager.GetString("MonthSingular", resourceCulture);
             }
         }
         
@@ -3527,6 +3608,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt; 1 Minute.
+        /// </summary>
+        public static string TimeSpanMin {
+            get {
+                return ResourceManager.GetString("TimeSpanMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Disable Device.
         /// </summary>
         public static string TrueEnabledDevice {
@@ -3712,6 +3802,42 @@ namespace GlobalResources {
         public static string ViewRules {
             get {
                 return ResourceManager.GetString("ViewRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weeks.
+        /// </summary>
+        public static string WeekPlural {
+            get {
+                return ResourceManager.GetString("WeekPlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Week.
+        /// </summary>
+        public static string WeekSingular {
+            get {
+                return ResourceManager.GetString("WeekSingular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Years.
+        /// </summary>
+        public static string YearPlural {
+            get {
+                return ResourceManager.GetString("YearPlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Year.
+        /// </summary>
+        public static string YearSingular {
+            get {
+                return ResourceManager.GetString("YearSingular", resourceCulture);
             }
         }
         
