@@ -219,6 +219,7 @@
     <Compile Include="Infrastructure\DeviceLogicWithIoTHubDMTests.cs" />
     <Compile Include="Infrastructure\DeviceRegistryRepositoryTests.cs" />
     <Compile Include="Infrastructure\DeviceRegistryRepositoryWithIoTHubDMTests.cs" />
+    <Compile Include="Infrastructure\JobRepositoryTests.cs" />
     <Compile Include="Infrastructure\NameCacheLogicTests.cs" />
     <Compile Include="Infrastructure\DeviceRulesLogicTests.cs" />
     <Compile Include="Infrastructure\DeviceRulesRepositoryTests.cs" />

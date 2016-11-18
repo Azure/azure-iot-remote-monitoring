@@ -90,6 +90,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             builder.RegisterGeneric(typeof(DocumentDBClient<>)).As(typeof(IDocumentDBClient<>));
             builder.RegisterType<NameCacheRepository>().As<INameCacheRepository>();
             builder.RegisterType<DeviceListColumnsRepository>().As<IDeviceListColumnsRepository>();
+            builder.RegisterType<JobRepository>().As<IJobRepository>();
         }
     }
 }

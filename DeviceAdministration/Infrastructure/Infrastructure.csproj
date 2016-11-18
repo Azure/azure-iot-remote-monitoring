@@ -165,6 +165,10 @@
     <Compile Include="Exceptions\DeviceAdministrationExceptionBase.cs" />
     <Compile Include="Exceptions\DeviceNotRegisteredException.cs" />
     <Compile Include="Exceptions\DeviceRegistrationException.cs" />
+    <Compile Include="Exceptions\DuplicatedJobFoundException.cs" />
+    <Compile Include="Exceptions\JobNotFoundException.cs" />
+    <Compile Include="Exceptions\JobRepositoryRemoveException.cs" />
+    <Compile Include="Exceptions\JobRepositorySaveException.cs" />
     <Compile Include="Exceptions\UnsupportedCommandException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Models\ActionMapping.cs" />
@@ -172,6 +176,8 @@
     <Compile Include="Models\ActionModel.cs" />
     <Compile Include="Models\AlertHistoryItemModel.cs" />
     <Compile Include="Models\DeviceJobHistoryModel.cs" />
+    <Compile Include="Models\JobRepositoryModel.cs" />
+    <Compile Include="Models\JobTableEntity.cs" />
     <Compile Include="Models\DeviceListColumnsTableEntity.cs" />
     <Compile Include="Models\MatchingDevices.cs" />
     <Compile Include="Models\Query.cs" />
@@ -228,6 +234,8 @@
     <Compile Include="Repository\IDeviceRegistryListRepository.cs" />
     <Compile Include="Repository\IDeviceRulesRepository.cs" />
     <Compile Include="Repository\IDeviceTelemetryRepository.cs" />
+    <Compile Include="Repository\IJobRepository.cs" />
+    <Compile Include="Repository\JobRepository.cs" />
     <Compile Include="Repository\NameCacheRepository.cs" />
     <Compile Include="Repository\INameCacheRepository.cs" />
     <Compile Include="Repository\IIotHubRepository.cs" />
@@ -236,6 +244,7 @@
     <Compile Include="Repository\IotHubRepository.cs" />
     <Compile Include="Repository\IDeviceListQueryRepository.cs" />
     <Compile Include="Repository\IUserSettingsRepository.cs" />
+    <Compile Include="Repository\RepositoryInitializer.cs" />
     <Compile Include="Repository\SampleDeviceTypeRepository.cs" />
     <Compile Include="Repository\IDeviceTypeRepository.cs" />
     <Compile Include="Repository\UserSettingsRepository.cs" />

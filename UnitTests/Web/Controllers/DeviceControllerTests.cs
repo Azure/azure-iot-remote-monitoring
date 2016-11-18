@@ -25,8 +25,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
         private readonly Mock<ICellularExtensions> _cellulerExtensionsMock;
         private readonly DeviceController _deviceController;
         private readonly Mock<IDeviceLogic> _deviceLogicMock;
-        private readonly Fixture _fixture;
         private readonly Mock<IDeviceListColumnsRepository> _deviceListColumnsRepository;
+        private readonly Mock<IJobRepository> _jobRepositoryMock;
+        private readonly Fixture _fixture;
 
         public DeviceControllerTests()
         {
@@ -34,6 +35,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             _cellulerExtensionsMock = new Mock<ICellularExtensions>();
             _apiRegistrationRepository = new Mock<IApiRegistrationRepository>();
             _deviceListColumnsRepository = new Mock<IDeviceListColumnsRepository>();
+            _jobRepositoryMock = new Mock<IJobRepository>();
 
             var configProviderMock = new Mock<IConfigurationProvider>();
             configProviderMock
@@ -46,7 +48,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
                 configProviderMock.Object,
                 _apiRegistrationRepository.Object,
                 _cellulerExtensionsMock.Object,
-                _deviceListColumnsRepository.Object);
+                _deviceListColumnsRepository.Object,
+                _jobRepositoryMock.Object);
 
             _fixture = new Fixture();
         }
@@ -170,6 +173,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             deviceModel.DeviceProperties = _fixture.Create<DeviceProperties>();
             deviceModel.DeviceProperties.DeviceID = deviceId;
             _deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(deviceModel);
+            _jobRepositoryMock.Setup(mock => mock.QueryByJobIDAsync(It.IsAny<string>())).ReturnsAsync(new JobRepositoryModel("JobId", "QueryName", "JobName"));
 
             var result = await _deviceController.GetDeviceDetails(deviceId);
             var view = result as PartialViewResult;

@@ -24,6 +24,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             GlobalFilters.Filters.Add(new HandleErrorAttribute());
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
             ControllerBuilder.Current.DefaultNamespaces.Add("Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers");
+
+            // Reset JobList and QueryList via actual current job history for debugging
+            //RepositoryInitializer.SeedTablesAsync().Wait();
         }
 
         // Require HTTPS for all requests processed by ASP.NET

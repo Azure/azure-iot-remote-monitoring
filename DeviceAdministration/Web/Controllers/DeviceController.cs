@@ -31,20 +31,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly IDeviceLogic _deviceLogic;
         private readonly IDeviceTypeLogic _deviceTypeLogic;
         private readonly ICellularExtensions _cellularExtensions;
-        private readonly string _iotHubName;
         private readonly IDeviceListColumnsRepository _deviceListColumnsRepository;
+        private readonly IJobRepository _jobRepository;
+        private readonly string _iotHubName;
 
         public DeviceController(IDeviceLogic deviceLogic, IDeviceTypeLogic deviceTypeLogic,
             IConfigurationProvider configProvider,
             IApiRegistrationRepository apiRegistrationRepository,
             ICellularExtensions cellularExtensions,
-            IDeviceListColumnsRepository deviceListColumnsRepository)
+            IDeviceListColumnsRepository deviceListColumnsRepository,
+            IJobRepository jobRepository)
         {
             _deviceLogic = deviceLogic;
             _deviceTypeLogic = deviceTypeLogic;
             _apiRegistrationRepository = apiRegistrationRepository;
             _cellularExtensions = cellularExtensions;
             _deviceListColumnsRepository = deviceListColumnsRepository;
+            _jobRepository = jobRepository;
 
             _iotHubName = configProvider.GetConfigurationSettingValue("iotHub.HostName");
         }
@@ -269,13 +272,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 DeviceID = deviceId,
                 HubEnabledState = device.DeviceProperties.GetHubEnabledState(),
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>(),
-                DeviceJobHistory = device.Jobs.Select(j => new DeviceJobHistoryModel
-                {
-                    JobID = j.JobID,
-                    JobName = $"${j.JobID}", //ToDo: Get the display name from job table to replace the internal ID
-                    JobStatus = j.Status,
-                    JobLastUpdatedTimeUtc = j.LastUpdatedTimeUtc
-                }).ToList()
+                DeviceJobHistory = await GetDeviceJobHistory(device)
             };
 
             propModels = _deviceLogic.ExtractDevicePropertyValuesModels(device);
@@ -395,5 +392,33 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return devices.Results;
         }
 
+        private async Task<List<DeviceJobHistoryModel>> GetDeviceJobHistory(DeviceModel device)
+        {
+            var tasks = device.Jobs.Select(async j =>
+            {
+                string jobName;
+
+                try
+                {
+                    var model = await _jobRepository.QueryByJobIDAsync(j.JobID);
+                    jobName = model.JobName;
+                }
+                catch
+                {
+                    jobName = string.Empty;
+                }
+
+                return new DeviceJobHistoryModel
+                {
+                    JobID = j.JobID,
+                    JobName = jobName,
+                    JobStatus = j.Status,
+                    JobLastUpdatedTimeUtc = j.LastUpdatedTimeUtc
+                };
+            });
+
+            var history = await Task.WhenAll(tasks);
+            return history.ToList();
+        }
     }
 }
