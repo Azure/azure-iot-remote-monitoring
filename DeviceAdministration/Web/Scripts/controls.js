@@ -39,6 +39,9 @@
 
             $element.autocomplete({
                 source: items,
+                select: function (event, ui) {
+                    $element.change();
+                },
                 minLength: 0
             }).focus(function () {
                 $(this).autocomplete("search", $(this).val());
