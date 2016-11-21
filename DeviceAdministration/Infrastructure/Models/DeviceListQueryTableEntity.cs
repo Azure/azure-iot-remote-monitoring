@@ -34,5 +34,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// The complete SQL query string built from other fields.
         /// </summary>
         public string Sql { get; set; }
+
+        /// <summary>
+        /// Indicate if this is an advanced customized by user.
+        /// </summary>
+        public bool IsAdvanced { get; set; }
     }
 }

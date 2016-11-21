@@ -29,6 +29,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         private readonly Mock<IIotHubRepository> _iotHubRepositoryMock;
         private readonly Mock<ISecurityKeyGenerator> _securityKeyGeneratorMock;
         private readonly Mock<IVirtualDeviceStorage> _virtualDeviceStorageMock;
+        private readonly Mock<IDeviceListQueryRepository> _deviceListQueryMock;
         private readonly Fixture fixture;
 
         public DeviceLogicTests()
@@ -41,6 +42,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             this._securityKeyGeneratorMock = new Mock<ISecurityKeyGenerator>();
             this._deviceRulesLogicMock = new Mock<IDeviceRulesLogic>();
             this._nameCacheLogicMock = new Mock<INameCacheLogic>();
+            this._deviceListQueryMock = new Mock<IDeviceListQueryRepository>();
             this._deviceLogic = new DeviceLogic(this._iotHubRepositoryMock.Object,
                                                 this._deviceRegistryCrudRepositoryMock.Object,
                                                 this._deviceRegistryListRepositoryMock.Object,
@@ -48,7 +50,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                                                 this._securityKeyGeneratorMock.Object,
                                                 this._configProviderMock.Object,
                                                 this._deviceRulesLogicMock.Object,
-                                                this._nameCacheLogicMock.Object);
+                                                this._nameCacheLogicMock.Object,
+                                                this._deviceListQueryMock.Object);
             this.fixture = new Fixture();
         }
 
@@ -57,7 +60,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         {
             var query = this.fixture.Create<DeviceListQuery>();
             var result = this.fixture.Create<DeviceListQueryResult>();
-            this._deviceRegistryListRepositoryMock.SetupSequence(x => x.GetDeviceList(It.IsAny<DeviceListQuery>()))
+            this._deviceRegistryListRepositoryMock.SetupSequence(x => x.GetDeviceList(It.IsNotNull<DeviceListQuery>()))
                 .ReturnsAsync(result)
                 .ReturnsAsync(new DeviceListQueryResult());
 
@@ -66,12 +69,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             Assert.NotNull(res.Results);
             Assert.NotEqual(0, res.TotalDeviceCount);
             Assert.NotEqual(0, res.TotalFilteredCount);
-
-            res = await this._deviceLogic.GetDevices(null);
-            Assert.NotNull(res);
-            Assert.Null(res.Results);
-            Assert.Equal(0, res.TotalDeviceCount);
-            Assert.Equal(0, res.TotalFilteredCount);
         }
 
         [Fact]

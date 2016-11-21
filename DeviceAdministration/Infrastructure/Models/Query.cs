@@ -11,5 +11,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public string Sql { get; set; }
 
         public bool IsTemporary { get; set; }
+
+        public bool IsAdvanced { get; set; }
     }
 }
