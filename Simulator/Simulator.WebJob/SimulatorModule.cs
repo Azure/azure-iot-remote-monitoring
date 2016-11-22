@@ -32,6 +32,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             builder.RegisterGeneric(typeof(DocumentDBClient<>)).As(typeof(IDocumentDBClient<>));
             builder.RegisterType<NameCacheLogic>().As<INameCacheLogic>();
             builder.RegisterType<NameCacheRepository>().As<INameCacheRepository>();
+            builder.RegisterType<DeviceListQueryRepository>().As<IDeviceListQueryRepository>();
         }
     }
 }

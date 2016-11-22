@@ -25,16 +25,17 @@
 
             <div class="search_container__search_query_container">
                 <div>
-                    <label class="search_container__query_find_query_label"><span>O</span></label>
+                    <img src="~/Content/img/search.svg" class="search_container__query_find_query_label"/>
                     <input type="text" class="search_container__query_find_query_box" id="findQueryBox" />
                 </div>
 
                 <div>
-                    <label class="search_container__query_new_query_label"><span>+</span></label>
+                    <img src="~/Content/img/add.svg" class="search_container__query_new_query_label"/>
                     <a class="search_container__query_new_query_link" id="new_query" href="#" onclick="IoTApp.DeviceIndex.buildNewQuery()">@Strings.AddNewQuery</a>
                 </div>
                 <div>
-                    <label class="search_container__query_recent_query_label"><span>^</span></label>
+                    <img src="~/Content/img/expanded.svg" class="search_container__query_recent_query_label"/>
+                    <img src="~/Content/img/collapsed.svg" class="search_container__query_recent_query_label" style="display:none "/>
                     <a class="search_container__query_recent_query_link" id="recent_query" onclick="IoTApp.DeviceIndex.showRecentQueries()">@Strings.ShowRecentQueries</a>
                 </div>
                 <div id="recentQueryNameList">
@@ -50,15 +51,15 @@
                 <div>
                     <div>
                         <input class="search_container__query_name_text" id="queryNameBox" />
-                        <a href="#"><img class="search_container__query_save_as" src="~/Content/img/icon_saveas.png" /></a>
-                        <a href="#" onclick="IoTApp.DeviceIndex.deleteQuery()"><img class="search_container__query_delete" src="~/Content/img/icon_delete.png" /></a>
-                        <a href="#" onclick="IoTApp.DeviceIndex.saveQuery()"><img class="search_container__query_save" src="~/Content/img/icon_save.png" /></a>
+                        <a href="#"><img class="search_container__query_save_as" src="~/Content/img/edit_name.svg" /></a>
+                        <a href="#" onclick="IoTApp.DeviceIndex.deleteQuery()"><img class="search_container__query_delete" src="~/Content/img/delete_query.svg" /></a>
+                        <a href="#" onclick="IoTApp.DeviceIndex.saveQuery()"><img class="search_container__query_save" src="~/Content/img/save.svg" /></a>
                     </div>
                     <div>
                         <label class="search_container__query_search_type_label">@Strings.SearchType</label>
                         <select class="search_container__query_search_type_select" id="searchTypeSelect">
-                            <option selected value="@Strings.SearchTypeQuery">@Strings.SearchTypeFilters</option>
-                            <option value="@Strings.SearchTypeQuery">@Strings.SearchTypeQuery</option>
+                            <option selected value="FILTERS">@Strings.SearchTypeFilters</option>
+                            <option value="QUERY">@Strings.SearchTypeQuery</option>
                         </select>
                     </div>
                 </div>

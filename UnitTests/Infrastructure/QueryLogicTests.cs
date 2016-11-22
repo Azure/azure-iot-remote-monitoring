@@ -36,6 +36,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         public async void GetRecentQueriesTests()
         {
             var queries = fixture.CreateMany<DeviceListQuery>(5);
+            foreach(var query in queries)
+            {
+                query.Filters = null;
+            }
             _deviceListQueryRepositoryMock.Setup(x => x.GetRecentQueriesAsync(It.IsAny<int>())).ReturnsAsync(queries.Take(3));
             var ret = await _queryLogic.GetRecentQueriesAsync(3);
             Assert.Equal(3, ret.Count());

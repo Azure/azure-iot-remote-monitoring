@@ -45,6 +45,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 Name = entity.Name,
                 Filters = JsonConvert.DeserializeObject<List<FilterInfo>>(entity.Filters),
                 Sql = entity.Sql,
+                IsAdvanced = entity.IsAdvanced,
             };
         }
 
@@ -61,16 +62,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             entity.Filters = filters;
             entity.SortColumn = query.SortColumn;
             entity.SortOrder = query.SortOrder.ToString();
-            string filterQuery = query.GetSQLQuery().Trim();
-            entity.Sql = query.IsAdvancedQuery ? filterQuery : query.Sql.Trim();
+            entity.Sql = query.Sql;
+            entity.IsAdvanced = query.IsAdvanced;
             var result = await _azureTableStorageClient.DoTableInsertOrReplaceAsync(entity, BuildQueryModelFromEntity);
             return (result.Status == TableStorageResponseStatus.Successful);
         }
 
         public async Task<bool> TouchQueryAsync(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
             DeviceListQueryTableEntity entity = new DeviceListQueryTableEntity(_queryTablePartitionKey, name);
-            entity.PartitionKey = _queryTablePartitionKey;
             var result = await _azureTableStorageClient.DoTouchAsync(entity, BuildQueryModelFromEntity);
             return result.Status == TableStorageResponseStatus.Successful;
         }
@@ -136,6 +140,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 SortColumn = entity.SortColumn,
                 SortOrder = order,
                 Sql = entity.Sql,
+                IsAdvanced = entity.IsAdvanced,
             };
         }
     }

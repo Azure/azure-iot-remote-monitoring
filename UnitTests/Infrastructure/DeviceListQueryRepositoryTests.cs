@@ -131,6 +131,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             ret = await deviceListQueryRepository.TouchQueryAsync(query.Name);
             Assert.False(ret);
             Assert.Null(tableEntity);
+
+            ret = await deviceListQueryRepository.TouchQueryAsync(null);
+            Assert.False(ret);
         }
 
         [Fact]

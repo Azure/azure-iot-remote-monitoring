@@ -6,6 +6,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 {
     public class DataTablesRequest
     {
+        public string QueryName { get; set; }
         public int Draw { get; set; }
         public int Start { get; set; }
         public int Length { get; set; }
@@ -14,5 +15,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public List<SortColumn> SortColumns { get; set; }
         public Search Search { get; set; }
         public List<FilterInfo> Filters { get; set; }
+        public string Sql { get; set; }
     }
 }

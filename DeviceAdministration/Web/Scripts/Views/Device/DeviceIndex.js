@@ -92,10 +92,11 @@
             $('.query_display_group').toggle();
         });
 
-        showRecentQueries();
+        showRecentQueries(null);
 
         $('#recent_query').click(function () {
             $('#recentQueryNameList').toggle();
+            $('.search_container__query_recent_query_label').toggle();
         });
 
         initSpliter();
@@ -140,6 +141,8 @@
                 searchQuery: '',
                 queryName: '',
                 filters: [],
+                sql: '',
+                isAdvanced: false,
                 searchPaneOpen: false
             };
         }
@@ -156,6 +159,8 @@
             uiState.searchQuery = data.search.value;
             uiState.queryName = data.queryName;
             uiState.filters = data.filters;
+            uiState.sql = data.sql;
+            uiState.isAdvanced = data.isAdvanced;
         } else {
             if (uiState.start === undefined) {
                 uiState.start = 0;
@@ -432,6 +437,7 @@
         
         data.search.value = $('#searchQuery').val();
         data.queryName = $('#queryNameBox').val();
+        data.sql = $('#sqlBox').val();
         data.filters = [];
         for (var i = 0; i < filterCount; ++i) {
 
@@ -596,6 +602,13 @@
         filterCount = 0;
         $('#filter_holder').html('');
 
+        $('#queryNameBox').val('');
+        $('#sqlBox').val('');
+        $('.filter_display_group').show();
+        $('.query_display_group').hide();
+        $('#searchTypeSelect').val("FILTERS");
+        $('.search_container__query_links').removeClass('selected_query');
+
         IoTApp.DeviceIndex.reloadGrid();
     }
 
@@ -689,6 +702,7 @@
         var queryName = $('#queryNameBox').val();
         var sql = $('#sqlBox').val();
         var url = "/api/v1/queries";
+        var isAdvanced = $('#searchTypeSelect').val() === 'QUERY';
         var filters = getFilterDataModel();
         if (!queryName || sql === '' && filters.length == 0) {
             IoTApp.Helpers.Dialog.displayError(resources.queryIsEmpty);
@@ -702,10 +716,11 @@
                 Filters: filters,
                 Sql: sql,
                 IsTemporary: false,
+                IsAdvanced: isAdvanced,
             },
             dataType: 'json',
             success: function (result) {
-                showRecentQueries();
+                showRecentQueries(queryName);
                 initQueryNameList();
                 return result.data;
             },
@@ -722,7 +737,7 @@
             type: 'DELETE',
             dataType: 'json',
             success: function (result) {
-                showRecentQueries();
+                showRecentQueries(null);
                 $('#queryNameBox').val('');
                 clearClauses(false);
             },
@@ -732,7 +747,7 @@
         });
     }
 
-    var showRecentQueries = function () {
+    var showRecentQueries = function (queryName) {
         var url = "/api/v1/queries";
         return $.ajax({
             url: url,
@@ -741,39 +756,27 @@
             success: function (result) {
                 var recentQueryArea = $('#recentQueryNameList');
                 recentQueryArea.empty();
-                for (var i = 0; i < result.data.length; ++i) {
+                var query = result.data;
+                for (var i = 0; i < query.length; i++) {
                     $('<a/>', {
                         id: 'queryName' + i,
                         "class": 'search_container__query_links',
-                        text: result.data[i].name,
+                        text: query[i].name,
                         click: function () {
-                            selectQuery(this);
+                            findQuery(this.textContent);
                         }
                     }).appendTo(recentQueryArea);
                 };
+                if (queryName) {
+                    $('.search_container__query_links').each(function (index) {
+                        if(this.textContent === queryName) {
+                            $(this).addClass('selected_query');
+                        }
+                    });
+                }
             },
             error: function () {
                 IoTApp.Helpers.Dialog.displayError(resources.failedToGetRecentQuery);
-            }
-        });
-    }
-
-    var selectQuery = function (queryLink) {
-        var url = "/api/v1/queries/" + queryLink.text;
-        return $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            success: function (result) {
-                var query = result.data;
-                $('#queryNameBox').val(query.name);
-                $('.search_container__query_links').removeClass('selected_query');
-                $(queryLink).addClass('selected_query');
-                updateFilters(query.filters);
-                updateSqlBox(getFilterDataModel());
-            },
-            error: function () {
-                IoTApp.Helpers.Dialog.displayError(resources.failedToGetQuery);
             }
         });
     }
@@ -785,11 +788,7 @@
             type: 'GET',
             dataType: 'json',
             success: function (result) {
-                var query = result.data;
-                $('#queryNameBox').val(queryName);
-                $('.search_container__query_links').removeClass('selected_query');
-                updateFilters(query.filters);
-                updateSqlBox(getFilterDataModel());
+                updateQueryPanel(result.data);
             },
             error: function () {
                 IoTApp.Helpers.Dialog.displayError(resources.failedToGetQuery + " : " + queryName);
@@ -797,7 +796,29 @@
         });
     }
 
-    var updateFilters = function (filters) {
+    var updateQueryPanel = function (query) {
+        updateFiltersPanel(query.filters);
+        $('#queryNameBox').val(query.name);
+        $('.search_container__query_links').each(function (index) {
+            if (this.textContent === query.name) {
+                $(this).addClass('selected_query');
+            } else {
+                $(this).removeClass('selected_query');
+            }
+        });
+        if (query.isAdvanced) {
+            $('.filter_display_group').hide();
+            $('.query_display_group').show();
+            $('#searchTypeSelect').val('QUERY');
+        } else {
+            $('.filter_display_group').show();
+            $('.query_display_group').hide();
+            $('#searchTypeSelect').val('FILTERS');
+        }
+        $('#sqlBox').val(query.sql);
+    }
+
+    var updateFiltersPanel = function (filters) {
         if (!filters) {
             clearClauses(false);
             return;

@@ -35,10 +35,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly ISecurityKeyGenerator _securityKeyGenerator;
         private readonly IDeviceRulesLogic _deviceRulesLogic;
         private readonly INameCacheLogic _nameCacheLogic;
+        private readonly IDeviceListQueryRepository _deviceListQueryRepository;
 
         public DeviceLogic(IIotHubRepository iotHubRepository, IDeviceRegistryCrudRepository deviceRegistryCrudRepository, 
             IDeviceRegistryListRepository deviceRegistryListRepository, IVirtualDeviceStorage virtualDeviceStorage, 
-            ISecurityKeyGenerator securityKeyGenerator, IConfigurationProvider configProvider, IDeviceRulesLogic deviceRulesLogic, INameCacheLogic nameCacheLogic)
+            ISecurityKeyGenerator securityKeyGenerator, IConfigurationProvider configProvider, IDeviceRulesLogic deviceRulesLogic,
+            INameCacheLogic nameCacheLogic, IDeviceListQueryRepository deviceListQueryRepository)
         {
             _iotHubRepository = iotHubRepository;
             _deviceRegistryCrudRepository = deviceRegistryCrudRepository;
@@ -48,10 +50,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _configProvider = configProvider;
             _deviceRulesLogic = deviceRulesLogic;
             _nameCacheLogic = nameCacheLogic;
+            _deviceListQueryRepository = deviceListQueryRepository;
         }
 
         public async Task<DeviceListQueryResult> GetDevices(DeviceListQuery q)
         {
+            await _deviceListQueryRepository.TouchQueryAsync(q?.Name);
             return await _deviceRegistryListRepository.GetDeviceList(q);
         }
 

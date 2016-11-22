@@ -119,12 +119,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
                 var listQuery = new DeviceListQuery()
                 {
+                    Name = dataTableRequest.QueryName,
+
                     SortOrder = dataTableRequest.SortColumns[0].SortOrder,
                     SortColumn = dataTableRequest.Columns[sortColumnIndex].Data,
 
                     SearchQuery = dataTableRequest.Search.Value,
 
                     Filters = dataTableRequest.Filters,
+                    Sql = dataTableRequest.Sql,
 
                     Skip = dataTableRequest.Start,
                     Take = dataTableRequest.Length

@@ -53,17 +53,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public int Take { get; set; }
 
         /// <summary>
+        /// this is a filter based query or advanced query defined by user.
+        /// </summary>
+        public bool IsAdvanced { get; set; }
+
+        /// <summary>
         /// Translate the filters in current query to IoT Hub SQL query
         /// Full text searching, paging and sorting are not supported by the IoT Hub SQL query until now
         /// </summary>
         /// <returns>The full SQL query</returns>
         public string GetSQLQuery()
         {
-            var condition = GetSQLCondition();
-
-            return string.IsNullOrWhiteSpace(condition) ?
-                "SELECT * FROM devices" :
-                $"SELECT * FROM devices WHERE {condition}";
+            return IsAdvanced ? Sql : GetFilterQuery();
         }
 
         /// <summary>
@@ -104,17 +105,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     }
 
                     return $"{filter.ColumnName} {op} {value}";
-                });
+                }).ToList();
 
             return filters == null ? string.Empty : string.Join(" AND ", filters);
         }
 
-        public bool IsAdvancedQuery
+        public string GetFilterQuery()
         {
-            get
+            var condition = GetSQLCondition();
+
+            string filterQuery = "SELECT * FROM devices";
+            if (!string.IsNullOrWhiteSpace(condition))
             {
-                return !(string.Compare(GetSQLQuery().Trim(), GetSQLQuery().Trim(), StringComparison.InvariantCultureIgnoreCase) == 0);
+                filterQuery = $"{filterQuery} WHERE {condition}";
             }
+            return filterQuery;
         }
     }
 }

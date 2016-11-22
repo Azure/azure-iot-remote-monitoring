@@ -1063,21 +1063,9 @@ table#alertHistoryTable tr.selectedAlert {
   padding-left: 0;
   height: 30px;
 }
-.search_container__query_find_query_label {
-  background-image: url("/Content/img/icon_add.svg");
-  background-repeat: no-repeat;
-  background-position: 11px 20px;
-  background-size: 7px 11px;
-}
 .search_container__query_new_query_link {
   font-size: 14px;
   clear: both;
-}
-search_container__query_recenty_query_label {
-  background-image: url("/Content/img/icon_add.svg");
-  background-repeat: no-repeat;
-  background-position: 11px 20px;
-  background-size: 7px 11px;
 }
 .search_container__query_recent_query_link {
   font-size: 14px;
@@ -1134,6 +1122,8 @@ search_container__query_recenty_query_label {
   background-color: white;
   overflow: hidden;
   margin-left: 20px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
 }
 .search_container__query_search_type_filter {
   margin-left: 10px;
@@ -1187,10 +1177,11 @@ search_container__query_recenty_query_label {
 }
 .search_details_container__sql_box {
   padding: 10px;
-  background-color: darkgray;
+  background-color: #ebebeb;
   font-size: 14px;
   height: 160px;
   width: 240px;
+  overflow-y: auto;
 }
 .search_container__search_details_button_container {
   position: absolute;

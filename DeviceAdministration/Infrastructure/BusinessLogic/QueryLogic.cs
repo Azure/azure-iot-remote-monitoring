@@ -25,6 +25,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 Name = query.Name,
                 Filters = query.Filters,
                 Sql = query.Sql,
+                IsAdvanced = query.IsAdvanced,
             };
             return await _queryRepository.SaveQueryAsync(deviceQuery, true);
         }
@@ -38,6 +39,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 Filters = q.Filters,
                 Sql = q.Sql,
                 IsTemporary = false,
+                IsAdvanced = q.IsAdvanced,
             });
         }
 
@@ -52,6 +54,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     IsTemporary = false,
                     Filters = query.Filters,
                     Sql = query.Sql,
+                    IsAdvanced = query.IsAdvanced,
                 };
             }
 
