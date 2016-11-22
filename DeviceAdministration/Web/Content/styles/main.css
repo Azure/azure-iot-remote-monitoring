@@ -1018,7 +1018,7 @@ table#alertHistoryTable tr.selectedAlert {
 .search_container {
   position: relative;
   float: left;
-  width: 305px;
+  width: 318px;
   left: 0;
   top: 0;
   z-index: 200;
@@ -1035,17 +1035,129 @@ table#alertHistoryTable tr.selectedAlert {
   background-size: 7px 11px;
   cursor: pointer;
 }
+.search_container__search_query_container {
+  display: block;
+  padding: 10px;
+  border-bottom-width: thin;
+  border-bottom-style: solid;
+  border-bottom-color: gray;
+}
+.search_container__query_find_query_box {
+  position: relative;
+  left: 0;
+  top: 0;
+  z-index: 200;
+  margin: 0.25em 1em 1.4em 0;
+  border-color: #999999;
+  background-color: #f2f2f2;
+  border-width: 1px;
+  padding: 0 5px;
+  min-height: 30px;
+  box-sizing: content-box;
+  width: 250px;
+  font-size: 14px;
+  margin-right: 0;
+  margin-bottom: 0;
+  padding-right: 0;
+  padding-left: 0;
+  height: 30px;
+}
+.search_container__query_find_query_label {
+  background-image: url("/Content/img/icon_add.svg");
+  background-repeat: no-repeat;
+  background-position: 11px 20px;
+  background-size: 7px 11px;
+}
+.search_container__query_new_query_link {
+  font-size: 14px;
+  clear: both;
+}
+search_container__query_recenty_query_label {
+  background-image: url("/Content/img/icon_add.svg");
+  background-repeat: no-repeat;
+  background-position: 11px 20px;
+  background-size: 7px 11px;
+}
+.search_container__query_recent_query_link {
+  font-size: 14px;
+  clear: both;
+}
+.search_container__query_links {
+  display: block;
+  padding-left: 24px;
+  font-size: 14px;
+}
+.selected_query {
+  background-color: lightsteelblue;
+}
+.search_container__query_name_text {
+  float: left;
+  margin: 0.25em 0 0 0;
+  border: 0px;
+  background-color: #f2f2f2;
+  min-height: 24px;
+  box-sizing: content-box;
+  width: 124px;
+  /* width of .filter_input minus the padding here */
+  font-size: 80%;
+  padding: 0 0 0 5px;
+  height: 24px;
+}
+.search_container__query_save_as {
+  margin: 0.25em 0 0 0.25em;
+  width: 20px;
+  height: 20px;
+}
+.search_container__query_delete {
+  margin: 0.25em 0 0 4em;
+  width: 20px;
+  height: 20px;
+}
+.search_container__query_save {
+  margin: 0.25em 0 0 0.25em;
+  width: 20px;
+  height: 20px;
+}
+.search_container__query_search_type_label {
+  color: gray;
+  display: block;
+  float: left;
+  clear: left;
+  font-size: 14px;
+  margin-top: 4px;
+}
+.search_container__query_search_type_select {
+  border: hidden;
+  border-width: 0px;
+  color: #55b6fc;
+  background-color: white;
+  overflow: hidden;
+  margin-left: 20px;
+}
+.search_container__query_search_type_filter {
+  margin-left: 10px;
+}
+.search_container__query_search_type_query {
+  margin-left: 10px;
+  display: none;
+}
 .search_container__search_details_container {
   border: 10px solid #f2f2f2;
   overflow: hidden;
   padding: 10px;
-  height: calc(100% - 84px);
+  height: calc(100% - 284px);
+}
+.search_details_container__filter_add_clause_container {
+  display: block;
+  position: relative;
+}
+.search_details_container__filter_clear_clauses_link {
+  display: block;
+  position: relative;
 }
 .search_details_container__filter_add_clause_link {
   display: block;
   font-size: 14px;
-  padding-left: 121px;
-  padding-bottom: 13px;
   clear: both;
 }
 .filter_template__filter_label {
@@ -1065,6 +1177,19 @@ table#alertHistoryTable tr.selectedAlert {
 }
 .search_details_container__filter_holder {
   overflow-y: auto;
+  clear: both;
+}
+.search_details_container__sql_container {
+  padding: 10px;
+  clear: left;
+  display: block;
+}
+.search_details_container__sql_box {
+  padding: 10px;
+  background-color: darkgray;
+  font-size: 14px;
+  height: 160px;
+  width: 240px;
 }
 .search_container__search_details_button_container {
   position: absolute;
@@ -1119,7 +1244,6 @@ table#alertHistoryTable tr.selectedAlert {
   position: relative;
   left: 0;
   top: 0;
-  z-index: 200;
   display: block;
   float: left;
   margin: 0.25em 1em 1.4em 0;
@@ -1906,6 +2030,7 @@ table#alertHistoryTable tr.selectedAlert {
 /* UI Auto Complete */
 
 .ui-autocomplete {
+  z-index: 1000;
   max-height: 200px;
   overflow-y: auto;
   overflow-x: hidden;

@@ -94,7 +94,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             this._configProviderMock.Setup(mock => mock.GetConfigurationSettingValue("iotHub.HostName")).Returns("hostName");
             var res = this._deviceLogic.ExtractDevicePropertyValuesModels(device);
 
-            Assert.Equal(res.Count(), 4);
+            Assert.Equal(res.Count(), 5);
             Assert.Equal(res.Last().Name, "HostName");
             Assert.Equal(res.Last().Value, "hostName");
 

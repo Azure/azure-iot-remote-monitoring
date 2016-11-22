@@ -1,9 +1,4 @@
-﻿// For debugging purpose, we will append some additional characters to the IoT Hub twins, so it
-// will be easier to deteming the data source of the values showing on the frontend
-// To disable this feature, please comment this flag
-#define SOURCEFLAG
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -11,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.JsonContractResolvers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors;
@@ -21,7 +17,6 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
 using Microsoft.Azure.Devices.Common.Exceptions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices
 {
@@ -185,23 +180,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 var deviceConnectionString = Client.IotHubConnectionStringBuilder.Create(HostName, authMethod).ToString();
 
                 // Device properties (InstalledRAM, Processor, etc.) should be treat as reported proerties
-#if SOURCEFLAG
-                // Add debugging flag to show source of the value
-                var text = JsonConvert.SerializeObject(DeviceProperties, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-                var root = JsonConvert.DeserializeObject(text) as JToken;
-
-                foreach (JProperty item in root.Children())
+                var reportedProperties = JsonConvert.SerializeObject(DeviceProperties, Formatting.Indented, new JsonSerializerSettings
                 {
-                    if (item.Value.Type == JTokenType.String && item.Name != "DeviceID")
-                    {
-                        item.Value = $"{item.Value.ToString()}/I";
-                    }
-                }
-
-                var reportedProperties = JsonConvert.SerializeObject(root, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }).Replace('\"', '\'');
-#else
-                var reportedProperties = JsonConvert.SerializeObject(DeviceProperties, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }).Replace('\"', '\'');
-#endif
+                    NullValueHandling = NullValueHandling.Ignore,
+                    ContractResolver = new SkipByNameContractResolver("DeviceID")
+                }).Replace('\"', '\'');
 
                 // [WORKAROUND] Launch a standalone simulator to show the device managemnt features until the the C# device SDK was ready
                 dmProcess = Process.Start("DMSimulator", $"/d:\"{deviceConnectionString}\" /p:\"{reportedProperties}\"");

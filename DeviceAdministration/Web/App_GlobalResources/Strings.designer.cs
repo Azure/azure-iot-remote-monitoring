@@ -152,6 +152,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NEW QUERY.
+        /// </summary>
+        public static string AddNewQuery {
+            get {
+                return ResourceManager.GetString("AddNewQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Rule....
         /// </summary>
         public static string AddRule {
@@ -517,6 +526,15 @@ namespace GlobalResources {
         public static string CheckId {
             get {
                 return ResourceManager.GetString("CheckId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - CLEAR CLAUSE.
+        /// </summary>
+        public static string ClearClauses {
+            get {
+                return ResourceManager.GetString("ClearClauses", resourceCulture);
             }
         }
         
@@ -1448,6 +1466,42 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete query..
+        /// </summary>
+        public static string FailedToDeleteQuery {
+            get {
+                return ResourceManager.GetString("FailedToDeleteQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to find available name, please retry..
+        /// </summary>
+        public static string FailedToGetAvailableQueryName {
+            get {
+                return ResourceManager.GetString("FailedToGetAvailableQueryName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to get query..
+        /// </summary>
+        public static string FailedToGetQuery {
+            get {
+                return ResourceManager.GetString("FailedToGetQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to get recent queries..
+        /// </summary>
+        public static string FailedToGetRecentQuery {
+            get {
+                return ResourceManager.GetString("FailedToGetRecentQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while retrieving the list of actions..
         /// </summary>
         public static string FailedToRetrieveActions {
@@ -1480,6 +1534,15 @@ namespace GlobalResources {
         public static string FailedToRetrieveRules {
             get {
                 return ResourceManager.GetString("FailedToRetrieveRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to save query..
+        /// </summary>
+        public static string FailedToSaveQuery {
+            get {
+                return ResourceManager.GetString("FailedToSaveQuery", resourceCulture);
             }
         }
         
@@ -1768,6 +1831,15 @@ namespace GlobalResources {
         public static string FindLabel {
             get {
                 return ResourceManager.GetString("FindLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find a query.
+        /// </summary>
+        public static string FindQuery {
+            get {
+                return ResourceManager.GetString("FindQuery", resourceCulture);
             }
         }
         
@@ -2789,6 +2861,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The query name or filters are empty..
+        /// </summary>
+        public static string QueryIsEmpty {
+            get {
+                return ResourceManager.GetString("QueryIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Read-Only.
         /// </summary>
         public static string ReadOnlyRole {
@@ -3230,6 +3311,33 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TYPE OF SEARCH.
+        /// </summary>
+        public static string SearchType {
+            get {
+                return ResourceManager.GetString("SearchType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FILTER.
+        /// </summary>
+        public static string SearchTypeFilters {
+            get {
+                return ResourceManager.GetString("SearchTypeFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to QUERY.
+        /// </summary>
+        public static string SearchTypeQuery {
+            get {
+                return ResourceManager.GetString("SearchTypeQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SECONDARY KEY.
         /// </summary>
         public static string SecondaryKey {
@@ -3361,6 +3469,15 @@ namespace GlobalResources {
         public static string ShowInstructions {
             get {
                 return ResourceManager.GetString("ShowInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recent queries.
+        /// </summary>
+        public static string ShowRecentQueries {
+            get {
+                return ResourceManager.GetString("ShowRecentQueries", resourceCulture);
             }
         }
         
@@ -3640,6 +3757,15 @@ namespace GlobalResources {
         public static string TrueEnabledDevice {
             get {
                 return ResourceManager.GetString("TrueEnabledDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type of search.
+        /// </summary>
+        public static string TypeOfSearch {
+            get {
+                return ResourceManager.GetString("TypeOfSearch", resourceCulture);
             }
         }
         

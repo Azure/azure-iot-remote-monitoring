@@ -21,24 +21,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         /// <summary>
         /// General, overarching search query (not specific to a column)
+        /// (To be obsoleted)
         /// </summary>
         public string SearchQuery { get; set; }
-        
+
         /// <summary>
         /// Requested sorting column
         /// </summary>
         public string SortColumn { get; set; }
-        
+
         /// <summary>
         /// Requested sorting order
         /// </summary>
-        public QuerySortOrder SortOrder { get; set;}
+        public QuerySortOrder SortOrder { get; set; }
 
         /// <summary>
         /// The complete SQL string built from other fields
         /// </summary>
         public string Sql { get; set; }
-        
+
         /// <summary>
         /// Number of devices to skip at start of list (if Skip = 50, then 
         /// the first 50 devices will be omitted from the list, and devices will
@@ -95,7 +96,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     // For syntax reason, the value should be surrounded by ''
                     // This feature will be skipped if the value is a number. To compare a number as string, user should surround it by '' manually                    
                     if (filter.FilterType != FilterType.IN &&
-                        !value.All(c => char.IsDigit(c)) &&
+                        !(value.All(c => char.IsDigit(c)) && value.Any()) &&
                         !value.StartsWith("\'") &&
                         !value.EndsWith("\'"))
                     {
@@ -106,6 +107,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 });
 
             return filters == null ? string.Empty : string.Join(" AND ", filters);
+        }
+
+        public bool IsAdvancedQuery
+        {
+            get
+            {
+                return !(string.Compare(GetSQLQuery().Trim(), GetSQLQuery().Trim(), StringComparison.InvariantCultureIgnoreCase) == 0);
+            }
         }
     }
 }

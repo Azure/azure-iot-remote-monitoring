@@ -180,6 +180,7 @@
     <Compile Include="Helpers\IBlobStorageClientFactory.cs" />
     <Compile Include="Helpers\IBlobStorageClient.cs" />
     <Compile Include="Helpers\IDocumentDBClient.cs" />
+    <Compile Include="JsonContractResolvers\SkipByNameContractResolver.cs" />
     <Compile Include="Mapper\TypeMapper.cs" />
     <Compile Include="Mapper\MappingValidator.cs" />
     <Compile Include="Models\BlobContents.cs" />

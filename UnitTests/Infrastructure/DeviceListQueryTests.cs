@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Xunit;
 
@@ -21,6 +18,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
 
             sql = BuildNullQuery().GetSQLQuery();
             Assert.Equal(sql, "SELECT * FROM devices");
+
+            sql = BuildQueryWithEmptyFilterValue().GetSQLQuery();
+            Assert.Equal(sql, "SELECT * FROM devices WHERE tag.x != ''");
         }
 
         [Fact]
@@ -34,6 +34,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
 
             condition = BuildNullQuery().GetSQLCondition();
             Assert.Equal(condition, string.Empty);
+
+            condition = BuildQueryWithEmptyFilterValue().GetSQLCondition();
+            Assert.Equal(condition, "tag.x != ''");
         }
 
         [Fact]
@@ -117,11 +120,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             {
                 Filters = new List<FilterInfo>
                 {
-                    new FilterInfo()
+                    new FilterInfo
                     {
                         ColumnName = "tags.x",
                         FilterType = FilterType.ContainsCaseInsensitive,
                         FilterValue = "one"
+                    }
+                }
+            };
+        }
+
+        private DeviceListQuery BuildQueryWithEmptyFilterValue()
+        {
+            return new DeviceListQuery
+            {
+                Filters = new List<FilterInfo>
+                {
+                    new FilterInfo
+                    {
+                        ColumnName = "tag.x",
+                        FilterType = FilterType.NE,
+                        FilterValue = string.Empty
                     }
                 }
             };

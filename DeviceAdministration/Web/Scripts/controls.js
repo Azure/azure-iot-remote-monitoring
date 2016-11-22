@@ -70,7 +70,7 @@
         }
 
         result = result.map(function (item) {
-            return item.name;
+            return item.name || item;
         });
 
         return result;
@@ -91,7 +91,7 @@
     };
 
     var loadNameList = function (options, callback) {
-        var url = "/api/v1/namecache/list/" + options.type;
+        var url = options.externalDataSourceUrl || ("/api/v1/namecache/list/" + options.type);
         return $.ajax({
             url: url,
             type: 'GET',

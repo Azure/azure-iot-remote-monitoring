@@ -111,8 +111,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                                 DisplayOrder = 0,
                                 IsEditable = false,
                                 IsIncludedWithUnregisteredDevices = true,
+                                Name = "DeviceID",
+                                PropertyType = PropertyType.String,
+                                Value = device.DeviceProperties.DeviceID,
+                            },
+                            new DevicePropertyValueModel()
+                            {
+                                DisplayOrder = 0,
+                                IsEditable = false,
+                                IsIncludedWithUnregisteredDevices = true,
                                 Name = "HostName",
-                                PropertyType = Models.PropertyType.String,
+                                PropertyType = PropertyType.String,
                                 Value = hostNameValue
                             }
                         });
