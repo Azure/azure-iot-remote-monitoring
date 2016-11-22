@@ -1016,6 +1016,7 @@ table#alertHistoryTable tr.selectedAlert {
   font-weight: normal;
 }
 .search_container {
+  display: none;
   position: relative;
   float: left;
   width: 318px;

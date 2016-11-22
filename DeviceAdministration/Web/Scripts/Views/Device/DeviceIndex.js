@@ -16,9 +16,6 @@
 
         Cookies.json = true;
 
-        // close this initially
-        self.searchPane.hide();
-
         _initializeDatatable();
 
         self.buttonDetailsGrid.on("click", function () {
@@ -220,6 +217,7 @@
                 // NOTE: calling anything here that tries to calc sizes on the grid can throw
                 self.searchPane.toggle();
                 self.searchPaneClosed.toggle();
+                setGridWidth();
             }
         }
     }
