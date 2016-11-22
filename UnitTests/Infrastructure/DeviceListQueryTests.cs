@@ -21,6 +21,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
 
             sql = BuildQueryWithEmptyFilterValue().GetSQLQuery();
             Assert.Equal(sql, "SELECT * FROM devices WHERE tag.x != ''");
+
+            sql = BuildQueryWithoutPropertiesPrefix().GetSQLQuery();
+            Assert.Equal(sql, "SELECT * FROM devices WHERE tags.x = 'one' AND properties.desired.y < 1 AND properties.reported.z > '1'");
         }
 
         [Fact]
@@ -37,6 +40,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
 
             condition = BuildQueryWithEmptyFilterValue().GetSQLCondition();
             Assert.Equal(condition, "tag.x != ''");
+
+            condition = BuildQueryWithoutPropertiesPrefix().GetSQLCondition();
+            Assert.Equal(condition, "tags.x = 'one' AND properties.desired.y < 1 AND properties.reported.z > '1'");
         }
 
         [Fact]
@@ -142,6 +148,34 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                         FilterType = FilterType.NE,
                         FilterValue = string.Empty
                     }
+                }
+            };
+        }
+
+        private DeviceListQuery BuildQueryWithoutPropertiesPrefix()
+        {
+            return new DeviceListQuery
+            {
+                Filters = new List<FilterInfo>
+                {
+                    new FilterInfo
+                    {
+                        ColumnName = "tags.x",
+                        FilterType = FilterType.EQ,
+                        FilterValue = "one"
+                    },
+                    new FilterInfo
+                    {
+                        ColumnName = "desired.y",
+                        FilterType = FilterType.LT,
+                        FilterValue = "1"
+                    },
+                    new FilterInfo
+                    {
+                        ColumnName = "reported.z",
+                        FilterType = FilterType.GT,
+                        FilterValue = "\'1\'"
+                    },
                 }
             };
         }

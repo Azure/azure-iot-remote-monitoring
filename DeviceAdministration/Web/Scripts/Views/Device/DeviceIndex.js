@@ -438,6 +438,7 @@
         data.search.value = $('#searchQuery').val();
         data.queryName = $('#queryNameBox').val();
         data.sql = $('#sqlBox').val();
+        data.isAdvanced = $('#searchTypeSelect').val() === 'QUERY';
         data.filters = [];
         for (var i = 0; i < filterCount; ++i) {
 

@@ -16,5 +16,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public Search Search { get; set; }
         public List<FilterInfo> Filters { get; set; }
         public string Sql { get; set; }
+        public bool IsAdvanced { get; set; }
     }
 }

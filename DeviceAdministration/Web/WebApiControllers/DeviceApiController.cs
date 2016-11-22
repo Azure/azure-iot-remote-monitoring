@@ -128,6 +128,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
                     Filters = dataTableRequest.Filters,
                     Sql = dataTableRequest.Sql,
+                    IsAdvanced = dataTableRequest.IsAdvanced,
 
                     Skip = dataTableRequest.Start,
                     Take = dataTableRequest.Length

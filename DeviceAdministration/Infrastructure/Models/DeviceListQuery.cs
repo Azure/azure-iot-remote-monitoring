@@ -103,8 +103,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     {
                         value = $"\'{value}\'";
                     }
-
-                    return $"{filter.ColumnName} {op} {value}";
+                    if (filter.ColumnName.StartsWith("reported.") || filter.ColumnName.StartsWith("desired."))
+                    {
+                        return $"properties.{filter.ColumnName} {op} {value}";
+                    }
+                    else
+                    {
+                        return $"{filter.ColumnName} {op} {value}";
+                    }
                 }).ToList();
 
             return filters == null ? string.Empty : string.Join(" AND ", filters);
