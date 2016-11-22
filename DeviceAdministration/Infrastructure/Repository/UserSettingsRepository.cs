@@ -1,13 +1,9 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+﻿using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.WindowsAzure.Storage.Table;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -16,46 +12,58 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private readonly string _storageAccountConnectionString;
         private const string _settingsTableName = "UserSettings";
-        private const string _settingsTablePartitionKey = "settings";
+        private const string _globalUserId = "global";
         private readonly IAzureTableStorageClient _azureTableStorageClient;
 
-        public UserSettingsRepository(IConfigurationProvider configProvider, AzureTableStorageClientFactory tableStorageClientFactory)
+        public UserSettingsRepository(IConfigurationProvider configProvider, IAzureTableStorageClientFactory tableStorageClientFactory)
         {
             _storageAccountConnectionString = configProvider.GetConfigurationSettingValue("device.StorageConnectionString");
             _azureTableStorageClient = tableStorageClientFactory.CreateClient(_storageAccountConnectionString, _settingsTableName);
         }
 
-        public async Task<UserSetting> GetUserSettingValueAsync(string settingKey)
+        public async Task<UserSetting> GetUserSettingAsync(string userId, string settingKey)
         {
-            TableOperation query = TableOperation.Retrieve<UserSettingTableEntity>(_settingsTablePartitionKey, settingKey);
+            var setting = await GetUserSettingImplAsync(userId, settingKey);
+            if (setting == null)
+            {
+                setting = await GetGlobalUserSettingAsync(settingKey);
+            }
 
-            TableResult response = await Task.Run(() =>
-                _azureTableStorageClient.Execute(query)
-            );
+            return setting;
+        }
+
+        public async Task<UserSetting> GetGlobalUserSettingAsync(string settingKey)
+        {
+            return await GetUserSettingImplAsync(_globalUserId, settingKey);
+        }
+
+        public async Task<UserSetting> SetUserSettingAsync(string userId, UserSetting setting, bool saveAsGlobal)
+        {
+            if (saveAsGlobal)
+            {
+                await SetUserSettingImplAsync(_globalUserId, setting);
+            }
+
+            return await SetUserSettingImplAsync(userId, setting);
+        }
+
+        private async Task<UserSetting> GetUserSettingImplAsync(string userId, string settingKey)
+        {
+            TableOperation query = TableOperation.Retrieve<UserSettingTableEntity>(userId, settingKey);
+            TableResult response = await _azureTableStorageClient.ExecuteAsync(query);
 
             UserSetting result = null;
             if(response.Result != null && response.Result.GetType() == typeof(UserSettingTableEntity))
             {
-                result = new UserSetting
-                {
-                    Etag = ((UserSettingTableEntity)response.Result).ETag,
-                    Key = ((UserSettingTableEntity)response.Result).RowKey,
-                    Value = ((UserSettingTableEntity)response.Result).SettingValue
-                };
+                result = new UserSetting((UserSettingTableEntity)response.Result);
             }
 
             return result;
         }
 
-        public async Task<TableStorageResponse<UserSetting>> SetUserSettingValueAsync(UserSetting setting)
+        private async Task<UserSetting> SetUserSettingImplAsync(string userId, UserSetting setting)
         {
-            var incomingEntity =
-                new UserSettingTableEntity()
-                {
-                    PartitionKey = _settingsTablePartitionKey,
-                    RowKey = setting.Key,
-                    SettingValue = setting.Value
-                };
+            var incomingEntity = new UserSettingTableEntity(userId, setting);
 
             if (!string.IsNullOrWhiteSpace(setting.Etag))
             {
@@ -69,17 +77,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         return null;
                     }
 
-                    var updatedSetting = new UserSetting()
-                    {
-                        Key = tableEntity.RowKey,
-                        Value = tableEntity.SettingValue,
-                        Etag = tableEntity.ETag
-                    };
-
-                    return updatedSetting;
+                    return new UserSetting(tableEntity);
                 });
 
-            return result;
+            return result.Entity;
         }
     }
 }

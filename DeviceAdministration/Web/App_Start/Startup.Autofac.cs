@@ -67,6 +67,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
 
             builder.RegisterType<AlertsLogic>().As<IAlertsLogic>();
             builder.RegisterType<NameCacheLogic>().As<INameCacheLogic>();
+            builder.RegisterType<UserSettingsLogic>().As<IUserSettingsLogic>();
 
             //Repositories
             builder.RegisterType<IotHubRepository>().As<IIotHubRepository>();
@@ -89,7 +90,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             builder.RegisterType<BlobStorageClientFactory>().As<IBlobStorageClientFactory>();
             builder.RegisterGeneric(typeof(DocumentDBClient<>)).As(typeof(IDocumentDBClient<>));
             builder.RegisterType<NameCacheRepository>().As<INameCacheRepository>();
-            builder.RegisterType<DeviceListColumnsRepository>().As<IDeviceListColumnsRepository>();
+            builder.RegisterType<UserSettingsRepository>().As<IUserSettingsRepository>();
         }
     }
 }

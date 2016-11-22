@@ -4,8 +4,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using GlobalResources;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
@@ -13,7 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     [RoutePrefix("api/v1/deviceListColumns")]
     public class DeviceListColumnsApiController : WebApiControllerBase
     {
-        private readonly IDeviceListColumnsRepository _deviceListColumnsRepository;
+        private readonly IUserSettingsLogic _userSettingsLogic;
         private readonly List<DeviceListColumns> defaultColumns = new List<DeviceListColumns>() {
                     new DeviceListColumns() { Name = "tags.HubEnabledState", Alias = Strings.StatusHeader },
                     new DeviceListColumns() { Name = "deviceId", Alias = Strings.DeviceIdHeader },
@@ -25,9 +25,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     new DeviceListColumns() { Name = "reported.Processor", Alias = Strings.ProcessorHeader },
                     new DeviceListColumns() { Name = "reported.InstalledRAM", Alias = Strings.InstalledRamHeader }};
 
-        public DeviceListColumnsApiController(IDeviceListColumnsRepository deviceListColumnsRepository)
+        public DeviceListColumnsApiController(IUserSettingsLogic userSettingsLogic)
         {
-            _deviceListColumnsRepository = deviceListColumnsRepository;
+            _userSettingsLogic = userSettingsLogic;
         }
 
         [HttpGet]
@@ -39,28 +39,39 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             return await GetServiceResponseAsync<IEnumerable<DeviceListColumns>>(async () =>
             {
-                var columns =  await _deviceListColumnsRepository.GetAsync(userId);
+                var columns =  await _userSettingsLogic.GetDeviceListColumnsAsync(userId);
 
                 if (columns == null || columns.Count() == 0)
                 {
                     columns = defaultColumns;
-                    await _deviceListColumnsRepository.SaveAsync(userId, columns);
+                    await _userSettingsLogic.SetDeviceListColumnsAsync(userId, columns);
                 }
 
                 return columns;
             });
         }
 
+        [HttpGet]
+        [Route("global")]
+        [WebApiRequirePermission(Permission.ViewDevices)]
+        public async Task<HttpResponseMessage> GetGlobalDeviceListColumns()
+        {
+            return await GetServiceResponseAsync<IEnumerable<DeviceListColumns>>(async () =>
+            {
+                return await _userSettingsLogic.GetGlobalDeviceListColumnsAsync();
+            });
+        }
+
         [HttpPut]
         [Route("")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> UpdateDeviceListColumns([FromBody] IEnumerable<DeviceListColumns> deviceListColumns)
+        public async Task<HttpResponseMessage> UpdateDeviceListColumns([FromBody] IEnumerable<DeviceListColumns> deviceListColumns, bool saveAsGlobal = false)
         {
             var userId = PrincipalHelper.GetEmailAddress(User);
 
             return await GetServiceResponseAsync<bool>(async () =>
             {
-                return await _deviceListColumnsRepository.SaveAsync(userId, deviceListColumns);
+                return await _userSettingsLogic.SetDeviceListColumnsAsync(userId, deviceListColumns, saveAsGlobal);
             });
         }
 

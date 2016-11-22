@@ -2213,6 +2213,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load Default.
+        /// </summary>
+        public static string LoadDefault {
+            get {
+                return ResourceManager.GetString("LoadDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Local.
         /// </summary>
         public static string Local {
@@ -3163,6 +3172,15 @@ namespace GlobalResources {
         public static string SaveAndViewRules {
             get {
                 return ResourceManager.GetString("SaveAndViewRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save as default for all users.
+        /// </summary>
+        public static string SaveAsDefault {
+            get {
+                return ResourceManager.GetString("SaveAsDefault", resourceCulture);
             }
         }
         

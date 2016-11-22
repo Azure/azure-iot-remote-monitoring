@@ -60,31 +60,31 @@
     overflow: auto;
     background-color: @background-color;
     margin: 5px 20px 20px 20px;
-    padding: 20px;
+    padding: 10px 0px 10px 0px;
 }
 .device_list_columns_item {
-    padding:4px;
+    padding:5px 15px 5px 15px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .device_list_columns_item:hover {
-    background-color: @secondary-color;
+    background-color: @menu-item-hover-background-color;
 }
 .device_list_columns_toolbar{
     position: absolute;
     right: 0px;
     top:0px;
-    background-color: @secondary-color;
+    background-color: @menu-item-hover-background-color;
     visibility:hidden;
 }
 .device_list_columns_item:hover .device_list_columns_toolbar{
     visibility:visible;
 }
 .device_list_columns_toolbar_button{
-    width:15px;
-    height:15px;
-    margin-top:5px;
+    width:18px;
+    height:18px;
+    margin-top:3px;
     padding:2px;
     border: 1px solid transparent;
     cursor:pointer;
@@ -92,6 +92,15 @@
 .device_list_columns_toolbar_button:hover {
     border: 1px solid @menu-border-color
 }
+.device_list_columns_toolbar_button_disabled {  
+    width: 18px;  
+    height: 18px;  
+    margin-top: 3px;  
+    padding: 2px;  
+    border: 1px solid transparent;  
+    cursor: pointer;  
+    cursor: default;  
+} 
 .device_list_columns_button_container {
     position:absolute;
     bottom: 0px;
@@ -111,4 +120,9 @@
     min-height: 30px;
     box-sizing: content-box;
     width: ~"calc(100% - 8px)";
+}
+.device_list_columns_loaddefault_text {  
+    position: absolute;  
+    top: 0px;  
+    right: 20px;  
 }

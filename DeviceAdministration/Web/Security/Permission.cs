@@ -27,6 +27,7 @@
         LogicApps,
         CellularConn,
         ViewJobs,
-        ManageJobs
+        ManageJobs,
+        SaveDeviceListColumnsAsGlobal
     }
 }

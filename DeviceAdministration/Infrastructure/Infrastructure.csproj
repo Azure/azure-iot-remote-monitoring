@@ -147,6 +147,7 @@
     <Compile Include="BusinessLogic\DeviceLogicWithIoTHubDM.cs" />
     <Compile Include="BusinessLogic\DeviceRulesLogic.cs" />
     <Compile Include="BusinessLogic\DeviceTelemetryLogic.cs" />
+    <Compile Include="BusinessLogic\IUserSettingsLogic.cs" />
     <Compile Include="BusinessLogic\NameCacheLogic.cs" />
     <Compile Include="BusinessLogic\DeviceTypeLogic.cs" />
     <Compile Include="BusinessLogic\IActionLogic.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="BusinessLogic\ISecurityKeyGenerator.cs" />
     <Compile Include="BusinessLogic\KeyLogic.cs" />
     <Compile Include="BusinessLogic\SecurityKeyGenerator.cs" />
+    <Compile Include="BusinessLogic\UserSettingsLogic.cs" />
     <Compile Include="Exceptions\DeviceAdministrationExceptionBase.cs" />
     <Compile Include="Exceptions\DeviceNotRegisteredException.cs" />
     <Compile Include="Exceptions\DeviceRegistrationException.cs" />
@@ -212,7 +214,6 @@
     <Compile Include="Repository\ActionRepository.cs" />
     <Compile Include="Repository\AlertsRepository.cs" />
     <Compile Include="Repository\ApiRegistrationRepository.cs" />
-    <Compile Include="Repository\DeviceListColumnsRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepositoryWithIoTHubDM.cs" />
     <Compile Include="Repository\DeviceListQueryRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepository.cs" />
@@ -223,7 +224,6 @@
     <Compile Include="Repository\DeviceTelemetryRepository.cs" />
     <Compile Include="Repository\IAlertsRepository.cs" />
     <Compile Include="Repository\IApiRegistrationRepository.cs" />
-    <Compile Include="Repository\IDeviceListColumnsRepository.cs" />
     <Compile Include="Repository\IDeviceRegistryCrudRepository.cs" />
     <Compile Include="Repository\IDeviceRegistryListRepository.cs" />
     <Compile Include="Repository\IDeviceRulesRepository.cs" />

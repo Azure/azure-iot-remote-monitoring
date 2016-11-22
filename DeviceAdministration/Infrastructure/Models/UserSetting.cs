@@ -8,6 +8,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class UserSetting
     {
+        public UserSetting()
+        {
+
+        }
+
+        public UserSetting(UserSettingTableEntity entity)
+        {
+            Key = entity.RowKey;
+            Value = entity.SettingValue;
+            Etag = entity.ETag;
+        }
+
+        public UserSetting(string key, string value)
+        {
+            Key = key;
+            Value = value;
+        }
+
         public string Etag { get; set; }
         public string Key { get; set; }
         public string Value { get; set; }

@@ -9,6 +9,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class UserSettingTableEntity : TableEntity
     {
+        public UserSettingTableEntity()
+        {
+
+        }
+
+        public UserSettingTableEntity(string userId, UserSetting setting)
+        {
+            PartitionKey = userId;
+            RowKey = setting.Key;
+            SettingValue = setting.Value;
+            ETag = "*";
+        }
+
         public string SettingValue { get; set; }
     }
 }

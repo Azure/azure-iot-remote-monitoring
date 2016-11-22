@@ -2,7 +2,7 @@
     "use strict";
     
     var self = this;
-    self.reservedColumnNames = ['DeviceId', 'tags.HubEnabledState'];
+    self.reservedColumnNames = ['deviceId', 'tags.HubEnabledState'];
     self.model = {
         columns: ko.observableArray([]),
         editingItem: ko.observable(null),
@@ -93,6 +93,21 @@
                 addColumn();
             }
         });
+        $('.device_list_columns_loaddefault_text').click(function () {
+            $('#loadingElement').show();
+            $.ajax({
+                url: '/api/v1/deviceListColumns/global',
+                type: 'GET',
+                success: function (result) {
+                    $('#loadingElement').hide();
+                    self.model.columns(result.data);
+                },
+                error: function () {
+                    $('#loadingElement').hide();
+                    IoTApp.Helpers.Dialog.displayError(resources.unableToRetrieveColumnsFromService);
+                }
+            });
+        });
     };
 
     var isEditColumnsMode = function () {
@@ -137,9 +152,9 @@
         return parts[parts.length - 1];
     };
 
-    var updateColumns = function () {
+    var updateColumns = function (saveAsGlobal) {
         $('#loadingElement').show();
-        var url = '/api/v1/deviceListColumns'
+        var url = '/api/v1/deviceListColumns?saveAsGlobal=' + saveAsGlobal;
         $.ajax({
             url: url,
             data: { '': self.model.columns() },
@@ -157,6 +172,7 @@
     };
 
     var close = function (noNeedToggle) {
+        $('.device_list_columns_button_container').remove();
         $(".button_details_grid").off("click", closeButtonClick);
         $('.details_grid__grid_subhead').html(self.preHead);
         self.preContent = $('#details_grid_container').html(self.preContent);

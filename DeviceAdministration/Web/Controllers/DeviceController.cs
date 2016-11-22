@@ -32,19 +32,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly IDeviceTypeLogic _deviceTypeLogic;
         private readonly ICellularExtensions _cellularExtensions;
         private readonly string _iotHubName;
-        private readonly IDeviceListColumnsRepository _deviceListColumnsRepository;
+        private readonly IUserSettingsLogic _userSettingsLogic;
 
         public DeviceController(IDeviceLogic deviceLogic, IDeviceTypeLogic deviceTypeLogic,
             IConfigurationProvider configProvider,
             IApiRegistrationRepository apiRegistrationRepository,
             ICellularExtensions cellularExtensions,
-            IDeviceListColumnsRepository deviceListColumnsRepository)
+            IUserSettingsLogic userSettingsLogic)
         {
             _deviceLogic = deviceLogic;
             _deviceTypeLogic = deviceTypeLogic;
             _apiRegistrationRepository = apiRegistrationRepository;
             _cellularExtensions = cellularExtensions;
-            _deviceListColumnsRepository = deviceListColumnsRepository;
+            _userSettingsLogic = userSettingsLogic;
 
             _iotHubName = configProvider.GetConfigurationSettingValue("iotHub.HostName");
         }
@@ -341,7 +341,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<ActionResult> GetDeviceListColumns()
         {
             var userId = PrincipalHelper.GetEmailAddress(User);
-            var columns = await _deviceListColumnsRepository.GetAsync(userId);
+            var columns = await _userSettingsLogic.GetDeviceListColumnsAsync(userId);
 
             return PartialView("_DeviceListColumns", JsonConvert.SerializeObject(columns, new JsonSerializerSettings
             {

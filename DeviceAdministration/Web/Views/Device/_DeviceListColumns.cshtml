@@ -1,5 +1,6 @@
 ﻿@using System.Globalization
 @using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security
 
 <div class="device_list_columns_container">
     <div class="name_selector_container">
@@ -7,7 +8,7 @@
         <button class="name_add__button">+</button>
     </div>
     <div class="header_grid header_grid_general">
-        <h3 class="grid_subheadhead_detail">@Strings.SelectedColumns</h3>
+        <h3 class="grid_subheadhead_detail">@Strings.SelectedColumns</h3><h3 class="grid_subheadhead_detail"><a class="device_list_columns_loaddefault_text">@Strings.LoadDefault</a></h3>
     </div>
 
     <section class="details_grid_columns" id="selectedColumnsGrid">
@@ -21,14 +22,14 @@
                 <!-- /ko -->
                 <div class="device_list_columns_toolbar">
                     <!--ko if: $parent.editingItem() != $data -->
-                    <img src="~/Content/img/button_back.svg" title="@Strings.Edit" class="device_list_columns_toolbar_button" data-bind="click: $parent.edit" />
-                    <img src="~/Content/img/button_page_prev.svg" title="@Strings.MoveUp" class="device_list_columns_toolbar_button" data-bind="click: $parent.moveUp" />
-                    <img src="~/Content/img/button_page_next.svg" title="@Strings.MoveDown" class="device_list_columns_toolbar_button" data-bind="click: $parent.moveDown" />
+                    <img src="~/Content/img/edit_name.svg" title="@Strings.Edit" class="device_list_columns_toolbar_button" data-bind="click: $parent.edit" />
+                    <img src="~/Content/img/column_up.svg" title="@Strings.MoveUp" class="device_list_columns_toolbar_button" data-bind="click: $parent.moveUp" />
+                    <img src="~/Content/img/column_down.svg" title="@Strings.MoveDown" class="device_list_columns_toolbar_button" data-bind="click: $parent.moveDown" />
                     <!--ko ifnot: $parent.isReserved($data) -->
-                    <img src="~/Content/img/icon_add.svg" title="@Strings.Delete" class="device_list_columns_toolbar_button" data-bind="click: $parent.remove" />
+                    <img src="~/Content/img/column_delete.svg" title="@Strings.Delete" class="device_list_columns_toolbar_button" data-bind="click: $parent.remove" />
                     <!-- /ko -->
                     <!--ko if: $parent.isReserved($data) -->
-                    <img src="~/Content/img/icon_add.svg" title="@Strings.Delete" class="device_list_columns_toolbar_button"  />
+                    <img src="~/Content/img/column_delete.svg" title="@Strings.Delete" class="device_list_columns_toolbar_button_disabled"  />
                     <!-- /ko -->
                     <!-- /ko -->
                 </div>
@@ -37,10 +38,14 @@
     </section>
     <div class="device_list_columns_button_container_spaceholder"></div>
     <div class="device_list_columns_button_container">
-        <button type="button" onclick="IoTApp.DeviceListColumns.updateColumns()" class="button_base search_details_button_container__search_button">
+        @if (PermsChecker.HasPermission(Permission.SaveDeviceListColumnsAsGlobal))
+        {
+            <label class="grid_detail_label"><input type="checkbox" id="chkSaveDefault"/> @Strings.SaveAsDefault</label>
+        }
+        <button type="button" onclick="IoTApp.DeviceListColumns.updateColumns($('#chkSaveDefault').is(':checked')); $('#chkSaveDefault').prop('checked', false);" class="button_base">
             @Strings.Update
         </button>
-        <button type="button" onclick="IoTApp.DeviceListColumns.close()" class="search_details_button_container__reset_button">
+        <button type="button" onclick="IoTApp.DeviceListColumns.close()" class="button_base button_secondary">
             @Strings.Cancel
         </button>
     </div>

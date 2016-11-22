@@ -1818,4 +1818,12 @@
     <value>An error occurred while retrieving the list of columns.</value>
     <comment>Error message.</comment>
   </data>
+  <data name="LoadDefault" xml:space="preserve">
+    <value>Load Default</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="SaveAsDefault" xml:space="preserve">
+    <value>Save as default for all users</value>
+    <comment>Checkbox label.</comment>
+  </data>
 </root>

@@ -10,7 +10,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public interface IUserSettingsRepository
     {
-        Task<UserSetting> GetUserSettingValueAsync(string settingKey);
-        Task<TableStorageResponse<UserSetting>> SetUserSettingValueAsync(UserSetting setting);
+        Task<UserSetting> GetUserSettingAsync(string userId, string settingKey);
+        Task<UserSetting> GetGlobalUserSettingAsync(string settingKey);
+        Task<UserSetting> SetUserSettingAsync(string userId, UserSetting setting, bool saveAsGlobal);
     }
 }
