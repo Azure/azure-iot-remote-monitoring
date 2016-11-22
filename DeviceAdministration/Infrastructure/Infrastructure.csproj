@@ -180,7 +180,6 @@
     <Compile Include="Models\ActionMappingExtended.cs" />
     <Compile Include="Models\ActionModel.cs" />
     <Compile Include="Models\AlertHistoryItemModel.cs" />
-    <Compile Include="Models\DeviceJobHistoryModel.cs" />
     <Compile Include="Models\JobRepositoryModel.cs" />
     <Compile Include="Models\JobTableEntity.cs" />
     <Compile Include="Models\DeviceListColumnsTableEntity.cs" />

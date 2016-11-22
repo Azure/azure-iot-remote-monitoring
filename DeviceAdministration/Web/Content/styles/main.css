@@ -382,12 +382,12 @@ nav .selected {
   margin-bottom: 8px;
 }
 .grid_container_job {
-  width: 90px;
+  width: 100px;
 }
 .link_grid_jobName {
   font-size: 0.9em;
   display: inline-block;
-  width: calc(100% - 90px);
+  width: calc(100% - 100px);
 }
 .grid_container {
   float: left;

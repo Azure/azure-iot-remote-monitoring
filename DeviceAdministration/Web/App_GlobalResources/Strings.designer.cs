@@ -2213,6 +2213,42 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Job History for the Query.
+        /// </summary>
+        public static string JobHistoryForQuery {
+            get {
+                return ResourceManager.GetString("JobHistoryForQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job History for the Query.
+        /// </summary>
+        public static string JobHistoryForQueryTooltip {
+            get {
+                return ResourceManager.GetString("JobHistoryForQueryTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jobs.
+        /// </summary>
+        public static string Jobs {
+            get {
+                return ResourceManager.GetString("Jobs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jobs.
+        /// </summary>
+        public static string JobsTooltip {
+            get {
+                return ResourceManager.GetString("JobsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This key is currently in use.
         /// </summary>
         public static string KeyInUse {
@@ -3289,6 +3325,15 @@ namespace GlobalResources {
         public static string ScheduleJob {
             get {
                 return ResourceManager.GetString("ScheduleJob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to schedule job. An unexpected error occurred..
+        /// </summary>
+        public static string ScheduleJobError {
+            get {
+                return ResourceManager.GetString("ScheduleJobError", resourceCulture);
             }
         }
         

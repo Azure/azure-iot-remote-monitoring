@@ -1881,4 +1881,24 @@
     <value>Save as default for all users</value>
     <comment>Checkbox label.</comment>
   </data>
+  <data name="Jobs" xml:space="preserve">
+    <value>Jobs</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobHistoryForQuery" xml:space="preserve">
+    <value>Job History for the Query</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobHistoryForQueryTooltip" xml:space="preserve">
+    <value>Job History for the Query</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobsTooltip" xml:space="preserve">
+    <value>Jobs</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ScheduleJobError" xml:space="preserve">
+    <value>Unable to schedule job. An unexpected error occurred.</value>
+    <comment>Error message.</comment>
+  </data>
 </root>

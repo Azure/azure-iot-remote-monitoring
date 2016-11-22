@@ -272,7 +272,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 DeviceID = deviceId,
                 HubEnabledState = device.DeviceProperties.GetHubEnabledState(),
                 DevicePropertyValueModels = new List<DevicePropertyValueModel>(),
-                DeviceJobHistory = await GetDeviceJobHistory(device)
+                NamedDeviceJobs = await GetNamedDeviceJobs(device)
             };
 
             propModels = _deviceLogic.ExtractDevicePropertyValuesModels(device);
@@ -392,33 +392,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return devices.Results;
         }
 
-        private async Task<List<DeviceJobHistoryModel>> GetDeviceJobHistory(DeviceModel device)
+        private async Task<IEnumerable<NamedDeviceJob>> GetNamedDeviceJobs(DeviceModel device)
         {
-            var tasks = device.Jobs.Select(async j =>
+            var tasks = device.DeviceJobs.Select(async j => new NamedDeviceJob
             {
-                string jobName;
-
-                try
-                {
-                    var model = await _jobRepository.QueryByJobIDAsync(j.JobID);
-                    jobName = model.JobName;
-                }
-                catch
-                {
-                    jobName = string.Empty;
-                }
-
-                return new DeviceJobHistoryModel
-                {
-                    JobID = j.JobID,
-                    JobName = jobName,
-                    JobStatus = j.Status,
-                    JobLastUpdatedTimeUtc = j.LastUpdatedTimeUtc
-                };
+                Name = await GetDeviceJobName(j),
+                Job = j
             });
+            return (await Task.WhenAll(tasks));
+        }
 
-            var history = await Task.WhenAll(tasks);
-            return history.ToList();
+        private async Task<string> GetDeviceJobName(DeviceJob job)
+        {
+            try
+            {
+                var model = await _jobRepository.QueryByJobIDAsync(job.JobId);
+                return model.JobName;
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
     }
 }

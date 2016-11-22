@@ -1,17 +1,9 @@
-﻿// Until now, IoT Hub is not stable for running queries (internal server error)
-// We will use application side filtering as workaround. Please uncomment flag below to enable the filtering on IoT Hub side
-#define QUERY_DEVICES_IOTHUB
-#define QUERY_JOBS_IOTHUB
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
-using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -22,20 +14,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class IoTHubDeviceManager : IIoTHubDeviceManager, IDisposable
     {
         private readonly RegistryManager _deviceManager;
-        private readonly ServiceClient serviceClient;
+        private readonly ServiceClient _serviceClient;
+        private readonly JobClient _jobClient;
         private bool _disposed;
 
         public IoTHubDeviceManager(IConfigurationProvider configProvider)
         {
             // Temporary code to bypass https cert validation till DNS on IotHub is configured
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
-            var _iotHubConnectionString = configProvider.GetConfigurationSettingValue("iotHub.ConnectionString");
-            this._deviceManager = RegistryManager.CreateFromConnectionString(_iotHubConnectionString);
-            this.serviceClient = ServiceClient.CreateFromConnectionString(_iotHubConnectionString);
-
-#if !QUERY_JOBS_IOTHUB
-            this._mockJobs = new Lazy<List<JobQueryResult>>(() => BuildMockJobs().Result);
-#endif
+            var iotHubConnectionString = configProvider.GetConfigurationSettingValue("iotHub.ConnectionString");
+            this._deviceManager = RegistryManager.CreateFromConnectionString(iotHubConnectionString);
+            this._serviceClient = ServiceClient.CreateFromConnectionString(iotHubConnectionString);
+            this._jobClient = JobClient.CreateFromConnectionString(iotHubConnectionString);
         }
 
         public async Task<Device> AddDeviceAsync(Device device)
@@ -60,17 +50,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task SendAsync(string deviceId, Message message)
         {
-            await this.serviceClient.SendAsync(deviceId, message);
+            await this._serviceClient.SendAsync(deviceId, message);
         }
 
         public async Task<CloudToDeviceMethodResult> InvokeDeviceMethodAsync(string deviceId, CloudToDeviceMethod method)
         {
-            return await this.serviceClient.InvokeDeviceMethodAsync(deviceId, method);
+            return await this._serviceClient.InvokeDeviceMethodAsync(deviceId, method);
         }
 
         public async Task CloseAsyncDevice()
         {
-            await this.serviceClient.CloseAsync();
+            await this._serviceClient.CloseAsync();
         }
 
         public async Task CloseAsyncService()
@@ -90,7 +80,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListQuery query)
         {
-#if QUERY_DEVICES_IOTHUB
             var sqlQuery = query.GetSQLQuery();
             var deviceQuery = this._deviceManager.CreateQuery(sqlQuery);
 
@@ -101,35 +90,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             return twins;
-#else
-            // [WORKAROUND] Filtering devices at application side rather than IoT Hub side
-            var devices = await this._deviceManager.GetDevicesAsync(1000);
-            var tasks = devices.Select(device => this._deviceManager.GetTwinAsync(device.Id));
-            var twins = await Task.WhenAll(tasks);
-
-            return twins.Where(twin => query.Filters == null || query.Filters.All(filter =>
-            {
-                if (string.IsNullOrWhiteSpace(filter.ColumnName))
-                {
-                    return true;
-                }
-
-                string value = twin.Get(filter.ColumnName)?.ToString();
-                int compare = string.Compare(value, filter.FilterValue);
-
-                switch (filter.FilterType)
-                {
-                    case FilterType.EQ: return compare == 0;
-                    case FilterType.NE: return compare != 0;
-                    case FilterType.LT: return compare < 0;
-                    case FilterType.GT: return compare > 0;
-                    case FilterType.LE: return compare <= 0;
-                    case FilterType.GE: return compare >= 0;
-                    case FilterType.IN: throw new NotImplementedException();
-                    default: throw new NotSupportedException();
-                }
-            }));
-#endif
         }
 
         public async Task<long> GetDeviceCountAsync()
@@ -137,34 +97,29 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return (await this._deviceManager.GetRegistryStatisticsAsync()).TotalDeviceCount;
         }
 
-        public async Task<IEnumerable<JobQueryResult>> GetJobsByDeviceIDAsync(string deviceId)
+        public async Task<IEnumerable<DeviceJob>> GetDeviceJobsByDeviceIdAsync(string deviceId)
         {
-#if QUERY_JOBS_IOTHUB
-            return await QueryJobs($"SELECT * FROM devices.jobs WHERE devices.jobs.deviceId='{deviceId}'");
-#else
-            return _mockJobs.Value.Where(j => j.DeviceID == deviceId);
-#endif
-
+            return await this.QueryDeviceJobs($"SELECT * FROM devices.jobs WHERE devices.jobs.deviceId='{deviceId}'");
         }
 
-        public async Task<IEnumerable<JobQueryResult>> GetJobsByJobIDAsync(string jobId)
+        public async Task<IEnumerable<DeviceJob>> GetDeviceJobsByJobIdAsync(string jobId)
         {
-#if QUERY_JOBS_IOTHUB
-            return await QueryJobs($"SELECT * FROM devices.jobs WHERE devices.jobs.jobId='{jobId}'");
-#else
-            return _mockJobs.Value.Where(j => j.JobID == jobId);
-#endif
+            return await this.QueryDeviceJobs($"SELECT * FROM devices.jobs WHERE devices.jobs.jobId='{jobId}'");
         }
 
-        private async Task<IEnumerable<JobQueryResult>> QueryJobs(string sqlQueryString)
+        public async Task<JobResponse> GetJobResponseByJobIdAsync(string jobId)
+        {
+            return await this._jobClient.GetJobAsync(jobId);
+        }
+
+        private async Task<IEnumerable<DeviceJob>> QueryDeviceJobs(string sqlQueryString)
         {
             var jobQuery = this._deviceManager.CreateQuery(sqlQueryString);
 
-            var results = new List<JobQueryResult>();
+            var results = new List<DeviceJob>();
             while (jobQuery.HasMoreResults)
             {
-                var jobsInJSON = await jobQuery.GetNextAsJsonAsync();
-                results.AddRange(jobsInJSON.Select(j => JsonConvert.DeserializeObject<JobQueryResult>(j)));
+                results.AddRange(await jobQuery.GetNextAsDeviceJobAsync());
             }
 
             return results;
@@ -203,58 +158,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             this.Dispose(false);
         }
         #endregion
-
-#if !QUERY_JOBS_IOTHUB
-        #region JobQueryMock
-        private Lazy<List<JobQueryResult>> _mockJobs;
-
-        private async Task<List<JobQueryResult>> BuildMockJobs()
-        {
-            var rand = new Random();
-            var devices = (await _deviceManager.GetDevicesAsync(1000)).Select(d => d.Id).ToArray();
-
-            var jobIDs = Enumerable.Range(1, 10).Select(i => Guid.NewGuid());
-
-            var jobs = new List<JobQueryResult>();
-            foreach (var jobID in jobIDs)
-            {
-                string jobType = rand.Next() % 2 == 0 ? "scheduleUpdateTwin" : "scheduleDeviceMethod";
-
-                int deviceCount = rand.Next(1, devices.Count());
-                var selectedDevices = new List<string>();
-                var availableDevices = devices.ToList();
-
-                while (selectedDevices.Count < deviceCount)
-                {
-                    int index = rand.Next(deviceCount);
-                    selectedDevices.Add(availableDevices.ElementAt(index));
-                    availableDevices.RemoveAt(index);
-                }
-
-                jobs.AddRange(selectedDevices.Select(id =>
-                {
-                    string status = rand.Next() % 5 > 0 ? "completed" : "failed";
-                    DateTime endTime = DateTime.UtcNow - TimeSpan.FromMinutes(rand.Next(60));
-                    DateTime startTime = endTime - TimeSpan.FromMinutes(10);
-
-                    return new JobQueryResult
-                    {
-                        DeviceID = id,
-                        JobID = jobID.ToString(),
-                        JobType = jobType,
-                        Status = status,
-                        StartTimeUtc = startTime,
-                        EndTimeUtc = endTime,
-                        CreatedTimeUtc = startTime - TimeSpan.FromMinutes(rand.Next(5)),
-                        LastUpdatedTimeUtc = DateTime.UtcNow - TimeSpan.FromMinutes(rand.Next(10)),
-                        Outcome = null
-                    };
-                }));
-            }
-
-            return jobs;
-        }
-        #endregion
-#endif
     }
 }

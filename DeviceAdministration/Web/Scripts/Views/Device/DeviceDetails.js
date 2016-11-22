@@ -21,19 +21,19 @@
         });
     }
 
-    var getScheduleJobView = function () {
+    var getScheduleJobView = function (queryName) {
         $('#loadingElement').show();
         $('.details_grid_closed__grid_subhead').text(resources.scheduleJobPanelLabel);
         $('.details_grid__grid_subhead').text(resources.scheduleJobPanelLabel);
 
-        $.get('/Job/ScheduleJob', {}, function (response) {
+        $.get('/Job/ScheduleJob', { queryName: queryName }, function (response) {
             if (!$(".details_grid").is(':visible')) {
                 IoTApp.DeviceIndex.toggleDetails();
             }
             onScheduleJobReady(response);
         }).fail(function (response) {
             $('#loadingElement').hide();
-            IoTApp.Helpers.RenderRetryError('Something wrong...', $('#details_grid_container'), function () { getScheduleJobView(); });
+            IoTApp.Helpers.RenderRetryError(resources.failedToScheduleJob, $('#details_grid_container'), function () { getScheduleJobView(); });
         });
     }
 

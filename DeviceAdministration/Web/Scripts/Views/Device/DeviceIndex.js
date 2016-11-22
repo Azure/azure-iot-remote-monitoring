@@ -388,7 +388,7 @@
             "class": 'button_base devicelist_toolbar_button',
             text: resources.scheduleJob,
             click: function () {
-                self.deviceDetails.scheduleJob();
+                self.deviceDetails.scheduleJob($('#queryNameBox').val());
             }
         }).appendTo($buttonArea);
 

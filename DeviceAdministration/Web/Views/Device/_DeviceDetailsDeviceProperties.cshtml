@@ -1,6 +1,5 @@
 ﻿@using System.Globalization
-@using System.Collections.Generic
-@using System.Globalization
+@using Microsoft.Azure.Devices
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
@@ -139,7 +138,7 @@
     </section>
 }
 
-@if (Model.DeviceJobHistory.Any())
+@if (Model.NamedDeviceJobs.Any())
 {
     <div class="header_grid header_grid_general">
         <h3 class="grid_subheadhead_detail">@Strings.RecentJobs</h3>
@@ -147,32 +146,32 @@
         @Html.ActionLink(@Strings.ViewAll, "ViewAllJobHistory", "Device", new { deviceId = Model.DeviceID }, new
    {
        id = "viewall_link",
-       @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.DeviceJobHistory.Count() <= 5 ? "hidden" : string.Empty).Trim()
+       @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.NamedDeviceJobs.Count() <= 5 ? "hidden" : string.Empty).Trim()
    })
     </div>
 
     <section class="details_grid_general" id="reportedPropertiesGrid">
-        @foreach (var job in Model.DeviceJobHistory.OrderByDescending(j => j.JobLastUpdatedTimeUtc).Take(5))
+        @foreach (var jobModel in Model.NamedDeviceJobs.OrderByDescending(pair => pair.Job.LastUpdatedDateTimeUtc).Take(5))
         {
             <div class="overflow_auto">
-                @Html.ActionLink(@job.JobName, "Select", "Job", new { jobId = job.JobID }, new { @class = "link_grid_jobName" })
+                @Html.ActionLink(@jobModel.Name, "Select", "Job", new { jobId = jobModel.Job.JobId }, new { @class = "link_grid_jobName" })
                 <div class="grid_container_job pull-right">
-                    @switch (job.JobStatus)
+                    @switch (jobModel.Job.Status)
                     {
-                        case "completed":
+                        case DeviceJobStatus.Completed:
                             <img src="~/Content/img/icon_status_all_clear.svg" class="details_grid_info pull-left" />
                             break;
-                        case "failed":
+                        case DeviceJobStatus.Failed:
                             <img src="~/Content/img/icon_status_alarm.svg" class="details_grid_info pull-left" />
                             break;
                         default:
                             <img src="~/Content/img/icon_status_information.svg" class="details_grid_info pull-left" />
                             break;
                     }
-                    <p class="grid_detail_jobStatus pull-right">@job.JobStatus</p>
+                    <p class="grid_detail_jobStatus pull-right">@jobModel.Job.Status.ToString()</p>
                 </div>
                 <div class="clear_both">
-                    <p class="grid_detail_lastUpdated pull-right" name="jobField_lastUpdated_@job.JobName">@TimeSpanExtension.ToFloorShortString(utcNow - job.JobLastUpdatedTimeUtc, Strings.LastUpdatedFormatString)</p>
+                    <p class="grid_detail_lastUpdated pull-right">@TimeSpanExtension.ToFloorShortString(utcNow - jobModel.Job.LastUpdatedDateTimeUtc, Strings.LastUpdatedFormatString)</p>
                 </div>
             </div>
         }

@@ -1,8 +1,14 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions
 
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.ScheduleJobModel
+@{
+    var utcNow = DateTime.UtcNow;
+}
 <div class="header_grid header_grid_general">
-    <h3 class="grid_subheadhead_detail">Job</h3>
-    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="Jobs" />
+    <h3 class="grid_subheadhead_detail">@Strings.Jobs</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.JobsTooltip" />
 </div>
 
 <section class="details_grid_general" id="jobsGrid">
@@ -11,7 +17,7 @@
                 Strings.UpdateTwin, "ScheduleTwinUpdate", "Job",
                 new
                 {
-                    //ToDo: pass query to backend
+                    QueryName = Model.QueryName
                 },
                 new
                 {
@@ -24,7 +30,7 @@
                 Strings.InvokeMethod, "ScheduleDeviceMethod", "Job",
                 new
                 {
-                    //ToDo: pass query to backend
+                    QueryName = Model.QueryName
                 },
                 new
                 {
@@ -34,32 +40,33 @@
 </section>
 
 <div class="header_grid header_grid_general">
-    <h3 class="grid_subheadhead_detail">Job History for the Query</h3>
-    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="Job History" />
+    <h3 class="grid_subheadhead_detail">@Strings.JobHistoryForQuery</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.JobHistoryForQueryTooltip" />
 </div>
 
 <section class="details_grid_general" id="jobHistoryGrid">
-    <p class="grid_detail_value">
-        @Html.ActionLink(
-                "fwVersionUpdate", "GetJobDetail", "Job",
-                new
+    @foreach (var jobModel in Model.JobsSharingQuery)
+    {
+        <div class="overflow_auto">
+            @Html.ActionLink(@jobModel.Name, "Select", "Job", new { jobId = jobModel.Job.JobId }, new { @class = "link_grid_jobName" })
+            <div class="grid_container_job pull-right">
+                @switch (jobModel.Job.Status)
                 {
-                },
-                new
-                {
-                    id = "historyLink"
-                })
-    </p>
-
-    <p class="grid_detail_value">
-        @Html.ActionLink(
-                "StopTelemetry", "GetJobDetail", "Job",
-                new
-                {
-                },
-                new
-                {
-                    id = "historyLink"
-                })
-    </p>
+                    case JobStatus.Completed:
+                        <img src="~/Content/img/icon_status_all_clear.svg" class="details_grid_info pull-left" />
+                        break;
+                    case JobStatus.Failed:
+                        <img src="~/Content/img/icon_status_alarm.svg" class="details_grid_info pull-left" />
+                        break;
+                    default:
+                        <img src="~/Content/img/icon_status_information.svg" class="details_grid_info pull-left" />
+                        break;
+                }
+                <p class="grid_detail_jobStatus pull-right">@jobModel.Job.Status.ToString()</p>
+            </div>
+            <div class="clear_both">
+                <p class="grid_detail_lastUpdated pull-right">@TimeSpanExtension.ToFloorShortString(utcNow - jobModel.Job.CreatedTimeUtc, Strings.LastUpdatedFormatString)</p>
+            </div>
+        </div>
+    }
 </section>

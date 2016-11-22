@@ -188,7 +188,6 @@
     <Compile Include="Models\DeviceModel.cs" />
     <Compile Include="Models\DeviceProperties.cs" />
     <Compile Include="Models\IoTHub.cs" />
-    <Compile Include="Models\JobQueryResult.cs" />
     <Compile Include="Models\SystemProperties.cs" />
     <Compile Include="Models\Telemetry.cs" />
     <Compile Include="Schema\SchemaHelper.cs" />

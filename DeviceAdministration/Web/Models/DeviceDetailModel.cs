@@ -102,7 +102,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             set;
         }
 
-        public List<DeviceJobHistoryModel> DeviceJobHistory
+        public IEnumerable<NamedDeviceJob> NamedDeviceJobs
         {
             get;
             set;
