@@ -143,6 +143,26 @@
                 }
             });
         });
+
+        $(".devicedetails_toggle_source").on("click", function () {
+            $(".devicedetails_toggle_target").toggle();
+        });
+
+        $(".tag_toggle_source").on("click", function () {
+            $(".tag_toggle_target").toggle();
+        });
+
+        $(".desiredproperty_toggle_source").on("click", function () {
+            $(".desiredproperty_toggle_target").toggle();
+        });
+
+        $(".reportedproperty_toggle_source").on("click", function () {
+            $(".reportedproperty_toggle_target").toggle();
+        });
+
+        $(".job_toggle_source").on("click", function () {
+            $(".job_toggle_target").toggle();
+        });
     }
 
     var onScheduleJobReady = function (html) {

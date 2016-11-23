@@ -16,20 +16,13 @@
     var utcNow = DateTime.UtcNow;
 }
 <div class="header_grid header_grid_general">
-    <h3 class="grid_subheadhead_detail">@Strings.DeviceProperties</h3>
+    <img id="deviceDetailsClose" src="~/Content/img/icon_deviceExplorer_details_close.svg" class="details_grid_info pull-left cursor_pointer devicedetails_toggle_target devicedetails_toggle_source" />
+    <img id="deviceDetailsOpen" src="~/Content/img/icon_deviceExplorer_details_open.svg" class="details_grid_info pull-left cursor_pointer display_none devicedetails_toggle_target devicedetails_toggle_source" />
+    <h3 class="grid_subheadhead_detail_collapsable cursor_pointer devicedetails_toggle_source">@Strings.DeviceProperties</h3>
     <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DevicePropertiesFormattedAsStored" />
-    @if (Model.IsDeviceEditEnabled)
-    {
-        @Html.ActionLink(@Strings.Edit, "EditDeviceProperties", "Device", new { deviceId = Model.DeviceID }, new
-   {
-       id = "edit_metadata_link",
-       @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.HubEnabledState == false ? "hidden" : string.Empty).Trim()
-   })
-    }
-
 </div>
 
-<section class="details_grid_general" id="deviceDetailsGrid">
+<section class="details_grid_general devicedetails_toggle_target" id="deviceDetailsGrid">
     @foreach (var propVal in deviceProperties)
     {
         <h4 class="grid_subhead_detail_label">@DeviceDisplayHelper.GetDevicePropertyFieldLocalName(propVal.Name)</h4>
@@ -53,10 +46,19 @@
             }
         }
     }
+
+    @if (Model.HasKeyViewingPerm)
+    {
+        <p class="grid_detail_value">
+            <a href="#" id="deviceExplorer_authKeys" class="not_disable">@Strings.ViewAuthenticationKeys</a>
+        </p>
+    }
 </section>
 
 <div class="header_grid header_grid_general">
-    <h3 class="grid_subheadhead_detail">@Strings.Tags</h3>
+    <img id="tagClose" src="~/Content/img/icon_deviceExplorer_details_close.svg" class="details_grid_info pull-left cursor_pointer tag_toggle_target tag_toggle_source" />
+    <img id="tagOpen" src="~/Content/img/icon_deviceExplorer_details_open.svg" class="details_grid_info pull-left cursor_pointer display_none tag_toggle_target tag_toggle_source" />
+    <h3 class="grid_subheadhead_detail_collapsable cursor_pointer tag_toggle_source">@Strings.Tags</h3>
     <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.TagsTooltip" />
     @Html.ActionLink(@Strings.Edit, "EditTags", "Device", new { deviceId = Model.DeviceID }, new
 {
@@ -65,7 +67,7 @@
 })
 </div>
 
-<section class="details_grid_general" id="tagsGrid">
+<section class="details_grid_general tag_toggle_target" id="tagsGrid">
     @foreach (var val in tags)
     {
         <h4 class="grid_subhead_detail_label">@val.Name.Substring(5)</h4>
@@ -81,7 +83,9 @@
 </section>
 
 <div class="header_grid header_grid_general">
-    <h3 class="grid_subheadhead_detail">@Strings.DesiredProperties</h3>
+    <img id="desiredPropertyClose" src="~/Content/img/icon_deviceExplorer_details_close.svg" class="details_grid_info pull-left cursor_pointer desiredproperty_toggle_target desiredproperty_toggle_source" />
+    <img id="desiredPropertyOpen" src="~/Content/img/icon_deviceExplorer_details_open.svg" class="details_grid_info pull-left cursor_pointer display_none desiredproperty_toggle_target desiredproperty_toggle_source" />
+    <h3 class="grid_subheadhead_detail_collapsable cursor_pointer desiredproperty_toggle_source">@Strings.DesiredProperties</h3>
     <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DesiredPropertiesTooltip" />
     @Html.ActionLink(@Strings.Edit, "EditDesiredProperties", "Device", new { deviceId = Model.DeviceID }, new
 {
@@ -90,7 +94,7 @@
 })
 </div>
 
-<section class="details_grid_general" id="desiredPropertiesGrid">
+<section class="details_grid_general desiredproperty_toggle_target" id="desiredPropertiesGrid">
     @foreach (var val in desiredProperties)
     {
         <h4 class="grid_subhead_detail_label">@val.Name.Substring(19)</h4>
@@ -113,11 +117,13 @@
 @if (reportedProperties.Any())
 {
     <div class="header_grid header_grid_general">
-        <h3 class="grid_subheadhead_detail">@Strings.ReportedProperties</h3>
+        <img id="reportedPropertyClose" src="~/Content/img/icon_deviceExplorer_details_close.svg" class="details_grid_info pull-left cursor_pointer reportedproperty_toggle_target reportedproperty_toggle_source" />
+        <img id="reportedPropertyOpen" src="~/Content/img/icon_deviceExplorer_details_open.svg" class="details_grid_info pull-left cursor_pointer display_none reportedproperty_toggle_target reportedproperty_toggle_source" />
+        <h3 class="grid_subheadhead_detail_collapsable cursor_pointer reportedproperty_toggle_source">@Strings.ReportedProperties</h3>
         <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.ReportedPropertiesTooltip" />
     </div>
 
-    <section class="details_grid_general" id="reportedPropertiesGrid">
+    <section class="details_grid_general reportedproperty_toggle_target" id="reportedPropertiesGrid">
         @foreach (var val in reportedProperties)
         {
             <h4 class="grid_subhead_detail_label">@val.Name.Substring(20)</h4>
@@ -141,7 +147,9 @@
 @if (Model.NamedDeviceJobs.Any())
 {
     <div class="header_grid header_grid_general">
-        <h3 class="grid_subheadhead_detail">@Strings.RecentJobs</h3>
+        <img id="jobClose" src="~/Content/img/icon_deviceExplorer_details_close.svg" class="details_grid_info pull-left cursor_pointer job_toggle_target job_toggle_source" />
+        <img id="jobOpen" src="~/Content/img/icon_deviceExplorer_details_open.svg" class="details_grid_info pull-left cursor_pointer display_none job_toggle_target job_toggle_source" />
+        <h3 class="grid_subheadhead_detail_collapsable cursor_pointer job_toggle_source">@Strings.RecentJobs</h3>
         <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.RecentJobsTooltip" />
         @Html.ActionLink(@Strings.ViewAll, "ViewAllJobHistory", "Device", new { deviceId = Model.DeviceID }, new
    {

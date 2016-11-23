@@ -132,6 +132,14 @@ main.main_no_nav {
   border-color: #e6e6e6;
   font-style: italic;
 }
+/* Common style */
+
+.display_none {
+  display: none;
+}
+.cursor_pointer {
+  cursor: pointer;
+}
 .content_outer {
   width: 100%;
   overflow-x: hidden;
@@ -329,6 +337,14 @@ nav .selected {
   float: left;
   margin: 0;
   padding: 0 0 0 20px;
+  font-size: 0.9em;
+  color: gray;
+  font-weight: normal;
+}
+.grid_subheadhead_detail_collapsable {
+  float: left;
+  margin: 0;
+  padding: 0 0 0 10px;
   font-size: 0.9em;
   color: gray;
   font-weight: normal;

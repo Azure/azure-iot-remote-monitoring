@@ -105,13 +105,6 @@ else
     Html.Partial("_DeviceDetailsDeviceProperties", Model) : 
     Html.Partial("_DeviceDetailsNotRegistered", Model))
 
-@{
-    if (Model.HasKeyViewingPerm)
-    {
-        Html.RenderPartial("_DeviceDetailsKeyLink", Model.GetKeys());
-    }
-}
-
 @if (Model.HubEnabledState == true)
 {
     <script>
