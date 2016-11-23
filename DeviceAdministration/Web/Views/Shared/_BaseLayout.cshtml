@@ -25,9 +25,11 @@
     @Scripts.Render("~/bundles/jquerytable")
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/moment-with-locales.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrapdatetime")
 
     <script type="text/javascript" src="~/Scripts/js.cookie-1.5.1.min.js"></script>
-    <script src="~/Scripts/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="~/Scripts/Views/IoTApp.js"></script>
     @Styles.Render("~/Content/css/vendor")
     @Styles.Render("~/Content/css")
@@ -124,6 +126,6 @@
     <script src="~/Scripts/controls.js"></script>
     @RenderSection("scripts", required: false)
 
-    @Scripts.Render("~/bundles/bootstrap")
+
 </body>
 </html>

@@ -1,0 +1,143 @@
+﻿@using System.Globalization
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.ScheduleTwinUpdateModel
+
+@{
+    ViewBag.Title = @Strings.UpdateTwin;
+    Layout = "~/Views/Shared/_LayoutNoNavigation.cshtml";
+}
+
+<header class="header_main">
+
+    <button class="header_main__button_back" type="button"></button>
+    <h2 class="header_main__subhead header_main__subhead--large">@Strings.ScheduleEditPropertiesOrTags <span class="item__description">@Model.QueryName</span></h2>
+</header>
+<div class="content_outer">
+
+    <div class="content_inner">
+        <div id="content">
+            <div id="scheduleJobParameter">
+                @using (Html.BeginForm("ScheduleTwinUpdate", "Job", FormMethod.Post,new { data_bind="submit: beforePost" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <p>
+                        @Html.ValidationSummary(false)
+                    </p>
+
+                    <fieldset class="edit_form">
+                        @{
+                            @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label" });
+                            @Html.TextBoxFor(m => m.JobName, new { placeholder = Strings.ScheduleJobNamePlaceHolder, data_bind = "value: jobName", @class = "edit_form__text" });
+
+                            <div style="clear:both"></div>
+                            <label for="propertiesTable" class="edit_form__label">@Strings.ScheduleChangeDesiredProperties</label>
+                            <table class="values_editor" id="propertiesTable">
+                                <thead>
+                                    <tr class="values_editor__groupheader">
+                                        <th class="edit_form__labelHeader">@Strings.ScheduleDesiredPropertyName</th>
+                                        <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
+                                        <th class="edit_form__labelHeader">@Strings.Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach:{data: properties, afterAdd:makeproplist}">
+                                    <tr class="values_editor__group">
+                                        <td>
+                                            <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox"
+                                                   data-bind="value: PropertyName, attr: { name: 'DesiredProperties[' + $index()+'].PropertyName', id: 'DesiredProperties' + $index()+'.PropertyName' }" />
+                                        </td>
+                                        <td>
+                                            @*data-msg-required="@Strings.RequiredValidationString"
+                                                data-rule-required="true"*@
+                                            <input type="text" class="edit_form__texthalf"
+                                                   data-bind="value: PropertyValue, event: { blur: $root.createEmptyPropertyIfNeeded }, attr: { name: 'DesiredProperties[' + $index()+'].PropertyValue', id: 'DesiredProperties' + $index()+'.PropertyValue' }" />
+                                        </td>
+                                        <td>
+                                            <input type="checkbox"
+                                                   value="true"
+                                                   data-bind="check: isDeleted, attr: { name: 'DesiredProperties[' + $index()+'].isDeleted', id: 'DesiredProperties' + $index()+'.isDeleted' }" />
+                                            <input type="hidden" value="false" name="checkbox" data-bind="attr:{ name:'DesiredProperties[' + $index()+'].isDeleted'}" />
+                                        </td>
+                                        <td><a data-bind="ifnot:$root.onepropleft , click:$root.removeProperty">@Strings.Clear</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <label for="tagsTable" class="edit_form__label">@Strings.ScheduleChangeTags</label>
+                            <table class="values_editor" id="tagsTable">
+                                <thead>
+                                    <tr class="values_editor__groupheader">
+                                        <th class="edit_form__labelHeader">@Strings.TagName</th>
+                                        <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
+                                        <th class="edit_form__labelHeader">@Strings.Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: {data: tags, afterAdd: maketaglist}">
+                                    <tr class="values_editor__group">
+
+                                        <td>
+                                            <input type="text" class="edit_form__texthalf edit_form__tagsComboBox"
+                                                   data-bind="value: TagName, attr: { name: 'Tags[' + $index()+'].TagName', id: 'Tags' + $index()+'.TagName' }" />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="edit_form__texthalf"
+                                                   data-bind="value: TagValue, event: { blur: $root.createEmptyTagIfNeeded },attr: { name: 'Tags[' + $index()+'].TagValue', id: 'Tags' + $index()+'.TagValue' }" />
+                                        </td>
+                                        <td>
+                                            <input type="checkbox"
+                                                   value="true"
+                                                   data-bind="check: isDeleted, attr: { name: 'Tags[' + $index()+'].isDeleted', id: 'Tags' + $index()+'.isDeleted' }" />
+                                            <input type="hidden" value="false" name="checkbox" data-bind="attr:{ name:'Tags[' + $index()+'].isDeleted'}" />
+                                        </td>
+                                        <td><a data-bind="ifnot:$root.onetagleft , click:$root.removeTag">@Strings.Clear</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <label for="scheduleJobTime" class="edit_form__label">@Strings.ScheduleSetJobTime</label>
+
+                            <div id="scheduleJobTime" class="values_editor">
+                                <div class="values_editor__group">
+                                    <label class="edit_form__labelHeader">@Strings.StartTime</label>
+                                    <input type='text' id="StartDate" name="StartDateUtc" class="edit_form__text non_float" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ format: 'LLL', locale: window.navigator.language}"
+                                           data-msg-required="@Strings.RequiredValidationString"
+                                           data-rule-required="true" />
+                                </div>
+                                <div class="values_editor__group">
+                                    <label class="edit_form__labelHeader">@Strings.MaxExecutionTime</label>
+                                    <input type="text" class="edit_form__textsmall non_float" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
+                                           data-msg-required="@Strings.RequiredValidationString"
+                                           data-rule-required="true" />
+                                    <span>Mins</span>
+                                </div>
+                            </div>
+                        }
+                    </fieldset>
+
+                    <fieldset class="fieldset_button">
+                        <button class="button_base button_secondary button_cancel">@Strings.Cancel</button>
+                        <button class="button_base" type="submit">@Strings.Create</button>
+                    </fieldset>
+                            }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    "use strict";
+
+    var resources = {
+        redirectUrl: '@Url.Action("Index", "Device")',
+    }
+</script>
+<script type="text/javascript" src="~/Scripts/Views/Job/ScheduleTwinUpdate.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        IoTApp.ScheduleTwinUpdate.init();
+    });
+    
+</script>
+

@@ -530,6 +530,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        public static string Clear {
+            get {
+                return ResourceManager.GetString("Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to - CLEAR CLAUSE.
         /// </summary>
         public static string ClearClauses {
@@ -2384,6 +2393,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MAXEXECUTION TIME.
+        /// </summary>
+        public static string MaxExecutionTime {
+            get {
+                return ResourceManager.GetString("MaxExecutionTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Price cannot be longer than 1024 characters..
         /// </summary>
         public static string MaxLengthPrice {
@@ -2416,6 +2434,15 @@ namespace GlobalResources {
         public static string Metadata {
             get {
                 return ResourceManager.GetString("Metadata", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method.
+        /// </summary>
+        public static string Method {
+            get {
+                return ResourceManager.GetString("Method", resourceCulture);
             }
         }
         
@@ -2897,6 +2924,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Query.
+        /// </summary>
+        public static string Query {
+            get {
+                return ResourceManager.GetString("Query", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The query name or filters are empty..
         /// </summary>
         public static string QueryIsEmpty {
@@ -3082,6 +3118,15 @@ namespace GlobalResources {
         public static string RequestNullError {
             get {
                 return ResourceManager.GetString("RequestNullError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This field is required.
+        /// </summary>
+        public static string RequiredValidationString {
+            get {
+                return ResourceManager.GetString("RequiredValidationString", resourceCulture);
             }
         }
         
@@ -3320,6 +3365,51 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Desired Properties.
+        /// </summary>
+        public static string ScheduleChangeDesiredProperties {
+            get {
+                return ResourceManager.GetString("ScheduleChangeDesiredProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Tags.
+        /// </summary>
+        public static string ScheduleChangeTags {
+            get {
+                return ResourceManager.GetString("ScheduleChangeTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Desired Property Name.
+        /// </summary>
+        public static string ScheduleDesiredPropertyName {
+            get {
+                return ResourceManager.GetString("ScheduleDesiredPropertyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Properties or Tags.
+        /// </summary>
+        public static string ScheduleEditPropertiesOrTags {
+            get {
+                return ResourceManager.GetString("ScheduleEditPropertiesOrTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Value.
+        /// </summary>
+        public static string ScheduleEditValue {
+            get {
+                return ResourceManager.GetString("ScheduleEditValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Schedule Job.
         /// </summary>
         public static string ScheduleJob {
@@ -3338,11 +3428,56 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Job Name.
+        /// </summary>
+        public static string ScheduleJobName {
+            get {
+                return ResourceManager.GetString("ScheduleJobName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter you job name here.
+        /// </summary>
+        public static string ScheduleJobNamePlaceHolder {
+            get {
+                return ResourceManager.GetString("ScheduleJobNamePlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SCHEDULE JOB.
         /// </summary>
         public static string ScheduleJobPanelLabel {
             get {
                 return ResourceManager.GetString("ScheduleJobPanelLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameters.
+        /// </summary>
+        public static string ScheduleParameterName {
+            get {
+                return ResourceManager.GetString("ScheduleParameterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameters.
+        /// </summary>
+        public static string ScheduleParameters {
+            get {
+                return ResourceManager.GetString("ScheduleParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Job Time.
+        /// </summary>
+        public static string ScheduleSetJobTime {
+            get {
+                return ResourceManager.GetString("ScheduleSetJobTime", resourceCulture);
             }
         }
         
@@ -3635,6 +3770,33 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} of {1} devices inapplicable.
+        /// </summary>
+        public static string SomeDeviceInapplicable {
+            get {
+                return ResourceManager.GetString("SomeDeviceInapplicable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} of {1} devices applicable.
+        /// </summary>
+        public static string SomeDevicesApplicable {
+            get {
+                return ResourceManager.GetString("SomeDevicesApplicable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to START TIME.
+        /// </summary>
+        public static string StartTime {
+            get {
+                return ResourceManager.GetString("StartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
         public static string StatusHeader {
@@ -3694,6 +3856,15 @@ namespace GlobalResources {
         public static string TableDataSaveConflictErrorMessage {
             get {
                 return ResourceManager.GetString("TableDataSaveConflictErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag Name.
+        /// </summary>
+        public static string TagName {
+            get {
+                return ResourceManager.GetString("TagName", resourceCulture);
             }
         }
         

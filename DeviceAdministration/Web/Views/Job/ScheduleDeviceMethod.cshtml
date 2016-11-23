@@ -1,0 +1,117 @@
+﻿@using System.Globalization
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.ScheduleDeviceMethodModel
+
+@{
+    ViewBag.Title = @Strings.InvokeMethod;
+    Layout = "~/Views/Shared/_LayoutNoNavigation.cshtml";
+}
+
+<header class="header_main">
+
+    <button class="header_main__button_back" type="button"></button>
+    <h2 class="header_main__subhead header_main__subhead--large">@Strings.InvokeMethod <span class="item__description">@Model.QueryName</span></h2>
+</header>
+<div class="content_outer">
+
+    <div class="content_inner">
+        <div id="content">
+            <div id="scheduleJobParameter">
+                @using (Html.BeginForm("ScheduleDeviceMethod", "Job", FormMethod.Post , new { data_bind= "submit: beforePost" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <p>
+                        @Html.ValidationSummary(false)
+                    </p>
+
+                    <fieldset class="edit_form">
+                        @{
+                            @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label" });
+                            @Html.TextBoxFor(m => m.JobName, new { placeholder = Strings.ScheduleJobNamePlaceHolder, data_bind = "value: jobName", @class = "edit_form__text" });
+
+                            <div style="clear:both"></div>
+                            @Html.LabelFor(m => m.MethodName, Strings.InvokeMethodLabel, new { @class = "edit_form__label" });
+                            @Html.TextBoxFor(m => m.MethodName, new {  data_bind = "textInput: methodName, event{ blur: $root.updateParameter }", @class = "name_selector__text edit_form__text" });
+
+                            <div style="clear:both"></div>
+
+                            <div>
+                                <span class="text_small" data-bind="text: getMatchedDevices('@Strings.SomeDevicesApplicable')"></span><a href="/Device/Query">query</a>
+                            </div>
+                            <div>
+                                <span class="text_small" data-bind="text: getUnmatchedDevices('@Strings.SomeDevicesApplicable')"></span><a href="/Device/Query">query</a>
+                            </div>
+
+                            <div style="clear:both"></div>
+                            <label for="parameterTable" class="edit_form__label" data-bind="if: parameters">@Strings.ScheduleParameters</label>
+                            <table class="values_editor" id="paramterTable" data-bind="if: parameters">
+                                <thead>
+                                    <tr class="values_editor__groupheader">
+                                        <th class="edit_form__labelHeader">@Strings.ScheduleParameterName</th>
+                                        <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach:{data: parameters}">
+                                    <tr class="values_editor__group">
+                                        <td>
+                                            <input type="text" class="edit_form__texthalf"
+                                                   data-bind="value: ParameterName, attr: { name: 'Parameters[' + $index()+'].ParameterName', id: 'Parameters' + $index()+'.ParameterName' }" />
+                                        </td>
+                                        <td>
+                                            @*data-msg-required="@Strings.RequiredValidationString"
+                                                data-rule-required="true"*@
+                                            <input type="text" class="edit_form__texthalf"
+                                                   data-bind="value: ParameterValue, attr: { name: 'Parameters[' + $index()+'].ParameterValue', id: 'Parameters' + $index()+'.ParameterValue' }" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <label for="scheduleJobTime" class="edit_form__label" >@Strings.ScheduleSetJobTime</label>
+
+                            <div id="scheduleJobTime" class="values_editor">
+                                <div class="values_editor__group">
+                                    <label class="edit_form__labelHeader">@Strings.StartTime</label>
+                                    <input type='text' id="StartDate" name="StartDateUtc" class="edit_form__text non_float" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ format: 'LLL' , locale: window.navigator.language}"
+                                           data-msg-required="@Strings.RequiredValidationString"
+                                           data-rule-required="true" />
+                                </div>
+                                <div class="values_editor__group">
+                                    <label class="edit_form__labelHeader">@Strings.MaxExecutionTime</label>
+                                    <input type="text" class="edit_form__textsmall non_float" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
+                                           data-msg-required="@Strings.RequiredValidationString"
+                                           data-rule-required="true" />
+                                    <span>Mins</span>
+                                </div>
+                            </div>
+                        }
+                    </fieldset>
+
+                    <fieldset class="fieldset_button">
+                        <button class="button_base button_secondary button_cancel">@Strings.Cancel</button>
+                        <button class="button_base" type="submit">@Strings.Create</button>
+                    </fieldset>
+                            }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    "use strict";
+
+    var resources = {
+        redirectUrl: '@Url.Action("Index", "Device")',
+    }
+</script>
+<script type="text/javascript" src="~/Scripts/Views/Job/ScheduleDeviceMethod.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        IoTApp.ScheduleDeviceMethod.init();
+    });
+    
+</script>
+

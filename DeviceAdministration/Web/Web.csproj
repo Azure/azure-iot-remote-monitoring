@@ -274,6 +274,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="App_Start\DataBinders.cs" />
     <Compile Include="App_Start\Startup.Json.cs" />
     <Compile Include="App_Start\Startup.Autofac.cs" />
     <Compile Include="App_Start\Startup.WebApi.cs" />
@@ -303,10 +304,12 @@
     <Compile Include="Models\ActionPropertiesModel.cs" />
     <Compile Include="Models\AlertHistoryDeviceModel.cs" />
     <Compile Include="Models\EditDeviceRuleModel.cs" />
+    <Compile Include="Models\ScheduleDeviceMethodModel.cs" />
     <Compile Include="Models\LanguageModel.cs" />
     <Compile Include="Models\NamedDeviceJob.cs" />
     <Compile Include="Models\NamedJobResponseModel.cs" />
-    <Compile Include="Models\ScheduleJobModel.cs" />
+    <Compile Include="Models\ScheduleJobModel.cs" />    
+    <Compile Include="Models\ScheduleTwinUpdateModel.cs" />
     <Compile Include="Models\SimInformationViewModel.cs" />
     <Compile Include="Models\UpdateActionModel.cs" />
     <Compile Include="Models\AlertHistoryResultsModel.cs" />
@@ -416,6 +419,9 @@
     <Content Include="Content\img\sort_desc.png" />
     <Content Include="Content\img\sort_desc_disabled.png" />
     <Content Include="Content\styles\main.css" />
+    <Content Include="Content\styles\main.min.css">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
     <Content Include="Content\styles\visuals.min.css" />
     <Content Include="Content\styles\bootstrap\dropdowns.less" />
     <Content Include="Content\styles\bootstrap\bootstrap.less" />
@@ -458,7 +464,11 @@
     <Content Include="Content\styles\bootstrap\mixins\text-emphasis.less" />
     <Content Include="Content\styles\bootstrap\mixins\text-overflow.less" />
     <Content Include="Content\styles\bootstrap\mixins\vendor-prefixes.less" />
+    <Content Include="Content\styles\bootstrap-datetimepicker-build.less" />
+    <Content Include="Content\styles\_bootstrap-datetimepicker.less" />
+    <Content Include="Content\styles\bootstrap\glyphicon.less" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\controls.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
@@ -571,6 +581,8 @@
     <Content Include="Scripts\Views\Device\EditDeviceProperties.js" />
     <Content Include="Scripts\Views\Device\RemoveDevice.js" />
     <Content Include="Scripts\Views\IoTApp.js" />
+    <Content Include="Scripts\Views\Job\ScheduleDeviceMethod.js" />
+    <Content Include="Scripts\Views\Job\ScheduleTwinUpdate.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -653,6 +665,8 @@
     <Content Include="Views\Advanced\_IccidAssociation.cshtml" />
     <Content Include="Views\Job\_ScheduleJob.cshtml" />
     <Content Include="Views\Device\_DeviceListColumns.cshtml" />
+    <Content Include="Views\Job\ScheduleTwinUpdate.cshtml" />
+    <Content Include="Views\Job\ScheduleDeviceMethod.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -783,9 +797,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.Azure.DocumentDB.1.6.3\build\Microsoft.Azure.DocumentDB.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Azure.DocumentDB.1.6.3\build\Microsoft.Azure.DocumentDB.targets'))" />
+    <Error Condition="!Exists('..\..\packages\BuildWebCompiler.1.11.319\build\BuildWebCompiler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\BuildWebCompiler.1.11.319\build\BuildWebCompiler.targets'))" />
   </Target>
   <Import Project="..\..\packages\Microsoft.Web.WebJobs.Publish.1.0.11\tools\webjobs.targets" Condition="Exists('..\..\packages\Microsoft.Web.WebJobs.Publish.1.0.11\tools\webjobs.targets')" />
   <Import Project="..\..\packages\Microsoft.Azure.DocumentDB.1.6.3\build\Microsoft.Azure.DocumentDB.targets" Condition="Exists('..\..\packages\Microsoft.Azure.DocumentDB.1.6.3\build\Microsoft.Azure.DocumentDB.targets')" />
+  <Import Project="..\..\packages\BuildWebCompiler.1.11.319\build\BuildWebCompiler.targets" Condition="Exists('..\..\packages\BuildWebCompiler.1.11.319\build\BuildWebCompiler.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

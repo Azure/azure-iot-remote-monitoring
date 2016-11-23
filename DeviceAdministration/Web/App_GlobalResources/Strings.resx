@@ -1734,6 +1734,10 @@
     <value>View all ({0})</value>
     <comment>Button label.</comment>
   </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+    <comment>Hyperlink label</comment>
+  </data>
   <data name="SelectedColumns" xml:space="preserve">
     <value>Selected Columns</value>
     <comment>Section heading.</comment>
@@ -1749,6 +1753,66 @@
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
     <comment>Button label.</comment>
+  </data>
+  <data name="MaxExecutionTime" xml:space="preserve">
+    <value>MAXEXECUTION TIME</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="Method" xml:space="preserve">
+    <value>Method</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="Query" xml:space="preserve">
+    <value>Query</value>
+    <comment>Hyperlink label</comment>
+  </data>
+  <data name="ScheduleChangeDesiredProperties" xml:space="preserve">
+    <value>Change Desired Properties</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleChangeTags" xml:space="preserve">
+    <value>Change Tags</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleDesiredPropertyName" xml:space="preserve">
+    <value>Desired Property Name</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleEditPropertiesOrTags" xml:space="preserve">
+    <value>Edit Properties or Tags</value>
+    <comment>Label</comment>
+  </data>
+  <data name="ScheduleEditValue" xml:space="preserve">
+    <value>Edit Value</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleJobName" xml:space="preserve">
+    <value>Job Name</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleSetJobTime" xml:space="preserve">
+    <value>Set Job Time</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="SomeDeviceInapplicable" xml:space="preserve">
+    <value>{0} of {1} devices inapplicable</value>
+    <comment>label</comment>
+  </data>
+  <data name="SomeDevicesApplicable" xml:space="preserve">
+    <value>{0} of {1} devices applicable</value>
+    <comment>label</comment>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>START TIME</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Tag Name</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleJobNamePlaceHolder" xml:space="preserve">
+    <value>Enter you job name here</value>
+    <comment>Placeholder message</comment>
   </data>
   <data name="MoveDown" xml:space="preserve">
     <value>Move down</value>
@@ -1900,5 +1964,16 @@
   <data name="ScheduleJobError" xml:space="preserve">
     <value>Unable to schedule job. An unexpected error occurred.</value>
     <comment>Error message.</comment>
+  </data>
+  <data name="RequiredValidationString" xml:space="preserve">
+    <value>This field is required</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="ScheduleParameterName" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
+  <data name="ScheduleParameters" xml:space="preserve">
+    <value>Parameters</value>
+    <comment>Input Label</comment>
   </data>
 </root>

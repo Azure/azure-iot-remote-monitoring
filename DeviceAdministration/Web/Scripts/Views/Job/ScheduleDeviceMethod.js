@@ -1,0 +1,69 @@
+﻿IoTApp.createModule('IoTApp.ScheduleDeviceMethod', function () {
+    'use strict';
+
+    var self = this;
+
+    function MethodParameterEditItem(name, type, value) {
+        var self = this;
+        self.ParameterName = name;
+        self.Type = type
+        self.ParameterValue = value;
+    }
+
+
+    function viewModel() {
+        var self = this;
+        this.queryName = ko.observable("");
+        this.jobName = ko.observable("");
+        this.methodName = ko.observable("");
+        this.methods = {};
+        this.parameters = ko.pureComputed(function () {
+            if (self.methodName != undefined
+                && self.methodName().length != 0) {
+
+                var rawparam = $.grep(self.methods, function (e) { return e.name == self.methodName(); });
+                if (rawparam.length != 0) {
+                    var params = $.map(rawparam[0].parameters, function (item) {
+                        return new MethodParameterEditItem(item.name, item.type, "")
+                    })
+                    return params.length == 0 ? null : params;
+                }
+                return null;
+            }
+        }, this);
+
+        this.startDate = ko.observable(moment());
+        this.isParameterLoading = true;
+        this.maxExecutionTime = ko.observable(30);
+
+        this.getMatchedDevices = function (stringtemplate) {
+            return stringtemplate.replace("{0}", "2").replace("{1}", "5");
+        }
+        this.getUnmatchedDevices = function (stringtemplate) {
+            return stringtemplate.replace("{0}", "3").replace("{1}", "5");
+        }
+
+        this.beforePost = function (elem) {
+            $(elem).find("#StartDate").val(moment(this.startDate()).utc().format());
+            return true;
+        }
+
+        this.cacheNameList = function (namelist) {
+            self.methods = namelist;
+            IoTApp.Controls.NameSelector.create(jQuery('.name_selector__text'), { type: IoTApp.Controls.NameSelector.NameListType.method }, self.methods);
+        }
+
+        this.init = function () {
+            IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.method }, self.cacheNameList)
+        }
+    }
+
+    var vm = new viewModel();
+    return {
+        init: function () {
+            vm.init();
+            ko.applyBindings(vm, $("content").get(0));
+        }
+    }
+
+}, [jQuery, resources]);

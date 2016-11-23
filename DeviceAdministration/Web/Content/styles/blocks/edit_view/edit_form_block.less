@@ -13,6 +13,27 @@
     clear: both;
 }
 
+.edit_form__labelHeader{
+    color: @form-fieldset-textbox-label;
+    font-size: .6em;
+    text-transform: uppercase;
+}
+
+.values_editor__group input[type=checkbox]{
+    border: 1px solid @form-textbox-border;
+    background-color: @form-textbox-background;
+    margin: .25em 1em 0em 0;
+    height: 30px;
+    width: 30px;
+}
+.values_editor__group td{
+    text-align:center
+}
+
+.values_editor__group>span{
+    font-size:.70em
+}
+
 .edit_form__text {
     display: block;
     float: left;
@@ -24,6 +45,36 @@
     padding: 0 5px;
     min-height: 30px;
     box-sizing: content-box;
+}
+
+.edit_form__texthalf {
+    display: block;
+    float: left;
+    width: 230px;
+    margin: .25em 1em 0 0;
+    border: 1px solid @form-textbox-border;
+    background-color: @form-textbox-background;
+    font-size: .85em;
+    padding: 0 5px;
+    min-height: 30px;
+    box-sizing: content-box;
+}
+
+.edit_form__textsmall{
+    display: block;
+    float: left;
+    width: 50px;
+    margin: .25em 0em 1.4em 0;
+    border: 1px solid @form-textbox-border;
+    background-color: @form-textbox-background;
+    font-size: .85em;
+    padding: 0 5px;
+    min-height: 30px;
+    box-sizing: content-box;
+}
+.non_float{
+    float:none;
+    display:inline;
 }
 
 .edit_form__text:disabled {

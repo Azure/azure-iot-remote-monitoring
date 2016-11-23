@@ -4,6 +4,8 @@ using System.Web.Mvc;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
+using System.Collections.Generic;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -52,19 +54,37 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.ManageJobs)]
-        public async Task<ActionResult> ScheduleTwinUpdate()
+        public ActionResult ScheduleTwinUpdate()
         {
             //ToDo: Jump to the view with desired model
 
-            return View();
+            return View(new ScheduleTwinUpdateModel());
         }
 
         [RequirePermission(Permission.ManageJobs)]
-        public async Task<ActionResult> ScheduleDeviceMethod()
+        [HttpPost]
+        public ActionResult ScheduleTwinUpdate(ScheduleTwinUpdateModel model)
         {
             //ToDo: Jump to the view with desired model
 
-            return View();
+            return View(new ScheduleTwinUpdateModel());
+        }
+
+        [RequirePermission(Permission.ManageJobs)]
+        public ActionResult ScheduleDeviceMethod()
+        {
+            //ToDo: Jump to the view with desired model
+
+            return View(new ScheduleDeviceMethodModel());
+        }
+
+        [RequirePermission(Permission.ManageJobs)]
+        [HttpPost]
+        public ActionResult ScheduleDeviceMethod(ScheduleDeviceMethodModel model)
+        {
+            //ToDo: Jump to the view with desired model
+
+            return View(new ScheduleDeviceMethodModel());
         }
     }
 }

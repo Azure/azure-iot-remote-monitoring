@@ -11,6 +11,7 @@ using System.Web.Routing;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
 {
+    using App_Start;
     using Helpers;
 
     public class MvcApplication : System.Web.HttpApplication
@@ -27,6 +28,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
 
             // Reset JobList and QueryList via actual current job history for debugging
             //RepositoryInitializer.SeedTablesAsync().Wait();
+            ModelBinders.Binders.Add(typeof(DateTime), new DateTimeBinder() { TimeFormat = "h:m:ss tt", DateFormat= "MMMM d, yyyy h:mm tt" });
+            ModelBinders.Binders.Add(typeof(DateTime?), new NullableDateTimeBinder() { TimeFormat = "h:m:ss tt", DateFormat = "MMMM d, yyyy h:mm tt" });
         }
 
         // Require HTTPS for all requests processed by ASP.NET

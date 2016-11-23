@@ -31,6 +31,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
                .Include(
                 "~/Scripts/bootstrap.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/bootstrapdatetime")
+               .Include(
+                "~/Scripts/bootstrap-datetimepicker.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
                 "~/Scripts/knockout-{version}.js"));
