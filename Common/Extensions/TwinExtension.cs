@@ -39,7 +39,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
                 if (flatName.TryTrimPrefix(selector.Key, out name))
                 {
                     var collection = selector.Value(twin);
-                    return collection.Contains(name) ? collection[name] : null;
+                    return TwinCollectionExtension.Get(collection, name);
                 }
             }
 
@@ -68,7 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
             {
                 if (flatName.TryTrimPrefix(selector.Key, out name))
                 {
-                    selector.Value(twin)[name] = value;
+                    TwinCollectionExtension.Set(selector.Value(twin), name, value);
                     return;
                 }
             }

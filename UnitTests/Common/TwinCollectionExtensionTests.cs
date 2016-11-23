@@ -48,6 +48,49 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
             Assert.Equal((string)tags[7].Value.Value.Value, "Device001");
         }
 
+        [Fact]
+        public void GetTest()
+        {
+            var twin = BuildRetrievedTwin();
+
+            Assert.Equal(twin.Tags.Get("DisplayName").ToString(), "Device001");
+            Assert.Equal(twin.Tags.Get("Location.City").ToString(), "Beijing");
+            Assert.Equal((double)twin.Tags.Get("LastTelemetry.Telemetry.Temperature"), 30.5);
+
+            Assert.Null(twin.Tags.Get("x"));
+            Assert.Throws<ArgumentNullException>(() => twin.Tags.Get(null));
+        }
+
+        [Fact]
+        public void SetTest()
+        {
+            var twin = BuildRetrievedTwin();
+
+            // Replace leaf
+            twin.Tags.Set("Location.City", "Shanghai");
+            Assert.Equal(twin.Tags.Get("Location.City").ToString(), "Shanghai");
+
+            // Add leaf (same level)
+            twin.Tags.Set("Location.Dummy", "n/a");
+            Assert.Equal(twin.Tags.Get("Location.Dummy").ToString(), "n/a");
+
+            // Add left (new level)
+            twin.Tags.Set("Location.City.Short", "SH");
+            Assert.Equal(twin.Tags.Get("Location.City.Short").ToString(), "SH");
+
+            // Replace intermedia node
+            twin.Tags.Set("LastTelemetry.Telemetry", 3);
+            Assert.Equal((int)twin.Tags.Get("LastTelemetry.Telemetry"), 3);
+
+            // Replace leaf
+            twin.Properties.Desired.Set("FirmwareVersion.Minor", 1);
+            Assert.Equal((int)twin.Properties.Desired.Get("FirmwareVersion.Minor"), 1);
+
+            // Replace intermedia node
+            twin.Properties.Desired.Set("FirmwareVersion.Build", 1002);
+            Assert.Equal((int)twin.Properties.Desired.Get("FirmwareVersion.Build"), 1002);
+        }
+
         private Twin BuildRetrievedTwin()
         {
             var twin = new Twin();
@@ -70,6 +113,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
             };
 
             twin.Tags["DisplayName"] = "Device001";
+
+            var build = new TwinCollection();
+            build["Year"] = 2016;
+            build["Month"] = 11;
+
+            var version = new TwinCollection();
+            version["Major"] = 3;
+            version["Minor"] = 0;
+            version["Build"] = build;
+            twin.Properties.Desired["FirmwareVersion"] = version;
 
             return JsonConvert.DeserializeObject<Twin>(twin.ToJson());
         }
