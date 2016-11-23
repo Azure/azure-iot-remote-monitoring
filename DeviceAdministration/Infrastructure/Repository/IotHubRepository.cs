@@ -148,13 +148,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                 var result = await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
                                                                     await this._deviceManager.InvokeDeviceMethodAsync(deviceId, method));
-                HttpStatusCode code;
-                if (!Enum.TryParse<HttpStatusCode>(result.Status, out code))
-                {
-                    code = HttpStatusCode.InternalServerError;
-                }
-
-                command.Result = code.ToString();
+                command.Result = result.Status.ToString();
                 command.ReturnValue = result.GetPayloadAsJson();
                 command.UpdatedTime = DateTime.UtcNow;
             }
