@@ -11,9 +11,6 @@
         self.deviceId = deviceId;
 
         $.get('/Device/GetDeviceDetails', { deviceId: deviceId }, function (response) {
-            if (!$(".details_grid").is(':visible')) {
-                IoTApp.DeviceIndex.toggleDetails();
-            }
             onDeviceDetailsDone(response);
         }).fail(function (response) {
             $('#loadingElement').hide();
@@ -27,9 +24,6 @@
         $('.details_grid__grid_subhead').text(resources.scheduleJobPanelLabel);
 
         $.get('/Job/ScheduleJob', { queryName: queryName }, function (response) {
-            if (!$(".details_grid").is(':visible')) {
-                IoTApp.DeviceIndex.toggleDetails();
-            }
             onScheduleJobReady(response);
         }).fail(function (response) {
             $('#loadingElement').hide();

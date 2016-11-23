@@ -340,6 +340,7 @@
             self.dataTable.$(".selected").removeClass("selected");
             $(this).addClass("selected");
             self.selectedRow = self.dataTable.row(this).index();
+            showDetails();
             self.deviceDetails.init(data);
 
             IoTApp.Helpers.DeviceIdState.saveDeviceIdToCookie(data);
@@ -378,10 +379,7 @@
             "class": 'button_base devicelist_toolbar_button devicelist_toolbar_button_gray',
             text: resources.editColumns,
             click: function () {
-                if (!self.deviceGrid.is(':visible')) {
-                    toggleDetails();
-                }
-
+                showDetails();
                 IoTApp.DeviceListColumns.init();
             }
         }).appendTo($buttonArea);
@@ -391,6 +389,7 @@
             "class": 'button_base devicelist_toolbar_button',
             text: resources.scheduleJob,
             click: function () {
+                showDetails();
                 self.deviceDetails.scheduleJob($('#queryNameBox').val());
             }
         }).appendTo($buttonArea);
@@ -529,6 +528,12 @@
         self.deviceGrid.toggle();
         self.deviceGridClosed.toggle();
         setGridWidth();
+    }
+
+    var showDetails = function () {
+        if (!self.deviceGrid.is(':visible')) {
+            IoTApp.DeviceIndex.toggleDetails();
+        }
     }
 
     // close the device details pane (called when device is no longer shown)
