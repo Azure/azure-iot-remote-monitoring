@@ -78,7 +78,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Proxies
             return _service.GetSessionInfo(request);
         }
 
-        public SendCancelLocationResponse SendCancelLocationResponse(string iccid)
+        public SendCancelLocationResponse CancelLocation(string iccid)
         {
             var terminalService = JasperServiceBuilder.GetTerminalService(_jasperCredentials);
             return terminalService.SendCancelLocation(new SendCancelLocationRequest()

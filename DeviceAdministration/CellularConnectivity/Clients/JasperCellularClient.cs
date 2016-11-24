@@ -136,7 +136,19 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public bool ReconnectTerminal(string iccid)
         {
-            return true;
+            var proxy = BuildJasperTerminalClientProxy();
+            SendCancelLocationResponse resonse;
+            bool success;
+            try
+            {
+                resonse = proxy.CancelLocation(iccid);
+                success = resonse.status == "Success";
+            }
+            catch(Exception e)
+            {
+                throw new CellularConnectivityException(e);
+            }
+            return success;
         }
 
         /// <summary>

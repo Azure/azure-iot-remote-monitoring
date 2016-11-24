@@ -9,5 +9,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Proxies
         GetTerminalDetailsResponse GetSingleTerminalDetails(Iccid iccidList);
         GetSessionInfoResponse GetSingleSessionInfo(Iccid iccid);
         EditTerminalResponse EditTerminal(Iccid iccid, int changeType, string targetValue);
+        SendCancelLocationResponse CancelLocation(string iccid);
     }
 }
