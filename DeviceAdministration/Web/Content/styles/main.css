@@ -1606,15 +1606,17 @@ table#alertHistoryTable tr.selectedAlert {
   display: inline-block;
   box-sizing: border-box;
 }
+.provider_info_text {
+  padding-left: 30px;
+  min-height: 30px;
+  margin-bottom: 1em;
+  font-size: 0.8em;
+}
 .jasper_info_text {
   background-image: url("/Content/img/icon_jasper.svg");
   background-position: left center;
   background-repeat: no-repeat;
   background-size: 30px 30px;
-  padding-left: 30px;
-  min-height: 30px;
-  margin-bottom: 1em;
-  font-size: 0.8em;
 }
 .button {
   /* anchor version */

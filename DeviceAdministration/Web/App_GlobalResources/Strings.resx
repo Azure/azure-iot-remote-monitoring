@@ -1627,7 +1627,7 @@
     <value>The association succeeded for device {0} with ICCID {1}.</value>
     <comment>Success message.</comment>
   </data>
-  <data name="ApiRegistrationInfoText" xml:space="preserve">
+  <data name="ApiRegistrationInfoTextJasper" xml:space="preserve">
     <value>To activate the integration to view and control your Control Center devices through IoT Suite please enter the following credentials:</value>
     <comment>Informational text block.</comment>
   </data>
@@ -1806,5 +1806,8 @@
   </data>
   <data name="SimInformationActionsDisabledMessage" xml:space="preserve">
     <value>Actions have been disabled because the SIM is not in an active state</value>
+  </data>
+  <data name="ApiRegistrationInfoTextEricsson" xml:space="preserve">
+    <value>To activate the integration to view and control your Ericsson IoT account devices through IoT Suite please enter the following credentials:</value>
   </data>
 </root>
