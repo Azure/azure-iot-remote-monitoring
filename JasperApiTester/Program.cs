@@ -26,19 +26,21 @@ namespace JasperApiTester
             Password = "2Audfzq*NaJOboSA",
             Username = "RiteshCC"
         };
-        private static readonly string Iccid = "89302720396917145190";
+        private static readonly string Iccid = "89302720396911983539";
         private static readonly string ProgramVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         static void Main(string[] args)
         {
-
-            //var sendSmsResult = TestSendSms();
-
-            //Console.WriteLine(JsonConvert.SerializeObject(sendSmsResult));
-
-            var changeStatusResult = TestChangeTerminalStatus();
-
-            Console.WriteLine(JsonConvert.SerializeObject(changeStatusResult));
+            try
+            {
+                var sendCancelLocationResponse = SendCancelLocationResponse();
+                Console.WriteLine(JsonConvert.SerializeObject(sendCancelLocationResponse));
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("An Exception has occured: /n");
+                Console.WriteLine(JsonConvert.SerializeObject(exception));
+            }
 
             Console.WriteLine("Press ESC to stop");
             do
@@ -48,6 +50,18 @@ namespace JasperApiTester
                     // Do something
                 }
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
+        }
+
+        public static SendCancelLocationResponse SendCancelLocationResponse()
+        {
+            var terminalService = JasperServiceBuilder.GetTerminalService(Credentials);
+            return terminalService.SendCancelLocation(new SendCancelLocationRequest()
+            {
+                iccid = Iccid,
+                messageId = Guid.NewGuid() + "-" + "0",
+                version = ProgramVersion,
+                licenseKey = Credentials.LicenceKey
+            });
         }
 
         public static GetAvailableEventsResponse TestGetAvailableEvents(string iccid, ICredentials credentials, string programVersion)

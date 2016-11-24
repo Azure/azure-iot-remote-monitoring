@@ -77,5 +77,17 @@ namespace DeviceManagement.Infrustructure.Connectivity.Proxies
 
             return _service.GetSessionInfo(request);
         }
+
+        public SendCancelLocationResponse SendCancelLocationResponse(string iccid)
+        {
+            var terminalService = JasperServiceBuilder.GetTerminalService(_jasperCredentials);
+            return terminalService.SendCancelLocation(new SendCancelLocationRequest()
+            {
+                iccid = iccid,
+                messageId = Guid.NewGuid() + "-" + JasperApiConstants.MESSAGE_ID,
+                version = JasperApiConstants.PROGRAM_VERSION,
+                licenseKey = _jasperCredentials.LicenceKey
+            });
+        }
     }
 }
