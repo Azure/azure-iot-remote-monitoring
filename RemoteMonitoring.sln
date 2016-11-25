@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EricssonConsoleApiTester", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JasperApiTester", "JasperApiTester\JasperApiTester.csproj", "{487ED95B-4F31-4D56-949E-4B7DC7D8089A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{008E8267-1703-4108-904A-99C1B9ED8F7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +78,10 @@ Global
 		{487ED95B-4F31-4D56-949E-4B7DC7D8089A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{487ED95B-4F31-4D56-949E-4B7DC7D8089A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{487ED95B-4F31-4D56-949E-4B7DC7D8089A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{008E8267-1703-4108-904A-99C1B9ED8F7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{008E8267-1703-4108-904A-99C1B9ED8F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{008E8267-1703-4108-904A-99C1B9ED8F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{008E8267-1703-4108-904A-99C1B9ED8F7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

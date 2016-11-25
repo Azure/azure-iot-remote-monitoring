@@ -16,6 +16,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Mode
 using Moq;
 using Ploeh.AutoFixture;
 using Xunit;
+using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Constants;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
 {
@@ -67,7 +69,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
 
             _apiRegistrationRepository.Setup(repo => repo.IsApiRegisteredInAzure()).Returns(true);
             _deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(devices);
-            _cellulerExtensionsMock.Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>()))
+            _cellulerExtensionsMock.Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>(), RemoteMonitoring.Common.Constants.ApiRegistrationProviderTypes.Jasper))
                 .Returns(iccids);
 
             var result = await _deviceController.SelectType(deviceType);
@@ -91,7 +93,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
 
             //GetListOfAvailableIccids throws
             _apiRegistrationRepository.Setup(repo => repo.IsApiRegisteredInAzure()).Returns(true);
-            _cellulerExtensionsMock.Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>()))
+            _cellulerExtensionsMock.Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>(), RemoteMonitoring.Common.Constants.ApiRegistrationProviderTypes.Jasper))
                 .Throws(new CellularConnectivityException(new Exception()));
             result = await _deviceController.SelectType(deviceType);
             viewResult = result as PartialViewResult;
