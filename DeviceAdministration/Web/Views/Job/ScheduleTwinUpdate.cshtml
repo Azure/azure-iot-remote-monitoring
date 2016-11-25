@@ -46,19 +46,19 @@
                                     <tr class="values_editor__group">
                                         <td>
                                             <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox"
-                                                   data-bind="value: PropertyName, attr: { name: 'DesiredProperties[' + $index()+'].PropertyName', id: 'DesiredProperties' + $index()+'.PropertyName' }" />
+                                                   data-bind='value: PropertyName, attr: { name: "DesiredProperties[" + $index() + "].PropertyName", id: "DesiredProperties" + $index() + ".PropertyName" }' />
                                         </td>
                                         <td>
                                             @*data-msg-required="@Strings.RequiredValidationString"
                                                 data-rule-required="true"*@
                                             <input type="text" class="edit_form__texthalf"
-                                                   data-bind="value: PropertyValue, event: { blur: $root.createEmptyPropertyIfNeeded }, attr: { name: 'DesiredProperties[' + $index()+'].PropertyValue', id: 'DesiredProperties' + $index()+'.PropertyValue' }" />
+                                                   data-bind='value: PropertyValue, event: { blur: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
                                         </td>
                                         <td>
                                             <input type="checkbox"
                                                    value="true"
-                                                   data-bind="check: isDeleted, attr: { name: 'DesiredProperties[' + $index()+'].isDeleted', id: 'DesiredProperties' + $index()+'.isDeleted' }" />
-                                            <input type="hidden" value="false" name="checkbox" data-bind="attr:{ name:'DesiredProperties[' + $index()+'].isDeleted'}" />
+                                                   data-bind='check: isDeleted, attr: { name: "DesiredProperties[" + $index() + "].isDeleted", id: "DesiredProperties" + $index() + ".isDeleted" }' />
+                                            <input type="hidden" value="false" name="checkbox" data-bind='attr:{ name: "DesiredProperties[" + $index() + "].isDeleted" }' />
                                         </td>
                                         <td><a data-bind="ifnot:$root.onepropleft , click:$root.removeProperty">@Strings.Clear</a></td>
                                     </tr>
@@ -79,17 +79,17 @@
 
                                         <td>
                                             <input type="text" class="edit_form__texthalf edit_form__tagsComboBox"
-                                                   data-bind="value: TagName, attr: { name: 'Tags[' + $index()+'].TagName', id: 'Tags' + $index()+'.TagName' }" />
+                                                   data-bind='value: TagName, attr: { name: "Tags[" + $index() + "].TagName", id: "Tags" + $index() + ".TagName" }' />
                                         </td>
                                         <td>
                                             <input type="text" class="edit_form__texthalf"
-                                                   data-bind="value: TagValue, event: { blur: $root.createEmptyTagIfNeeded },attr: { name: 'Tags[' + $index()+'].TagValue', id: 'Tags' + $index()+'.TagValue' }" />
+                                                   data-bind='value: TagValue, event: { blur: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />
                                         </td>
                                         <td>
                                             <input type="checkbox"
                                                    value="true"
-                                                   data-bind="check: isDeleted, attr: { name: 'Tags[' + $index()+'].isDeleted', id: 'Tags' + $index()+'.isDeleted' }" />
-                                            <input type="hidden" value="false" name="checkbox" data-bind="attr:{ name:'Tags[' + $index()+'].isDeleted'}" />
+                                                   data-bind='check: isDeleted, attr: { name: "Tags[" + $index() + "].isDeleted", id: "Tags" + $index() + ".isDeleted" }' />
+                                            <input type="hidden" value="false" name="checkbox" data-bind='attr:{ name: "Tags[" + $index() + "].isDeleted" }' />
                                         </td>
                                         <td><a data-bind="ifnot:$root.onetagleft , click:$root.removeTag">@Strings.Clear</a></td>
                                     </tr>

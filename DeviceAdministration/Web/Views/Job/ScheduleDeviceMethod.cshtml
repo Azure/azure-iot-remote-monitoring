@@ -20,7 +20,7 @@
     <div class="content_inner">
         <div id="content">
             <div id="scheduleJobParameter">
-                @using (Html.BeginForm("ScheduleDeviceMethod", "Job", FormMethod.Post , new { data_bind= "submit: beforePost" }))
+                @using (Html.BeginForm("ScheduleDeviceMethod", "Job", FormMethod.Post, new { data_bind = "submit: beforePost" }))
                 {
                     @Html.AntiForgeryToken()
                     <p>
@@ -34,7 +34,7 @@
 
                             <div style="clear:both"></div>
                             @Html.LabelFor(m => m.MethodName, Strings.InvokeMethodLabel, new { @class = "edit_form__label" });
-                            @Html.TextBoxFor(m => m.MethodName, new {  data_bind = "textInput: methodName, event{ blur: $root.updateParameter }", @class = "name_selector__text edit_form__text" });
+                            @Html.TextBoxFor(m => m.MethodName, new { data_bind = "textInput: methodName, event{ blur: $root.updateParameter }", @class = "name_selector__text edit_form__text" });
 
                             <div style="clear:both"></div>
 
@@ -58,19 +58,19 @@
                                     <tr class="values_editor__group">
                                         <td>
                                             <input type="text" class="edit_form__texthalf"
-                                                   data-bind="value: ParameterName, attr: { name: 'Parameters[' + $index()+'].ParameterName', id: 'Parameters' + $index()+'.ParameterName' }" />
+                                                   data-bind='value: ParameterName, attr: { name: "Parameters[" + $index() + "].ParameterName", id: "Parameters" + $index() + ".ParameterName" }' />
                                         </td>
                                         <td>
                                             @*data-msg-required="@Strings.RequiredValidationString"
                                                 data-rule-required="true"*@
                                             <input type="text" class="edit_form__texthalf"
-                                                   data-bind="value: ParameterValue, attr: { name: 'Parameters[' + $index()+'].ParameterValue', id: 'Parameters' + $index()+'.ParameterValue' }" />
+                                                   data-bind='value: ParameterValue, attr: { name: "Parameters[" + $index() + "].ParameterValue", id: "Parameters" + $index() + ".ParameterValue" }' />
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
 
-                            <label for="scheduleJobTime" class="edit_form__label" >@Strings.ScheduleSetJobTime</label>
+                            <label for="scheduleJobTime" class="edit_form__label">@Strings.ScheduleSetJobTime</label>
 
                             <div id="scheduleJobTime" class="values_editor">
                                 <div class="values_editor__group">
@@ -112,6 +112,6 @@
     $(document).ready(function () {
         IoTApp.ScheduleDeviceMethod.init("@Model.QueryName");
     });
-    
+
 </script>
 
