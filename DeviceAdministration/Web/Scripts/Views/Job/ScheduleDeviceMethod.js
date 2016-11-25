@@ -10,10 +10,8 @@
         self.ParameterValue = value;
     }
 
-
     function viewModel() {
         var self = this;
-        this.queryName = ko.observable("");
         this.jobName = ko.observable("");
         this.methodName = ko.observable("");
         this.methods = {};
@@ -45,6 +43,13 @@
 
         this.beforePost = function (elem) {
             $(elem).find("#StartDate").val(moment(this.startDate()).utc().format());
+
+            $("<input>").attr({
+                type: 'hidden',
+                name: 'queryName',
+                value: this.queryName
+            }).appendTo($(elem));
+
             return true;
         }
 
@@ -53,15 +58,16 @@
             IoTApp.Controls.NameSelector.create(jQuery('.name_selector__text'), { type: IoTApp.Controls.NameSelector.NameListType.method }, self.methods);
         }
 
-        this.init = function () {
-            IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.method }, self.cacheNameList)
+        this.init = function (queryName) {
+            this.queryName = queryName;
+            IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.method }, self.cacheNameList);
         }
     }
 
     var vm = new viewModel();
     return {
-        init: function () {
-            vm.init();
+        init: function (queryName) {
+            vm.init(queryName);
             ko.applyBindings(vm, $("content").get(0));
         }
     }

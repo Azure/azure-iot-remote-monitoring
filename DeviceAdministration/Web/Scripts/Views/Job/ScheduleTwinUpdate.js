@@ -1,6 +1,4 @@
-﻿
-
-IoTApp.createModule('IoTApp.ScheduleTwinUpdate', function () {
+﻿IoTApp.createModule('IoTApp.ScheduleTwinUpdate', function () {
     'use strict';
 
     var self = this;
@@ -20,7 +18,6 @@ IoTApp.createModule('IoTApp.ScheduleTwinUpdate', function () {
 
     function viewModel() {
         var self = this;
-        this.queryName = ko.observable("");
         this.jobName = ko.observable("");
         this.properties = ko.observableArray();
         this.tags = ko.observableArray();
@@ -42,7 +39,6 @@ IoTApp.createModule('IoTApp.ScheduleTwinUpdate', function () {
             }
         }
 
-
         this.createEmptyTagIfNeeded = function (tag) {
             if (self.tags.indexOf(tag) == self.tags().length - 1) {
                 self.tags.push(new TagsEditItem("", "", false, false))
@@ -52,7 +48,7 @@ IoTApp.createModule('IoTApp.ScheduleTwinUpdate', function () {
 
         this.removeTag = function (tag) {
             self.tags.remove(tag);
-            if (self.tags().length <=1) {
+            if (self.tags().length <= 1) {
                 self.onetagleft(true);
             }
         }
@@ -66,6 +62,13 @@ IoTApp.createModule('IoTApp.ScheduleTwinUpdate', function () {
 
         this.beforePost = function (elem) {
             $(elem).find("#StartDate").val(moment(this.startDate()).utc().format());
+
+            $("<input>").attr({
+                type: 'hidden',
+                name: 'queryName',
+                value: this.queryName
+            }).appendTo($(elem));
+
             return true;
         }
 
@@ -96,9 +99,10 @@ IoTApp.createModule('IoTApp.ScheduleTwinUpdate', function () {
             });
         }
 
-        this.init = function () {
+        this.init = function (queryName) {
             this.properties.push(new PropertiesEditItem("", "", false));
             this.tags.push(new TagsEditItem("", "", false));
+            this.queryName = queryName;
             //IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.tag }, self.cachetagList);
             //IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.desiredProperty }, self.cachepropertyList);
             IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.method }, self.cachetagList);
@@ -108,8 +112,8 @@ IoTApp.createModule('IoTApp.ScheduleTwinUpdate', function () {
 
     var vm = new viewModel();
     return {
-        init: function () {
-            vm.init();
+        init: function (queryName) {
+            vm.init(queryName);
             ko.applyBindings(vm, $("content").get(0));
         }
     }

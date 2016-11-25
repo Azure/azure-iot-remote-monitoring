@@ -2,7 +2,7 @@
 @using Microsoft.Azure.Devices
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions
 
-@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.ScheduleJobModel
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.PreScheduleJobModel
 @{
     var utcNow = DateTime.UtcNow;
 }
@@ -14,59 +14,62 @@
 <section class="details_grid_general" id="jobsGrid">
     <p class="grid_detail_value">
         @Html.ActionLink(
-                Strings.UpdateTwin, "ScheduleTwinUpdate", "Job",
-                new
-                {
-                    QueryName = Model.QueryName
-                },
-                new
-                {
-                    id = "scheduleTwinUpdateLink"
-                })
+             Strings.UpdateTwin, "ScheduleTwinUpdate", "Job",
+             new
+             {
+                 queryName = Model.QueryName
+             },
+             new
+             {
+                 id = "scheduleTwinUpdateLink"
+             })
     </p>
 
     <p class="grid_detail_value">
         @Html.ActionLink(
-                Strings.InvokeMethod, "ScheduleDeviceMethod", "Job",
-                new
-                {
-                    QueryName = Model.QueryName
-                },
-                new
-                {
-                    id = "scheduleDeviceMethodLink"
-                })
+             Strings.InvokeMethod, "ScheduleDeviceMethod", "Job",
+             new
+             {
+                 queryName = Model.QueryName
+             },
+             new
+             {
+                 id = "scheduleDeviceMethodLink"
+             })
     </p>
 </section>
 
-<div class="header_grid header_grid_general">
-    <h3 class="grid_subheadhead_detail">@Strings.JobHistoryForQuery</h3>
-    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.JobHistoryForQueryTooltip" />
-</div>
+@if (Model.JobsSharingQuery.Any())
+{
+    <div class="header_grid header_grid_general">
+        <h3 class="grid_subheadhead_detail">@Strings.JobHistoryForQuery</h3>
+        <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.JobHistoryForQueryTooltip" />
+    </div>
 
-<section class="details_grid_general" id="jobHistoryGrid">
-    @foreach (var jobModel in Model.JobsSharingQuery)
-    {
-        <div class="overflow_auto">
-            @Html.ActionLink(jobModel.Name.Any() ? jobModel.Name : "[" + jobModel.Job.JobId + "]", "Select", "Job", new { jobId = jobModel.Job.JobId }, new { @class = "link_grid_jobName" })
-            <div class="grid_container_job pull-right">
-                @switch (jobModel.Job.Status)
-                {
-                    case JobStatus.Completed:
-                        <img src="~/Content/img/icon_status_all_clear.svg" class="details_grid_info pull-left" />
-                        break;
-                    case JobStatus.Failed:
-                        <img src="~/Content/img/icon_status_alarm.svg" class="details_grid_info pull-left" />
-                        break;
-                    default:
-                        <img src="~/Content/img/icon_status_information.svg" class="details_grid_info pull-left" />
-                        break;
-                }
-                <p class="grid_detail_jobStatus pull-right">@jobModel.Job.Status.ToString()</p>
+    <section class="details_grid_general" id="jobHistoryGrid">
+        @foreach (var jobModel in Model.JobsSharingQuery)
+        {
+            <div class="overflow_auto">
+                @Html.ActionLink(jobModel.Name.Any() ? jobModel.Name : "[" + jobModel.Job.JobId + "]", "Select", "Job", new { jobId = jobModel.Job.JobId }, new { @class = "link_grid_jobName" })
+                <div class="grid_container_job pull-right">
+                    @switch (jobModel.Job.Status)
+                    {
+                        case JobStatus.Completed:
+                            <img src="~/Content/img/icon_status_all_clear.svg" class="details_grid_info pull-left" />
+                            break;
+                        case JobStatus.Failed:
+                            <img src="~/Content/img/icon_status_alarm.svg" class="details_grid_info pull-left" />
+                            break;
+                        default:
+                            <img src="~/Content/img/icon_status_information.svg" class="details_grid_info pull-left" />
+                            break;
+                    }
+                    <p class="grid_detail_jobStatus pull-right">@jobModel.Job.Status.ToString()</p>
+                </div>
+                <div class="clear_both">
+                    <p class="grid_detail_lastUpdated pull-right">@TimeSpanExtension.ToFloorShortString(utcNow - jobModel.Job.CreatedTimeUtc, Strings.LastUpdatedFormatString)</p>
+                </div>
             </div>
-            <div class="clear_both">
-                <p class="grid_detail_lastUpdated pull-right">@TimeSpanExtension.ToFloorShortString(utcNow - jobModel.Job.CreatedTimeUtc, Strings.LastUpdatedFormatString)</p>
-            </div>
-        </div>
-    }
-</section>
+        }
+    </section>
+}

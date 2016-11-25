@@ -304,11 +304,12 @@
     <Compile Include="Models\ActionPropertiesModel.cs" />
     <Compile Include="Models\AlertHistoryDeviceModel.cs" />
     <Compile Include="Models\EditDeviceRuleModel.cs" />
+    <Compile Include="Models\PreScheduleJobModel.cs" />
     <Compile Include="Models\ScheduleDeviceMethodModel.cs" />
     <Compile Include="Models\LanguageModel.cs" />
     <Compile Include="Models\NamedDeviceJob.cs" />
     <Compile Include="Models\NamedJobResponseModel.cs" />
-    <Compile Include="Models\ScheduleJobModel.cs" />    
+    <Compile Include="Models\ScheduleJobModel.cs" />
     <Compile Include="Models\ScheduleTwinUpdateModel.cs" />
     <Compile Include="Models\SimInformationViewModel.cs" />
     <Compile Include="Models\UpdateActionModel.cs" />

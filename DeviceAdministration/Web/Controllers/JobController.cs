@@ -4,8 +4,6 @@ using System.Web.Mvc;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
-using System.Collections.Generic;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -23,6 +21,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [RequirePermission(Permission.ManageJobs)]
         public async Task<ActionResult> ScheduleJob(string queryName)
         {
+            // [WORKAROUND] The default query name for case it is empty
+            if (string.IsNullOrEmpty(queryName))
+            {
+                queryName = "*";
+            }
+
             var jobs = await _jobRepository.QueryByQueryNameAsync(queryName);
             var tasks = jobs.Select(async job =>
             {
@@ -44,21 +48,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 };
             });
 
-            var scheduleJobModel = new ScheduleJobModel
+            var preScheduleJobModel = new PreScheduleJobModel
             {
                 QueryName = queryName,
                 JobsSharingQuery = (await Task.WhenAll(tasks)).Where(model => model.Job != null)
             };
 
-            return PartialView("_ScheduleJob", scheduleJobModel);
+            return PartialView("_ScheduleJob", preScheduleJobModel);
         }
 
         [RequirePermission(Permission.ManageJobs)]
-        public ActionResult ScheduleTwinUpdate()
+        public ActionResult ScheduleTwinUpdate(string queryName)
         {
             //ToDo: Jump to the view with desired model
 
-            return View(new ScheduleTwinUpdateModel());
+            return View(new ScheduleTwinUpdateModel
+            {
+                QueryName = queryName
+            });
         }
 
         [RequirePermission(Permission.ManageJobs)]
@@ -71,11 +78,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.ManageJobs)]
-        public ActionResult ScheduleDeviceMethod()
+        public ActionResult ScheduleDeviceMethod(string queryName)
         {
             //ToDo: Jump to the view with desired model
 
-            return View(new ScheduleDeviceMethodModel());
+            return View(new ScheduleDeviceMethodModel
+            {
+                QueryName = queryName
+            });
         }
 
         [RequirePermission(Permission.ManageJobs)]
