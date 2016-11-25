@@ -55,7 +55,7 @@ The web app containing the web jobs is named **&lt;solution name&gt;-jobhost**. 
 
 ![][img-job]
 
-If you redeploy your solution from the command line, we respect the scale changes you’ve made and will not overwrite these changes with the default template. In addition, you also have full control oover scaling Azure services up or restoring services to their original scale units.
+If you redeploy your solution from the command line, we respect the scale changes you’ve made and will not overwrite these changes with the default template. In addition, you also have full control over scaling Azure services up or restoring services to their original scale units.
 
 This article walked through changing the footprint of the underlying Azure services to enable you to conduct demos and build small PoCs at minimal cost. For further reading, take a look at our [Azure IoT Suite Documentation]. Curious about what’s coming next or want to chime in on feature enhancements? Participate in the [Azure IoT User Voice].
 
