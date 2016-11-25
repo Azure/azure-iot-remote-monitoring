@@ -258,6 +258,7 @@
     <Compile Include="Web\Controllers\DeviceCommandControllerTests.cs" />
     <Compile Include="Web\Controllers\DashboardControllerTests.cs" />
     <Compile Include="Web\Controllers\DeviceControllerTests.cs" />
+    <Compile Include="Web\Extensions\JobTypeExtensionTest.cs" />
     <Compile Include="Web\Helpers\CellularExtensionsTests.cs" />
     <Compile Include="Web\Helpers\DeviceDisplayHelperTests.cs" />
     <Compile Include="Web\Helpers\JasperCredentialProviderTests.cs" />

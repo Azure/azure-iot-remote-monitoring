@@ -1,9 +1,11 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.DataTables;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
@@ -20,14 +22,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         // GET: api/v1/jobs
         public async Task<HttpResponseMessage> GetJobs()
         {
-            //TODO: mock code: query Job
-            var jobs = new List<Job>();
-            jobs.Add(new Job() { Name = "sample job1", StatusMessage = "Need to mock some of this using reflection." });
-
-            return await GetServiceResponseAsync<IEnumerable<Job>>(async () =>
+            return await GetServiceResponseAsync<DataTablesResponse<DeviceJobModel>>(() =>
             {
-                return await Task.FromResult(jobs);
-            });
+                //TODO: mock code: query Job
+                List<DeviceJobModel> queryResult = DeviceJobModel.BuildMockJobs();
+
+                var dataTablesResponse = new DataTablesResponse<DeviceJobModel>()
+                {
+                    RecordsTotal = queryResult.Count,
+                    RecordsFiltered = queryResult.Count,
+                    Data = queryResult.ToArray()
+                };
+
+                return Task.FromResult(dataTablesResponse);
+
+            }, false);
         }
 
         [HttpGet]
@@ -55,8 +64,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<HttpResponseMessage> ScheduleJob()
         {
             //TODO: mock code: Add Job
-            var job = new Job() { Id = "jobid1", Name = "frist job", OperationType = Job.JobOperationType.EditPropertyOrTag, QueryName = "sample query 1" };
-            return await GetServiceResponseAsync<Job>(async () =>
+            var job = DeviceJobModel.BuildMockJobs().ToArray()[0];
+            return await GetServiceResponseAsync<DeviceJobModel>(async () =>
             {
                 return await Task.FromResult(job);
             });
@@ -69,11 +78,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<HttpResponseMessage> GetJobById(string jobId)
         {
             //TODO: mock code: query Job
-            var jobs = new List<Job>();
-            jobs.Add(new Job() { Id = "jobid1", Name = "frist job", OperationType = Job.JobOperationType.EditPropertyOrTag, QueryName = "sample query 1" });
-            jobs.Add(new Job() { Id = "jobid2", Name = "second job", OperationType = Job.JobOperationType.InvokeMethod, QueryName = "sample query 2" });
+            var jobs = DeviceJobModel.BuildMockJobs();
 
-            return await GetServiceResponseAsync<IEnumerable<Job>>(async () =>
+            return await GetServiceResponseAsync<IEnumerable<DeviceJobModel>>(async () =>
             {
                 return await Task.FromResult(jobs);
             });
@@ -82,8 +89,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPut]
         [Route("{id}/cancel")]
         [WebApiRequirePermission(Permission.ManageJobs)]
-        // GET: api/v1/jobs/{id}/cancel
-        public async Task<HttpResponseMessage> CancelJob(string jobId)
+        // PUT: api/v1/jobs/{id}/cancel
+        public async Task<HttpResponseMessage> CancelJob(string id)
         {
             //TODO: mock code: cancel job            
             return await GetServiceResponseAsync<bool>(async () =>
@@ -100,7 +107,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             //TODO: mock code: cancel job      
             var devices = new List<string>() { "SampleDevice1", "SampleDevice2" };
-            
             return await GetServiceResponseAsync<IEnumerable<string>>(async () =>
             {
                 return await Task.FromResult(devices);

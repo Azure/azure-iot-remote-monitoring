@@ -2016,4 +2016,120 @@
     <value>Select A Method</value>
     <comment>Dropdown unselected option label.</comment>
   </data>
+  <data name="DeviceCountHeader" xml:space="preserve">
+    <value>NO. OF DEVICES</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="EndTimeHeader" xml:space="preserve">
+    <value>END TIME</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FailedCountHeader" xml:space="preserve">
+    <value>FAILED COUNT</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="JobNameHeader" xml:space="preserve">
+    <value>JOB NAME</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="JobPropertiesPaneLabel" xml:space="preserve">
+    <value>JOB DETAILS</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoJobSelectedLabel" xml:space="preserve">
+    <value>No Job Selected</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="OperationsHeader" xml:space="preserve">
+    <value>OPERATIONS</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="QueryNameHeader" xml:space="preserve">
+    <value>QUERY NAME</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="StartTimeHeader" xml:space="preserve">
+    <value>START TIME</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="SucceedCountHeader" xml:space="preserve">
+    <value>SUCCEEDED COUNT</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="NavigationMenuItemJobs" xml:space="preserve">
+    <value>Jobs</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="ExportDevicesJobType" xml:space="preserve">
+    <value>Exported Devices</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ImportDevicesJobType" xml:space="preserve">
+    <value>Imported Devices</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ScheduleDeviceMethodJobType" xml:space="preserve">
+    <value>Invoke Method</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ScheduleUpdateTwinJobType" xml:space="preserve">
+    <value>Edit Properties and Tags</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="UnknownJobType" xml:space="preserve">
+    <value>Unknown Job Type</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="CancelJobAction" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CloneJobAction" xml:space="preserve">
+    <value>Clone Job</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceCountSubHeader" xml:space="preserve">
+    <value>DEVICE IN JOB</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="FailedCountSubHeader" xml:space="preserve">
+    <value>DEVICES FAILED</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="FailedToRetrieveJobs" xml:space="preserve">
+    <value>Failed to retrieve jobs</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="JobId" xml:space="preserve">
+    <value>JOB ID</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="JobProperties" xml:space="preserve">
+    <value>Job Properties</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobStatistics" xml:space="preserve">
+    <value>Devices</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoJobSelected" xml:space="preserve">
+    <value>No job selected</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="PendingCountSubHeader" xml:space="preserve">
+    <value>DEVICE PENDING</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="RunningCountSubHeader" xml:space="preserve">
+    <value>DEVICE RUNNING</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="SucceededCountSubHeader" xml:space="preserve">
+    <value>DEVICES SUCCEEDED</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="UnableToRetrieveJobFromService" xml:space="preserve">
+    <value>Unable to retrieve job from service</value>
+    <comment>Error message.</comment>
+  </data>
 </root>

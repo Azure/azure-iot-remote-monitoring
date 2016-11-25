@@ -476,6 +476,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string CancelJobAction {
+            get {
+                return ResourceManager.GetString("CancelJobAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cellular Conn.
         /// </summary>
         public static string CellularConn {
@@ -562,6 +571,15 @@ namespace GlobalResources {
         public static string ClickToSelectAll {
             get {
                 return ResourceManager.GetString("ClickToSelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clone Job.
+        /// </summary>
+        public static string CloneJobAction {
+            get {
+                return ResourceManager.GetString("CloneJobAction", resourceCulture);
             }
         }
         
@@ -1016,6 +1034,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NO. OF DEVICES.
+        /// </summary>
+        public static string DeviceCountHeader {
+            get {
+                return ResourceManager.GetString("DeviceCountHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DEVICE IN JOB.
+        /// </summary>
+        public static string DeviceCountSubHeader {
+            get {
+                return ResourceManager.GetString("DeviceCountSubHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DEVICE DETAILS.
         /// </summary>
         public static string DeviceDetailsPaneLabel {
@@ -1421,6 +1457,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to END TIME.
+        /// </summary>
+        public static string EndTimeHeader {
+            get {
+                return ResourceManager.GetString("EndTimeHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter a Device ID.
         /// </summary>
         public static string EnterDeviceId {
@@ -1493,6 +1538,33 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exported Devices.
+        /// </summary>
+        public static string ExportDevicesJobType {
+            get {
+                return ResourceManager.GetString("ExportDevicesJobType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FAILED COUNT.
+        /// </summary>
+        public static string FailedCountHeader {
+            get {
+                return ResourceManager.GetString("FailedCountHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DEVICES FAILED.
+        /// </summary>
+        public static string FailedCountSubHeader {
+            get {
+                return ResourceManager.GetString("FailedCountSubHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete query..
         /// </summary>
         public static string FailedToDeleteQuery {
@@ -1552,6 +1624,15 @@ namespace GlobalResources {
         public static string FailedToRetrieveDevices {
             get {
                 return ResourceManager.GetString("FailedToRetrieveDevices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to retrieve jobs.
+        /// </summary>
+        public static string FailedToRetrieveJobs {
+            get {
+                return ResourceManager.GetString("FailedToRetrieveJobs", resourceCulture);
             }
         }
         
@@ -2042,6 +2123,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Imported Devices.
+        /// </summary>
+        public static string ImportDevicesJobType {
+            get {
+                return ResourceManager.GetString("ImportDevicesJobType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IMSI: .
         /// </summary>
         public static string IMSI {
@@ -2258,11 +2348,56 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to JOB ID.
+        /// </summary>
+        public static string JobId {
+            get {
+                return ResourceManager.GetString("JobId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to JOB NAME.
+        /// </summary>
+        public static string JobNameHeader {
+            get {
+                return ResourceManager.GetString("JobNameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job Properties.
+        /// </summary>
+        public static string JobProperties {
+            get {
+                return ResourceManager.GetString("JobProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to JOB DETAILS.
+        /// </summary>
+        public static string JobPropertiesPaneLabel {
+            get {
+                return ResourceManager.GetString("JobPropertiesPaneLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Jobs.
         /// </summary>
         public static string Jobs {
             get {
                 return ResourceManager.GetString("Jobs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Devices.
+        /// </summary>
+        public static string JobStatistics {
+            get {
+                return ResourceManager.GetString("JobStatistics", resourceCulture);
             }
         }
         
@@ -2654,6 +2789,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Jobs.
+        /// </summary>
+        public static string NavigationMenuItemJobs {
+            get {
+                return ResourceManager.GetString("NavigationMenuItemJobs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Advanced.
         /// </summary>
         public static string NavigationMenuItemsAdvanced {
@@ -2695,6 +2839,24 @@ namespace GlobalResources {
         public static string NoDeviceSelectedLabel {
             get {
                 return ResourceManager.GetString("NoDeviceSelectedLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No job selected.
+        /// </summary>
+        public static string NoJobSelected {
+            get {
+                return ResourceManager.GetString("NoJobSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Job Selected.
+        /// </summary>
+        public static string NoJobSelectedLabel {
+            get {
+                return ResourceManager.GetString("NoJobSelectedLabel", resourceCulture);
             }
         }
         
@@ -2807,6 +2969,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OPERATIONS.
+        /// </summary>
+        public static string OperationsHeader {
+            get {
+                return ResourceManager.GetString("OperationsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Operator.
         /// </summary>
         public static string OperatorHeader {
@@ -2857,6 +3028,15 @@ namespace GlobalResources {
         public static string Pending {
             get {
                 return ResourceManager.GetString("Pending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DEVICE PENDING.
+        /// </summary>
+        public static string PendingCountSubHeader {
+            get {
+                return ResourceManager.GetString("PendingCountSubHeader", resourceCulture);
             }
         }
         
@@ -3001,6 +3181,15 @@ namespace GlobalResources {
         public static string QueryIsEmpty {
             get {
                 return ResourceManager.GetString("QueryIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to QUERY NAME.
+        /// </summary>
+        public static string QueryNameHeader {
+            get {
+                return ResourceManager.GetString("QueryNameHeader", resourceCulture);
             }
         }
         
@@ -3401,6 +3590,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DEVICE RUNNING.
+        /// </summary>
+        public static string RunningCountSubHeader {
+            get {
+                return ResourceManager.GetString("RunningCountSubHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Save {
@@ -3469,6 +3667,15 @@ namespace GlobalResources {
         public static string ScheduleDesiredPropertyName {
             get {
                 return ResourceManager.GetString("ScheduleDesiredPropertyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invoke Method.
+        /// </summary>
+        public static string ScheduleDeviceMethodJobType {
+            get {
+                return ResourceManager.GetString("ScheduleDeviceMethodJobType", resourceCulture);
             }
         }
         
@@ -3559,6 +3766,15 @@ namespace GlobalResources {
         public static string ScheduleSetJobTime {
             get {
                 return ResourceManager.GetString("ScheduleSetJobTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Properties and Tags.
+        /// </summary>
+        public static string ScheduleUpdateTwinJobType {
+            get {
+                return ResourceManager.GetString("ScheduleUpdateTwinJobType", resourceCulture);
             }
         }
         
@@ -3887,6 +4103,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to START TIME.
+        /// </summary>
+        public static string StartTimeHeader {
+            get {
+                return ResourceManager.GetString("StartTimeHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
         public static string StatusHeader {
@@ -3937,6 +4162,24 @@ namespace GlobalResources {
         public static string StringValidationMessage {
             get {
                 return ResourceManager.GetString("StringValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SUCCEEDED COUNT.
+        /// </summary>
+        public static string SucceedCountHeader {
+            get {
+                return ResourceManager.GetString("SucceedCountHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DEVICES SUCCEEDED.
+        /// </summary>
+        public static string SucceededCountSubHeader {
+            get {
+                return ResourceManager.GetString("SucceededCountSubHeader", resourceCulture);
             }
         }
         
@@ -4121,6 +4364,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to retrieve job from service.
+        /// </summary>
+        public static string UnableToRetrieveJobFromService {
+            get {
+                return ResourceManager.GetString("UnableToRetrieveJobFromService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to retrieve rule from service.
         /// </summary>
         public static string UnableToRetrieveRuleFromService {
@@ -4135,6 +4387,15 @@ namespace GlobalResources {
         public static string UnknownCommandParameterType {
             get {
                 return ResourceManager.GetString("UnknownCommandParameterType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown Job Type.
+        /// </summary>
+        public static string UnknownJobType {
+            get {
+                return ResourceManager.GetString("UnknownJobType", resourceCulture);
             }
         }
         

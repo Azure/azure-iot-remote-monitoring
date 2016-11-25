@@ -53,6 +53,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 },
                 new NavigationMenuItem
                 {
+                    Text = Strings.NavigationMenuItemJobs,
+                    Action = "Index",
+                    Controller = "Job",
+                    Selected = false,
+                    Class = "navigation__link--jobs",
+                    MinimumPermission = Permission.ViewJobs,
+                },
+                new NavigationMenuItem
+                {
                     Text = Strings.NavigationMenuItemsAdvanced,
                     Action = "CellularConn",
                     Controller = "Advanced",

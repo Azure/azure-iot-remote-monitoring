@@ -269,7 +269,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_GlobalResources\Strings.Designer.cs">
+    <Compile Include="App_GlobalResources\Strings.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
@@ -295,6 +295,7 @@
     <Compile Include="DataTables\DataTablesResponse.cs" />
     <Compile Include="DataTables\Search.cs" />
     <Compile Include="DataTables\SortColumn.cs" />
+    <Compile Include="Extensions\JobTypeExtension.cs" />
     <Compile Include="Helpers\ICellularExtensions.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
@@ -307,6 +308,7 @@
     <Compile Include="Models\EditDeviceRuleModel.cs" />
     <Compile Include="Models\PreScheduleJobModel.cs" />
     <Compile Include="Models\ScheduleDeviceMethodModel.cs" />
+    <Compile Include="Models\DeviceJobModel.cs" />
     <Compile Include="Models\LanguageModel.cs" />
     <Compile Include="Models\NamedDeviceJob.cs" />
     <Compile Include="Models\NamedJobResponseModel.cs" />
@@ -385,6 +387,7 @@
     <Content Include="Content\img\icon_jasper.svg" />
     <Content Include="Content\img\icon_save.png" />
     <Content Include="Content\img\icon_saveas.png" />
+    <Content Include="Content\img\icon_jobs.svg" />
     <Content Include="Content\styles\datatables.css" />
     <Content Include="Content\favicon.ico" />
     <Content Include="Content\img\button_back.svg" />
@@ -585,6 +588,8 @@
     <Content Include="Scripts\Views\IoTApp.js" />
     <Content Include="Scripts\Views\Job\ScheduleDeviceMethod.js" />
     <Content Include="Scripts\Views\Job\ScheduleTwinUpdate.js" />
+    <Content Include="Scripts\Views\Job\JobIndex.js" />
+    <Content Include="Scripts\Views\Job\JobProperties.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -673,6 +678,8 @@
     <Content Include="Views\DeviceMethod\_InvokeMethod.cshtml" />
     <Content Include="Views\DeviceMethod\_InvokeMethodForm.cshtml" />
     <Content Include="Views\DeviceMethod\Index.cshtml" />
+    <Content Include="Views\Job\Index.cshtml" />
+    <Content Include="Views\Job\_JobProperties.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -730,9 +737,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="App_GlobalResources\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
       <CustomToolNamespace>GlobalResources</CustomToolNamespace>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="App_GlobalResources\Strings.ru.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -765,9 +772,7 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

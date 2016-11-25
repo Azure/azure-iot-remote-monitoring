@@ -216,6 +216,10 @@ main.main_no_nav {
   background-image: url("/Content/img/icon_actions.svg");
   background-size: 30px;
 }
+.navigation__link--jobs {
+  background-image: url("/Content/img/icon_jobs.svg");
+  background-size: 30px;
+}
 .nav_advanced {
   background-image: url("/Content/img/icon_advanced.svg");
   background-size: 30px 30px;

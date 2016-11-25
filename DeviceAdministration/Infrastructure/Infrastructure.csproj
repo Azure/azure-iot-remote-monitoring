@@ -202,7 +202,6 @@
     <Compile Include="Models\DeviceTelemetryFieldModel.cs" />
     <Compile Include="Models\DeviceTelemetrySummaryModel.cs" />
     <Compile Include="Models\DeviceListColumns.cs" />
-    <Compile Include="Models\Job.cs" />
     <Compile Include="Models\JobSummary.cs" />
     <Compile Include="Models\NameCacheEntity.cs" />
     <Compile Include="Models\NameCacheEntityType.cs" />
