@@ -16,10 +16,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             builder.RegisterType<ConfigurationProvider>().As<IConfigurationProvider>().SingleInstance();
             builder.RegisterType<DeviceEventProcessor>().As<IDeviceEventProcessor>().SingleInstance();
             builder.RegisterType<ActionEventProcessor>().As<IActionEventProcessor>().SingleInstance();
-            builder.RegisterType<DeviceLogic>().As<IDeviceLogic>();
+            builder.RegisterType<DeviceLogicWithIoTHubDM>().As<IDeviceLogic>();
             builder.RegisterType<DeviceRulesLogic>().As<IDeviceRulesLogic>();
-            builder.RegisterType<DeviceRegistryRepository>().As<IDeviceRegistryCrudRepository>();
-            builder.RegisterType<DeviceRegistryRepository>().As<IDeviceRegistryListRepository>();
+            builder.RegisterType<DeviceRegistryRepositoryWithIoTHubDM>().As<IDeviceRegistryCrudRepository>();
+            builder.RegisterType<DeviceRegistryRepositoryWithIoTHubDM>().As<IDeviceRegistryListRepository>();
             builder.RegisterType<DeviceRulesRepository>().As<IDeviceRulesRepository>();
             builder.RegisterType<IotHubRepository>().As<IIotHubRepository>();
             builder.RegisterType<IoTHubDeviceManager>().As<IIoTHubDeviceManager>();
