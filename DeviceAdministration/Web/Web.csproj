@@ -454,6 +454,7 @@
     </None>
     <Content Include="Content\styles\elements\forms.less" />
     <None Include="Properties\PublishProfiles\cellularconnectivity - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\cellularconnectivity - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\cellularconnectivity - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.min.js" />
