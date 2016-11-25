@@ -1160,6 +1160,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot invoke methods to this device currently.
+        /// </summary>
+        public static string DeviceMethodIsDisabled {
+            get {
+                return ResourceManager.GetString("DeviceMethodIsDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invoke Method for {0}.
+        /// </summary>
+        public static string DeviceMethodsHeader {
+            get {
+                return ResourceManager.GetString("DeviceMethodsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device Not Registered in IoT Hub.
         /// </summary>
         public static string DeviceNotRegisteredInIoTHub {
@@ -2447,6 +2465,42 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while invoking the method.
+        /// </summary>
+        public static string MethodCallError {
+            get {
+                return ResourceManager.GetString("MethodCallError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while retrieving the selected method.
+        /// </summary>
+        public static string MethodError {
+            get {
+                return ResourceManager.GetString("MethodError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method History.
+        /// </summary>
+        public static string MethodHistory {
+            get {
+                return ResourceManager.GetString("MethodHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to METHOD NAME.
+        /// </summary>
+        public static string MethodName {
+            get {
+                return ResourceManager.GetString("MethodName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Microsoft Azure.
         /// </summary>
         public static string MicrosoftAzure {
@@ -2641,6 +2695,15 @@ namespace GlobalResources {
         public static string NoDeviceSelectedLabel {
             get {
                 return ResourceManager.GetString("NoDeviceSelectedLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device {0} has no available methods.
+        /// </summary>
+        public static string NoMethodsAvailable {
+            get {
+                return ResourceManager.GetString("NoMethodsAvailable", resourceCulture);
             }
         }
         
@@ -2974,6 +3037,24 @@ namespace GlobalResources {
         public static string RegisteredButNotPresent {
             get {
                 return ResourceManager.GetString("RegisteredButNotPresent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reinvoke.
+        /// </summary>
+        public static string Reinvoke {
+            get {
+                return ResourceManager.GetString("Reinvoke", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while reinvoking the method.
+        /// </summary>
+        public static string ReinvokeMethodError {
+            get {
+                return ResourceManager.GetString("ReinvokeMethodError", resourceCulture);
             }
         }
         
@@ -3532,6 +3613,15 @@ namespace GlobalResources {
         public static string SelectACommand {
             get {
                 return ResourceManager.GetString("SelectACommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select A Method.
+        /// </summary>
+        public static string SelectAMethod {
+            get {
+                return ResourceManager.GetString("SelectAMethod", resourceCulture);
             }
         }
         

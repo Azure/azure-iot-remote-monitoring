@@ -624,6 +624,7 @@ nav .selected {
   padding: 0;
   border: 0;
   background-color: transparent;
+  cursor: pointer;
 }
 .header_main__head {
   font-weight: normal;
@@ -838,8 +839,9 @@ nav .selected {
 .command_description {
   clear: both;
   font-size: 0.8em;
+  font-style: italic;
   color: gray;
-  margin-top: 2.5em;
+  margin-bottom: 1.5em;
 }
 /*
     Classes for Command Result come from localized string styling from DeviceDisplayHelper.cs

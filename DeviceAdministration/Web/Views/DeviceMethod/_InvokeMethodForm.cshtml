@@ -2,7 +2,7 @@
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.CommandModel
 
-@using (Ajax.BeginForm("SendCommand", "DeviceCommand", null,
+@using (Ajax.BeginForm("InvokeMethod", "DeviceMethod", null,
         new AjaxOptions()
         {
             HttpMethod = "POST",
@@ -35,5 +35,5 @@
     @Html.HiddenFor(command => command.Name)
     @Html.HiddenFor(command => command.DeviceId)
     @Html.HiddenFor(command => command.DeliveryType)
-    <button type="submit" id="sendCommand_button" class="button_base button_execute">@Strings.SendCommand</button>
+    <button type="submit" id="sendCommand_button" class="button_base button_execute">@Strings.InvokeMethod</button>
 }

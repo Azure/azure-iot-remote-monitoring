@@ -1976,4 +1976,44 @@
     <value>Parameters</value>
     <comment>Input Label</comment>
   </data>
+  <data name="DeviceMethodIsDisabled" xml:space="preserve">
+    <value>Cannot invoke methods to this device currently</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceMethodsHeader" xml:space="preserve">
+    <value>Invoke Method for {0}</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="MethodCallError" xml:space="preserve">
+    <value>An error occurred while invoking the method</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="MethodError" xml:space="preserve">
+    <value>An error occurred while retrieving the selected method</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="MethodHistory" xml:space="preserve">
+    <value>Method History</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="MethodName" xml:space="preserve">
+    <value>METHOD NAME</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="NoMethodsAvailable" xml:space="preserve">
+    <value>Device {0} has no available methods</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Reinvoke" xml:space="preserve">
+    <value>Reinvoke</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ReinvokeMethodError" xml:space="preserve">
+    <value>An error occurred while reinvoking the method</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SelectAMethod" xml:space="preserve">
+    <value>Select A Method</value>
+    <comment>Dropdown unselected option label.</comment>
+  </data>
 </root>

@@ -285,6 +285,7 @@
     <Compile Include="Controllers\AdvancedController.cs" />
     <Compile Include="Controllers\CultureController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DeviceMethodController.cs" />
     <Compile Include="Controllers\DeviceCommandController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\DeviceRulesController.cs" />
@@ -668,6 +669,10 @@
     <Content Include="Views\Device\_DeviceListColumns.cshtml" />
     <Content Include="Views\Job\ScheduleTwinUpdate.cshtml" />
     <Content Include="Views\Job\ScheduleDeviceMethod.cshtml" />
+    <Content Include="Views\DeviceMethod\_MethodResult.cshtml" />
+    <Content Include="Views\DeviceMethod\_InvokeMethod.cshtml" />
+    <Content Include="Views\DeviceMethod\_InvokeMethodForm.cshtml" />
+    <Content Include="Views\DeviceMethod\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

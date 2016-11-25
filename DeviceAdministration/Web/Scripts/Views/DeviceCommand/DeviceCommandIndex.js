@@ -71,7 +71,7 @@
     }
 
     var resendCommand = function (command) {
-        return $.post('/DeviceCommand/ResendCommand', command);
+        return $.post(resources.resendCommand, command);
     }
 
     var setDatatable = function() {
@@ -86,7 +86,7 @@
             "oLanguage": {
                 "sInfo": "Devices List (_TOTAL_)"
             },
-            "order": [4, "desc"],
+            "order": [resources.sortColumnIndex, "desc"],
             "pageLength": 1000,
             "columnDefs": [
                 { "width": "200", "targets": 1 }
@@ -302,7 +302,7 @@
             command: command
         }
         data["__RequestVerificationToken"] = $('input[name="__RequestVerificationToken"]').val();
-        return $.post('/DeviceCommand/Command', data, function (response) {
+        return $.post(resources.commandUI, data, function (response) {
             return response;
         });
     }

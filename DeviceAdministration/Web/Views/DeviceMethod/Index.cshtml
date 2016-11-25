@@ -19,7 +19,7 @@
 <header class="header_main">
 
     <button class="header_main__button_back" type="button"></button>
-    <h2 class="header_main__subhead header_main__subhead--large">@string.Format(Strings.DeviceCommandsHeader, Model.DeviceId)</h2>
+    <h2 class="header_main__subhead header_main__subhead--large">@string.Format(Strings.DeviceMethodsHeader, Model.DeviceId)</h2>
 
 </header>
 
@@ -28,19 +28,20 @@
     <div class="content_inner">
         @if (Model.SupportDeviceCommand)
         {
-            Html.RenderPartial("_SendCommand", Model.SendCommandModel);
+            Html.RenderPartial("_InvokeMethod", Model.SendCommandModel);
         }
 
         <div class="command_container" id="content">
 
-            <h3>@Strings.CommandHistory</h3>
+            <h3>@Strings.MethodHistory</h3>
 
             <table id="commandHistory">
                 <thead>
                     <tr>
-                        <th>@Strings.CommandName</th>
+                        <th>@Strings.MethodName</th>
                         <th>@Strings.CommandResult</th>
                         <th>@Strings.CommandValuesSent</th>
+                        <th>@Strings.CommandValuesReturned</th>
                         <th>@Strings.CommandTimeCreated</th>
                         <th>@Strings.CommandTimeUpdated</th>
                         @if (canSendCommands)
@@ -63,10 +64,13 @@
                             <td>
                                 @{string result = commandHistoryItem.Result;}
                                 @{string errorMessage = commandHistoryItem.ErrorMessage;}
-                                @(Html.Partial("_CommandResult", result ?? Strings.Pending, new ViewDataDictionary {{"ErrorMessage", errorMessage}}))
+                                @(Html.Partial("_MethodResult", result ?? Strings.Pending, new ViewDataDictionary {{"ErrorMessage", errorMessage}}))
                             </td>
                             <td>
                                 @DynamicValuesHelper.ConvertToJsonString(commandHistoryItem.Parameters)
+                            </td>
+                            <td>
+                                @commandHistoryItem.ReturnValue
                             </td>
                             <td>
                                 @{ resolvedTime = DynamicValuesHelper.ConvertToDateTime(commandHistoryItem.CreatedTime); }
@@ -95,7 +99,7 @@
                                                 data-command-name="@commandName"
                                                 data-command-deliverytype="@commandHistoryItem.DeliveryType"
                                                 data-command-json="@commandHistoryItem.GetParameterString()">
-                                            @Strings.Resend
+                                            @Strings.Reinvoke
                                         </button>
                                     }
                                     }
@@ -119,12 +123,12 @@
             commands: '@Html.Raw(Model.CommandsJson)',
             deviceId: '@Model.DeviceId',
             deviceIsEnabled: '@Model.DeviceIsEnabled.ToString().ToLower()',
-            commandError: '@Html.JavaScriptString(Strings.CommandError)',
-            commandSendError: '@Html.JavaScriptString(Strings.CommandSendError)',
-            resendCommandError: '@Html.JavaScriptString(Strings.ResendCommandError)',
-            sortColumnIndex: 3,
-            commandUI: '/DeviceCommand/Command',
-            resendCommand: '/DeviceCommand/ResendCommand'
+            commandError: '@Html.JavaScriptString(Strings.MethodError)',
+            commandSendError: '@Html.JavaScriptString(Strings.MethodCallError)',
+            resendCommandError: '@Html.JavaScriptString(Strings.ReinvokeMethodError)',
+            sortColumnIndex: 4,
+            commandUI: '/DeviceMethod/Method',
+            resendCommand: '/DeviceMethod/ReinvokeMethod'
         }
     </script>
 

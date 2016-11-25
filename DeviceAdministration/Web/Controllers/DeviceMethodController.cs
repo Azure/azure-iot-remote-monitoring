@@ -15,7 +15,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 {
     [Authorize]
     [OutputCache(CacheProfile = "NoCacheProfile")]
-    public class DeviceCommandController : Controller
+    public class DeviceMethodController : Controller
     {
         private static readonly List<string> PrivateCommands = new List<string>
         {
@@ -26,7 +26,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly IDeviceLogic _deviceLogic;
         private readonly ICommandParameterTypeLogic _commandParameterTypeLogic;
 
-        public DeviceCommandController(IDeviceLogic deviceLogic, ICommandParameterTypeLogic commandParameterTypeLogic)
+        public DeviceMethodController(IDeviceLogic deviceLogic, ICommandParameterTypeLogic commandParameterTypeLogic)
         {
             _deviceLogic = deviceLogic;
             _commandParameterTypeLogic = commandParameterTypeLogic;
@@ -41,13 +41,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 throw new DeviceRequiredPropertyNotFoundException("'DeviceProperties' property is missing");
             }
            
-            IList<SelectListItem> commandListItems = CommandListItems(device);
+            IList<SelectListItem> commandListItems = MethodListItems(device);
 
             bool deviceIsEnabled = device.DeviceProperties.GetHubEnabledState();
 
             DeviceCommandModel deviceCommandsModel = new DeviceCommandModel
             {
-                CommandHistory = device.CommandHistory.Where(c => c.DeliveryType == DeliveryType.Message).ToList(),
+                CommandHistory = device.CommandHistory.Where(c => c.DeliveryType == DeliveryType.Method).ToList(),
                 CommandsJson = JsonConvert.SerializeObject(device.Commands),
                 SendCommandModel = new SendCommandModel
                 {
@@ -64,7 +64,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPost]
         [RequirePermission(Permission.SendCommandToDevices)]
         [ValidateAntiForgeryToken]
-        public ActionResult Command(string deviceId, Command command)
+        public ActionResult Method(string deviceId, Command command)
         {
             var model = new CommandModel
             {
@@ -74,13 +74,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 Parameters = command.Parameters.ToParametersModel().ToList(),
                 Description = command.Description
             };
-            return PartialView("_SendCommandForm", model);
+            return PartialView("_InvokeMethodForm", model);
         }
 
         [HttpPost]
         [RequirePermission(Permission.SendCommandToDevices)]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SendCommand(CommandModel model)
+        public async Task<ActionResult> InvokeMethod(CommandModel model)
         {
             if (ModelState.IsValid)
             {
@@ -100,13 +100,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 return Json(new {data = model});
             }
 
-            return PartialView("_SendCommandForm", model);
+            return PartialView("_InvokeMethodForm", model);
         }
 
         [HttpPost]
         [RequirePermission(Permission.SendCommandToDevices)]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResendCommand(string deviceId, string name, DeliveryType deliveryType, string commandJson)
+        public async Task<ActionResult> ReinvokeMethod(string deviceId, string name, DeliveryType deliveryType, string commandJson)
         {
             try
             {
@@ -123,18 +123,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return Json(new { wasSent = true });
         }
 
-        private IList<SelectListItem> CommandListItems(DeviceModel device)
+        private IList<SelectListItem> MethodListItems(DeviceModel device)
         {
             if (device.Commands != null)
             {
-                return GetCommandListItems(device);
+                return GetMethodListItems(device);
             }
 
             return new List<SelectListItem>();
         }
 
 
-        private IList<SelectListItem> GetCommandListItems(DeviceModel device)
+        private IList<SelectListItem> GetMethodListItems(DeviceModel device)
         {
             IList<SelectListItem> result = new List<SelectListItem>();
             IList<Command> commands = device.Commands;
@@ -143,7 +143,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 foreach (Command command in commands)
                 {
-                    if (IsCommandPublic(command) && command.DeliveryType == DeliveryType.Message)
+                    if (IsCommandPublic(command) && command.DeliveryType == DeliveryType.Method)
                     {
                         SelectListItem item = new SelectListItem();
                         item.Value = command.Name;
