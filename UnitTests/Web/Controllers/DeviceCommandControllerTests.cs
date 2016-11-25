@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             Assert.Equal(model.CommandsJson, JsonConvert.SerializeObject(device.Commands));
             Assert.Equal(model.CommandHistory, device.CommandHistory);
             Assert.Equal(model.SendCommandModel.DeviceId, device.DeviceProperties.DeviceID);
-            Assert.Equal(model.SendCommandModel.CommandSelectList.Count, device.Commands.Count);
+            Assert.Equal(model.SendCommandModel.CommandSelectList.Count, device.Commands.Where(c => c.DeliveryType == DeliveryType.Message).Count());
             Assert.False(model.SendCommandModel.CanSendDeviceCommands);
             Assert.Equal(model.DeviceId, device.DeviceProperties.DeviceID);
         }
