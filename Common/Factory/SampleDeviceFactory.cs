@@ -154,8 +154,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             ));
             device.Commands.Add(new Command(
                 "ChangeDeviceState", 
-                DeliveryType.Method, 
+                DeliveryType.Message, 
                 "Sets the device state metadata property that the device reports. This is useful for testing back-end logic.", 
+                new[] { new Parameter("DeviceState", "string") }
+            ));
+            device.Commands.Add(new Command(
+                "ChangeDeviceState",
+                DeliveryType.Method,
+                "Sets the device state metadata property that the device reports. This is useful for testing back-end logic.",
                 new[] { new Parameter("DeviceState", "string") }
             ));
         }

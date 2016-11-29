@@ -175,6 +175,7 @@
     <Compile Include="Helpers\BlobStorageClient.cs" />
     <Compile Include="Helpers\BlobStorageClientFactory.cs" />
     <Compile Include="Helpers\BlobStorageReader.cs" />
+    <Compile Include="Helpers\SupportedMethodsHelper.cs" />
     <Compile Include="Helpers\IAzureTableStorageClient.cs" />
     <Compile Include="Helpers\IAzureTableStorageClientFactory.cs" />
     <Compile Include="Helpers\IBlobStorageClientFactory.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="Models\DeviceModel.cs" />
     <Compile Include="Models\DeviceProperties.cs" />
     <Compile Include="Models\IoTHub.cs" />
+    <Compile Include="Models\SupportedMethod.cs" />
     <Compile Include="Models\SystemProperties.cs" />
     <Compile Include="Models\Telemetry.cs" />
     <Compile Include="Schema\SchemaHelper.cs" />

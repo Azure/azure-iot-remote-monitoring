@@ -202,6 +202,7 @@
     <Compile Include="Common\StringExtensionTests.cs" />
     <Compile Include="Common\TimeSpanExtensionTests.cs" />
     <Compile Include="Common\TwinCollectionExtensionTests.cs" />
+    <Compile Include="Common\SupportedMethodsHelperTests.cs" />
     <Compile Include="Common\TwinExtensionTests.cs" />
     <Compile Include="Common\VirtualDeviceTableStorageTests.cs" />
     <Compile Include="Infrastructure\ActionLogicTest.cs" />
