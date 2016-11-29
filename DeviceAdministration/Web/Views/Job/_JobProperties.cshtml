@@ -17,7 +17,7 @@
             </a>
         </p>
 
-        @if (Model.Status == JobStatus.Scheduled)
+        @if (Model.Status == JobStatus.Scheduled || Model.Status == JobStatus.Enqueued || Model.Status == JobStatus.Queued)
         {
             <p class="grid_detail_value">
                 <a id="cancelJobAction">

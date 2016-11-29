@@ -33,11 +33,14 @@
         if (cancelButton != null) {
             cancelButton.on("click", function () {
                 $.ajax({
-                    "dataType": 'json',
-                    'type': 'PUT',
-                    'url': '/api/v1/jobs/' + self.jobId + '/cancel',
-                    'cache': false,
-                    'success': self.successCallback
+                    dataType: 'json',
+                    type: 'PUT',
+                    url: '/api/v1/jobs/' + self.jobId + '/cancel',
+                    cache: false,
+                    success: self.updateCallback,
+                    error: function () {
+                        IoTApp.Helpers.Dialog.displayError(resources.failedToCancelJob);
+                    }
                 });
             });
         }

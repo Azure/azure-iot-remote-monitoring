@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -6,14 +7,20 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Data
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
     [RoutePrefix("api/v1/jobs")]
     public class JobApiController : WebApiControllerBase
     {
-        public JobApiController()
+        private readonly IJobRepository _jobRepository;
+        private readonly IIoTHubDeviceManager _iotHubDeviceManager;
+
+        public JobApiController(IJobRepository jobRepository, IIoTHubDeviceManager iotHubDeviceManager)
         {
+            _jobRepository = jobRepository;
+            _iotHubDeviceManager = iotHubDeviceManager;
         }
 
         [HttpGet]
@@ -22,19 +29,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         // GET: api/v1/jobs
         public async Task<HttpResponseMessage> GetJobs()
         {
-            return await GetServiceResponseAsync<DataTablesResponse<DeviceJobModel>>(() =>
+            return await GetServiceResponseAsync<DataTablesResponse<DeviceJobModel>>(async () =>
             {
-                //TODO: mock code: query Job
-                List<DeviceJobModel> queryResult = DeviceJobModel.BuildMockJobs();
+                var jobResponses = await _iotHubDeviceManager.GetJobResponsesAsync();
 
+                var result = jobResponses.OrderByDescending(j => j.CreatedTimeUtc).Select(r => new DeviceJobModel(r)).ToList();
                 var dataTablesResponse = new DataTablesResponse<DeviceJobModel>()
                 {
-                    RecordsTotal = queryResult.Count,
-                    RecordsFiltered = queryResult.Count,
-                    Data = queryResult.ToArray()
+                    RecordsTotal = result.Count,
+                    Data = result.ToArray()
                 };
 
-                return Task.FromResult(dataTablesResponse);
+                return await Task.FromResult(dataTablesResponse);
 
             }, false);
         }
@@ -57,45 +63,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             });
         }
 
-        [HttpPost]
-        [Route("")]
-        [WebApiRequirePermission(Permission.ManageJobs)]
-        // Post: api/v1/jobs
-        public async Task<HttpResponseMessage> ScheduleJob()
-        {
-            //TODO: mock code: Add Job
-            var job = DeviceJobModel.BuildMockJobs().ToArray()[0];
-            return await GetServiceResponseAsync<DeviceJobModel>(async () =>
-            {
-                return await Task.FromResult(job);
-            });
-        }
-
-        [HttpGet]
-        [Route("{id}")]
-        [WebApiRequirePermission(Permission.ViewJobs)]
-        // GET: api/v1/jobs/{id}
-        public async Task<HttpResponseMessage> GetJobById(string jobId)
-        {
-            //TODO: mock code: query Job
-            var jobs = DeviceJobModel.BuildMockJobs();
-
-            return await GetServiceResponseAsync<IEnumerable<DeviceJobModel>>(async () =>
-            {
-                return await Task.FromResult(jobs);
-            });
-        }
-
         [HttpPut]
         [Route("{id}/cancel")]
         [WebApiRequirePermission(Permission.ManageJobs)]
         // PUT: api/v1/jobs/{id}/cancel
         public async Task<HttpResponseMessage> CancelJob(string id)
         {
-            //TODO: mock code: cancel job            
-            return await GetServiceResponseAsync<bool>(async () =>
+            return await GetServiceResponseAsync<DeviceJobModel>(async () =>
             {
-                return await Task.FromResult(true);
+                var jobResponse = await _iotHubDeviceManager.CancelJobByJobIdAsync(id);
+                return new DeviceJobModel(jobResponse);
             });
         }
 

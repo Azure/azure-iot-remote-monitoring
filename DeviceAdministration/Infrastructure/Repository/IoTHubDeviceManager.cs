@@ -107,9 +107,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return await this.QueryDeviceJobs($"SELECT * FROM devices.jobs WHERE devices.jobs.jobId='{jobId}'");
         }
 
+        public async Task<IEnumerable<JobResponse>> GetJobResponsesAsync()
+        {
+            var jobQuery = _jobClient.CreateQuery();
+
+            var results = new List<JobResponse>();
+            while (jobQuery.HasMoreResults)
+            {
+                results.AddRange(await jobQuery.GetNextAsJobResponseAsync());
+            }
+
+            return results;
+        }
+
         public async Task<JobResponse> GetJobResponseByJobIdAsync(string jobId)
         {
             return await this._jobClient.GetJobAsync(jobId);
+        }
+
+        public async Task<JobResponse> CancelJobByJobIdAsync(string jobId)
+        {
+            return await this._jobClient.CancelJobAsync(jobId);
         }
 
         private async Task<IEnumerable<DeviceJob>> QueryDeviceJobs(string sqlQueryString)

@@ -77,7 +77,7 @@
         };
 
         var onTableRowClicked = function () {
-            _selectRowFromDataTable(self.dataTable.row(this))
+            _selectRowFromDataTable(self.dataTable.row(this));
         }
 
         var htmlEncode = function (data) {

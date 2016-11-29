@@ -28,11 +28,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         [HttpGet]
         [RequirePermission(Permission.ViewJobs)]
-        public ActionResult GetJobProperties(string jobId)
+        public async Task<ActionResult> GetJobProperties(string jobId)
         {
-            var jobs = DeviceJobModel.BuildMockJobs();
-
-            return PartialView("_JobProperties", jobs.Where(j => j.JobId == jobId).First());
+            var jobResponse = await _iotHubDeviceManager.GetJobResponseByJobIdAsync(jobId);
+            return PartialView("_JobProperties", new DeviceJobModel(jobResponse));
         }
 
         [RequirePermission(Permission.ManageJobs)]

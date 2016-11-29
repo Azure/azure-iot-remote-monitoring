@@ -1565,6 +1565,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to cancel the job..
+        /// </summary>
+        public static string FailedToCancelJob {
+            get {
+                return ResourceManager.GetString("FailedToCancelJob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete query..
         /// </summary>
         public static string FailedToDeleteQuery {

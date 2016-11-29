@@ -2132,4 +2132,8 @@
     <value>Unable to retrieve job from service</value>
     <comment>Error message.</comment>
   </data>
+  <data name="FailedToCancelJob" xml:space="preserve">
+    <value>Failed to cancel the job.</value>
+    <comment>Error message.</comment>
+  </data>
 </root>
