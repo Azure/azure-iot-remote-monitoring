@@ -1216,9 +1216,18 @@ table#alertHistoryTable tr.selectedAlert {
   padding-left: 0;
   height: 30px;
 }
+.search_container__query_find_query_label {
+  margin-bottom: -8px;
+}
+.search_container__query_new_query_label {
+  margin-bottom: -6px;
+}
 .search_container__query_new_query_link {
   font-size: 14px;
   clear: both;
+}
+.search_container__query_recent_query_label {
+  margin-bottom: -6px;
 }
 .search_container__query_recent_query_link {
   font-size: 14px;
@@ -1226,8 +1235,8 @@ table#alertHistoryTable tr.selectedAlert {
 }
 .search_container__query_links {
   display: block;
-  padding-left: 30px;
-  font-size: 14px;
+  padding-left: 40px;
+  font-size: 12px;
 }
 .selected_query {
   background-color: lightsteelblue;
@@ -1269,7 +1278,7 @@ table#alertHistoryTable tr.selectedAlert {
   display: block;
   float: left;
   clear: left;
-  font-size: 14px;
+  font-size: 12px;
   margin-top: 4px;
 }
 .search_container__query_search_type_select {
@@ -1293,7 +1302,7 @@ table#alertHistoryTable tr.selectedAlert {
   border: 10px solid #f2f2f2;
   overflow: hidden;
   padding: 10px;
-  height: calc(100% - 284px);
+  height: calc(100% - 244px);
 }
 .search_details_container__filter_add_clause_container {
   display: block;
