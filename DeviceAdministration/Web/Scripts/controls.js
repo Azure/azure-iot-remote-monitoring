@@ -13,10 +13,28 @@
     NameListType.property = NameListType.desiredProperty | NameListType.reportedProperty;
     NameListType.all = NameListType.deviceInfo | NameListType.tag | NameListType.desiredProperty | NameListType.reportedProperty | NameListType.method;
 
+    var PositionType = {
+        leftBottom: { my: "left top", at: "left bottom" },
+        rightBottom: { my: "right top", at: "right bottom" },
+        leftTop: { my: "left bottom", at: "left top" },
+        rightTop: { my: "right bottom", at: "right top" },
+    }
+
     var create = function ($element, options, data) {
         options = $.extend({
-            type: NameListType.all
+            type: NameListType.all,
+            position: PositionType.leftBottom
         }, options);
+
+        $element.autocomplete({
+            select: function (event, ui) {
+                $(this).val(ui.item.value).change();
+            },
+            minLength: 0,
+            position: options.position 
+        }).focus(function () {
+            $(this).autocomplete("search", $(this).val());
+        });
 
         if (data) {
             bindData($element, data);
@@ -37,15 +55,7 @@
             var filters = $element.data('nameListFilters');
             var items = dataToStringArray(data, filters);
 
-            $element.autocomplete({
-                source: items,
-                select: function(event,ui){
-                    $(this).val(ui.item.value).change();
-                },
-                minLength: 0
-            }).focus(function () {
-                $(this).autocomplete("search", $(this).val());
-            });
+            $element.autocomplete('option', 'source', items);
         }
     };
 
@@ -106,6 +116,7 @@
         loadNameList: loadNameList,
         getSelectedItem: getSelectedItem,
         NameListType: NameListType,
+        Position: PositionType,
         applyFilters: applyFilters
     };
 }, [jQuery]);

@@ -85,7 +85,10 @@
 
         $('.device_list_columns_button_container').appendTo($('.details_grid'));
 
-        IoTApp.Controls.NameSelector.create($('.name_selector__text'), { type: IoTApp.Controls.NameSelector.NameListType.tag | IoTApp.Controls.NameSelector.NameListType.property });
+        IoTApp.Controls.NameSelector.create($('.name_selector__text'), {
+            type: IoTApp.Controls.NameSelector.NameListType.tag | IoTApp.Controls.NameSelector.NameListType.property,
+            position: IoTApp.Controls.NameSelector.Position.rightBottom
+        });
         applyFilters();
         $('.name_add__button').click(addColumn);
         $('.name_selector__text').keyup(function (e) {
