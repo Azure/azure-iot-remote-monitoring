@@ -161,7 +161,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NEW QUERY.
+        ///   Looks up a localized string similar to New Query.
         /// </summary>
         public static string AddNewQuery {
             get {
@@ -3842,7 +3842,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TYPE OF SEARCH.
+        ///   Looks up a localized string similar to Type of search.
         /// </summary>
         public static string SearchType {
             get {

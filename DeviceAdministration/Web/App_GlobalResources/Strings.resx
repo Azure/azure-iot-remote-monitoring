@@ -1882,7 +1882,7 @@
     <value>An error occurred while retrieving the list of columns.</value>
   </data>
   <data name="AddNewQuery" xml:space="preserve">
-    <value>NEW QUERY</value>
+    <value>New Query</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="FindQuery" xml:space="preserve">
@@ -1898,7 +1898,7 @@
     <comment>Hyperlink label.</comment>
   </data>
   <data name="SearchType" xml:space="preserve">
-    <value>TYPE OF SEARCH</value>
+    <value>Type of search</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="ClearClauses" xml:space="preserve">

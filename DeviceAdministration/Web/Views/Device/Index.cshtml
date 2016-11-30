@@ -25,17 +25,17 @@
 
             <div class="search_container__search_query_container">
                 <div>
-                    <img src="~/Content/img/search.svg" class="search_container__query_find_query_label"/>
+                    <img src="~/Content/img/search.svg" class="search_container__query_find_query_label vertical_center"/>
                     <input type="text" class="search_container__query_find_query_box" id="findQueryBox" />
                 </div>
 
                 <div>
-                    <img src="~/Content/img/add.svg" class="search_container__query_new_query_label"/>
+                    <img src="~/Content/img/add.svg" class="search_container__query_new_query_label vertical_center"/>
                     <a class="search_container__query_new_query_link" id="new_query" href="#" onclick="IoTApp.DeviceIndex.buildNewQuery()">@Strings.AddNewQuery</a>
                 </div>
                 <div>
-                    <img src="~/Content/img/expanded.svg" class="search_container__query_recent_query_label"/>
-                    <img src="~/Content/img/collapsed.svg" class="search_container__query_recent_query_label" style="display:none "/>
+                    <img src="~/Content/img/expanded.svg" class="search_container__query_recent_query_label vertical_center"/>
+                    <img src="~/Content/img/collapsed.svg" class="search_container__query_recent_query_label vertical_center" style="display:none "/>
                     <a class="search_container__query_recent_query_link" id="recent_query" onclick="IoTApp.DeviceIndex.showRecentQueries()">@Strings.ShowRecentQueries</a>
                 </div>
                 <div id="recentQueryNameList">
@@ -55,8 +55,8 @@
                         <a href="#" onclick="IoTApp.DeviceIndex.deleteQuery()"><img class="search_container__query_delete" src="~/Content/img/delete_query.svg" /></a>
                         <a href="#" onclick="IoTApp.DeviceIndex.saveQuery()"><img class="search_container__query_save" src="~/Content/img/save.svg" /></a>
                     </div>
-                    <div>
-                        <label class="search_container__query_search_type_label">@Strings.SearchType</label>
+                    <div class="search_container__query_search_type">
+                        <span class="search_container__query_search_type_label">@Strings.SearchType</span>
                         <select class="search_container__query_search_type_select" id="searchTypeSelect">
                             <option selected value="FILTERS">@Strings.SearchTypeFilters</option>
                             <option value="QUERY">@Strings.SearchTypeQuery</option>
@@ -70,7 +70,7 @@
 
                         <label class="filter_template__filter_label filter_group_top" for="filterFieldREPLACE_ME"><span>@Strings.FilterFieldLabel</span></label>
 
-                        <input type="text" id="filterFieldREPLACE_ME" name="filterFieldREPLACE_ME" class="search_filter__select">
+                        <input type="text" id="filterFieldREPLACE_ME" name="filterFieldREPLACE_ME" class="search_filter__text">
 
                     </div>
 
@@ -120,7 +120,7 @@
 
                 <div id="filters_container" class="search_details_container__filter_add_clause_container filter_display_group">
                     <a class="search_details_container__filter_add_clause_link" id="addNewClause">@Strings.AddNewClause</a>
-                    <a class="search_details_container__filter_clear_clauses_link" id="clearClauses">@Strings.ClearClauses</a>
+                    <a class="search_details_container__filter_add_clause_link" id="clearClauses">@Strings.ClearClauses</a>
                 </div>
 
                 <div class="search_details_container__sql_container query_display_group" id="sql_container" style="display:none">
