@@ -25,6 +25,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<IEnumerable<DeviceJob>> GetDeviceJobsByJobIdAsync(string jobId);
         Task<IEnumerable<JobResponse>> GetJobResponsesAsync();
         Task<JobResponse> GetJobResponseByJobIdAsync(string jobId);
+        Task<IEnumerable<JobResponse>> GetJobResponsesByStatus(JobStatus status);
         Task<JobResponse> CancelJobByJobIdAsync(string jobId);
     }
 }

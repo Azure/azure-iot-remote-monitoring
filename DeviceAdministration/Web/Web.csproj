@@ -357,6 +357,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="WebApiControllers\DeviceRulesApiController.cs" />
+    <Compile Include="WebApiControllers\JobIndicatorsApiController.cs" />
     <Compile Include="WebApiControllers\QueryGeneratorApiController.cs" />
     <Compile Include="WebApiControllers\QueryNameApiController.cs" />
     <Compile Include="WebApiControllers\QueryApiController.cs" />
@@ -526,6 +527,7 @@
     <Content Include="Scripts\Views\Advanced\Advanced.js" />
     <Content Include="Scripts\Views\Dashboard\AlertHistory.js" />
     <Content Include="Scripts\Views\Dashboard\DashboardDevicePane.js" />
+    <Content Include="Scripts\Views\Dashboard\JobIndicators.js" />
     <Content Include="Scripts\Views\Dashboard\MapPane.js" />
     <Content Include="Scripts\Views\Dashboard\TelemetryHistory.js" />
     <Content Include="Scripts\Views\Dashboard\TelemetryHistorySummary.js" />
@@ -681,6 +683,7 @@
     <Content Include="Views\DeviceMethod\Index.cshtml" />
     <Content Include="Views\Job\Index.cshtml" />
     <Content Include="Views\Job\_JobProperties.cshtml" />
+    <Content Include="Views\Dashboard\_JobIndicators.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

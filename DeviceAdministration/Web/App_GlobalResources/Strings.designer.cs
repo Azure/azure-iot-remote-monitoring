@@ -116,6 +116,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active Jobs.
+        /// </summary>
+        public static string ActiveJobs {
+            get {
+                return ResourceManager.GetString("ActiveJobs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add a {0}.
         /// </summary>
         public static string AddADeviceFormatted {
@@ -1565,6 +1574,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed Jobs in last 24 hours.
+        /// </summary>
+        public static string FailedJobsInLast24Hours {
+            get {
+                return ResourceManager.GetString("FailedJobsInLast24Hours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to cancel the job..
         /// </summary>
         public static string FailedToCancelJob {
@@ -2924,6 +2942,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to n/a.
+        /// </summary>
+        public static string NotAvilable {
+            get {
+                return ResourceManager.GetString("NotAvilable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Data type: {0} (an integer between {1} and {2}).
         /// </summary>
         public static string NumberCommandHint {
@@ -3685,6 +3712,15 @@ namespace GlobalResources {
         public static string ScheduleDeviceMethodJobType {
             get {
                 return ResourceManager.GetString("ScheduleDeviceMethodJobType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scheduled Jobs.
+        /// </summary>
+        public static string ScheduledJobs {
+            get {
+                return ResourceManager.GetString("ScheduledJobs", resourceCulture);
             }
         }
         

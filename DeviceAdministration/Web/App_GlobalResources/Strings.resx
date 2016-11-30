@@ -2136,4 +2136,20 @@
     <value>Failed to cancel the job.</value>
     <comment>Error message.</comment>
   </data>
+  <data name="ActiveJobs" xml:space="preserve">
+    <value>Active Jobs</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="FailedJobsInLast24Hours" xml:space="preserve">
+    <value>Failed Jobs in last 24 hours</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="NotAvilable" xml:space="preserve">
+    <value>n/a</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ScheduledJobs" xml:space="preserve">
+    <value>Scheduled Jobs</value>
+    <comment>Read-only field label.</comment>
+  </data>
 </root>

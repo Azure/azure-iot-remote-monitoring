@@ -1056,6 +1056,43 @@ table#alertHistoryTable tr.selectedAlert {
   font-weight: 400;
   font-size: 0.9em;
 }
+.dashboard_job_indicators {
+  width: 100%;
+  display: inline-block;
+  box-sizing: border-box;
+  padding-top: 6px;
+}
+.dashboard_job_indicator_container {
+  background-color: white;
+  width: 33.333%;
+  box-sizing: border-box;
+  padding: 6px;
+  display: inline-block;
+  float: left;
+  height: 150px;
+}
+.dashboard_job_indicator_container--left {
+  border-right: 6px solid #f2f2f2;
+}
+.dashboard_job_indicator_container--center {
+  border-right: 6px solid #f2f2f2;
+  border-left: 6px solid #f2f2f2;
+}
+.dashboard_job_indicator_container--right {
+  border-left: 6px solid #f2f2f2;
+}
+.dashboard_job_indicator_title {
+  font-size: 0.9em;
+  text-align: left;
+  color: #333333;
+  height: 2em;
+}
+.dashboard_job_indicator_value {
+  font-size: 3em;
+  text-align: center;
+  color: #333333;
+  padding-top: 0.2em;
+}
 .search_container_closed {
   position: relative;
   float: left;
