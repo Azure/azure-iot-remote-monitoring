@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
@@ -87,7 +88,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 LastUpdatedUtc = pair.Value.LastUpdated
             });
 
-            var reportedProperties = device.Twin.Properties.Reported.AsEnumerableFlatten().OrderBy(pair => pair.Key).Select(pair => new DevicePropertyValueModel
+            var reportedProperties = device.Twin.Properties.Reported.AsEnumerableFlatten().Where(pair => !SupportedMethodsHelper.IsSupportedMethodProperty(pair.Key)).OrderBy(pair => pair.Key).Select(pair => new DevicePropertyValueModel
             {
                 DisplayOrder = 3,
                 IsEditable = false,
