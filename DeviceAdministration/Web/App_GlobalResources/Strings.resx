@@ -2152,4 +2152,8 @@
     <value>Scheduled Jobs</value>
     <comment>Read-only field label.</comment>
   </data>
+  <data name="DeviceMethods" xml:space="preserve">
+    <value>Methods</value>
+    <comment>Hyperlink label.</comment>
+  </data>
 </root>

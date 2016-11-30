@@ -1214,6 +1214,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Methods.
+        /// </summary>
+        public static string DeviceMethods {
+            get {
+                return ResourceManager.GetString("DeviceMethods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invoke Method for {0}.
         /// </summary>
         public static string DeviceMethodsHeader {

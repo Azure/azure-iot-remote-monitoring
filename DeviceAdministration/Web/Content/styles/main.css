@@ -1425,6 +1425,7 @@ table#alertHistoryTable tr.selectedAlert {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #606060;
 }
 .device_list_columns_item:hover {
   background-color: #b2ebfc;
