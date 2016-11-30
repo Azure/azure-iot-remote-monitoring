@@ -79,10 +79,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             await this._deviceManager.UpdateTwinAsync(deviceId, twin, twin.ETag);
         }
 
-        public async Task ScheduleTwinUpdate(string deviceId,Twin twin, DeviceListQuery query,DateTime startDateUtc, long maxExecutionTimeInSeconds)
+        public async Task<string> ScheduleTwinUpdate(string queryCondition, Twin twin, DateTime startTimeUtc, long maxExecutionTimeInSeconds)
         {
-            var sqlQuery = query.GetSQLQuery();
-            await this._jobClient.ScheduleTwinUpdateAsync(Guid.NewGuid().ToString(), sqlQuery, twin, startDateUtc, maxExecutionTimeInSeconds);
+            var jobId = Guid.NewGuid().ToString();
+
+            await this._jobClient.ScheduleTwinUpdateAsync(jobId, queryCondition, twin, startTimeUtc, maxExecutionTimeInSeconds);
+
+            return jobId;
         }
 
         public async Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListQuery query)
