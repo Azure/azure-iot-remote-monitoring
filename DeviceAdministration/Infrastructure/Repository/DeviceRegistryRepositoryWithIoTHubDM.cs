@@ -85,12 +85,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             // Query on DocDB for traditional device properties, commands and so on
             var deviceIds = pagedDeviceList.Select(twin => twin.DeviceId);
-            var deviceModels = (await queryTask).Where(x => deviceIds.Contains(x.DeviceProperties.DeviceID)).ToList();
-            deviceModels.ForEach(d => d.Twin = filteredDevices.Single(t => t.DeviceId == d.DeviceProperties.DeviceID));
+            var devicesFromDocDB = (await queryTask).Where(x => deviceIds.Contains(x.DeviceProperties.DeviceID))
+                .ToDictionary(d => d.DeviceProperties.DeviceID);
 
             return new DeviceListQueryResult
             {
-                Results = deviceModels,
+                Results = pagedDeviceList.Select(twin =>
+                {
+                    DeviceModel deviceModel;
+                    if (devicesFromDocDB.TryGetValue(twin.DeviceId, out deviceModel))
+                    {
+                        deviceModel.Twin = twin;
+                        return deviceModel;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }).Where(model => model != null).ToList(),
                 TotalDeviceCount = (int)await this._deviceManager.GetDeviceCountAsync(),
                 TotalFilteredCount = filteredDevices.Count()
             };
