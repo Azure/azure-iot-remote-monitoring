@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 
@@ -27,5 +28,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<JobResponse> GetJobResponseByJobIdAsync(string jobId);
         Task<IEnumerable<JobResponse>> GetJobResponsesByStatus(JobStatus status);
         Task<JobResponse> CancelJobByJobIdAsync(string jobId);
+        Task<string> ScheduleTwinUpdate(string condition, Twin twin, DateTime startDateUtc, long maxExecutionTimeInSeconds);
     }
 }

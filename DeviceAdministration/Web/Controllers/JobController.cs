@@ -1,8 +1,10 @@
-﻿using GlobalResources;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using GlobalResources;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
@@ -12,11 +14,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     public class JobController : Controller
     {
         private readonly IJobRepository _jobRepository;
+        private readonly IDeviceListQueryRepository _queryRepository;
         private readonly IIoTHubDeviceManager _iotHubDeviceManager;
 
-        public JobController(IJobRepository jobRepository, IIoTHubDeviceManager iotHubDeviceManager)
+        public JobController(
+            IJobRepository jobRepository,
+            IDeviceListQueryRepository queryRepository,
+            IIoTHubDeviceManager iotHubDeviceManager)
         {
             _jobRepository = jobRepository;
+            _queryRepository = queryRepository;
             _iotHubDeviceManager = iotHubDeviceManager;
         }
 
@@ -38,7 +45,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             result.QueryName = t.Item2;
 
             return PartialView("_JobProperties", result);
-        }       
+        }
 
         [RequirePermission(Permission.ManageJobs)]
         public async Task<ActionResult> ScheduleJob(string queryName)
@@ -92,11 +99,42 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         [RequirePermission(Permission.ManageJobs)]
         [HttpPost]
-        public ActionResult ScheduleTwinUpdate(ScheduleTwinUpdateModel model)
+        public async Task<ActionResult> ScheduleTwinUpdate(ScheduleTwinUpdateModel model)
         {
-            //ToDo: Jump to the view with desired model
+            var twin = new Twin();
 
-            return View(new ScheduleTwinUpdateModel());
+            foreach (var tagModel in model.Tags.Where(m => !string.IsNullOrWhiteSpace(m.TagName)))
+            {
+                twin.Set(tagModel.TagName, tagModel.isDeleted ? null : tagModel.TagValue);
+            }
+
+            foreach (var propertyModel in model.DesiredProperties.Where(m => !string.IsNullOrWhiteSpace(m.PropertyName)))
+            {
+                twin.Set(propertyModel.PropertyName, propertyModel.isDeleted ? null : propertyModel.PropertyName);
+            }
+
+            twin.ETag = "*";
+
+            string queryCondition;
+            if (model.QueryName == "*")
+            {
+                //[WORKAROUND] No condition available for "All Devices"
+                queryCondition = "tags.HubEnabledState='Running'";
+            }
+            else
+            {
+                var query = await _queryRepository.GetQueryAsync(model.QueryName);
+                queryCondition = query.GetSQLCondition();
+            }
+
+            var jobId = await _iotHubDeviceManager.ScheduleTwinUpdate(queryCondition,
+                twin,
+                model.StartDateUtc,
+                model.MaxExecutionTimeInMinutes * 60);
+
+            await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.QueryName, model.JobName));
+
+            return Redirect("/Job/Index");
         }
 
         [RequirePermission(Permission.ManageJobs)]
