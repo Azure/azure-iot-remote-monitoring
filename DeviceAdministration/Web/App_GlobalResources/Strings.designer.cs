@@ -773,6 +773,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Completed Jobs in last 24 hours.
+        /// </summary>
+        public static string CompletedJobsInLast24Hours {
+            get {
+                return ResourceManager.GetString("CompletedJobsInLast24Hours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configuration.
         /// </summary>
         public static string ConfigurationHeader {

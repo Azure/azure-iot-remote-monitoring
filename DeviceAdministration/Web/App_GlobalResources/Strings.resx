@@ -2176,4 +2176,8 @@
     <value>n/a</value>
     <comment>Table cell.</comment>
   </data>
+  <data name="CompletedJobsInLast24Hours" xml:space="preserve">
+    <value>Completed Jobs in last 24 hours</value>
+    <comment>Read-only field label.</comment>
+  </data>
 </root>

@@ -61,6 +61,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     title = Strings.FailedJobsInLast24Hours,
                     id = "failedJobsInLast24Hours"
+                },
+                new
+                {
+                    title = Strings.CompletedJobsInLast24Hours,
+                    id = "completedJobsInLast24Hours"
                 }
             };
         }
@@ -78,6 +83,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
                 case "failedJobsInLast24Hours":
                     return await GetFailedJobsInLast24Hours();
+
+                case "completedJobsInLast24Hours":
+                    return await GetCompletedJobsInLast24Hours();
 
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -101,7 +109,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var jobs = await _iotHubDeviceManager.GetJobResponsesByStatus(JobStatus.Failed);
 
             var oneDayAgoUtc = DateTime.UtcNow - TimeSpan.FromDays(1);
-            return jobs.Count(j => j.CreatedTimeUtc < oneDayAgoUtc);
+            return jobs.Count(j => j.CreatedTimeUtc >= oneDayAgoUtc);
+        }
+
+        private async Task<int> GetCompletedJobsInLast24Hours()
+        {
+            var jobs = await _iotHubDeviceManager.GetJobResponsesByStatus(JobStatus.Completed);
+
+            var oneDayAgoUtc = DateTime.UtcNow - TimeSpan.FromDays(1);
+            return jobs.Count(j => j.CreatedTimeUtc >= oneDayAgoUtc);
         }
     }
 }
