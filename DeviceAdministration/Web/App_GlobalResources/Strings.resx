@@ -1890,7 +1890,7 @@
     <comment>Informational text block.</comment>
   </data>
   <data name="ShowRecentQueries" xml:space="preserve">
-    <value>Recent queries</value>
+    <value>RECENT QUERIES</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="TypeOfSearch" xml:space="preserve">

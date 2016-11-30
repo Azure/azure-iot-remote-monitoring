@@ -4058,7 +4058,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Recent queries.
+        ///   Looks up a localized string similar to RECENT QUERIES.
         /// </summary>
         public static string ShowRecentQueries {
             get {
