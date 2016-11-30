@@ -33,7 +33,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 }
                 catch
                 {
-                    results.Add(Strings.NotAvilable);
+                    results.Add(Strings.NotAvailable);
                 }
             }
 

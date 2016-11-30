@@ -82,7 +82,7 @@
 
         var htmlEncode = function (data) {
             // "trick" to HTML encode data from JS--essentially dip it in a <div> and pull it out again
-            return data ? $('<div/>').text(data).html() : null;
+            return (data == 0 || data) ? $('<div/>').text(data).html() : null;
         }
 
         //$.fn.dataTable.ext.legacy.ajax = true;
@@ -122,7 +122,8 @@
                 {
                     "data": "queryName",
                     "mRender": function (data) {
-                        return htmlEncode(data);
+                        var s = IoTApp.Helpers.String.renderLongString(data, '..', 20);
+                        return htmlEncode(s);
                     },
                     "name": "queryName"
                 },
@@ -173,7 +174,7 @@
                 { className: "table_status", targets: [0] },
                 { searchable: true, targets: [1] }
             ],
-            "order": [[2, "asc"]]
+            "order": [[4, "desc"]]
         });
 
         self.dataTableContainer.on("draw.dt", onTableDrawn);
