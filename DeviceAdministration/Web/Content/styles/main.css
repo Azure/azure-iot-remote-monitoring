@@ -140,6 +140,9 @@ main.main_no_nav {
 .cursor_pointer {
   cursor: pointer;
 }
+.vertical_center {
+  vertical-align: middle;
+}
 .content_outer {
   width: 100%;
   overflow-x: hidden;
@@ -1223,7 +1226,7 @@ table#alertHistoryTable tr.selectedAlert {
 }
 .search_container__query_links {
   display: block;
-  padding-left: 24px;
+  padding-left: 30px;
   font-size: 14px;
 }
 .selected_query {
@@ -1256,6 +1259,10 @@ table#alertHistoryTable tr.selectedAlert {
   margin: 0.25em 0 0 0.25em;
   width: 20px;
   height: 20px;
+}
+.search_container__query_search_type {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .search_container__query_search_type_label {
   color: gray;
@@ -1292,16 +1299,14 @@ table#alertHistoryTable tr.selectedAlert {
   display: block;
   position: relative;
 }
-.search_details_container__filter_clear_clauses_link {
-  display: block;
-  position: relative;
-}
 .search_details_container__filter_add_clause_link {
   display: block;
-  font-size: 14px;
+  font-size: 13px;
   clear: both;
 }
 .filter_template__filter_label {
+  color: gray;
+  font-weight: normal;
   font-size: 70%;
   display: inline-block;
   width: 65px;
