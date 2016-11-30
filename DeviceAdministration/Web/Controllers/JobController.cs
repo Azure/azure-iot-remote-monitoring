@@ -110,7 +110,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             foreach (var propertyModel in model.DesiredProperties.Where(m => !string.IsNullOrWhiteSpace(m.PropertyName)))
             {
-                twin.Set(propertyModel.PropertyName, propertyModel.isDeleted ? null : propertyModel.PropertyName);
+                twin.Set(propertyModel.PropertyName, propertyModel.isDeleted ? null : propertyModel.PropertyValue);
             }
 
             twin.ETag = "*";
