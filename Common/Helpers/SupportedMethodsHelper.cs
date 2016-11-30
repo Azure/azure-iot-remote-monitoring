@@ -51,6 +51,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             }
         }
 
+        public static bool IsSupportedMethodProperty(string propertyName)
+        {
+            return propertyName == SupportedMethodsKey || propertyName.StartsWith(SupportedMethodsKey + ".");
+        }
+
         /// <summary>
         /// Convert Command to SupportedMethod. Array will be convert to an object since the Twin doesn't support array.
         /// </summary>
