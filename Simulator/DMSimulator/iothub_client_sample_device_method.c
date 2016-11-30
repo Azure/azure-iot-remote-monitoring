@@ -29,7 +29,7 @@ static bool g_continueRunning;
 #define DOWORK_LOOP_NUM     3
 
 static char connectionString[1024] = { 0 };
-static char reportedProperties[1024] = { 0 };
+static char reportedProperties[4096] = { 0 };
 
 typedef struct EVENT_INSTANCE_TAG
 {

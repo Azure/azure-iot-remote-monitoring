@@ -12,7 +12,7 @@
 
 <header class="header_main">
 
-    <button class="header_main__button_back" type="button"></button>
+    <button class="header_main__button_back" type="button" data-bind="click: backButtonClicked"></button>
     <h2 class="header_main__subhead header_main__subhead--large">@Strings.ScheduleEditPropertiesOrTags <span class="item__description">@Model.QueryName</span></h2>
 </header>
 <div class="content_outer">
@@ -29,11 +29,11 @@
 
                     <fieldset class="edit_form">
                         @{
-                            @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label" });
+                            @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label primary__label" });
                             @Html.TextBoxFor(m => m.JobName, new { placeholder = Strings.ScheduleJobNamePlaceHolder, data_bind = "value: jobName", @class = "edit_form__text" });
 
                             <div style="clear:both"></div>
-                            <label for="propertiesTable" class="edit_form__label">@Strings.ScheduleChangeDesiredProperties</label>
+                            <label for="propertiesTable" class="edit_form__label primary__label">@Strings.ScheduleChangeDesiredProperties</label>
                             <table class="values_editor" id="propertiesTable">
                                 <thead>
                                     <tr class="values_editor__groupheader">
@@ -65,7 +65,7 @@
                                 </tbody>
                             </table>
 
-                            <label for="tagsTable" class="edit_form__label">@Strings.ScheduleChangeTags</label>
+                            <label for="tagsTable" class="edit_form__label primary__label">@Strings.ScheduleChangeTags</label>
                             <table class="values_editor" id="tagsTable">
                                 <thead>
                                     <tr class="values_editor__groupheader">
@@ -91,23 +91,23 @@
                                                    data-bind='check: isDeleted, attr: { name: "Tags[" + $index() + "].isDeleted", id: "Tags" + $index() + ".isDeleted" }' />
                                             <input type="hidden" value="false" name="checkbox" data-bind='attr:{ name: "Tags[" + $index() + "].isDeleted" }' />
                                         </td>
-                                        <td><a data-bind="ifnot:$root.onetagleft , click:$root.removeTag">@Strings.Clear</a></td>
+                                        <td><a class="edit_form__link" data-bind="ifnot:$root.onetagleft , click:$root.removeTag">@Strings.Clear</a></td>
                                     </tr>
                                 </tbody>
                             </table>
 
-                            <label for="scheduleJobTime" class="edit_form__label">@Strings.ScheduleSetJobTime</label>
+                            <label for="scheduleJobTime" class="edit_form__label primary__label">@Strings.ScheduleSetJobTime</label>
 
                             <div id="scheduleJobTime" class="values_editor">
                                 <div class="values_editor__group">
                                     <label class="edit_form__labelHeader">@Strings.StartTime</label>
-                                    <input type='text' id="StartDate" name="StartDateUtc" class="edit_form__text non_float" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ format: 'LLL', locale: window.navigator.language}"
+                                    <input type='text' id="StartDate" name="StartDateUtc" class="non_float edit_form__text less_margin" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ widgetPositioning : {horizontal: 'left' ,vertical: 'top'}, format: 'LLL', locale: getCulture() }"
                                            data-msg-required="@Strings.RequiredValidationString"
                                            data-rule-required="true" />
                                 </div>
                                 <div class="values_editor__group">
                                     <label class="edit_form__labelHeader">@Strings.MaxExecutionTime</label>
-                                    <input type="text" class="edit_form__textsmall non_float" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
+                                    <input type="text" class="non_float less_margin edit_form__textsmall" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
                                            data-msg-required="@Strings.RequiredValidationString"
                                            data-rule-required="true" />
                                     <span>Mins</span>

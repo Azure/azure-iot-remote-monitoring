@@ -596,6 +596,38 @@ table.dataTable thead {
         background-image:url(/Content/img/icon_status_null.svg);
         }
 
+    .table_status.status_unknown {
+        background-image:url(/Content/img/icon_status_disabled.svg);
+        }
+
+    .table_status.status_enqueued {
+        background-image:url(/Content/img/icon_status_enabled.svg);
+        }
+
+    .table_status.status_running {
+        background-image:url(/Content/img/icon_status_enabled.svg);
+        }
+
+    .table_status.status_completed {
+        background-image:url(/Content/img/icon_status_enabled.svg);
+        }
+
+    .table_status.status_failed {
+        background-image:url(/Content/img/icon_status_critical.svg);
+        }
+
+    .table_status.status_cancelled {
+        background-image:url(/Content/img/icon_status_disabled.svg);
+        }
+
+    .table_status.status_scheduled {
+        background-image:url(/Content/img/icon_status_enabled.svg);
+        }
+
+    .table_status.status_queued {
+        background-image:url(/Content/img/icon_status_enabled.svg);
+        }
+
 .table_alertHistory_issueType{
     min-width: 90px;
 }

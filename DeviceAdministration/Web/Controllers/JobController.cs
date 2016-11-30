@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
+
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -16,6 +18,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             _jobRepository = jobRepository;
             _iotHubDeviceManager = iotHubDeviceManager;
+        }
+
+        [RequirePermission(Permission.ViewJobs)]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [RequirePermission(Permission.ViewJobs)]
+        public async Task<ActionResult> GetJobProperties(string jobId)
+        {
+            var jobResponse = await _iotHubDeviceManager.GetJobResponseByJobIdAsync(jobId);
+            return PartialView("_JobProperties", new DeviceJobModel(jobResponse));
         }
 
         [RequirePermission(Permission.ManageJobs)]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
@@ -17,6 +18,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
 using Microsoft.Azure.Devices.Common.Exceptions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices
 {
@@ -119,7 +121,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(DeviceID, true, null);
             device.DeviceProperties = this.DeviceProperties;
-            device.Commands = this.Commands ?? new List<Command>();
+            device.Commands = this.Commands?.Where(c => c.DeliveryType == DeliveryType.Message).ToList() ?? new List<Command>();
             device.Telemetry = this.Telemetry ?? new List<Common.Models.Telemetry>();
             device.Version = SampleDeviceFactory.VERSION_1_0;
             device.ObjectType = SampleDeviceFactory.OBJECT_TYPE_DEVICE_INFO;
@@ -180,7 +182,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 var deviceConnectionString = Client.IotHubConnectionStringBuilder.Create(HostName, authMethod).ToString();
 
                 // Device properties (InstalledRAM, Processor, etc.) should be treat as reported proerties
-                var reportedProperties = JsonConvert.SerializeObject(DeviceProperties, Formatting.Indented, new JsonSerializerSettings
+                // Supported methods should be treat as reported property
+                var jObject = JObject.FromObject(DeviceProperties);
+                jObject.Merge(JObject.FromObject(SupportedMethodsHelper.GenerateSupportedMethodsReportedProperty(Commands)));
+
+                var reportedProperties = JsonConvert.SerializeObject(jObject, Formatting.Indented, new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
                     ContractResolver = new SkipByNameContractResolver("DeviceID")

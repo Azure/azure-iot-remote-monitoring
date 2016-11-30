@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
@@ -78,6 +79,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             await this._deviceManager.UpdateTwinAsync(deviceId, twin, twin.ETag);
         }
 
+        public async Task ScheduleTwinUpdate(string deviceId,Twin twin, DeviceListQuery query,DateTime startDateUtc, long maxExecutionTimeInSeconds)
+        {
+            var sqlQuery = query.GetSQLQuery();
+            await this._jobClient.ScheduleTwinUpdateAsync(Guid.NewGuid().ToString(), sqlQuery, twin, startDateUtc, maxExecutionTimeInSeconds);
+        }
+
         public async Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListQuery query)
         {
             var sqlQuery = query.GetSQLQuery();
@@ -107,9 +114,49 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return await this.QueryDeviceJobs($"SELECT * FROM devices.jobs WHERE devices.jobs.jobId='{jobId}'");
         }
 
+        public async Task<IEnumerable<JobResponse>> GetJobResponsesAsync()
+        {
+            var jobQuery = _jobClient.CreateQuery();
+
+            var results = new List<JobResponse>();
+            while (jobQuery.HasMoreResults)
+            {
+                results.AddRange(await jobQuery.GetNextAsJobResponseAsync());
+            }
+
+            return results;
+        }
+
         public async Task<JobResponse> GetJobResponseByJobIdAsync(string jobId)
         {
             return await this._jobClient.GetJobAsync(jobId);
+        }
+
+        public async Task<IEnumerable<JobResponse>> GetJobResponsesByStatus(JobStatus status)
+        {
+            JobStatus? queryStatus = status;
+
+            // [WORDAROUND] 'Scheduled' is not available for query. Query all jobs then filter at application level as workaround
+            if (status == JobStatus.Scheduled)
+            {
+                queryStatus = null;
+            }
+
+            var jobs = new List<JobResponse>();
+
+            var query = this._jobClient.CreateQuery(null, queryStatus);
+            while (query.HasMoreResults)
+            {
+                var result = await query.GetNextAsJobResponseAsync();
+                jobs.AddRange(result.Where(j => j.Status == status));
+            }
+
+            return jobs;
+        }
+
+        public async Task<JobResponse> CancelJobByJobIdAsync(string jobId)
+        {
+            return await this._jobClient.CancelJobAsync(jobId);
         }
 
         private async Task<IEnumerable<DeviceJob>> QueryDeviceJobs(string sqlQueryString)

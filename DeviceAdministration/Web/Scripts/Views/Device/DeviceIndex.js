@@ -379,6 +379,7 @@
             "class": 'button_base devicelist_toolbar_button devicelist_toolbar_button_gray',
             text: resources.editColumns,
             click: function () {
+                unselectAllRows();
                 showDetails();
                 IoTApp.DeviceListColumns.init();
             }
@@ -386,9 +387,10 @@
 
         $('<button/>', {
             id: 'scheduleJobButton',
-            "class": 'button_base devicelist_toolbar_button',
+            "class": 'button_base devicelist_toolbar_button devicelist_toolbar_button_gray',
             text: resources.scheduleJob,
             click: function () {
+                unselectAllRows();
                 showDetails();
                 self.deviceDetails.scheduleJob($('#queryNameBox').val());
             }
@@ -895,6 +897,11 @@
         }else {
             IoTApp.Controls.NameSelector.create($element, { type: IoTApp.Controls.NameSelector.NameListType.deviceInfo | IoTApp.Controls.NameSelector.NameListType.tag | IoTApp.Controls.NameSelector.NameListType.property });
         }
+    }
+
+    var unselectAllRows = function () {
+        self.dataTable.$(".selected").removeClass("selected");
+        IoTApp.Helpers.DeviceIdState.saveDeviceIdToCookie('');
     }
 
     return {

@@ -30,6 +30,10 @@
             }
         }, this);
 
+        this.backButtonClicked = function () {
+            location.href = resources.redirectUrl;
+        }
+
         this.startDate = ko.observable(moment());
         this.isParameterLoading = true;
         this.maxExecutionTime = ko.observable(30);
@@ -55,7 +59,7 @@
 
         this.cacheNameList = function (namelist) {
             self.methods = namelist;
-            IoTApp.Controls.NameSelector.create(jQuery('.name_selector__text'), { type: IoTApp.Controls.NameSelector.NameListType.method }, self.methods);
+            IoTApp.Controls.NameSelector.create(jQuery('.edit_form__methodComboBox'), { type: IoTApp.Controls.NameSelector.NameListType.method }, self.methods);
         }
 
         this.init = function (queryName) {

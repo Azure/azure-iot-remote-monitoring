@@ -1,0 +1,78 @@
+﻿@using GlobalResources
+@using Microsoft.Azure.Devices
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceJobModel
+
+@if (PermsChecker.HasPermission(Permission.ManageJobs))
+{
+    <div class="header_grid header_grid_general">
+        <h3 class="grid_subheadhead_detail">@Strings.Actions</h3>
+    </div>
+
+    <section class="details_grid_actions">
+
+        <p class="grid_detail_value">
+            <a id="cloneJobAction">
+               @Strings.CloneJobAction
+            </a>
+        </p>
+
+        @if (Model.Status == JobStatus.Scheduled || Model.Status == JobStatus.Enqueued || Model.Status == JobStatus.Queued)
+        {
+            <p class="grid_detail_value">
+                <a id="cancelJobAction">
+                   @Strings.CancelJobAction
+                </a>
+            </p>
+        }
+    </section>
+}
+
+<div class="header_grid header_grid_general">
+    <h3 class="grid_subheadhead_detail">@Strings.JobProperties</h3>
+</div>
+
+<section class="details_grid_general" id="jobDetailsGrid">
+    <h4 class="grid_subhead_detail_label">@Strings.JobId</h4>
+    <p class="grid_detail_value" name="deviceField_jobId">@Model.JobId</p>
+
+    <h4 class="grid_subhead_detail_label">@Strings.StatusHeader</h4>
+    <p class="grid_detail_value" name="deviceField_status">@Model.Status</p>
+
+    <h4 class="grid_subhead_detail_label">@Strings.JobNameHeader</h4>
+    <p class="grid_detail_value" name="deviceField_jobName">@Model.JobName</p>
+
+    <h4 class="grid_subhead_detail_label">@Strings.QueryNameHeader</h4>
+    <p class="grid_detail_value" name="deviceField_queryName">@Model.QueryName</p>
+
+    <h4 class="grid_subhead_detail_label">@Strings.OperationsHeader</h4>
+    <p class="grid_detail_value" name="deviceField_operationType">@Model.OperationType</p>
+
+    <h4 class="grid_subhead_detail_label">@Strings.StartTimeHeader</h4>
+    <p class="grid_detail_value" name="deviceField_startTime">@Model.StartTime</p>
+
+    <h4 class="grid_subhead_detail_label">@Strings.EndTimeHeader</h4>
+    <p class="grid_detail_value" name="deviceField_endTime">@Model.EndTime</p>
+</section>
+
+<div class="header_grid header_grid_general">
+    <h3 class="grid_subheadhead_detail">@Strings.JobStatistics</h3>
+</div>
+
+<section class="details_grid_general" id="deviceGrid">
+    <h4 class="grid_subhead_detail_label">@Strings.DeviceCountSubHeader</h4>
+    <p class="grid_detail_value" name="deviceField_deviceCount">@Model.DeviceCount</p>
+
+    <h4 class="grid_subhead_detail_label">@Strings.SucceededCountSubHeader</h4>
+    <p class="grid_detail_value" name="deviceField_succeedCount">@Model.SucceededCount</p>
+
+    <h4 class="grid_subhead_detail_label">@Strings.FailedCountSubHeader</h4>
+    <p class="grid_detail_value" name="deviceField_failedCount">@Model.FailedCount</p>
+
+    <h4 class="grid_subhead_detail_label">@Strings.PendingCountSubHeader</h4>
+    <p class="grid_detail_value" name="deviceField_pendingCount">@Model.PendingCount</p>
+
+    <h4 class="grid_subhead_detail_label">@Strings.RunningCountSubHeader</h4>
+    <p class="grid_detail_value" name="deviceField_runningCount">@Model.RunningCount</p>
+</section>
+

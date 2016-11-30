@@ -167,7 +167,7 @@ if ($cloudDeploy)
         $webSku = GetResourceObject $suitename $suitename Microsoft.Web/sites
         $params += @{webSku=$($webSku.Properties.Sku)}
         $webPlan = GetResourceObject $suiteName ("{0}-plan" -f $suiteName) Microsoft.Web/serverfarms
-        $params += @{webWorkerSize=$($webPlan.Properties.WorkerSize)}
+        $params += @{webWorkerSize=$($webPlan.Properties.WorkerSizeId)}
         $params += @{webWorkerCount=$($webPlan.Properties.NumberOfWorkers)}
         $jobName = "{0}-jobhost" -f $suitename
         if (ResourceObjectExists $suitename $jobName Microsoft.Web/sites)
@@ -175,7 +175,7 @@ if ($cloudDeploy)
             $webJobSku = GetResourceObject $suitename $jobName Microsoft.Web/sites
             $params += @{webJobSku=$($webJobSku.Properties.Sku)}
             $webJobPlan = GetResourceObject $suiteName ("{0}-jobsplan" -f $suiteName) Microsoft.Web/serverfarms
-            $params += @{webJobWorkerSize=$($webJobPlan.Properties.WorkerSize)}
+            $params += @{webJobWorkerSize=$($webJobPlan.Properties.WorkerSizeId)}
             $params += @{webJobWorkerCount=$($webJobPlan.Properties.NumberOfWorkers)}
         }
     }

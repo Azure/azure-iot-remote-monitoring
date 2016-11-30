@@ -1,0 +1,95 @@
+﻿@using System.Globalization
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@using GlobalResources
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.EditDevicePropertiesModel
+
+@{
+    ViewBag.Title = @Strings.EditDeviceProperties;
+    Layout = "~/Views/Shared/_LayoutNoNavigation.cshtml";
+}
+
+<header class="header_main">
+
+    <button class="header_main__button_back" type="button" data-bind="click: backButtonClicked"></button>
+    <h2 class="header_main__subhead header_main__subhead--large">@string.Format(Strings.EditDesiredPropertiesFor, Model.DeviceId)</h2>
+</header>
+<div class="content_outer">
+
+    <div class="content_inner">
+        <div id="content">
+            <div id="deviceMetadataForm">
+                @using (Html.BeginForm("EditDeviceProperties", "Device", FormMethod.Post, new { data_bind = "submit: formSubmit" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.DeviceId)
+                    <p>
+                        @Html.ValidationSummary(false)
+                    </p>
+
+                    <fieldset class="edit_form">
+                        <table class="values_editor" id="propertiesTable">
+                            <thead>
+                                <tr class="values_editor__groupheader">
+                                    <th class="edit_form__labelHeader">@Strings.ScheduleDesiredPropertyName</th>
+                                    <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
+                                    <th class="edit_form__labelHeader">@Strings.Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach:{data: properties, afterAdd:makeproplist}">
+                                <tr class="values_editor__group">
+                                    <td>
+                                        <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox"
+                                               data-msg-required="@Strings.RequiredValidationString"
+                                               data-rule-required="true"
+                                               data-bind='value: key, attr: { name: "DesiredProperties" + $index() + ".PropertyName", id: "DesiredProperties" + $index() + ".PropertyName" }' />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="edit_form__texthalf"
+                                               data-bind='value: value.value, event: { blur: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
+                                    </td>
+                                    <td>
+                                        <input type="checkbox"
+                                               value="true"
+                                               data-bind='check: isDeleted, attr: { name: "DesiredProperties" + $index() + ".isDeleted", id: "DesiredProperties" + $index() + ".isDeleted" }' />
+                                    </td>
+                                    <td><span class="edit_form__labelsmall" data-bind="text:$root.fromNowValue(value.lastUpdated,getCulture())"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="clear:both"></div>
+                        <div>
+                            <span class="icon-add"></span>
+                            <div>
+                                Add Desired Property
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="fieldset_button">
+                        <button class="button_base button_secondary button_cancel">@Strings.Cancel</button>
+                        <button class="button_base" type="submit">@Strings.SaveChangesToDevice</button>
+                    </fieldset>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    "use strict";
+
+    var resources = {
+        redirectUrl: '@Url.Action("Index", "Device")',
+    }
+</script>
+<script type="text/javascript" src="~/Scripts/Views/Device/EditDesiredProperties.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        IoTApp.EditDesiredProperties.init("@Model.DeviceId");
+    });
+
+</script>
+

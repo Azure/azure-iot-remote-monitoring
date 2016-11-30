@@ -4,16 +4,22 @@
     var self = this;
     function PropertiesEditItem(name, value, isDeleted) {
         var self = this;
-        self.PropertyName = name;
-        self.PropertyValue = value;
-        self.isDeleted = isDeleted;
+        self.PropertyName = ko.observable(name);
+        self.PropertyValue = ko.observable(value);
+        self.isDeleted = ko.observable(isDeleted);
+        self.isEmptyValue = ko.computed(function () {
+            return self.PropertyValue() == "" || self.PropertyValue() == null;
+        })
     }
 
     function TagsEditItem(name, value, isDeleted) {
         var self = this;
-        self.TagName = name;
-        self.TagValue = value;
-        self.isDeleted = isDeleted;
+        self.TagName = ko.observable(name);
+        self.TagValue = ko.observable(value);
+        self.isDeleted = ko.observable(isDeleted);
+        self.isEmptyValue = ko.computed(function () {
+            return self.TagValue() == "" || self.TagValue() == null;
+        })
     }
 
     function viewModel() {
@@ -33,14 +39,14 @@
         this.tagslist = {};
 
         this.createEmptyPropertyIfNeeded = function (property) {
-            if (self.properties.indexOf(property) == self.properties().length - 1) {
+            if (self.properties.indexOf(property) == self.properties().length - 1 && !property.isEmptyValue()) {
                 self.properties.push(new PropertiesEditItem("", "", false, false))
                 self.onepropleft(false);
             }
         }
 
         this.createEmptyTagIfNeeded = function (tag) {
-            if (self.tags.indexOf(tag) == self.tags().length - 1) {
+            if (self.tags.indexOf(tag) == self.tags().length - 1 && !tag.isEmptyValue()) {
                 self.tags.push(new TagsEditItem("", "", false, false))
                 self.onetagleft(false);
             }
@@ -51,6 +57,10 @@
             if (self.tags().length <= 1) {
                 self.onetagleft(true);
             }
+        }
+
+        this.backButtonClicked = function () {
+            location.href = resources.redirectUrl;
         }
 
         this.removeProperty = function (prop) {

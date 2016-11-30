@@ -71,27 +71,38 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public override async Task<DeviceListQueryResult> GetDeviceList(DeviceListQuery query)
         {
+            // Kick-off DocDB query initializing
+            var queryTask = this._documentClient.QueryAsync();
+
             // Considering all the device properties was copied to IoT Hub twin as tag or
             // reported property, we will only query on the IoT Hub twins. The DocumentDB
             // will not be touched.
-            var twins = await this._deviceManager.QueryDevicesAsync(query);
-
-            var tasks = twins.Select(async twin =>
-            {
-                var device = await base.GetDeviceAsync(twin.DeviceId);
-                device.Twin = twin;
-                return device;
-            });
-
-            var filteredDevices = await Task.WhenAll(tasks);
+            var filteredDevices = await this._deviceManager.QueryDevicesAsync(query);
 
             var sortedDevices = this.SortDeviceList(filteredDevices.AsQueryable(), query.SortColumn, query.SortOrder);
 
             var pagedDeviceList = sortedDevices.Skip(query.Skip).Take(query.Take).ToList();
 
+            // Query on DocDB for traditional device properties, commands and so on
+            var deviceIds = pagedDeviceList.Select(twin => twin.DeviceId);
+            var devicesFromDocDB = (await queryTask).Where(x => deviceIds.Contains(x.DeviceProperties.DeviceID))
+                .ToDictionary(d => d.DeviceProperties.DeviceID);
+
             return new DeviceListQueryResult
             {
-                Results = pagedDeviceList,
+                Results = pagedDeviceList.Select(twin =>
+                {
+                    DeviceModel deviceModel;
+                    if (devicesFromDocDB.TryGetValue(twin.DeviceId, out deviceModel))
+                    {
+                        deviceModel.Twin = twin;
+                        return deviceModel;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }).Where(model => model != null).ToList(),
                 TotalDeviceCount = (int)await this._deviceManager.GetDeviceCountAsync(),
                 TotalFilteredCount = filteredDevices.Count()
             };
@@ -107,7 +118,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             await this._deviceManager.UpdateTwinAsync(deviceId, twin);
         }
 
-        private IQueryable<DeviceModel> SortDeviceList(IQueryable<DeviceModel> deviceList, string sortColumn, QuerySortOrder sortOrder)
+        private IQueryable<Twin> SortDeviceList(IQueryable<Twin> deviceList, string sortColumn, QuerySortOrder sortOrder)
         {
             // if a sort column was not provided then return the full device list in its original sort
             if (string.IsNullOrWhiteSpace(sortColumn))
@@ -115,7 +126,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return deviceList;
             }
 
-            Func<DeviceModel, dynamic> keySelector = item => item.Twin.Get(sortColumn);
+            Func<Twin, dynamic> keySelector = twin => twin.Get(sortColumn);
 
             if (sortOrder == QuerySortOrder.Ascending)
             {

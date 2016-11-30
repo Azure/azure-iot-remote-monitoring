@@ -12,7 +12,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class DeviceRegistryRepository : IDeviceRegistryCrudRepository, IDeviceRegistryListRepository
     {
-        private readonly IDocumentDBClient<DeviceModel> _documentClient;
+        protected readonly IDocumentDBClient<DeviceModel> _documentClient;
 
         public DeviceRegistryRepository(IDocumentDBClient<DeviceModel> documentClient)
         {

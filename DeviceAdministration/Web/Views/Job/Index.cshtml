@@ -1,0 +1,97 @@
+﻿@using GlobalResources
+@using Microsoft.Azure.Devices
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@{
+    ViewBag.Title = "Index";
+}
+
+<noscript>
+    <div class="error_noscript">
+        <h1 class="error_noscript__header">@Strings.NoscriptHeader</h1>
+        <p>@Strings.NoscriptP1</p>
+        <p>@Strings.NoscriptP2</p>
+    </div>
+</noscript>
+
+<div class="content_outer content_outer--background_color content_grid">
+
+    <div class="content_inner content_inner--inherit_max_width_no_margin">
+
+        <div class="grid_container height_fixed">
+
+            @*Datatables plugin for jQuery. www.datatables.net*@
+            <table id="jobTable" class="order-column">
+
+                <thead>
+                    <tr>
+                        <th>@Strings.StatusHeader</th>
+                        <th>@Strings.JobNameHeader</th>
+                        <th>@Strings.QueryNameHeader</th>
+                        <th>@Strings.OperationsHeader</th>
+                        <th>@Strings.StartTimeHeader</th>
+                        <th>@Strings.EndTimeHeader</th>
+                        <th>@Strings.DeviceCountHeader</th>
+                        <th>@Strings.SucceedCountHeader</th>
+                        <th>@Strings.FailedCountHeader</th>
+                    </tr>
+                </thead>
+
+                <tbody></tbody>
+
+            </table>
+        </div>
+
+        <div class="details_grid_closed height_fixed button_details_grid">
+            <h2 class="details_grid_closed__grid_subhead">@Strings.JobPropertiesPaneLabel</h2>
+        </div>
+
+        <div class="details_grid height_fixed">
+
+            <h2 class="details_grid__grid_subhead button_details_grid">@Strings.JobPropertiesPaneLabel</h2>
+
+            <div id="details_grid_container">
+                <div class="details_grid__no_selection">
+                    @Strings.NoJobSelectedLabel
+                </div>
+            </div>
+
+            <div id="loadingElement" class="loader_container loader_container_details">
+                <div class="loader_container__loader loader_container__loader--large_top_margin"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    "use strict";
+
+    var resources = {
+        retry: '@Html.JavaScriptString(Strings.Retry)',
+        serviceUnavailable: '@Html.JavaScriptString(Strings.ServiceUnavailable)',
+        allJobStatus: [
+            '@JobStatus.Unknown',
+            '@JobStatus.Enqueued',
+            '@JobStatus.Running',
+            '@JobStatus.Completed',
+            '@JobStatus.Failed',
+            '@JobStatus.Cancelled',
+            '@JobStatus.Scheduled',
+            '@JobStatus.Queued',
+        ],
+        nextPage: '@Html.JavaScriptString(Strings.Next)',
+        previousPage: '@Html.JavaScriptString(Strings.Previous)',
+        jobsList: '@Html.JavaScriptString(Strings.Jobs)',
+        unableToRetrieveJobFromService: '@Html.JavaScriptString(Strings.UnableToRetrieveJobFromService)',
+        failedToRetrieveJobs: '@Html.JavaScriptString(Strings.FailedToRetrieveJobs)',
+        failedToCancelJob: '@Html.JavaScriptString(Strings.FailedToCancelJob)',
+        noJobSelected: '@Html.JavaScriptString(Strings.NoJobSelected)'
+    };
+
+</script>
+
+<script src="~/Scripts/jquery-datatables-api-extensions.js"></script>
+<script src="~/Scripts/Views/Job/JobIndex.js"></script>
+<script src="~/Scripts/Views/Job/JobProperties.js"></script>

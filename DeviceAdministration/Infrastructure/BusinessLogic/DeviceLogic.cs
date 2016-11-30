@@ -226,6 +226,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             // Get original device document
             DeviceModel existingDevice = await this.GetDeviceAsync(device.IoTHub.ConnectionDeviceId);
 
+            SupportedMethodsHelper.AddSupportedMethodsFromReportedProperty(device, existingDevice.Twin);
+
             // Save the command history, original created date, and system properties (if any) of the existing device
             if (existingDevice.DeviceProperties != null)
             {
@@ -907,7 +909,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 await _nameCacheLogic.AddNameAsync("desired." + p.Key);
             }
 
-            foreach (var p in twin.Properties.Reported.AsEnumerableFlatten())
+            foreach (var p in twin.Properties.Reported.AsEnumerableFlatten().Where(pair => !SupportedMethodsHelper.IsSupportedMethodProperty(pair.Key)))
             {
                 await _nameCacheLogic.AddNameAsync("reported." + p.Key);
             }
