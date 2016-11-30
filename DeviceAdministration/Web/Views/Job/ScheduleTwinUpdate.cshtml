@@ -13,7 +13,24 @@
 <header class="header_main">
 
     <button class="header_main__button_back" type="button" data-bind="click: backButtonClicked"></button>
-    <h2 class="header_main__subhead header_main__subhead--large">@Strings.ScheduleEditPropertiesOrTags <span class="item__description">@Model.QueryName</span></h2>
+    <h2 class="header_main__subhead header_main__subhead--large">
+        @Strings.ScheduleEditPropertiesOrTags <span class="item__description">
+                                                  @{
+                                                      if (Model.QueryName == "*")
+                                                      {
+                                                          <text>
+                                                             @Strings.AllDevices
+                                                          </text>
+                                                      }
+                                                      else
+                                                      {
+                                                          <text>
+                                                              @Model.QueryName
+                                                          </text>
+                                                      }
+                                                  }
+        </span>
+</h2>
 </header>
 <div class="content_outer">
 

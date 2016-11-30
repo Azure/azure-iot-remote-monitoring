@@ -13,7 +13,24 @@
 <header class="header_main">
 
     <button class="header_main__button_back" type="button" data-bind="click: backButtonClicked"></button>
-    <h2 class="header_main__subhead header_main__subhead--large">@Strings.InvokeMethod <span class="item__description">@Model.QueryName</span></h2>
+    <h2 class="header_main__subhead header_main__subhead--large">
+        @Strings.InvokeMethod <span class="item__description">
+            @{
+                if (Model.QueryName == "*")
+                {
+                    <text>
+                        @Strings.AllDevices
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        @Model.QueryName
+                    </text>
+                }
+            }
+        </span>
+    </h2>
 </header>
 <div class="content_outer">
 
@@ -35,7 +52,7 @@
                             <div style="clear:both"></div>
 
                             @Html.LabelFor(m => m.MethodName, Strings.InvokeMethodLabel, new { @class = "edit_form__label primary__label" });
-                            @Html.TextBoxFor(m => m.MethodName, new {  data_bind = "textInput: methodName, event{ blur: $root.updateParameter }", @class = "edit_form__methodComboBox edit_form__text" });
+                            @Html.TextBoxFor(m => m.MethodName, new { data_bind = "textInput: methodName, event{ blur: $root.updateParameter }", @class = "edit_form__methodComboBox edit_form__text" });
 
                             <div style="clear:both"></div>
 
@@ -71,7 +88,7 @@
                                 </tbody>
                             </table>
 
-                            <label for="scheduleJobTime" class="edit_form__label primary__label" >@Strings.ScheduleSetJobTime</label>
+                            <label for="scheduleJobTime" class="edit_form__label primary__label">@Strings.ScheduleSetJobTime</label>
 
                             <div id="scheduleJobTime" class="values_editor">
                                 <div class="values_editor__group">

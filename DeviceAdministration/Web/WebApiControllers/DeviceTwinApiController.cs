@@ -45,12 +45,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [HttpPut]
-        [Route("{deviceId}/twin")]
+        [Route("{deviceId}/twin/desired")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> UpdateDeviceTwin(string deviceId, Twin twin )
+        public async Task<HttpResponseMessage> UpdateDeviceTwinDesiredProps(string deviceId, IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>> twin )
         {
             //var twin = new Twin(deviceId);
-            return await GetServiceResponseAsync<Twin>(async () =>
+            return await GetServiceResponseAsync<IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>>>(async () =>
+            {
+                return await Task.FromResult(twin);
+            });
+        }
+
+        [HttpPut]
+        [Route("{deviceId}/twin/tag")]
+        [WebApiRequirePermission(Permission.ViewDevices)]
+        public async Task<HttpResponseMessage> UpdateDeviceTwinTags(string deviceId, IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>> twin)
+        {
+            //var twin = new Twin(deviceId);
+            return await GetServiceResponseAsync<IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>>>(async () =>
             {
                 return await Task.FromResult(twin);
             });
