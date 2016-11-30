@@ -7,7 +7,7 @@
         self.viewModel = new viewModel(deviceId)
         IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.tag }, self.viewModel.cachepropertyList);
 
-        ko.applyBindings(self.viewModel, $("#content").get(0));
+        ko.applyBindings(self.viewModel);
     }
 
     var viewModel = function (deviceId) {
