@@ -162,7 +162,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             try
             {
                 var model = await _jobRepository.QueryByJobIDAsync(job.JobId);
-                return Tuple.Create(model.JobName ?? Strings.NotApplicableValue, model.QueryName ?? job.QueryCondition);
+                string queryName = model.QueryName ?? (job.QueryCondition ?? Strings.NotApplicableValue);
+                if (queryName == "*")
+                {
+                    queryName = Strings.AllDevices;
+                }
+                return Tuple.Create(model.JobName ?? Strings.NotApplicableValue, queryName);
             }
             catch
             {
