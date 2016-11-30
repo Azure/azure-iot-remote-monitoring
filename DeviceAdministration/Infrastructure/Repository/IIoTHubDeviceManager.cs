@@ -29,5 +29,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<IEnumerable<JobResponse>> GetJobResponsesByStatus(JobStatus status);
         Task<JobResponse> CancelJobByJobIdAsync(string jobId);
         Task<string> ScheduleTwinUpdate(string condition, Twin twin, DateTime startDateUtc, long maxExecutionTimeInSeconds);
+        Task<string> ScheduleDeviceMethod(string queryCondition, string methodName, string payload, DateTime startTimeUtc, long maxExecutionTimeInSeconds);
     }
 }

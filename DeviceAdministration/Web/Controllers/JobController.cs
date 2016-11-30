@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -8,6 +9,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -102,7 +104,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<ActionResult> ScheduleTwinUpdate(ScheduleTwinUpdateModel model)
         {
             var twin = new Twin();
-
             foreach (var tagModel in model.Tags.Where(m => !string.IsNullOrWhiteSpace(m.TagName)))
             {
                 twin.Set(tagModel.TagName, tagModel.isDeleted ? null : tagModel.TagValue);
@@ -112,20 +113,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 twin.Set(propertyModel.PropertyName, propertyModel.isDeleted ? null : propertyModel.PropertyValue);
             }
-
             twin.ETag = "*";
 
-            string queryCondition;
-            if (model.QueryName == "*")
-            {
-                //[WORKAROUND] No condition available for "All Devices"
-                queryCondition = "tags.HubEnabledState='Running'";
-            }
-            else
-            {
-                var query = await _queryRepository.GetQueryAsync(model.QueryName);
-                queryCondition = query.GetSQLCondition();
-            }
+            string queryCondition = await GetQueryCondition(model.QueryName);
 
             var jobId = await _iotHubDeviceManager.ScheduleTwinUpdate(queryCondition,
                 twin,
@@ -150,11 +140,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         [RequirePermission(Permission.ManageJobs)]
         [HttpPost]
-        public ActionResult ScheduleDeviceMethod(ScheduleDeviceMethodModel model)
+        public async Task<ActionResult> ScheduleDeviceMethod(ScheduleDeviceMethodModel model)
         {
-            //ToDo: Jump to the view with desired model
+            string methodName = model.MethodName.Split('(').First();
 
-            return View(new ScheduleDeviceMethodModel());
+            var parameters = model.Parameters?.ToDictionary(p => p.ParameterName, p => p.ParameterValue) ?? new Dictionary<string, string>();
+            string payload = JsonConvert.SerializeObject(parameters);
+
+            string queryCondition = await GetQueryCondition(model.QueryName);
+
+            var jobId = await _iotHubDeviceManager.ScheduleDeviceMethod(queryCondition, methodName, payload, model.StartDateUtc, model.MaxExecutionTimeInMinutes * 60);
+
+            await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.QueryName, model.JobName));
+
+            return Redirect("/Job/Index");
         }
 
         private async Task<Tuple<string, string>> GetJobNameAndQueryNameAsync(DeviceJobModel job)
@@ -172,6 +171,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             catch
             {
                 return Tuple.Create(job.JobId, job.QueryCondition ?? Strings.NotApplicableValue);
+            }
+        }
+
+        private async Task<string> GetQueryCondition(string queryName)
+        {
+            if (queryName == "*")
+            {
+                //[WORKAROUND] No condition available for "All Devices"
+                return "tags.HubEnabledState='Running'";
+            }
+            else
+            {
+                var query = await _queryRepository.GetQueryAsync(queryName);
+                return query.GetSQLCondition();
             }
         }
     }

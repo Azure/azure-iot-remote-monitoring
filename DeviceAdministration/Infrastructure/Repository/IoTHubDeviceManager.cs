@@ -88,6 +88,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return jobId;
         }
 
+        public async Task<string> ScheduleDeviceMethod(string queryCondition, string methodName, string payload, DateTime startTimeUtc, long maxExecutionTimeInSeconds)
+        {
+            var jobId = Guid.NewGuid().ToString();
+
+            var method = new CloudToDeviceMethod(methodName);
+            method.SetPayloadJson(payload);
+
+            await this._jobClient.ScheduleDeviceMethodAsync(jobId, queryCondition, method, startTimeUtc, maxExecutionTimeInSeconds);
+
+            return jobId;
+        }
+
         public async Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListQuery query)
         {
             var sqlQuery = query.GetSQLQuery();
