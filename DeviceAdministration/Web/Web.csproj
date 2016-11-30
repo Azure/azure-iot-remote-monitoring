@@ -384,10 +384,7 @@
     <Content Include="Content\img\edit_name.svg" />
     <Content Include="Content\img\icon-account.png" />
     <Content Include="Content\img\icon-globe.png" />
-    <Content Include="Content\img\icon_delete.png" />
     <Content Include="Content\img\icon_jasper.svg" />
-    <Content Include="Content\img\icon_save.png" />
-    <Content Include="Content\img\icon_saveas.png" />
     <Content Include="Content\img\icon_jobs.svg" />
     <Content Include="Content\styles\datatables.css" />
     <Content Include="Content\favicon.ico" />
