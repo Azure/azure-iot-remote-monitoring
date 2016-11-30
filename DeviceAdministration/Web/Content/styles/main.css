@@ -232,14 +232,17 @@ main.main_no_nav {
   background-size: 20px 20px;
 }
 .icon-add {
-  width: 20px;
-  height: 20px;
+  filter: invert(100%);
+  width: 15px;
+  height: 15px;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: darkgray;
+  background-color: black;
   z-index: 200;
-  background-image: url("/Content/img/icon_add.svg");
-  background-size: 20px 20px;
+  background-image: url(/Content/img/icon_add.svg);
+  background-size: 15px 15px;
+  display: inline-block;
+  margin: 0 auto;
 }
 .nav_subnav {
   left: 95px;
@@ -673,6 +676,11 @@ nav .selected {
   font-size: 0.2em;
   display: block;
   line-height: 100%;
+}
+.edit_form__labelbutton {
+  font-size: 0.8em;
+  display: inline-block;
+  margin-left: 5px;
 }
 .primary__label {
   color: #212528;

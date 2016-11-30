@@ -29,9 +29,7 @@
         this.propertieslist = {};
 
         this.createEmptyPropertyIfNeeded = function (property) {
-            if (self.properties.indexOf(property) == self.properties().length - 1 && property.value.value != "") {
                 self.properties.push({ 'key': "",'value':{'lastUpdated':"",'value': ""}})
-            }
         }
 
         this.makeproplist = function (elem, index, data) {
@@ -49,8 +47,11 @@
             });
         }
 
-        this.fromNowValue = function (lastupdate,locale) {
-            return moment(lastupdate()).locale(locale).fromNow();
+        this.fromNowValue = function (lastupdate, locale) {
+            if (lastupdate() != "" && lastupdate() != null && lastupdate() != undefined) {
+                return moment(lastupdate()).locale(locale).fromNow();
+            }
+            return 'N/A';
         }
 
         this.formSubmit = function () {

@@ -12,7 +12,7 @@
 
 <header class="header_main">
 
-    <button class="header_main__button_back" type="button"></button>
+    <button class="header_main__button_back" type="button" data-bind="click: backButtonClicked"></button>
     <h2 class="header_main__subhead header_main__subhead--large">@string.Format(Strings.EditTagsFor, Model.DeviceId)</h2>
 </header>
 <div class="content_outer">
@@ -20,7 +20,7 @@
     <div class="content_inner">
         <div id="content">
             <div id="deviceMetadataForm">
-                @using (Html.BeginForm("EditDeviceProperties", "Device", FormMethod.Post))
+                @using (Html.BeginForm("EditDeviceProperties", "Device", FormMethod.Post, new { data_bind = "submit: formSubmit" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.DeviceId)
@@ -29,58 +29,54 @@
                     </p>
 
                     <fieldset class="edit_form">
-                        @{
-                            DateTime? resolvedTime;
-                            for (int i = 0; i < Model.DevicePropertyValueModels.Count; ++i)
-                            {
-                                if (Model.DevicePropertyValueModels[i] == null)
-                                {
-                                    continue;
-                                }
-
-                                @Html.LabelFor(
-                                m => m.DevicePropertyValueModels[i].Value,
-                                    Model.DevicePropertyValueModels[i].Name,
-                                    new { @class = "edit_form__label" })
-
-                                if (Model.DevicePropertyValueModels[i].IsEditable)
-                                {
-                                    @Html.TextBoxFor(m => m.DevicePropertyValueModels[i].Value, new { @class = "edit_form__text" })
-                                }
-                                else
-                                {
-                                    if ((Model.DevicePropertyValueModels[i].PropertyType == PropertyType.DateTime) &&
-                                        (resolvedTime = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, Model.DevicePropertyValueModels[i].Value)).HasValue)
-                                    {
-                                        @Html.TextBox(Model.DevicePropertyValueModels[i].Name, resolvedTime.Value.ToString(), new { @readonly = "readonly", @class = "input_text--readonly" })
-                                    }
-                                    else
-                                    {
-                                        @Html.TextBoxFor(m => m.DevicePropertyValueModels[i].Value, new { @readonly = "readonly", @class = "input_text--readonly" })
-                                    }
-                                }
-
-                                @Html.HiddenFor(m => m.DevicePropertyValueModels[i].Name)
-                            }
-                        }
+                        <table class="values_editor" id="propertiesTable">
+                            <thead>
+                                <tr class="values_editor__groupheader">
+                                    <th class="edit_form__labelHeader">@Strings.ScheduleChangeTags</th>
+                                    <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
+                                    <th class="edit_form__labelHeader">@Strings.Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach:{data: properties, afterAdd:makeproplist}">
+                                <tr class="values_editor__group">
+                                    <td>
+                                        <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox"
+                                               data-msg-required="@Strings.RequiredValidationString"
+                                               data-rule-required="true"
+                                               data-bind='value: key, attr: { name: "DesiredProperties" + $index() + ".PropertyName", id: "DesiredProperties" + $index() + ".PropertyName" }' />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="edit_form__texthalf"
+                                               data-bind='value: value.value, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
+                                    </td>
+                                    <td>
+                                        <input type="checkbox"
+                                               value="true"
+                                               data-bind='check: isDeleted, attr: { name: "DesiredProperties" + $index() + ".isDeleted", id: "DesiredProperties" + $index() + ".isDeleted" }' />
+                                    </td>
+                                    <td><span class="edit_form__labelsmall" data-bind="text:$root.fromNowValue(value.lastUpdated,getCulture())"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="clear:both"></div>
+                        <a data-bind="click:$root.createEmptyPropertyIfNeeded">
+                            <span class="icon-add" data-bind="click:$root.createEmptyPropertyIfNeeded"></span>
+                            <div class="edit_form__labelbutton" data-bind="click:$root.createEmptyPropertyIfNeeded">
+                                @Strings.AddTag
+                            </div>
+                        </a>
                     </fieldset>
 
                     <fieldset class="fieldset_button">
+                        <button class="button_base button_secondary button_cancel">@Strings.Cancel</button>
                         <button class="button_base" type="submit">@Strings.SaveChangesToDevice</button>
                     </fieldset>
-                            }
+                }
             </div>
         </div>
     </div>
 </div>
 
-<script type="text/javascript">
-    "use strict";
-
-    var resources = {
-        redirectUrl: '@Url.Action("Index", "Device")',
-    }
-</script>
 
 <script type="text/javascript">
     "use strict";
@@ -96,3 +92,4 @@
     });
 
 </script>
+

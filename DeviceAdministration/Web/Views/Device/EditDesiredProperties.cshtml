@@ -47,7 +47,7 @@
                                     </td>
                                     <td>
                                         <input type="text" class="edit_form__texthalf"
-                                               data-bind='value: value.value, event: { blur: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
+                                               data-bind='value: value.value, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
                                     </td>
                                     <td>
                                         <input type="checkbox"
@@ -59,12 +59,12 @@
                             </tbody>
                         </table>
                         <div style="clear:both"></div>
-                        <div>
-                            <span class="icon-add"></span>
-                            <div>
-                                Add Desired Property
+                        <a data-bind="click:$root.createEmptyPropertyIfNeeded">
+                            <span class="icon-add" data-bind="click:$root.createEmptyPropertyIfNeeded"></span>
+                            <div class="edit_form__labelbutton" data-bind="click:$root.createEmptyPropertyIfNeeded">
+                                @Strings.AddDesiredProperty
                             </div>
-                        </div>
+                        </a>
                     </fieldset>
 
                     <fieldset class="fieldset_button">

@@ -24,7 +24,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<HttpResponseMessage> GetDeviceTwinDesired(string deviceId)
         {
             var twin = await this._deviceManager.GetTwinAsync(deviceId);
-            IEnumerable<KeyValuePair<string,TwinCollectionExtension.TwinValue>> flattenTwin = twin.Properties.Desired.AsEnumerableFlatten();
+            IEnumerable<KeyValuePair<string,TwinCollectionExtension.TwinValue>> flattenTwin = twin.Properties.Desired.AsEnumerableFlatten("desired.");
             return await GetServiceResponseAsync<IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>>>(async () =>
             {
                 return await Task.FromResult(flattenTwin);
@@ -37,7 +37,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<HttpResponseMessage> GetDeviceTwinTag(string deviceId)
         {
             var twin = await this._deviceManager.GetTwinAsync(deviceId);
-            IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>> flattenTwin = twin.Tags.AsEnumerableFlatten();
+            IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>> flattenTwin = twin.Tags.AsEnumerableFlatten("tags.");
             return await GetServiceResponseAsync<IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>>>(async () =>
             {
                 return await Task.FromResult(flattenTwin);
