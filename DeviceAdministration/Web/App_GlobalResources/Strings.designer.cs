@@ -2989,9 +2989,18 @@ namespace GlobalResources {
         /// <summary>
         ///   Looks up a localized string similar to n/a.
         /// </summary>
-        public static string NotAvilable {
+        public static string NotApplicableValue {
             get {
-                return ResourceManager.GetString("NotAvilable", resourceCulture);
+                return ResourceManager.GetString("NotApplicableValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to n/a.
+        /// </summary>
+        public static string NotAvailable {
+            get {
+                return ResourceManager.GetString("NotAvailable", resourceCulture);
             }
         }
         
@@ -3266,7 +3275,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to QUERY NAME.
+        ///   Looks up a localized string similar to QUERY.
         /// </summary>
         public static string QueryNameHeader {
             get {

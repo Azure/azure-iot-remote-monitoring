@@ -16,7 +16,7 @@ IoTApp.createModule("IoTApp.Helpers.Dates", function () {
     "use strict";
 
     var localizeDate = function localizeDate(date, format) {
-
+        if (!date) return resources.notApplicableValue || 'n/a';
         var currentMoment = moment(date).locale(cultureInfo);
         return currentMoment.format(format);
     };
@@ -175,6 +175,20 @@ IoTApp.createModule("IoTApp.Helpers.RenderRetryError", function () {
     }
 
     return renderRetryError;
+});
+
+IoTApp.createModule("IoTApp.Helpers.String", function () {
+    var renderLongString = function (message, placeHolderChar, maxSize) {
+        if(!message) return message;
+        var size = Math.min(maxSize, message.length);
+        var v = message.substring(0, size);
+        if (maxSize == size) v = v + placeHolderChar;
+        return v;
+    }
+
+    return {
+        renderLongString: renderLongString
+    }
 });
 
 $(function () {

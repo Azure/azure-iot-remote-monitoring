@@ -114,14 +114,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return await this.QueryDeviceJobs($"SELECT * FROM devices.jobs WHERE devices.jobs.jobId='{jobId}'");
         }
 
-        public async Task<IEnumerable<JobResponse>> GetJobResponsesAsync()
+        public async Task<IEnumerable<string>> GetJobResponsesAsync()
         {
             var jobQuery = _jobClient.CreateQuery();
 
-            var results = new List<JobResponse>();
+            var results = new List<string>();
             while (jobQuery.HasMoreResults)
             {
-                results.AddRange(await jobQuery.GetNextAsJobResponseAsync());
+                results.AddRange(await jobQuery.GetNextAsJsonAsync());
             }
 
             return results;

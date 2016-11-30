@@ -49,10 +49,28 @@
     <p class="grid_detail_value" name="deviceField_operationType">@Model.OperationType</p>
 
     <h4 class="grid_subhead_detail_label">@Strings.StartTimeHeader</h4>
-    <p class="grid_detail_value" name="deviceField_startTime">@Model.StartTime</p>
+    <p class="grid_detail_value" name="deviceField_startTime">
+        @if (Model.StartTime == null)
+        {
+            @Strings.NotApplicableValue
+        }
+        else
+        {
+            @Model.StartTime
+        }
+    </p>
 
     <h4 class="grid_subhead_detail_label">@Strings.EndTimeHeader</h4>
-    <p class="grid_detail_value" name="deviceField_endTime">@Model.EndTime</p>
+    <p class="grid_detail_value" name="deviceField_endTime">
+        @if (Model.EndTime == null)
+        {
+            @Strings.NotApplicableValue
+        }
+        else
+        {
+            @Model.EndTime
+        }
+    </p>
 </section>
 
 <div class="header_grid header_grid_general">
