@@ -11,7 +11,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
         static private readonly KeyValuePair<string, Func<Twin, TwinCollection>>[] _selectors = new[]
         {
             new KeyValuePair<string, Func<Twin, TwinCollection>>("tags.", twin => twin.Tags),
+            new KeyValuePair<string, Func<Twin, TwinCollection>>("desired.", twin => twin.Properties.Desired),
             new KeyValuePair<string, Func<Twin, TwinCollection>>("properties.desired.", twin => twin.Properties.Desired),
+            new KeyValuePair<string, Func<Twin, TwinCollection>>("reported.", twin => twin.Properties.Reported),
             new KeyValuePair<string, Func<Twin, TwinCollection>>("properties.reported.", twin => twin.Properties.Reported)
         };
 
