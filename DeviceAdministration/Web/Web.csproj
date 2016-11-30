@@ -425,9 +425,6 @@
     <Content Include="Content\img\sort_desc.png" />
     <Content Include="Content\img\sort_desc_disabled.png" />
     <Content Include="Content\styles\main.css" />
-    <Content Include="Content\styles\main.min.css">
-      <DependentUpon>main.css</DependentUpon>
-    </Content>
     <Content Include="Content\styles\visuals.min.css" />
     <Content Include="Content\styles\bootstrap\dropdowns.less" />
     <Content Include="Content\styles\bootstrap\bootstrap.less" />
@@ -517,6 +514,7 @@
     <Content Include="Scripts\js.cookie-1.5.1.min.js" />
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
+    <Content Include="Scripts\knockout.mapping-2.0.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
@@ -586,6 +584,8 @@
     <Content Include="Scripts\Views\Device\DeviceIndex.js" />
     <Content Include="Scripts\Views\Device\DeviceListColumns.js" />
     <Content Include="Scripts\Views\Device\DeviceSelectType.js" />
+    <Content Include="Scripts\Views\Device\EditTags.js" />
+    <Content Include="Scripts\Views\Device\EditDesiredProperties.js" />
     <Content Include="Scripts\Views\Device\EditDeviceProperties.js" />
     <Content Include="Scripts\Views\Device\RemoveDevice.js" />
     <Content Include="Scripts\Views\IoTApp.js" />
@@ -684,6 +684,8 @@
     <Content Include="Views\Job\Index.cshtml" />
     <Content Include="Views\Job\_JobProperties.cshtml" />
     <Content Include="Views\Dashboard\_JobIndicators.cshtml" />
+    <None Include="Views\Device\EditDesiredProperties.cshtml" />
+    <None Include="Views\Device\EditTags.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

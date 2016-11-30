@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using GlobalResources;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -33,7 +35,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 var jobResponses = await _iotHubDeviceManager.GetJobResponsesAsync();
 
-                var result = jobResponses.OrderByDescending(j => j.CreatedTimeUtc).Select(r => new DeviceJobModel(r)).ToList();
+                var result = jobResponses.Select(r => new DeviceJobModel(r)).OrderByDescending(j => j.StartTime).ToList();
+                foreach(var job in result)
+                {
+                    var tuple = await GetJobNameAndQueryNameAsync(job);
+                    job.JobName = tuple.Item1;
+                    job.QueryName = tuple.Item2;
+                };
+
                 var dataTablesResponse = new DataTablesResponse<DeviceJobModel>()
                 {
                     RecordsTotal = result.Count,
@@ -106,6 +115,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
              {
                  return await Task.FromResult(devices);
              });
+        }
+
+        private async Task<Tuple<string,string>> GetJobNameAndQueryNameAsync(DeviceJobModel job)
+        {
+            try
+            {
+                var model = await _jobRepository.QueryByJobIDAsync(job.JobId);
+                return Tuple.Create(model.JobName ?? Strings.NotApplicableValue, model.QueryName ?? job.QueryCondition);
+            }
+            catch
+            {
+                return Tuple.Create(job.JobId, job.QueryCondition ?? Strings.NotApplicableValue);
+            }
         }
     }
 }

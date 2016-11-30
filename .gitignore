@@ -205,3 +205,4 @@ VendingMachineSample/packages/*
 *.orig
 /RemoteMonitoring.VC.db
 /RemoteMonitoring.VC.VC.opendb
+/Simulator/Simulator.WebJob/DMSimulator.exe

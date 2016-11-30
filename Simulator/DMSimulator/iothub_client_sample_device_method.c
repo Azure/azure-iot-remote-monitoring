@@ -39,23 +39,22 @@ typedef struct EVENT_INSTANCE_TAG
 
 static int DeviceMethodCallback(const char* method_name, const unsigned char* payload, size_t size, unsigned char** response, size_t* resp_size, void* userContextCallback)
 {
-	(void)method_name;
-	(void)payload;
-	(void)size;
 	(void)userContextCallback;
 
 	printf("\r\nDevice Method called\r\n");
-	printf("Device Method name:    %s:\r\n", method_name);
+	printf("Device Method name:    %s\r\n", method_name);
 	printf("Device Method payload: %.*s\r\n", (int)size, (const char*)payload);
 
 	int status = 200;
-	char* RESPONSE_STRING = "This is the response from the device";
-	printf("\r\nResponse status: %d\r\n", status);
-	printf("Response payload: %s\r\n\r\n", RESPONSE_STRING);
 
-	*resp_size = strlen(RESPONSE_STRING);
-	*response = malloc(*resp_size);
-	memcpy(*response, RESPONSE_STRING, *resp_size);
+	//Response from {method} with parameter {request}
+	char* RESPONSE_STRING = "Response from  with parameter ";
+	*resp_size = strlen(RESPONSE_STRING) + strlen(method_name) + size;
+	*response = malloc(*resp_size + 1);
+	sprintf((char*)*response, "Response from %s with parameter %.*s", method_name, size, payload);	
+
+	printf("\r\nResponse status: %d\r\n", status);
+	printf("Response payload: %.*s\r\n\r\n", (int)*resp_size, *response);
 
 	callbackCounter++;
 	return status;
@@ -148,9 +147,9 @@ void iothub_client_sample_device_method_run(void)
 				}
 			}
 			IoTHubClient_LL_Destroy(iotHubClientHandle);
-		}
-		platform_deinit();
 	}
+		platform_deinit();
+}
 }
 
 void Usage(void)
@@ -181,7 +180,7 @@ DWORD WINAPI WatchDogThread(LPVOID lpThreadParameter)
 		bContinue = Process32Next(hSnapshot, &processEntry);
 	}
 	CloseHandle(hSnapshot);
-	
+
 	if (parentProcessID != 0)
 	{
 		printf("Parent process ID: %d\r\n", parentProcessID);

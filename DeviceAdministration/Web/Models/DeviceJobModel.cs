@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+﻿using GlobalResources;
+using System;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -13,14 +12,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             Status = jobResponse.Status;
             JobId = jobResponse.JobId;
-            DeviceCount = jobResponse.DeviceJobStatistics?.DeviceCount;
-            SucceededCount = jobResponse.DeviceJobStatistics?.SucceededCount;
-            FailedCount = jobResponse.DeviceJobStatistics?.FailedCount;
-            PendingCount = jobResponse.DeviceJobStatistics?.PendingCount;
-            RunningCount = jobResponse.DeviceJobStatistics?.RunningCount;
+            QueryCondition = jobResponse.QueryCondition;
+            DeviceCount = ConvertNullValue(jobResponse.DeviceJobStatistics?.DeviceCount);
+            SucceededCount = ConvertNullValue(jobResponse.DeviceJobStatistics?.SucceededCount);
+            FailedCount = ConvertNullValue(jobResponse.DeviceJobStatistics?.FailedCount);
+            PendingCount = ConvertNullValue(jobResponse.DeviceJobStatistics?.PendingCount);
+            RunningCount = ConvertNullValue(jobResponse.DeviceJobStatistics?.RunningCount);
             OperationType = jobResponse.Type.LocalizedString();
             StartTime = jobResponse.StartTimeUtc;
             EndTime = jobResponse.EndTimeUtc;
+        }
+
+        public DeviceJobModel(string jobResponseJsonString)
+        {
+            var wrappedJobResponse = JsonConvert.DeserializeObject<JobResponseWrapper>(jobResponseJsonString);
+            Status = wrappedJobResponse.Status;
+            JobId = wrappedJobResponse.JobId;
+            QueryCondition = wrappedJobResponse.QueryCondition;
+            DeviceCount = ConvertNullValue(wrappedJobResponse.DeviceJobStatistics?.DeviceCount);
+            SucceededCount = ConvertNullValue(wrappedJobResponse.DeviceJobStatistics?.SucceededCount);
+            FailedCount = ConvertNullValue(wrappedJobResponse.DeviceJobStatistics?.FailedCount);
+            PendingCount = ConvertNullValue(wrappedJobResponse.DeviceJobStatistics?.PendingCount);
+            RunningCount = ConvertNullValue(wrappedJobResponse.DeviceJobStatistics?.RunningCount);
+            OperationType = wrappedJobResponse.Type.LocalizedString();
+            StartTime = wrappedJobResponse.StartTime;
+            EndTime = wrappedJobResponse.EndTime;
         }
 
         public string JobId { get; set; }
@@ -28,13 +44,29 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [JsonConverter(typeof(StringEnumConverter))]
         public JobStatus Status { get; set; }
         public string QueryName { get; set; }
+        public string QueryCondition { get; set; }
         public string OperationType { get; set; }
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
-        public int? DeviceCount { get; set; }
-        public int? SucceededCount { get; set; }
-        public int? FailedCount { get; set; }
-        public int? PendingCount { get; set; }
-        public int? RunningCount { get; set; }
+        public string DeviceCount { get; set; }
+        public string SucceededCount { get; set; }
+        public string FailedCount { get; set; }
+        public string PendingCount { get; set; }
+        public string RunningCount { get; set; }
+
+        private string ConvertNullValue(int? value)
+        {
+            return value == null ? Strings.NotApplicableValue : value.ToString();
+        }
+
+        /// <summary>
+        /// This is a wrapper class to fix the problem of null value for 
+        /// StartTime and EndTime property of JobResponse returned by JobClient.
+        /// </summary>
+        class JobResponseWrapper : JobResponse
+        {
+            public DateTime StartTime { get; set; }
+            public DateTime EndTime { get; set; }
+        }
     }
 }

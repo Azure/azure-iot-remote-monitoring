@@ -12,8 +12,25 @@
 
 <header class="header_main">
 
-    <button class="header_main__button_back" type="button"></button>
-    <h2 class="header_main__subhead header_main__subhead--large">@Strings.InvokeMethod <span class="item__description">@Model.QueryName</span></h2>
+    <button class="header_main__button_back" type="button" data-bind="click: backButtonClicked"></button>
+    <h2 class="header_main__subhead header_main__subhead--large">
+        @Strings.InvokeMethod <span class="item__description">
+            @{
+                if (Model.QueryName == "*")
+                {
+                    <text>
+                        @Strings.AllDevices
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        @Model.QueryName
+                    </text>
+                }
+            }
+        </span>
+    </h2>
 </header>
 <div class="content_outer">
 
@@ -29,24 +46,25 @@
 
                     <fieldset class="edit_form">
                         @{
-                            @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label" });
+                            @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label primary__label" });
                             @Html.TextBoxFor(m => m.JobName, new { placeholder = Strings.ScheduleJobNamePlaceHolder, data_bind = "value: jobName", @class = "edit_form__text" });
 
                             <div style="clear:both"></div>
-                            @Html.LabelFor(m => m.MethodName, Strings.InvokeMethodLabel, new { @class = "edit_form__label" });
-                            @Html.TextBoxFor(m => m.MethodName, new { data_bind = "textInput: methodName, event{ blur: $root.updateParameter }", @class = "name_selector__text edit_form__text" });
+
+                            @Html.LabelFor(m => m.MethodName, Strings.InvokeMethodLabel, new { @class = "edit_form__label primary__label" });
+                            @Html.TextBoxFor(m => m.MethodName, new { data_bind = "textInput: methodName, event{ blur: $root.updateParameter }", @class = "edit_form__methodComboBox edit_form__text" });
 
                             <div style="clear:both"></div>
 
                             <div>
-                                <span class="text_small" data-bind="text: getMatchedDevices('@Strings.SomeDevicesApplicable')"></span><a href="/Device/Query">query</a>
+                                <span class="text_small" data-bind="text: getMatchedDevices('@Strings.SomeDevicesApplicable')"></span>&nbsp;<a class="edit_form__link" href="/Device/Query">query</a>
                             </div>
                             <div>
-                                <span class="text_small" data-bind="text: getUnmatchedDevices('@Strings.SomeDevicesApplicable')"></span><a href="/Device/Query">query</a>
+                                <span class="text_small" data-bind="text: getUnmatchedDevices('@Strings.SomeDeviceInapplicable')"></span>&nbsp;<a class="edit_form__link" href="/Device/Query">query</a>
                             </div>
 
                             <div style="clear:both"></div>
-                            <label for="parameterTable" class="edit_form__label" data-bind="if: parameters">@Strings.ScheduleParameters</label>
+                            <label for="parameterTable" class="edit_form__label primary__label" data-bind="if: parameters">@Strings.ScheduleParameters</label>
                             <table class="values_editor" id="paramterTable" data-bind="if: parameters">
                                 <thead>
                                     <tr class="values_editor__groupheader">
@@ -70,18 +88,18 @@
                                 </tbody>
                             </table>
 
-                            <label for="scheduleJobTime" class="edit_form__label">@Strings.ScheduleSetJobTime</label>
+                            <label for="scheduleJobTime" class="edit_form__label primary__label">@Strings.ScheduleSetJobTime</label>
 
                             <div id="scheduleJobTime" class="values_editor">
                                 <div class="values_editor__group">
                                     <label class="edit_form__labelHeader">@Strings.StartTime</label>
-                                    <input type='text' id="StartDate" name="StartDateUtc" class="edit_form__text non_float" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ format: 'LLL' , locale: window.navigator.language}"
+                                    <input type='text' id="StartDate" name="StartDateUtc" class="non_float edit_form__text less_margin" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ widgetPositioning : {horizontal: 'left' ,vertical: 'top'},format: 'LLL' , locale: getCulture()}"
                                            data-msg-required="@Strings.RequiredValidationString"
                                            data-rule-required="true" />
                                 </div>
                                 <div class="values_editor__group">
                                     <label class="edit_form__labelHeader">@Strings.MaxExecutionTime</label>
-                                    <input type="text" class="edit_form__textsmall non_float" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
+                                    <input type="text" class="non_float edit_form__textsmall less_margin" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
                                            data-msg-required="@Strings.RequiredValidationString"
                                            data-rule-required="true" />
                                     <span>Mins</span>

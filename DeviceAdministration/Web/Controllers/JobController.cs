@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using GlobalResources;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
-
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -31,8 +31,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<ActionResult> GetJobProperties(string jobId)
         {
             var jobResponse = await _iotHubDeviceManager.GetJobResponseByJobIdAsync(jobId);
-            return PartialView("_JobProperties", new DeviceJobModel(jobResponse));
-        }
+
+            var result = new DeviceJobModel(jobResponse);
+            var t = await GetJobNameAndQueryNameAsync(result);
+            result.JobName = t.Item1;
+            result.QueryName = t.Item2;
+
+            return PartialView("_JobProperties", result);
+        }       
 
         [RequirePermission(Permission.ManageJobs)]
         public async Task<ActionResult> ScheduleJob(string queryName)
@@ -111,6 +117,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             //ToDo: Jump to the view with desired model
 
             return View(new ScheduleDeviceMethodModel());
+        }
+
+        private async Task<Tuple<string, string>> GetJobNameAndQueryNameAsync(DeviceJobModel job)
+        {
+            try
+            {
+                var model = await _jobRepository.QueryByJobIDAsync(job.JobId);
+                return Tuple.Create(model.JobName ?? Strings.NotApplicableValue, model.QueryName ?? job.QueryCondition);
+            }
+            catch
+            {
+                return Tuple.Create(job.JobId, job.QueryCondition ?? Strings.NotApplicableValue);
+            }
         }
     }
 }

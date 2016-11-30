@@ -13,25 +13,54 @@
     clear: both;
 }
 
-.edit_form__labelHeader{
+.edit_form__labelsmall{
+    color:gray;
+    font-size:0.2em;
+    display:block;
+    line-height:100%;
+}
+
+.edit_form__labelbutton{
+    font-size:.8em;
+    display:inline-block;
+    margin-left:5px;
+}
+
+.primary__label {
+    color: @primary-color;
+    text-transform: none;
+    margin: 10px 4px;
+}
+
+.edit_form__labelHeader {
     color: @form-fieldset-textbox-label;
     font-size: .6em;
     text-transform: uppercase;
+    font-weight: normal;
 }
 
-.values_editor__group input[type=checkbox]{
+.values_editor__group input[type=checkbox] {
     border: 1px solid @form-textbox-border;
     background-color: @form-textbox-background;
     margin: .25em 1em 0em 0;
     height: 30px;
     width: 30px;
 }
-.values_editor__group td{
-    text-align:center
+
+.values_editor {
+    margin: 15px 4px;
 }
 
-.values_editor__group>span{
-    font-size:.70em
+.values_editor__group{
+    margin: 4px 0px;
+}
+
+.values_editor__group td {
+    text-align: center;
+}
+
+.values_editor__group > span {
+    font-size: .70em;
 }
 
 .edit_form__text {
@@ -60,7 +89,7 @@
     box-sizing: content-box;
 }
 
-.edit_form__textsmall{
+.edit_form__textsmall {
     display: block;
     float: left;
     width: 50px;
@@ -72,9 +101,18 @@
     min-height: 30px;
     box-sizing: content-box;
 }
-.non_float{
-    float:none;
-    display:inline;
+
+.edit_form__link{
+    font-size:.8em;
+}
+
+.non_float {
+    float: none;
+    display: inline;
+}
+
+.less_margin{
+    margin:5px 0px;
 }
 
 .edit_form__text:disabled {
@@ -95,4 +133,8 @@
     min-height: 30px;
     padding: 0 5px;
     width: 460px;
+}
+
+.text_small{
+    font-size:.8em;
 }

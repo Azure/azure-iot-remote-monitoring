@@ -79,6 +79,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             await this._deviceManager.UpdateTwinAsync(deviceId, twin, twin.ETag);
         }
 
+        public async Task ScheduleTwinUpdate(string deviceId,Twin twin, DeviceListQuery query,DateTime startDateUtc, long maxExecutionTimeInSeconds)
+        {
+            var sqlQuery = query.GetSQLQuery();
+            await this._jobClient.ScheduleTwinUpdateAsync(Guid.NewGuid().ToString(), sqlQuery, twin, startDateUtc, maxExecutionTimeInSeconds);
+        }
+
         public async Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListQuery query)
         {
             var sqlQuery = query.GetSQLQuery();
@@ -108,14 +114,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return await this.QueryDeviceJobs($"SELECT * FROM devices.jobs WHERE devices.jobs.jobId='{jobId}'");
         }
 
-        public async Task<IEnumerable<JobResponse>> GetJobResponsesAsync()
+        public async Task<IEnumerable<string>> GetJobResponsesAsync()
         {
             var jobQuery = _jobClient.CreateQuery();
 
-            var results = new List<JobResponse>();
+            var results = new List<string>();
             while (jobQuery.HasMoreResults)
             {
-                results.AddRange(await jobQuery.GetNextAsJobResponseAsync());
+                results.AddRange(await jobQuery.GetNextAsJsonAsync());
             }
 
             return results;

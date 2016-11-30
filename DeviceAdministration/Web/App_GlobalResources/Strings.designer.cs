@@ -134,6 +134,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Desired Property.
+        /// </summary>
+        public static string AddDesiredProperty {
+            get {
+                return ResourceManager.GetString("AddDesiredProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add a Device.
         /// </summary>
         public static string AddDevice {
@@ -175,6 +184,15 @@ namespace GlobalResources {
         public static string AddRule {
             get {
                 return ResourceManager.GetString("AddRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Tag.
+        /// </summary>
+        public static string AddTag {
+            get {
+                return ResourceManager.GetString("AddTag", resourceCulture);
             }
         }
         
@@ -1394,6 +1412,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Desired Properties for {0}.
+        /// </summary>
+        public static string EditDesiredPropertiesFor {
+            get {
+                return ResourceManager.GetString("EditDesiredPropertiesFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Configuration for {0}.
         /// </summary>
         public static string EditDeviceConfiguration {
@@ -1426,6 +1453,15 @@ namespace GlobalResources {
         public static string EditDeviceRuleFormatted {
             get {
                 return ResourceManager.GetString("EditDeviceRuleFormatted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Tags for {0}.
+        /// </summary>
+        public static string EditTagsFor {
+            get {
+                return ResourceManager.GetString("EditTagsFor", resourceCulture);
             }
         }
         
@@ -2953,9 +2989,18 @@ namespace GlobalResources {
         /// <summary>
         ///   Looks up a localized string similar to n/a.
         /// </summary>
-        public static string NotAvilable {
+        public static string NotApplicableValue {
             get {
-                return ResourceManager.GetString("NotAvilable", resourceCulture);
+                return ResourceManager.GetString("NotApplicableValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to n/a.
+        /// </summary>
+        public static string NotAvailable {
+            get {
+                return ResourceManager.GetString("NotAvailable", resourceCulture);
             }
         }
         
@@ -3230,7 +3275,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to QUERY NAME.
+        ///   Looks up a localized string similar to QUERY.
         /// </summary>
         public static string QueryNameHeader {
             get {

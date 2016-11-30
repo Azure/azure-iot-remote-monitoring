@@ -2045,7 +2045,7 @@
     <comment>Table column header.</comment>
   </data>
   <data name="QueryNameHeader" xml:space="preserve">
-    <value>QUERY NAME</value>
+    <value>QUERY</value>
     <comment>Table column header.</comment>
   </data>
   <data name="StartTimeHeader" xml:space="preserve">
@@ -2144,7 +2144,7 @@
     <value>Failed Jobs in last 24 hours</value>
     <comment>Read-only field label.</comment>
   </data>
-  <data name="NotAvilable" xml:space="preserve">
+  <data name="NotAvailable" xml:space="preserve">
     <value>n/a</value>
     <comment>Error message.</comment>
   </data>
@@ -2155,5 +2155,25 @@
   <data name="DeviceMethods" xml:space="preserve">
     <value>Methods</value>
     <comment>Hyperlink label.</comment>
+  </data>
+  <data name="AddDesiredProperty" xml:space="preserve">
+    <value>Add Desired Property</value>
+    <comment>Button label</comment>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Add Tag</value>
+    <comment>Button label</comment>
+  </data>
+  <data name="EditDesiredPropertiesFor" xml:space="preserve">
+    <value>Edit Desired Properties for {0}</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="EditTagsFor" xml:space="preserve">
+    <value>Edit Tags for {0}</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="NotApplicableValue" xml:space="preserve">
+    <value>n/a</value>
+    <comment>Table cell.</comment>
   </data>
 </root>
