@@ -210,25 +210,21 @@ table#alertHistoryTable {
 
 .dashboard_job_indicator_container {
     background-color: @background-color;
-    width: 25%;
     box-sizing: border-box;
     padding: 6px;
     display: inline-block;
     float: left;
     height: 150px;
-}
-
-.dashboard_job_indicator_container--left {
-    border-right: 6px solid @body-background-color;
-}
-
-.dashboard_job_indicator_container--center {
     border-right: 6px solid @body-background-color;
     border-left: 6px solid @body-background-color;
 }
 
-.dashboard_job_indicator_container--right {
-    border-left: 6px solid @body-background-color;
+.dashboard_job_indicator_container:first-child {
+    border-left: 0px none @background-color;
+}
+
+.dashboard_job_indicator_container:last-child {
+    border-right: 0px none @background-color;
 }
 
 .dashboard_job_indicator_title {

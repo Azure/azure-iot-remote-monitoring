@@ -17,19 +17,10 @@
                     var $div;
 
                     $.each(result, function (index, indicator) {
-                        if (index == 0) {
-                            $div = $('<div>', {
-                                'class': 'dashboard_job_indicator_container dashboard_job_indicator_container--left'
-                            });
-                        } else if (index == result.length - 1) {
-                            $div = $('<div>', {
-                                'class': 'dashboard_job_indicator_container dashboard_job_indicator_container--right'
-                            });
-                        } else {
-                            $div = $('<div>', {
-                                'class': 'dashboard_job_indicator_container dashboard_job_indicator_container--center'
-                            });
-                        }
+                        $div = $('<div>', {
+                            'class': 'dashboard_job_indicator_container',
+                            style: 'width:' + 100.0 / result.length + '%'
+                        });
 
                         $('<p>', {
                             'class': 'dashboard_job_indicator_title',
