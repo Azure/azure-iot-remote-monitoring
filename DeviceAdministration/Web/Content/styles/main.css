@@ -1216,18 +1216,9 @@ table#alertHistoryTable tr.selectedAlert {
   padding-left: 0;
   height: 30px;
 }
-.search_container__query_find_query_label {
-  margin-bottom: -8px;
-}
-.search_container__query_new_query_label {
-  margin-bottom: -6px;
-}
 .search_container__query_new_query_link {
   font-size: 14px;
   clear: both;
-}
-.search_container__query_recent_query_label {
-  margin-bottom: -6px;
 }
 .search_container__query_recent_query_link {
   font-size: 14px;
@@ -1278,8 +1269,8 @@ table#alertHistoryTable tr.selectedAlert {
   display: block;
   float: left;
   clear: left;
-  font-size: 12px;
-  margin-top: 4px;
+  font-size: 14px;
+  margin-top: 2px;
 }
 .search_container__query_search_type_select {
   border: hidden;
