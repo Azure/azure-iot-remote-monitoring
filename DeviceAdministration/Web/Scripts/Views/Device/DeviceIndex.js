@@ -175,6 +175,7 @@
 
         // reset search query
         $('#searchQuery').val(uiState.searchQuery);
+        $('#queryNameBox').val(uiState.queryName);
 
         // clear existing filters
         filterCount = 0;
