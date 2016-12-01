@@ -394,7 +394,6 @@
         });
 
         self.dataTableContainer.find("tbody").delegate("tr", "click", onTableRowClicked);
-        initDetails();
 
         /* DataTables workaround - reset progress animation display for use with DataTables api */
         self.dataTableContainer.on('processing.dt', function (e, settings, processing) {
