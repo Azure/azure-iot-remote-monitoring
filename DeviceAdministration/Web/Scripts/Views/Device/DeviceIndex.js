@@ -103,14 +103,6 @@
     }
 
     var initSpliter = function () {
-        self.searchPane.resizable({
-            handles: 'e',
-            minWidth: self.searchPane.outerWidth(),
-            maxWidth: '650',
-            resize: function () {
-                setGridWidth();
-            }
-        });
         self.deviceGrid.resizable({
             handles: 'w',
             minWidth: self.deviceGrid.outerWidth(),
