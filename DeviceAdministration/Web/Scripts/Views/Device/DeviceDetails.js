@@ -10,7 +10,7 @@
         $('.details_grid__grid_subhead').text(resources.deviceDetailsPanelLabel);
         self.deviceId = deviceId;
 
-        $.get('/Device/GetDeviceDetails', { deviceId: deviceId }, function (response) {
+        return $.get('/Device/GetDeviceDetails', { deviceId: deviceId }, function (response) {
             onDeviceDetailsDone(response);
         }).fail(function (response) {
             $('#loadingElement').hide();
@@ -23,7 +23,7 @@
         $('.details_grid_closed__grid_subhead').text(resources.scheduleJobPanelLabel);
         $('.details_grid__grid_subhead').text(resources.scheduleJobPanelLabel);
 
-        $.get('/Job/ScheduleJob', { queryName: queryName }, function (response) {
+        return $.get('/Job/ScheduleJob', { queryName: queryName }, function (response) {
             onScheduleJobReady(response);
         }).fail(function (response) {
             $('#loadingElement').hide();

@@ -56,25 +56,22 @@
     };
 
     var getDeviceListColumnsView = function () {
-        if (!isEditColumnsMode()) {
-            $(".button_details_grid").on("click", closeButtonClick);
 
-            self.preHead = $('.details_grid__grid_subhead').html();
-            self.preContent = $('#details_grid_container').html();
+        close(true);
+        $(".button_details_grid").on("click", closeButtonClick);
+        $('.details_grid_closed__grid_subhead').text(resources.editColumnsPanelLabel);
+        $('.details_grid__grid_subhead').html(resources.editColumnsPanelLabel);
+        $('#loadingElement').show();
 
-            $('.details_grid__grid_subhead').html(resources.editColumns);
-            $('#loadingElement').show();
-
-            $.get('/Device/GetDeviceListColumns', function (response) {
-                if (!$(".details_grid").is(':visible')) {
-                    IoTApp.DeviceIndex.toggleDetails();
-                }
-                onDeviceListColumnsDone(response);
-            }).fail(function (response) {
-                $('#loadingElement').hide();
-                IoTApp.Helpers.RenderRetryError(resources.unableToRetrieveColumnsFromService, $('#details_grid_container'), function () { getDeviceListColumnsView(); });
-            });
-        }
+        return $.get('/Device/GetDeviceListColumns', function (response) {
+            if (!$(".details_grid").is(':visible')) {
+                IoTApp.DeviceIndex.toggleDetails();
+            }
+            onDeviceListColumnsDone(response);
+        }).fail(function (response) {
+            $('#loadingElement').hide();
+            IoTApp.Helpers.RenderRetryError(resources.unableToRetrieveColumnsFromService, $('#details_grid_container'), function () { getDeviceListColumnsView(); });
+        });
     };
 
     var onDeviceListColumnsDone = function (html) {
@@ -177,8 +174,7 @@
     var close = function (noNeedToggle) {
         $('.device_list_columns_button_container').remove();
         $(".button_details_grid").off("click", closeButtonClick);
-        $('.details_grid__grid_subhead').html(self.preHead);
-        self.preContent = $('#details_grid_container').html(self.preContent);
+
         if (!noNeedToggle) {
             IoTApp.DeviceIndex.toggleDetails();
         }

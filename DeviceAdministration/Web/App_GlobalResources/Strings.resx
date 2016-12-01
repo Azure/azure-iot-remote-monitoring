@@ -2180,4 +2180,8 @@
     <value>Completed Jobs in last 24 hours</value>
     <comment>Read-only field label.</comment>
   </data>
+  <data name="EditColumnsPanelLabel" xml:space="preserve">
+    <value>EDIT COLUMNS</value>
+    <comment>Section heading.</comment>
+  </data>
 </root>

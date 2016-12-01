@@ -1421,6 +1421,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EDIT COLUMNS.
+        /// </summary>
+        public static string EditColumnsPanelLabel {
+            get {
+                return ResourceManager.GetString("EditColumnsPanelLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Desired Properties for {0}.
         /// </summary>
         public static string EditDesiredPropertiesFor {

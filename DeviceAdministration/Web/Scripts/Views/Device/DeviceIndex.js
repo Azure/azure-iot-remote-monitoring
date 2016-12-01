@@ -333,7 +333,7 @@
             $(this).addClass("selected");
             self.selectedRow = self.dataTable.row(this).index();
             showDetails();
-            self.deviceDetails.init(data);
+            self.loader = self.deviceDetails.init(data);
 
             IoTApp.Helpers.DeviceIdState.saveDeviceIdToCookie(data);
         }
@@ -373,7 +373,7 @@
             click: function () {
                 unselectAllRows();
                 showDetails();
-                IoTApp.DeviceListColumns.init();
+                self.loader = IoTApp.DeviceListColumns.init();
             }
         }).appendTo($buttonArea);
 
@@ -384,7 +384,7 @@
             click: function () {
                 unselectAllRows();
                 showDetails();
-                self.deviceDetails.scheduleJob($('#queryNameBox').val());
+                self.loader = self.deviceDetails.scheduleJob($('#queryNameBox').val());
             }
         }).appendTo($buttonArea);
 
@@ -524,6 +524,10 @@
     }
 
     var showDetails = function () {
+        if (self.loader) {
+            self.loader.abort();
+        }
+
         if (!self.deviceGrid.is(':visible')) {
             IoTApp.DeviceIndex.toggleDetails();
         }
