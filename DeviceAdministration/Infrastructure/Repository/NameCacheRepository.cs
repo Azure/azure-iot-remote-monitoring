@@ -50,7 +50,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
             TableQuery<NameCacheTableEntity> query = new TableQuery<NameCacheTableEntity>().Where(string.Join(" or ", filters));
             var entities = await _azureTableStorageClient.ExecuteQueryAsync(query);
-            return entities.OrderByDescending(e => e.Timestamp).
+            return entities.OrderBy(e => e.PartitionKey).ThenBy(e => e.RowKey).
                 Select(e => new NameCacheEntity
                 {
                     Name = e.Name,
