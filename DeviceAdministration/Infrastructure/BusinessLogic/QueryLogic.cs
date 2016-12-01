@@ -11,15 +11,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class QueryLogic : IQueryLogic
     {
         public readonly IDeviceListQueryRepository _queryRepository;
+        public readonly IJobRepository _jobRepository;
         private readonly int MaxRetryCount = 20;
 
-        public QueryLogic(IDeviceListQueryRepository queryRepository)
+        public QueryLogic(IDeviceListQueryRepository queryRepository, IJobRepository jobRepository)
         {
             _queryRepository = queryRepository;
+            _jobRepository = jobRepository;
         }
 
         public async Task<bool> AddQueryAsync(Query query)
         {
+            var jobs = await _jobRepository.QueryByQueryNameAsync(query.Name);
+            if (jobs.Any())
+            {
+                throw new QueryAssociatedWithJobException(query.Name, jobs.Select(j => j.JobName).Distinct().Take(3));
+            }
             DeviceListQuery deviceQuery = new DeviceListQuery
             {
                 Name = query.Name,
@@ -81,6 +88,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<bool> DeleteQueryAsync(string queryName)
         {
+            var jobs = await _jobRepository.QueryByQueryNameAsync(queryName);
+            if (jobs.Any())
+            {
+                throw new QueryAssociatedWithJobException(queryName, jobs.Select(j => j.JobName).Distinct().Take(3));
+            }
             return await _queryRepository.DeleteQueryAsync(queryName);
         }
 

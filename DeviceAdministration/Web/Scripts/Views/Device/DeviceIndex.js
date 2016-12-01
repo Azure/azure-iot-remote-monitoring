@@ -711,6 +711,10 @@
             IoTApp.Helpers.Dialog.displayError(resources.queryIsEmpty);
             return;
         }
+        else if (/[#%.*+:?<>&/\\]/g.test(queryName)) {
+            IoTApp.Helpers.Dialog.displayError(resources.incorrectQueryName);
+            return;
+        }
         return $.ajax({
             url: url,
             type: 'POST',
