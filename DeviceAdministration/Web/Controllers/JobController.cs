@@ -86,7 +86,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var preScheduleJobModel = new PreScheduleJobModel
             {
                 QueryName = queryName,
-                JobsSharingQuery = (await Task.WhenAll(tasks)).Where(model => model.Job != null)
+                JobsSharingQuery = (await Task.WhenAll(tasks))
+                    .Where(model => model.Job != null)
+                    .OrderByDescending(model => model.Job.CreatedTimeUtc)
             };
 
             return PartialView("_ScheduleJob", preScheduleJobModel);
