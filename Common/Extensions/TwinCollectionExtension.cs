@@ -47,11 +47,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
                 }
                 else if (pair.Value is JValue)
                 {
-                    if (pair.Value != null)
+                    var value = pair.Value as JValue;
+                    if (value.Type != JTokenType.Null)
                     {
                         yield return new KeyValuePair<string, TwinValue>($"{prefix}{pair.Key}", new TwinValue
                         {
-                            Value = pair.Value as JValue,
+                            Value = value,
                             LastUpdated = (pair.Value as TwinCollectionValue)?.GetLastUpdated()
                         });
                     }
@@ -79,11 +80,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
                 }
                 else if (child.Value is JValue)
                 {
-                    if (child.Value != null)
+                    var value = child.Value as JValue;
+                    if (value.Type != JTokenType.Null)
                     {
                         yield return new KeyValuePair<string, TwinValue>($"{prefix}{child.Name}", new TwinValue
                         {
-                            Value = child.Value as JValue,
+                            Value = value,
                             LastUpdated = (child.Value as TwinCollectionValue)?.GetLastUpdated()
                         });
                     }

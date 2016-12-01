@@ -27,20 +27,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     [OutputCache(CacheProfile = "NoCacheProfile")]
     public class DeviceController : Controller
     {
-        private readonly IApiRegistrationRepository _apiRegistrationRepository;
         private readonly IDeviceLogic _deviceLogic;
         private readonly IDeviceTypeLogic _deviceTypeLogic;
+        private readonly IApiRegistrationRepository _apiRegistrationRepository;
         private readonly ICellularExtensions _cellularExtensions;
-        private readonly string _iotHubName;
-        private readonly IUserSettingsLogic _userSettingsLogic;
         private readonly IJobRepository _jobRepository;
+        private readonly IUserSettingsLogic _userSettingsLogic;
+        private readonly IIoTHubDeviceManager _deviceManager;
+        private readonly string _iotHubName;
 
-        public DeviceController(IDeviceLogic deviceLogic, IDeviceTypeLogic deviceTypeLogic,
+        public DeviceController(IDeviceLogic deviceLogic,
+            IDeviceTypeLogic deviceTypeLogic,
             IConfigurationProvider configProvider,
             IApiRegistrationRepository apiRegistrationRepository,
             ICellularExtensions cellularExtensions,
             IJobRepository jobRepository,
-            IUserSettingsLogic userSettingsLogic)
+            IUserSettingsLogic userSettingsLogic,
+            IIoTHubDeviceManager deviceManager)
         {
             _deviceLogic = deviceLogic;
             _deviceTypeLogic = deviceTypeLogic;
@@ -48,6 +51,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             _cellularExtensions = cellularExtensions;
             _jobRepository = jobRepository;
             _userSettingsLogic = userSettingsLogic;
+            _deviceManager = deviceManager;
 
             _iotHubName = configProvider.GetConfigurationSettingValue("iotHub.HostName");
         }
@@ -282,7 +286,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             // check if value is cellular by checking iccid property
             deviceModel.IsCellular = device.SystemProperties.ICCID != null;
-            deviceModel.Iccid = device.SystemProperties.ICCID; // todo: try get rid of null checks            
+            deviceModel.Iccid = device.SystemProperties.ICCID; // todo: try get rid of null checks
 
             return PartialView("_DeviceDetails", deviceModel);
         }
@@ -406,7 +410,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private async Task<IEnumerable<NamedDeviceJob>> GetNamedDeviceJobs(DeviceModel device)
         {
-            var tasks = device.DeviceJobs.Select(async j => new NamedDeviceJob
+            var deviceJobs = await this._deviceManager.GetDeviceJobsByDeviceIdAsync(device.DeviceProperties.DeviceID);
+
+            var tasks = deviceJobs.Select(async j => new NamedDeviceJob
             {
                 Name = await GetDeviceJobName(j),
                 Job = j
@@ -426,7 +432,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 return string.Empty;
             }
         }
-
-
     }
 }
