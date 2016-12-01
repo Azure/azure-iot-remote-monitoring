@@ -105,6 +105,7 @@
         return $.ajax({
             url: url,
             type: 'GET',
+            cache: false,
             success: function (result) {
                 callback(result.data);
             }
