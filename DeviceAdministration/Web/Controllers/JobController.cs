@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
@@ -18,15 +19,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly IJobRepository _jobRepository;
         private readonly IDeviceListQueryRepository _queryRepository;
         private readonly IIoTHubDeviceManager _iotHubDeviceManager;
+        private readonly INameCacheLogic _nameCacheLogic;
 
         public JobController(
             IJobRepository jobRepository,
             IDeviceListQueryRepository queryRepository,
-            IIoTHubDeviceManager iotHubDeviceManager)
+            IIoTHubDeviceManager iotHubDeviceManager,
+            INameCacheLogic nameCacheLogic)
         {
             _jobRepository = jobRepository;
             _queryRepository = queryRepository;
             _iotHubDeviceManager = iotHubDeviceManager;
+            _nameCacheLogic = nameCacheLogic;
         }
 
         [RequirePermission(Permission.ViewJobs)]
@@ -107,11 +111,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             foreach (var tagModel in model.Tags.Where(m => !string.IsNullOrWhiteSpace(m.TagName)))
             {
                 twin.Set(tagModel.TagName, tagModel.isDeleted ? null : tagModel.TagValue);
+                await _nameCacheLogic.AddNameAsync(tagModel.TagName);
             }
 
             foreach (var propertyModel in model.DesiredProperties.Where(m => !string.IsNullOrWhiteSpace(m.PropertyName)))
             {
                 twin.Set(propertyModel.PropertyName, propertyModel.isDeleted ? null : propertyModel.PropertyValue);
+                await _nameCacheLogic.AddNameAsync(propertyModel.PropertyName);
             }
             twin.ETag = "*";
 
