@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Xml;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
@@ -31,8 +34,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     results.Add((await GetIndicatorValue(indicator)).ToString());
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Trace.TraceError($"Exception raised while retrieving value of job indicator {indicator}: {ex}");
                     results.Add(Strings.NotAvailable);
                 }
             }
@@ -43,81 +47,69 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpGet]
         [Route("api/v1/jobIndicators/definitions")]
         [WebApiRequirePermission(Permission.ViewJobs)]
-        public async Task<IEnumerable<object>> GetDefinitions()
+        public IEnumerable<object> GetDefinitions()
         {
             return new[]
             {
                 new
                 {
                     title = Strings.ActiveJobs,
-                    id = "activeJobs"
+                    id = "Running"
                 },
                 new
                 {
                     title = Strings.ScheduledJobs,
-                    id = "scheduledJobs"
+                    id = "Scheduled"
                 },
                 new
                 {
                     title = Strings.FailedJobsInLast24Hours,
-                    id = "failedJobsInLast24Hours"
+                    id = "Failed(P1D)"
                 },
                 new
                 {
                     title = Strings.CompletedJobsInLast24Hours,
-                    id = "completedJobsInLast24Hours"
+                    id = "Completed(P1D)"
                 }
             };
         }
 
         private async Task<int> GetIndicatorValue(string indicator)
         {
-            // ToDo: use a more flexiable indicator naming, such as "<status>[(timespan)]", e.g. "active", "failed(PT24H)"
-            switch (indicator)
+            var regex = new Regex(@"(?<status>\w+)(\((?<timespan>\w+)\))?");
+
+            var match = regex.Match(indicator);
+            if (!match.Success)
             {
-                case "activeJobs":
-                    return await GetActiveJobs();
+                throw new ArgumentOutOfRangeException();
+            }
 
-                case "scheduledJobs":
-                    return await GetScheduledJobs();
+            var status = (JobStatus)Enum.Parse(typeof(JobStatus), match.Groups["status"].Value);
 
-                case "failedJobsInLast24Hours":
-                    return await GetFailedJobsInLast24Hours();
-
-                case "completedJobsInLast24Hours":
-                    return await GetCompletedJobsInLast24Hours();
-
-                default:
-                    throw new ArgumentOutOfRangeException();
+            if (string.IsNullOrWhiteSpace(match.Groups["timespan"].Value))
+            {
+                return await GetJobCountByStatusAsync(status);
+            }
+            else
+            {
+                var timespan = XmlConvert.ToTimeSpan(match.Groups["timespan"].Value);
+                return await GetJobCountByStatusAndTimespanAsync(status, timespan);
             }
         }
 
-        private async Task<int> GetActiveJobs()
+        private async Task<int> GetJobCountByStatusAsync(JobStatus status)
         {
-            var jobs = await _iotHubDeviceManager.GetJobResponsesByStatus(JobStatus.Running);
+            var jobs = await _iotHubDeviceManager.GetJobResponsesByStatus(status);
+
             return jobs.Count();
         }
 
-        private async Task<int> GetScheduledJobs()
+        private async Task<int> GetJobCountByStatusAndTimespanAsync(JobStatus status, TimeSpan timespan)
         {
-            var jobs = await _iotHubDeviceManager.GetJobResponsesByStatus(JobStatus.Scheduled);
-            return jobs.Count();
-        }
+            var jobs = await _iotHubDeviceManager.GetJobResponsesByStatus(status);
 
-        private async Task<int> GetFailedJobsInLast24Hours()
-        {
-            var jobs = await _iotHubDeviceManager.GetJobResponsesByStatus(JobStatus.Failed);
-
-            var oneDayAgoUtc = DateTime.UtcNow - TimeSpan.FromDays(1);
-            return jobs.Count(j => j.CreatedTimeUtc >= oneDayAgoUtc);
-        }
-
-        private async Task<int> GetCompletedJobsInLast24Hours()
-        {
-            var jobs = await _iotHubDeviceManager.GetJobResponsesByStatus(JobStatus.Completed);
-
-            var oneDayAgoUtc = DateTime.UtcNow - TimeSpan.FromDays(1);
-            return jobs.Count(j => j.CreatedTimeUtc >= oneDayAgoUtc);
+            var timeLimit = DateTime.UtcNow - timespan;
+            return jobs.Count(j => j.CreatedTimeUtc >= timeLimit);
         }
     }
 }
