@@ -272,7 +272,11 @@
 
     var populateSearchPane = function (callback) {
         
-        if (resources.queryName) {
+        if (resources.queryName === resources.allDevices)
+        {
+            callback();
+        }
+        else if (resources.queryName) {
             showHideSearchPane(true);
             findQuery(resources.queryName, callback);
         }
