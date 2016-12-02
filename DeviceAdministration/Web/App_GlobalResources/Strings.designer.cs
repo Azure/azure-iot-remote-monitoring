@@ -1673,7 +1673,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to get query..
+        ///   Looks up a localized string similar to Failed to get query.
         /// </summary>
         public static string FailedToGetQuery {
             get {
@@ -2227,6 +2227,15 @@ namespace GlobalResources {
         public static string IMSI {
             get {
                 return ResourceManager.GetString("IMSI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Query name can not include these characters: # % / \ . * + : ? &lt; &gt; &amp;.
+        /// </summary>
+        public static string IncorrectQueryName {
+            get {
+                return ResourceManager.GetString("IncorrectQueryName", resourceCulture);
             }
         }
         

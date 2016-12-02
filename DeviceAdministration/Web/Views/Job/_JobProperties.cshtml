@@ -43,7 +43,9 @@
     <p class="grid_detail_value" name="deviceField_jobName">@Model.JobName</p>
 
     <h4 class="grid_subhead_detail_label">@Strings.QueryNameHeader</h4>
-    <p class="grid_detail_value" name="deviceField_queryName">@Model.QueryName</p>
+    <p class="grid_detail_value" name="deviceField_queryName">
+        @Html.ActionLink(Model.QueryName, "Index", "Device", new { queryName = Model.QueryName } , new { id = "queryLink" } )
+    </p>
 
     <h4 class="grid_subhead_detail_label">@Strings.OperationsHeader</h4>
     <p class="grid_detail_value" name="deviceField_operationType">@Model.OperationType</p>

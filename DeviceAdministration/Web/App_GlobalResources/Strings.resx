@@ -1914,7 +1914,7 @@
     <comment>Error message.</comment>
   </data>
   <data name="FailedToGetQuery" xml:space="preserve">
-    <value>Failed to get query.</value>
+    <value>Failed to get query</value>
     <comment>Error message.</comment>
   </data>
   <data name="FailedToGetRecentQuery" xml:space="preserve">
@@ -2183,5 +2183,9 @@
   <data name="EditColumnsPanelLabel" xml:space="preserve">
     <value>EDIT COLUMNS</value>
     <comment>Section heading.</comment>
+  </data>
+  <data name="IncorrectQueryName" xml:space="preserve">
+    <value>Query name can not include these characters: # % / \ . * + : ? &lt; &gt; &amp;</value>
+    <comment>Error message.</comment>
   </data>
 </root>

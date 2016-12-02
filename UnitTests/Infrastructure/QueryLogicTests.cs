@@ -13,13 +13,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
     public class QueryLogicTests
     {
         private readonly Mock<IDeviceListQueryRepository> _deviceListQueryRepositoryMock;
+        private readonly Mock<IJobRepository> _jobRepositoryMock;
         private readonly IQueryLogic _queryLogic;
         private readonly Fixture fixture;
 
         public QueryLogicTests ()
         {
             _deviceListQueryRepositoryMock = new Mock<IDeviceListQueryRepository>();
-            _queryLogic = new QueryLogic(_deviceListQueryRepositoryMock.Object);
+            _jobRepositoryMock = new Mock<IJobRepository>();
+            _queryLogic = new QueryLogic(_deviceListQueryRepositoryMock.Object, _jobRepositoryMock.Object);
             fixture = new Fixture();
         }
 
@@ -27,9 +29,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         public async void AddQueryAsyncTests()
         {
             var query = new Mock<Query>();
+            var jobs = fixture.CreateMany<JobRepositoryModel>(3);
             _deviceListQueryRepositoryMock.Setup(x => x.SaveQueryAsync(It.IsAny<DeviceListQuery>(), true)).ReturnsAsync(true);
             var ret = await _queryLogic.AddQueryAsync(query.Object);
             Assert.True(ret);
+            _jobRepositoryMock.Setup(x => x.QueryByQueryNameAsync(It.IsAny<string>())).ReturnsAsync(jobs);
+            await Assert.ThrowsAnyAsync<QueryAssociatedWithJobException>(async () => await _queryLogic.AddQueryAsync(query.Object));
         }
 
         [Fact]
@@ -88,9 +93,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         [Fact]
         public async void DeleteQueryAsyncTests()
         {
+            var jobs = fixture.CreateMany<JobRepositoryModel>(3);
             _deviceListQueryRepositoryMock.Setup(x => x.DeleteQueryAsync(It.IsAny<string>())).ReturnsAsync(true);
             var ret = await _queryLogic.DeleteQueryAsync("myQuery");
             Assert.True(ret);
+            _jobRepositoryMock.Setup(x => x.QueryByQueryNameAsync(It.IsAny<string>())).ReturnsAsync(jobs);
+            await Assert.ThrowsAnyAsync<QueryAssociatedWithJobException>(async () => await _queryLogic.DeleteQueryAsync("myQuery"));
         }
 
         [Fact]
