@@ -167,55 +167,15 @@
         Cookies.set('ui-state', uiState, IoTApp.Helpers.DeviceIdState.cookieOptions);
     }
 
-    var populateSearchPaneFromCookieData = function (uiState) {
+    var showHideSearchPane = function (show) {
 
-        if (!uiState) {
-            return;
-        }
+        var currentState = self.searchPane.is(":visible");
 
-        // reset search query
-        $('#searchQuery').val(uiState.searchQuery);
-
-        // clear existing filters
-        filterCount = 0;
-        $('#filter_holder').html('');
-
-        // rebuild filters
-        var numberOfPreviousFilterClauses = uiState.filters.length;
-        for (var i = 0; i < numberOfPreviousFilterClauses; ++i) {
-            addFilter();
-
-            var filterData = uiState.filters[i];
-
-            $('#filterField' + i).val(filterData.columnName);
-
-            switch (filterData.columnName) {
-                case "Status":
-                    $('#filterOperatorControl' + i).hide();
-                    $('#filterValueControl' + i).hide();
-                    $('#filterStatusControl' + i).show();
-
-                    $('#filterStatusSelect' + i).val(filterData.filterValue);
-                    $('#filterOperator' + i).val("Status");
-                    break;
-
-                default:
-                    $('#filterOperator' + i).val(filterData.filterType);
-                    $('#filterValue' + i).val(filterData.filterValue);
-                    break;
-            }
-        }
-
-        // show search pane based on previous state
-        if (uiState.searchPaneOpen) {
-            var alreadyOpen = self.searchPane.is(":visible");
-
-            if (!alreadyOpen) {
-                // NOTE: calling anything here that tries to calc sizes on the grid can throw
-                self.searchPane.toggle();
-                self.searchPaneClosed.toggle();
-                setGridWidth();
-            }
+        if (show !== currentState) {
+            // NOTE: calling anything here that tries to calc sizes on the grid can throw
+            self.searchPane.toggle();
+            self.searchPaneClosed.toggle();
+            setGridWidth();
         }
     }
 
@@ -288,8 +248,10 @@
                     .attr('title', column.name)
                     .appendTo(header);
             });
-
-            _initializeDatatableImpl(columns, columnDefs);
+            
+            populateSearchPane(function () {
+                _initializeDatatableImpl(columns, columnDefs);
+            });
         }
 
         $('.retry_message_container').empty();
@@ -308,10 +270,22 @@
         });
     }
 
+    var populateSearchPane = function (callback) {
+        
+        if (resources.queryName) {
+            showHideSearchPane(true);
+            findQuery(resources.queryName, callback);
+        }
+        else {
+            var cookieData = getUiStateFromCookie();
+            showHideSearchPane(cookieData.searchPaneOpen);
+            updateQueryPanel(cookieData);
+            callback();
+        }
+    } 
+
     var _initializeDatatableImpl = function(columns, columnDefs) {
         var cookieData = getUiStateFromCookie();
-
-        populateSearchPaneFromCookieData(cookieData);
 
         var onTableDrawn = function () {
             changeDeviceStatus();
@@ -784,7 +758,7 @@
         });
     }
 
-    var findQuery = function (queryName) {
+    var findQuery = function (queryName, callback) {
         var url = "/api/v1/queries/" + queryName;
         return $.ajax({
             url: url,
@@ -792,14 +766,21 @@
             dataType: 'json',
             success: function (result) {
                 updateQueryPanel(result.data);
+                if (callback) {
+                    callback();
+                }   
             },
             error: function () {
                 IoTApp.Helpers.Dialog.displayError(resources.failedToGetQuery + " : " + queryName);
+                if (callback) {
+                    callback();
+                }
             }
         });
     }
 
     var updateQueryPanel = function (query) {
+        query.name = query.name || query.queryName;
         updateFiltersPanel(query.filters);
         $('#queryNameBox').val(query.name);
         $('.search_container__query_links').each(function (index) {

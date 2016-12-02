@@ -57,8 +57,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.ViewDevices)]
-        public ActionResult Index()
+        public ActionResult Index(string queryName)
         {
+            ViewBag.QueryName = queryName;
+
             return View();
         }
 
