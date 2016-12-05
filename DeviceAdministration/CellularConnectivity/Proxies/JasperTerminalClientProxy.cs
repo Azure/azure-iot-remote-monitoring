@@ -2,6 +2,7 @@
 using DeviceManagement.Infrustructure.Connectivity.Builders;
 using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.terminal;
 using DeviceManagement.Infrustructure.Connectivity.Constants;
+using DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 
@@ -20,6 +21,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Proxies
 
         public GetModifiedTerminalsResponse GetModifiedTerminals()
         {
+
             var request = new GetModifiedTerminalsRequest
             {
                 licenseKey = _jasperCredentials.LicenceKey,
