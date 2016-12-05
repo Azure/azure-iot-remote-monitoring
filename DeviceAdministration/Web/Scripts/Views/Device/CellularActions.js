@@ -11,21 +11,20 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
     self.deviceId = null;
     self.initialCellActionSettings = null;
     self.actionTypes = {
-        updateStatus: "UpdateStatus",
-        updateSubscriptionPackage: "UpdateSubscriptionPackage",
         reconnectDevice: "ReconnectDevice",
-        sendSms: "SendSms"
+        sendSms: "SendSms",
+        updateStatus: "UpdateStatus",
+        updateSubscriptionPackage: "UpdateSubscriptionPackage"
     }
     self.htmlElementIds = {
-        simStateSelect: "#simStateSelect",
-        subscriptionPackageSelect: "#subscriptionPackageSelect",
         reconnectDevice: "#reconnectDevice",
-        saveActions: "#saveActions",
-        editActions: "#editActions",
         sendSms: "#sendSms",
         sendSmsTextBox: "#sendSmsTextBox",
         loadingElement: "#loadingElement",
-        cellularActionResultMessage: "#cellularActionResultMessage"
+        cellularActionsResults: "#cellularActionsResults",
+        apiRegistrationProvider: "#apiRegistrationProvider",
+        actionsDisabledMessage: "#actionsDisabledMessage",
+        cellularActions: "#cellularActions"
     }
     $.ajaxSetup({ cache: false });
 
@@ -47,70 +46,35 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
      */
 
     /**
-     * Toggle the actions for to between enabled and disabled
-     * @param {boolean} disabled If true disables the form. If false enables the form.
-     * @returns {void}
+     * For confirming that the user wishes to proceed with the device reconnect.
+     * @param {string} apiProvider The selected API Provider
+     * @returns {boolean} true if confirmed, false if cancelled 
      */
-    var toggleInputDisabledProperty = function (disabled) {
-        if (disabled) {
-            $(self.htmlElementIds.simStateSelect).attr("disabled", "disabled");
-            $(self.htmlElementIds.subscriptionPackageSelect).attr("disabled", "disabled");
-            $(self.htmlElementIds.reconnectDevice).attr("disabled", "disabled");
-            $(self.htmlElementIds.sendSms).attr("disabled", "disabled");
-            $(self.htmlElementIds.sendSmsTextBox).attr("disabled", "disabled");
-            $(self.htmlElementIds.saveActions).attr("disabled", "disabled");
-            $(self.htmlElementIds.editActions).removeAttr("disabled");
+    var confirmDeviceReconnect = function (apiProvider) {
+        var confirmed = true;
+        if (apiProvider === "Jasper") {
+            confirmed = confirm("This operation will close the device connection and the device is expected to reconnect on its own. Are you sure you want to execute this command?")
+        }
+        return confirmed;
+    }
+
+    /**
+     * Toggle the action buttons and input to disabled or enabled
+     * @param {boolean} disable Flag to whether to disable the inputs 
+     * @returns {void} 
+     */
+    var toggleActionsDisabled = function (disable) {
+        $(self.htmlElementIds.reconnectDevice).prop("disabled", disable);
+        $(self.htmlElementIds.sendSms).prop("disabled", disable);
+        $(self.htmlElementIds.sendSmsTextBox).prop("disabled", disable);
+        if (disable) {
+            $(self.htmlElementIds.actionsDisabledMessage).show();
+            $(self.htmlElementIds.cellularActions).hide();
         } else {
-            $(self.htmlElementIds.simStateSelect).removeAttr("disabled");
-            $(self.htmlElementIds.subscriptionPackageSelect).removeAttr("disabled");
-            $(self.htmlElementIds.reconnectDevice).removeAttr("disabled");
-            $(self.htmlElementIds.sendSms).removeAttr("disabled");
-            $(self.htmlElementIds.sendSmsTextBox).removeAttr("disabled");
-            $(self.htmlElementIds.saveActions).removeAttr("disabled");
-            $(self.htmlElementIds.editActions).attr("disabled", "disabled");
+            $(self.htmlElementIds.actionsDisabledMessage).hide();
+            $(self.htmlElementIds.cellularActions).show();
         }
-    }
-
-    /**
-     * Retrieves the relevant form values for the cellular actions and 
-     * returns it as an object
-     * @returns {object} Object that represents the values in the form. 
-     */
-    var retrieveActionFormValues = function () {
-        var simStatus = $(self.htmlElementIds.simStateSelect).val();
-        var subscriptionPackage = $(self.htmlElementIds.subscriptionPackageSelect).val();
-        return {
-            subscriptionPackage: subscriptionPackage,
-            simStatus: simStatus
-        }
-    }
-
-    /**
-     * Generate an CellularActionRequestModel object from the form inputs. Used
-     * to send to the CellularActionUpdateRequest api end point.
-     * @returns {object} The CellularActionRequestModel
-     */
-    var generateActionUpdateRequestFromInputs = function () {
-        var cellularCellularActionRequestModel = {
-            cellularActions: []
-        };
-        var currentFormValues = retrieveActionFormValues();
-        if (currentFormValues.subscriptionPackage !== self.initialCellActionSettings.subscriptionPackage) {
-            cellularCellularActionRequestModel.cellularActions.push({
-                type: self.actionTypes.updateSubscriptionPackage,
-                previousValue: self.initialCellActionSettings.subscriptionPackage,
-                value: currentFormValues.subscriptionPackage
-            });
-        }
-        if (currentFormValues.simStatus !== self.initialCellActionSettings.simStatus) {
-            cellularCellularActionRequestModel.cellularActions.push({
-                type: self.actionTypes.updateStatus,
-                previousValue: self.initialCellActionSettings.simStatus,
-                value: currentFormValues.simStatus
-            });
-        }
-        cellularCellularActionRequestModel.deviceId = self.deviceId;
-        return cellularCellularActionRequestModel;
+        
     }
 
     /**
@@ -159,15 +123,13 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
 
     /**
      * Generic function for post action request success. Will reload the cellular information details.
-     * @param {any} data the data returned by the api
-     * @returns {any} returns the data passed in so you can chain to another function with .then()
+     * @param {any} response the data returned by the api
+     * @returns {void}
      */
-    var onActionRequestSuccess = function (data) {
-        IoTApp.DeviceDetails.getCellularDetailsView()
-            .then(function () {
-                console.log("done");
-            });
-        return data;
+    var onActionRequestSuccess = function (response) {
+        ;
+        IoTApp.DeviceDetails.onCellularDetailsDone(response);
+        $(self.htmlElementIds.cellularActionsResults).show();
     }
 
     /**
@@ -177,6 +139,7 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
      */
     var onActionRequestError = function (error) {
         toggleLoadingElement(false);
+        $(self.htmlElementIds.cellularActionsResults).show();
         console.error(error);
     }
 
@@ -185,33 +148,21 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
      */
 
     /**
-     * Callback for the action form save button.
-     * @returns {Promise} The promise returned from posting to the api
-     */
-    var saveActionsOnClick = function () {
-        toggleLoadingElement(true);
-        var requestModel = generateActionUpdateRequestFromInputs();
-        if (requestModel.cellularActions.length <= 0) {
-            toggleLoadingElement(false);
-            return $.Deferred().resolve().promise();
-        }
-        return postActionRequest(requestModel).then(function (response) {
-            IoTApp.DeviceDetails.onCellularDetailsDone(response);
-        }, function () {
-            self.toggleLoadingElement(false);
-            IoTApp.DeviceDetails.renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
-        });
-    }
-
-    /**
      * Callback for the reconnect device button
      *  @returns {Promise} The promise returned from posting to the api
      */
     var reconnectDeviceOnClick = function () {
-        toggleLoadingElement(true);
-        var requestModel = generateActionUpdateRequestFromType(self.actionTypes.reconnectDevice);
-        return postActionRequest(requestModel)
-            .then(onActionRequestSuccess, onActionRequestError);
+        var apiProvider = $(self.htmlElementIds.apiRegistrationProvider).val();
+        ;
+        if (confirmDeviceReconnect(apiProvider)) {
+            toggleLoadingElement(true);
+            var requestModel = generateActionUpdateRequestFromType(self.actionTypes.reconnectDevice);
+            return postActionRequest(requestModel)
+                .then(onActionRequestSuccess, onActionRequestError);
+        }
+        else {
+            return $.Deferred().resolve().promise();
+        }
     }
 
     /**
@@ -222,24 +173,10 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
         toggleLoadingElement(true);
         var smsText = $(self.htmlElementIds.sendSmsTextBox).val();
         var requestModel = generateActionUpdateRequestFromType(self.actionTypes.sendSms, smsText);
-        return postActionRequest(requestModel).then(function (response) {
-            IoTApp.DeviceDetails.onCellularDetailsDone(response);
-        }, function () {
-            self.toggleLoadingElement(false);
-            IoTApp.DeviceDetails.renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
-        });
+        return postActionRequest(requestModel).then(onActionRequestSuccess, onActionRequestError);
     }
 
-    /**
-     * Callback for the edit button on the actions form
-     * @returns {void}
-     */
-    var editActionsOnClick = function () {
-        toggleInputDisabledProperty(false);
-    }
     var attachEventHandlers = function () {
-        $(self.htmlElementIds.editActions).click(editActionsOnClick);
-        $(self.htmlElementIds.saveActions).click(saveActionsOnClick);
         $(self.htmlElementIds.sendSms).click(sendSmsOnClick);
         $(self.htmlElementIds.reconnectDevice).click(reconnectDeviceOnClick);
     }
@@ -247,13 +184,14 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
     /*
     * Initialization
     */
-    var initActionForm = function () {
-        if (!self.deviceId) throw new Error("You must call IoTApp.CellularActions.init(deviceId) with a valid device ID first.");
-        self.initialCellActionSettings = retrieveActionFormValues();
-        toggleInputDisabledProperty(true);
+    var initActionForm = function (simIsInActiveState) {
+        
+        if (!self.deviceId) throw new Error("Please reload the page. No device ID found in cookie.");
         attachEventHandlers();
+        toggleActionsDisabled(!simIsInActiveState);
+        $(self.htmlElementIds.cellularActionsResults).hide();
     }
-    var init = function () {
+    var init = function() {
         var deviceId = IoTApp.Helpers.DeviceIdState.getDeviceIdFromCookie();
         if (deviceId) {
             self.deviceId = IoTApp.Helpers.DeviceIdState.getDeviceIdFromCookie();
@@ -261,6 +199,8 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
     }
     return {
         init: init,
-        initActionForm: initActionForm
+        initActionForm: initActionForm,
+        actionTypes: self.actionTypes,
+        postActionRequest: postActionRequest
     }
 }, [jQuery, resources]);

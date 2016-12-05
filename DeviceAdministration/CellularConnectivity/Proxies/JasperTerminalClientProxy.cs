@@ -1,5 +1,6 @@
 ﻿using System;
 using DeviceManagement.Infrustructure.Connectivity.Builders;
+using DeviceManagement.Infrustructure.Connectivity.com.jasper.api.sms;
 using DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.terminal;
 using DeviceManagement.Infrustructure.Connectivity.Constants;
 using DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService;
@@ -26,8 +27,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Proxies
             {
                 licenseKey = _jasperCredentials.LicenceKey,
                 version = JasperApiConstants.PROGRAM_VERSION,
-                simStateSpecified = true,
-                simState = SimStateType.ACTIVATED,
+                simStateSpecified = false,
                 messageId = Guid.NewGuid() + "-" + JasperApiConstants.MESSAGE_ID,
                 since = new DateTime(2013, 1, 1),
                 sinceSpecified = true
@@ -51,6 +51,20 @@ namespace DeviceManagement.Infrustructure.Connectivity.Proxies
             return _service.GetTerminalDetails(request);
         }
 
+        public EditTerminalResponse EditTerminal(Iccid iccid, int changeType, string targetValue)
+        {
+            var request = new EditTerminalRequest()
+            {
+                licenseKey = _jasperCredentials.LicenceKey,
+                messageId = Guid.NewGuid() + "-" + JasperApiConstants.MESSAGE_ID,
+                version = JasperApiConstants.PROGRAM_VERSION,
+                iccid = iccid.Id,
+                changeType = changeType,
+                targetValue = targetValue
+            };
+            return _service.EditTerminal(request);
+        }
+
         public GetSessionInfoResponse GetSingleSessionInfo(Iccid iccid)
         {
             Argument.CheckIfNull(iccid, "iccid");
@@ -64,6 +78,18 @@ namespace DeviceManagement.Infrustructure.Connectivity.Proxies
             };
 
             return _service.GetSessionInfo(request);
+        }
+
+        public SendCancelLocationResponse CancelLocation(string iccid)
+        {
+            var terminalService = JasperServiceBuilder.GetTerminalService(_jasperCredentials);
+            return terminalService.SendCancelLocation(new SendCancelLocationRequest()
+            {
+                iccid = iccid,
+                messageId = Guid.NewGuid() + "-" + JasperApiConstants.MESSAGE_ID,
+                version = JasperApiConstants.PROGRAM_VERSION,
+                licenseKey = _jasperCredentials.LicenceKey
+            });
         }
     }
 }

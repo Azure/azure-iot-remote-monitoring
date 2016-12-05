@@ -2,7 +2,12 @@
 {
     public class SimState
     {
-        public string Id { get; set; }
+        private string _id;
+        public string Id
+        {
+            get { return _id ?? Name; }
+            set { _id = value; }
+        }
         public string Name { get; set; }
         public bool IsActive { get; set; }
     }

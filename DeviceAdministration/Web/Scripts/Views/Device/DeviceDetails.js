@@ -8,7 +8,7 @@
         $('#loadingElement').show();
         self.deviceId = deviceId;
 
-        $.get('/Device/GetDeviceDetails', { deviceId: deviceId }, function (response) {
+        return $.get('/Device/GetDeviceDetails', { deviceId: deviceId }, function (response) {
             if (!$(".details_grid").is(':visible')) {
                 IoTApp.DeviceIndex.toggleDetails();
             }
@@ -33,6 +33,7 @@
             $('#details_grid_container').empty();
             onDeviceDetailsDone(self.cachedDeviceHtml);
         });
+        return $.Deferred().resolve().promise();
     }
 
     var displayCellularDetailsView = function () {
@@ -211,11 +212,14 @@
         container.html($wrapper);
     }
     var init = function (deviceId) {
+        self.cachedDeviceHtml = null;
         getDeviceDetailsView(deviceId);
     }
     return {
         init: init,
-        getCellularDetailsView: displayCellularDetailsView,
-        onCellularDetailsDone: onCellularDetailsDone
+        getCellularDetailsView: getCellularDetailsView,
+        onCellularDetailsDone: onCellularDetailsDone,
+        displayCellularDetailsView: displayCellularDetailsView,
+        getDeviceDetailsView: getDeviceDetailsView
     }
 }, [jQuery, resources]);

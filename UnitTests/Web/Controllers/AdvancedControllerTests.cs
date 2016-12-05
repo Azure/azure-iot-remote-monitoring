@@ -12,6 +12,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Help
 using Moq;
 using Ploeh.AutoFixture;
 using Xunit;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Constants;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
 {
@@ -20,6 +21,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
         private readonly AdvancedController _advancedController;
         private readonly Mock<IApiRegistrationRepository> _apiRegistrationRepositoryMock;
         private readonly Mock<ICellularExtensions> _cellularExtensionMock;
+        private readonly Mock<IIccidRepository> _iccidRepositoryMock;
         private readonly Mock<IDeviceLogic> _deviceLogicMock;
         private readonly Fixture _fixture;
 
@@ -27,11 +29,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
         {
             _apiRegistrationRepositoryMock = new Mock<IApiRegistrationRepository>();
             _cellularExtensionMock = new Mock<ICellularExtensions>();
+            _iccidRepositoryMock = new Mock<IIccidRepository>();
             _deviceLogicMock = new Mock<IDeviceLogic>();
 
             _advancedController = new AdvancedController(
-                _deviceLogicMock.Object, 
+                _deviceLogicMock.Object,
                 _apiRegistrationRepositoryMock.Object,
+                _iccidRepositoryMock.Object,
                 _cellularExtensionMock.Object);
 
             _fixture = new Fixture();
@@ -70,7 +74,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
                 .Returns(true);
 
             _cellularExtensionMock
-                .Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>()))
+                .Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>(), ApiRegistrationProviderTypes.Jasper))
                 .Returns(iccids);
 
             _cellularExtensionMock

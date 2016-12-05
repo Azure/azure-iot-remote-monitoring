@@ -408,22 +408,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     {
                         case CellularActionType.UpdateStatus:
                         {
-                            success = await _cellularExtensions.UpdateSimState(iccid, action.Value);
+                            success = _cellularExtensions.UpdateSimState(iccid, action.Value);
                             break;
                         }
                         case CellularActionType.UpdateSubscriptionPackage:
                         {
-                            success = await _cellularExtensions.UpdateSubscriptionPackage(iccid, action.Value);
+                            success = _cellularExtensions.UpdateSubscriptionPackage(iccid, action.Value);
                             break;
                         }
                         case CellularActionType.ReconnectDevice:
                         {
-                            success = await _cellularExtensions.ReconnectDevice(iccid);
+                            success = _cellularExtensions.ReconnectDevice(iccid);
                             break;
                         }
                         case CellularActionType.SendSms:
                         {
-                            success = await _cellularExtensions.SendSms(iccid, action.Value);
+                            success = _cellularExtensions.SendSms(iccid, action.Value);
                             break;
                         }
                         default:
@@ -433,9 +433,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    failedActions.Add(action);
+                    success = false;
                 }
                 if (!success)
                 {
@@ -463,8 +463,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                                     new SessionInfo();
             var apiProviderDetails = _apiRegistrationRepository.RecieveDetails();
             viewModel.ApiRegistrationProvider = Convert.ToString(apiProviderDetails.ApiRegistrationProvider);
-            viewModel.AvailableSimStates = _cellularExtensions.GetAvailableSimStates(iccid);
-            viewModel.AvailableSubscriptionPackages = _cellularExtensions.GetAvailableSubscriptionPackages(iccid);
+            viewModel.AvailableSimStates = _cellularExtensions.GetValidTargetSimStates(iccid, viewModel.TerminalDevice.Status);
+            viewModel.AvailableSubscriptionPackages = _cellularExtensions.GetAvailableSubscriptionPackages(iccid, viewModel.TerminalDevice.RatePlan);
             viewModel.CellularActionUpdateResponse = actionResponstModel;
             return viewModel;
         }

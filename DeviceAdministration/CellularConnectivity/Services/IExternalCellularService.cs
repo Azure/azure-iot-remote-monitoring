@@ -14,13 +14,12 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         bool ValidateCredentials();
         Terminal GetSingleTerminalDetails(Iccid iccid);
         List<SessionInfo> GetSingleSessionInfo(Iccid iccid);
-        SimState GetCurrentSimState(string iccid);
-        List<SimState> GetAvailableSimStates(string iccid);
-        SubscriptionPackage GetCurrentSubscriptionPackage(string iccid);
-        List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid);
-        Task<bool> UpdateSimState(string iccid, string updatedState);
-        Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage);
-        Task<bool> ReconnectTerminal(string iccid);
-        Task<bool> SendSms(string iccid, string smsText);
+        List<SimState> GetAllAvailableSimStates(string iccid);
+        List<SimState> GetValidTargetSimStates(string iccid, string currentState);
+        List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid, string currentSubscription);
+        bool UpdateSimState(string iccid, string updatedState);
+        bool UpdateSubscriptionPackage(string iccid, string updatedPackage);
+        bool ReconnectTerminal(string iccid);
+        bool SendSms(string iccid, string smsText);
     }
 }

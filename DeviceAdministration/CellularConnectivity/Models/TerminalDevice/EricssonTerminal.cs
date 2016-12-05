@@ -8,6 +8,10 @@ namespace DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice
 {
     public class EricssonTerminal : Terminal
     {
+        public string OperatorCode { get; set; }
+        public string CountryCode { get; set; }
+        public DateTime? LastData { get; set; }
+        public DateTime? LastPDPContext { get; set; }
         public string PriceProfileName { get; set; }
         public string PdpContextProfileName { get; set; }
         public string PricePlan { get; set; }

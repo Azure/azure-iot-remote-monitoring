@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:jws="http://api.jasperwireless.com/ws/schema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://api.jasperwireless.com/ws/schema" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema xmlns="http://api.jasperwireless.com/ws/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import schemaLocation="JasperAPI.xsd" namespace="http://api.jasperwireless.com/ws/schema" />
+    </xs:schema>
+  </types>
+  <message name="SendSMSRequest">
+    <part name="body" element="jws:SendSMSRequest" />
+  </message>
+  <message name="SendSMSResponse">
+    <part name="body" element="jws:SendSMSResponse" />
+  </message>
+  <message name="SendSMSToMsisdnRequest">
+    <part name="body" element="jws:SendSMSToMsisdnRequest" />
+  </message>
+  <message name="SendSMSToMsisdnResponse">
+    <part name="body" element="jws:SendSMSToMsisdnResponse" />
+  </message>
+  <message name="GetSMSDetailsRequest">
+    <part name="body" element="jws:GetSMSDetailsRequest" />
+  </message>
+  <message name="GetSMSDetailsResponse">
+    <part name="body" element="jws:GetSMSDetailsResponse" />
+  </message>
+  <message name="GetModifiedSMSRequest">
+    <part name="body" element="jws:GetModifiedSMSRequest" />
+  </message>
+  <message name="GetModifiedSMSResponse">
+    <part name="body" element="jws:GetModifiedSMSResponse" />
+  </message>
+  <message name="SendBulkSMSRequest">
+    <part name="body" element="jws:SendBulkSMSRequest" />
+  </message>
+  <message name="SendBulkSMSResponse">
+    <part name="body" element="jws:SendBulkSMSResponse" />
+  </message>
+  <message name="SendBulkSMSToMsisdnRequest">
+    <part name="body" element="jws:SendBulkSMSToMsisdnRequest" />
+  </message>
+  <message name="SendBulkSMSToMsisdnResponse">
+    <part name="body" element="jws:SendBulkSMSToMsisdnResponse" />
+  </message>
+  <portType name="SmsPortType">
+    <operation name="SendSMS">
+      <input message="jws:SendSMSRequest" />
+      <output message="jws:SendSMSResponse" />
+    </operation>
+    <operation name="SendSMSToMsisdn">
+      <input message="jws:SendSMSToMsisdnRequest" />
+      <output message="jws:SendSMSToMsisdnResponse" />
+    </operation>
+    <operation name="GetSMSDetails">
+      <input message="jws:GetSMSDetailsRequest" />
+      <output message="jws:GetSMSDetailsResponse" />
+    </operation>
+    <operation name="GetModifiedSMS">
+      <input message="jws:GetModifiedSMSRequest" />
+      <output message="jws:GetModifiedSMSResponse" />
+    </operation>
+    <operation name="SendBulkSMS">
+      <input message="jws:SendBulkSMSRequest" />
+      <output message="jws:SendBulkSMSResponse" />
+    </operation>
+    <operation name="SendBulkSMSToMsisdn">
+      <input message="jws:SendBulkSMSToMsisdnRequest" />
+      <output message="jws:SendBulkSMSToMsisdnResponse" />
+    </operation>
+  </portType>
+  <binding name="SmsBinding" type="jws:SmsPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="GetSMSDetails">
+      <soap:operation soapAction="http://api.jasperwireless.com/ws/service/sms/GetSMSDetails" />
+      <input name="GetSMSDetailsRequest">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </input>
+      <output name="GetSMSDetailsResponse">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </output>
+    </operation>
+    <operation name="GetModifiedSMS">
+      <soap:operation soapAction="http://api.jasperwireless.com/ws/service/sms/GetModifiedSMS" />
+      <input name="GetModifiedSMSRequest">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </input>
+      <output name="GetModifiedSMSResponse">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </output>
+    </operation>
+    <operation name="SendSMS">
+      <soap:operation soapAction="http://api.jasperwireless.com/ws/service/sms/SendSMS" />
+      <input name="SendSMSRequest">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </input>
+      <output name="SendSMSResponse">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </output>
+    </operation>
+    <operation name="SendSMSToMsisdn">
+      <soap:operation soapAction="http://api.jasperwireless.com/ws/service/sms/SendSMSToMsisdn" />
+      <input name="SendSMSToMsisdnRequest">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </input>
+      <output name="SendSMSToMsisdnResponse">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </output>
+    </operation>
+    <operation name="SendBulkSMS">
+      <soap:operation soapAction="http://api.jasperwireless.com/ws/service/sms/SendBulkSMS" />
+      <input name="SendBulkSMSRequest">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </input>
+      <output name="SendBulkSMSResponse">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </output>
+    </operation>
+    <operation name="SendBulkSMSToMsisdn">
+      <soap:operation soapAction="http://api.jasperwireless.com/ws/service/sms/SendBulkSMSToMsisdn" />
+      <input name="SendBulkSMSToMsisdnRequest">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </input>
+      <output name="SendBulkSMSToMsisdnResponse">
+        <soap:body use="literal" namespace="http://api.jasperwireless.com/ws/schema" />
+      </output>
+    </operation>
+  </binding>
+  <service name="SmsService">
+    <port name="SmsPort" binding="jws:SmsBinding">
+      <soap:address location="https://api.jasper.com/ws/service/Sms" />
+    </port>
+  </service>
+</definitions>

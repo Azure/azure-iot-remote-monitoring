@@ -288,6 +288,7 @@
     <Compile Include="DataTables\DataTablesResponse.cs" />
     <Compile Include="DataTables\Search.cs" />
     <Compile Include="DataTables\SortColumn.cs" />
+    <Compile Include="Extensions\StringExtentions.cs" />
     <Compile Include="Helpers\ICellularExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
@@ -452,6 +453,9 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
     <Content Include="Content\styles\elements\forms.less" />
+    <None Include="Properties\PublishProfiles\cellularconnectivity - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\cellularconnectivity - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\cellularconnectivity - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
@@ -495,6 +499,7 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\papaparse.min.js" />
     <Content Include="Scripts\Views\Actions\ActionProperties.js" />
     <Content Include="Scripts\Views\Actions\ActionsIndex.js" />
     <Content Include="Scripts\powerbi-visuals.all.min.js" />
@@ -514,6 +519,7 @@
     <Content Include="Scripts\Views\Device\AddDeviceCopy.js" />
     <Content Include="Scripts\Views\Device\AddDeviceCreate.js" />
     <Content Include="Scripts\Views\Device\CellularActions.js" />
+    <Content Include="Scripts\Views\Device\CellularInformation.js" />
     <Content Include="Scripts\Views\Device\DeviceDetails.js" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://api.dcp.ericsson.net/DeviceReconnect" name="DeviceReconnectService" targetNamespace="http://api.dcp.ericsson.net/DeviceReconnect" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema targetNamespace="http://api.dcp.ericsson.net/DeviceReconnect" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="Reconnect">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="resource" type="tns:Resource" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ReconnectResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="Resource">
+        <xs:sequence>
+          <xs:element name="id" type="xs:string" />
+          <xs:element name="type" type="tns:ResourceType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="ResourceType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="imsi" />
+          <xs:enumeration value="msisdn" />
+          <xs:enumeration value="icc" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </types>
+  <message name="DeviceReconnect_reconnectResponse">
+    <part name="reconnectResponse" element="tns:ReconnectResponse" />
+  </message>
+  <message name="DeviceReconnect_reconnect">
+    <part name="reconnectRequest" element="tns:Reconnect" />
+  </message>
+  <portType name="DeviceReconnect">
+    <operation name="reconnect" parameterOrder="reconnectRequest">
+      <input message="tns:DeviceReconnect_reconnect" />
+      <output message="tns:DeviceReconnect_reconnectResponse" />
+    </operation>
+  </portType>
+  <binding name="DeviceReconnectBinding" type="tns:DeviceReconnect">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="reconnect">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="DeviceReconnectService">
+    <port name="DeviceReconnectPort" binding="tns:DeviceReconnectBinding">
+      <soap:address location="https://serviceportal.telenorconnexion.com/dcpapi/DeviceReconnect" />
+    </port>
+  </service>
+</definitions>

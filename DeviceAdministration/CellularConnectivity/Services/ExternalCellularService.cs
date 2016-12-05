@@ -79,12 +79,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return sessionInfo;
         }
 
-        public SimState GetCurrentSimState(string iccid)
-        {
-            return GetAvailableSimStates(iccid).FirstOrDefault(s => s.Name == "Active");
-        }
-
-        public List<SimState> GetAvailableSimStates(string iccid)
+        public List<SimState> GetAllAvailableSimStates(string iccid)
         {
             List<SimState> availableStates;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
@@ -97,7 +92,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
-                    availableStates = ericssonClient.GetAvailableSimStates(iccid);
+                    availableStates = ericssonClient.GetAllAvailableSimStates();
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
@@ -105,7 +100,28 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return availableStates;
         }
 
-        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid)
+        public List<SimState> GetValidTargetSimStates(string iccid, string currentStateId)
+        {
+            List<SimState> availableStates;
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
+
+            switch (registrationProvider)
+            {
+                case ApiRegistrationProviderTypes.Jasper:
+                    var jasperClient = new JasperCellularClient(_credentialProvider);
+                    availableStates = jasperClient.GetValidTargetSimStates(iccid, currentStateId);
+                    break;
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var ericssonClient = new EricssonCellularClient(_credentialProvider);
+                    availableStates = ericssonClient.GetValidTargetSimStates(currentStateId);
+                    break;
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
+            }
+            return availableStates;
+        }
+
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid, string currentSubscription)
         {
             List<SubscriptionPackage> availableSubscriptionPackages;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
@@ -114,61 +130,69 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             {
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
-                    availableSubscriptionPackages = jasperClient.GetAvailableSubscriptionPackages(iccid);
+                    availableSubscriptionPackages = jasperClient.GetAvailableSubscriptionPackages(iccid, currentSubscription);
                     break;
+
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
-                    availableSubscriptionPackages = ericssonClient.GetAvailableSubscriptionPackages(iccid);
+                    availableSubscriptionPackages = ericssonClient.GetAvailableSubscriptionPackages(iccid, currentSubscription);
                     break;
                 default:
+
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
             }
+
             return availableSubscriptionPackages;
         }
 
-        public async Task<bool> UpdateSimState(string iccid, string updatedState)
+        public bool UpdateSimState(string iccid, string updatedState)
         {
-            bool result;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
-
+            // TODO SR: Figure out if we need to do something with responses
             switch (registrationProvider)
             {
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
-                    result = jasperClient.UpdateSimState(iccid, updatedState);
+                    var jasperResult = jasperClient.UpdateSimState(iccid, updatedState);
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
-                    result = ericssonClient.UpdateSimState(iccid, updatedState);
+                    var status = SubscriptionStatusFactory.CreateEricssonSubscriptionStatusRequestEnum(updatedState);
+                    var ericssonResult = ericssonClient.UpdateSimState(iccid, status);
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
             }
-            return result;
+            return true;
         }
 
-        public async Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage)
+        /// <summary>
+        /// Update the subscription package in the selected api registration provider
+        /// </summary>
+        /// <param name="iccid">The iccid string for the terminal</param>
+        /// <param name="updatedPackage">The string value for the updated package name</param>
+        /// <returns>A boolean representing success or failure</returns>
+        public bool UpdateSubscriptionPackage(string iccid, string updatedPackage)
         {
-            bool result;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
-
+            // TODO SR: Figure out if we need to do something with responses
             switch (registrationProvider)
             {
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
-                    result = jasperClient.UpdateSubscriptionPackage(iccid, updatedPackage);
+                    var jasperResponse = jasperClient.UpdateSubscriptionPackage(iccid, updatedPackage);
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
-                    result = ericssonClient.UpdateSubscriptionPackage(iccid, updatedPackage);
+                    var ericssonResponse = ericssonClient.UpdateSubscriptionPackage(iccid, updatedPackage);
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
             }
-            return result;
+            return true;
         }
 
-        public async Task<bool> ReconnectTerminal(string iccid)
+        public bool ReconnectTerminal(string iccid)
         {
             bool result;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
@@ -181,7 +205,8 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
-                    result = ericssonClient.ReconnectTerminal(iccid);
+                    ericssonClient.ReconnectTerminal(iccid);
+                    result = true;
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
@@ -189,7 +214,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return result;
         }
 
-        public async Task<bool> SendSms(string iccid, string smsText)
+        public bool SendSms(string iccid, string smsText)
         {
             bool result;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
@@ -198,7 +223,9 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             {
                 case ApiRegistrationProviderTypes.Jasper:
                     var jasperClient = new JasperCellularClient(_credentialProvider);
-                    result = jasperClient.SendSms(iccid, smsText);
+                    var response = jasperClient.SendSms(iccid, smsText);
+                    //TODO SR: Should we do something with the response?
+                    result = true;
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
@@ -208,12 +235,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");
             }
             return result;
-        }
-
-
-        public SubscriptionPackage GetCurrentSubscriptionPackage(string iccid)
-        {
-            return GetAvailableSubscriptionPackages(iccid).FirstOrDefault(s => s.Name == "Basic");
         }
 
         /// <summary>
@@ -247,12 +268,10 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             {
                 new SimState()
                 {
-                    Id = "1",
                     Name = "Active"
                 },
                 new SimState()
                 {
-                    Id = "2",
                     Name = "Disconnected"
                 }
             };
@@ -268,12 +287,10 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             {
                 new SubscriptionPackage()
                 {
-                    Id = "1",
                     Name = "Basic"
                 },
                 new SubscriptionPackage()
                 {
-                    Id = "2",
                     Name = "Expensive"
                 }
             };

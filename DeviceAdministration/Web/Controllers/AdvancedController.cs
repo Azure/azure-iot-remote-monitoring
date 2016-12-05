@@ -27,7 +27,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly ICellularExtensions _cellularExtensions;
         private readonly IDeviceLogic _deviceLogic;
 
-        public AdvancedController(IDeviceLogic deviceLogic,
+        public AdvancedController(
+            IDeviceLogic deviceLogic,
             IApiRegistrationRepository apiRegistrationRepository,
             IIccidRepository iccidRepository,
             ICellularExtensions cellularExtensions)

@@ -75,48 +75,42 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return _cellularService.ValidateCredentials();
         }
 
-        public SimState GetCurrentSimState(string iccid)
+        public List<SimState> GetAllAvailableSimStates(string iccid, string currentState)
         {
-            return _cellularService.GetCurrentSimState(iccid);
+            var availableSimStates = _cellularService.GetAllAvailableSimStates(currentState);
+            return availableSimStates;
         }
 
-        public SubscriptionPackage GetCurrentSubscriptionPackage(string iccid)
+        public List<SimState> GetValidTargetSimStates(string iccid, string currentStateId)
         {
-            return _cellularService.GetCurrentSubscriptionPackage(iccid);
+            var availableSimStates = _cellularService.GetValidTargetSimStates(iccid, currentStateId);
+            return availableSimStates;
         }
 
-        public List<SimState> GetAvailableSimStates(string iccid)
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid, string currentSubscription)
         {
-            var availableSimStates = _cellularService.GetAvailableSimStates(iccid);
-            var currentSimState = GetCurrentSimState(iccid);
-            return markActiveSimState(currentSimState.Name, availableSimStates);
+            var availableSubscriptions = _cellularService.GetAvailableSubscriptionPackages(iccid, currentSubscription);
+            return markActiveSubscriptionPackage(currentSubscription, availableSubscriptions);
         }
 
-        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid)
+        public bool UpdateSimState(string iccid, string updatedState)
         {
-            var availableSubscriptions = _cellularService.GetAvailableSubscriptionPackages(iccid);
-            var selectedSubscription = GetCurrentSubscriptionPackage(iccid);
-            return markActiveSubscriptionPackage(selectedSubscription.Name, availableSubscriptions);
+            return _cellularService.UpdateSimState(iccid, updatedState);
         }
 
-        public async Task<bool> UpdateSimState(string iccid, string updatedState)
+        public bool UpdateSubscriptionPackage(string iccid, string updatedPackage)
         {
-            return await _cellularService.UpdateSimState(iccid, updatedState);
+            return _cellularService.UpdateSubscriptionPackage(iccid, updatedPackage);
         }
 
-        public async Task<bool> UpdateSubscriptionPackage(string iccid, string updatedPackage)
+        public bool ReconnectDevice(string iccid)
         {
-            return await _cellularService.UpdateSubscriptionPackage(iccid, updatedPackage);
+            return _cellularService.ReconnectTerminal(iccid);
         }
 
-        public async Task<bool> ReconnectDevice(string iccid)
+        public bool SendSms(string iccid, string smsText)
         {
-            return await _cellularService.ReconnectTerminal(iccid);
-        }
-
-        public async Task<bool> SendSms(string iccid, string smsText)
-        {
-            return await _cellularService.SendSms(iccid, smsText);
+            return _cellularService.SendSms(iccid, smsText);
         }
 
         private IEnumerable<Iccid> GetUsedIccidList(IList<DeviceModel> devices)
@@ -132,7 +126,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             return availableSubscriptionPackages.Select(s =>
             {
-                if (s.Id == selectedSubscriptionName) s.IsActive = true;
+                if (s.Name == selectedSubscriptionName) s.IsActive = true;
                 return s;
             }).ToList();
         }
@@ -141,7 +135,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             return availableSimStates.Select(s =>
             {
-                if (s.Id == selectedSubscriptionName) s.IsActive = true;
+                if (s.Name == selectedSubscriptionName) s.IsActive = true;
                 return s;
             }).ToList();
         }

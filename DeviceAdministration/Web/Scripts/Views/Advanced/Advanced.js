@@ -125,7 +125,6 @@
         initApiRegistrationFields(config);
 
         $("#saveButton").bind("click", function () {
-            debugger
             var apiProvider = $.trim($("#apiRegistrationProvider").val())
             var providerHasChanged = apiProvider && config.apiRegistrationProvider && apiProvider !== config.apiRegistrationProvider;
             var confirmSave = !providerHasChanged;          
@@ -171,7 +170,6 @@
         });
 
         $("#editButton").bind("click", function () {
-            debugger
             enableApiRegistrationEdit(config.apiRegistrationProvider, true);
         });
 

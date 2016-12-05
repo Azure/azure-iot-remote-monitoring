@@ -3,8 +3,23 @@
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
 
 <header class="header_grid">
-    <a href="#" id="deviceExplorer_CellInformationBack" class="details_grid__button_back grid_subheadhead_detail">@Strings.SimInformationBackText</a>
+    <a href="#" id="deviceExplorer_CellInformationBack" class="details_grid__button_back grid_subheadhead_detail">@Strings.Actions</a>
 </header>
+
+<section class="details_grid_general">
+    @Html.Partial("_CellularActions", Model)
+    <br />
+</section>
+
+<header class="header_grid">
+    <h3 class="grid_subheadhead_detail">@Strings.SimInformationBackText</h3>
+    <a id="editCellularInformation" class="link_grid_subheadhead_detail">Edit</a>
+    <a id="saveCellularInformation" class="link_grid_subheadhead_detail" style="display: none;">Save</a>
+    <a id="cancelEditCellularInformation" class="link_grid_subheadhead_detail" style="display: none;">Cancel</a>
+</header>
+
+@Html.HiddenFor(model => model.ApiRegistrationProvider, new { id = "apiRegistrationProvider" })
+
 <section class="details_grid_general">
     @switch (Model.ApiRegistrationProvider)
     {
@@ -19,17 +34,23 @@
             break;
         }
     }
-
-    @Html.Partial("_CellularActions", Model)
-    @if (Model.ApiRegistrationProvider == ApiRegistrationProviderTypes.Ericsson)
+    @switch (Model.ApiRegistrationProvider)
     {
-        <div class="ericsson_info_text">@Strings.SimInformationInfoTextEricsson</div>
+        case ApiRegistrationProviderTypes.Jasper:
+            {
+                <div class="provider_info_textjasper_info_text details_grid_margin">@Strings.SimInformationInfoTextJasper</div>
+                break;
+            }
+        case ApiRegistrationProviderTypes.Ericsson:
+            {
+                <div class="provider_info_text details_grid_margin">@Strings.SimInformationInfoTextEricsson</div>
+                break;
+            }
     }
-    else if(Model.ApiRegistrationProvider == ApiRegistrationProviderTypes.Jasper)
-    {
-        <div class="jasper_info_text">@Strings.SimInformationInfoTextJasper</div>
-        
-    }
-    <br />
 </section>
 
+<script>
+    $(function () {
+        IoTApp.CellularInformation.init();
+    });
+</script>

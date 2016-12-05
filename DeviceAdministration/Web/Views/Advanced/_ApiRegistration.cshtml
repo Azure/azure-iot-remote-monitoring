@@ -4,7 +4,24 @@
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.ApiRegistrationModel
 
 <div class="advanced_left_column">
-    <div class="jasper_info_text">@Strings.ApiRegistrationInfoText</div>
+    @switch (Model.ApiRegistrationProvider)
+    {
+        case ApiRegistrationProviderTypes.Jasper:
+            {
+                <div class="provider_info_text">@Strings.ApiRegistrationInfoTextJasper</div>
+                break;
+            }
+        case ApiRegistrationProviderTypes.Ericsson:
+            {
+                <div class="provider_info_text">@Strings.ApiRegistrationInfoTextEricsson</div>
+                break;
+            }
+        default:
+            {
+                <a href="@Strings.ApiProviderGenericHelpUrl" target="_blank">Need Help?</a>
+                break;
+            }
+    }
     <fieldset class="registration_content">
         <div class="registration_textbox">
             <h2 class="registration_description">@Strings.ApiProviderLabel</h2>
@@ -19,13 +36,13 @@
                         @Strings.RequiredValue
                     </div>
                 </div>
-            </fieldset>           
+            </fieldset>
             <p id="apiRegistrationProviderWarning" class="api_warning_label">
-                @Strings.ApiProviderWarningLabel             
+                @Strings.ApiProviderWarningLabel
             </p>
-           <p>
-               <button id="changeApiRegistrationProviderButton" class="button_base registration_change_provder_input" type="button">@Strings.ChangeApiProvider</button>
-           </p>
+            <p>
+                <button id="changeApiRegistrationProviderButton" class="button_base registration_change_provder_input" type="button">@Strings.ChangeApiProvider</button>
+            </p>
             <fieldset>
                 <h2 class="registration_description">@Strings.BaseUrlLabel</h2>
                 @Html.TextBoxFor(model => model.BaseUrl, new { id = "BaseUrl", title = Strings.BaseUrlToolTip, @class = "api_input" })

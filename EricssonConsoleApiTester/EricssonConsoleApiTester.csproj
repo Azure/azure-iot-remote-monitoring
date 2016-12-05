@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EricssonEndpointBuilder.cs" />
+    <Compile Include="EricssonSmsClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -62,6 +63,11 @@
     </Compile>
     <Compile Include="EricssonSecurity.cs" />
     <Compile Include="Service References\ApiStatus\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\DeviceReconnect\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -94,6 +100,13 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\ApiStatus\EricssonConsoleApiTester.ApiStatus.echoResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DeviceReconnect\DeviceReconnectService.wsdl" />
+    <None Include="Service References\DeviceReconnect\EricssonConsoleApiTester.DeviceReconnect.ReconnectResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DeviceReconnect\EricssonConsoleApiTester.DeviceReconnect.reconnectResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\RealtimeTrace\EricssonConsoleApiTester.RealtimeTrace.QueryResponse.datasource">
@@ -246,6 +259,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\ApiStatus\" />
+    <WCFMetadataStorage Include="Service References\DeviceReconnect\" />
     <WCFMetadataStorage Include="Service References\RealtimeTrace\" />
     <WCFMetadataStorage Include="Service References\SubscriptionManagement\" />
     <WCFMetadataStorage Include="Service References\SubscriptionTraffic\" />
@@ -300,6 +314,24 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DeviceReconnect\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DeviceReconnect\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DeviceReconnect\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DeviceAdministration\CellularConnectivity\DeviceManagement.Infrastructure.Connectivity.csproj">
+      <Project>{1d674cc1-a1ae-4450-b167-3ccfafcbbdcd}</Project>
+      <Name>DeviceManagement.Infrastructure.Connectivity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

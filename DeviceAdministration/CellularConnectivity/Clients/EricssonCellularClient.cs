@@ -4,11 +4,14 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Builders;
+using DeviceManagement.Infrustructure.Connectivity.DeviceReconnect;
 using DeviceManagement.Infrustructure.Connectivity.EricssonApiService;
 using DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService;
+using DeviceManagement.Infrustructure.Connectivity.EricssonTrafficManagment;
 using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
+using resource = DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.resource;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Clients
 {
@@ -23,8 +26,8 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public bool ValidateCredentials()
         {
-           
-            var isValid = false;          
+
+            var isValid = false;
 
             //simple check - if it throws an exception then the creds are no good
             //todo: catch the correct error code
@@ -34,10 +37,10 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 apiStatusClient.echo(new echo());
                 isValid = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 isValid = false;
-            }    
+            }
             return isValid;
         }
 
@@ -60,11 +63,11 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             try
             {
                 var subManClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
-                var response = subManClient.QuerySimResource_v2(new QuerySimResource_v2() { resource = new resource() { id = iccid.Id , type = "icc"} });
+                var querySimResourceResponse = subManClient.QuerySimResource_v2(new QuerySimResource_v2() { resource = new resource() { id = iccid.Id, type = "icc" } });
 
                 //check it even exists
-                if(response.simResource.Length <=0) return terminal;
-                var sim = response.simResource.First();
+                if (querySimResourceResponse.simResource.Length <= 0) return terminal;
+                var sim = querySimResourceResponse.simResource.First();
 
                 terminal.Status = sim.simSubscriptionStatus.ToString();
                 terminal.DateOfActivation = sim.firstActivationDate; //todo: check this is correct
@@ -76,6 +79,23 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 terminal.PriceProfileName = sim.priceProfileName;
                 terminal.PdpContextProfileName = sim.pdpContextProfileName;
                 terminal.AccountId = Convert.ToInt32(sim.customerNo); //todo : this will be customer number on the view
+                terminal.IsInActiveState = isAnActiveState(sim.simSubscriptionStatus);
+
+                var querySubscriptionsResult = QuerySubscriptions(sim.imsi);
+                if (querySubscriptionsResult.subscriptions.Any())
+                {
+                    var subscription = querySubscriptionsResult.subscriptions.First();
+                    terminal.LastData = DateTime.Compare(subscription.lastData, DateTime.MinValue) != 0 ? subscription.lastData : (DateTime?)null;
+                    terminal.LastPDPContext = DateTime.Compare(subscription.lastPDPContext, DateTime.MinValue) != 0 ? subscription.lastPDPContext : (DateTime?)null;
+                }
+
+                var querySubscriptionTraffic = QuerySubscriptionTraffic(sim.imsi);
+                if (querySubscriptionTraffic.traffic.Any())
+                {
+                    var subscription = querySubscriptionTraffic.traffic.First();
+                    terminal.CountryCode = subscription.lastLu.countryCode;
+                    terminal.OperatorCode = subscription.lastLu.operatorCode;
+                }
 
             }
             catch (Exception exception)
@@ -90,78 +110,199 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             return new List<SessionInfo>();
         }
 
-        public SimState GetCurrentSimState(string iccid)
+        public List<SimState> GetAllAvailableSimStates()
         {
-            return GetAvailableSimStates(iccid).FirstOrDefault(s => s.Name == "Active");
+            return GetSimStatesFromEricssonSimStateEnum();
         }
 
-        public List<SimState> GetAvailableSimStates(string iccid)
+        public List<SimState> GetValidTargetSimStates(string currentState)
         {
-            return new List<SimState>()
-            {
-                new SimState()
-                {
-                    Id = "1",
-                    Name = "Active"
-                },
-                new SimState()
-                {
-                    Id = "2",
-                    Name = "Disconnected"
-                }
-            };
-        }
-
-        /// <summary>
-        /// Gets the current subscription package for a terminal
-        /// </summary>
-        /// <param name="iccid">The iccid of the terminal</param>
-        /// <returns>The subscription package object</returns>
-        public SubscriptionPackage GetCurrentSubscriptionPackage(string iccid)
-        {
-            return GetAvailableSubscriptionPackages(iccid).FirstOrDefault(s => s.Name == "Basic");
+            return getValidTargetSimStates(currentState);
         }
 
         /// <summary>
         /// Gets the available subscription packages from the appropriate api provider
         /// </summary>
         /// <returns>SubscriptionPackage Model</returns>
-        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid)
+        public List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid, string currentSubscription)
         {
-            return new List<SubscriptionPackage>()
-            {
-                new SubscriptionPackage()
+            var subscriptionManagementClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
+
+            var availableSubscriptionPackages = subscriptionManagementClient.QuerySubscriptionPackages(new QuerySubscriptionPackages())
+            .Select(
+                subscription => new SubscriptionPackage()
                 {
-                    Id = "1",
-                    Name = "Basic"
-                },
-                new SubscriptionPackage()
-                {
-                    Id = "2",
-                    Name = "Expensive"
+                    Name = subscription.subscriptionPackageName,
+                    IsActive = subscription.subscriptionPackageName == currentSubscription
                 }
-            };
+            ).ToList();
+
+            return availableSubscriptionPackages;
         }
 
-        public bool UpdateSimState(string iccid, string updatedState)
+        public RequestSubscriptionStatusChangeResponse UpdateSimState(string iccid, subscriptionStatusRequest updatedState)
         {
-            return true;
+            var subscriptionManagementClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
+            return subscriptionManagementClient.RequestSubscriptionStatusChange(new RequestSubscriptionStatusChange()
+            {
+                resource = new resource()
+                {
+                    id = iccid,
+                    type = "icc"
+                },
+                subscriptionStatus = updatedState
+            });
         }
 
-        public bool UpdateSubscriptionPackage(string iccid, string updatedPackage)
+        public QuerySubscriptionsResponse QuerySubscriptions(string imsi)
         {
-            return true;
+            var subscriptionManagementClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
+            return subscriptionManagementClient.QuerySubscriptions(new QuerySubscriptionsRequest()
+            {
+                maxResults = 10,
+                resource = new resource()
+                {
+                    id = imsi,
+                    type = "imsi"
+                }
+            });
         }
 
-        public bool ReconnectTerminal(string iccid)
+        public queryResponse QuerySubscriptionTraffic(string imsi)
         {
-            return true;
+            var subscriptionTrafficClient = EricssonServiceBuilder.GetSubscriptionTrafficClient(_credentialProvider.Provide());
+            return subscriptionTrafficClient.query(new query()
+            {
+                resource = new EricssonTrafficManagment.resource()
+                {
+                    id = "901312000000466",
+                    type = resourceType.imsi
+                }
+            });
+        }
+
+        public QuerySubscriptionStatusChangeResponse UpdateSimState(string serviceRequestId)
+        {
+            var subscriptionManagementClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
+            return subscriptionManagementClient.QuerySubscriptionStatusChange(new QuerySubscriptionStatusChange()
+            {
+                serviceRequestId = serviceRequestId
+            });
+        }
+
+      
+        public List<SimState> GetSimStatesFromEricssonSimStateEnum()
+        {
+            return Enum.GetNames(typeof(subscriptionStatus)).Select(simStateName => new SimState()
+            {
+                Name = simStateName,
+                IsActive = false
+            }).ToList();
+        }
+
+        public RequestSubscriptionPackageChangeResponse UpdateSubscriptionPackage(string iccid, string updatedPackage)
+        {
+            var subscriptionManagementClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
+            //TODO SR should we wait for this process to be complete? It is long running I think
+            return subscriptionManagementClient.RequestSubscriptionPackageChange(new RequestSubscriptionPackageChange()
+                {
+                    subscriptionPackage = updatedPackage,
+                    resource = new resource()
+                    {
+                        id = iccid,
+                        type = "icc"
+                    }
+                });
+        }
+
+        public ReconnectResponse ReconnectTerminal(string iccid)
+        {
+            var deviceReconnectClient = EricssonServiceBuilder.GetDeviceReconnectClient(_credentialProvider.Provide());
+            return deviceReconnectClient.reconnect(new Reconnect()
+            {
+                resource = new Resource()
+                {
+                    id = iccid,
+                    type = ResourceType.icc
+                }
+            });
         }
 
         public bool SendSms(string iccid, string smsText)
         {
             return true;
         }
+
+        private bool isAnActiveState(subscriptionStatus status)
+        {
+            switch (status)
+            {
+                case subscriptionStatus.Active:
+                    {
+                        return true;
+                    }
+                default:
+                    {
+                        return false;
+                    }
+            }
+        }
+
+        private List<subscriptionStatus> allValidTargetStates()
+        {
+            return new List<subscriptionStatus>()
+            {
+                subscriptionStatus.Active,
+                subscriptionStatus.Deactivated,
+                subscriptionStatus.Terminated,
+                subscriptionStatus.Pause
+            };
+        }
+
+        private List<SimState> ensureCurrentStateIsInList(List<SimState> simStateList, string simState)
+        {
+            if (simStateList.All(s => s.Name != simState))
+            {
+                simStateList.Add(new SimState() {IsActive = true, Name = simState });
+            }
+            return simStateList;
+        }
+
+        private List<SimState> getValidTargetSimStates(string currentState)
+        {
+            List<SimState> result;
+            var allValidTargets = allValidTargetStates().Select(simState => new SimState()
+            {
+                Name = simState.ToString(),
+                IsActive = currentState == simState.ToString()
+            }).ToList();
+
+            switch (currentState)
+            {
+                case "Active":
+                    result = allValidTargets.Where(ss => ss.Name == "Deactivated" || ss.Name == "Pause" || ss.Name == "Terminated").ToList();
+                    break;
+                case "Deactivated":
+                    result = allValidTargets.Where(ss => ss.Name == "Active" || ss.Name == "Pause" || ss.Name == "Terminated").ToList();
+                    break;
+                case "Pause":
+                    result = allValidTargets.Where(ss => ss.Name == "Active" || ss.Name == "Terminated").ToList();
+                    break;
+                case "Terminated":
+                    result = allValidTargets.Where(ss => ss.Name == "Active").ToList();
+                    break;
+                default:
+                    {
+                        result = new List<SimState>()
+                        {
+                            new SimState() { IsActive = true, Name = currentState }
+                        };
+                        break;
+                    }
+            }
+            return ensureCurrentStateIsInList(result, currentState);
+        }
+
 
     }
 }
