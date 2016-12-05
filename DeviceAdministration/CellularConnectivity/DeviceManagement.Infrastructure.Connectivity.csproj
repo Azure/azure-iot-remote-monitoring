@@ -39,6 +39,7 @@
     <Compile Include="Constants\JasperApiConstants.cs" />
     <Compile Include="Exceptions\CellularConnectivityException.cs" />
     <Compile Include="Argument.cs" />
+    <Compile Include="Models\Ericsson\EricssonCredentials.cs" />
     <Compile Include="Models\Other\SubscriptionPackage.cs" />
     <Compile Include="Models\Constants\ApiRegistrationProviderTypes.cs" />
     <Compile Include="Models\Jasper\JasperCredentials.cs" />
@@ -476,6 +477,10 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.EnterpriseServices" />
@@ -544,9 +549,7 @@
     <None Include="Service References\DeviceReconnect\configuration.svcinfo" />
     <None Include="Service References\DeviceReconnect\configuration91.svcinfo" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Ericsson\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

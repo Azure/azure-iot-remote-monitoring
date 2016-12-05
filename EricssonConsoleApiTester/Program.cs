@@ -6,27 +6,66 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.Web.Services.Protocols;
 using EricssonConsoleApiTester.ApiStatus;
-using EricssonConsoleApiTester.DeviceReconnect;
 using EricssonConsoleApiTester.RealtimeTrace;
 using EricssonConsoleApiTester.SubscriptionManagement;
 using EricssonConsoleApiTester.SubscriptionTraffic;
+using System.Net.Http;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace EricssonConsoleApiTester
 {
     class Program
     {
+        static async Task<HttpResponseMessage> SendSMS()
+        {
+            using (var client = new HttpClient())
+            {
+                var values = new Dictionary<string, string>
+                {
+                };
+
+                var content = new FormUrlEncodedContent(values);
+
+                return await client.PostAsync("https://<https://orange.dcp.ericsson.net/dcpapi/smsmessaging/v1/outbound/tel: 33604/requests", content);
+            }
+        }
+
         static void Main(string[] args)
         {
-            //echo tester
+            //var subscriptionTrafficClient = new SubscriptionTrafficClient();
+            //subscriptionTrafficClient.Endpoint.Address =
+            //    EricssonEndpointBuilder.GetAuthorizedEndpoint(
+            //        "https://orange.dcp.ericsson.net/dcpapi/SubscriptionTraffic ");
 
-            var binding = new BasicHttpBinding { Security = { Mode = BasicHttpSecurityMode.Transport } };
-            EndpointAddress endpointAddress = EricssonEndpointBuilder.GetAuthorizedEndpoint("https://orange.dcp.ericsson.net/dcpapi/ApiStatus");
+            //var response = subscriptionTrafficClient.query(new query()
+            //{
+            //    resource = new SubscriptionTraffic.resource()
+            //    {
+            //        id = "901312000000466",
+            //        type = resourceType.imsi
+            //    }
+            //});
+            //Console.WriteLine("Done");
 
-            //SUBSCRIPTION MANAGEMENT
-            var subscriptionManClient = new SubscriptionManagementClient();
-            subscriptionManClient.Endpoint.Address =
-                EricssonEndpointBuilder.GetAuthorizedEndpoint(
-                    "https://orange.dcp.ericsson.net/dcpapi/SubscriptionManagement");
+            //Task.Run(async () =>
+            //{
+            //    var response = await SendSMS();
+            //    Console.WriteLine(JsonConvert.SerializeObject(response));
+            //}).Wait();
+
+
+            ////echo tester
+
+            //var binding = new BasicHttpBinding { Security = { Mode = BasicHttpSecurityMode.Transport } };
+            //EndpointAddress endpointAddress = EricssonEndpointBuilder.GetAuthorizedEndpoint("https://orange.dcp.ericsson.net/dcpapi/ApiStatus");
+
+            ////SUBSCRIPTION MANAGEMENT
+            //var subscriptionManClient = new SubscriptionManagementClient();
+            //subscriptionManClient.Endpoint.Address =
+            //    EricssonEndpointBuilder.GetAuthorizedEndpoint(
+            //        "https://orange.dcp.ericsson.net/dcpapi/SubscriptionManagement");
 
             //var response1 = subscriptionManClient.QuerySimResource(new QuerySimResource()
             //{
@@ -47,7 +86,7 @@ namespace EricssonConsoleApiTester
             //    }
             //});
 
-       
+
 
             //var reconnectClient = new DeviceReconnectClient();
             //reconnectClient.Endpoint.Address =
@@ -106,20 +145,20 @@ namespace EricssonConsoleApiTester
             //    }
             //});
 
-            //Subscription Traffic - potential for activity.
-            var subscriptionTrafficClient = new SubscriptionTrafficClient();
-            subscriptionTrafficClient.Endpoint.Address = EricssonEndpointBuilder.GetAuthorizedEndpoint(
-                    "https://orange.dcp.ericsson.net/dcpapi/SubscriptionTraffic");
+            ////Subscription Traffic - potential for activity.
+            //var subscriptionTrafficClient = new SubscriptionTrafficClient();
+            //subscriptionTrafficClient.Endpoint.Address = EricssonEndpointBuilder.GetAuthorizedEndpoint(
+            //        "https://orange.dcp.ericsson.net/dcpapi/SubscriptionTraffic");
 
-            queryResponse subResp = subscriptionTrafficClient.query(new query()
-            {
-                resource = new SubscriptionTraffic.resource()
-                {
-                    id = "901312000000466",
-                    type = resourceType.imsi
-                }
-            });
-            Console.WriteLine("Hello");
+            //queryResponse subResp = subscriptionTrafficClient.query(new query()
+            //{
+            //    resource = new SubscriptionTraffic.resource()
+            //    {
+            //        id = "901312000000466",
+            //        type = resourceType.imsi
+            //    }
+            //});
+            //Console.WriteLine("Hello");
 
             ////Realtime Trace - PDP? HLR?
             //var realTimeClient = new RealtimeTraceClient();

@@ -9,5 +9,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public string ApiRegistrationProvider { get; set; }
+
+        public string EnterpriseSenderNumber { get; set; }
+        public string RegistrationID { get; set; }
     }
 }

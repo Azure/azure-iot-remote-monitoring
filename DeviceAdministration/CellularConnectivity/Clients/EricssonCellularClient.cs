@@ -12,6 +12,12 @@ using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using resource = DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.resource;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.IO;
+using System.Text;
+using DeviceManagement.Infrustructure.Connectivity.Exceptions;
+using DeviceManagement.Infrustructure.Connectivity.Models.Jasper;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Clients
 {
@@ -190,7 +196,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             });
         }
 
-      
+
         public List<SimState> GetSimStatesFromEricssonSimStateEnum()
         {
             return Enum.GetNames(typeof(subscriptionStatus)).Select(simStateName => new SimState()
@@ -205,14 +211,14 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             var subscriptionManagementClient = EricssonServiceBuilder.GetSubscriptionManagementClient(_credentialProvider.Provide());
             //TODO SR should we wait for this process to be complete? It is long running I think
             return subscriptionManagementClient.RequestSubscriptionPackageChange(new RequestSubscriptionPackageChange()
+            {
+                subscriptionPackage = updatedPackage,
+                resource = new resource()
                 {
-                    subscriptionPackage = updatedPackage,
-                    resource = new resource()
-                    {
-                        id = iccid,
-                        type = "icc"
-                    }
-                });
+                    id = iccid,
+                    type = "icc"
+                }
+            });
         }
 
         public ReconnectResponse ReconnectTerminal(string iccid)
@@ -228,9 +234,45 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             });
         }
 
-        public bool SendSms(string iccid, string smsText)
+        public HttpWebResponse SendSMS(string msisdn, string messageContent)
         {
-            return true;
+            var creds = (EricssonCredentials)_credentialProvider.Provide();
+            var senderAddress = creds.EnterpriseSenderNumber;
+            var smsEndpointBaseUrl = creds.SmsEndpointBaseUrl;
+            if (string.IsNullOrWhiteSpace(senderAddress) || string.IsNullOrWhiteSpace(smsEndpointBaseUrl))
+            {
+                throw new ApplicationException("You have not provided an EnterpriseSenderAddress and/or a SmsEndpointBaseUrl");
+            }
+            var uri = new Uri(creds.BaseUrl);
+            var webAddr = $"https://{smsEndpointBaseUrl}/dcpapi/smsmessaging/v1/outbound/tel: {senderAddress}/requests";
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(webAddr);
+            httpWebRequest.ContentType = "application/json; charset=utf-8";
+            httpWebRequest.Method = "POST";
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                var request = new SendSmsRequest()
+                {
+                    outboundSMSMessageRequest = new Outboundsmsmessagerequest()
+                    {
+                        address = new string[] { msisdn },
+                        senderAddress = senderAddress,
+                        outboundSMSTextMessage = new Outboundsmstextmessage()
+                        {
+                            message = messageContent
+                        }
+                    }
+                };
+                streamWriter.Write(JsonConvert.SerializeObject(request));
+                streamWriter.Flush();
+            }
+
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                var result = streamReader.ReadToEnd();
+            }
+            return httpResponse;
         }
 
         private bool isAnActiveState(subscriptionStatus status)
@@ -263,7 +305,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         {
             if (simStateList.All(s => s.Name != simState))
             {
-                simStateList.Add(new SimState() {IsActive = true, Name = simState });
+                simStateList.Add(new SimState() { IsActive = true, Name = simState });
             }
             return simStateList;
         }
@@ -301,6 +343,24 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                     }
             }
             return ensureCurrentStateIsInList(result, currentState);
+        }
+
+        private class SendSmsRequest
+        {
+            public Outboundsmsmessagerequest outboundSMSMessageRequest { get; set; }
+        }
+
+        private class Outboundsmsmessagerequest
+        {
+            public string[] address { get; set; }
+            public string senderAddress { get; set; }
+            public Outboundsmstextmessage outboundSMSTextMessage { get; set; }
+            public string senderName { get; set; }
+        }
+
+        private class Outboundsmstextmessage
+        {
+            public string message { get; set; }
         }
 
 

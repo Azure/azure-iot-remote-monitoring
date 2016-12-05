@@ -306,7 +306,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var iccid = device.SystemProperties.ICCID;
             if (string.IsNullOrWhiteSpace(iccid)) throw new InvalidOperationException("Device does not have an ICCID. Cannot complete cellular actions.");
 
-            CellularActionUpdateResponseModel result = await processActionRequests(iccid, model.CellularActions);
+            CellularActionUpdateResponseModel result = await processActionRequests(device, model.CellularActions);
             var viewModel = generateSimInformationViewModel(iccid, result);
             return PartialView("_CellularInformation", viewModel);
         }
@@ -395,8 +395,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return devices.Results;
         }
 
-        private async Task<CellularActionUpdateResponseModel> processActionRequests(string iccid, List<CellularActionModel> actions)
+        private async Task<CellularActionUpdateResponseModel> processActionRequests(DeviceModel device, List<CellularActionModel> actions)
         {
+            var iccid = device.SystemProperties.ICCID;
+            var terminal =  _cellularExtensions.GetSingleTerminalDetails(new Iccid(iccid));
             var completedActions = new List<CellularActionModel>();
             var failedActions = new List<CellularActionModel>();
             foreach (var action in actions)

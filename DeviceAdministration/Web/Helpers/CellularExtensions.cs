@@ -110,7 +110,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public bool SendSms(string iccid, string smsText)
         {
-            return _cellularService.SendSms(iccid, smsText);
+            var terminal = GetSingleTerminalDetails(new Iccid(iccid));
+            return _cellularService.SendSms(iccid, terminal.Msisdn.Id, smsText);
         }
 
         private IEnumerable<Iccid> GetUsedIccidList(IList<DeviceModel> devices)
