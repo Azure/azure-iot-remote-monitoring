@@ -12,6 +12,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public string Password { get; set; }
         public string ApiRegistrationProviderType { get; set; }
 
+        // Erricsson Only
+        public string EnterpriseSenderNumber { get; set; }
+        public string RegistrationID { get; set; }
+        public string SmsEndpointBaseUrl { get; set; }
+
         // when more providers are available take as param
         public ApiRegistrationTableEntity()
         {

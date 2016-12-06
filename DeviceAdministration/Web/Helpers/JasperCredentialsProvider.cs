@@ -1,6 +1,9 @@
-﻿using DeviceManagement.Infrustructure.Connectivity.Models.Other;
+﻿using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
+using DeviceManagement.Infrustructure.Connectivity.Models.Jasper;
+using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
+using System;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 {
@@ -16,14 +19,33 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public ICredentials Provide()
         {
             var apiRegistration = _registrationRepository.RecieveDetails();
-            return new CellularCredentials()
+            switch (apiRegistration.ApiRegistrationProvider)
             {
-                BaseUrl = apiRegistration.BaseUrl,
-                LicenceKey = apiRegistration.LicenceKey,
-                Password = apiRegistration.Password,
-                Username = apiRegistration.Username,
-                ApiRegistrationProvider = apiRegistration.ApiRegistrationProvider
-            };
+                case ApiRegistrationProviderTypes.Jasper:
+                    return new JasperCredentials()
+                    {
+                        BaseUrl = apiRegistration.BaseUrl,
+                        LicenceKey = apiRegistration.LicenceKey,
+                        Password = apiRegistration.Password,
+                        Username = apiRegistration.Username,
+                        ApiRegistrationProvider = apiRegistration.ApiRegistrationProvider
+                    };
+                case ApiRegistrationProviderTypes.Ericsson:
+                    return new EricssonCredentials()
+                    {
+                        BaseUrl = apiRegistration.BaseUrl,
+                        LicenceKey = apiRegistration.LicenceKey,
+                        Password = apiRegistration.Password,
+                        Username = apiRegistration.Username,
+                        ApiRegistrationProvider = apiRegistration.ApiRegistrationProvider,
+                        EnterpriseSenderNumber = apiRegistration.EnterpriseSenderNumber,
+                        RegistrationID = apiRegistration.RegistrationID,
+                        SmsEndpointBaseUrl = apiRegistration.SmsEndpointBaseUrl
+                    };
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{apiRegistration.ApiRegistrationProvider}' provider");
+            }
+            
         }
     }
 }
