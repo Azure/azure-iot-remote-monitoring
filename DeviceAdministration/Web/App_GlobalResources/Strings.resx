@@ -2173,7 +2173,7 @@
     <comment>Page heading.</comment>
   </data>
   <data name="NotApplicableValue" xml:space="preserve">
-    <value>n/a</value>
+    <value>N/A</value>
     <comment>Table cell.</comment>
   </data>
   <data name="CompletedJobsInLast24Hours" xml:space="preserve">
@@ -2187,5 +2187,29 @@
   <data name="IncorrectFilterName" xml:space="preserve">
     <value>Query name can not include these characters: # % / \ . * + : ? &lt; &gt; &amp;</value>
     <comment>Error message.</comment>
+  </data>
+  <data name="HideJobResults" xml:space="preserve">
+    <value>Hide Job Results</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="ShowJobResults" xml:space="preserve">
+    <value>Show Job Results</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="JobOperationResult" xml:space="preserve">
+    <value>Job Operations</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobOperationResultTooltip" xml:space="preserve">
+    <value>The Operation Results of Job</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobPropertiesTooltip" xml:space="preserve">
+    <value>Properties of Job</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobStatisticsTooltip" xml:space="preserve">
+    <value>Device Statistics of Job</value>
+    <comment>Tooltip.</comment>
   </data>
 </root>

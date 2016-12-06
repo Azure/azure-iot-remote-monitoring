@@ -178,12 +178,13 @@ IoTApp.createModule("IoTApp.Helpers.RenderRetryError", function () {
 });
 
 IoTApp.createModule("IoTApp.Helpers.String", function () {
-    var renderLongString = function (message, placeHolderChar, maxSize) {
-        if(!message) return message;
-        var size = Math.min(maxSize, message.length);
-        var v = message.substring(0, size);
-        if (maxSize == size) v = v + placeHolderChar;
-        return v;
+    var renderLongString = function (message, maxSize, placeHolder) {
+        if (!message) return '';
+        if (placeHolder && maxSize < message.length) {
+            var v = message.substring(0, maxSize);
+            return v + placeHolder;
+        }
+        return message;
     }
 
     return {

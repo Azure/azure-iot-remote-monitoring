@@ -54,24 +54,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }, false);
         }
 
-        [HttpGet]
-        [Route("summary")]
-        [WebApiRequirePermission(Permission.ViewJobs)]
-        // GET: api/v1/jobs/summary
-        public async Task<HttpResponseMessage> GetJobSummary()
-        {
-            //TODO: mock code: query JobSummaryEntity
-            var summaries = new List<JobSummary>();
-            summaries.Add(new JobSummary() { SummaryType = JobSummary.JobSummaryType.ActiveJobs, Total = 3 });
-            summaries.Add(new JobSummary() { SummaryType = JobSummary.JobSummaryType.DeviceWithScheduledJobs, Total = 35 });
-            summaries.Add(new JobSummary() { SummaryType = JobSummary.JobSummaryType.FailedJobsInLast24Hours, Total = 1 });
-
-            return await GetServiceResponseAsync<IEnumerable<JobSummary>>(async () =>
-            {
-                return await Task.FromResult(summaries);
-            });
-        }
-
         [HttpPut]
         [Route("{id}/cancel")]
         [WebApiRequirePermission(Permission.ManageJobs)]
@@ -86,35 +68,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [HttpGet]
-        [Route("{id}/twinjobDevices")]
+        [Route("{id}/{status}")]
         [WebApiRequirePermission(Permission.ViewJobs)]
-        // GET: api/v1/jobs/{id}/twinjobDevices?deviceJobStatus={Failed}
-        public async Task<HttpResponseMessage> GetTwinJobDeviceDetails(string jobId, [FromUri] DeviceJobStatus deviceJobStatus)
+        // GET: api/v1/jobs/{id}/{status}
+        public async Task<HttpResponseMessage> GetJobResults(string id, [FromUri] DeviceJobStatus status)
         {
-            //TODO: mock code: cancel job      
-            var devices = new List<string>() { "SampleDevice1", "SampleDevice2" };
-            return await GetServiceResponseAsync<IEnumerable<string>>(async () =>
+            return await GetServiceResponseAsync<IEnumerable<DeviceJob>>(async () =>
             {
-                return await Task.FromResult(devices);
+                var jobResponses = await _iotHubDeviceManager.GetDeviceJobsByJobIdAsync(id);
+                return jobResponses.Where(j => j.Status == status).OrderByDescending(j => j.LastUpdatedDateTimeUtc).ToList();
             });
-        }
-
-
-        [HttpGet]
-        [Route("{id}/methodDevices")]
-        [WebApiRequirePermission(Permission.ViewJobs)]
-        // GET: api/v1/jobs/{id}/methodDevices?deviceJobStatus={Failed}
-        public async Task<HttpResponseMessage> GetMethodJobDeviceDetails(string jobId, [FromUri] DeviceJobStatus deviceJobStatus)
-        {
-            //TODO: mock code: get devices within the job, and get the method return value    
-            var devices = new Dictionary<string, string>();
-            devices.Add("SampleDevice1", "10");
-            devices.Add("SampleDevice2", "11");
-
-            return await GetServiceResponseAsync<IDictionary<string, string>>(async () =>
-             {
-                 return await Task.FromResult(devices);
-             });
         }
 
         private async Task<Tuple<string,string>> GetJobNameAndQueryNameAsync(DeviceJobModel job)

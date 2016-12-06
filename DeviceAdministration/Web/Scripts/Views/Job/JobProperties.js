@@ -29,6 +29,31 @@
         $('#details_grid_container').empty();
         $('#details_grid_container').html(html);
 
+        $('#showSucceededJobResultsLink').on('click', function () {
+            showJobResult($(this), resources.completed);
+        });
+
+        $('#showFailedJobResultsLink').on('click', function () {
+            showJobResult($(this), resources.failed);
+        });
+
+        $('#showPendingJobResultsLink').on('click', function () {
+            showJobResult($(this), resources.pending);
+        });
+
+        $('#showRunningJobResultsLink').on('click', function () {
+            showJobResult($(this), resources.running);
+        });
+
+        $('.grid_detail_job_result_hide_link').on('click', function () {
+            $(this).parent().children('.grid_detail_job_result_group').toggle();
+        });
+
+        $('.toggle_source').on('click', function () {
+            $(this).parent().children('.toggle_target').toggle();
+            $(this).parent().next().toggle();
+        });
+
         var cancelButton = $('#cancelJobAction');
         if (cancelButton != null) {
             cancelButton.on("click", function () {
@@ -77,6 +102,43 @@
 
     var onComplete = function () {
         $('#loadingElement').hide();
+    }
+
+    var showJobResult = function ($element, status) {
+        $element.toggle();
+        $element.siblings('.grid_detail_job_result_group').toggle();
+        if ($element.siblings('.grid_detail_job_result_list').has('ul').length > 0) {
+            return;
+        }
+
+        $element.siblings('.job_result_loader_container').show();
+        $.ajax({
+            url: '/api/v1/jobs/' + self.jobId + '/' + status,
+            type: 'GET',
+            cache: false,
+            success: function (response) {
+                $element.siblings('.job_result_loader_container').hide();
+                $element.siblings('.grid_detail_job_result_list').empty();
+                response.data.forEach(function (item, index) {
+                    var methodResponse = item.outcome.deviceMethodResponse;
+                    var payload = methodResponse && methodResponse.payload && methodResponse.payload.substring(methodResponse.payload.lastIndexOf('{'));
+                    var deviceItem = $('<ul />')
+                        .addClass('job_result_section__device_list')
+                        .appendTo($element.siblings('.grid_detail_job_result_list'))
+                    $('<li />')
+                        .attr('title', item.deviceId)
+                        .text(IoTApp.Helpers.String.renderLongString(item.deviceId, 20, '..'))
+                        .appendTo(deviceItem);
+                    $('<li />')
+                        .attr('title', payload)
+                        .text(IoTApp.Helpers.String.renderLongString(payload, 24, '..'))
+                        .appendTo(deviceItem);
+                });
+            },
+            error: function (response) {
+                IoTApp.Helpers.RenderRetryError(resources.unableToRetrieveJobFromService, $('#details_grid_container'), function () { getJobPropertiesView(); });
+            }
+        });
     }
 
     return {

@@ -21,6 +21,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             OperationType = jobResponse.Type.LocalizedString();
             StartTime = jobResponse.StartTimeUtc;
             EndTime = jobResponse.EndTimeUtc;
+            CloudToDeviceMethod = jobResponse.CloudToDeviceMethod;
+            UpdateTwin = jobResponse.UpdateTwin;
         }
 
         public DeviceJobModel(string jobResponseJsonString)
@@ -53,6 +55,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public string FailedCount { get; set; }
         public string PendingCount { get; set; }
         public string RunningCount { get; set; }
+        public string DeviceId { get; set; }
+        public Twin UpdateTwin { get; set; }
+        public CloudToDeviceMethod CloudToDeviceMethod { get; set; }
 
         private string ConvertNullValue(int? value)
         {

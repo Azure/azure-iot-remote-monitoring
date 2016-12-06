@@ -474,6 +474,7 @@
     <Content Include="Content\styles\_bootstrap-datetimepicker.less" />
     <Content Include="Content\styles\bootstrap\glyphicon.less" />
     <Content Include="Content\styles\bootstrap\popovers.less" />
+    <Content Include="Content\styles\blocks\job_view\job_details_block.less" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />

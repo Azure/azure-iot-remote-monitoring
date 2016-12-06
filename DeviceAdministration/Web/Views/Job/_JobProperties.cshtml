@@ -1,6 +1,8 @@
 ﻿@using GlobalResources
 @using Microsoft.Azure.Devices
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Extensions;
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceJobModel
 
 @if (PermsChecker.HasPermission(Permission.ManageJobs))
@@ -12,9 +14,7 @@
     <section class="details_grid_actions">
 
         <p class="grid_detail_value">
-            <a id="cloneJobAction">
-               @Strings.CloneJobAction
-            </a>
+            @Html.ActionLink(Strings.CloneJobAction, "ScheduleJob", "Job", new { jobId = Model.JobId }, new { id = "queryLink" })
         </p>
 
         @if (Model.Status == JobStatus.Scheduled || Model.Status == JobStatus.Enqueued || Model.Status == JobStatus.Queued)
@@ -29,10 +29,13 @@
 }
 
 <div class="header_grid header_grid_general">
-    <h3 class="grid_subheadhead_detail">@Strings.JobProperties</h3>
+    <img src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer toggle_source toggle_target" />
+    <img src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer toggle_source toggle_target display_none" />
+    <h3 class="grid_subheadhead_detail toggle_source">@Strings.JobProperties</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.JobPropertiesTooltip" />
 </div>
 
-<section class="details_grid_general" id="jobDetailsGrid">
+<section class="details_grid_general toggle_target" id="jobDetailsGrid">
     <h4 class="grid_subhead_detail_label">@Strings.JobId</h4>
     <p class="grid_detail_value" name="deviceField_jobId">@Model.JobId</p>
 
@@ -44,39 +47,62 @@
 
     <h4 class="grid_subhead_detail_label">@Strings.QueryNameHeader</h4>
     <p class="grid_detail_value" name="deviceField_queryName">
-        @Html.ActionLink(Model.QueryName, "Index", "Device", new { queryName = Model.QueryName } , new { id = "queryLink" } )
-    </p>
-
-    <h4 class="grid_subhead_detail_label">@Strings.OperationsHeader</h4>
-    <p class="grid_detail_value" name="deviceField_operationType">@Model.OperationType</p>
-
-    <h4 class="grid_subhead_detail_label">@Strings.StartTimeHeader</h4>
-    <p class="grid_detail_value" name="deviceField_startTime">
-        @if (Model.StartTime == null)
+        @if (Model.QueryName.Equals(Model.QueryCondition, StringComparison.InvariantCultureIgnoreCase))
         {
-            @Strings.NotApplicableValue
+            @Model.QueryName
         }
         else
         {
-            @Model.StartTime
-        }
-    </p>
-
-    <h4 class="grid_subhead_detail_label">@Strings.EndTimeHeader</h4>
-    <p class="grid_detail_value" name="deviceField_endTime">
-        @if (Model.EndTime == null)
-        {
-            @Strings.NotApplicableValue
-        }
-        else
-        {
-            @Model.EndTime
+            @Html.ActionLink(Model.QueryName, "Index", "Device", new { queryName = Model.QueryName }, new { id = "queryLink" })
         }
     </p>
 </section>
 
 <div class="header_grid header_grid_general">
-    <h3 class="grid_subheadhead_detail">@Strings.JobStatistics</h3>
+    <img src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer toggle_source toggle_target" />
+    <img src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer toggle_source toggle_target display_none" />
+    <h3 class="grid_subheadhead_detail toggle_source">@Strings.JobOperationResult</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.JobOperationResultTooltip" />
+</div>
+
+<section class="details_grid_general" id="jobOperationGrid"> 
+    @if (Model.OperationType.Equals(JobType.ScheduleDeviceMethod.LocalizedString(), StringComparison.InvariantCultureIgnoreCase))
+    {
+        <h4 class="grid_subhead_detail_label" name="deviceField_operationType">
+            @Strings.InvokeMethod
+            (@Model.CloudToDeviceMethod.MethodName)
+        </h4>
+        <p class="grid_detail_value">@Model.CloudToDeviceMethod.GetPayloadAsJson()</p>
+    }
+    else if (Model.OperationType.Equals(JobType.ScheduleUpdateTwin.LocalizedString(), StringComparison.InvariantCultureIgnoreCase))
+    {
+        <h4 class="grid_subhead_detail_label" name="deviceField_operationType">
+           @Strings.ScheduleEditPropertiesOrTags
+        </h4>
+
+        foreach (var tag in Model.UpdateTwin.Tags.AsEnumerableFlatten())
+        {
+            <ul class="job_result_section__twin_list">
+                <li>tags.@tag.Key</li>
+                <li>@tag.Value.Value</li>
+            </ul>
+        }
+
+        foreach (var property in Model.UpdateTwin.Properties.Desired.AsEnumerableFlatten())
+        {
+            <ul class="job_result_section__twin_list">
+                <li>desired.@property.Key</li>
+                <li>@property.Value.Value</li>
+            </ul>
+        }
+    }
+</section>
+
+<div class="header_grid header_grid_general">
+    <img src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer toggle_source toggle_target" />
+    <img src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer toggle_source toggle_target display_none" />
+    <h3 class="grid_subheadhead_detail toggle_source">@Strings.JobStatistics</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.JobStatisticsTooltip" />
 </div>
 
 <section class="details_grid_general" id="deviceGrid">
@@ -84,15 +110,54 @@
     <p class="grid_detail_value" name="deviceField_deviceCount">@Model.DeviceCount</p>
 
     <h4 class="grid_subhead_detail_label">@Strings.SucceededCountSubHeader</h4>
-    <p class="grid_detail_value" name="deviceField_succeedCount">@Model.SucceededCount</p>
+    <p class="grid_detail_value grid_detail_value_with_link" name="deviceField_succeedCount">@Model.SucceededCount</p>
+    @if (!new string[] { Strings.NotApplicableValue, "0" }.Contains(Model.SucceededCount))
+    {
+        <div>
+            <a id="showSucceededJobResultsLink" class="grid_detail_job_result_group">@Strings.ShowJobResults</a>
+            <a class="grid_detail_job_result_group grid_detail_job_result_hide_link" style="display:none" >@Strings.HideJobResults</a>
+            <div class="grid_detail_job_result_group grid_detail_job_result_list" style="display:none">
+            </div>
+            <div class="job_result_loader_container" style="display:none"></div>
+        </div>
+    }
 
     <h4 class="grid_subhead_detail_label">@Strings.FailedCountSubHeader</h4>
-    <p class="grid_detail_value" name="deviceField_failedCount">@Model.FailedCount</p>
+    <p class="grid_detail_value grid_detail_value_with_link" name="deviceField_failedCount">@Model.FailedCount</p>
+    @if (!new string[] { Strings.NotApplicableValue, "0" }.Contains(Model.FailedCount))
+    {
+    <div>
+        <a id="showFailedJobResultsLink" class="grid_detail_job_result_group">@Strings.ShowJobResults</a>
+        <a class="grid_detail_job_result_group grid_detail_job_result_hide_link" style="display:none">@Strings.HideJobResults</a>
+        <div class="grid_detail_job_result_group" style="display:none">
+        </div>
+        <div class="job_result_loader_container" style="display:none"></div>
+    </div>
+    }
 
     <h4 class="grid_subhead_detail_label">@Strings.PendingCountSubHeader</h4>
-    <p class="grid_detail_value" name="deviceField_pendingCount">@Model.PendingCount</p>
+    <p class="grid_detail_value grid_detail_value_with_link" name="deviceField_pendingCount">@Model.PendingCount</p>
+    @if (!new string[] { Strings.NotApplicableValue, "0" }.Contains(Model.FailedCount))
+    {
+    <div>
+        <a id="showPendingJobResultsLink" class="grid_detail_job_result_group">@Strings.ShowJobResults</a>
+        <a class="grid_detail_job_result_group grid_detail_job_result_hide_link" style="display:none">@Strings.HideJobResults</a>
+        <div class="grid_detail_job_result_group" style="display:none">
+        </div>
+        <div class="job_result_loader_container" style="display:none"></div>
+    </div>
+    }
 
     <h4 class="grid_subhead_detail_label">@Strings.RunningCountSubHeader</h4>
-    <p class="grid_detail_value" name="deviceField_runningCount">@Model.RunningCount</p>
+    <p class="grid_detail_value grid_detail_value_with_link" name="deviceField_runningCount">@Model.RunningCount</p>
+    @if (!new string[] { Strings.NotApplicableValue, "0" }.Contains(Model.FailedCount))
+    {
+    <div>
+        <a id="showRunningJobResultsLink" class="grid_detail_job_result_group">@Strings.ShowJobResults</a>
+        <a class="grid_detail_job_result_group grid_detail_job_result_hide_link" style="display:none">@Strings.HideJobResults</a>
+        <div class="grid_detail_job_result_group" style="display:none">
+        </div>
+        <div class="job_result_loader_container" style="display:none"></div>
+    </div>
+    }
 </section>
-

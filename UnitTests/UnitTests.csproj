@@ -266,6 +266,7 @@
     <Compile Include="Web\WebApiControllers\DeviceApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceRulesApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceListColumnsApiControllerTests.cs" />
+    <Compile Include="Web\WebApiControllers\JobApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\NameCacheApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceTypesControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\KeyApiControllerTests.cs" />

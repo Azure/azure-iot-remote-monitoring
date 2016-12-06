@@ -1587,6 +1587,36 @@ table#alertHistoryTable tr.selectedAlert {
 .action_properties_id__update_action_id {
   font-size: 1em;
 }
+.grid_detail_value_operation_detail {
+  font-size: 12px;
+}
+.job_result_loader_container {
+  margin: 20px auto 0 20px;
+  font-size: 3px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-animation: load5 1.1s infinite ease;
+  animation: load5 1.1s infinite ease;
+}
+.job_result_section__twin_list {
+  font-size: 12px;
+  list-style-type: none;
+  columns: 2;
+}
+.job_result_section__device_list {
+  font-size: 12px;
+  list-style-type: none;
+  columns: 2;
+}
+.grid_detail_job_result_group {
+  font-size: 12px;
+}
+.grid_detail_value_with_link {
+  margin-bottom: 0;
+}
 .content_outer--select_device {
   overflow-x: visible;
   overflow-y: visible;

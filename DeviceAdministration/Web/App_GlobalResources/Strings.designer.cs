@@ -2141,6 +2141,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide Job Results.
+        /// </summary>
+        public static string HideJobResults {
+            get {
+                return ResourceManager.GetString("HideJobResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IOT HUB HOSTNAME.
         /// </summary>
         public static string Hostname {
@@ -2474,6 +2483,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Job Operations.
+        /// </summary>
+        public static string JobOperationResult {
+            get {
+                return ResourceManager.GetString("JobOperationResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Operation Results of Job.
+        /// </summary>
+        public static string JobOperationResultTooltip {
+            get {
+                return ResourceManager.GetString("JobOperationResultTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Job Properties.
         /// </summary>
         public static string JobProperties {
@@ -2492,6 +2519,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Properties of Job.
+        /// </summary>
+        public static string JobPropertiesTooltip {
+            get {
+                return ResourceManager.GetString("JobPropertiesTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Jobs.
         /// </summary>
         public static string Jobs {
@@ -2506,6 +2542,15 @@ namespace GlobalResources {
         public static string JobStatistics {
             get {
                 return ResourceManager.GetString("JobStatistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device Statistics of Job.
+        /// </summary>
+        public static string JobStatisticsTooltip {
+            get {
+                return ResourceManager.GetString("JobStatisticsTooltip", resourceCulture);
             }
         }
         
@@ -3023,7 +3068,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to n/a.
+        ///   Looks up a localized string similar to N/A.
         /// </summary>
         public static string NotApplicableValue {
             get {
@@ -4081,6 +4126,15 @@ namespace GlobalResources {
         public static string ShowInstructions {
             get {
                 return ResourceManager.GetString("ShowInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Job Results.
+        /// </summary>
+        public static string ShowJobResults {
+            get {
+                return ResourceManager.GetString("ShowJobResults", resourceCulture);
             }
         }
         

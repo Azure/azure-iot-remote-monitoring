@@ -122,7 +122,7 @@
                 {
                     "data": "queryName",
                     "mRender": function (data) {
-                        var s = IoTApp.Helpers.String.renderLongString(data, '..', 20);
+                        var s = IoTApp.Helpers.String.renderLongString(data, 20, '..');
                         return htmlEncode(s);
                     },
                     "name": "queryName"
