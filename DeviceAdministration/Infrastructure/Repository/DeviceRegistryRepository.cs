@@ -172,21 +172,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return savedDevice;
         }
 
-        public virtual async Task<DeviceListQueryResult> GetDeviceList(DeviceListQuery query)
+        public virtual async Task<DeviceListFilterResult> GetDeviceList(DeviceListFilter filter)
         {
             List<DeviceModel> deviceList = await this.GetAllDevicesAsync();
 
-            IQueryable<DeviceModel> filteredDevices = FilterHelper.FilterDeviceList(deviceList.AsQueryable<DeviceModel>(), query.Filters);
+            IQueryable<DeviceModel> filteredDevices = FilterHelper.FilterDeviceList(deviceList.AsQueryable<DeviceModel>(), filter.Clauses);
 
-            IQueryable<DeviceModel> filteredAndSearchedDevices = this.SearchDeviceList(filteredDevices, query.SearchQuery);
+            IQueryable<DeviceModel> filteredAndSearchedDevices = this.SearchDeviceList(filteredDevices, filter.SearchQuery);
 
-            IQueryable<DeviceModel> sortedDevices = this.SortDeviceList(filteredAndSearchedDevices, query.SortColumn, query.SortOrder);
+            IQueryable<DeviceModel> sortedDevices = this.SortDeviceList(filteredAndSearchedDevices, filter.SortColumn, filter.SortOrder);
 
-            List<DeviceModel> pagedDeviceList = sortedDevices.Skip(query.Skip).Take(query.Take).ToList();
+            List<DeviceModel> pagedDeviceList = sortedDevices.Skip(filter.Skip).Take(filter.Take).ToList();
 
             int filteredCount = filteredAndSearchedDevices.Count();
 
-            return new DeviceListQueryResult()
+            return new DeviceListFilterResult()
             {
                 Results = pagedDeviceList,
                 TotalDeviceCount = deviceList.Count,

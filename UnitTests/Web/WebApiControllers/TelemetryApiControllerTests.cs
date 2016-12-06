@@ -111,14 +111,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
         [Fact]
         public async void GetLatestAlertHistoryAsyncTest()
         {
-            var result = fixture.Create<DeviceListQueryResult>();
+            var result = fixture.Create<DeviceListFilterResult>();
             var locationsModel = fixture.Create<DeviceListLocationsModel>();
             var itemModels = fixture.Create<IEnumerable<AlertHistoryItemModel>>();
             Func<string, DateTime?> func = a => null;
 
             alertLogic.Setup(mock => mock.LoadLatestAlertHistoryAsync(It.IsAny<DateTime>(), It.IsAny<int>()))
                 .ReturnsAsync(itemModels);
-            deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(result);
+            deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListFilter>())).ReturnsAsync(result);
             deviceLogic.Setup(mock => mock.ExtractLocationsData(It.IsAny<List<DeviceModel>>())).Returns(locationsModel);
             telemetryLogic.Setup(
                 mock => mock.ProduceGetLatestDeviceAlertTime(It.IsAny<IEnumerable<AlertHistoryItemModel>>()))
@@ -164,10 +164,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
         [Fact]
         public async void GetDeviceLocationDataTest()
         {
-            var queryRes = fixture.Create<DeviceListQueryResult>();
+            var filterMock = fixture.Create<DeviceListFilterResult>();
             var locations = fixture.Create<DeviceListLocationsModel>();
-            deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(queryRes);
-            deviceLogic.Setup(mock => mock.ExtractLocationsData(queryRes.Results)).Returns(locations);
+            deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListFilter>())).ReturnsAsync(filterMock);
+            deviceLogic.Setup(mock => mock.ExtractLocationsData(filterMock.Results)).Returns(locations);
             var res = await telemetryApiController.GetDeviceLocationData();
             res.AssertOnError();
             var data = res.ExtractContentAs<DeviceListLocationsModel>();

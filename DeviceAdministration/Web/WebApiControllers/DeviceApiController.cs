@@ -60,7 +60,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         // Filter arrays use the following syntax: ?test=1&test=2&test=3 for [FromUri] int[] test
         //
         // See, for example: http://stackoverflow.com/questions/9981330/how-to-pass-an-array-of-integers-to-a-asp-net-web-api-rest-service
-        // Example: api/v1/devices?filterColumn=DeviceID&filterType=StartsWithCaseSensitive&filterValue=000&filterColumn=FirmwareVersion&filterType=ContainsCaseInsensitive&filterValue=564
+        // Example: api/v1/devices?filterColumn=DeviceID&clauseType=StartsWithCaseSensitive&clauseValue=000&filterColumn=FirmwareVersion&clauseType=ContainsCaseInsensitive&clauseValue=564
         [HttpGet]
         [Route("")]
         [WebApiRequirePermission(Permission.ViewDevices)]
@@ -71,38 +71,38 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             [FromUri]int skip = 0,
             [FromUri]int take = 50,
             [FromUri]string[] filterColumn = null,
-            [FromUri]FilterType[] filterType = null,
-            [FromUri]string[] filterValue = null)
+            [FromUri]ClauseType[] clauseType = null,
+            [FromUri]string[] clauseValue = null)
         {
-            var filters = new List<FilterInfo>();
-            if (filterColumn != null && filterType != null && filterValue != null)
+            var clauses = new List<Clause>();
+            if (filterColumn != null && clauseType != null && clauseValue != null)
             {
                 // valid filters must send ALL three values--ignore unmatched extras
-                int validFiltersCount = Math.Min(filterColumn.Length, Math.Min(filterType.Length, filterValue.Length));
+                int validFiltersCount = Math.Min(filterColumn.Length, Math.Min(clauseType.Length, clauseValue.Length));
                 for (int i = 0; i < validFiltersCount; ++i)
                 {
-                    var f = new FilterInfo()
+                    var clause = new Clause()
                     {
                         ColumnName = filterColumn[i],
-                        FilterType = filterType[i],
-                        FilterValue = filterValue[i]
+                        ClauseType = clauseType[i],
+                        ClauseValue = clauseValue[i]
                     };
 
-                    filters.Add(f);
+                    clauses.Add(clause);
                 }
             }
 
-            var q = new DeviceListQuery()
+            var filter = new DeviceListFilter()
             {
                 SearchQuery = search,
                 SortColumn = sortColumn,
                 SortOrder = sortOrder,
                 Skip = skip,
                 Take = take,
-                Filters = filters
+                Clauses = clauses
             };
 
-            return await GetServiceResponseAsync(async () => (await _deviceLogic.GetDevices(q)).Results);
+            return await GetServiceResponseAsync(async () => (await _deviceLogic.GetDevices(filter)).Results);
         }
 
         // POST: api/v1/devices/list
@@ -117,31 +117,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 var dataTableRequest = requestData.ToObject<DataTablesRequest>();
                 var sortColumnIndex = dataTableRequest.SortColumns[0].ColumnIndex;
 
-                var listQuery = new DeviceListQuery()
+                var listFilter = new DeviceListFilter()
                 {
-                    Name = dataTableRequest.QueryName,
+                    Name = dataTableRequest.FilterName,
 
                     SortOrder = dataTableRequest.SortColumns[0].SortOrder,
                     SortColumn = dataTableRequest.Columns[sortColumnIndex].Data,
 
                     SearchQuery = dataTableRequest.Search.Value,
 
-                    Filters = dataTableRequest.Filters,
-                    Sql = dataTableRequest.Sql,
+                    Clauses = dataTableRequest.Clauses,
+                    AdvancedClause = dataTableRequest.AdvancedClause,
                     IsAdvanced = dataTableRequest.IsAdvanced,
 
                     Skip = dataTableRequest.Start,
                     Take = dataTableRequest.Length
                 };
 
-                var queryResult = await _deviceLogic.GetDevices(listQuery);
+                var filterResult = await _deviceLogic.GetDevices(listFilter);
 
                 var dataTablesResponse = new DataTablesResponse<DeviceModel>()
                 {
                     Draw = dataTableRequest.Draw,
-                    RecordsTotal = queryResult.TotalDeviceCount,
-                    RecordsFiltered = queryResult.TotalFilteredCount,
-                    Data = queryResult.Results.ToArray()
+                    RecordsTotal = filterResult.TotalDeviceCount,
+                    RecordsFiltered = filterResult.TotalFilteredCount,
+                    Data = filterResult.Results.ToArray()
                 };
 
                 return dataTablesResponse;
@@ -268,15 +268,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             return await GetServiceResponseAsync(async () =>
             {
-                // note that you could also hardcode a query to delete a subset of devices
-                var query = new DeviceListQuery()
+                // note that you could also hardcode a filter to delete a subset of devices
+                var filter = new DeviceListFilter()
                 {
                     Skip = 0,
                     Take = 1000,
                     SortColumn = "twin.deviceId",
                 };
 
-                DeviceListQueryResult devices = await _deviceLogic.GetDevices(query);
+                DeviceListFilterResult devices = await _deviceLogic.GetDevices(filter);
 
                 foreach (var d in devices.Results)
                 {
@@ -298,10 +298,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpGet]
         [Route("")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> GetDevicesByQueryAsync([FromUri] string queryName, [FromUri]string jobId = null)
+        public async Task<HttpResponseMessage> GetDevicesByFilterAsync([FromUri] string filterName, [FromUri]string jobId = null)
         {
             // todo: generate some value
-            var result = new DeviceListQueryResult();
+            var result = new DeviceListFilterResult();
             result.TotalDeviceCount = 10;
             result.TotalFilteredCount = 1;
 
@@ -318,7 +318,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             result.Results.Add(new DeviceModel() { Twin = sampleTwin, IsSimulatedDevice = true });
 
-            return await GetServiceResponseAsync<DeviceListQueryResult>(async () => (await Task.FromResult(result)));
+            return await GetServiceResponseAsync<DeviceListFilterResult>(async () => (await Task.FromResult(result)));
         }
 
         [HttpGet]

@@ -139,12 +139,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private async Task<List<DeviceModel>> GetDevices()
         {
-            var query = new DeviceListQuery
+            var filter = new DeviceListFilter
             {
                 Take = 1000
             };
 
-            var devices = await _deviceLogic.GetDevices(query);
+            var devices = await _deviceLogic.GetDevices(filter);
             return devices.Results;
         }
     }

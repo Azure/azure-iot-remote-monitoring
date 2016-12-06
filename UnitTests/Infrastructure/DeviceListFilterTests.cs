@@ -5,176 +5,176 @@ using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infrastructure
 {
-    public class DeviceListQueryTests
+    public class DeviceListFilterTests
     {
         [Fact]
         public void GetSQLQueryTest()
         {
-            string sql = BuildQuery().GetSQLQuery();
+            string sql = BuildFilter().GetSQLQuery();
             Assert.Equal(sql, "SELECT * FROM devices WHERE tags.x = 'one' AND properties.desired.y < 1 AND properties.reported.z > '1' AND tags.u != 'two' AND properties.desired.v <= 2 AND properties.reported.w >= '2' AND deviceId IN ['SampleDevice001', 'SampleDevice002', 'SampleDevice003']");
 
-            sql = BuildEmptyQuery().GetSQLQuery();
+            sql = BuildEmptyFilter().GetSQLQuery();
             Assert.Equal(sql, "SELECT * FROM devices");
 
-            sql = BuildNullQuery().GetSQLQuery();
+            sql = BuildNullFilter().GetSQLQuery();
             Assert.Equal(sql, "SELECT * FROM devices");
 
-            sql = BuildQueryWithEmptyFilterValue().GetSQLQuery();
+            sql = BuildFilterWithEmptyClauseValue().GetSQLQuery();
             Assert.Equal(sql, "SELECT * FROM devices WHERE tag.x != ''");
 
-            sql = BuildQueryWithoutPropertiesPrefix().GetSQLQuery();
+            sql = BuildFilterWithoutPropertiesPrefix().GetSQLQuery();
             Assert.Equal(sql, "SELECT * FROM devices WHERE tags.x = 'one' AND properties.desired.y < 1 AND properties.reported.z > '1'");
         }
 
         [Fact]
         public void GetSQLCondition()
         {
-            string condition = BuildQuery().GetSQLCondition();
+            string condition = BuildFilter().GetSQLCondition();
             Assert.Equal(condition, "tags.x = 'one' AND properties.desired.y < 1 AND properties.reported.z > '1' AND tags.u != 'two' AND properties.desired.v <= 2 AND properties.reported.w >= '2' AND deviceId IN ['SampleDevice001', 'SampleDevice002', 'SampleDevice003']");
 
-            condition = BuildEmptyQuery().GetSQLCondition();
+            condition = BuildEmptyFilter().GetSQLCondition();
             Assert.Equal(condition, string.Empty);
 
-            condition = BuildNullQuery().GetSQLCondition();
+            condition = BuildNullFilter().GetSQLCondition();
             Assert.Equal(condition, string.Empty);
 
-            condition = BuildQueryWithEmptyFilterValue().GetSQLCondition();
+            condition = BuildFilterWithEmptyClauseValue().GetSQLCondition();
             Assert.Equal(condition, "tag.x != ''");
 
-            condition = BuildQueryWithoutPropertiesPrefix().GetSQLCondition();
+            condition = BuildFilterWithoutPropertiesPrefix().GetSQLCondition();
             Assert.Equal(condition, "tags.x = 'one' AND properties.desired.y < 1 AND properties.reported.z > '1'");
         }
 
         [Fact]
         public void GetSQLConditionShouldThrowNotSupportedExceptionForInvalidOperators()
         {
-            Assert.Throws<NotSupportedException>(() => BuildInvalidQuery().GetSQLCondition());
+            Assert.Throws<NotSupportedException>(() => BuildInvalidFilter().GetSQLCondition());
         }
 
-        private DeviceListQuery BuildQuery()
+        private DeviceListFilter BuildFilter()
         {
-            return new DeviceListQuery
+            return new DeviceListFilter
             {
-                Filters = new List<FilterInfo>
+                Clauses = new List<Clause>
                 {
-                    new FilterInfo
+                    new Clause
                     {
                         ColumnName = "tags.x",
-                        FilterType = FilterType.EQ,
-                        FilterValue = "one"
+                        ClauseType = ClauseType.EQ,
+                        ClauseValue = "one"
                     },
-                    new FilterInfo
+                    new Clause
                     {
                         ColumnName = "properties.desired.y",
-                        FilterType = FilterType.LT,
-                        FilterValue = "1"
+                        ClauseType = ClauseType.LT,
+                        ClauseValue = "1"
                     },
-                    new FilterInfo
+                    new Clause
                     {
                         ColumnName = "properties.reported.z",
-                        FilterType = FilterType.GT,
-                        FilterValue = "\'1\'"
+                        ClauseType = ClauseType.GT,
+                        ClauseValue = "\'1\'"
                     },
-                    new FilterInfo
+                    new Clause
                     {
                         ColumnName = "tags.u",
-                        FilterType = FilterType.NE,
-                        FilterValue = "two",
+                        ClauseType = ClauseType.NE,
+                        ClauseValue = "two",
                     },
-                    new FilterInfo
+                    new Clause
                     {
                         ColumnName = "properties.desired.v",
-                        FilterType = FilterType.LE,
-                        FilterValue = "2"
+                        ClauseType = ClauseType.LE,
+                        ClauseValue = "2"
                     },
-                    new FilterInfo
+                    new Clause
                     {
                         ColumnName = "properties.reported.w",
-                        FilterType = FilterType.GE,
-                        FilterValue = "\'2\'"
+                        ClauseType = ClauseType.GE,
+                        ClauseValue = "\'2\'"
                     },
-                    new FilterInfo
+                    new Clause
                     {
                         ColumnName = "deviceId",
-                        FilterType = FilterType.IN,
-                        FilterValue = "['SampleDevice001', 'SampleDevice002', 'SampleDevice003']"
+                        ClauseType = ClauseType.IN,
+                        ClauseValue = "['SampleDevice001', 'SampleDevice002', 'SampleDevice003']"
                     }
                 }
             };
         }
 
-        private DeviceListQuery BuildEmptyQuery()
+        private DeviceListFilter BuildEmptyFilter()
         {
-            return new DeviceListQuery
+            return new DeviceListFilter
             {
-                Filters = new List<FilterInfo>
+                Clauses = new List<Clause>
                 {
-                    new FilterInfo(),
-                    new FilterInfo(),
+                    new Clause(),
+                    new Clause(),
                 }
             };
         }
 
-        private DeviceListQuery BuildNullQuery()
+        private DeviceListFilter BuildNullFilter()
         {
-            return new DeviceListQuery();
+            return new DeviceListFilter();
         }
 
-        private DeviceListQuery BuildInvalidQuery()
+        private DeviceListFilter BuildInvalidFilter()
         {
-            return new DeviceListQuery
+            return new DeviceListFilter
             {
-                Filters = new List<FilterInfo>
+                Clauses = new List<Clause>
                 {
-                    new FilterInfo
+                    new Clause
                     {
                         ColumnName = "tags.x",
-                        FilterType = FilterType.ContainsCaseInsensitive,
-                        FilterValue = "one"
+                        ClauseType = ClauseType.ContainsCaseInsensitive,
+                        ClauseValue = "one"
                     }
                 }
             };
         }
 
-        private DeviceListQuery BuildQueryWithEmptyFilterValue()
+        private DeviceListFilter BuildFilterWithEmptyClauseValue()
         {
-            return new DeviceListQuery
+            return new DeviceListFilter
             {
-                Filters = new List<FilterInfo>
+                Clauses = new List<Clause>
                 {
-                    new FilterInfo
+                    new Clause
                     {
                         ColumnName = "tag.x",
-                        FilterType = FilterType.NE,
-                        FilterValue = string.Empty
+                        ClauseType = ClauseType.NE,
+                        ClauseValue = string.Empty
                     }
                 }
             };
         }
 
-        private DeviceListQuery BuildQueryWithoutPropertiesPrefix()
+        private DeviceListFilter BuildFilterWithoutPropertiesPrefix()
         {
-            return new DeviceListQuery
+            return new DeviceListFilter
             {
-                Filters = new List<FilterInfo>
+                Clauses = new List<Clause>
                 {
-                    new FilterInfo
+                    new Clause
                     {
                         ColumnName = "tags.x",
-                        FilterType = FilterType.EQ,
-                        FilterValue = "one"
+                        ClauseType = ClauseType.EQ,
+                        ClauseValue = "one"
                     },
-                    new FilterInfo
+                    new Clause
                     {
                         ColumnName = "desired.y",
-                        FilterType = FilterType.LT,
-                        FilterValue = "1"
+                        ClauseType = ClauseType.LT,
+                        ClauseValue = "1"
                     },
-                    new FilterInfo
+                    new Clause
                     {
                         ColumnName = "reported.z",
-                        FilterType = FilterType.GT,
-                        FilterValue = "\'1\'"
+                        ClauseType = ClauseType.GT,
+                        ClauseValue = "\'1\'"
                     },
                 }
             };

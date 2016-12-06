@@ -212,8 +212,8 @@
     <Compile Include="Infrastructure\ApiRegistrationRepositoryTest.cs" />
     <Compile Include="Infrastructure\CommandParameterTypeLogicTests.cs" />
     <Compile Include="Common\ExceptionSerializationTests.cs" />
-    <Compile Include="Infrastructure\DeviceListQueryRepositoryTests.cs" />
-    <Compile Include="Infrastructure\DeviceListQueryTests.cs" />
+    <Compile Include="Infrastructure\DeviceListFilterRepositoryTests.cs" />
+    <Compile Include="Infrastructure\DeviceListFilterTests.cs" />
     <Compile Include="Infrastructure\DeviceLogicTests.cs" />
     <Compile Include="Infrastructure\DeviceLogicWithIoTHubDMTests.cs" />
     <Compile Include="Infrastructure\DeviceRegistryRepositoryTests.cs" />
@@ -227,7 +227,7 @@
     <Compile Include="Infrastructure\NameCacheRepositoryTests.cs" />
     <Compile Include="Infrastructure\FilterHelperTests.cs" />
     <Compile Include="Infrastructure\IoTHubRepositoryTests.cs" />
-    <Compile Include="Infrastructure\QueryLogicTests.cs" />
+    <Compile Include="Infrastructure\FilterLogicTests.cs" />
     <Compile Include="Infrastructure\SampleDeviceTypeRepositoryTest.cs" />
     <Compile Include="Infrastructure\SecurityKeyGeneratorTests.cs" />
     <Compile Include="Infrastructure\UserSettingsLogicTests.cs" />
@@ -269,7 +269,7 @@
     <Compile Include="Web\WebApiControllers\NameCacheApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceTypesControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\KeyApiControllerTests.cs" />
-    <Compile Include="Web\WebApiControllers\QueryApiControllerTests.cs" />
+    <Compile Include="Web\WebApiControllers\FilterApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\TelemetryApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\WebApiTestHelpers.cs" />
   </ItemGroup>

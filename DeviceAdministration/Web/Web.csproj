@@ -360,8 +360,7 @@
     <Compile Include="WebApiControllers\DeviceRulesApiController.cs" />
     <Compile Include="WebApiControllers\JobIndicatorsApiController.cs" />
     <Compile Include="WebApiControllers\QueryGeneratorApiController.cs" />
-    <Compile Include="WebApiControllers\QueryNameApiController.cs" />
-    <Compile Include="WebApiControllers\QueryApiController.cs" />
+    <Compile Include="WebApiControllers\FilterApiController.cs" />
     <Compile Include="WebApiControllers\JobApiController.cs" />
     <Compile Include="WebApiControllers\DeviceListColumnsApiController.cs" />
     <Compile Include="WebApiControllers\NameCacheApiController.cs" />
@@ -384,7 +383,7 @@
     <Content Include="Content\img\column_delete.svg" />
     <Content Include="Content\img\column_down.svg" />
     <Content Include="Content\img\column_up.svg" />
-    <Content Include="Content\img\delete_query.svg" />
+    <Content Include="Content\img\delete.svg" />
     <Content Include="Content\img\edit_name.svg" />
     <Content Include="Content\img\expanded.svg" />
     <Content Include="Content\img\icon-account.png" />

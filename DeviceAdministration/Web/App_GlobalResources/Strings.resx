@@ -1881,16 +1881,16 @@
   <data name="FailedToRetrieveColumns" xml:space="preserve">
     <value>An error occurred while retrieving the list of columns.</value>
   </data>
-  <data name="AddNewQuery" xml:space="preserve">
-    <value>New Query</value>
+  <data name="AddNewFilter" xml:space="preserve">
+    <value>NEW FILTER</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="FindQuery" xml:space="preserve">
     <value>Find a query</value>
     <comment>Informational text block.</comment>
   </data>
-  <data name="ShowRecentQueries" xml:space="preserve">
-    <value>RECENT QUERIES</value>
+  <data name="ShowRecentFilters" xml:space="preserve">
+    <value>RECENT FILTERS</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="TypeOfSearch" xml:space="preserve">
@@ -1905,36 +1905,36 @@
     <value>- CLEAR CLAUSE</value>
     <comment>Button label.</comment>
   </data>
-  <data name="FailedToDeleteQuery" xml:space="preserve">
-    <value>Failed to delete query.</value>
+  <data name="FailedToDeleteFilter" xml:space="preserve">
+    <value>Failed to delete filter.</value>
     <comment>Error message.</comment>
   </data>
-  <data name="FailedToGetAvailableQueryName" xml:space="preserve">
-    <value>Failed to find available name, please retry.</value>
+  <data name="FailedToGetDefaultFilters" xml:space="preserve">
+    <value>Failed to find default filters, please retry.</value>
     <comment>Error message.</comment>
   </data>
-  <data name="FailedToGetQuery" xml:space="preserve">
-    <value>Failed to get query</value>
+  <data name="FailedToGetFilter" xml:space="preserve">
+    <value>Failed to get filter.</value>
     <comment>Error message.</comment>
   </data>
-  <data name="FailedToGetRecentQuery" xml:space="preserve">
-    <value>Failed to get recent queries.</value>
+  <data name="FailedToGetRecentFilters" xml:space="preserve">
+    <value>Failed to get recent filters.</value>
     <comment>Error message.</comment>
   </data>
-  <data name="FailedToSaveQuery" xml:space="preserve">
-    <value>Failed to save query.</value>
+  <data name="FailedToSaveFilter" xml:space="preserve">
+    <value>Failed to save filter.</value>
     <comment>Error message.</comment>
   </data>
   <data name="SearchTypeFilters" xml:space="preserve">
     <value>FILTER</value>
     <comment>Button label.</comment>
   </data>
-  <data name="SearchTypeQuery" xml:space="preserve">
-    <value>QUERY</value>
+  <data name="SearchTypeAdvanced" xml:space="preserve">
+    <value>ADVANCED</value>
     <comment>Button label.</comment>
   </data>
-  <data name="QueryIsEmpty" xml:space="preserve">
-    <value>The query name or filters are empty.</value>
+  <data name="FilterIsEmpty" xml:space="preserve">
+    <value>The filter name or filters are empty.</value>
     <comment>Error message.</comment>
   </data>
   <data name="LoadDefault" xml:space="preserve">
@@ -2184,7 +2184,7 @@
     <value>EDIT COLUMNS</value>
     <comment>Section heading.</comment>
   </data>
-  <data name="IncorrectQueryName" xml:space="preserve">
+  <data name="IncorrectFilterName" xml:space="preserve">
     <value>Query name can not include these characters: # % / \ . * + : ? &lt; &gt; &amp;</value>
     <comment>Error message.</comment>
   </data>

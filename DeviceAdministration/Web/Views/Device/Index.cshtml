@@ -23,43 +23,36 @@
         <div class="search_container search_height--fixed">
             <h2 class="search_container__search_subhead">@Strings.FindDevices</h2>
 
-            <div class="search_container__search_query_container">
+            <div class="search_container__search_filter_container">
                 <div>
-                    <img src="~/Content/img/search.svg" class="search_container__query_find_query_label vertical_center"/>
-                    <input type="text" class="search_container__query_find_query_box" id="findQueryBox" />
+                    <img src="~/Content/img/search.svg" class="search_container__filter_find_filter_label vertical_center"/>
+                    <input type="text" class="search_container__filter_find_filter_box" id="findFilterBox" />
                 </div>
 
                 <div>
-                    <img src="~/Content/img/add.svg" class="search_container__query_new_query_label vertical_center"/>
-                    <a class="search_container__query_new_query_link" id="new_query" href="#" onclick="IoTApp.DeviceIndex.buildNewQuery()">@Strings.AddNewQuery</a>
+                    <img src="~/Content/img/add.svg" class="search_container__filter_new_filter_label vertical_center"/>
+                    <a class="search_container__filter_new_filter_link" id="new_filter" href="#" onclick="IoTApp.DeviceIndex.buildNewFilter()">@Strings.AddNewFilter</a>
                 </div>
                 <div>
-                    <img src="~/Content/img/expanded.svg" class="search_container__query_recent_query_label vertical_center"/>
-                    <img src="~/Content/img/collapsed.svg" class="search_container__query_recent_query_label vertical_center" style="display:none "/>
-                    <a class="search_container__query_recent_query_link" id="recent_query" onclick="IoTApp.DeviceIndex.showRecentQueries()">@Strings.ShowRecentQueries</a>
+                    <img src="~/Content/img/expanded.svg" class="search_container__filter_recent_filter_label vertical_center"/>
+                    <img src="~/Content/img/collapsed.svg" class="search_container__filter_recent_filter_label vertical_center" style="display:none "/>
+                    <a class="search_container__filter_recent_filter_link" id="recent_filter" onclick="IoTApp.DeviceIndex.showRecentFilters()">@Strings.ShowRecentFilters</a>
                 </div>
-                <div id="recentQueryNameList">
-                    <!--
-                    <a class="search_container__query_links" href="#">SampleQuery1</a>
-                    <a class="search_container__query_links" href="#">SampleQuery2</a>
-                    <a class="search_container__query_links" href="#">SampleQuery3</a>
-                    -->
-                </div>
+                <div id="recentFilterNameList"></div>
             </div>
 
             <div class="search_container__search_details_container">
                 <div>
                     <div>
-                        <input class="search_container__query_name_text" id="queryNameBox" />
-                        <a href="#"><img class="search_container__query_save_as" src="~/Content/img/edit_name.svg" /></a>
-                        <a href="#" onclick="IoTApp.DeviceIndex.deleteQuery()"><img class="search_container__query_delete" src="~/Content/img/delete_query.svg" /></a>
-                        <a href="#" onclick="IoTApp.DeviceIndex.saveQuery()"><img class="search_container__query_save" src="~/Content/img/save.svg" /></a>
+                        <input class="search_container__filter_name_text" id="filterNameBox" />
+                        <a href="#" onclick="IoTApp.DeviceIndex.deleteFilter()"><img class="search_container__filter_delete" src="~/Content/img/delete.svg" /></a>
+                        <a href="#" onclick="IoTApp.DeviceIndex.saveFilter()"><img class="search_container__filter_save" src="~/Content/img/save.svg" /></a>
                     </div>
-                    <div class="search_container__query_search_type">
-                        <span class="search_container__query_search_type_label">@Strings.SearchType</span>
-                        <select class="search_container__query_search_type_select" id="searchTypeSelect">
+                    <div class="search_container__filter_search_type">
+                        <span class="search_container__filter_search_type_label">@Strings.SearchType</span>
+                        <select class="search_container__filter_search_type_select" id="searchTypeSelect">
                             <option selected value="FILTERS">@Strings.SearchTypeFilters</option>
-                            <option value="QUERY">@Strings.SearchTypeQuery</option>
+                            <option value="ADVANCED">@Strings.SearchTypeAdvanced</option>
                         </select>
                     </div>
                 </div>
@@ -118,13 +111,13 @@
                 <div class="search_details_container__filter_holder filter_display_group" id="filter_holder">
                 </div>
 
-                <div id="filters_container" class="search_details_container__filter_add_clause_container filter_display_group">
-                    <a class="search_details_container__filter_add_clause_link" id="addNewClause">@Strings.AddNewClause</a>
-                    <a class="search_details_container__filter_add_clause_link" id="clearClauses">@Strings.ClearClauses</a>
+                <div id="filters_container" class="search_details_container__filter_add_clause_container">
+                    <a class="search_details_container__filter_add_clause_link filter_display_group" id="addNewClause">@Strings.AddNewClause</a>
+                    <a class="search_details_container__filter_add_clause_link filter_display_group" id="clearClauses">@Strings.ClearClauses</a>
                 </div>
 
-                <div class="search_details_container__sql_container query_display_group" id="sql_container" style="display:none">
-                    <textarea id="sqlBox" class="search_details_container__sql_box query_display_group" style="display:none">SELECT * FROM Devices</textarea>
+                <div class="search_details_container__sql_container advanced_clause_display_group" id="sql_container" style="display:none">
+                    <textarea id="sqlBox" class="search_details_container__sql_box advanced_clause_display_group" style="display:none">SELECT * FROM Devices</textarea>
                 </div>
                 
                 <div class="search_container__search_details_button_container">
@@ -208,15 +201,15 @@
         unableToRetrieveColumnsFromService: '@Html.JavaScriptString(Strings.UnableToRetrieveColumnsFromService)',
         failedToUpdateColumns: '@Html.JavaScriptString(Strings.FailedToUpdateColumns)',
         failedToRetrieveColumns: '@Html.JavaScriptString(Strings.FailedToRetrieveColumns)',
-        failedToGetQuery: '@Html.JavaScriptString(Strings.FailedToGetQuery)',
-        failedToSaveQuery: '@Html.JavaScriptString(Strings.FailedToSaveQuery)',
-        failedToGetRecentQuery: '@Html.JavaScriptString(Strings.FailedToGetRecentQuery)',
-        failedToDeleteQuery: '@Html.JavaScriptString(Strings.FailedToDeleteQuery)',
-        failedToGetAvailableQueryName: '@Html.JavaScriptString(Strings.FailedToGetAvailableQueryName)',
-        queryIsEmpty: '@Html.JavaScriptString(Strings.QueryIsEmpty)',
-        incorrectQueryName: '@Html.JavaScriptString(Strings.IncorrectQueryName)',
+        failedToGetFilter: '@Html.JavaScriptString(Strings.FailedToGetFilter)',
+        failedToSaveFilter: '@Html.JavaScriptString(Strings.FailedToSaveFilter)',
+        failedToGetRecentFilter: '@Html.JavaScriptString(Strings.FailedToGetRecentFilters)',
+        failedToDeleteFilter: '@Html.JavaScriptString(Strings.FailedToDeleteFilter)',
+        failedToGetDefaultFilters: '@Html.JavaScriptString(Strings.FailedToGetDefaultFilters)',
+        filterIsEmpty: '@Html.JavaScriptString(Strings.FilterIsEmpty)',
+        incorrectFilterName: '@Html.JavaScriptString(Strings.IncorrectFilterName)',
         failedToScheduleJob: '@Html.JavaScriptString(Strings.ScheduleJobError)',
-        queryName: '@Html.JavaScriptString((string)ViewBag.QueryName)',
+        filterName: '@Html.JavaScriptString((string)ViewBag.FilterName)',
         allDevices: '@Html.JavaScriptString(Strings.AllDevices)'
     };
 </script>

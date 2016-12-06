@@ -20,7 +20,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task CloseAsyncDevice();
         Task<Twin> GetTwinAsync(string deviceId);
         Task UpdateTwinAsync(string deviceId, Twin twin);
-        Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListQuery query);
+        Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListFilter filter);
         Task<long> GetDeviceCountAsync();
         Task<IEnumerable<DeviceJob>> GetDeviceJobsByDeviceIdAsync(string deviceId);
         Task<IEnumerable<DeviceJob>> GetDeviceJobsByJobIdAsync(string jobId);

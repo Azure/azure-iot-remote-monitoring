@@ -71,11 +71,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
         public async void SelectTypeTest()
         {
             var deviceType = _fixture.Create<DeviceType>();
-            var devices = _fixture.Create<DeviceListQueryResult>();
+            var devices = _fixture.Create<DeviceListFilterResult>();
             var iccids = _fixture.Create<List<string>>();
 
             _apiRegistrationRepository.Setup(repo => repo.IsApiRegisteredInAzure()).Returns(true);
-            _deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(devices);
+            _deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListFilter>())).ReturnsAsync(devices);
             _cellulerExtensionsMock.Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>()))
                 .Returns(iccids);
 
@@ -116,11 +116,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
         {
             var button = _fixture.Create<string>();
             var deviceModel = _fixture.Create<UnregisteredDeviceModel>();
-            var devices = _fixture.Create<DeviceListQueryResult>();
+            var devices = _fixture.Create<DeviceListFilterResult>();
             var iccids = _fixture.Create<List<string>>();
 
             _apiRegistrationRepository.Setup(repo => repo.IsApiRegisteredInAzure()).Returns(true);
-            _deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(devices);
+            _deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListFilter>())).ReturnsAsync(devices);
             _deviceLogicMock.Setup(mock => mock.GetDeviceAsync(It.IsAny<string>())).ReturnsAsync(new DeviceModel());
             var result = await _deviceController.AddDeviceCreate(button, deviceModel);
 

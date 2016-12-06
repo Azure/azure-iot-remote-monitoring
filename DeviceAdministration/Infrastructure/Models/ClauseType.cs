@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines different types of filters that can be set on a column
     /// </summary>
-    public enum FilterType
+    public enum ClauseType
     {
         // filter on status values--not a string filter!
         Status,

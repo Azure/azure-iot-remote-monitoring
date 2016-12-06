@@ -148,7 +148,7 @@
     <Compile Include="BusinessLogic\DeviceLogicWithIoTHubDM.cs" />
     <Compile Include="BusinessLogic\DeviceRulesLogic.cs" />
     <Compile Include="BusinessLogic\DeviceTelemetryLogic.cs" />
-    <Compile Include="BusinessLogic\IQueryLogic.cs" />
+    <Compile Include="BusinessLogic\IFilterLogic.cs" />
     <Compile Include="BusinessLogic\IUserSettingsLogic.cs" />
     <Compile Include="BusinessLogic\NameCacheLogic.cs" />
     <Compile Include="BusinessLogic\DeviceTypeLogic.cs" />
@@ -164,7 +164,7 @@
     <Compile Include="BusinessLogic\IKeyLogic.cs" />
     <Compile Include="BusinessLogic\ISecurityKeyGenerator.cs" />
     <Compile Include="BusinessLogic\KeyLogic.cs" />
-    <Compile Include="BusinessLogic\QueryLogic.cs" />
+    <Compile Include="BusinessLogic\FilterLogic.cs" />
     <Compile Include="BusinessLogic\SecurityKeyGenerator.cs" />
     <Compile Include="BusinessLogic\UserSettingsLogic.cs" />
     <Compile Include="Exceptions\DeviceAdministrationExceptionBase.cs" />
@@ -174,8 +174,8 @@
     <Compile Include="Exceptions\JobNotFoundException.cs" />
     <Compile Include="Exceptions\JobRepositoryRemoveException.cs" />
     <Compile Include="Exceptions\JobRepositorySaveException.cs" />
-    <Compile Include="Exceptions\QueryAssociatedWithJobException.cs" />
-    <Compile Include="Exceptions\QueryNotFoundException.cs" />
+    <Compile Include="Exceptions\FilterAssociatedWithJobException.cs" />
+    <Compile Include="Exceptions\FilterNotFoundException.cs" />
     <Compile Include="Exceptions\UnsupportedCommandException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Models\ActionMapping.cs" />
@@ -186,9 +186,9 @@
     <Compile Include="Models\JobTableEntity.cs" />
     <Compile Include="Models\DeviceListColumnsTableEntity.cs" />
     <Compile Include="Models\MatchingDevices.cs" />
-    <Compile Include="Models\Query.cs" />
-    <Compile Include="Models\DeviceListQueryResult.cs" />
-    <Compile Include="Models\DeviceListQuery.cs" />
+    <Compile Include="Models\Filter.cs" />
+    <Compile Include="Models\DeviceListFilterResult.cs" />
+    <Compile Include="Models\DeviceListFilter.cs" />
     <Compile Include="Models\DeviceListLocationsModel.cs" />
     <Compile Include="Models\DeviceLocationModel.cs" />
     <Compile Include="Models\DevicePropertyMetadata.cs" />
@@ -209,11 +209,11 @@
     <Compile Include="Models\NameCacheTableEntity.cs" />
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\DeviceWithKeys.cs" />
-    <Compile Include="Models\FilterInfo.cs" />
-    <Compile Include="Models\FilterType.cs" />
+    <Compile Include="Models\Clause.cs" />
+    <Compile Include="Models\ClauseType.cs" />
     <Compile Include="Models\PropertyType.cs" />
     <Compile Include="Models\QuerySortOrder.cs" />
-    <Compile Include="Models\DeviceListQueryTableEntity.cs" />
+    <Compile Include="Models\DeviceListFilterTableEntity.cs" />
     <Compile Include="Models\ServiceResponse.cs" />
     <Compile Include="Models\Error.cs" />
     <Compile Include="Models\UserSetting.cs" />
@@ -224,7 +224,7 @@
     <Compile Include="Repository\AlertsRepository.cs" />
     <Compile Include="Repository\ApiRegistrationRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepositoryWithIoTHubDM.cs" />
-    <Compile Include="Repository\DeviceListQueryRepository.cs" />
+    <Compile Include="Repository\DeviceListFilterRepository.cs" />
     <Compile Include="Repository\DeviceRegistryRepository.cs" />
     <Compile Include="Repository\FilterHelper.cs" />
     <Compile Include="Repository\IActionMappingRepository.cs" />
@@ -245,7 +245,7 @@
     <Compile Include="Repository\IIoTHubDeviceManager.cs" />
     <Compile Include="Repository\IoTHubDeviceManager.cs" />
     <Compile Include="Repository\IotHubRepository.cs" />
-    <Compile Include="Repository\IDeviceListQueryRepository.cs" />
+    <Compile Include="Repository\IDeviceListFilterRepository.cs" />
     <Compile Include="Repository\IUserSettingsRepository.cs" />
     <Compile Include="Repository\RepositoryInitializer.cs" />
     <Compile Include="Repository\SampleDeviceTypeRepository.cs" />

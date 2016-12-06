@@ -47,7 +47,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var names = await nameCacheRepository.GetNameListAsync(NameCacheEntityType.Tag | NameCacheEntityType.Property);
             Assert.NotNull(names);
             Assert.Equal(3, names.Count());
-            Assert.Equal(names.Select(e => e.Name).ToArray(), tableEntities.OrderByDescending(e => e.Timestamp).Select(e => e.Name).ToArray());
+            Assert.Equal(names.Select(e => e.Name).ToArray(), tableEntities.OrderBy(e => e.PartitionKey).ThenBy(e => e.RowKey).Select(e => e.Name).ToArray());
         }
 
         [Fact]

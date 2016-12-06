@@ -58,12 +58,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
         [Fact]
         public async void DeviceAssociation()
         {
-            var queryResMock = _fixture.Create<DeviceListQueryResult>();
+            var filterMock = _fixture.Create<DeviceListFilterResult>();
             var iccids = _fixture.Create<List<string>>();
             var deviceIds = _fixture.Create<List<string>>();
             _deviceLogicMock
-                .Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>()))
-                .ReturnsAsync(queryResMock);
+                .Setup(mock => mock.GetDevices(It.IsAny<DeviceListFilter>()))
+                .ReturnsAsync(filterMock);
 
             _apiRegistrationRepositoryMock
                 .Setup(mock => mock.IsApiRegisteredInAzure())

@@ -17,18 +17,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     public class JobController : Controller
     {
         private readonly IJobRepository _jobRepository;
-        private readonly IDeviceListQueryRepository _queryRepository;
+        private readonly IDeviceListFilterRepository _filterRepository;
         private readonly IIoTHubDeviceManager _iotHubDeviceManager;
         private readonly INameCacheLogic _nameCacheLogic;
 
         public JobController(
             IJobRepository jobRepository,
-            IDeviceListQueryRepository queryRepository,
+            IDeviceListFilterRepository queryRepository,
             IIoTHubDeviceManager iotHubDeviceManager,
             INameCacheLogic nameCacheLogic)
         {
             _jobRepository = jobRepository;
-            _queryRepository = queryRepository;
+            _filterRepository = queryRepository;
             _iotHubDeviceManager = iotHubDeviceManager;
             _nameCacheLogic = nameCacheLogic;
         }
@@ -182,17 +182,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
         }
 
-        private async Task<string> GetQueryCondition(string queryName)
+        private async Task<string> GetQueryCondition(string filterName)
         {
-            if (queryName == "*")
+            if (filterName == "*")
             {
                 //[WORKAROUND] No condition available for "All Devices"
                 return "tags.HubEnabledState='Running'";
             }
             else
             {
-                var query = await _queryRepository.GetQueryAsync(queryName);
-                return query.GetSQLCondition();
+                var filter = await _filterRepository.GetFilterAsync(filterName);
+                return filter.GetSQLCondition();
             }
         }
     }

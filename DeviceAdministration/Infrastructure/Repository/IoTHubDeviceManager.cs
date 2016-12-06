@@ -100,9 +100,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return jobId;
         }
 
-        public async Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListQuery query)
+        public async Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListFilter filter)
         {
-            var sqlQuery = query.GetSQLQuery();
+            var sqlQuery = filter.GetSQLQuery();
             var deviceQuery = this._deviceManager.CreateQuery(sqlQuery);
 
             var twins = new List<Twin>();

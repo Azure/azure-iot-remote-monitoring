@@ -54,21 +54,21 @@
                 }
             });
 
-        $('#findQueryBox').on(
+        $('#findFilterBox').on(
             'keypress',
             function (e) {
                 var ENTER_KEY_CODE = 13;
                 if (e.keyCode === ENTER_KEY_CODE) {
-                    findQuery($(this).val());
+                    findFilter($(this).val());
                     return false;
                 }
             });
 
-        initQueryNameList();
+        initFilterNameList();
         _cacheFilterNameList();
 
         $('#addNewClause').click(function () {
-            addFilter();
+            addClause();
         });
 
         $('#clearClauses').click(function () {
@@ -77,26 +77,15 @@
 
         $('#searchTypeSelect').change(function () {
             $('.filter_display_group').toggle();
-            $('.query_display_group').toggle();
+            $('.advanced_clause_display_group').toggle();
             updateSqlBox(getFilterDataModel());
         });
 
-        $('.search_container__query_search_type_filter').click(function () {
-            $('.filter_display_group').toggle();
-            $('.query_display_group').toggle();
-            updateSqlBox(getFilterDataModel());
-        });
+        showRecentFilters(null);
 
-        $('.search_container__query_search_type_query').click(function () {
-            $('.filter_display_group').toggle();
-            $('.query_display_group').toggle();
-        });
-
-        showRecentQueries(null);
-
-        $('#recent_query').click(function () {
-            $('#recentQueryNameList').toggle();
-            $('.search_container__query_recent_query_label').toggle();
+        $('#recent_filter').click(function () {
+            $('#recentFilterNameList').toggle();
+            $('.search_container__filter_recent_filter_label').toggle();
         });
 
         initSpliter();
@@ -131,7 +120,7 @@
                 currentSortArray: [[1, "asc"]],
                 start: 0,
                 searchQuery: '',
-                queryName: '',
+                filterName: '',
                 filters: [],
                 sql: '',
                 isAdvanced: false,
@@ -149,9 +138,9 @@
         if (data) {
             uiState.start = data.start;
             uiState.searchQuery = data.search.value;
-            uiState.queryName = data.queryName;
-            uiState.filters = data.filters;
-            uiState.sql = data.sql;
+            uiState.filterName = data.filterName;
+            uiState.clauses = data.clauses;
+            uiState.advancedClause = data.advancedClause;
             uiState.isAdvanced = data.isAdvanced;
         } else {
             if (uiState.start === undefined) {
@@ -272,18 +261,18 @@
 
     var populateSearchPane = function (callback) {
         
-        if (resources.queryName === resources.allDevices)
+        if (resources.filterName === resources.allDevices)
         {
             callback();
         }
-        else if (resources.queryName) {
+        else if (resources.filterName) {
             showHideSearchPane(true);
-            findQuery(resources.queryName, callback);
+            findFilter(resources.filterName, callback);
         }
         else {
             var cookieData = getUiStateFromCookie();
             showHideSearchPane(cookieData.searchPaneOpen);
-            updateQueryPanel(cookieData);
+            updateFilterPanel(cookieData);
             callback();
         }
     } 
@@ -362,7 +351,7 @@
             click: function () {
                 unselectAllRows();
                 showDetails();
-                self.loader = self.deviceDetails.scheduleJob($('#queryNameBox').val());
+                self.loader = self.deviceDetails.scheduleJob($('#filterNameBox').val());
             }
         }).appendTo($buttonArea);
 
@@ -406,25 +395,25 @@
     var onDataTableAjaxCalled = function (data, fnCallback) {
         
         data.search.value = $('#searchQuery').val();
-        data.queryName = $('#queryNameBox').val();
-        data.sql = $('#sqlBox').val();
-        data.isAdvanced = $('#searchTypeSelect').val() === 'QUERY';
-        data.filters = [];
-        for (var i = 0; i < filterCount; ++i) {
+        data.filterName = $('#filterNameBox').val();
+        data.advancedClause = $('#sqlBox').val();
+        data.isAdvanced = $('#searchTypeSelect').val() === 'ADVANCED';
+        data.clauses = [];
+        for (var i = 0; i < clauseCount; ++i) {
 
-            data.filters[i] = {
+            data.clauses[i] = {
                 "columnName": $('#filterField' + i).val(),
             };
             
-            switch (data.filters[i].columnName) {
+            switch (data.clauses[i].columnName) {
                 case "Status":
-                    data.filters[i].filterType = "Status";
-                    data.filters[i].filterValue = $('#filterStatusSelect' + i).val();
+                    data.clauses[i].clauseType = "Status";
+                    data.clauses[i].clauseValue = $('#filterStatusSelect' + i).val();
                     break;
 
                 default: // (all text-based columns)
-                    data.filters[i].filterType = $('#filterOperator' + i).val();
-                    data.filters[i].filterValue = $('#filterValue' + i).val();
+                    data.clauses[i].clauseType = $('#filterOperator' + i).val();
+                    data.clauses[i].clauseValue = $('#filterValue' + i).val();
                     break;
             }
         };
@@ -580,32 +569,32 @@
         searchQueryTextbox.val('');
 
         // delete all filters
-        filterCount = 0;
+        clauseCount = 0;
         $('#filter_holder').html('');
 
-        $('#queryNameBox').val('');
+        $('#filterNameBox').val('');
         $('#sqlBox').val('');
         $('.filter_display_group').show();
-        $('.query_display_group').hide();
+        $('.advanced_clause_display_group').hide();
         $('#searchTypeSelect').val("FILTERS");
-        $('.search_container__query_links').removeClass('selected_query');
+        $('.search_container__filter_links').removeClass('selected_filter');
 
         IoTApp.DeviceIndex.reloadGrid();
     }
 
-    var filterCount = 0;
-    var addFilter = function () {
+    var clauseCount = 0;
+    var addClause = function () {
         // add the new filter controls
-        $('#filter_holder').append(getFilterHtml(filterCount));
+        $('#filter_holder').append(getFilterHtml(clauseCount));
 
         // hide the status as soon as it is shown
-        $('#filterStatusControl' + filterCount).hide();
+        $('#filterStatusControl' + clauseCount).hide();
 
-        applyFilterNameList($('#filterField' + filterCount));
+        applyFilterNameList($('#filterField' + clauseCount));
 
         // wire up for dynamic control changes
-        $('#filterField' + filterCount).change(function (i) {
-            // create a closure for each filter clause for filterCount (now i)
+        $('#filterField' + clauseCount).change(function (i) {
+            // create a closure for each filter clause for clauseCount (now i)
             return function () {
                 var newColumn = $('#filterField' + i).val();
 
@@ -619,9 +608,9 @@
                     $('#filterStatusControl' + i).hide();
                 }
             }
-        }(filterCount));
+        }(clauseCount));
         
-        filterCount++;
+        clauseCount++;
     }
 
     var getFilterHtml = function (filterNum) {
@@ -632,25 +621,25 @@
     }
 
     var getFilterDataModel = function () {
-        var filters = [];
-        for (var i = 0; i < filterCount; ++i) {
+        var clauses = [];
+        for (var i = 0; i < clauseCount; ++i) {
             var columnName = $('#filterField' + i).val().trim();
             if (!columnName) continue;
-            filters.push({
+            clauses.push({
                 "ColumnName": columnName,
-                "FilterType": $('#filterOperator' + i).val(),
-                "FilterValue": $('#filterValue' + i).val(),
+                "ClauseType": $('#filterOperator' + i).val(),
+                "ClauseValue": $('#filterValue' + i).val(),
             });
         }
-        return filters;
+        return clauses;
     }
 
-    var updateSqlBox = function (filters) {
+    var updateSqlBox = function (clauses) {
         $.ajax({
-            url: "/api/v1/generateSql",
+            url: "/api/v1/generateAdvanceClause",
             type: 'POST',
             dataType: 'json',
-            data: { Name: 'any', Filters: filters },
+            data: { Name: 'any', Clauses: clauses },
             success: function (result) {
                 $('#sqlBox').val(result.data);
             },
@@ -661,125 +650,125 @@
 
     }
     
-    var buildNewQuery = function () {
-        var prefix = "MyNewQuery";
+    var buildNewFilter = function () {
+        var prefix = "MyNewFilter";
         $.ajax({
-            url: "/api/v1/availableQueryName/" + prefix,
+            url: "/api/v1/defaultFilterName/" + prefix,
             type: 'GET',
             dataType: 'json',
             success: function (result) {
-                $('#queryNameBox').val(result.data);
-                $('.search_container__query_links').removeClass('selected_query');
+                $('#filterNameBox').val(result.data);
+                $('.search_container__filter_links').removeClass('selected_filter');
                 clearClauses(false);
                 updateSqlBox(getFilterDataModel());
             },
             error: function () {
-                IoTApp.Helpers.Dialog.displayError(resources.failedToGetAvailableQueryName);
+                IoTApp.Helpers.Dialog.displayError(resources.failedToGetDefaultFilters);
             }
         });
     }
 
-    var saveQuery = function () {
-        var queryName = $('#queryNameBox').val();
+    var saveFilter = function () {
+        var filterName = $('#filterNameBox').val();
         var sql = $('#sqlBox').val();
-        var url = "/api/v1/queries";
-        var isAdvanced = $('#searchTypeSelect').val() === 'QUERY';
+        var url = "/api/v1/filters";
+        var isAdvanced = $('#searchTypeSelect').val() === 'ADVANCED';
         var filters = getFilterDataModel();
-        if (!queryName || sql === '' && filters.length == 0) {
-            IoTApp.Helpers.Dialog.displayError(resources.queryIsEmpty);
+        if (!filterName || sql === '' && filters.length == 0) {
+            IoTApp.Helpers.Dialog.displayError(resources.filterIsEmpty);
             return;
         }
-        else if (/[#%.*+:?<>&/\\]/g.test(queryName)) {
-            IoTApp.Helpers.Dialog.displayError(resources.incorrectQueryName);
+        else if (/[#%.*+:?<>&/\\]/g.test(filterName)) {
+            IoTApp.Helpers.Dialog.displayError(resources.incorrectFilterName);
             return;
         }
         return $.ajax({
             url: url,
             type: 'POST',
             data: {
-                Name: queryName,
-                Filters: filters,
-                Sql: sql,
+                Name: filterName,
+                Clauses: filters,
+                AdvancedClause: sql,
                 IsTemporary: false,
                 IsAdvanced: isAdvanced,
             },
             dataType: 'json',
             success: function (result) {
-                showRecentQueries(queryName);
-                initQueryNameList();
+                showRecentFilters(filterName);
+                initFilterNameList();
                 return result.data;
             },
             error: function () {
-                IoTApp.Helpers.Dialog.displayError(resources.failedToSaveQuery);
+                IoTApp.Helpers.Dialog.displayError(resources.failedToSaveFilter);
             }
         });
     }
 
-    var deleteQuery = function () {
-        var url = "/api/v1/queries/" + $('#queryNameBox').val();
+    var deleteFilter = function () {
+        var url = "/api/v1/filters/" + $('#filterNameBox').val();
         return $.ajax({
             url: url,
             type: 'DELETE',
             dataType: 'json',
             success: function (result) {
-                showRecentQueries(null);
-                $('#queryNameBox').val('');
+                showRecentFilters(null);
+                $('#filterNameBox').val('');
                 clearClauses(false);
             },
             error: function () {
-                IoTApp.Helpers.Dialog.displayError(resources.failedToDeleteQuery);
+                IoTApp.Helpers.Dialog.displayError(resources.failedToDeleteFilter);
             }
         });
     }
 
-    var showRecentQueries = function (queryName) {
-        var url = "/api/v1/queries";
+    var showRecentFilters = function (filterName) {
+        var url = "/api/v1/filters";
         return $.ajax({
             url: url,
             type: 'GET',
             dataType: 'json',
             success: function (result) {
-                var recentQueryArea = $('#recentQueryNameList');
-                recentQueryArea.empty();
-                var query = result.data;
-                for (var i = 0; i < query.length; i++) {
+                var recentFilterArea = $('#recentFilterNameList');
+                recentFilterArea.empty();
+                var filter = result.data;
+                for (var i = 0; i < filter.length; i++) {
                     $('<a/>', {
-                        id: 'queryName' + i,
-                        "class": 'search_container__query_links',
-                        text: query[i].name,
+                        id: 'filterName' + i,
+                        "class": 'search_container__filter_links',
+                        text: filter[i].name,
                         click: function () {
-                            findQuery(this.textContent);
+                            findFilter(this.textContent);
                         }
-                    }).appendTo(recentQueryArea);
+                    }).appendTo(recentFilterArea);
                 };
-                if (queryName) {
-                    $('.search_container__query_links').each(function (index) {
-                        if(this.textContent === queryName) {
-                            $(this).addClass('selected_query');
+                if (filterName) {
+                    $('.search_container__filter_links').each(function (index) {
+                        if(this.textContent === filterName) {
+                            $(this).addClass('selected_filter');
                         }
                     });
                 }
             },
             error: function () {
-                IoTApp.Helpers.Dialog.displayError(resources.failedToGetRecentQuery);
+                IoTApp.Helpers.Dialog.displayError(resources.failedToGetRecentFilter);
             }
         });
     }
 
-    var findQuery = function (queryName, callback) {
-        var url = "/api/v1/queries/" + queryName;
+    var findFilter = function (filterName, callback) {
+        var url = "/api/v1/filters/" + filterName;
         return $.ajax({
             url: url,
             type: 'GET',
             dataType: 'json',
             success: function (result) {
-                updateQueryPanel(result.data);
+                updateFilterPanel(result.data);
                 if (callback) {
                     callback();
                 }   
             },
             error: function () {
-                IoTApp.Helpers.Dialog.displayError(resources.failedToGetQuery + " : " + queryName);
+                IoTApp.Helpers.Dialog.displayError(resources.failedToGetFilter + " : " + filterName);
                 if (callback) {
                     callback();
                 }
@@ -787,27 +776,27 @@
         });
     }
 
-    var updateQueryPanel = function (query) {
-        query.name = query.name || query.queryName;
-        updateFiltersPanel(query.filters);
-        $('#queryNameBox').val(query.name);
-        $('.search_container__query_links').each(function (index) {
-            if (this.textContent === query.name) {
-                $(this).addClass('selected_query');
+    var updateFilterPanel = function (filter) {
+        filter.name = filter.name || filter.filterName;
+        updateFiltersPanel(filter.clauses);
+        $('#filterNameBox').val(filter.name);
+        $('.search_container__filter_links').each(function (index) {
+            if (this.textContent === filter.name) {
+                $(this).addClass('selected_filter');
             } else {
-                $(this).removeClass('selected_query');
+                $(this).removeClass('selected_filter');
             }
         });
-        if (query.isAdvanced) {
+        if (filter.isAdvanced) {
             $('.filter_display_group').hide();
-            $('.query_display_group').show();
-            $('#searchTypeSelect').val('QUERY');
+            $('.advanced_clause_display_group').show();
+            $('#searchTypeSelect').val('ADVANCED');
         } else {
             $('.filter_display_group').show();
-            $('.query_display_group').hide();
+            $('.advanced_clause_display_group').hide();
             $('#searchTypeSelect').val('FILTERS');
         }
-        $('#sqlBox').val(query.sql);
+        $('#sqlBox').val(filter.advancedClause);
     }
 
     var updateFiltersPanel = function (filters) {
@@ -816,17 +805,17 @@
             return;
         }
         clearClauses(true);
-        filterCount = filters.length;
+        clauseCount = filters.length;
         filters.forEach(function (filter, i) {
             $('#filter_holder').append(getFilterHtml(i));
             applyFilterNameList($('#filterField' + i));
             var newColumn = $('#filterField' + i).val(filter.columnName);
-            $('#filterOperator' + i).val(filter.filterType);
-            $('#filterValue' + i).val(filter.filterValue);
+            $('#filterOperator' + i).val(filter.clauseType);
+            $('#filterValue' + i).val(filter.clauseValue);
             $('#filterStatusControl' + i).hide();
             // wire up for dynamic control changes
             $('#filterField' + i).change(function (i) {
-                // create a closure for each filter clause for filterCount (now i)
+                // create a closure for each filter clause for clauseCount (now i)
                 return function () {
                     if (newColumn === 'Status') {
                         $('#filterOperatorControl' + i).hide();
@@ -844,21 +833,21 @@
 
     var clearClauses = function (empty) {
         $('#filter_holder').empty();
-        filterCount = 0;
+        clauseCount = 0;
         if (empty) return;
         $('#filter_holder').append(getFilterHtml(0));
         applyFilterNameList($('#filterField0'));
         $('#filterStatusControl0').hide();
-        filterCount = 1;
+        clauseCount = 1;
     }
 
-    var initQueryNameList = function () {
+    var initFilterNameList = function () {
         return $.ajax({
-            url: '/api/v1/queryList',
+            url: '/api/v1/filterList',
             type: 'GET',
             dataType: 'json',
             success: function (result) {
-                IoTApp.Controls.NameSelector.create($('#findQueryBox'), null, result.data);
+                IoTApp.Controls.NameSelector.create($('#findFilterBox'), null, result.data);
             }
         });
     }
@@ -894,10 +883,10 @@
         reloadGrid: reloadGrid,
         resetSearch: resetSearch,
         reinitializeDeviceList: reinitializeDeviceList,
-        showRecentQueries: showRecentQueries,
-        saveQuery: saveQuery,
-        deleteQuery: deleteQuery,
-        buildNewQuery: buildNewQuery,
+        showRecentFilters: showRecentFilters,
+        saveFilter: saveFilter,
+        deleteFilter: deleteFilter,
+        buildNewFilter: buildNewFilter,
     }
 }, [jQuery, resources]);
 

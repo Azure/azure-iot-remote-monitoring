@@ -185,7 +185,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 device.Twin.Tags["seq"] = rand.Next();
             });
 
-            var query = new DeviceListQuery
+            var filter = new DeviceListFilter
             {
                 Skip = 0,
                 Take = int.MaxValue,
@@ -201,21 +201,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 .ReturnsAsync(1024);
 
             this._mockIoTHubDeviceManager
-                .Setup(x => x.QueryDevicesAsync(It.IsAny<DeviceListQuery>())).
+                .Setup(x => x.QueryDevicesAsync(It.IsAny<DeviceListFilter>())).
                 ReturnsAsync(filtedDevices.Select(d => d.Twin));
 
-            var result = await this._deviceRegistryRepository.GetDeviceList(query);
+            var result = await this._deviceRegistryRepository.GetDeviceList(filter);
 
             Assert.Equal(result.TotalDeviceCount, 1024);
             Assert.Equal(result.TotalFilteredCount, filtedDevices.Count());
             Assert.True(result.Results.SequenceEqual(filtedDevices));
 
-            query.SortColumn = "twin.tags.seq";
-            result = await this._deviceRegistryRepository.GetDeviceList(query);
+            filter.SortColumn = "twin.tags.seq";
+            result = await this._deviceRegistryRepository.GetDeviceList(filter);
             Assert.True(result.Results.SequenceEqual(filtedDevices.OrderBy(d => (int)d.Twin.Tags["seq"])));
 
-            query.SortOrder = QuerySortOrder.Descending;
-            result = await this._deviceRegistryRepository.GetDeviceList(query);
+            filter.SortOrder = QuerySortOrder.Descending;
+            result = await this._deviceRegistryRepository.GetDeviceList(filter);
             Assert.True(result.Results.SequenceEqual(filtedDevices.OrderByDescending(d => (int)d.Twin.Tags["seq"])));
         }
 

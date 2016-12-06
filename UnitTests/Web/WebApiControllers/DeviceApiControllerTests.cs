@@ -54,8 +54,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
         [Fact]
         public async void GetDeviceAsyncWFilterTest()
         {
-            var devices = fixture.Create<DeviceListQueryResult>();
-            deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(devices);
+            var devices = fixture.Create<DeviceListFilterResult>();
+            deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListFilter>())).ReturnsAsync(devices);
             var res = await deviceApiController.GetDevicesAsync();
             res.AssertOnError();
             var data = res.ExtractContentDataAs<List<DeviceModel>>();
@@ -67,9 +67,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
         {
             var reqData = fixture.Create<DataTablesRequest>();
             reqData.SortColumns.ForEach(col => col.ColumnIndexAsString = 0.ToString());
-            var devices = fixture.Create<DeviceListQueryResult>();
+            var devices = fixture.Create<DeviceListFilterResult>();
 
-            deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(devices);
+            deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListFilter>())).ReturnsAsync(devices);
             var res = await deviceApiController.GetDevices(JObject.FromObject(reqData));
 
             res.AssertOnError();
@@ -164,10 +164,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
         [Fact]
         public async void DeleteAllDevices()
         {
-            var devices = fixture.Create<DeviceListQueryResult>();
-            DeviceListQuery saveObject = null;
-            deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>()))
-                .Callback<DeviceListQuery>(obj => saveObject = obj)
+            var devices = fixture.Create<DeviceListFilterResult>();
+            DeviceListFilter saveObject = null;
+            deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListFilter>()))
+                .Callback<DeviceListFilter>(obj => saveObject = obj)
                 .ReturnsAsync(devices);
 
             deviceLogic.Setup(mock => mock.RemoveDeviceAsync(It.IsAny<string>())).Returns(Task.FromResult(true));

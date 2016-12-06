@@ -15,10 +15,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var configurationProvider = new ConfigurationProvider();
 
-            await ClearTableAsync(configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString"), "QueryList");
+            await ClearTableAsync(configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString"), "FilterList");
             await ClearTableAsync(configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString"), "JobTable");
 
-            var queryRepository = new DeviceListQueryRepository(configurationProvider, new AzureTableStorageClientFactory());
+            var filterRepository = new DeviceListFilterRepository(configurationProvider, new AzureTableStorageClientFactory());
             var jobRepository = new JobRepository(configurationProvider, new AzureTableStorageClientFactory());
 
             var deviceIdsByJobId = new Dictionary<string, HashSet<string>>();
@@ -46,16 +46,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 var deviceIds = group.First().Value.OrderBy(s => s);
 
-                var queryModel = new DeviceListQuery
+                var filterModel = new DeviceListFilter
                 {
-                    Name = $"Query for {string.Join(", ", deviceIds)}",
-                    Filters = new List<FilterInfo>(),
+                    Name = $"Filter for {string.Join(", ", deviceIds)}",
+                    Clauses = new List<Clause>(),
                     SortColumn = "DeviceID",
                     SortOrder = QuerySortOrder.Ascending,
-                    Sql = $"SELECT * FROM devices WHERE deviceId IN [{string.Join(", ", deviceIds.Select(id => $"'{id}'"))}]"
+                    AdvancedClause = $"SELECT * FROM devices WHERE deviceId IN [{string.Join(", ", deviceIds.Select(id => $"'{id}'"))}]"
                 };
 
-                await queryRepository.SaveQueryAsync(queryModel);
+                await filterRepository.SaveFilterAsync(filterModel);
 
                 foreach (var job in group)
                 {
@@ -63,7 +63,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         job.Key.Substring(job.Key.Length - 3) :
                         job.Key;
 
-                    var jobModel = new JobRepositoryModel(job.Key, queryModel.Name, $"job-{jobName}");
+                    var jobModel = new JobRepositoryModel(job.Key, filterModel.Name, $"job-{jobName}");
 
                     await jobRepository.AddAsync(jobModel);
                 }

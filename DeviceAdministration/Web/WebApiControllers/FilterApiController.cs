@@ -8,100 +8,100 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Secu
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
-    [RoutePrefix("api/v1/queries")]
-    public class QueryApiController : WebApiControllerBase
+    [RoutePrefix("api/v1/filters")]
+    public class FilterApiController : WebApiControllerBase
     {
-        private IQueryLogic _queryLogic;
-        public QueryApiController(IQueryLogic queryLogic)
+        private IFilterLogic _filterLogic;
+        public FilterApiController(IFilterLogic filterLogic)
         {
-            _queryLogic = queryLogic;
+            _filterLogic = filterLogic;
         }
 
         [HttpGet]
         [Route("")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        //api/v1/queries
-        public async Task<HttpResponseMessage> GetRecentQueries(int max=3)
+        //api/v1/filters
+        public async Task<HttpResponseMessage> GetRecentFilters(int max=3)
         {
-            return await GetServiceResponseAsync<IEnumerable<Query>>(async () =>
+            return await GetServiceResponseAsync<IEnumerable<Filter>>(async () =>
             {
-                return await _queryLogic.GetRecentQueriesAsync(max);
+                return await _filterLogic.GetRecentFiltersAsync(max);
             });
         }
 
         [HttpGet]
-        [Route("{queryName}")]
+        [Route("{filterName}")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        //api/v1/queries/{queryName}
-        public async Task<HttpResponseMessage> GetQuery(string queryName)
+        //api/v1/filters/{filterName}
+        public async Task<HttpResponseMessage> GetFilter(string filterName)
         {
-            return await GetServiceResponseAsync<Query>(async () =>
+            return await GetServiceResponseAsync<Filter>(async () =>
             {
-                return await _queryLogic.GetQueryAsync(queryName);
+                return await _filterLogic.GetFilterAsync(filterName);
             });
         }
 
         [HttpPost]
         [Route("")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> AddQuery(Query query)
+        public async Task<HttpResponseMessage> AddQuery(Filter filter)
         {
             return await GetServiceResponseAsync<bool>(async () =>
             {
-                return await _queryLogic.AddQueryAsync(query);
+                return await _filterLogic.AddFilterAsync(filter);
             });
         }
         
         [HttpDelete]
-        [Route("{queryName}")]
+        [Route("{filterName}")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> DeleteQuery(string queryName)
+        public async Task<HttpResponseMessage> DeleteFilter(string filterName)
         {
             return await GetServiceResponseAsync<bool>(async () =>
             {
-                return await _queryLogic.DeleteQueryAsync(queryName);
+                return await _filterLogic.DeleteFilterAsync(filterName);
             });
         }
 
         [HttpGet]
-        [Route("~/api/v1/availableQueryName/{queryNamePrefix}")]
+        [Route("~/api/v1/defaultFilterName/{prefix}")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        //api/v1/availableQueryName/{queryNamePrefix}
-        public async Task<HttpResponseMessage> GetAvailableQueryName(string queryNamePrefix)
+        //api/v1/defaultFilterName/{filterNamePrefix}
+        public async Task<HttpResponseMessage> GetDefaultFilterName(string prefix)
         {
             return await GetServiceResponseAsync<string>(async () =>
             {
-                return await _queryLogic.GetAvailableQueryNameAsync(queryNamePrefix);
+                return await _filterLogic.GetAvailableFilterNameAsync(prefix);
             });
         }
 
         [HttpPost]
-        [Route("~/api/v1/generateSql")]
+        [Route("~/api/v1/generateAdvanceClause")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> GenerateSql(Query query)
+        public async Task<HttpResponseMessage> GenerateAdvanceClause(Filter filter)
         {
             return await GetServiceResponseAsync<string>(async () =>
             {
-                return await Task.FromResult(_queryLogic.GenerateSql(query.Filters));
+                return await Task.FromResult(_filterLogic.GenerateAdvancedClause(filter.Clauses));
             });
         }
 
         [HttpGet]
-        [Route("~/api/v1/queryList")]
+        [Route("~/api/v1/filterList")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> GetQueryList()
+        public async Task<HttpResponseMessage> GetFilterList()
         {
             return await GetServiceResponseAsync<IEnumerable<string>>(async () =>
             {
-                return await _queryLogic.GetQueryNameList();
+                return await _filterLogic.GetFilterList();
             });
         }
 
         [HttpGet]
-        [Route("{queryName}")]
+        [Route("{filterName}")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        //api/v1/queries/{queryName}
-        public async Task<HttpResponseMessage> GetMatchingDeviceCounts(string queryName, string methodName)
+        //api/v1/filters/{filterName}
+        public async Task<HttpResponseMessage> GetMatchingDeviceCounts(string filterName, string methodName)
         {
             //TODO: mock code
             var result = new MatchingDevices();

@@ -29,7 +29,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         private readonly Mock<IIotHubRepository> _iotHubRepositoryMock;
         private readonly Mock<ISecurityKeyGenerator> _securityKeyGeneratorMock;
         private readonly Mock<IVirtualDeviceStorage> _virtualDeviceStorageMock;
-        private readonly Mock<IDeviceListQueryRepository> _deviceListQueryMock;
+        private readonly Mock<IDeviceListFilterRepository> _deviceListFilterMock;
         private readonly Fixture fixture;
 
         public DeviceLogicTests()
@@ -42,7 +42,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             this._securityKeyGeneratorMock = new Mock<ISecurityKeyGenerator>();
             this._deviceRulesLogicMock = new Mock<IDeviceRulesLogic>();
             this._nameCacheLogicMock = new Mock<INameCacheLogic>();
-            this._deviceListQueryMock = new Mock<IDeviceListQueryRepository>();
+            this._deviceListFilterMock = new Mock<IDeviceListFilterRepository>();
             this._deviceLogic = new DeviceLogic(this._iotHubRepositoryMock.Object,
                                                 this._deviceRegistryCrudRepositoryMock.Object,
                                                 this._deviceRegistryListRepositoryMock.Object,
@@ -51,20 +51,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                                                 this._configProviderMock.Object,
                                                 this._deviceRulesLogicMock.Object,
                                                 this._nameCacheLogicMock.Object,
-                                                this._deviceListQueryMock.Object);
+                                                this._deviceListFilterMock.Object);
             this.fixture = new Fixture();
         }
 
         [Fact]
         public async void GetDevicesTest()
         {
-            var query = this.fixture.Create<DeviceListQuery>();
-            var result = this.fixture.Create<DeviceListQueryResult>();
-            this._deviceRegistryListRepositoryMock.SetupSequence(x => x.GetDeviceList(It.IsNotNull<DeviceListQuery>()))
+            var filter = this.fixture.Create<DeviceListFilter>();
+            var result = this.fixture.Create<DeviceListFilterResult>();
+            this._deviceRegistryListRepositoryMock.SetupSequence(x => x.GetDeviceList(It.IsNotNull<DeviceListFilter>()))
                 .ReturnsAsync(result)
-                .ReturnsAsync(new DeviceListQueryResult());
+                .ReturnsAsync(new DeviceListFilterResult());
 
-            var res = await this._deviceLogic.GetDevices(query);
+            var res = await this._deviceLogic.GetDevices(filter);
             Assert.NotNull(res);
             Assert.NotNull(res.Results);
             Assert.NotEqual(0, res.TotalDeviceCount);

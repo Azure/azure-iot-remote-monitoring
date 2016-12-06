@@ -313,7 +313,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private async Task<List<DeviceModel>> LoadAllDevicesAsync()
         {
-            var query = new DeviceListQuery()
+            var filter = new DeviceListFilter()
             {
                 Skip = 0,
                 Take = MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD,
@@ -322,14 +322,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             string deviceId;
             var devices = new List<DeviceModel>();
-            DeviceListQueryResult queryResult = await  _deviceLogic.GetDevices(query);
+            DeviceListFilterResult filterResult = await  _deviceLogic.GetDevices(filter);
 
 
-            if ((queryResult != null) && (queryResult.Results != null))
+            if ((filterResult != null) && (filterResult.Results != null))
             {
                 bool? enabledState;
                 DeviceProperties props;
-                foreach (var devInfo in queryResult.Results)
+                foreach (var devInfo in filterResult.Results)
                 {
                     try
                     {
@@ -359,15 +359,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             return await GetServiceResponseAsync<DeviceListLocationsModel>(async () =>
             {
-                var query = new DeviceListQuery()
+                var filter = new DeviceListFilter()
                 {
                     Skip = 0,
                     Take = MAX_DEVICES_TO_DISPLAY_ON_DASHBOARD,
                     SortColumn = "twin.deviceId"
                 };
 
-                DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
-                DeviceListLocationsModel dataModel = _deviceLogic.ExtractLocationsData(queryResult.Results);
+                DeviceListFilterResult filterResult = await _deviceLogic.GetDevices(filter);
+                DeviceListLocationsModel dataModel = _deviceLogic.ExtractLocationsData(filterResult.Results);
  
                 return dataModel;
             }, false);

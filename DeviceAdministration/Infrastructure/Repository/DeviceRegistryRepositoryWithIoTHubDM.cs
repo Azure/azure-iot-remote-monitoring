@@ -68,7 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return result;
         }
 
-        public override async Task<DeviceListQueryResult> GetDeviceList(DeviceListQuery query)
+        public override async Task<DeviceListFilterResult> GetDeviceList(DeviceListFilter filter)
         {
             // Kick-off DocDB query initializing
             var queryTask = this._documentClient.QueryAsync();
@@ -76,18 +76,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             // Considering all the device properties was copied to IoT Hub twin as tag or
             // reported property, we will only query on the IoT Hub twins. The DocumentDB
             // will not be touched.
-            var filteredDevices = await this._deviceManager.QueryDevicesAsync(query);
+            var filteredDevices = await this._deviceManager.QueryDevicesAsync(filter);
 
-            var sortedDevices = this.SortDeviceList(filteredDevices.AsQueryable(), query.SortColumn, query.SortOrder);
+            var sortedDevices = this.SortDeviceList(filteredDevices.AsQueryable(), filter.SortColumn, filter.SortOrder);
 
-            var pagedDeviceList = sortedDevices.Skip(query.Skip).Take(query.Take).ToList();
+            var pagedDeviceList = sortedDevices.Skip(filter.Skip).Take(filter.Take).ToList();
 
             // Query on DocDB for traditional device properties, commands and so on
             var deviceIds = pagedDeviceList.Select(twin => twin.DeviceId);
             var devicesFromDocDB = (await queryTask).Where(x => deviceIds.Contains(x.DeviceProperties.DeviceID))
                 .ToDictionary(d => d.DeviceProperties.DeviceID);
 
-            return new DeviceListQueryResult
+            return new DeviceListFilterResult
             {
                 Results = pagedDeviceList.Select(twin =>
                 {

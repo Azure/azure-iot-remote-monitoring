@@ -170,11 +170,11 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Query.
+        ///   Looks up a localized string similar to NEW FILTER.
         /// </summary>
-        public static string AddNewQuery {
+        public static string AddNewFilter {
             get {
-                return ResourceManager.GetString("AddNewQuery", resourceCulture);
+                return ResourceManager.GetString("AddNewFilter", resourceCulture);
             }
         }
         
@@ -1655,38 +1655,38 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete query..
+        ///   Looks up a localized string similar to Failed to delete filter..
         /// </summary>
-        public static string FailedToDeleteQuery {
+        public static string FailedToDeleteFilter {
             get {
-                return ResourceManager.GetString("FailedToDeleteQuery", resourceCulture);
+                return ResourceManager.GetString("FailedToDeleteFilter", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to find available name, please retry..
+        ///   Looks up a localized string similar to Failed to find default filters, please retry..
         /// </summary>
-        public static string FailedToGetAvailableQueryName {
+        public static string FailedToGetDefaultFilters {
             get {
-                return ResourceManager.GetString("FailedToGetAvailableQueryName", resourceCulture);
+                return ResourceManager.GetString("FailedToGetDefaultFilters", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to get query.
+        ///   Looks up a localized string similar to Failed to get filter..
         /// </summary>
-        public static string FailedToGetQuery {
+        public static string FailedToGetFilter {
             get {
-                return ResourceManager.GetString("FailedToGetQuery", resourceCulture);
+                return ResourceManager.GetString("FailedToGetFilter", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to get recent queries..
+        ///   Looks up a localized string similar to Failed to get recent filters..
         /// </summary>
-        public static string FailedToGetRecentQuery {
+        public static string FailedToGetRecentFilters {
             get {
-                return ResourceManager.GetString("FailedToGetRecentQuery", resourceCulture);
+                return ResourceManager.GetString("FailedToGetRecentFilters", resourceCulture);
             }
         }
         
@@ -1736,11 +1736,11 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to save query..
+        ///   Looks up a localized string similar to Failed to save filter..
         /// </summary>
-        public static string FailedToSaveQuery {
+        public static string FailedToSaveFilter {
             get {
-                return ResourceManager.GetString("FailedToSaveQuery", resourceCulture);
+                return ResourceManager.GetString("FailedToSaveFilter", resourceCulture);
             }
         }
         
@@ -1804,6 +1804,15 @@ namespace GlobalResources {
         public static string FilterInfo {
             get {
                 return ResourceManager.GetString("FilterInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The filter name or filters are empty..
+        /// </summary>
+        public static string FilterIsEmpty {
+            get {
+                return ResourceManager.GetString("FilterIsEmpty", resourceCulture);
             }
         }
         
@@ -2233,9 +2242,9 @@ namespace GlobalResources {
         /// <summary>
         ///   Looks up a localized string similar to Query name can not include these characters: # % / \ . * + : ? &lt; &gt; &amp;.
         /// </summary>
-        public static string IncorrectQueryName {
+        public static string IncorrectFilterName {
             get {
-                return ResourceManager.GetString("IncorrectQueryName", resourceCulture);
+                return ResourceManager.GetString("IncorrectFilterName", resourceCulture);
             }
         }
         
@@ -3293,15 +3302,6 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The query name or filters are empty..
-        /// </summary>
-        public static string QueryIsEmpty {
-            get {
-                return ResourceManager.GetString("QueryIsEmpty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to QUERY.
         /// </summary>
         public static string QueryNameHeader {
@@ -3923,20 +3923,20 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ADVANCED.
+        /// </summary>
+        public static string SearchTypeAdvanced {
+            get {
+                return ResourceManager.GetString("SearchTypeAdvanced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FILTER.
         /// </summary>
         public static string SearchTypeFilters {
             get {
                 return ResourceManager.GetString("SearchTypeFilters", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to QUERY.
-        /// </summary>
-        public static string SearchTypeQuery {
-            get {
-                return ResourceManager.GetString("SearchTypeQuery", resourceCulture);
             }
         }
         
@@ -4085,11 +4085,11 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to RECENT QUERIES.
+        ///   Looks up a localized string similar to RECENT FILTERS.
         /// </summary>
-        public static string ShowRecentQueries {
+        public static string ShowRecentFilters {
             get {
-                return ResourceManager.GetString("ShowRecentQueries", resourceCulture);
+                return ResourceManager.GetString("ShowRecentFilters", resourceCulture);
             }
         }
         

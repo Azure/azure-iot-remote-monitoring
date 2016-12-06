@@ -61,30 +61,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<ActionResult> Index()
         {
             var model = new DashboardModel();
-            var filters = new List<Infrastructure.Models.FilterInfo>
+            var clauses = new List<Infrastructure.Models.Clause>
             {
-                new Infrastructure.Models.FilterInfo()
+                new Infrastructure.Models.Clause()
                 {
                     ColumnName = "tags.HubEnabledState",
-                    FilterType = FilterType.EQ,
-                    FilterValue = "Running"
+                    ClauseType = ClauseType.EQ,
+                    ClauseValue = "Running"
                 }
             };
 
 
-            var query = new DeviceListQuery()
+            var query = new DeviceListFilter()
             {
                 Skip = 0,
                 Take = MaxDevicesToDisplayOnDashboard,
                 SortColumn = "twin.deviceId",
-                Filters = filters
+                Clauses = clauses
             };
 
-            DeviceListQueryResult queryResult = await _deviceLogic.GetDevices(query);
+            DeviceListFilterResult filterResult = await _deviceLogic.GetDevices(query);
 
-            if ((queryResult != null) && (queryResult.Results != null))
+            if ((filterResult != null) && (filterResult.Results != null))
             {
-                foreach (DeviceModel devInfo in queryResult.Results)
+                foreach (DeviceModel devInfo in filterResult.Results)
                 {
                     string deviceId;
                     try

@@ -34,23 +34,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
         [Fact]
         public async void IndexTest()
         {
-            var querRes = fixture.Create<DeviceListQueryResult>();
+            var filterMock = fixture.Create<DeviceListFilterResult>();
             var key = fixture.Create<string>();
-            _deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(querRes);
+            _deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListFilter>())).ReturnsAsync(filterMock);
             _configurationMock.Setup(mock => mock.GetConfigurationSettingValue("MapApiQueryKey")).Returns(key);
 
             var result = await _dashboardController.Index();
             var view = result as ViewResult;
             var model = view.Model as DashboardModel;
 
-            Assert.Equal(model.DeviceIdsForDropdown.Count, querRes.Results.Count);
+            Assert.Equal(model.DeviceIdsForDropdown.Count, filterMock.Results.Count);
             var deviceIDs = model.DeviceIdsForDropdown.First();
-            var mockDeviceId = querRes.Results.First().DeviceProperties.DeviceID;
+            var mockDeviceId = filterMock.Results.First().DeviceProperties.DeviceID;
             Assert.Equal(deviceIDs.Key, mockDeviceId);
             Assert.Equal(deviceIDs.Value, mockDeviceId);
             Assert.Equal(model.MapApiQueryKey, key);
 
-            _deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>())).ReturnsAsync(null);
+            _deviceLogicMock.Setup(mock => mock.GetDevices(It.IsAny<DeviceListFilter>())).ReturnsAsync(null);
             _configurationMock.Setup(mock => mock.GetConfigurationSettingValue("MapApiQueryKey")).Returns("0");
             result = await _dashboardController.Index();
             view = result as ViewResult;

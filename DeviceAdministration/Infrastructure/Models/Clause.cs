@@ -6,11 +6,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// <summary>
     /// Represents a single set of filtering data for a device
     /// </summary>
-    public class FilterInfo
+    public class Clause
     {
         public string ColumnName { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
-        public FilterType FilterType { get; set; }
-        public string FilterValue { get; set; }
+        public ClauseType ClauseType { get; set; }
+        public string ClauseValue { get; set; }
     }
 }

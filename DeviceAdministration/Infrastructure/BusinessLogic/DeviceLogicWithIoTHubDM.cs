@@ -19,8 +19,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public DeviceLogicWithIoTHubDM(IIotHubRepository iotHubRepository, IDeviceRegistryCrudRepository deviceRegistryCrudRepository,
             IDeviceRegistryListRepository deviceRegistryListRepository, IVirtualDeviceStorage virtualDeviceStorage,
             ISecurityKeyGenerator securityKeyGenerator, IConfigurationProvider configProvider, IDeviceRulesLogic deviceRulesLogic,
-            INameCacheLogic nameCacheLogic, IDeviceListQueryRepository deviceListQueryRepository) :
-            base(iotHubRepository, deviceRegistryCrudRepository, deviceRegistryListRepository, virtualDeviceStorage, securityKeyGenerator, configProvider, deviceRulesLogic, nameCacheLogic, deviceListQueryRepository)
+            INameCacheLogic nameCacheLogic, IDeviceListFilterRepository deviceListFilterRepository) :
+            base(iotHubRepository, deviceRegistryCrudRepository, deviceRegistryListRepository, virtualDeviceStorage, securityKeyGenerator, configProvider, deviceRulesLogic, nameCacheLogic, deviceListFilterRepository)
         {
             _configProvider = configProvider;
         }

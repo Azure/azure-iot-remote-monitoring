@@ -17,25 +17,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// Filters the device list with the supplied filters
         /// </summary>
         /// <param name="list">Devices to filter</param>
-        /// <param name="filters">Filters to apply</param>
+        /// <param name="clauses">Clauses to apply</param>
         /// <returns>Set of devices that pass all the filters</returns>
         public static IQueryable<DeviceModel> FilterDeviceList(
             IQueryable<DeviceModel> list,
-            List<FilterInfo> filters)
+            List<Clause> clauses)
         {
             if (list == null)
             {
                 throw new ArgumentNullException("list");
             }
 
-            if (filters == null)
+            if (clauses == null)
             {
                 return list;
             }
 
             list = list.Where(GetIsNotNull).AsQueryable();
 
-            foreach (var f in filters)
+            foreach (var f in clauses)
             {
                 if ((f != null) && !string.IsNullOrEmpty(f.ColumnName))
                 {
@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private static IQueryable<DeviceModel> FilterItems(
             IQueryable<DeviceModel> list,
-            FilterInfo filter)
+            Clause filter)
         {
             if (list == null)
             {
@@ -79,13 +79,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     throw new ArgumentNullException("item");
                 }
 
-                if ((filter.FilterType == FilterType.Status) ||
+                if ((filter.ClauseType == ClauseType.Status) ||
                     string.Equals(
                         filter.ColumnName,
                         "Status",
                         StringComparison.CurrentCultureIgnoreCase))
                 {
-                    return GetValueMatchesStatus(item, filter.FilterValue);
+                    return GetValueMatchesStatus(item, filter.ClauseValue);
                 }
 
                 if (item.DeviceProperties == null)
@@ -138,7 +138,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private static bool GetValueSatisfiesFilter(
             dynamic value,
-            FilterInfo filterInfo)
+            Clause filterInfo)
         {
             string strVal;
 
@@ -151,26 +151,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 strVal = value.ToString();
             }
 
-            string match = filterInfo.FilterValue ?? string.Empty;
+            string match = filterInfo.ClauseValue ?? string.Empty;
 
-            switch (filterInfo.FilterType)
+            switch (filterInfo.ClauseType)
             {
-                case FilterType.ContainsCaseInsensitive:
+                case ClauseType.ContainsCaseInsensitive:
                     return strVal.IndexOf(match, StringComparison.CurrentCultureIgnoreCase) >= 0;
 
-                case FilterType.ContainsCaseSensitive:
+                case ClauseType.ContainsCaseSensitive:
                     return strVal.IndexOf(match, StringComparison.CurrentCulture) >= 0;
 
-                case FilterType.ExactMatchCaseInsensitive:
+                case ClauseType.ExactMatchCaseInsensitive:
                     return string.Equals(strVal, match, StringComparison.CurrentCultureIgnoreCase);
 
-                case FilterType.ExactMatchCaseSensitive:
+                case ClauseType.ExactMatchCaseSensitive:
                     return string.Equals(strVal, match, StringComparison.CurrentCulture);
 
-                case FilterType.StartsWithCaseInsensitive:
+                case ClauseType.StartsWithCaseInsensitive:
                     return strVal.StartsWith(match, StringComparison.CurrentCultureIgnoreCase);
 
-                case FilterType.StartsWithCaseSensitive:
+                case ClauseType.StartsWithCaseSensitive:
                     return strVal.StartsWith(match, StringComparison.CurrentCulture);
             }
 

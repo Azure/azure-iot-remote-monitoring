@@ -4,9 +4,9 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 {
-    public class DeviceListQueryTableEntity : TableEntity
+    public class DeviceListFilterTableEntity : TableEntity
     {
-        public DeviceListQueryTableEntity(string paritionKey, string rowKey)
+        public DeviceListFilterTableEntity(string paritionKey, string rowKey)
         {
             if (paritionKey.IsAllowedTableKey() && rowKey.IsAllowedTableKey())
             {
@@ -20,23 +20,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
         }
 
-        public DeviceListQueryTableEntity() { }
+        public DeviceListFilterTableEntity() { }
 
         public string Name { get; set; }
 
-        public string Filters { get; set; }
+        public string Clauses { get; set; }
 
         public string SortColumn { get; set; }
 
         public string SortOrder { get; set; }
 
         /// <summary>
-        /// The complete SQL query string built from other fields.
+        /// The advanced clause string customized by user.
         /// </summary>
-        public string Sql { get; set; }
+        public string AdvancedClause { get; set; }
 
         /// <summary>
-        /// Indicate if this is an advanced customized by user.
+        /// Indicate if this is an advanced clause customized by user.
         /// </summary>
         public bool IsAdvanced { get; set; }
     }

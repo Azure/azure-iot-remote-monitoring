@@ -5,19 +5,19 @@ using System.Linq;
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 {
     /// <summary>
-    /// Stores all data needed to query the devices (sorting, filtering, searching, etc)
+    /// Stores all data needed to filter the devices (sorting, filtering etc)
     /// </summary>
-    public class DeviceListQuery
+    public class DeviceListFilter
     {
         /// <summary>
-        /// Name saved for the query
+        /// Name saved for the filter
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
         /// Column-level filter values (can have zero or more)
         /// </summary>
-        public List<FilterInfo> Filters { get; set; }
+        public List<Clause> Clauses { get; set; }
 
         /// <summary>
         /// General, overarching search query (not specific to a column)
@@ -38,7 +38,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <summary>
         /// The complete SQL string built from other fields
         /// </summary>
-        public string Sql { get; set; }
+        public string AdvancedClause { get; set; }
 
         /// <summary>
         /// Number of devices to skip at start of list (if Skip = 50, then 
@@ -53,7 +53,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public int Take { get; set; }
 
         /// <summary>
-        /// this is a filter based query or advanced query defined by user.
+        /// Indicate if it is a filter or advanced clause defined by user.
         /// </summary>
         public bool IsAdvanced { get; set; }
 
@@ -64,7 +64,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns>The full SQL query</returns>
         public string GetSQLQuery()
         {
-            return IsAdvanced ? Sql : GetFilterQuery();
+            return IsAdvanced ? AdvancedClause : GetFilterQuery();
         }
 
         /// <summary>
@@ -74,29 +74,29 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns>The query condition, or empty string if no valid filter found</returns>
         public string GetSQLCondition()
         {
-            var filters = Filters?.
+            var filters = Clauses?.
                 Where(filter => !string.IsNullOrWhiteSpace(filter.ColumnName))?.
                 Select(filter =>
                 {
                     string op = null;
 
-                    switch (filter.FilterType)
+                    switch (filter.ClauseType)
                     {
-                        case FilterType.EQ: op = "="; break;
-                        case FilterType.NE: op = "!="; break;
-                        case FilterType.LT: op = "<"; break;
-                        case FilterType.GT: op = ">"; break;
-                        case FilterType.LE: op = "<="; break;
-                        case FilterType.GE: op = ">="; break;
-                        case FilterType.IN: op = "IN"; break;
+                        case ClauseType.EQ: op = "="; break;
+                        case ClauseType.NE: op = "!="; break;
+                        case ClauseType.LT: op = "<"; break;
+                        case ClauseType.GT: op = ">"; break;
+                        case ClauseType.LE: op = "<="; break;
+                        case ClauseType.GE: op = ">="; break;
+                        case ClauseType.IN: op = "IN"; break;
                         default: throw new NotSupportedException();
                     }
 
-                    var value = filter.FilterValue;
+                    var value = filter.ClauseValue;
 
                     // For syntax reason, the value should be surrounded by ''
                     // This feature will be skipped if the value is a number. To compare a number as string, user should surround it by '' manually                    
-                    if (filter.FilterType != FilterType.IN &&
+                    if (filter.ClauseType != ClauseType.IN &&
                         !(value.All(c => char.IsDigit(c)) && value.Any()) &&
                         !value.StartsWith("\'") &&
                         !value.EndsWith("\'"))

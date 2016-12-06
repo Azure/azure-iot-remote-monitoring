@@ -2,13 +2,13 @@
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 {
-    public class Query
+    public class Filter
     {
         public string Name { get; set; }
 
-        public List<FilterInfo> Filters { get; set; }
+        public List<Clause> Clauses { get; set; }
 
-        public string Sql { get; set; }
+        public string AdvancedClause { get; set; }
 
         public bool IsTemporary { get; set; }
 
