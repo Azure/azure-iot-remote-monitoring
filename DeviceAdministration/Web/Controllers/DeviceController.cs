@@ -401,6 +401,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var terminal =  _cellularExtensions.GetSingleTerminalDetails(new Iccid(iccid));
             var completedActions = new List<CellularActionModel>();
             var failedActions = new List<CellularActionModel>();
+            var exceptions = new List<ErrorModel>();
             foreach (var action in actions)
             {
                 var success = false;
@@ -438,6 +439,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 catch (Exception exception)
                 {
                     success = false;
+                    exceptions.Add(new ErrorModel(exception));
                 }
                 if (!success)
                 {
@@ -451,8 +453,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return new CellularActionUpdateResponseModel()
             {
                 CompletedActions = completedActions,
-                FailedActions = failedActions
-
+                FailedActions = failedActions,
+                Exceptions = exceptions
             };
 
         }

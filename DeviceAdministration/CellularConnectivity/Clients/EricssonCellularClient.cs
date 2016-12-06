@@ -239,14 +239,18 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             var creds = (EricssonCredentials)_credentialProvider.Provide();
             var senderAddress = creds.EnterpriseSenderNumber;
             var smsEndpointBaseUrl = creds.SmsEndpointBaseUrl;
+            var basicAuthPassword = Base64Encode($"{creds.Username}:{creds.Password}");
             if (string.IsNullOrWhiteSpace(senderAddress) || string.IsNullOrWhiteSpace(smsEndpointBaseUrl))
             {
                 throw new ApplicationException("You have not provided an EnterpriseSenderAddress and/or a SmsEndpointBaseUrl");
             }
             var uri = new Uri(creds.BaseUrl);
-            var webAddr = $"https://{smsEndpointBaseUrl}/dcpapi/smsmessaging/v1/outbound/tel: {senderAddress}/requests";
+            var webAddr = $"https://{smsEndpointBaseUrl}/dcpapi/smsmessaging/v1/outbound/tel:{senderAddress}/requests";
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(webAddr);
-            httpWebRequest.ContentType = "application/json; charset=utf-8";
+            httpWebRequest.Headers.Add("Authorization", $"Basic {basicAuthPassword}");
+            httpWebRequest.Host = $"{smsEndpointBaseUrl}:80";
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Accept = "application/json";
             httpWebRequest.Method = "POST";
 
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
@@ -363,6 +367,11 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             public string message { get; set; }
         }
 
+        private static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
 
     }
 }

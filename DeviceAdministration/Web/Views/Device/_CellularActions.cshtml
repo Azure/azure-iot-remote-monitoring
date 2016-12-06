@@ -1,5 +1,6 @@
 ﻿@using GlobalResources
 @using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice
+@using Newtonsoft.Json
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @model  Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
 <p id="actionsDisabledMessage" style="display: none;">@Strings.SimInformationActionsDisabledMessage</p>
@@ -17,7 +18,7 @@
             }
             else
             {
-                <p class="error_text">Error</p>
+                <p class="error_text">Error: @JsonConvert.SerializeObject(Model.CellularActionUpdateResponse.Exceptions)</p>
             }
         }
     </div>

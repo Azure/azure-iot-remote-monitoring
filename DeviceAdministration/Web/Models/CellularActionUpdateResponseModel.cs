@@ -11,5 +11,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public List<CellularActionModel> FailedActions { get; set; }
         public bool Success => !FailedActions.Any();
         public string Error { get; set; }
+        public List<ErrorModel> Exceptions { get; set; }
     }
 }

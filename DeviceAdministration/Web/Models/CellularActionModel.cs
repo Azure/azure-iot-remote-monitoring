@@ -10,6 +10,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public CellularActionType Type { get; set; }
         public string PreviousValue { get; set; }
         public string Value { get; set; }
+        public Exception Exception { get; set; }
     }
 
     public enum CellularActionType

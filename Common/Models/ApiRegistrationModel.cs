@@ -12,5 +12,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 
         public string EnterpriseSenderNumber { get; set; }
         public string RegistrationID { get; set; }
+        public string SmsEndpointBaseUrl { get; set; }
     }
 }

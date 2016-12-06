@@ -64,7 +64,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 LicenceKey = apiRegistrationTableEntity.LicenceKey,
                 Password = apiRegistrationTableEntity.Password,
                 EnterpriseSenderNumber = apiRegistrationTableEntity.EnterpriseSenderNumber,
-                ApiRegistrationProvider = apiRegistrationTableEntity.ApiRegistrationProviderType
+                ApiRegistrationProvider = apiRegistrationTableEntity.ApiRegistrationProviderType,
+                RegistrationID = apiRegistrationTableEntity.RegistrationID,
+                SmsEndpointBaseUrl = apiRegistrationTableEntity.SmsEndpointBaseUrl
             };
 
         }

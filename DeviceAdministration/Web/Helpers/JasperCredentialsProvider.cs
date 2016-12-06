@@ -39,7 +39,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         Username = apiRegistration.Username,
                         ApiRegistrationProvider = apiRegistration.ApiRegistrationProvider,
                         EnterpriseSenderNumber = apiRegistration.EnterpriseSenderNumber,
-                        RegistrationID = apiRegistration.RegistrationID
+                        RegistrationID = apiRegistration.RegistrationID,
+                        SmsEndpointBaseUrl = apiRegistration.SmsEndpointBaseUrl
                     };
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{apiRegistration.ApiRegistrationProvider}' provider");
