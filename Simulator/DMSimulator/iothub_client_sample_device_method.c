@@ -12,6 +12,9 @@
 #include "azure_c_shared_utility/crt_abstractions.h"
 #include "azure_c_shared_utility/platform.h"
 #include "iothubtransportmqtt.h"
+#include "SendReport.h"
+#include "utilities.h"
+#include "DMTasks/DMTaskEngine.h"
 
 #ifdef MBED_BUILD_TIMESTAMP
 #include "certs.h"
@@ -22,14 +25,12 @@
 /*  "HostName=<host_name>;DeviceId=<device_id>;SharedAccessSignature=<device_sas_token>"    */
 
 static int callbackCounter;
-static char msgText[1024];
-static char propText[1024];
 static bool g_continueRunning;
 #define MESSAGE_COUNT 5
-#define DOWORK_LOOP_NUM     3
+#define DOWORK_LOOP_NUM 3
 
-static char connectionString[1024] = { 0 };
-static char reportedProperties[4096] = { 0 };
+static char* connectionString;
+static char* reportedProperties;
 
 typedef struct EVENT_INSTANCE_TAG
 {
@@ -45,13 +46,13 @@ static int DeviceMethodCallback(const char* method_name, const unsigned char* pa
 	printf("Device Method name:    %s\r\n", method_name);
 	printf("Device Method payload: %.*s\r\n", (int)size, (const char*)payload);
 
-	int status = 200;
+	int status = OnDeviceMethod(method_name, payload, size, response, resp_size);
 
-	//Response from {method} with parameter {request}
-	char* RESPONSE_STRING = "Response from  with parameter ";
-	*resp_size = strlen(RESPONSE_STRING) + strlen(method_name) + size;
-	*response = malloc(*resp_size + 1);
-	sprintf((char*)*response, "Response from %s with parameter %.*s", method_name, size, payload);	
+	if (status <= 0)
+	{
+		status = 200;
+		AllocAndPrintf(response, resp_size, "Response from %s with parameter %.*s", method_name, size, payload);
+	}
 
 	printf("\r\nResponse status: %d\r\n", status);
 	printf("Response payload: %.*s\r\n\r\n", (int)*resp_size, *response);
@@ -62,14 +63,11 @@ static int DeviceMethodCallback(const char* method_name, const unsigned char* pa
 
 static int DeviceTwinCallback(DEVICE_TWIN_UPDATE_STATE update_state, const unsigned char* payLoad, size_t size, void* userContextCallback)
 {
-	(void)size;
 	(void)userContextCallback;
-
-	strncpy(msgText, (const char*)payLoad, size);
 
 	printf("\r\nDevice Twin changed\r\n");
 	printf("Update state: %d\r\n", update_state);
-	printf("payLoad: %s\r\n", msgText);
+	printf("payLoad: %.*s\r\n", size, payLoad);
 
 	return 200;
 }
@@ -78,8 +76,8 @@ static void ReportedStateCallback(int status_code, void* userContextCallback)
 {
 	(void)userContextCallback;
 
-	printf("\r\nReported state callback\r\n");
-	printf("status_code: %d\r\n", status_code);
+	printf("\r\nReported state changed\r\n");
+	printf("Status code: %d\r\n", status_code);
 }
 
 void iothub_client_sample_device_method_run(void)
@@ -115,7 +113,8 @@ void iothub_client_sample_device_method_run(void)
 #endif // MBED_BUILD_TIMESTAMP
 
 			// Send reported properties as startup telemetry
-			IoTHubClient_LL_SendReportedState(iotHubClientHandle, (const unsigned char*)reportedProperties, strlen(reportedProperties), ReportedStateCallback, NULL);
+			SetupSendReport(iotHubClientHandle);
+			SendReport((unsigned char*)reportedProperties, strlen(reportedProperties));
 
 			if (IoTHubClient_LL_SetDeviceMethodCallback(iotHubClientHandle, DeviceMethodCallback, &receiveContext) != IOTHUB_CLIENT_OK)
 			{
@@ -136,6 +135,8 @@ void iothub_client_sample_device_method_run(void)
 					IoTHubClient_LL_DoWork(iotHubClientHandle);
 					ThreadAPI_Sleep(1);
 
+					StepDMTask();
+
 					iterator++;
 				} while (g_continueRunning);
 
@@ -147,9 +148,10 @@ void iothub_client_sample_device_method_run(void)
 				}
 			}
 			IoTHubClient_LL_Destroy(iotHubClientHandle);
-	}
+		}
+
 		platform_deinit();
-}
+	}
 }
 
 void Usage(void)
@@ -213,11 +215,11 @@ int main(int argc, const char* argv[])
 	{
 		if (strncmp(argv[i], "/d:", 3) == 0)
 		{
-			strcpy(connectionString, argv[i] + 3);
+			connectionString = _strdup(argv[i] + 3);
 		}
 		else if (strncmp(argv[i], "/p:", 3) == 0)
 		{
-			strcpy(reportedProperties, argv[i] + 3);
+			reportedProperties = _strdup(argv[i] + 3);
 		}
 	}
 

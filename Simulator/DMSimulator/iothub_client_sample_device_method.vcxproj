@@ -126,6 +126,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include=".\iothub_client_sample_device_method.c" />
+    <ClCompile Include="DMTasks\ConfigurationUpdate.c" />
+    <ClCompile Include="DMTasks\DMTaskEngine.c" />
+    <ClCompile Include="DMTasks\FirmwareUpdate.c" />
+    <ClCompile Include="jsmn\jsmn.c" />
+    <ClCompile Include="SendReport.c" />
+    <ClCompile Include="Utilities.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DMTasks\ConfigurationUpdate.h" />
+    <ClInclude Include="DMTasks\DMTaskBase.h" />
+    <ClInclude Include="DMTasks\DMTaskEngine.h" />
+    <ClInclude Include="DMTasks\FirmwareUpdate.h" />
+    <ClInclude Include="jsmn\jsmn.h" />
+    <ClInclude Include="SendReport.h" />
+    <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

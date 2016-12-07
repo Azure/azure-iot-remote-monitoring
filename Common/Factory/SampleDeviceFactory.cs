@@ -22,9 +22,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
         private static readonly Random Rand = new Random();
 
         private static readonly List<string> DefaultDeviceNames = new List<string>{
-            "SampleDevice001", 
-            "SampleDevice002", 
-            "SampleDevice003", 
+            "SampleDevice001",
+            "SampleDevice002",
+            "SampleDevice003",
             "SampleDevice004"
         };
 
@@ -32,7 +32,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
         {
             public double Latitude { get; set; }
             public double Longitude { get; set; }
-            
+
             public Location(double latitude, double longitude)
             {
                 Latitude = latitude;
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             new Location(47.644328, -122.137036),  // 15255 NE 40th St Redmond, WA 98008
             new Location(47.621573, -122.338101),  // 320 Westlake Ave N, Seattle, WA 98109
             new Location(47.642357, -122.137152), // 15010 NE 36th St, Redmond, WA 98052
-            new Location(47.614981, -122.195781), //500 108th Ave NE, Bellevue, WA 98004 
+            new Location(47.614981, -122.195781), //500 108th Ave NE, Bellevue, WA 98004
             new Location(47.642528, -122.130565), //3460 157th Ave NE, Redmond, WA 98052
             new Location(47.617187, -122.191685), //11155 NE 8th St, Bellevue, WA 98004
             new Location(47.677292, -122.093030), //18500 NE Union Hill Rd, Redmond, WA 98052
@@ -80,7 +80,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             var deviceId = string.Format(
                     CultureInfo.InvariantCulture,
                     "00000-DEV-{0}C-{1}LK-{2}D-{3}",
-                    MAX_COMMANDS_SUPPORTED, 
+                    MAX_COMMANDS_SUPPORTED,
                     randomNumber.Next(99999),
                     randomNumber.Next(99999),
                     randomNumber.Next(99999));
@@ -127,35 +127,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
         {
             device.Commands.Add(new Command(
                 "PingDevice",
-                DeliveryType.Message, 
+                DeliveryType.Message,
                 "The device responds to this command with an acknowledgement. This is useful for checking that the device is still active and listening."
             ));
             device.Commands.Add(new Command(
-                "StartTelemetry", 
-                DeliveryType.Message, 
+                "StartTelemetry",
+                DeliveryType.Message,
                 "Instructs the device to start sending telemetry."
             ));
             device.Commands.Add(new Command(
-                "StopTelemetry", 
-                DeliveryType.Message, 
+                "StopTelemetry",
+                DeliveryType.Message,
                 "Instructs the device to stop sending telemetry."
             ));
             device.Commands.Add(new Command(
-                "ChangeSetPointTemp", 
-                DeliveryType.Message, 
-                "Controls the simulated temperature telemetry values the device sends. This is useful for testing back-end logic.", 
-                new [] { new Parameter("SetPointTemp", "double") }
+                "ChangeSetPointTemp",
+                DeliveryType.Message,
+                "Controls the simulated temperature telemetry values the device sends. This is useful for testing back-end logic.",
+                new[] { new Parameter("SetPointTemp", "double") }
             ));
             device.Commands.Add(new Command(
-                "DiagnosticTelemetry", 
-                DeliveryType.Message, 
-                "Controls if the device should send the external temperature as telemetry.", 
+                "DiagnosticTelemetry",
+                DeliveryType.Message,
+                "Controls if the device should send the external temperature as telemetry.",
                 new[] { new Parameter("Active", "boolean") }
             ));
             device.Commands.Add(new Command(
-                "ChangeDeviceState", 
-                DeliveryType.Message, 
-                "Sets the device state metadata property that the device reports. This is useful for testing back-end logic.", 
+                "ChangeDeviceState",
+                DeliveryType.Message,
+                "Sets the device state metadata property that the device reports. This is useful for testing back-end logic.",
                 new[] { new Parameter("DeviceState", "string") }
             ));
             device.Commands.Add(new Command(
@@ -163,6 +163,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
                 DeliveryType.Method,
                 "Sets the device state metadata property that the device reports. This is useful for testing back-end logic.",
                 new[] { new Parameter("DeviceState", "string") }
+            ));
+            device.Commands.Add(new Command(
+                "FirmwareUpdate",
+                DeliveryType.Method,
+                "Firmware update",
+                new[] { new Parameter("FwPackageUri", "string") }
+            ));
+            device.Commands.Add(new Command(
+                "ConfigurationUpdate",
+                DeliveryType.Method,
+                "Configuration update",
+                new[] { new Parameter("ConfigUri", "string") }
             ));
         }
 
