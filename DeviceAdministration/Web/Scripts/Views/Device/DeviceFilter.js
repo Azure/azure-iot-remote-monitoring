@@ -4,7 +4,7 @@
     var self = this;
 
     self.model = {
-        id: ko.observable(resources.allDevices),
+        id: ko.observable(null),
         name: ko.observable(resources.allDevices),
         isAdvanced: ko.observable(false),
         advancedClause: ko.observable(null),
@@ -55,16 +55,24 @@
         },
         startEditFilterName: function () {
             if (self.model.isFilterLoaded()) {
+                self.originalFilterName = self.model.name();
                 $('.device_list_toolbar_filtername').hide();
                 $('.device_list_toolbar_filtername_input').show().focus();
             }
         },
         stopEditFilterName: function () {
+            if (self.originalFilterName != self.model.name()) {
+                self.model.isChanged(true);
+            }
             $('.device_list_toolbar_filtername').show();
             $('.device_list_toolbar_filtername_input').hide();
         },
         filterNameBoxKeypress: function (data, e) {
             if (e.keyCode == 13) {
+                self.model.stopEditFilterName();
+            }
+            else if (e.keyCode == 27) {
+                self.model.name(self.originalFilterName);
                 self.model.stopEditFilterName();
             }
 
@@ -79,9 +87,11 @@
         loadFilters: function() {
             api.getFilters(function (data) {
                 self.model.filters.removeAll();
-                self.model.filters.push({ id: "", name: "All Devices" });
+                self.model.filters.push({ id: null, name: resources.allDevices });
                 data.forEach(function (item) {
-                    self.model.filters.push({ id: item.name, name: item.name });
+                    if (item.id !== resources.allDevices) {
+                        self.model.filters.push({ id: item.id, name: item.name });
+                    }
                 });
             });
 
@@ -91,7 +101,7 @@
 
         },
         resetState: function () {
-            self.model.id(resources.allDevices);
+            self.model.id(null);
             self.model.name(resources.allDevices);
             self.model.isAdvanced(false);
             self.model.advancedClause(null);
@@ -102,7 +112,7 @@
         },
         loadFilter: function (filterId, execute, callback) {
             $('#btnOpen').popover('hide');
-            if (filterId) {
+            if (filterId && filterId !== resources.allDevices) {
                 api.findFilter(filterId, function (filter) {
                     self.model.setFilter(filter, true);
                     self.model.isChanged(false);
@@ -123,7 +133,10 @@
         },
         saveFilter: function () {
             var filter = self.model.getFilterModel();
-            api.saveFilter(filter, function () {
+            api.saveFilter(filter, function (result) {
+                if (!self.model.id()) {
+                    self.model.id(result.id);
+                }
                 self.model.isFilterLoadedFromServer(true);
                 self.model.loadFilters();
                 self.model.isChanged(false);
@@ -132,9 +145,16 @@
         saveAsFilter: function () {
             self.model.closeSaveAsDialog();
             var newName = self.model.saveAsName();
+            self.model.id(null);
             self.model.name(newName);
-            self.model.isChanged(false);
-            //TODO: call api to save as new filter
+            var filter = self.model.getFilterModel();
+
+            api.saveFilter(filter, function (result) {
+                self.model.id(result.id);
+                self.model.isFilterLoadedFromServer(true);
+                self.model.loadFilters();
+                self.model.isChanged(false);
+            })
 
         },
         deleteFilter: function () {
@@ -149,7 +169,7 @@
                 self.model.isFilterLoaded(true);
                 self.model.isFilterLoadedFromServer(isLoadedFromServer);
 
-                self.model.id(filter.name);
+                self.model.id(filter.id);
                 self.model.name(filter.name);
                 self.model.isAdvanced(filter.isAdvanced);
                 self.model.advancedClause(filter.advancedClause);
@@ -183,7 +203,7 @@
         newFilter: function (callback) {
             api.getNewFilterName(function (name) {
                 self.model.setFilter({
-                    id: name,
+                    id: null,
                     name: name,
                     clauses: [],
                     isAdvanced: false,
@@ -206,6 +226,7 @@
         },
         getFilterModel: function () {
             return {
+                id: self.model.id(),
                 name: self.model.name(),
                 filterName: self.model.name(),
                 advancedClause: self.model.advancedClause(),
@@ -289,10 +310,21 @@
     self.model.currentClause(self.model.newClause());
 
     var api = {
-        getDefaultClauses: function (callback) {
-            //Mock
-            var data = [{ columnName: "tags.HubEnabledState", filterType: "EQ", filterValue: "Running" }];
-            callback(data);
+        GetSuggestClauses: function (callback) {
+            var url = "/api/v1/suggestedClauses?skip=0&take=10";
+            return $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if ($.isFunction(callback)) {
+                        callback(result.data);
+                    }
+                },
+                error: function () {
+                    IoTApp.Helpers.Dialog.displayError(resources.failedToGetRecentFilter);
+                }
+            });
         },
         getFilters: function (callback) {
             var url = "/api/v1/filters?max=10";
@@ -415,19 +447,16 @@
             ko.applyBindings(self.model, $('.filter_panel').get(0));
             ko.applyBindings(self.model, $('.filter_panel_dialog').get(0));
 
-            api.getDefaultClauses(function (data) {
+            api.GetSuggestClauses(function (data) {
                 if (data) {
                     data.forEach(function (item) {
-                        var newClause = self.model.newClause(item.columnName, item.filterType, item.filterValue);
+                        var newClause = self.model.newClause(item.columnName, item.clauseType, item.clauseValue);
                         self.model.defaultClauses.push(newClause);
                     });
                 }
 
-                if (resources.filterName === resources.allDevices) {
-                    callback();
-                }
-                else if (resources.filterName) {
-                    self.model.loadFilter(resources.queryName, false, callback);
+                if (resources.filterId) {
+                    self.model.loadFilter(resources.filterId, false, callback);
                 }
                 else {
                     callback();
@@ -456,12 +485,27 @@
         self.model.recordsFiltered(recordsFiltered);
         self.model.recordsTotal(recordsTotal);
     }
+    var getFilterId = function () {
+        return self.model.id();
+    }
+    var getFilterName = function () {
+        return self.model.name();
+    }
+    var saveFilterIfNeeded = function () {
+        if (self.model.isChanged()) {
+            self.model.saveFilter();
+        }
+    }
+
 
     return {
         init: init,
         initToolbar: initToolbar,
         fillFilterModel: fillFilterModel,
-        updateFilterResult: updateFilterResult
+        updateFilterResult: updateFilterResult,
+        getFilterId: getFilterId,
+        getFilterName: getFilterName,
+        saveFilterIfNeeded: saveFilterIfNeeded
     }
 }, [jQuery, resources]);
 

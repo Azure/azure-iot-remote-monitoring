@@ -354,7 +354,8 @@
             click: function () {
                 unselectAllRows();
                 showDetails();
-                self.loader = self.deviceDetails.scheduleJob($('#filterIdBox').val(), $('#filterNameBox').val());
+                IoTApp.DeviceFilter.saveFilterIfNeeded();
+                self.loader = self.deviceDetails.scheduleJob(IoTApp.DeviceFilter.getFilterId(), IoTApp.DeviceFilter.getFilterName());
             }
         }).appendTo($buttonArea);
 
