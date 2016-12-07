@@ -1404,6 +1404,69 @@ table#alertHistoryTable tr.selectedAlert {
   padding-left: 0;
   height: 30px;
 }
+.device_list_toolbar {
+  float: left;
+  margin-left: 1em;
+  font-size: 1.2em;
+  font-weight: 700;
+  padding-top: 0.3em;
+  width: calc(100% - 2em);
+}
+.device_list_toolbar_title {
+  float: left;
+}
+.device_list_toolbar_buttons {
+  float: left;
+  margin-top: 6px;
+  margin-left: 10px;
+}
+.device_list_toolbar_button {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+}
+.device_list_clauses {
+  clear: both;
+  overflow: hidden;
+  width: calc(100% - 200px);
+}
+.device_list_clause {
+  display: block;
+  float: left;
+  color: gray;
+  border: 1px solid gray;
+  margin: 0px 4px 4px 0px;
+  padding: 2px 5px 2px 5px;
+  height: 18px;
+  line-height: 18px;
+}
+.device_list_clause span {
+  float: left;
+  font-size: 12px;
+  font-weight: normal;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.device_list_clause img {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  float: left;
+}
+.device_list_clause_clear {
+  font-size: 14px;
+  font-weight: normal;
+  float: left;
+  margin-top: 2px;
+  margin-left: 2px;
+  line-height: 18px;
+}
+.device_list_button_area {
+  position: absolute;
+  right: 10px;
+}
 .filter_panel_container {
   display: none;
   width: 100%;
@@ -1443,7 +1506,7 @@ table#alertHistoryTable tr.selectedAlert {
   color: #1c9dd7;
   border: 1px solid transparent;
   font-size: 16px;
-  width: 80px;
+  width: 90px;
   padding: 0 1em;
   height: 30px;
   cursor: pointer;
@@ -1496,6 +1559,21 @@ table#alertHistoryTable tr.selectedAlert {
   width: calc(100% - 20px);
   height: 150px;
   overflow-y: auto;
+}
+.filter_panel_lookup_title {
+  margin: 5px 0px 5px 0px;
+  text-transform: uppercase;
+}
+.filter_panel_lookup_box {
+  border-color: #cccccc;
+  background-color: #f2f2f2;
+  border-width: 1px;
+  width: 250px;
+  font-size: 14px;
+  padding-right: 4px;
+  padding-left: 4px;
+  height: 30px;
+  margin-right: 4px;
 }
 .filter_panel_filters {
   margin: 10px 2px 10px 2px;
@@ -1576,6 +1654,54 @@ table#alertHistoryTable tr.selectedAlert {
   margin: 0px 10px 5px 10px;
   color: gray;
   font-size: 12px;
+}
+.device_list_toolbar_buttons .popover {
+  max-width: 500px;
+}
+.device_list_toolbar_filtername_input {
+  display: none;
+  border-color: #cccccc;
+  background-color: #f2f2f2;
+  border-width: 1px;
+  width: 250px;
+  font-size: 14px;
+  padding-right: 4px;
+  padding-left: 4px;
+  height: 30px;
+  margin-right: 4px;
+}
+.filter_panel_dialog_container {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  background: rgba(80, 80, 80, 0.8);
+  z-index: 300;
+}
+.filter_panel_dialog {
+  width: 400px;
+  height: 150px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  padding: 20px;
+  background: white;
+}
+.filter_panel_filtername_saveas {
+  margin-top: 15px;
+  margin-bottom: 25px;
+  width: 100%;
+}
+.filter_panel_filtername_saveas_input {
+  border-color: #cccccc;
+  border-width: 1px;
+  width: calc(100% - 4px);
+  font-size: 14px;
+  height: 30px;
 }
 .divider_fieldset_subhead {
   font-size: 0.75em;
@@ -1703,26 +1829,6 @@ table#alertHistoryTable tr.selectedAlert {
   position: absolute;
   top: 0px;
   right: 20px;
-}
-.device_list_toolbar {
-  float: left;
-  margin-left: 1em;
-  font-size: 1.2em;
-  font-weight: 700;
-  padding-top: 0.3em;
-}
-.device_list_toolbar_title {
-  float: left;
-}
-.device_list_toolbar_buttons {
-  float: left;
-  margin-top: 6px;
-  margin-left: 10px;
-}
-.device_list_toolbar_button {
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
 }
 .grid_rules_details {
   overflow: auto;

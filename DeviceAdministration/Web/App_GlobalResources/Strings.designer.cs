@@ -575,6 +575,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear All.
+        /// </summary>
+        public static string ClearAll {
+            get {
+                return ResourceManager.GetString("ClearAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to - CLEAR CLAUSE.
         /// </summary>
         public static string ClearClauses {
@@ -1790,6 +1799,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filter Editor.
+        /// </summary>
+        public static string FilterEditor {
+            get {
+                return ResourceManager.GetString("FilterEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FIELD.
         /// </summary>
         public static string FilterFieldLabel {
@@ -1799,7 +1817,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (filtered from _MAX_ total records).
+        ///   Looks up a localized string similar to {0} filtered from {1}.
         /// </summary>
         public static string FilterInfo {
             get {
@@ -1822,6 +1840,15 @@ namespace GlobalResources {
         public static string FilterNameHeader {
             get {
                 return ResourceManager.GetString("FilterNameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        public static string FilterLabel {
+            get {
+                return ResourceManager.GetString("FilterLabel", resourceCulture);
             }
         }
         
@@ -2906,6 +2933,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name Your Filter.
+        /// </summary>
+        public static string NameYourFilter {
+            get {
+                return ResourceManager.GetString("NameYourFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Actions.
         /// </summary>
         public static string NavigationMenuItemActions {
@@ -3136,6 +3172,15 @@ namespace GlobalResources {
         public static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Saved Filter.
+        /// </summary>
+        public static string OpenSavedFilter {
+            get {
+                return ResourceManager.GetString("OpenSavedFilter", resourceCulture);
             }
         }
         
@@ -3775,6 +3820,15 @@ namespace GlobalResources {
         public static string SaveAndViewRules {
             get {
                 return ResourceManager.GetString("SaveAndViewRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save as.
+        /// </summary>
+        public static string SaveAs {
+            get {
+                return ResourceManager.GetString("SaveAs", resourceCulture);
             }
         }
         
@@ -4693,6 +4747,15 @@ namespace GlobalResources {
         public static string ViewRules {
             get {
                 return ResourceManager.GetString("ViewRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View seleted clauses only.
+        /// </summary>
+        public static string ViewSeletedClausesOnly {
+            get {
+                return ResourceManager.GetString("ViewSeletedClausesOnly", resourceCulture);
             }
         }
         

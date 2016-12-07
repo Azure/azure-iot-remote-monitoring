@@ -16,7 +16,7 @@
 <div class="content_outer content_outer--background_color content_grid">
     <div class="content_inner content_inner--inherit_max_width_no_margin">
 
-        <div class="search_container_closed search_height--closed_fixed">
+        <div class="search_container_closed search_height--closed_fixed display_none">
             <h2 class="search_container_closed__pane_subhead">@Strings.FindDevicesLabelCollapsed</h2>
         </div>
 
@@ -150,53 +150,79 @@
             </div>
             <script type="text/html" id="tableHeaderTemplate">
                 <div class="device_list_toolbar_title">
-                    <span class="device_list_toolbar_filtername" data-bind="text: name"></span> (<span class="device_list_toolbar_number" data-bind="text: filteredInfo"></span>)
+                    <span class="device_list_toolbar_filtername" data-bind="text: name, click: startEditFilterName"></span>
+                    <input class="device_list_toolbar_filtername_input" data-bind="textInput: name, event: {keypress: filterNameBoxKeypress, blur: stopEditFilterName}" />
+                    <span class="device_list_toolbar_number" data-bind="visible: isChanged()">*</span>
+                    (<span class="device_list_toolbar_number" data-bind="text: filteredInfo"></span>)
                 </div>
                 <div class="device_list_toolbar_buttons">
-                    <img id="btnOpen" src="/Content/img/open_query.svg" class="device_list_toolbar_button" data-bind="popover: { template: '#openfilterContent' }"/>
-                    <img id="btnFilter" src="/Content/img/filters.svg" class="device_list_toolbar_button" data-bind="click: showPanel" />
+                    <img id="btnOpen" src="/Content/img/open_query.svg" class="device_list_toolbar_button" data-bind="openFilterPopover: { template: '#openfilterContent', filterNameList: filterNameList }"/>
+                    <img src="/Content/img/edit_filter.svg" class="device_list_toolbar_button" data-bind="click: showPanel" />
+                    <!--ko if: isFilterLoaded() -->
+                    <img src="/Content/img/save.svg" class="device_list_toolbar_button" data-bind="click: saveFilter" />
+                    <img src="/Content/img/saveas.svg" class="device_list_toolbar_button" data-bind="click: openSaveAsDialog" />
+                    <!-- /ko -->
+                    <!--ko if: isFilterLoadedFromServer() -->
+                    <img src="/Content/img/delete.svg" class="device_list_toolbar_button" data-bind="click: deleteFilter" />
+                    <!-- /ko -->
+                </div>
+                <div class="device_list_clauses">
+                    <!--ko if: !isAdvanced() -->
+                    <div data-bind="foreach: checkedClauses">
+                        <div class="device_list_clause" data-bind="attr: { title: displayName }">
+                            <span data-bind="text: shortDisplayName"></span>
+                            <img src="/Content/img/column_delete.svg" data-bind="click: $parent.unCheckClause" />
+                        </div>
+                    </div>
+                    <a href="#" class="device_list_clause_clear" data-bind="visible: checkedClauses().length > 0, click: unCheckAllClauses">@Strings.ClearAll</a>
+                    <!-- /ko -->
+                    <!--ko if: isAdvanced() -->
+                    <div class="device_list_clause" data-bind="attr: { title: advancedClause }">
+                        <span data-bind="text: advancedClause"></span>
+                    </div>
+                    <!-- /ko -->
                 </div>
             </script>
             <div id="openfilterContent" class="display_none">
-                <div>OPEN SAVED FILTER</div>
-                <input class="search_container__query_find_query_box" id="findQueryBox" />
+                <div class="filter_panel_lookup_title">@Strings.OpenSavedFilter</div>
+                <input class="filter_panel_lookup_box" id="lookupFilterBox" data-bind="textInput: lookupBox, event: { keypress: lookupBoxKeypress}" />
                 <div class="filter_panel_filters" data-bind="foreach: filters">
-                    <a href="#" class="filter_panel_filter_link" data-bind="text: name, click: $parent.loadFilter"></a>
+                    <a href="#" class="filter_panel_filter_link" data-bind="text: name, click: $parent.loadFilter.bind($data, id, true)"></a>
                 </div>
             </div>
             <div class="filter_panel_container">
                 <div class="filter_panel">
                     <img src="~/Content/img/column_delete.svg" class="filter_panel_close_img" data-bind="click: hidePanel" />
-                    <span class="filter_panel_title">Filter Editor</span>
+                    <span class="filter_panel_title">@Strings.FilterEditor</span>
                     <div class="filter_panel_content">
                         <div>
                             <div class="filter_panel_type_select" data-toggle="dropdown">
-                                <span data-bind="visible: !isAdvanced()">Clause</span>
-                                <span data-bind="visible: isAdvanced()">Advanced</span>
+                                <span data-bind="visible: !isAdvanced()">@Strings.SearchTypeFilters</span>
+                                <span data-bind="visible: isAdvanced()">@Strings.SearchTypeAdvanced</span>
                                 <img src="~/Content/img/expanded.svg" class="filter_panel_type_select_img" />
                             </div>
                             <ul class="dropdown-menu">
-                                <li><a href="#" data-bind="click: function() { isAdvanced(false) }">Clause</a></li>
-                                <li><a href="#" data-bind="click: function() { isAdvanced(true) }">Advanced</a></li>
+                                <li><a href="#" data-bind="click: function() { setAdvanced(false) }">@Strings.SearchTypeFilters</a></li>
+                                <li><a href="#" data-bind="click: function() { setAdvanced(true) }">@Strings.SearchTypeAdvanced</a></li>
                             </ul>
      
-                            <label class="pull-right" data-bind="visible : !isAdvanced()"><input type="checkbox" id="chkSaveDefault" /> @Strings.SaveAsDefault</label>
+                            <label class="filter_panel_subtitle pull-right" data-bind="visible : !isAdvanced()"><input type="checkbox" data-bind="checked: viewSelectedClausesOnly" /> @Strings.ViewSeletedClausesOnly</label>
                         </div>
                         
                         <div class="filter_panel_clauses" data-bind="foreach: clauses, visible : !isAdvanced()">
-                            <div class="filter_panel_clause" data-bind="attr: { title: displayName }, click: toggle, css: { checked: checked }">
+                            <div class="filter_panel_clause" data-bind="attr: { title: displayName }, click: toggle, css: { checked: checked }, visible: !$parent.viewSelectedClausesOnly() || checked() ">
                                 <div class="filter_panel_clause_text" data-bind="text: shortDisplayName"></div>
                             </div>
                         </div>
                         <div data-bind="visible: isAdvanced()">
-                            <textarea id="" class="filter_panel_advanced_textarea">SELECT * FROM Devices</textarea>
+                            <textarea id="" class="filter_panel_advanced_textarea" data-bind="textInput: advancedClause, event: { change: advancedClauseChanged }">SELECT * FROM Devices</textarea>
                             <div class="filter_panel_advanced_example">
                                 <p>Example 1: deviceId ='SampleDevice001_009'</p>
                                 <p>Example 2: tags.Location = 'Redmond' and tags.DeviceType in ['Type1','Type2'] and (properties.reported.version = 'v1.2' or properties.reported.version = 'v1.3')</p>
                             </div>
                         </div>
                         <div data-bind="visible: !isAdvanced()">
-                            <div class="filter_panel_subtitle">Add a Clause</div>
+                            <div class="filter_panel_subtitle">@Strings.AddNewClause</div>
                             <div class="filter_panel_clause_edit">
                             <div class="filter_panel_clause_edit_row">
                                 <div class="filter_panel_clause_edit_row_column">
@@ -237,13 +263,32 @@
                         </div>
                         </div>
                         <div class="filter_panel_buttons">
-                            <button type="button" onclick="IoTApp.DeviceIndex.reloadGrid()" class="button_base pull-right">
-                                @Strings.FindLabel
+                            <button type="button" class="button_base pull-right" data-bind="click: executeFilter">
+                                @Strings.FilterLabel
                             </button>
-                            <button type="button" onclick="IoTApp.DeviceIndex.resetSearch()" class="button_base filter_panel_button_gray pull-right">
+                            <button type="button" class="button_base filter_panel_button_gray pull-right" data-bind="click: resetFilter">
                                 @Strings.ResetLabel
                             </button>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="filter_panel_dialog_container">
+                <div class="filter_panel_dialog">
+                    <span class="filter_panel_title">@Strings.SaveAs</span>
+                    <div class="filter_panel_filtername_saveas">
+                        <label>@Strings.NameYourFilter</label>
+                        <input class="filter_panel_filtername_saveas_input" data-bind="textInput: saveAsName">
+                    </div>
+
+                    
+                    <div class="filter_panel_buttons">
+                        <button type="button" class="button_base pull-right" data-bind="click: saveAsFilter">
+                            @Strings.Save
+                        </button>
+                        <button type="button" class="button_base filter_panel_button_gray pull-right" data-bind="click: closeSaveAsDialog">
+                            @Strings.Cancel
+                        </button>
                     </div>
                 </div>
             </div>

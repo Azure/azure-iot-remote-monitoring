@@ -317,11 +317,9 @@
             "lengthChange": false,
             "processing": false,
             "serverSide": true,
-            "dom": "<'dataTables_header'<'device_list_toolbar'><'#button_area.pull-right'>p>lrt?",
+            "dom": "<'dataTables_header'<'device_list_toolbar'><'device_list_button_area'>p>lrt?",
             "ajax": onDataTableAjaxCalled,
             "language": {
-                "info": resources.deviceList + " (_TOTAL_)",
-                "infoFiltered": resources.infoFiltered,
                 "paginate": {
                     "previous": resources.previousPaging,
                     "next": resources.nextPaging
@@ -336,7 +334,7 @@
 
         IoTApp.DeviceFilter.initToolbar($('.device_list_toolbar'));
 
-        var $buttonArea = $('#button_area');
+        var $buttonArea = $('.device_list_button_area');
         
         $('<button/>', {
             id: 'editColumnsButton',
@@ -398,36 +396,15 @@
     }
 
     var onDataTableAjaxCalled = function (data, fnCallback) {
-        
+        data = IoTApp.DeviceFilter.fillFilterModel(data);
         data.search.value = $('#searchQuery').val();
-        data.filterName = $('#filterNameBox').val();
-        data.filterId = $('#filterIdBox').val();
-        data.advancedClause = $('#sqlBox').val();
-        data.isAdvanced = $('#searchTypeSelect').val() === 'ADVANCED';
-        data.clauses = [];
-        for (var i = 0; i < clauseCount; ++i) {
-
-            data.clauses[i] = {
-                "columnName": $('#filterField' + i).val(),
-            };
-            
-            switch (data.clauses[i].columnName) {
-                case "Status":
-                    data.clauses[i].clauseType = "Status";
-                    data.clauses[i].clauseValue = $('#filterStatusSelect' + i).val();
-                    break;
-
-                default: // (all text-based columns)
-                    data.clauses[i].clauseType = $('#filterOperator' + i).val();
-                    data.clauses[i].clauseValue = $('#filterValue' + i).val();
-                    break;
-            }
-        };
 
         saveUiStateIntoCookie(data);
 
         // create a success callback to track the selected row, and then call the DataTables callback
         var successCallback = function (json, a, b) {
+            IoTApp.DeviceFilter.updateFilterResult(json.recordsFiltered, json.recordsTotal);
+
             // only do the following if we have a selected device
             var deviceId = IoTApp.Helpers.DeviceIdState.getDeviceIdFromCookie();
             if (deviceId) {
@@ -561,7 +538,7 @@
             windowWidth = 800;
         }
 
-        var gridWidth = windowWidth - searchPaneWidth - deviceGridWidth - 98;
+        var gridWidth = windowWidth - deviceGridWidth - 98;
         gridContainer.width(gridWidth);
     }
 
