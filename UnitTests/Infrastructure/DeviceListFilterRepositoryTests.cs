@@ -89,12 +89,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                         })
                 .ReturnsAsync(resp);
             var ret = await deviceListFilterRepository.SaveFilterAsync(newFilter, true);
-            Assert.True(ret);
+            Assert.NotNull(ret);
             Assert.NotNull(tableEntity);
             _tableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListFilterTableEntity>>()))
                .ReturnsAsync(tableEntities);
             ret = await deviceListFilterRepository.SaveFilterAsync(newFilter, false);
-            Assert.False(ret);
+            Assert.Null(ret);
         }
 
         [Fact]
@@ -229,6 +229,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var ret = await deviceListFilterRepository.GetFilterListAsync(0, 1000);
             Assert.Equal(40, ret.Count());
             Assert.Equal(tableEntities.OrderBy(e => e.Name).Select(e => new string[] { e.PartitionKey, e.Name }).ToArray(), ret.Select(e => new string[] { e.Id, e.Name }).ToArray());
+        }
+
+        [Fact]
+        public async void GetSuggestClausesAsyncTest()
+        {
+            var tableEntities = fixture.CreateMany<ClauseTableEntity>(3);
+            _tableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<ClauseTableEntity>>()))
+                .ReturnsAsync(tableEntities);
+            var ret = await deviceListFilterRepository.GetSuggestClausesAsync(0, 1000);
+            Assert.Equal(3, ret.Count());
         }
     }
 }

@@ -4,6 +4,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class Filter
     {
+        private DeviceListFilter result;
+
+        public Filter(DeviceListFilter filter)
+        {
+            Id = filter.Id;
+            Name = filter.Name;
+            Clauses = filter.Clauses;
+            AdvancedClause = filter.AdvancedClause;
+            IsAdvanced = filter.IsAdvanced;
+            IsTemporary = filter.IsTemporary;
+        }
+
+        public Filter() { }
+
         public string Id { get; set; }
 
         public string Name { get; set; }

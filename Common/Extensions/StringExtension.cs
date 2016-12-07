@@ -65,5 +65,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
             }
             return true;
         }
+
+        static public string NormalizedTableKey(this string key)
+        {
+            char[] speicialChars = @"#?/\".ToCharArray();
+            string[] str = key.Split(speicialChars, StringSplitOptions.RemoveEmptyEntries);
+            return String.Join("_", str);
+        }
     }
 }

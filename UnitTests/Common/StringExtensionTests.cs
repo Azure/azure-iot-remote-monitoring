@@ -46,5 +46,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
             Assert.True("ab中".IsAllowedTableKey());
             Assert.True(@"ABCabc123""''`!@$%^&*()-_+=[]|{}<>,.:;".IsAllowedTableKey());
         }
+
+        [Fact]
+        public void NormalizedTableKeyTest()
+        {
+            Assert.Equal(@"?a#?b\c/d?".NormalizedTableKey(), "a_b_c_d");
+        }
     }
 }

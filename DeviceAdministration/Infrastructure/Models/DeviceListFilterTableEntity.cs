@@ -40,5 +40,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// Indicate if this is an advanced clause customized by user.
         /// </summary>
         public bool IsAdvanced { get; set; }
+
+        /// <summary>
+        /// Indicate if this is a temporary filter generated automatically.
+        /// </summary>
+        public bool IsTemporary { get; internal set; }
     }
 }

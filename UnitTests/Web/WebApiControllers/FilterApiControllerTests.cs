@@ -45,7 +45,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.We
         public async void SaveFilterTest()
         {
             var filter = new Mock<Filter>();
-            logicMock.Setup(x => x.SaveFilterAsync(It.IsAny<Filter>())).ReturnsAsync(true);
+            logicMock.Setup(x => x.SaveFilterAsync(It.IsAny<Filter>())).ReturnsAsync(filter.Object);
             var result = await controller.SaveFilter(filter.Object);
             result.AssertOnError();
         }
@@ -81,6 +81,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.We
             var filters = fixture.CreateMany<Filter>(5);
             logicMock.Setup(x => x.GetFilterList(0, 1000)).ReturnsAsync(filters);
             var result = await controller.GetFilterList(0, 1000);
+            result.AssertOnError();
+        }
+
+        [Fact]
+        public async void GetSuggestClausesTest()
+        {
+            var clauses = fixture.CreateMany<Clause>(5);
+            logicMock.Setup(x => x.GetSuggestClauses(0, 1000)).ReturnsAsync(clauses);
+            var result = await controller.GetSuggestClauses(0, 1000);
             result.AssertOnError();
         }
     }

@@ -27,7 +27,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="filter"></param>
         /// <param name="force">true to force override existing filter</param>
         /// <returns>true if succeed</returns>
-        Task<bool> SaveFilterAsync(DeviceListFilter filter, bool force);
+        Task<DeviceListFilter> SaveFilterAsync(DeviceListFilter filter, bool force);
 
         /// <summary>
         /// Get the filter by id.
@@ -54,5 +54,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<DeviceListFilter>> GetFilterListAsync(int skip, int take);
+
+        /// <summary>
+        /// Get suggestion list of clauses extracted from filters
+        /// </summary>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        Task<IEnumerable<Clause>> GetSuggestClausesAsync(int skip, int take);
     }
 }

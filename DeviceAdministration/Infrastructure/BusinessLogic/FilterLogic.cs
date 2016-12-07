@@ -21,12 +21,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _filterRepository.SaveFilterAsync(DeviceListFilterRepository.DefaultDeviceListFilter, false);
         }
 
-        public async Task<bool> SaveFilterAsync(Filter filter)
+        public async Task<Filter> SaveFilterAsync(Filter filter)
         {
-            var jobs = await _jobRepository.QueryByFilterIdAsync(filter.Id);
-            if (jobs.Any())
+            if (!string.IsNullOrWhiteSpace(filter?.Id))
             {
-                throw new FilterAssociatedWithJobException(filter.Name, jobs.Select(j => j.JobName).Distinct().Take(3));
+                var jobs = await _jobRepository.QueryByFilterIdAsync(filter.Id);
+                if (jobs.Any())
+                {
+                    throw new FilterAssociatedWithJobException(filter.Name, jobs.Select(j => j.JobName).Distinct().Take(3));
+                }
             }
 
             DeviceListFilter deviceListFilter = new DeviceListFilter
@@ -37,7 +40,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 AdvancedClause = filter.AdvancedClause,
                 IsAdvanced = filter.IsAdvanced,
             };
-            return await _filterRepository.SaveFilterAsync(deviceListFilter, true);
+            var result = await _filterRepository.SaveFilterAsync(deviceListFilter, true);
+            return new Filter(result);
         }
 
         public async Task<IEnumerable<Filter>> GetRecentFiltersAsync(int max)
@@ -110,6 +114,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 AdvancedClause = f.AdvancedClause,
                 IsAdvanced = f.IsAdvanced,
             });
+        }
+
+        public async Task<IEnumerable<Clause>> GetSuggestClauses(int skip, int take)
+        {
+            return await _filterRepository.GetSuggestClausesAsync(skip, take);
         }
     }
 }

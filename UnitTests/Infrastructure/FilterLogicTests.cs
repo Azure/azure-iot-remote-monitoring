@@ -28,13 +28,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         [Fact]
         public async void AddFilterAsyncTests()
         {
-            var query = new Mock<Filter>();
+            var deviceListFilter = new Mock<DeviceListFilter>();
             var jobs = fixture.CreateMany<JobRepositoryModel>(3);
-            _deviceListFilterRepositoryMock.Setup(x => x.SaveFilterAsync(It.IsAny<DeviceListFilter>(), true)).ReturnsAsync(true);
-            var ret = await _filterLogic.SaveFilterAsync(query.Object);
-            Assert.True(ret);
+            _deviceListFilterRepositoryMock.Setup(x => x.SaveFilterAsync(It.IsAny<DeviceListFilter>(), true)).ReturnsAsync(deviceListFilter.Object);
+            var filter = new Mock<Filter>();
+            var ret = await _filterLogic.SaveFilterAsync(filter.Object);
+            Assert.NotNull(ret);
             _jobRepositoryMock.Setup(x => x.QueryByFilterIdAsync(It.IsAny<string>())).ReturnsAsync(jobs);
-            await Assert.ThrowsAnyAsync<FilterAssociatedWithJobException>(async () => await _filterLogic.SaveFilterAsync(query.Object));
+            await Assert.ThrowsAnyAsync<FilterAssociatedWithJobException>(async () => await _filterLogic.SaveFilterAsync(filter.Object));
         }
 
         [Fact]
@@ -107,6 +108,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var filters = fixture.CreateMany<DeviceListFilter>(5);
             _deviceListFilterRepositoryMock.Setup(x => x.GetFilterListAsync(It.IsNotNull<int>(), It.IsNotNull<int>())).ReturnsAsync(filters);
             var ret = await _filterLogic.GetFilterList(0, 10);
+            Assert.Equal(5, ret.Count());
+        }
+
+        [Fact]
+        public async void GetSuggestClausesTest()
+        {
+            var clauses = fixture.CreateMany<Clause>(5);
+            _deviceListFilterRepositoryMock.Setup(x => x.GetSuggestClausesAsync(It.IsNotNull<int>(), It.IsNotNull<int>())).ReturnsAsync(clauses);
+            var ret = await _filterLogic.GetSuggestClauses(0, 10);
             Assert.Equal(5, ret.Count());
         }
     }

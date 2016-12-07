@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewDevices)]
         public async Task<HttpResponseMessage> SaveFilter(Filter filter)
         {
-            return await GetServiceResponseAsync<bool>(async () =>
+            return await GetServiceResponseAsync<Filter>(async () =>
             {
                 return await _filterLogic.SaveFilterAsync(filter);
             });
@@ -94,6 +94,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return await GetServiceResponseAsync<IEnumerable<Filter>>(async () =>
             {
                 return await _filterLogic.GetFilterList(skip, take);
+            });
+        }
+
+        [HttpGet]
+        [Route("~/api/v1/suggestedClauses")]
+        [WebApiRequirePermission(Permission.ViewDevices)]
+        public async Task<HttpResponseMessage> GetSuggestClauses([FromUri]int skip = 0, [FromUri]int take = 1000)
+        {
+            return await GetServiceResponseAsync<IEnumerable<Clause>>(async () =>
+            {
+                return await _filterLogic.GetSuggestClauses(skip, take);
             });
         }
     }

@@ -62,6 +62,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public bool IsAdvanced { get; set; }
 
         /// <summary>
+        /// Indicate if it is a temporary filter.
+        /// </summary>
+        public bool IsTemporary { get; set; }
+
+        /// <summary>
         /// Translate the filters in current query to IoT Hub SQL query
         /// Full text searching, paging and sorting are not supported by the IoT Hub SQL query until now
         /// </summary>

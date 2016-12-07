@@ -17,7 +17,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     {
         private readonly string _storageAccountConnectionString;
         private readonly IAzureTableStorageClient _azureTableStorageClient;
+        private readonly IAzureTableStorageClient _clauseTableStorageClient;
         private readonly string _filterTableName = "FilterList";
+        private readonly string _clauseTableName = "SuggestedClausesList";
         public static DeviceListFilter DefaultDeviceListFilter = new DeviceListFilter
         {
             Id = "All Devices",
@@ -33,6 +35,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             },
             AdvancedClause = "SELECT * FROM devices",
             IsAdvanced = false,
+            IsTemporary = false,
         };
 
         public DeviceListFilterRepository (IConfigurationProvider configurationProvider, IAzureTableStorageClientFactory tableStorageClientFactory)
@@ -40,6 +43,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _storageAccountConnectionString = configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString");
             string filterTableName = configurationProvider.GetConfigurationSettingValueOrDefault("DeviceListFilterTableName", _filterTableName);
             _azureTableStorageClient = tableStorageClientFactory.CreateClient(_storageAccountConnectionString, filterTableName);
+            string clauseTableName = configurationProvider.GetConfigurationSettingValueOrDefault("SuggestedClauseTableName", _clauseTableName);
+            _clauseTableStorageClient = new AzureTableStorageClient(_storageAccountConnectionString, clauseTableName);
         }
 
         public async Task<bool> CheckFilterNameAsync(string name)
@@ -62,28 +67,43 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 Clauses = JsonConvert.DeserializeObject<List<Clause>>(entity.Clauses),
                 AdvancedClause = entity.AdvancedClause,
                 IsAdvanced = entity.IsAdvanced,
+                IsTemporary = entity.IsTemporary,
             };
         }
 
-        public async Task<bool> SaveFilterAsync(DeviceListFilter filter, bool force = false)
+        public async Task<DeviceListFilter> SaveFilterAsync(DeviceListFilter filter, bool force = false)
         {
             // if force = false and query already exists, count>0
             if (!force && await CheckFilterNameAsync(filter.Name))
             {
-                return false;
+                return null;
             }
-            string filters = JsonConvert.SerializeObject(filter.Clauses, Formatting.None, new StringEnumConverter());
+            string clauses = JsonConvert.SerializeObject(filter.Clauses, Formatting.None, new StringEnumConverter());
             // if the filter id is null or empty, it is a new filter, otherwise it is supposedly to exisit.
             string filterId = string.IsNullOrWhiteSpace(filter?.Id) ? Guid.NewGuid().ToString() : filter.Id;
             DeviceListFilterTableEntity entity = new DeviceListFilterTableEntity(filterId, filter.Name);
             entity.ETag = "*";
-            entity.Clauses = filters;
+            entity.Clauses = clauses;
             entity.SortColumn = filter.SortColumn;
             entity.SortOrder = filter.SortOrder.ToString();
             entity.AdvancedClause = filter.AdvancedClause;
             entity.IsAdvanced = filter.IsAdvanced;
+            entity.IsTemporary = filter.IsTemporary;
             var result = await _azureTableStorageClient.DoTableInsertOrReplaceAsync(entity, BuildFilterModelFromEntity);
-            return (result.Status == TableStorageResponseStatus.Successful);
+            if (result.Status == TableStorageResponseStatus.Successful) {
+                SaveSuggestClausesAsync(filter.Clauses);
+                return await GetFilterAsync(filterId);
+            }
+            return null;
+        }
+
+        private async Task SaveSuggestClausesAsync(List<Clause> clauses)
+        {
+            foreach(var clause in clauses)
+            {
+                var entity = new ClauseTableEntity(clause);
+                await this._clauseTableStorageClient.DoTableInsertOrReplaceAsync(entity, BuildClauseFromEntity);
+            }
         }
 
         public async Task<bool> TouchFilterAsync(string id)
@@ -137,7 +157,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
             else
             {
-                return ordered.Select(e => BuildFilterModelFromEntity(e));
+                return ordered.Skip(skip).Select(e => BuildFilterModelFromEntity(e));
+            }
+        }
+
+        public async Task<IEnumerable<Clause>> GetSuggestClausesAsync(int skip, int take)
+        {
+            TableQuery<ClauseTableEntity> query = new TableQuery<ClauseTableEntity>();
+            var entities = await _clauseTableStorageClient.ExecuteQueryAsync(query);
+            var ordered = entities.OrderByDescending(e => e.Timestamp);
+            if (take > 0)
+            {
+                return ordered.Skip(skip).Take(take).Select(e => BuildClauseFromEntity(e));
+            }
+            else
+            {
+                return ordered.Skip(skip).Select(e => BuildClauseFromEntity(e));
             }
         }
 
@@ -173,6 +208,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 SortOrder = order,
                 AdvancedClause = entity.AdvancedClause,
                 IsAdvanced = entity.IsAdvanced,
+                IsTemporary = entity.IsTemporary,
+            };
+        }
+
+        private Clause BuildClauseFromEntity(ClauseTableEntity entity)
+        {
+            if (entity == null)
+            {
+                return null;
+            }
+
+            ClauseType clauseType;
+            try
+            {
+                Enum.TryParse(entity.ClauseType, out clauseType);
+            }
+            catch
+            {
+                clauseType = ClauseType.EQ;
+            }
+            return new Clause
+            {
+                ColumnName = entity.ColumnName,
+                ClauseType = clauseType,
+                ClauseValue = entity.ClauseValue
             };
         }
     }
