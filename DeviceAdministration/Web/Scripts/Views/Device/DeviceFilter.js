@@ -80,7 +80,15 @@
         },
         lookupBoxKeypress: function (data, e){
             if (e.keyCode === 13) {
-                self.model.loadFilter(self.model.lookupBox(), true);
+                var name = self.model.lookupBox();
+                var filterId;
+                self.model.filterNameList().forEach(function (item) {
+                    if (item.name === name) {
+                        filterId = item.id;
+                        return false;
+                    }
+                });
+                self.model.loadFilter(filterId, true);
                 return false;
             }
         },
