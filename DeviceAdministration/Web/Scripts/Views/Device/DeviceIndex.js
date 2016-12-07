@@ -241,7 +241,7 @@
                     .appendTo(header);
             });
             
-            populateSearchPane(function () {
+            IoTApp.DeviceFilter.init(getUiStateFromCookie(), function () {
                 _initializeDatatableImpl(columns, columnDefs);
             });
         }
@@ -317,7 +317,7 @@
             "lengthChange": false,
             "processing": false,
             "serverSide": true,
-            "dom": "<'dataTables_header'i<'#button_area.pull-right'>p>lrt?",
+            "dom": "<'dataTables_header'<'device_list_toolbar'><'#button_area.pull-right'>p>lrt?",
             "ajax": onDataTableAjaxCalled,
             "language": {
                 "info": resources.deviceList + " (_TOTAL_)",
@@ -333,6 +333,8 @@
         };
         //$.fn.dataTable.ext.legacy.ajax = true;
         self.dataTable = self.dataTableContainer.DataTable(options);
+
+        IoTApp.DeviceFilter.initToolbar($('.device_list_toolbar'));
 
         var $buttonArea = $('#button_area');
         

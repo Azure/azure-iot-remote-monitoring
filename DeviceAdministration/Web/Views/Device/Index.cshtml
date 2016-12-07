@@ -148,6 +148,105 @@
             </table>
             <div class="retry_message_container">
             </div>
+            <script type="text/html" id="tableHeaderTemplate">
+                <div class="device_list_toolbar_title">
+                    <span class="device_list_toolbar_filtername" data-bind="text: name"></span> (<span class="device_list_toolbar_number" data-bind="text: filteredInfo"></span>)
+                </div>
+                <div class="device_list_toolbar_buttons">
+                    <img id="btnOpen" src="/Content/img/open_query.svg" class="device_list_toolbar_button" data-bind="popover: { template: '#openfilterContent' }"/>
+                    <img id="btnFilter" src="/Content/img/filters.svg" class="device_list_toolbar_button" data-bind="click: showPanel" />
+                </div>
+            </script>
+            <div id="openfilterContent" class="display_none">
+                <div>OPEN SAVED FILTER</div>
+                <input class="search_container__query_find_query_box" id="findQueryBox" />
+                <div class="filter_panel_filters" data-bind="foreach: filters">
+                    <a href="#" class="filter_panel_filter_link" data-bind="text: name, click: $parent.loadFilter"></a>
+                </div>
+            </div>
+            <div class="filter_panel_container">
+                <div class="filter_panel">
+                    <img src="~/Content/img/column_delete.svg" class="filter_panel_close_img" data-bind="click: hidePanel" />
+                    <span class="filter_panel_title">Filter Editor</span>
+                    <div class="filter_panel_content">
+                        <div>
+                            <div class="filter_panel_type_select" data-toggle="dropdown">
+                                <span data-bind="visible: !isAdvanced()">Clause</span>
+                                <span data-bind="visible: isAdvanced()">Advanced</span>
+                                <img src="~/Content/img/expanded.svg" class="filter_panel_type_select_img" />
+                            </div>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" data-bind="click: function() { isAdvanced(false) }">Clause</a></li>
+                                <li><a href="#" data-bind="click: function() { isAdvanced(true) }">Advanced</a></li>
+                            </ul>
+     
+                            <label class="pull-right" data-bind="visible : !isAdvanced()"><input type="checkbox" id="chkSaveDefault" /> @Strings.SaveAsDefault</label>
+                        </div>
+                        
+                        <div class="filter_panel_clauses" data-bind="foreach: clauses, visible : !isAdvanced()">
+                            <div class="filter_panel_clause" data-bind="attr: { title: displayName }, click: toggle, css: { checked: checked }">
+                                <div class="filter_panel_clause_text" data-bind="text: shortDisplayName"></div>
+                            </div>
+                        </div>
+                        <div data-bind="visible: isAdvanced()">
+                            <textarea id="" class="filter_panel_advanced_textarea">SELECT * FROM Devices</textarea>
+                            <div class="filter_panel_advanced_example">
+                                <p>Example 1: deviceId ='SampleDevice001_009'</p>
+                                <p>Example 2: tags.Location = 'Redmond' and tags.DeviceType in ['Type1','Type2'] and (properties.reported.version = 'v1.2' or properties.reported.version = 'v1.3')</p>
+                            </div>
+                        </div>
+                        <div data-bind="visible: !isAdvanced()">
+                            <div class="filter_panel_subtitle">Add a Clause</div>
+                            <div class="filter_panel_clause_edit">
+                            <div class="filter_panel_clause_edit_row">
+                                <div class="filter_panel_clause_edit_row_column">
+                                    <label class="filter_panel_clause_edit_label filter_group_top" for="filterFieldREPLACE_ME"><span>@Strings.FilterFieldLabel</span></label>
+                                </div>
+                                <div class="filter_panel_clause_edit_row_operator">
+                                    <label class="filter_panel_clause_edit_label" for="filterOperatorREPLACE_ME"><span>@Strings.FilterOperatorLabel</span></label>
+                                </div>
+                                <div class="filter_panel_clause_edit_row_value">
+                                    <label class="filter_panel_clause_edit_label" for="filterValueREPLACE_ME"><span>@Strings.FilterValueLabel</span></label>
+                                </div>
+                                <div class="filter_panel_clause_edit_row_add"></div>
+                            </div>
+                            <div class="filter_panel_clause_edit_row">
+                                <div class="filter_panel_clause_edit_row_column">
+                                    <input id="txtField" class="filter_panel_text" data-bind="textInput: currentClause().field">
+                                </div>
+                                <div class="filter_panel_clause_edit_row_operator">
+                                    <select class="filter_panel_select" data-bind="value: currentClause().operator">
+                                        <option value="EQ">=</option>
+                                        <option value="NE">&ne;</option>
+                                        <option value="LT">&lt;</option>
+                                        <option value="GT">&gt;</option>
+                                        <option value="LE">&le;</option>
+                                        <option value="GE">&ge;</option>
+                                        <option value="IN">IN</option>
+                                    </select>
+                                </div>
+                                <div class="filter_panel_clause_edit_row_value">
+                                    <input type="text" class="filter_panel_text" data-bind="textInput: currentClause().value" />
+                                </div>
+                                <div class="filter_panel_clause_edit_row_add">
+                                    <button type="button" class="button_base" data-bind="click: addClause, enable: currentClause().field() && currentClause().value()">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="filter_panel_buttons">
+                            <button type="button" onclick="IoTApp.DeviceIndex.reloadGrid()" class="button_base pull-right">
+                                @Strings.FindLabel
+                            </button>
+                            <button type="button" onclick="IoTApp.DeviceIndex.resetSearch()" class="button_base filter_panel_button_gray pull-right">
+                                @Strings.ResetLabel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="details_grid_closed height_fixed button_details_grid">
@@ -219,3 +318,4 @@
 <script src="~/Scripts/Views/Device/DeviceIndex.js"></script>
 <script src="~/Scripts/Views/Device/DeviceDetails.js"></script>
 <script src="~/Scripts/Views/Device/DeviceListColumns.js"></script>
+<script src="~/Scripts/Views/Device/DeviceFilter.js"></script>
