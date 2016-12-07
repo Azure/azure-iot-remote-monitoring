@@ -51,7 +51,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<DeviceListFilterResult> GetDevices(DeviceListFilter filter)
         {
-            await _deviceListFilterRepository.TouchFilterAsync(filter?.Name);
+            await _deviceListFilterRepository.TouchFilterAsync(filter?.Id);
             return await _deviceRegistryListRepository.GetDeviceList(filter);
         }
 

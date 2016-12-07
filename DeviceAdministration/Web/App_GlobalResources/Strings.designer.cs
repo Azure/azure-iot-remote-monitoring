@@ -1817,6 +1817,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FILTER.
+        /// </summary>
+        public static string FilterNameHeader {
+            get {
+                return ResourceManager.GetString("FilterNameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contains (case insensitive).
         /// </summary>
         public static string FilterOperatorContainsInsensitive {
@@ -3343,15 +3352,6 @@ namespace GlobalResources {
         public static string Query {
             get {
                 return ResourceManager.GetString("Query", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to QUERY.
-        /// </summary>
-        public static string QueryNameHeader {
-            get {
-                return ResourceManager.GetString("QueryNameHeader", resourceCulture);
             }
         }
         

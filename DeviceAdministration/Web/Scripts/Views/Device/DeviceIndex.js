@@ -12,7 +12,7 @@
         self.buttonSearchPane = $(".search_container__search_subhead");
         self.searchPane = $(".search_container");
         self.searchPaneClosed = $(".search_container_closed");
-        self.filterNameList = [];
+        self.nameCacheList = [];
 
         Cookies.json = true;
 
@@ -59,13 +59,14 @@
             function (e) {
                 var ENTER_KEY_CODE = 13;
                 if (e.keyCode === ENTER_KEY_CODE) {
-                    findFilter($(this).val());
+                    var selectItem = IoTApp.Controls.NameSelector.getSelectedItem($(this));
+                    findFilter(selectItem && selectItem.id || '');
                     return false;
                 }
             });
 
         initFilterNameList();
-        _cacheFilterNameList();
+        initNameCacheList();
 
         $('#addNewClause').click(function () {
             addClause();
@@ -120,6 +121,7 @@
                 currentSortArray: [[1, "asc"]],
                 start: 0,
                 searchQuery: '',
+                filterId: '',
                 filterName: '',
                 filters: [],
                 sql: '',
@@ -138,6 +140,7 @@
         if (data) {
             uiState.start = data.start;
             uiState.searchQuery = data.search.value;
+            uiState.filterId = data.filterId;
             uiState.filterName = data.filterName;
             uiState.clauses = data.clauses;
             uiState.advancedClause = data.advancedClause;
@@ -261,13 +264,13 @@
 
     var populateSearchPane = function (callback) {
         
-        if (resources.filterName === resources.allDevices)
+        if (resources.filterId === resources.allDevices)
         {
             callback();
         }
-        else if (resources.filterName) {
+        else if (resources.filterId) {
             showHideSearchPane(true);
-            findFilter(resources.filterName, callback);
+            findFilter(resources.filterId, callback);
         }
         else {
             var cookieData = getUiStateFromCookie();
@@ -351,7 +354,7 @@
             click: function () {
                 unselectAllRows();
                 showDetails();
-                self.loader = self.deviceDetails.scheduleJob($('#filterNameBox').val());
+                self.loader = self.deviceDetails.scheduleJob($('#filterIdBox').val(), $('#filterNameBox').val());
             }
         }).appendTo($buttonArea);
 
@@ -396,6 +399,7 @@
         
         data.search.value = $('#searchQuery').val();
         data.filterName = $('#filterNameBox').val();
+        data.filterId = $('#filterIdBox').val();
         data.advancedClause = $('#sqlBox').val();
         data.isAdvanced = $('#searchTypeSelect').val() === 'ADVANCED';
         data.clauses = [];
@@ -573,6 +577,7 @@
         $('#filter_holder').html('');
 
         $('#filterNameBox').val('');
+        $('#filterIdBox').val('');
         $('#sqlBox').val('');
         $('.filter_display_group').show();
         $('.advanced_clause_display_group').hide();
@@ -590,7 +595,7 @@
         // hide the status as soon as it is shown
         $('#filterStatusControl' + clauseCount).hide();
 
-        applyFilterNameList($('#filterField' + clauseCount));
+        applyNameCacheList($('#filterField' + clauseCount));
 
         // wire up for dynamic control changes
         $('#filterField' + clauseCount).change(function (i) {
@@ -658,6 +663,7 @@
             dataType: 'json',
             success: function (result) {
                 $('#filterNameBox').val(result.data);
+                $('#filterIdBox').val('');
                 $('.search_container__filter_links').removeClass('selected_filter');
                 clearClauses(false);
                 updateSqlBox(getFilterDataModel());
@@ -670,8 +676,8 @@
 
     var saveFilter = function () {
         var filterName = $('#filterNameBox').val();
+        var filterId = $('#filterIdBox').val();
         var sql = $('#sqlBox').val();
-        var url = "/api/v1/filters";
         var isAdvanced = $('#searchTypeSelect').val() === 'ADVANCED';
         var filters = getFilterDataModel();
         if (!filterName || sql === '' && filters.length == 0) {
@@ -683,9 +689,10 @@
             return;
         }
         return $.ajax({
-            url: url,
+            url:  "/api/v1/filters",
             type: 'POST',
             data: {
+                Id: filterId,
                 Name: filterName,
                 Clauses: filters,
                 AdvancedClause: sql,
@@ -705,7 +712,7 @@
     }
 
     var deleteFilter = function () {
-        var url = "/api/v1/filters/" + $('#filterNameBox').val();
+        var url = "/api/v1/filters/" + $('#filterIdBox').val();
         return $.ajax({
             url: url,
             type: 'DELETE',
@@ -713,6 +720,7 @@
             success: function (result) {
                 showRecentFilters(null);
                 $('#filterNameBox').val('');
+                $('#filterIdBox').val('');
                 clearClauses(false);
             },
             error: function () {
@@ -733,11 +741,11 @@
                 var filter = result.data;
                 for (var i = 0; i < filter.length; i++) {
                     $('<a/>', {
-                        id: 'filterName' + i,
+                        id: filter[i].id,
                         "class": 'search_container__filter_links',
                         text: filter[i].name,
                         click: function () {
-                            findFilter(this.textContent);
+                            findFilter(this.id);
                         }
                     }).appendTo(recentFilterArea);
                 };
@@ -755,8 +763,8 @@
         });
     }
 
-    var findFilter = function (filterName, callback) {
-        var url = "/api/v1/filters/" + filterName;
+    var findFilter = function (filterId, callback) {
+        var url = "/api/v1/filters/" + filterId;
         return $.ajax({
             url: url,
             type: 'GET',
@@ -768,7 +776,7 @@
                 }   
             },
             error: function () {
-                IoTApp.Helpers.Dialog.displayError(resources.failedToGetFilter + " : " + filterName);
+                IoTApp.Helpers.Dialog.displayError(resources.failedToGetFilter + " : " + filterId);
                 if (callback) {
                     callback();
                 }
@@ -778,8 +786,10 @@
 
     var updateFilterPanel = function (filter) {
         filter.name = filter.name || filter.filterName;
+        filter.id = filter.id || filter.filterId;
         updateFiltersPanel(filter.clauses);
         $('#filterNameBox').val(filter.name);
+        $('#filterIdBox').val(filter.id);
         $('.search_container__filter_links').each(function (index) {
             if (this.textContent === filter.name) {
                 $(this).addClass('selected_filter');
@@ -808,7 +818,7 @@
         clauseCount = filters.length;
         filters.forEach(function (filter, i) {
             $('#filter_holder').append(getFilterHtml(i));
-            applyFilterNameList($('#filterField' + i));
+            applyNameCacheList($('#filterField' + i));
             var newColumn = $('#filterField' + i).val(filter.columnName);
             $('#filterOperator' + i).val(filter.clauseType);
             $('#filterValue' + i).val(filter.clauseValue);
@@ -836,14 +846,14 @@
         clauseCount = 0;
         if (empty) return;
         $('#filter_holder').append(getFilterHtml(0));
-        applyFilterNameList($('#filterField0'));
+        applyNameCacheList($('#filterField0'));
         $('#filterStatusControl0').hide();
         clauseCount = 1;
     }
 
     var initFilterNameList = function () {
         return $.ajax({
-            url: '/api/v1/filterList',
+            url: '/api/v1/filterList?skip=0&take=1000',
             type: 'GET',
             dataType: 'json',
             success: function (result) {
@@ -852,21 +862,21 @@
         });
     }
 
-    var _cacheFilterNameList = function () {
+    var initNameCacheList = function () {
         var url = "/api/v1/namecache/list/" + (IoTApp.Controls.NameSelector.NameListType.deviceInfo | IoTApp.Controls.NameSelector.NameListType.tag | IoTApp.Controls.NameSelector.NameListType.property);
         return $.ajax({
             url: url,
             type: 'GET',
             dataType: 'json',
             success: function (result) {
-                self.filterNameList = result.data;
+                self.nameCacheList = result.data;
             }
         });
     }
 
-    var applyFilterNameList = function ($element){
-        if (self.filterNameList){
-            IoTApp.Controls.NameSelector.create($element, null, self.filterNameList);
+    var applyNameCacheList = function ($element){
+        if (self.nameCacheList){
+            IoTApp.Controls.NameSelector.create($element, null, self.nameCacheList);
         }else {
             IoTApp.Controls.NameSelector.create($element, { type: IoTApp.Controls.NameSelector.NameListType.deviceInfo | IoTApp.Controls.NameSelector.NameListType.tag | IoTApp.Controls.NameSelector.NameListType.property });
         }

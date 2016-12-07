@@ -44,6 +44,7 @@
             <div class="search_container__search_details_container">
                 <div>
                     <div>
+                        <input type="hidden" id="filterIdBox" />
                         <input class="search_container__filter_name_text" id="filterNameBox" />
                         <a href="#" onclick="IoTApp.DeviceIndex.deleteFilter()"><img class="search_container__filter_delete" src="~/Content/img/delete.svg" /></a>
                         <a href="#" onclick="IoTApp.DeviceIndex.saveFilter()"><img class="search_container__filter_save" src="~/Content/img/save.svg" /></a>
@@ -209,7 +210,7 @@
         filterIsEmpty: '@Html.JavaScriptString(Strings.FilterIsEmpty)',
         incorrectFilterName: '@Html.JavaScriptString(Strings.IncorrectFilterName)',
         failedToScheduleJob: '@Html.JavaScriptString(Strings.ScheduleJobError)',
-        filterName: '@Html.JavaScriptString((string)ViewBag.FilterName)',
+        filterId: '@Html.JavaScriptString((string)ViewBag.FilterId)',
         allDevices: '@Html.JavaScriptString(Strings.AllDevices)'
     };
 </script>

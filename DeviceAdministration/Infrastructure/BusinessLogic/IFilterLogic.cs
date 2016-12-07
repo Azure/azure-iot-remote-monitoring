@@ -6,12 +6,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public interface IFilterLogic
     {
-        Task<bool> AddFilterAsync(Filter filter);
+        Task<bool> SaveFilterAsync(Filter filter);
         Task<IEnumerable<Filter>> GetRecentFiltersAsync(int max);
-        Task<Filter> GetFilterAsync(string filterName);
+        Task<Filter> GetFilterAsync(string filterId);
         Task<string> GetAvailableFilterNameAsync(string filterName);
-        Task<bool> DeleteFilterAsync(string filterName);
+        Task<bool> DeleteFilterAsync(string filterId);
         string GenerateAdvancedClause(IEnumerable<Clause> filters);
-        Task<IEnumerable<string>> GetFilterList();
+        Task<IEnumerable<Filter>> GetFilterList(int skip, int take);
     }
 }

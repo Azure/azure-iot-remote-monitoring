@@ -45,7 +45,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public string JobName { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public JobStatus Status { get; set; }
-        public string QueryName { get; set; }
+        public string FilterId { get; set; }
+        public string FilterName { get; set; }
         public string QueryCondition { get; set; }
         public string OperationType { get; set; }
         public DateTime? StartTime { get; set; }

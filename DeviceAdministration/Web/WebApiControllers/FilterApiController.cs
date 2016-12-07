@@ -30,36 +30,36 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [HttpGet]
-        [Route("{filterName}")]
+        [Route("{filterId}")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        //api/v1/filters/{filterName}
-        public async Task<HttpResponseMessage> GetFilter(string filterName)
+        //api/v1/filters/{filterId}
+        public async Task<HttpResponseMessage> GetFilter(string filterId)
         {
             return await GetServiceResponseAsync<Filter>(async () =>
             {
-                return await _filterLogic.GetFilterAsync(filterName);
+                return await _filterLogic.GetFilterAsync(filterId);
             });
         }
 
         [HttpPost]
         [Route("")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> AddQuery(Filter filter)
+        public async Task<HttpResponseMessage> SaveFilter(Filter filter)
         {
             return await GetServiceResponseAsync<bool>(async () =>
             {
-                return await _filterLogic.AddFilterAsync(filter);
+                return await _filterLogic.SaveFilterAsync(filter);
             });
         }
         
         [HttpDelete]
-        [Route("{filterName}")]
+        [Route("{filterId}")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> DeleteFilter(string filterName)
+        public async Task<HttpResponseMessage> DeleteFilter(string filterId)
         {
             return await GetServiceResponseAsync<bool>(async () =>
             {
-                return await _filterLogic.DeleteFilterAsync(filterName);
+                return await _filterLogic.DeleteFilterAsync(filterId);
             });
         }
 
@@ -89,28 +89,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpGet]
         [Route("~/api/v1/filterList")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> GetFilterList()
+        public async Task<HttpResponseMessage> GetFilterList([FromUri]int skip = 0, [FromUri]int take = 1000)
         {
-            return await GetServiceResponseAsync<IEnumerable<string>>(async () =>
+            return await GetServiceResponseAsync<IEnumerable<Filter>>(async () =>
             {
-                return await _filterLogic.GetFilterList();
-            });
-        }
-
-        [HttpGet]
-        [Route("{filterName}")]
-        [WebApiRequirePermission(Permission.ViewDevices)]
-        //api/v1/filters/{filterName}
-        public async Task<HttpResponseMessage> GetMatchingDeviceCounts(string filterName, string methodName)
-        {
-            //TODO: mock code
-            var result = new MatchingDevices();
-            result.MatchedCount = 10;
-            result.UnMatchCount = 1;
-
-            return await GetServiceResponseAsync<MatchingDevices>(async () =>
-            {
-                return await Task.FromResult(result);
+                return await _filterLogic.GetFilterList(skip, take);
             });
         }
     }

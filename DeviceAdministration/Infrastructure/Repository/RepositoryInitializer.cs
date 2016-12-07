@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
@@ -48,6 +49,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                 var filterModel = new DeviceListFilter
                 {
+                    Id = Guid.NewGuid().ToString(),
                     Name = $"Filter for {string.Join(", ", deviceIds)}",
                     Clauses = new List<Clause>(),
                     SortColumn = "DeviceID",
@@ -63,7 +65,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         job.Key.Substring(job.Key.Length - 3) :
                         job.Key;
 
-                    var jobModel = new JobRepositoryModel(job.Key, filterModel.Name, $"job-{jobName}");
+                    var jobModel = new JobRepositoryModel(job.Key, filterModel.Id, filterModel.Name, $"job-{jobName}");
 
                     await jobRepository.AddAsync(jobModel);
                 }

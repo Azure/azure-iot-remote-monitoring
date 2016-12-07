@@ -6,21 +6,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class DeviceListFilterTableEntity : TableEntity
     {
-        public DeviceListFilterTableEntity(string paritionKey, string rowKey)
+        public DeviceListFilterTableEntity(string filterId, string filterName)
         {
-            if (paritionKey.IsAllowedTableKey() && rowKey.IsAllowedTableKey())
+            if (filterId.IsAllowedTableKey() && filterName.IsAllowedTableKey())
             {
-                this.PartitionKey = paritionKey;
-                this.RowKey = rowKey;
-                this.Name = rowKey;
+                PartitionKey = Id = filterId;
+                RowKey = Name = filterName;
             }
             else
             {
-                throw new ArgumentException($"Incorrect table keys: {paritionKey}, {rowKey}");
+                throw new ArgumentException($"Incorrect table keys: {filterId}, {filterName}");
             }
         }
 
         public DeviceListFilterTableEntity() { }
+
+        public string Id { get; set; }
 
         public string Name { get; set; }
 

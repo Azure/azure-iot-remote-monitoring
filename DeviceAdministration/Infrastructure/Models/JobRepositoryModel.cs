@@ -3,21 +3,24 @@
     public class JobRepositoryModel
     {
         public string JobId { get; private set; }
-        public string QueryName { get; private set; }
+        public string FilterId { get; private set; }
         public string JobName { get; private set; }
+        public string FilterName { get; private set; }
 
         public JobRepositoryModel(JobTableEntity e)
         {
             JobId = e.JobId;
-            QueryName = e.QueryName;
+            FilterId = e.FilterId;
             JobName = e.JobName;
+            FilterName = e.FilterName;
         }
 
-        public JobRepositoryModel(string jobId, string queryName, string jobName)
+        public JobRepositoryModel(string jobId, string filterId, string jobName, string filterName)
         {
             JobId = jobId;
-            QueryName = queryName;
             JobName = jobName;
+            FilterId = filterId;
+            FilterName = filterName;
         }
     }
 }

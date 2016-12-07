@@ -31,10 +31,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var query = new Mock<Filter>();
             var jobs = fixture.CreateMany<JobRepositoryModel>(3);
             _deviceListFilterRepositoryMock.Setup(x => x.SaveFilterAsync(It.IsAny<DeviceListFilter>(), true)).ReturnsAsync(true);
-            var ret = await _filterLogic.AddFilterAsync(query.Object);
+            var ret = await _filterLogic.SaveFilterAsync(query.Object);
             Assert.True(ret);
-            _jobRepositoryMock.Setup(x => x.QueryByQueryNameAsync(It.IsAny<string>())).ReturnsAsync(jobs);
-            await Assert.ThrowsAnyAsync<FilterAssociatedWithJobException>(async () => await _filterLogic.AddFilterAsync(query.Object));
+            _jobRepositoryMock.Setup(x => x.QueryByFilterIdAsync(It.IsAny<string>())).ReturnsAsync(jobs);
+            await Assert.ThrowsAnyAsync<FilterAssociatedWithJobException>(async () => await _filterLogic.SaveFilterAsync(query.Object));
         }
 
         [Fact]
@@ -55,10 +55,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         {
             var filter = new Mock<DeviceListFilter>();
             _deviceListFilterRepositoryMock.Setup(x => x.GetFilterAsync(It.IsAny<string>())).ReturnsAsync(filter.Object);
-            var ret = await _filterLogic.GetFilterAsync("name");
+            var ret = await _filterLogic.GetFilterAsync("filterId");
             Assert.NotNull(ret);
             _deviceListFilterRepositoryMock.Setup(x => x.GetFilterAsync(It.IsAny<string>())).ReturnsAsync(null);
-            await Assert.ThrowsAsync<FilterNotFoundException>(async () => await _filterLogic.GetFilterAsync("name"));
+            await Assert.ThrowsAsync<FilterNotFoundException>(async () => await _filterLogic.GetFilterAsync("filterId"));
         }
 
         [Fact]
@@ -97,16 +97,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             _deviceListFilterRepositoryMock.Setup(x => x.DeleteFilterAsync(It.IsAny<string>())).ReturnsAsync(true);
             var ret = await _filterLogic.DeleteFilterAsync("myFilter");
             Assert.True(ret);
-            _jobRepositoryMock.Setup(x => x.QueryByQueryNameAsync(It.IsAny<string>())).ReturnsAsync(jobs);
-            await Assert.ThrowsAnyAsync<FilterAssociatedWithJobException>(async () => await _filterLogic.DeleteFilterAsync("myQuery"));
+            _jobRepositoryMock.Setup(x => x.QueryByFilterIdAsync(It.IsAny<string>())).ReturnsAsync(jobs);
+            await Assert.ThrowsAnyAsync<FilterAssociatedWithJobException>(async () => await _filterLogic.DeleteFilterAsync("myFilter"));
         }
 
         [Fact]
         public async void GetFilterListTests()
         {
-            var queryNames = fixture.CreateMany<string>(5);
-            _deviceListFilterRepositoryMock.Setup(x => x.GetFilterListAsync()).ReturnsAsync(queryNames);
-            var ret = await _filterLogic.GetFilterList();
+            var filters = fixture.CreateMany<DeviceListFilter>(5);
+            _deviceListFilterRepositoryMock.Setup(x => x.GetFilterListAsync(It.IsNotNull<int>(), It.IsNotNull<int>())).ReturnsAsync(filters);
+            var ret = await _filterLogic.GetFilterList(0, 10);
             Assert.Equal(5, ret.Count());
         }
     }

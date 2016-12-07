@@ -45,15 +45,15 @@
     <h4 class="grid_subhead_detail_label">@Strings.JobNameHeader</h4>
     <p class="grid_detail_value" name="deviceField_jobName">@Model.JobName</p>
 
-    <h4 class="grid_subhead_detail_label">@Strings.QueryNameHeader</h4>
-    <p class="grid_detail_value" name="deviceField_queryName">
-        @if (Model.QueryName.Equals(Model.QueryCondition, StringComparison.InvariantCultureIgnoreCase))
+    <h4 class="grid_subhead_detail_label">@Strings.FilterNameHeader</h4>
+    <p class="grid_detail_value" name="deviceField_filterName">
+        @if (Model.FilterName.Equals(Model.QueryCondition, StringComparison.InvariantCultureIgnoreCase))
         {
-            @Model.QueryName
+            @Model.FilterName
         }
         else
         {
-            @Html.ActionLink(Model.QueryName, "Index", "Device", new { queryName = Model.QueryName }, new { id = "queryLink" })
+            @Html.ActionLink(Model.FilterName, "Index", "Device", new { filterId = Model.FilterId }, new { id = "filterLink" })
         }
     </p>
 </section>

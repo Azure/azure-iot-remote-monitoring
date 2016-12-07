@@ -17,7 +17,8 @@
              Strings.UpdateTwin, "ScheduleTwinUpdate", "Job",
              new
              {
-                 queryName = Model.QueryName
+                 filterId = Model.FilterId,
+                 filterName = Model.FilterName
              },
              new
              {
@@ -30,7 +31,8 @@
              Strings.InvokeMethod, "ScheduleDeviceMethod", "Job",
              new
              {
-                 queryName = Model.QueryName
+                 filterId = Model.FilterId,
+                 filterName = Model.FilterName
              },
              new
              {

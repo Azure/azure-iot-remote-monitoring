@@ -38,9 +38,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 var result = jobResponses.Select(r => new DeviceJobModel(r)).OrderByDescending(j => j.StartTime).ToList();
                 foreach(var job in result)
                 {
-                    var tuple = await GetJobNameAndQueryNameAsync(job);
+                    var tuple = await GetJobNameAndFilterNameAsync(job);
                     job.JobName = tuple.Item1;
-                    job.QueryName = tuple.Item2;
+                    job.FilterId = tuple.Item2;
+                    job.FilterName = tuple.Item3;
                 };
 
                 var dataTablesResponse = new DataTablesResponse<DeviceJobModel>()
@@ -80,21 +81,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             });
         }
 
-        private async Task<Tuple<string,string>> GetJobNameAndQueryNameAsync(DeviceJobModel job)
+        private async Task<Tuple<string, string, string>> GetJobNameAndFilterNameAsync(DeviceJobModel job)
         {
             try
             {
                 var model = await _jobRepository.QueryByJobIDAsync(job.JobId);
-                string queryName = model.QueryName ?? (job.QueryCondition ?? Strings.NotApplicableValue);
-                if (queryName == "*")
+                string filterName = model.FilterName ?? (job.QueryCondition ?? Strings.NotApplicableValue);
+                string filterId = model.FilterId;
+                if (filterName == "*" || DeviceListFilterRepository.DefaultDeviceListFilter.Id.Equals(filterId))
                 {
-                    queryName = Strings.AllDevices;
+                    filterName = Strings.AllDevices;
                 }
-                return Tuple.Create(model.JobName ?? Strings.NotApplicableValue, queryName);
+                return Tuple.Create(model.JobName ?? Strings.NotApplicableValue, filterId, filterName);
             }
             catch
             {
-                return Tuple.Create(job.JobId, job.QueryCondition ?? Strings.NotApplicableValue);
+                return Tuple.Create(job.JobId, string.Empty, job.QueryCondition ?? Strings.NotApplicableValue);
             }
         }
     }

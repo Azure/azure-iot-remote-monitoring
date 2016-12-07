@@ -120,12 +120,12 @@
                     "name": "jobName"
                 },
                 {
-                    "data": "queryName",
+                    "data": "filterName",
                     "mRender": function (data) {
                         var s = IoTApp.Helpers.String.renderLongString(data, 20, '..');
                         return htmlEncode(s);
                     },
-                    "name": "queryName"
+                    "name": "filterName"
                 },
                 {
                     "data": "operationType",

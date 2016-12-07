@@ -176,7 +176,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             deviceModel.DeviceProperties = _fixture.Create<DeviceProperties>();
             deviceModel.DeviceProperties.DeviceID = deviceId;
             _deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(deviceModel);
-            _jobRepositoryMock.Setup(mock => mock.QueryByJobIDAsync(It.IsAny<string>())).ReturnsAsync(new JobRepositoryModel("JobId", "QueryName", "JobName"));
+            _jobRepositoryMock.Setup(mock => mock.QueryByJobIDAsync(It.IsAny<string>())).ReturnsAsync(new JobRepositoryModel("JobId", "FilterId", "JobName", "FilterName"));
 
             var result = await _deviceController.GetDeviceDetails(deviceId);
             var view = result as PartialViewResult;

@@ -50,12 +50,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         [Fact]
         public async void GetFilterAsyncTest()
         {
-            var tableEntities = fixture.CreateMany<DeviceListFilterTableEntity>(1);
-            tableEntities.First().Clauses = "[{'ColumnName': 'Status', 'ClauseType': 'EQ', 'ClauseValue': 'Enabled'}]";
+            var tableEntities = new List<DeviceListFilterTableEntity>();
+            tableEntities.Add(new DeviceListFilterTableEntity("filterId", "filterName") {
+                Clauses = "[{'ColumnName': 'Status', 'ClauseType': 'EQ', 'ClauseValue': 'Enabled'}]",
+            });
+
             _tableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListFilterTableEntity>>()))
                 .ReturnsAsync(tableEntities);
-            var ret = await deviceListFilterRepository.GetFilterAsync(tableEntities.First().Name);
-            Assert.Equal(ret.Name, tableEntities.First().Name);
+            var ret = await deviceListFilterRepository.GetFilterAsync(tableEntities.First().PartitionKey);
+            Assert.Equal(ret.Id, tableEntities.First().Id);
 
             _tableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListFilterTableEntity>>()))
                .ReturnsAsync(new List<DeviceListFilterTableEntity>());
@@ -98,13 +101,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         public async void TouchFilterAsyncTest()
         {
             var filter = fixture.Create<DeviceListFilter>();
-            DeviceListFilterTableEntity tableEntity = null;
+            var tableEntities = fixture.CreateMany<DeviceListFilterTableEntity>(1);
+            tableEntities.First().Clauses = "[{'ColumnName': 'Status', 'ClauseType': 'EQ', 'ClauseValue': 'Enabled'}]";
+            DeviceListFilterTableEntity tableEntity = tableEntities.First();
 
             var resp = new TableStorageResponse<DeviceListFilter>
             {
                 Entity = filter,
                 Status = TableStorageResponseStatus.Successful
             };
+
+            _tableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListFilterTableEntity>>()))
+                .ReturnsAsync(tableEntities);
+
             _tableStorageClientMock.Setup(
                 x =>
                     x.DoTouchAsync(It.IsNotNull<DeviceListFilterTableEntity>(),
@@ -112,7 +121,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 .Callback<DeviceListFilterTableEntity, Func<DeviceListFilterTableEntity, DeviceListFilter>>(
                         (entity, func) => tableEntity = entity)
                 .ReturnsAsync(resp);
-            var ret = await deviceListFilterRepository.TouchFilterAsync(filter.Name);
+            var ret = await deviceListFilterRepository.TouchFilterAsync(filter.Id);
             Assert.True(ret);
             Assert.NotNull(tableEntity);
 
@@ -128,7 +137,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 .Callback<DeviceListFilterTableEntity, Func<DeviceListFilterTableEntity, DeviceListFilter>>(
                         (entity, func) => tableEntity = null)
                 .ReturnsAsync(resp);
-            ret = await deviceListFilterRepository.TouchFilterAsync(filter.Name);
+            ret = await deviceListFilterRepository.TouchFilterAsync(filter.Id);
             Assert.False(ret);
             Assert.Null(tableEntity);
 
@@ -140,13 +149,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         public async void DeleteFilterAsyncTest()
         {
             var filter = fixture.Create<DeviceListFilter>();
-            DeviceListFilterTableEntity tableEntity = null;
+            var tableEntities = fixture.CreateMany<DeviceListFilterTableEntity>(1);
+            tableEntities.First().Clauses = "[{'ColumnName': 'Status', 'ClauseType': 'EQ', 'ClauseValue': 'Enabled'}]";
+            DeviceListFilterTableEntity tableEntity = tableEntities.First();
 
             var resp = new TableStorageResponse<DeviceListFilter>
             {
                 Entity = filter,
                 Status = TableStorageResponseStatus.Successful
             };
+
+            _tableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListFilterTableEntity>>()))
+                .ReturnsAsync(tableEntities);
+
             _tableStorageClientMock.Setup(
                 x =>
                     x.DoDeleteAsync(It.IsNotNull<DeviceListFilterTableEntity>(),
@@ -154,7 +169,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 .Callback<DeviceListFilterTableEntity, Func<DeviceListFilterTableEntity, DeviceListFilter>>(
                         (entity, func) => tableEntity = entity)
                 .ReturnsAsync(resp);
-            var ret = await deviceListFilterRepository.DeleteFilterAsync(filter.Name);
+            var ret = await deviceListFilterRepository.DeleteFilterAsync(filter.Id);
             Assert.True(ret);
             Assert.NotNull(tableEntity);
 
@@ -163,6 +178,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 Entity = null,
                 Status = TableStorageResponseStatus.NotFound
             };
+
             _tableStorageClientMock.Setup(
                 x =>
                     x.DoDeleteAsync(It.IsNotNull<DeviceListFilterTableEntity>(),
@@ -170,9 +186,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 .Callback<DeviceListFilterTableEntity, Func<DeviceListFilterTableEntity, DeviceListFilter>>(
                         (entity, func) => tableEntity = null)
                 .ReturnsAsync(resp);
-            ret = await deviceListFilterRepository.DeleteFilterAsync(filter.Name);
+            ret = await deviceListFilterRepository.DeleteFilterAsync(filter.Id);
             Assert.False(ret);
             Assert.Null(tableEntity);
+
+            _tableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListFilterTableEntity>>()))
+                .ReturnsAsync(new List<DeviceListFilterTableEntity>());
+            ret = await deviceListFilterRepository.DeleteFilterAsync(filter.Id);
+            Assert.False(ret);
         }
 
         [Fact]
@@ -205,9 +226,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             tableEntities.Select(e => e.Clauses = "[{'ColumnName': 'Status', 'ClauseType': 'EQ', 'ClauseValue': 'Enabled'}]");
             _tableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListFilterTableEntity>>()))
                 .ReturnsAsync(tableEntities.OrderBy(e => e.Name));
-            var ret = await deviceListFilterRepository.GetFilterListAsync();
+            var ret = await deviceListFilterRepository.GetFilterListAsync(0, 1000);
             Assert.Equal(40, ret.Count());
-            Assert.Equal(tableEntities.OrderBy(e => e.Name).Select(e => e.Name).ToArray(), ret.ToArray());
+            Assert.Equal(tableEntities.OrderBy(e => e.Name).Select(e => new string[] { e.PartitionKey, e.Name }).ToArray(), ret.Select(e => new string[] { e.Id, e.Name }).ToArray());
         }
     }
 }

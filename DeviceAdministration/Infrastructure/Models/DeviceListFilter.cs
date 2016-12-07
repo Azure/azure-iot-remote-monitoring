@@ -10,6 +10,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class DeviceListFilter
     {
         /// <summary>
+        /// An unique id
+        /// </summary>
+        public string Id { get; set; }
+        /// <summary>
         /// Name saved for the filter
         /// </summary>
         public string Name { get; set; }

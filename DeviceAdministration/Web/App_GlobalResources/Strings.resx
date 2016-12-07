@@ -2044,8 +2044,8 @@
     <value>OPERATIONS</value>
     <comment>Table column header.</comment>
   </data>
-  <data name="QueryNameHeader" xml:space="preserve">
-    <value>QUERY</value>
+  <data name="FilterNameHeader" xml:space="preserve">
+    <value>FILTER</value>
     <comment>Table column header.</comment>
   </data>
   <data name="StartTimeHeader" xml:space="preserve">

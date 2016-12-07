@@ -53,10 +53,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             _tableStorageClientMock
                 .Verify(x => x.DoTableInsertOrReplaceAsync(
                     It.Is<JobTableEntity>(e => e.JobId == job.JobId
-                        && e.QueryName == job.QueryName
+                        && e.FilterName == job.FilterName
                         && e.JobName == job.JobName
+                        && e.FilterId == job.FilterId
                         && e.PartitionKey == job.JobId
-                        && e.RowKey == job.QueryName),
+                        && e.RowKey == job.FilterId),
                     It.IsAny<Func<JobTableEntity, object>>()));
         }
 
@@ -167,7 +168,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 .Setup(x => x.ExecuteQueryAsync(It.Is<TableQuery<JobTableEntity>>(q => IsCorrectQueryForQueryName(q, queryName))))
                 .ReturnsAsync(entities);
 
-            var models = await _repository.QueryByQueryNameAsync(queryName);
+            var models = await _repository.QueryByFilterIdAsync(queryName);
 
             Assert.Equal(models.Count(), entities.Count());
             Assert.True(models.All(m => entities.Any(e => IsModelCreatedByEntity(m, e))));
@@ -176,7 +177,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         [Fact]
         public async Task QueryByQueryNameAsyncShouldThrowArgumentNullExceptionIfNullProvidedAsParameter()
         {
-            await Assert.ThrowsAsync<ArgumentNullException>(() => _repository.QueryByQueryNameAsync(null));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => _repository.QueryByFilterIdAsync(null));
         }
 
         private bool IsCorrectQueryForJobId(TableQuery<JobTableEntity> query, string jobId)
@@ -192,7 +193,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         private bool IsModelCreatedByEntity(JobRepositoryModel model, JobTableEntity entity)
         {
             return model.JobId == entity.JobId
-                && model.QueryName == entity.QueryName
+                && model.FilterName == entity.FilterName
                 && model.JobName == entity.JobName;
         }
     }

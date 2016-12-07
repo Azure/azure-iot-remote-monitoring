@@ -6,7 +6,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     public class ScheduleJobViewModel
     {
         [Required]
-        public string QueryName { get; set; }
+        public string FilterId { get; set; }
+
+        [Required]
+        public string FilterName { get; set; }
 
         [Required]
         public string JobName { get; set; }

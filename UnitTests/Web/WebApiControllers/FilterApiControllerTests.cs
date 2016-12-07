@@ -42,11 +42,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.We
         }
 
         [Fact]
-        public async void AddFilterTest()
+        public async void SaveFilterTest()
         {
             var filter = new Mock<Filter>();
-            logicMock.Setup(x => x.AddFilterAsync(It.IsAny<Filter>())).ReturnsAsync(true);
-            var result = await controller.AddQuery(filter.Object);
+            logicMock.Setup(x => x.SaveFilterAsync(It.IsAny<Filter>())).ReturnsAsync(true);
+            var result = await controller.SaveFilter(filter.Object);
             result.AssertOnError();
         }
 
@@ -62,7 +62,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.We
         public async void GetAvailableFilterNameTest()
         {
             logicMock.Setup(x => x.GetAvailableFilterNameAsync(It.IsAny<string>())).ReturnsAsync("myFilter1");
-            var result = await controller.GetDefaultFilterName("mFilter");
+            var result = await controller.GetDefaultFilterName("myFilter1");
             result.AssertOnError();
         }
 
@@ -78,9 +78,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.We
         [Fact]
         public async void GetFilterListTest()
         {
-            var filterNames = fixture.CreateMany<string>(5);
-            logicMock.Setup(x => x.GetFilterList()).ReturnsAsync(filterNames);
-            var result = await controller.GetFilterList();
+            var filters = fixture.CreateMany<Filter>(5);
+            logicMock.Setup(x => x.GetFilterList(0, 1000)).ReturnsAsync(filters);
+            var result = await controller.GetFilterList(0, 1000);
             result.AssertOnError();
         }
     }

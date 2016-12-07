@@ -18,12 +18,12 @@
         });
     }
 
-    var getScheduleJobView = function (queryName) {
+    var getScheduleJobView = function (filterId, filterName) {
         $('#loadingElement').show();
         $('.details_grid_closed__grid_subhead').text(resources.scheduleJobPanelLabel);
         $('.details_grid__grid_subhead').text(resources.scheduleJobPanelLabel);
 
-        return $.get('/Job/ScheduleJob', { queryName: queryName }, function (response) {
+        return $.get('/Job/ScheduleJob', { filterId: filterId, filterName: filterName }, function (response) {
             onScheduleJobReady(response);
         }).fail(function (response) {
             $('#loadingElement').hide();

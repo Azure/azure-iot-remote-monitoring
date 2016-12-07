@@ -14,11 +14,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<bool> CheckFilterNameAsync(string name);
 
         /// <summary>
-        /// update the timestamp when the named filter is executed.
+        /// update the timestamp when the filter is executed.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="id"></param>
         /// <returns>true if updated</returns>
-        Task<bool> TouchFilterAsync(string name);
+        Task<bool> TouchFilterAsync(string id);
 
         /// <summary>
         /// Add a new filter if not present, otherwise will update
@@ -30,11 +30,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<bool> SaveFilterAsync(DeviceListFilter filter, bool force);
 
         /// <summary>
-        /// Get the filter by name.
+        /// Get the filter by id.
         /// </summary>
-        /// <param name="filterName"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        Task<DeviceListFilter> GetFilterAsync(string filterName);
+        Task<DeviceListFilter> GetFilterAsync(string id);
 
         /// <summary>
         /// Return recenty queries executed recently, sorted by timestamp.
@@ -45,14 +45,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <summary>
         /// Delete the saved filter by name.
         /// </summary>
-        /// <param name="filterName"></param>
+        /// <param name="id"></param>
         /// <returns>true if succeed</returns>
-        Task<bool> DeleteFilterAsync(string filterName);
+        Task<bool> DeleteFilterAsync(string id);
 
         /// <summary>
         /// Get suggestion list of filter names
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<string>> GetFilterListAsync();
+        Task<IEnumerable<DeviceListFilter>> GetFilterListAsync(int skip, int take);
     }
 }

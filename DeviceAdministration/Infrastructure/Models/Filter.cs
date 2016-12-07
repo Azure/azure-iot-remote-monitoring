@@ -4,6 +4,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class Filter
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public List<Clause> Clauses { get; set; }

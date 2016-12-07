@@ -6,7 +6,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     {
         public string JobId { get; set; }
 
-        public string QueryName { get; set; }
+        public string FilterId { get; set; }
+
+        public string FilterName { get; set; }
 
         public string JobName { get; set; }
 
@@ -17,8 +19,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public JobTableEntity(JobRepositoryModel job)
         {
             PartitionKey = JobId = job.JobId;
-            RowKey = QueryName = job.QueryName;
+            RowKey = FilterId = job.FilterId;
             JobName = job.JobName;
+            FilterName = job.FilterName;
         }
     }
 }

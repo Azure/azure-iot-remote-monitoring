@@ -18,7 +18,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly string _storageAccountConnectionString;
         private readonly IAzureTableStorageClient _azureTableStorageClient;
         private readonly string _filterTableName = "FilterList";
-        private const string _filterTablePartitionKey = "filter";
+        public static DeviceListFilter DefaultDeviceListFilter = new DeviceListFilter
+        {
+            Id = "All Devices",
+            Name = "All Devices",
+            Clauses = new List<Clause>()
+            {
+                new Clause
+                {
+                    ColumnName = "tags.HubEnabledState",
+                    ClauseType = ClauseType.EQ,
+                    ClauseValue = "Running",
+                }
+            },
+            AdvancedClause = "SELECT * FROM devices",
+            IsAdvanced = false,
+        };
 
         public DeviceListFilterRepository (IConfigurationProvider configurationProvider, IAzureTableStorageClientFactory tableStorageClientFactory)
         {
@@ -34,15 +49,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return entities.Count() > 0;
         }
 
-        public async Task<DeviceListFilter> GetFilterAsync(string name)
+        public async Task<DeviceListFilter> GetFilterAsync(string id)
         {
-            TableQuery<DeviceListFilterTableEntity> query = new TableQuery<DeviceListFilterTableEntity>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, name));
+            TableQuery<DeviceListFilterTableEntity> query = new TableQuery<DeviceListFilterTableEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, id));
             var entities = await _azureTableStorageClient.ExecuteQueryAsync(query);
             if (entities.Count() == 0) return null;
             var entity = entities.First();
             return new DeviceListFilter
             {
-                Name = entity.Name,
+                Id = entity.PartitionKey,
+                Name = entity.RowKey,
                 Clauses = JsonConvert.DeserializeObject<List<Clause>>(entity.Clauses),
                 AdvancedClause = entity.AdvancedClause,
                 IsAdvanced = entity.IsAdvanced,
@@ -57,7 +73,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return false;
             }
             string filters = JsonConvert.SerializeObject(filter.Clauses, Formatting.None, new StringEnumConverter());
-            DeviceListFilterTableEntity entity = new DeviceListFilterTableEntity(_filterTablePartitionKey, filter.Name);
+            // if the filter id is null or empty, it is a new filter, otherwise it is supposedly to exisit.
+            string filterId = string.IsNullOrWhiteSpace(filter?.Id) ? Guid.NewGuid().ToString() : filter.Id;
+            DeviceListFilterTableEntity entity = new DeviceListFilterTableEntity(filterId, filter.Name);
             entity.ETag = "*";
             entity.Clauses = filters;
             entity.SortColumn = filter.SortColumn;
@@ -68,20 +86,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return (result.Status == TableStorageResponseStatus.Successful);
         }
 
-        public async Task<bool> TouchFilterAsync(string name)
+        public async Task<bool> TouchFilterAsync(string id)
         {
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(id))
             {
                 return false;
             }
-            DeviceListFilterTableEntity entity = new DeviceListFilterTableEntity(_filterTablePartitionKey, name);
+            var filter = await GetFilterAsync(id);
+            if (filter == null) return false;
+
+            DeviceListFilterTableEntity entity = new DeviceListFilterTableEntity(id, filter.Name);
             var result = await _azureTableStorageClient.DoTouchAsync(entity, BuildFilterModelFromEntity);
             return result.Status == TableStorageResponseStatus.Successful;
         }
 
-        public async Task<bool> DeleteFilterAsync(string name)
+        public async Task<bool> DeleteFilterAsync(string id)
         {
-            DeviceListFilterTableEntity entity = new DeviceListFilterTableEntity(_filterTablePartitionKey, name);
+            var filter = await GetFilterAsync(id);
+            if (filter == null) return false;
+
+            DeviceListFilterTableEntity entity = new DeviceListFilterTableEntity(id, filter.Name);
             entity.ETag = "*";
             var result = await _azureTableStorageClient.DoDeleteAsync(entity, BuildFilterModelFromEntity);
             return (result.Status == TableStorageResponseStatus.Successful);
@@ -102,12 +126,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
         }
 
-        public async Task<IEnumerable<string>> GetFilterListAsync()
+        public async Task<IEnumerable<DeviceListFilter>> GetFilterListAsync(int skip = 0, int take = 1000)
         {
             TableQuery<DeviceListFilterTableEntity> query = new TableQuery<DeviceListFilterTableEntity>();
             var entities = await _azureTableStorageClient.ExecuteQueryAsync(query);
             var ordered = entities.OrderBy(e => e.Name);
-            return ordered.Select(e => e.Name);
+            if (take > 0)
+            {
+                return ordered.Skip(skip).Take(take).Select(e => BuildFilterModelFromEntity(e));
+            }
+            else
+            {
+                return ordered.Select(e => BuildFilterModelFromEntity(e));
+            }
         }
 
         private DeviceListFilter BuildFilterModelFromEntity(DeviceListFilterTableEntity entity)
@@ -135,6 +166,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             return new DeviceListFilter
             {
+                Id = entity.PartitionKey,
                 Name = entity.Name,
                 Clauses = filters,
                 SortColumn = entity.SortColumn,

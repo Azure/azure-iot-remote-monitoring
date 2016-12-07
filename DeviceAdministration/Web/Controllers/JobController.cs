@@ -23,12 +23,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public JobController(
             IJobRepository jobRepository,
-            IDeviceListFilterRepository queryRepository,
+            IDeviceListFilterRepository filterRepository,
             IIoTHubDeviceManager iotHubDeviceManager,
             INameCacheLogic nameCacheLogic)
         {
             _jobRepository = jobRepository;
-            _filterRepository = queryRepository;
+            _filterRepository = filterRepository;
             _iotHubDeviceManager = iotHubDeviceManager;
             _nameCacheLogic = nameCacheLogic;
         }
@@ -46,23 +46,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var jobResponse = await _iotHubDeviceManager.GetJobResponseByJobIdAsync(jobId);
 
             var result = new DeviceJobModel(jobResponse);
-            var t = await GetJobNameAndQueryNameAsync(result);
+            var t = await GetJobNameAndFilterNameAsync(result);
             result.JobName = t.Item1;
-            result.QueryName = t.Item2;
+            result.FilterId = t.Item2;
+            result.FilterName = t.Item3;
 
             return PartialView("_JobProperties", result);
         }
 
         [RequirePermission(Permission.ManageJobs)]
-        public async Task<ActionResult> ScheduleJob(string queryName)
+        public async Task<ActionResult> ScheduleJob(string filterId, string filterName)
         {
             // [WORKAROUND] The default query name for case it is empty
-            if (string.IsNullOrEmpty(queryName))
+            if (string.IsNullOrEmpty(filterId))
             {
-                queryName = "*";
+                filterId = DeviceListFilterRepository.DefaultDeviceListFilter.Id;
+                filterName = DeviceListFilterRepository.DefaultDeviceListFilter.Name;
             }
 
-            var jobs = await _jobRepository.QueryByQueryNameAsync(queryName);
+            var jobs = await _jobRepository.QueryByFilterIdAsync(filterId);
             var tasks = jobs.Select(async job =>
             {
                 JobResponse jobResponse;
@@ -85,7 +87,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             var preScheduleJobModel = new PreScheduleJobModel
             {
-                QueryName = queryName,
+                FilterId = filterId,
+                FilterName = filterName,
                 JobsSharingQuery = (await Task.WhenAll(tasks))
                     .Where(model => model.Job != null)
                     .OrderByDescending(model => model.Job.CreatedTimeUtc)
@@ -95,13 +98,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.ManageJobs)]
-        public ActionResult ScheduleTwinUpdate(string queryName)
+        public ActionResult ScheduleTwinUpdate(string filterId, string filterName)
         {
             //ToDo: Jump to the view with desired model
 
             return View(new ScheduleTwinUpdateModel
             {
-                QueryName = queryName
+                FilterId = filterId,
+                FilterName = filterName
             });
         }
 
@@ -123,26 +127,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
             twin.ETag = "*";
 
-            string queryCondition = await GetQueryCondition(model.QueryName);
+            string queryCondition = await GetQueryCondition(model.FilterId);
 
             var jobId = await _iotHubDeviceManager.ScheduleTwinUpdate(queryCondition,
                 twin,
                 model.StartDateUtc,
                 model.MaxExecutionTimeInMinutes * 60);
 
-            await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.QueryName, model.JobName));
+            await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, model.FilterName));
 
             return Redirect("/Job/Index");
         }
 
         [RequirePermission(Permission.ManageJobs)]
-        public ActionResult ScheduleDeviceMethod(string queryName)
+        public ActionResult ScheduleDeviceMethod(string filterId, string filterName)
         {
             //ToDo: Jump to the view with desired model
 
             return View(new ScheduleDeviceMethodModel
             {
-                QueryName = queryName
+                FilterId = filterId,
+                FilterName = filterName
             });
         }
 
@@ -155,43 +160,44 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var parameters = model.Parameters?.ToDictionary(p => p.ParameterName, p => p.ParameterValue) ?? new Dictionary<string, string>();
             string payload = JsonConvert.SerializeObject(parameters);
 
-            string queryCondition = await GetQueryCondition(model.QueryName);
+            string queryCondition = await GetQueryCondition(model.FilterId);
 
             var jobId = await _iotHubDeviceManager.ScheduleDeviceMethod(queryCondition, methodName, payload, model.StartDateUtc, model.MaxExecutionTimeInMinutes * 60);
 
-            await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.QueryName, model.JobName));
+            await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, model.FilterName));
 
             return Redirect("/Job/Index");
         }
 
-        private async Task<Tuple<string, string>> GetJobNameAndQueryNameAsync(DeviceJobModel job)
+        private async Task<Tuple<string, string, string>> GetJobNameAndFilterNameAsync(DeviceJobModel job)
         {
             try
             {
                 var model = await _jobRepository.QueryByJobIDAsync(job.JobId);
-                string queryName = model.QueryName ?? (job.QueryCondition ?? Strings.NotApplicableValue);
-                if (queryName == "*")
+                string filterName = model.FilterName ?? (job.QueryCondition ?? Strings.NotApplicableValue);
+                string filterId = model.FilterId;
+                if (filterName == "*" || DeviceListFilterRepository.DefaultDeviceListFilter.Id.Equals(filterId))
                 {
-                    queryName = Strings.AllDevices;
+                    filterName = Strings.AllDevices;
                 }
-                return Tuple.Create(model.JobName ?? Strings.NotApplicableValue, queryName);
+                return Tuple.Create(model.JobName ?? Strings.NotApplicableValue, filterId, filterName);
             }
             catch
             {
-                return Tuple.Create(job.JobId, job.QueryCondition ?? Strings.NotApplicableValue);
+                return Tuple.Create(job.JobId, string.Empty, job.QueryCondition ?? Strings.NotApplicableValue);
             }
         }
 
-        private async Task<string> GetQueryCondition(string filterName)
+        private async Task<string> GetQueryCondition(string filterId)
         {
-            if (filterName == "*")
+            if (filterId == "*" || filterId == DeviceListFilterRepository.DefaultDeviceListFilter.Id)
             {
                 //[WORKAROUND] No condition available for "All Devices"
-                return "tags.HubEnabledState='Running'";
+                return DeviceListFilterRepository.DefaultDeviceListFilter.GetSQLCondition();
             }
             else
             {
-                var filter = await _filterRepository.GetFilterAsync(filterName);
+                var filter = await _filterRepository.GetFilterAsync(filterId);
                 return filter.GetSQLCondition();
             }
         }
