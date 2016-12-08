@@ -20,12 +20,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async override Task<DeviceModel> GetDeviceAsync(string deviceId)
         {
-            var device = await base.GetDeviceAsync(deviceId);
+            var baseTask = base.GetDeviceAsync(deviceId);
+            var selfTask = this._deviceManager.GetTwinAsync(deviceId);
+            await Task.WhenAll(baseTask, selfTask);
+
+            var device = baseTask.Result;
 
             // Add the twin from IoT Hub to the model
             if (device != null)
             {
-                device.Twin = await this._deviceManager.GetTwinAsync(deviceId);
+                device.Twin = selfTask.Result;
             }
 
             return device;
