@@ -138,24 +138,49 @@
             });
         });
 
+        if (localStorage.deviceDetailPanel_deviceDetailHidden === "true") {
+            $(".devicedetails_toggle_target").toggle();
+        }
+
+        if (localStorage.deviceDetailPanel_tagHidden === "true") {
+            $(".tag_toggle_target").toggle();
+        }
+
+        if (localStorage.deviceDetailPanel_desiredPropertyHidden === "true") {
+            $(".desiredproperty_toggle_target").toggle();
+        }
+
+        if (localStorage.deviceDetailPanel_reportedPropertyHidden === "true") {
+            $(".reportedproperty_toggle_target").toggle();
+        }
+
+        if (localStorage.deviceDetailPanel_jobHidden === "true") {
+            $(".job_toggle_target").toggle();
+        }
+
         $(".devicedetails_toggle_source").on("click", function () {
             $(".devicedetails_toggle_target").toggle();
+            localStorage.deviceDetailPanel_deviceDetailHidden = $(".devicedetails_toggle_target").css("display") === "none";
         });
 
         $(".tag_toggle_source").on("click", function () {
             $(".tag_toggle_target").toggle();
+            localStorage.deviceDetailPanel_tagHidden = $(".tag_toggle_target").css("display") === "none";
         });
 
         $(".desiredproperty_toggle_source").on("click", function () {
             $(".desiredproperty_toggle_target").toggle();
+            localStorage.deviceDetailPanel_desiredPropertyHidden = $(".desiredproperty_toggle_target").css("display") === "none";
         });
 
         $(".reportedproperty_toggle_source").on("click", function () {
             $(".reportedproperty_toggle_target").toggle();
+            localStorage.deviceDetailPanel_reportedPropertyHidden = $(".reportedproperty_toggle_target").css("display") === "none";
         });
 
         $(".job_toggle_source").on("click", function () {
             $(".job_toggle_target").toggle();
+            localStorage.deviceDetailPanel_jobHidden = $(".job_toggle_target").css("display") === "none";
         });
     }
 
