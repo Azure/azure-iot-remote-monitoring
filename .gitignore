@@ -9,7 +9,6 @@
 *.user
 *.sln.docstates
 *.opendb
-DMSimulator.exe
 
 # Build results
 [Dd]ebug/
