@@ -227,6 +227,11 @@
             });
         },
         executeFilter: function () {
+            if (self.model.currentClause().field() && self.model.currentClause().value())
+            {
+                self.model.addClause();
+            }
+
             IoTApp.DeviceIndex.reloadGrid();
             self.model.hidePanel();
         },
