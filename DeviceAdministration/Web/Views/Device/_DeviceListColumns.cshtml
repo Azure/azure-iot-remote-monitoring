@@ -15,7 +15,9 @@
         <div data-bind="foreach: columns">
             <div class="device_list_columns_item">
                 <!--ko if: $parent.editingItem() != $data -->
-                <span data-bind="text: alias" /> (<span data-bind="text: name" />)
+                <div data-bind="click: $parent.edit">
+                    <span data-bind="text: alias" /> (<span data-bind="text: name" />)
+                </div>
                 <!-- /ko -->
                 <!--ko if: $parent.editingItem() == $data -->
                 <input class="device_list_columns_displayname_text" data-bind="textInput: alias, event: {keypress: $parent.checkKey, blur: $parent.close}" />
