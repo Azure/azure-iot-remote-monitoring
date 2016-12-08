@@ -1,0 +1,40 @@
+﻿@using Microsoft.Azure.Devices
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions
+@using GlobalResources
+
+@model IEnumerable<Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.NamedDeviceJob>
+@{
+    var utcNow = DateTime.UtcNow;
+}
+
+@if (Model.Any())
+{
+    foreach (var job in Model.OrderByDescending(job => job.Job.LastUpdatedDateTimeUtc))
+    {
+        <div class="overflow_auto">
+            @Html.ActionLink(job.Name, "Select", "Job", new { jobId = job.Job.JobId }, new { @class = "link_grid_jobName" })
+            <div class="grid_container_job pull-right">
+                @switch (job.Job.Status)
+                {
+                    case DeviceJobStatus.Completed:
+                        <img src="~/Content/img/icon_status_all_clear.svg" class="details_grid_info pull-left" />
+                        break;
+                    case DeviceJobStatus.Failed:
+                        <img src="~/Content/img/icon_status_alarm.svg" class="details_grid_info pull-left" />
+                        break;
+                    default:
+                        <img src="~/Content/img/icon_status_information.svg" class="details_grid_info pull-left" />
+                        break;
+                }
+                <p class="grid_detail_jobStatus pull-right">@job.Job.Status.ToString()</p>
+            </div>
+            <div class="clear_both">
+                <p class="grid_detail_lastUpdated pull-right">@TimeSpanExtension.ToFloorShortString(utcNow - job.Job.LastUpdatedDateTimeUtc, Strings.LastUpdatedFormatString)</p>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p class="grid_detail_value">@Strings.NoJobs</p>
+}

@@ -6,8 +6,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Secu
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models
 {
     /// <summary>
-    /// View model for the device details pane. 
-    /// 
+    /// View model for the device details pane.
+    ///
     /// Includes methods to return related models for the config sections.
     /// </summary>
     public class DeviceDetailModel
@@ -97,12 +97,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         public List<DevicePropertyValueModel> DevicePropertyValueModels
-        {
-            get;
-            set;
-        }
-
-        public IEnumerable<NamedDeviceJob> NamedDeviceJobs
         {
             get;
             set;

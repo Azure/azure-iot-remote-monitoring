@@ -498,6 +498,11 @@ nav .selected {
 .loader_container__loader--large_top_margin {
   margin-top: 50%;
 }
+.loader_container_panel {
+  z-index: 200;
+  height: 150px;
+  background-color: white;
+}
 @-webkit-keyframes load5 {
   0%, 100% {
     box-shadow: 0em -2.6em 0 0em black, 1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), 2.5em 0em 0 0em rgba(0, 0, 0, 0.2), 1.7em 1.75em 0 0em rgba(0, 0, 0, 0.2), 0em 2.5em 0 0em rgba(0, 0, 0, 0.2), -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), -2.6em 0em 0 0em rgba(0, 0, 0, 0.5), -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.7);

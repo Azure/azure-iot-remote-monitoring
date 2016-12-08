@@ -3041,6 +3041,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Jobs.
+        /// </summary>
+        public static string NoJobs {
+            get {
+                return ResourceManager.GetString("NoJobs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No job selected.
         /// </summary>
         public static string NoJobSelected {

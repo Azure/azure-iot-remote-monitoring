@@ -62,7 +62,7 @@
 
     var onDeviceDetailsDone = function (html) {
 
-        if (self.cachedDeviceHtml  == null) {
+        if (self.cachedDeviceHtml == null) {
             self.cachedDeviceHtml = html;
         }
 
@@ -228,8 +228,17 @@
         $('#deviceExplorer_authKeys').parent().html(html);
     }
 
+    var loadDeviceJobs = function (deviceId) {
+        $.ajaxSetup({ cache: false });
+        $.get('/Device/GetDeviceJobs', { deviceId: deviceId }, function (response) {
+            $('#deviceJobGrid').empty();
+            $('#deviceJobGrid').html(response);
+        });
+    }
+
     return {
         init: getDeviceDetailsView,
-        scheduleJob: getScheduleJobView
+        scheduleJob: getScheduleJobView,
+        loadDeviceJobs: loadDeviceJobs
     }
 }, [jQuery, resources]);

@@ -277,8 +277,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 DeviceID = deviceId,
                 HubEnabledState = device.DeviceProperties.GetHubEnabledState(),
-                DevicePropertyValueModels = new List<DevicePropertyValueModel>(),
-                NamedDeviceJobs = await GetNamedDeviceJobs(device)
+                DevicePropertyValueModels = new List<DevicePropertyValueModel>()
             };
 
             propModels = _deviceLogic.ExtractDevicePropertyValuesModels(device);
@@ -410,16 +409,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return devices.Results;
         }
 
-        private async Task<IEnumerable<NamedDeviceJob>> GetNamedDeviceJobs(DeviceModel device)
+        [HttpGet]
+        [RequirePermission(Permission.ViewJobs)]
+        public async Task<ActionResult> GetDeviceJobs(string deviceId)
         {
-            var deviceJobs = await this._deviceManager.GetDeviceJobsByDeviceIdAsync(device.DeviceProperties.DeviceID);
+            var deviceJobs = await this._deviceManager.GetDeviceJobsByDeviceIdAsync(deviceId);
 
             var tasks = deviceJobs.Select(async j => new NamedDeviceJob
             {
                 Name = await GetDeviceJobName(j),
                 Job = j
             });
-            return (await Task.WhenAll(tasks));
+
+            return PartialView("_DeviceJobs", await Task.WhenAll(tasks));
         }
 
         private async Task<string> GetDeviceJobName(DeviceJob job)

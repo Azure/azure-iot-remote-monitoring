@@ -1,5 +1,4 @@
 ﻿@using System.Globalization
-@using Microsoft.Azure.Devices
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
@@ -144,44 +143,23 @@
     </section>
 }
 
-@if (Model.NamedDeviceJobs.Any())
-{
-    <div class="header_grid header_grid_general">
-        <img id="jobClose" src="~/Content/img/icon_deviceExplorer_details_close.svg" class="details_grid_info pull-left cursor_pointer job_toggle_target job_toggle_source" />
-        <img id="jobOpen" src="~/Content/img/icon_deviceExplorer_details_open.svg" class="details_grid_info pull-left cursor_pointer display_none job_toggle_target job_toggle_source" />
-        <h3 class="grid_subheadhead_detail_collapsable cursor_pointer job_toggle_source">@Strings.RecentJobs</h3>
-        <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.RecentJobsTooltip" />
-        @Html.ActionLink(@Strings.ViewAll, "ViewAllJobHistory", "Device", new { deviceId = Model.DeviceID }, new
-   {
-       id = "viewall_link",
-       @class = string.Format("{0} {1}", "link_grid_subheadhead_detail", Model.NamedDeviceJobs.Count() <= 5 ? "hidden" : string.Empty).Trim()
-   })
-    </div>
+<div class="header_grid header_grid_general">
+    <img id="jobClose" src="~/Content/img/icon_deviceExplorer_details_close.svg" class="details_grid_info pull-left cursor_pointer job_toggle_target job_toggle_source" />
+    <img id="jobOpen" src="~/Content/img/icon_deviceExplorer_details_open.svg" class="details_grid_info pull-left cursor_pointer display_none job_toggle_target job_toggle_source" />
+    <h3 class="grid_subheadhead_detail_collapsable cursor_pointer job_toggle_source">@Strings.RecentJobs</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.RecentJobsTooltip" />
+</div>
 
-    <section class="details_grid_general" id="reportedPropertiesGrid">
-        @foreach (var jobModel in Model.NamedDeviceJobs.OrderByDescending(pair => pair.Job.LastUpdatedDateTimeUtc).Take(5))
-        {
-            <div class="overflow_auto">
-                @Html.ActionLink(jobModel.Name.Any() ? jobModel.Name : "[" + jobModel.Job.JobId + "]", "Select", "Job", new { jobId = jobModel.Job.JobId }, new { @class = "link_grid_jobName" })
-                <div class="grid_container_job pull-right">
-                    @switch (jobModel.Job.Status)
-                    {
-                        case DeviceJobStatus.Completed:
-                            <img src="~/Content/img/icon_status_all_clear.svg" class="details_grid_info pull-left" />
-                            break;
-                        case DeviceJobStatus.Failed:
-                            <img src="~/Content/img/icon_status_alarm.svg" class="details_grid_info pull-left" />
-                            break;
-                        default:
-                            <img src="~/Content/img/icon_status_information.svg" class="details_grid_info pull-left" />
-                            break;
-                    }
-                    <p class="grid_detail_jobStatus pull-right">@jobModel.Job.Status.ToString()</p>
-                </div>
-                <div class="clear_both">
-                    <p class="grid_detail_lastUpdated pull-right">@TimeSpanExtension.ToFloorShortString(utcNow - jobModel.Job.LastUpdatedDateTimeUtc, Strings.LastUpdatedFormatString)</p>
-                </div>
-            </div>
-        }
-    </section>
-}
+<section class="details_grid_general job_toggle_target" id="deviceJobGrid">
+    <div id="deviceJobLoadingElement" class="loader_container_panel">
+        <div class="loader_container__loader loader_container__loader--large_top_margin"/>
+    </div>
+</section>
+
+<script type="text/javascript">
+    (function () {
+        'use strict';
+
+        IoTApp.DeviceDetails.loadDeviceJobs("@Model.DeviceID");
+    })();
+</script>

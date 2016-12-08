@@ -697,6 +697,7 @@
     <Content Include="Views\Dashboard\_JobIndicators.cshtml" />
     <None Include="Views\Device\EditDesiredProperties.cshtml" />
     <None Include="Views\Device\EditTags.cshtml" />
+    <Content Include="Views\Device\_DeviceJobs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

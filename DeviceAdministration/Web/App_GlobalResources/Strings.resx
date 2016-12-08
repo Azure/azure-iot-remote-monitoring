@@ -2240,4 +2240,8 @@
     <value>View seleted clauses only</value>
     <comment>Checkbox label.</comment>
   </data>
+  <data name="NoJobs" xml:space="preserve">
+    <value>No Jobs</value>
+    <comment>Informational text block.</comment>
+  </data>
 </root>
