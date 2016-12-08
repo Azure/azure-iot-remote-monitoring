@@ -12,7 +12,8 @@
         self.buttonSearchPane = $(".search_container__search_subhead");
         self.searchPane = $(".search_container");
         self.searchPaneClosed = $(".search_container_closed");
-        self.nameCacheList = [];
+        self.filterNameList = [];
+        self.imageNameList = ["tags.network.AT&T", "tags.network.T-Mobile", "tags.network.Verizon"];
 
         Cookies.json = true;
 
@@ -209,8 +210,28 @@
             var columnDefs = [];
             data.forEach(function (column, index) {
                 var columnOption = {
-                    data: "twin." + (column.name.indexOf("reported.") === 0 || column.name.indexOf("desired.") === 0 ? "properties." : "") + column.name,
-                    mRender: function (data) {
+                    data: function (row, type, set, meta) {
+                        var validdata = {
+                            value: {},
+                            columninfo:""
+                        };
+                        if (column.name.indexOf("reported.") === 0 || column.name.indexOf("desired.") === 0) {
+                            validdata.value = row.twin.properties;
+                        }
+                        else {
+                            validdata.value = row.twin;
+                        }
+                        var twinSearchToken = column.name.split('.');
+
+                        for (var i = 0; i < twinSearchToken.length; i++)
+                        {
+                            validdata.value = validdata.value[twinSearchToken[i]];
+                        }
+                        validdata.columninfo = column.name;
+
+                        return validdata;
+                    },//"twin." + (column.name.indexOf("reported.") === 0 || column.name.indexOf("desired.") === 0 ? "properties." : "") + column.name,
+                    mRender: function (data, type, row, meta) {
                         return htmlEncode(data);
                     },
                     name: column.alias || column.name
@@ -218,10 +239,10 @@
 
                 if (column.name === "tags.HubEnabledState") {
                     columnOption.mRender = function (data) {
-                        if (data === "Disabled") {
-                            return htmlEncode("false");
-                        } else if (data === "Running") {
-                            return htmlEncode("true");
+                        if (data.value === "Disabled") {
+                            return htmlEncode({ value: "false" });
+                        } else if (data.value === "Running") {
+                            return htmlEncode({ value: "true" });
                         }
                         return htmlEncode(data);
                     };
@@ -280,7 +301,7 @@
         }
     } 
 
-    var _initializeDatatableImpl = function(columns, columnDefs) {
+    var _initializeDatatableImpl = function (columns, columnDefs) {
         var cookieData = getUiStateFromCookie();
 
         var onTableDrawn = function () {
@@ -392,8 +413,12 @@
     }
 
     var htmlEncode = function (data) {
+        if (self.imageNameList.indexOf(data.columninfo + '.' + data.value) >= 0)
+        {
+            return $('<img/>').attr("src", 'https://localrmea00a.blob.core.windows.net/uploadedimgs/' + data.columninfo + '.' + data.value + '.jpg').width(30).height(30).after($('<div/>').text(data.value).html()).get(0).outerHTML;
+        }
         // "trick" to HTML encode data from JS--essentially dip it in a <div> and pull it out again
-        return data ? $('<div/>').text(data).html() : null;
+        return data.value ? $('<div/>').text(data.value).html() : null;
     }
 
     var onDataTableAjaxCalled = function (data, fnCallback) {
