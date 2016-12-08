@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Builders;
 using DeviceManagement.Infrustructure.Connectivity.DeviceReconnect;
@@ -16,6 +17,7 @@ using System.Text;
 using DeviceManagement.Infrustructure.Connectivity.Models.Jasper;
 using System.Web.Script.Serialization;
 using System.Net.Http.Headers;
+using DeviceManagement.Infrustructure.Connectivity.Exceptions;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Clients
 {
@@ -234,7 +236,17 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public async Task<bool> SendSMS(string msisdn, string messageContent)
         {
-            var creds = (EricssonCredentials)_credentialProvider.Provide();
+            var creds = new EricssonCredentials()
+            {
+                Username = "everest.demo1234@gmail.com",
+                Password = "demDCP12345",
+                BaseUrl = "https://orange.dcp.ericsson.net/",
+                LicenceKey = "",
+                ApiRegistrationProvider = "Ericsson",
+                EnterpriseSenderNumber = "33604",
+                RegistrationID = "test",
+                SmsEndpointBaseUrl = "exposureapi.dcp.ericsson.net"
+            };
             var senderAddress = creds.EnterpriseSenderNumber;
             var smsEndpointBaseUrl = creds.SmsEndpointBaseUrl;
             var basicAuthPassword = Base64Encode($"{creds.Username}:{creds.Password}");
@@ -262,16 +274,25 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             {
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", basicAuthPassword);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", basicAuthPassword);
                 client.DefaultRequestHeaders.Add("Connection", "keep-alive");
                 client.DefaultRequestHeaders.Host = $"{smsEndpointBaseUrl}:80";
+                var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, endpointUrl)
+                {
+                    Version = HttpVersion.Version10,
+                    Content = content
+                };
                 try
                 {
-                    var response = await client.PostAsync(endpointUrl, content);
+                    var response = await client.SendAsync(httpRequestMessage);
+                    if (response.StatusCode != HttpStatusCode.Created)
+                    {
+                        throw new ApplicationException("Failed to Send SMS");
+                    }
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine("error");
+                    throw new CellularConnectivityException(exception);
                 }
             }
 

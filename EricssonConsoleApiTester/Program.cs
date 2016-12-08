@@ -11,29 +11,87 @@ using EricssonConsoleApiTester.SubscriptionManagement;
 using EricssonConsoleApiTester.SubscriptionTraffic;
 using System.Net.Http;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
+using DeviceManagement.Infrustructure.Connectivity.Models.Jasper;
 using Newtonsoft.Json;
 
 namespace EricssonConsoleApiTester
 {
     class Program
     {
-        static async Task<HttpResponseMessage> SendSMS()
+        public static async Task<bool> SendSMS(string msisdn, string messageContent)
         {
+            var creds = new EricssonCredentials()
+            {
+                Username = "everest.demo1234@gmail.com",
+                Password = "demDCP12345",
+                BaseUrl = "https://orange.dcp.ericsson.net/",
+                LicenceKey = "",
+                ApiRegistrationProvider = "Ericsson",
+                EnterpriseSenderNumber = "33604",
+                RegistrationID = "test",
+                SmsEndpointBaseUrl = "exposureapi.dcp.ericsson.net"
+            };
+            var senderAddress = creds.EnterpriseSenderNumber;
+            var smsEndpointBaseUrl = creds.SmsEndpointBaseUrl;
+            var basicAuthPassword = Base64Encode($"{creds.Username}:{creds.Password}");
+            if (string.IsNullOrWhiteSpace(senderAddress) || string.IsNullOrWhiteSpace(smsEndpointBaseUrl))
+            {
+                throw new ApplicationException("You have not provided an EnterpriseSenderAddress and/or a SmsEndpointBaseUrl");
+            }
+            var requestBodyModel = new SendSmsRequest()
+            {
+                outboundSMSMessageRequest = new Outboundsmsmessagerequest()
+                {
+                    address = new string[] { $"tel:{msisdn}" },
+                    senderAddress = $"tel:{senderAddress}",
+                    outboundSMSTextMessage = new Outboundsmstextmessage()
+                    {
+                        message = messageContent
+                    }
+                }
+            };
+            var requestBody = new JavaScriptSerializer().Serialize(requestBodyModel);
+            var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+            var endpointUrl = $"https://{smsEndpointBaseUrl}/dcpapi/smsmessaging/v1/outbound/tel:{senderAddress}/requests";
+
             using (var client = new HttpClient())
             {
-                var values = new Dictionary<string, string>
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", basicAuthPassword);
+                client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+                client.DefaultRequestHeaders.Host = $"{smsEndpointBaseUrl}:80";
+                var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, endpointUrl)
                 {
+                    Version = HttpVersion.Version10,
+                    Content = content
                 };
-
-                var content = new FormUrlEncodedContent(values);
-
-                return await client.PostAsync("https://<https://orange.dcp.ericsson.net/dcpapi/smsmessaging/v1/outbound/tel: 33604/requests", content);
+                try
+                {
+                    var response = await client.SendAsync(httpRequestMessage);
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine("error");
+                }
             }
+
+            return true;
         }
 
         static void Main(string[] args)
         {
+            Task.Run(async () =>
+            {
+                var result = await SendSMS("883130200000456", "Test");
+                Console.WriteLine(JsonConvert.SerializeObject(result));
+            }).Wait();
+
+            Console.WriteLine("yay");
             //var subscriptionTrafficClient = new SubscriptionTrafficClient();
             //subscriptionTrafficClient.Endpoint.Address =
             //    EricssonEndpointBuilder.GetAuthorizedEndpoint(
@@ -193,6 +251,30 @@ namespace EricssonConsoleApiTester
             //    }
             //});
 
+        }
+
+        private class SendSmsRequest
+        {
+            public Outboundsmsmessagerequest outboundSMSMessageRequest { get; set; }
+        }
+
+        private class Outboundsmsmessagerequest
+        {
+            public string[] address { get; set; }
+            public string senderAddress { get; set; }
+            public Outboundsmstextmessage outboundSMSTextMessage { get; set; }
+            public string senderName { get; set; }
+        }
+
+        private class Outboundsmstextmessage
+        {
+            public string message { get; set; }
+        }
+
+        private static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
         }
 
     }
