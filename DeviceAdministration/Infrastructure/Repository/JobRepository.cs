@@ -64,6 +64,32 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return entities.Select(e => new JobRepositoryModel(e));
         }
 
+        public async Task<IEnumerable<JobRepositoryModel>> UpdateAssociatedFilterNameAsync(IEnumerable<JobRepositoryModel> jobs)
+        {
+            var tasks = jobs.Select(async job => {
+                var operation = TableOperation.Replace(new JobTableEntity(job) { ETag = "*" });
+                try
+                {
+                    return await _azureTableStorageClient.ExecuteAsync(operation);
+                }
+                catch
+                {
+                    return null;
+                }
+            });
+
+            var tableResults = await Task.WhenAll(tasks);
+            return tableResults.Select(r =>
+            {
+                JobRepositoryModel model = null;
+                if (r?.Result != null && r.Result.GetType() == typeof(JobTableEntity))
+                {
+                    model = new JobRepositoryModel((JobTableEntity)r.Result);
+                }
+                return model;
+            });
+        }
+
         private async Task<JobTableEntity> GetEntityAsync(string jobId)
         {
             if (string.IsNullOrWhiteSpace(jobId))

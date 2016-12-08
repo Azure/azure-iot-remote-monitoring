@@ -65,14 +65,15 @@
     <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.JobOperationResultTooltip" />
 </div>
 
-<section class="details_grid_general" id="jobOperationGrid"> 
+<section class="details_grid_general details_grid_general_section_job" id="jobOperationGrid"> 
     @if (Model.OperationType.Equals(JobType.ScheduleDeviceMethod.LocalizedString(), StringComparison.InvariantCultureIgnoreCase))
     {
         <h4 class="grid_subhead_detail_label" name="deviceField_operationType">
             @Strings.InvokeMethod
             (@Model.CloudToDeviceMethod.MethodName)
         </h4>
-        <p class="grid_detail_value">@Model.CloudToDeviceMethod.GetPayloadAsJson()</p>
+        <input type="hidden" id="payloadBox" value="@Model.CloudToDeviceMethod.GetPayloadAsJson()"/>
+        <ul class="details_grid_job_method_payload"></ul>
     }
     else if (Model.OperationType.Equals(JobType.ScheduleUpdateTwin.LocalizedString(), StringComparison.InvariantCultureIgnoreCase))
     {
@@ -80,7 +81,7 @@
            @Strings.ScheduleEditPropertiesOrTags
         </h4>
 
-        <div class="details_grid_job_operation_twin">
+        <div>
             @foreach (var tag in Model.UpdateTwin.Tags.AsEnumerableFlatten())
             {
             <ul class="job_result_section__twin_list">
@@ -107,7 +108,7 @@
     <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.JobStatisticsTooltip" />
 </div>
 
-<section class="details_grid_general" id="deviceGrid">
+<section class="details_grid_general details_grid_general_section_job" id="deviceGrid">
     <h4 class="grid_subhead_detail_label">@Strings.DeviceCountSubHeader</h4>
     <p class="grid_detail_value" name="deviceField_deviceCount">@Model.DeviceCount</p>
 

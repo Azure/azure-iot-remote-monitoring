@@ -4,8 +4,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class Filter
     {
-        private DeviceListFilter result;
-
         public Filter(DeviceListFilter filter)
         {
             Id = filter.Id;

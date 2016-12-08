@@ -54,6 +54,8 @@
             $(this).parent().next().toggle();
         });
 
+        renderPayload();
+
         var cancelButton = $('#cancelJobAction');
         if (cancelButton != null) {
             cancelButton.on("click", function () {
@@ -121,17 +123,22 @@
                 $element.siblings('.grid_detail_job_result_list').empty();
                 response.data.forEach(function (item, index) {
                     var methodResponse = item.outcome.deviceMethodResponse;
-                    var payload = methodResponse && methodResponse.payload && methodResponse.payload.substring(methodResponse.payload.lastIndexOf('{'));
+                    var payload = methodResponse && methodResponse.payload;
+                    var status = methodResponse && methodResponse.status;
                     var deviceItem = $('<ul />')
                         .addClass('job_result_section__device_list')
                         .appendTo($element.siblings('.grid_detail_job_result_list'))
                     $('<li />')
                         .attr('title', item.deviceId)
-                        .text(IoTApp.Helpers.String.renderLongString(item.deviceId, 20, '..'))
+                        .text(item.deviceId)
+                        .appendTo(deviceItem);
+                    $('<li />')
+                        .attr('title', status)
+                        .text(status)
                         .appendTo(deviceItem);
                     $('<li />')
                         .attr('title', payload)
-                        .text(IoTApp.Helpers.String.renderLongString(payload, 24, '..'))
+                        .text(payload)
                         .appendTo(deviceItem);
                 });
             },
@@ -139,6 +146,17 @@
                 IoTApp.Helpers.RenderRetryError(resources.unableToRetrieveJobFromService, $('#details_grid_container'), function () { getJobPropertiesView(); });
             }
         });
+    }
+
+    var renderPayload = function () {
+        var json = $('#payloadBox').val();
+        if (!json) return;
+        var payload = $.parseJSON(json);
+        for (var item in payload) {
+            var element = $('.details_grid_job_method_payload');
+            $('<li />').text(item).appendTo(element);
+            $('<li />').attr('title', payload[item]).text(payload[item]).appendTo(element);
+        }
     }
 
     return {

@@ -10,5 +10,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task DeleteAsync(string jobId);
         Task<JobRepositoryModel> QueryByJobIDAsync(string jobId);
         Task<IEnumerable<JobRepositoryModel>> QueryByFilterIdAsync(string filterId);
+        Task<IEnumerable<JobRepositoryModel>> UpdateAssociatedFilterNameAsync(IEnumerable<JobRepositoryModel> jobs);
     }
 }

@@ -5,7 +5,7 @@
         public string JobId { get; private set; }
         public string FilterId { get; private set; }
         public string JobName { get; private set; }
-        public string FilterName { get; private set; }
+        public string FilterName { get; set; }
 
         public JobRepositoryModel(JobTableEntity e)
         {

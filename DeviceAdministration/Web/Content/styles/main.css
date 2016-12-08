@@ -1667,18 +1667,41 @@ table#alertHistoryTable tr.selectedAlert {
   -webkit-animation: load5 1.1s infinite ease;
   animation: load5 1.1s infinite ease;
 }
-.details_grid_job_operation_twin {
+.details_grid_job_method_payload {
+  display: inline-flex;
+  font-size: 0.75em;
+  list-style-type: none;
+  columns: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.details_grid_job_method_payload li {
+  padding-right: 1em;
+}
+.details_grid_general_section_job {
   padding-bottom: 1em;
 }
 .job_result_section__twin_list {
-  font-size: 12px;
+  font-size: 0.75em;
   list-style-type: none;
   columns: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .job_result_section__device_list {
-  font-size: 12px;
+  display: inline-flex;
+  width: 100%;
+  font-size: 0.75em;
   list-style-type: none;
-  columns: 2;
+  columns: 3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.job_result_section__device_list li {
+  padding-right: 1em;
 }
 .grid_detail_job_result_group {
   font-size: 12px;

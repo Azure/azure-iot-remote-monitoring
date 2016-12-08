@@ -72,7 +72,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public DeviceListFilter(DeviceListFilterTableEntity entity)
         {
             Id = entity.PartitionKey;
-            Name = entity.RowKey;
+            Name = entity.Name;
             Clauses = JsonConvert.DeserializeObject<List<Clause>>(entity.Clauses);
             AdvancedClause = entity.AdvancedClause;
             SortColumn = entity.SortColumn;

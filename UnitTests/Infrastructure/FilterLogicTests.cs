@@ -26,16 +26,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         }
 
         [Fact]
-        public async void AddFilterAsyncTests()
+        public async void SaveFilterAsyncTests()
         {
-            var deviceListFilter = new Mock<DeviceListFilter>();
+            var deviceListFilter = fixture.Create<DeviceListFilter>();
             var jobs = fixture.CreateMany<JobRepositoryModel>(3);
-            _deviceListFilterRepositoryMock.Setup(x => x.SaveFilterAsync(It.IsAny<DeviceListFilter>(), true)).ReturnsAsync(deviceListFilter.Object);
-            var filter = new Mock<Filter>();
-            var ret = await _filterLogic.SaveFilterAsync(filter.Object);
+            _jobRepositoryMock.Setup(x => x.QueryByFilterIdAsync(It.IsNotNull<string>())).ReturnsAsync(jobs);
+            _deviceListFilterRepositoryMock.Setup(x => x.SaveFilterAsync(It.IsAny<DeviceListFilter>(), true)).ReturnsAsync(deviceListFilter);
+            var filter = new Filter(deviceListFilter);
+            var ret = await _filterLogic.SaveFilterAsync(filter);
+            _jobRepositoryMock.Verify(x => x.QueryByFilterIdAsync(It.IsNotNull<string>()), Times.AtLeastOnce);
+            _deviceListFilterRepositoryMock.Verify(x => x.SaveFilterAsync(It.IsNotNull<DeviceListFilter>(), It.IsAny<bool>()), Times.AtLeastOnce);
             Assert.NotNull(ret);
-            _jobRepositoryMock.Setup(x => x.QueryByFilterIdAsync(It.IsAny<string>())).ReturnsAsync(jobs);
-            await Assert.ThrowsAnyAsync<FilterAssociatedWithJobException>(async () => await _filterLogic.SaveFilterAsync(filter.Object));
+            Assert.Equal(ret.Id, filter.Id);
+            Assert.Equal(ret.Name, filter.Name);
+            Assert.Equal(ret.Clauses, filter.Clauses);
+
+            deviceListFilter.Name = "changedName";
+            ret = await _filterLogic.SaveFilterAsync(filter);
+            _jobRepositoryMock.Verify(x => x.UpdateAssociatedFilterNameAsync(It.IsNotNull<IEnumerable<JobRepositoryModel>>()), Times.AtLeastOnce);
+            Assert.Equal(ret.Name, "changedName");
         }
 
         [Fact]

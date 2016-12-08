@@ -22,16 +22,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<Filter> SaveFilterAsync(Filter filter)
         {
+            var associatedJobs = new List<JobRepositoryModel>();
             if (!string.IsNullOrWhiteSpace(filter.Id))
             {
-                var jobs = await _jobRepository.QueryByFilterIdAsync(filter.Id);
-                if (jobs.Any())
-                {
-                    throw new FilterAssociatedWithJobException(filter.Name, jobs.Select(j => j.JobName).Distinct().Take(3));
-                }
+                associatedJobs = (await _jobRepository.QueryByFilterIdAsync(filter.Id)).ToList();
             }
-            var result = await _filterRepository.SaveFilterAsync(new DeviceListFilter(filter), true);
-            return new Filter(result);
+
+            var savedFilter = await _filterRepository.SaveFilterAsync(new DeviceListFilter(filter), true);
+            if (associatedJobs.Any())
+            {
+                associatedJobs.ForEach(j => j.FilterName = savedFilter.Name);
+                _jobRepository.UpdateAssociatedFilterNameAsync(associatedJobs);
+            }
+
+            return new Filter(savedFilter);
         }
 
         public async Task<IEnumerable<Filter>> GetRecentFiltersAsync(int max)

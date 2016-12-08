@@ -18,7 +18,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             Func<TInput, TResult> tableEntityToModelConverter)
             where TInput : TableEntity;
 
-       TableResult Execute(TableOperation tableOperation);
+        TableResult Execute(TableOperation tableOperation);
         Task<TableResult> ExecuteAsync(TableOperation operation);
         IEnumerable<T> ExecuteQuery<T>(TableQuery<T> tableQuery) where T : TableEntity, new();
         Task<IEnumerable<T>> ExecuteQueryAsync<T>(TableQuery<T> tableQuery) where T : TableEntity, new();

@@ -249,7 +249,6 @@
     <Compile Include="Repository\IotHubRepository.cs" />
     <Compile Include="Repository\IDeviceListFilterRepository.cs" />
     <Compile Include="Repository\IUserSettingsRepository.cs" />
-    <Compile Include="Repository\RepositoryInitializer.cs" />
     <Compile Include="Repository\SampleDeviceTypeRepository.cs" />
     <Compile Include="Repository\IDeviceTypeRepository.cs" />
     <Compile Include="Repository\UserSettingsRepository.cs" />
