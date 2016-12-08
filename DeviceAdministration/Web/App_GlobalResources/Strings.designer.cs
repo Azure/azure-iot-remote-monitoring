@@ -2204,7 +2204,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide Job Results.
+        ///   Looks up a localized string similar to Hide Details.
         /// </summary>
         public static string HideJobResults {
             get {
@@ -4238,7 +4238,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Job Results.
+        ///   Looks up a localized string similar to Show Details.
         /// </summary>
         public static string ShowJobResults {
             get {

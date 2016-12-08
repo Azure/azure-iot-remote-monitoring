@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -65,6 +66,29 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// Indicate if it is a temporary filter.
         /// </summary>
         public bool IsTemporary { get; set; }
+
+        public DeviceListFilter() { }
+
+        public DeviceListFilter(DeviceListFilterTableEntity entity)
+        {
+            Id = entity.PartitionKey;
+            Name = entity.RowKey;
+            Clauses = JsonConvert.DeserializeObject<List<Clause>>(entity.Clauses);
+            AdvancedClause = entity.AdvancedClause;
+            SortColumn = entity.SortColumn;
+            IsAdvanced = entity.IsAdvanced;
+            IsTemporary = entity.IsTemporary;
+        }
+
+        public DeviceListFilter(Filter filter)
+        {
+            Id = filter.Id;
+            Name = filter.Name;
+            Clauses = filter.Clauses;
+            AdvancedClause = filter.AdvancedClause;
+            IsAdvanced = filter.IsAdvanced;
+            IsTemporary = filter.IsTemporary;
+        }
 
         /// <summary>
         /// Translate the filters in current query to IoT Hub SQL query

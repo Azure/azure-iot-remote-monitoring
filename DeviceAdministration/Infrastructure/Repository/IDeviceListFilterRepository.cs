@@ -7,6 +7,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public interface IDeviceListFilterRepository
     {
         /// <summary>
+        /// Initialze default filter to get all devices.
+        /// </summary>
+        /// <returns></returns>
+        Task InitializeDefaultFilter();
+
+        /// <summary>
         ///  Check if the named filter already exists (true) or not (false).
         /// </summary>
         /// <param name="name">unique name of the filter</param>

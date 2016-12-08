@@ -5,12 +5,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     [Serializable]
     public class FilterNotFoundException : Exception
     {
-        public string FilterName { get; set; }
+        public string FilterId { get; set; }
 
-        public FilterNotFoundException (string filterName)
-            : base($"Filter with name = '{filterName}' could not be found.")
+        public FilterNotFoundException (string filterId)
+            : base($"Filter with Id = '{filterId}' could not be found.")
         {
-            FilterName = filterName;
+            FilterId = filterId;
         }
     }
 }

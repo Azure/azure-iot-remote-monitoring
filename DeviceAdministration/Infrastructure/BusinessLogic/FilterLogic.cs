@@ -18,12 +18,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             _filterRepository = filterRepository;
             _jobRepository = jobRepository;
-            _filterRepository.SaveFilterAsync(DeviceListFilterRepository.DefaultDeviceListFilter, false);
         }
 
         public async Task<Filter> SaveFilterAsync(Filter filter)
         {
-            if (!string.IsNullOrWhiteSpace(filter?.Id))
+            if (!string.IsNullOrWhiteSpace(filter.Id))
             {
                 var jobs = await _jobRepository.QueryByFilterIdAsync(filter.Id);
                 if (jobs.Any())
@@ -31,47 +30,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     throw new FilterAssociatedWithJobException(filter.Name, jobs.Select(j => j.JobName).Distinct().Take(3));
                 }
             }
-
-            DeviceListFilter deviceListFilter = new DeviceListFilter
-            {
-                Id = filter.Id,
-                Name = filter.Name,
-                Clauses = filter.Clauses,
-                AdvancedClause = filter.AdvancedClause,
-                IsAdvanced = filter.IsAdvanced,
-            };
-            var result = await _filterRepository.SaveFilterAsync(deviceListFilter, true);
+            var result = await _filterRepository.SaveFilterAsync(new DeviceListFilter(filter), true);
             return new Filter(result);
         }
 
         public async Task<IEnumerable<Filter>> GetRecentFiltersAsync(int max)
         {
             var filters = await _filterRepository.GetRecentFiltersAsync(max);
-            return filters.Select(filter => new Filter
-            {
-                Id = filter.Id,
-                Name = filter.Name,
-                Clauses = filter.Clauses,
-                AdvancedClause = filter.AdvancedClause,
-                IsTemporary = false,
-                IsAdvanced = filter.IsAdvanced,
-            });
+            return filters.Select(filter => new Filter(filter));
         }
 
         public async Task<Filter> GetFilterAsync(string filterId)
         {
             var filter = await _filterRepository.GetFilterAsync(filterId);
             if (filter == null) throw new FilterNotFoundException(filterId);
-
-            return new Filter
-            {
-                Id = filter.Id,
-                Name = filter.Name,
-                IsTemporary = false,
-                Clauses = filter.Clauses,
-                AdvancedClause = filter.AdvancedClause,
-                IsAdvanced = filter.IsAdvanced,
-            };
+            return new Filter(filter);
         }
 
         public async Task<string> GetAvailableFilterNameAsync(string filterName = "MyNewFilter")
@@ -87,9 +60,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return filterName + DateTime.Now.ToString("MM-dd-hh-mm-dd-fffff");
         }
 
-        public string GenerateAdvancedClause(IEnumerable<Clause> filters)
+        public string GenerateAdvancedClause(IEnumerable<Clause> clauses)
         {
-            return new DeviceListFilter { Clauses = filters?.ToList() }.GetSQLQuery();
+            return new DeviceListFilter { Clauses = clauses?.ToList() }.GetSQLQuery();
         }
 
         public async Task<bool> DeleteFilterAsync(string filterId)

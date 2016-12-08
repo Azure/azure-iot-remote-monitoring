@@ -2189,11 +2189,11 @@
     <comment>Error message.</comment>
   </data>
   <data name="HideJobResults" xml:space="preserve">
-    <value>Hide Job Results</value>
+    <value>Hide Details</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="ShowJobResults" xml:space="preserve">
-    <value>Show Job Results</value>
+    <value>Show Details</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="JobOperationResult" xml:space="preserve">

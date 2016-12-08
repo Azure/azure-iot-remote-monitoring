@@ -171,6 +171,7 @@
     <Compile Include="Exceptions\DeviceNotRegisteredException.cs" />
     <Compile Include="Exceptions\DeviceRegistrationException.cs" />
     <Compile Include="Exceptions\DuplicatedJobFoundException.cs" />
+    <Compile Include="Exceptions\FilterSaveException.cs" />
     <Compile Include="Exceptions\JobNotFoundException.cs" />
     <Compile Include="Exceptions\JobRepositoryRemoveException.cs" />
     <Compile Include="Exceptions\JobRepositorySaveException.cs" />
