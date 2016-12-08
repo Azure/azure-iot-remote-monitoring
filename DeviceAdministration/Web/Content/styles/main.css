@@ -671,6 +671,9 @@ nav .selected {
   font-size: 1.4em;
   color: #4d4d4d;
 }
+.edit_form a {
+  text-decoration: none;
+}
 .edit_form__label {
   color: gray;
   font-size: 0.7em;
@@ -688,6 +691,9 @@ nav .selected {
   font-size: 0.8em;
   display: inline-block;
   margin-left: 5px;
+}
+.edit_form__labelbutton:hover {
+  text-decoration: none;
 }
 .primary__label {
   color: #212528;
@@ -1834,6 +1840,19 @@ table#alertHistoryTable tr.selectedAlert {
   position: absolute;
   top: 0px;
   right: 20px;
+}
+.device_list_cell_image {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+.device_list_cell_text {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  margin-left: 5px;
 }
 .grid_rules_details {
   overflow: auto;

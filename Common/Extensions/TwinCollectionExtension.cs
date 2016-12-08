@@ -11,6 +11,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
         {
             public JValue Value { get; set; }
             public DateTime? LastUpdated { get; set; }
+
+            public override string ToString()
+            {
+                return JObject.FromObject(this).ToString(Newtonsoft.Json.Formatting.None);
+            }
         }
 
         /// <summary>

@@ -4,13 +4,20 @@
     var self = this;
 
     var init = function (deviceId) {
-        self.viewModel = new viewModel(deviceId)
+        self.viewModel = new viewModel(deviceId,jQuery)
         IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.tag }, self.viewModel.cachepropertyList);
 
         ko.applyBindings(self.viewModel);
     }
 
-    var viewModel = function (deviceId) {
+    var propertyModel = function (data) {
+        var self = this;
+        self.key = ko.observable(data.key);
+        self.value = ko.mapping.fromJS(data.value);
+        self.isDeleted = ko.observable(data.isDeleted);
+    }
+
+    var viewModel = function (deviceId,$) {
         var self = this;
         var defaultData = [
             {
@@ -18,18 +25,28 @@
                 "value": {
                     "value": "",
                     "lastUpdated": ""
-                }
+                },
+                "isDeleted": false,
             }
         ]
 
-        this.properties = ko.mapping.fromJS(defaultData);
+        var mapping = {
+            'isDeleted': {
+                create: function (data) {
+                    return ko.observable(false);
+                }
+            }
+        }
+
+        this.properties = ko.mapping.fromJS(defaultData, mapping);
+        this.reported = [];
         this.backButtonClicked = function () {
             location.href = resources.redirectUrl;
         }
         this.propertieslist = {};
 
         this.createEmptyPropertyIfNeeded = function (property) {
-            self.properties.push({ 'key': "", 'value': { 'lastUpdated': "", 'value': "" } })
+            self.properties.push(new propertyModel({ "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false }));
         }
 
         this.makeproplist = function (elem, index, data) {
@@ -54,12 +71,18 @@
             return 'N/A';
         }
 
+        
+
+
         this.formSubmit = function () {
             $("#loadingElement").show();
+            //set the 'value' to empty when try to delete the prop.
+            var updatedata = $.map(self.properties(), function (item) { if (item.isDeleted() == true) { item.value.value = ""; return item; } else { return item; } })
+
             $.ajax({
                 url: '/api/v1/devices/' + deviceId + '/twin/tag',
                 type: 'PUT',
-                data: ko.mapping.toJS(self.properties),
+                data: ko.mapping.toJSON(updatedata),
                 contentType: "application/json",
                 success: function (result) {
                     location.href = resources.redirectUrl;
@@ -67,12 +90,23 @@
             });
         }
 
+        $("form").validate({
+            submitHandler: self.formSubmit
+        });
+
         $.ajax({
             url: '/api/v1/devices/' + deviceId + '/twin/tag',
             type: 'GET',
             success: function (result) {
-                //self.properties = ko.mapping.fromJS(result.data);
+
+                //add 'isDeleted' field for model binding, default false
+                result.data = $.map(result.data, function (item) {
+                    item.isDeleted = false;
+                    return item;
+                });
+
                 ko.mapping.fromJS(result.data, self.properties);
+               
             }
         });
     }

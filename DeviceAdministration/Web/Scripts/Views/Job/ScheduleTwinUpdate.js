@@ -43,6 +43,7 @@
                 self.properties.push(new PropertiesEditItem("", "", false, false))
                 self.onepropleft(false);
             }
+            return true;
         }
 
         this.createEmptyTagIfNeeded = function (tag) {
