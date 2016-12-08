@@ -2244,4 +2244,8 @@
     <value>No Jobs</value>
     <comment>Informational text block.</comment>
   </data>
+  <data name="FailedToUpdateTwin" xml:space="preserve">
+    <value>Failed to update twin properties, please check input value.</value>
+    <comment>Error message</comment>
+  </data>
 </root>

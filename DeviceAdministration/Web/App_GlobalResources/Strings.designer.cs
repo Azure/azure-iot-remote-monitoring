@@ -1781,6 +1781,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to update twin properties, please check input value..
+        /// </summary>
+        public static string FailedToUpdateTwin {
+            get {
+                return ResourceManager.GetString("FailedToUpdateTwin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable Device.
         /// </summary>
         public static string FalseEnabledDevice {
@@ -1835,20 +1844,20 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FILTER.
-        /// </summary>
-        public static string FilterNameHeader {
-            get {
-                return ResourceManager.GetString("FilterNameHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Filter.
         /// </summary>
         public static string FilterLabel {
             get {
                 return ResourceManager.GetString("FilterLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FILTER.
+        /// </summary>
+        public static string FilterNameHeader {
+            get {
+                return ResourceManager.GetString("FilterNameHeader", resourceCulture);
             }
         }
         

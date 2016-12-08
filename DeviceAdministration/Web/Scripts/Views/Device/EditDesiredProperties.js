@@ -78,7 +78,7 @@
             if (desired == null || desired == undefined || desired == "") {
                 return null
             }
-            if (desired.startsWith("desired.")) {
+            if (desired.indexOf("desired.") == 0) {
                 desired = desired.slice(8, desired.length);
             }
             for (var i = 0; i < this.reported().length;i++) {
@@ -103,6 +103,10 @@
                 contentType: "application/json",
                 success: function (result) {
                     location.href = resources.redirectUrl;
+                },
+                error: function (xhr, status, error) {
+                    $("#loadingElement").hide();
+                    IoTApp.Helpers.Dialog.displayError(resources.failedToUpdateTwin);
                 }
             });
         }
