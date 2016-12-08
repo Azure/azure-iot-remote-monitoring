@@ -77,7 +77,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         /// <summary>
-        /// Adds the given device and assigned keys to the underlying repositories 
+        /// Adds the given device and assigned keys to the underlying repositories
         /// </summary>
         /// <param name="device">Device to add to repositories</param>
         /// <param name="securityKeys">Keys to assign to the device</param>
@@ -103,7 +103,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             }
 
-            //Create a device in table storage if it is a simulated type of device 
+            //Create a device in table storage if it is a simulated type of device
             //and the document was stored correctly without an exception
             bool isSimulatedAsBool = false;
             try
@@ -198,7 +198,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 // It is assumed that if an exception has occured in the Device Registry, the device
                 // is still in that store and this works to ensure that both repositories have the same
                 // devices registered
-                // A more robust rollback may be needed in some scenarios.  
+                // A more robust rollback may be needed in some scenarios.
                 await _iotHubRepository.TryAddDeviceAsync(iotHubDevice);
                 capturedException.Throw();
             }
@@ -206,7 +206,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         /// <summary>
         /// Updates the device in the device registry with the exact device provided in this call.
-        /// NOTE: The device provided here should represent the entire device that will be 
+        /// NOTE: The device provided here should represent the entire device that will be
         /// serialized into the device registry.
         /// </summary>
         /// <param name="device">Device to update in the device registry</param>
@@ -348,8 +348,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             // Since the rollback code runs async and async code cannot run within the catch block it is run here
             if (capturedException != null)
             {
-                // This is a lazy attempt to revert the enabled status of the device in the IotHub. 
-                // If it fails the device status will still remain the same in the IotHub.  
+                // This is a lazy attempt to revert the enabled status of the device in the IotHub.
+                // If it fails the device status will still remain the same in the IotHub.
                 // A more robust rollback may be needed in some scenarios.
                 await _iotHubRepository.UpdateDeviceEnabledStatusAsync(deviceId, !isEnabled);
                 capturedException.Throw();
@@ -398,14 +398,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         /// <summary>
-        /// Modified a Device using a list of 
+        /// Modified a Device using a list of
         /// <see cref="DevicePropertyValueModel" />.
         /// </summary>
         /// <param name="device">
         /// The Device to modify.
         /// </param>
         /// <param name="devicePropertyValueModels">
-        /// The list of <see cref="DevicePropertyValueModel" />s for modifying 
+        /// The list of <see cref="DevicePropertyValueModel" />s for modifying
         /// <paramref name="device" />.
         /// </param>
         public virtual void ApplyDevicePropertyValueModels(
@@ -497,7 +497,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     continue;
                 }
 
-                // Pass through properties that don't have a specified 
+                // Pass through properties that don't have a specified
                 // configuration.
                 if (devicePropertyIndex.TryGetValue(propVal.Name, out propMetadata) && !propMetadata.IsEditable)
                 {
@@ -627,7 +627,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private static IEnumerable<DevicePropertyMetadata> GetDevicePropertyConfiguration()
         {
-            // Only return metadata for fields that aren't handled in the 
+            // Only return metadata for fields that aren't handled in the
             // standard way.
 
             // TODO: Drive this from data?
@@ -665,7 +665,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 Name = "HostName"
             };
 
-            // Do not show a Device field, HubEnabledState.  One will be added 
+            // Do not show a Device field, HubEnabledState.  One will be added
             // programatically from settings.
             yield return new DevicePropertyMetadata()
             {
@@ -914,7 +914,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 await _nameCacheLogic.AddNameAsync("reported." + p.Key);
             }
 
-            foreach (var command in device.Commands)
+            foreach (var command in device.Commands.Where(c => c.DeliveryType == DeliveryType.Method))
             {
                 await _nameCacheLogic.AddMethodAsync(command);
             }
