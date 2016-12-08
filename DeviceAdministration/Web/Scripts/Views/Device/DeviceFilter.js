@@ -543,6 +543,9 @@ ko.bindingHandlers.openFilterPopover = {
             }
         };
         options = $.extend(true, {}, defaultOptions, options);
+        //Workaround: we don't need a title for popover, keep the orginal title and restore it back when the popover is configurated.
+        var title = $(element).attr('title');
+        $(element).attr('title', '');
         $(element).popover(options).click(function () {
             $(this).popover('toggle');
             var thePopover = $('#filter-popver');
@@ -551,6 +554,7 @@ ko.bindingHandlers.openFilterPopover = {
                 ko.applyBindings(viewModel, thePopover.get(0));
             }
         });
+        $(element).attr('title', title);
 
         $('body').on('click', function (e) {
             if (typeof $(e.target).data('original-title') == 'undefined' && !$(e.target).parents().is('.popover.in') && !$(e.target).parents().is('.ui-autocomplete')) {

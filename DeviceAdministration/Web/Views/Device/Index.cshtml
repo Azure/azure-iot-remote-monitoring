@@ -156,14 +156,14 @@
                     (<span class="device_list_toolbar_number" data-bind="text: filteredInfo"></span>)
                 </div>
                 <div class="device_list_toolbar_buttons">
-                    <img id="btnOpen" src="/Content/img/open_query.svg" class="device_list_toolbar_button" data-bind="openFilterPopover: { template: '#openfilterContent', filterNameList: filterNameList }"/>
-                    <img src="/Content/img/edit_filter.svg" class="device_list_toolbar_button" data-bind="click: showPanel" />
+                    <img id="btnOpen" src="/Content/img/open_query.svg" title="@Strings.OpenSavedFilter" class="device_list_toolbar_button" data-bind="openFilterPopover: { template: '#openfilterContent', filterNameList: filterNameList }"/>
+                    <img src="/Content/img/edit_filter.svg" title="@Strings.EditFilter" class="device_list_toolbar_button" data-bind="click: showPanel" />
                     <!--ko if: isFilterLoaded() -->
-                    <img src="/Content/img/save.svg" class="device_list_toolbar_button" data-bind="click: saveFilter" />
-                    <img src="/Content/img/saveas.svg" class="device_list_toolbar_button" data-bind="click: openSaveAsDialog" />
+                    <img src="/Content/img/save.svg" title="@Strings.SaveFilter" class="device_list_toolbar_button" data-bind="click: saveFilter" />
+                    <img src="/Content/img/saveas.svg" title="@Strings.SaveAsFilter" class="device_list_toolbar_button" data-bind="click: openSaveAsDialog" />
                     <!-- /ko -->
                     <!--ko if: isFilterLoadedFromServer() -->
-                    <img src="/Content/img/delete.svg" class="device_list_toolbar_button" data-bind="click: deleteFilter" />
+                    <img src="/Content/img/delete.svg" title="@Strings.DeleteFilter" class="device_list_toolbar_button" data-bind="click: deleteFilter" />
                     <!-- /ko -->
                 </div>
                 <div class="device_list_clauses">

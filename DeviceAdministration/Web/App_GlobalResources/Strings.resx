@@ -2244,4 +2244,20 @@
     <value>No Jobs</value>
     <comment>Informational text block.</comment>
   </data>
+  <data name="DeleteFilter" xml:space="preserve">
+    <value>Delete Filter</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="EditFilter" xml:space="preserve">
+    <value>Editor Filter</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="SaveAsFilter" xml:space="preserve">
+    <value>Save As Filter</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="SaveFilter" xml:space="preserve">
+    <value>Save Filter</value>
+    <comment>Tooltip.</comment>
+  </data>
 </root>

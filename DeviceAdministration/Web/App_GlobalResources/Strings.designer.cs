@@ -998,6 +998,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Filter.
+        /// </summary>
+        public static string DeleteFilter {
+            get {
+                return ResourceManager.GetString("DeleteFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Desired Properties.
         /// </summary>
         public static string DesiredProperties {
@@ -1480,6 +1489,15 @@ namespace GlobalResources {
         public static string EditDeviceRuleFormatted {
             get {
                 return ResourceManager.GetString("EditDeviceRuleFormatted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Editor Filter.
+        /// </summary>
+        public static string EditFilter {
+            get {
+                return ResourceManager.GetString("EditFilter", resourceCulture);
             }
         }
         
@@ -3851,11 +3869,29 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save As Filter.
+        /// </summary>
+        public static string SaveAsFilter {
+            get {
+                return ResourceManager.GetString("SaveAsFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save Changes to Device Registry.
         /// </summary>
         public static string SaveChangesToDevice {
             get {
                 return ResourceManager.GetString("SaveChangesToDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Filter.
+        /// </summary>
+        public static string SaveFilter {
+            get {
+                return ResourceManager.GetString("SaveFilter", resourceCulture);
             }
         }
         
