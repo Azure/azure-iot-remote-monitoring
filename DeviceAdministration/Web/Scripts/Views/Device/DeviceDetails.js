@@ -253,12 +253,20 @@
         $('#deviceExplorer_authKeys').parent().html(html);
     }
 
-    var loadDeviceJobs = function (deviceId) {
+    var loadDeviceJobsInternal = function (deviceId) {
         $.ajaxSetup({ cache: false });
-        $.get('/Device/GetDeviceJobs', { deviceId: deviceId }, function (response) {
+        return $.get('/Device/GetDeviceJobs', { deviceId: deviceId }, function (response) {
             $('#deviceJobGrid').empty();
             $('#deviceJobGrid').html(response);
         });
+    }
+
+    var loadDeviceJobs = function (deviceId) {
+        if (self.deviceJobLoader) {
+            self.deviceJobLoader.abort();
+        }
+
+        self.deviceJobLoader = loadDeviceJobsInternal(deviceId);
     }
 
     return {
