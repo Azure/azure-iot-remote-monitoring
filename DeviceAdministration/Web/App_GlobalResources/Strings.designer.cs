@@ -1682,7 +1682,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete filter..
+        ///   Looks up a localized string similar to Failed to delete this filter because it it associated with jobs..
         /// </summary>
         public static string FailedToDeleteFilter {
             get {
@@ -1763,7 +1763,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to save filter..
+        ///   Looks up a localized string similar to Failed to save this filter because it it associated with jobs..
         /// </summary>
         public static string FailedToSaveFilter {
             get {
@@ -1795,6 +1795,15 @@ namespace GlobalResources {
         public static string FailedToUpdateDeviceStatus {
             get {
                 return ResourceManager.GetString("FailedToUpdateDeviceStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to update twin properties, please check input value..
+        /// </summary>
+        public static string FailedToUpdateTwin {
+            get {
+                return ResourceManager.GetString("FailedToUpdateTwin", resourceCulture);
             }
         }
         

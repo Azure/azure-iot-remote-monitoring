@@ -46,7 +46,7 @@
         }
 
         this.beforePost = function (elem) {
-            $(elem).find("#StartDate").val(moment(this.startDate()).utc().format());
+            $(elem).find("#StartDateHidden").val(moment(this.startDate()).utc().format());
 
             $("<input>").attr({
                 type: 'hidden',

@@ -683,7 +683,7 @@ nav .selected {
 }
 .edit_form__labelsmall {
   color: gray;
-  font-size: 0.2em;
+  font-size: 0.6em;
   display: block;
   line-height: 100%;
 }
@@ -1928,6 +1928,9 @@ table#alertHistoryTable tr.selectedAlert {
   text-indent: -9999em;
   -webkit-animation: load5 1.1s infinite ease;
   animation: load5 1.1s infinite ease;
+}
+.details_grid_job_operation_twin {
+  padding-bottom: 1em;
 }
 .job_result_section__twin_list {
   font-size: 12px;

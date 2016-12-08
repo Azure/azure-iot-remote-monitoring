@@ -225,7 +225,12 @@
 
                         for (var i = 0; i < twinSearchToken.length; i++)
                         {
-                            validdata.value = validdata.value[twinSearchToken[i]];
+                            if (validdata.value) {
+                                validdata.value = validdata.value[twinSearchToken[i]];
+                            }
+                            else {
+                                validdata.value = "";
+                            }
                         }
                         validdata.columninfo = column.name;
 
@@ -413,9 +418,14 @@
     }
 
     var htmlEncode = function (data) {
-        if (self.imageNameList.indexOf(data.columninfo + '.' + data.value) >= 0)
+
+        //Search imageNameList item and ignore case
+        var foundedName = self.imageNameList.find(function (item) { return item.search(new RegExp(data.columninfo + '.' + data.value, "i")) >= 0 });
+        if (foundedName)
         {
-            return $('<img/>').attr("src", 'https://localrmea00a.blob.core.windows.net/uploadedimgs/' + data.columninfo + '.' + data.value + '.jpg').width(30).height(30).after($('<div/>').text(data.value).html()).get(0).outerHTML;
+            return $('<img/>').attr("src", 'https://localrmea00a.blob.core.windows.net/uploadedimgs/' + foundedName + '.jpg')
+                .addClass("device_list_cell_image").get(0).outerHTML +
+                $('<div/>').addClass("device_list_cell_text").text(data.value).get(0).outerHTML;
         }
         // "trick" to HTML encode data from JS--essentially dip it in a <div> and pull it out again
         return data.value ? $('<div/>').text(data.value).html() : null;

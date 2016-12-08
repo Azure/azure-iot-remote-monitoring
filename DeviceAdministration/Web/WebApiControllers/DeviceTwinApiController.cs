@@ -59,13 +59,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             updatetwin.ETag = "*";
             foreach (var twin in newtwin)
             {
+                if (String.IsNullOrEmpty(twin.Key))
+                {
+                    continue;
+                }
                 var key = twin.Key;
                 if (key.ToLower().StartsWith("desired."))
                 {
                     key = key.Substring(8);
                 }
                 updatetwin.Properties.Desired.Set(key, twin.Value.Value.ToString());
-                await _nameCacheLogic.AddNameAsync(twin.Key);
+                _nameCacheLogic.AddNameAsync(twin.Key);
             }
             await _deviceManager.UpdateTwinAsync(deviceId, updatetwin);
         }
@@ -79,6 +83,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             updatetwin.ETag = "*";
             foreach (var twin in newtwin)
             {
+                if (String.IsNullOrEmpty(twin.Key))
+                {
+                    continue;
+                }
                 var key = twin.Key;
                 if (key.ToLower().StartsWith("tags."))
                 {

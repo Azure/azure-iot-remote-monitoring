@@ -4,7 +4,7 @@
     var self = this;
 
     var init = function (deviceId) {
-        self.viewModel = new viewModel(deviceId,jQuery)
+        self.viewModel = new viewModel(deviceId, jQuery)
         IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.tag }, self.viewModel.cachepropertyList);
 
         ko.applyBindings(self.viewModel);
@@ -17,7 +17,7 @@
         self.isDeleted = ko.observable(data.isDeleted);
     }
 
-    var viewModel = function (deviceId,$) {
+    var viewModel = function (deviceId, $) {
         var self = this;
         var defaultData = [
             {
@@ -71,7 +71,7 @@
             return 'N/A';
         }
 
-        
+
 
 
         this.formSubmit = function () {
@@ -86,6 +86,10 @@
                 contentType: "application/json",
                 success: function (result) {
                     location.href = resources.redirectUrl;
+                },
+                error: function (xhr, status, error) {
+                    $("#loadingElement").hide();
+                    IoTApp.Helpers.Dialog.displayError(resources.failedToUpdateTwin);
                 }
             });
         }
@@ -106,7 +110,7 @@
                 });
 
                 ko.mapping.fromJS(result.data, self.properties);
-               
+
             }
         });
     }

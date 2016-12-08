@@ -80,21 +80,23 @@
            @Strings.ScheduleEditPropertiesOrTags
         </h4>
 
-        foreach (var tag in Model.UpdateTwin.Tags.AsEnumerableFlatten())
-        {
+        <div class="details_grid_job_operation_twin">
+            @foreach (var tag in Model.UpdateTwin.Tags.AsEnumerableFlatten())
+            {
             <ul class="job_result_section__twin_list">
                 <li>tags.@tag.Key</li>
                 <li>@tag.Value.Value</li>
             </ul>
-        }
+            }
 
-        foreach (var property in Model.UpdateTwin.Properties.Desired.AsEnumerableFlatten())
-        {
+            @foreach (var property in Model.UpdateTwin.Properties.Desired.AsEnumerableFlatten())
+            {
             <ul class="job_result_section__twin_list">
                 <li>desired.@property.Key</li>
                 <li>@property.Value.Value</li>
             </ul>
-        }
+            }
+        </div>
     }
 </section>
 
