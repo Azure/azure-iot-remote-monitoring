@@ -214,7 +214,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return result;
         }
 
-        public bool SendSms(string iccid, string msisdn, string smsText)
+        public async Task<bool> SendSms(string iccid, string msisdn, string smsText)
         {
             bool result;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
@@ -229,8 +229,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                     break;
                 case ApiRegistrationProviderTypes.Ericsson:
                     var ericssonClient = new EricssonCellularClient(_credentialProvider);
-                    var httpResponse = ericssonClient.SendSMS(msisdn, smsText);
-                    result = true;
+                    result = await ericssonClient.SendSMS(msisdn, smsText);
                     break;
                 default:
                     throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider}' provider");

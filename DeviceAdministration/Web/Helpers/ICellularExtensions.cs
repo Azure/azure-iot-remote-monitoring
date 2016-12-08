@@ -22,6 +22,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         bool UpdateSimState(string iccid, string updatedState);
         bool UpdateSubscriptionPackage(string iccid, string updatedPackage);
         bool ReconnectDevice(string iccid);
-        bool SendSms(string iccid, string smsText);
+        Task<bool> SendSms(string iccid, string smsText);
     }
 }

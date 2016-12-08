@@ -426,7 +426,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         }
                         case CellularActionType.SendSms:
                         {
-                            success = _cellularExtensions.SendSms(iccid, action.Value);
+                            success = await _cellularExtensions.SendSms(iccid, action.Value);
                             break;
                         }
                         default:

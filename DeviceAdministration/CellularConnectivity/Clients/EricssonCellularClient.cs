@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Builders;
 using DeviceManagement.Infrustructure.Connectivity.DeviceReconnect;
@@ -13,11 +12,10 @@ using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using resource = DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.resource;
 using System.Net.Http;
-using Newtonsoft.Json;
-using System.IO;
 using System.Text;
-using DeviceManagement.Infrustructure.Connectivity.Exceptions;
 using DeviceManagement.Infrustructure.Connectivity.Models.Jasper;
+using System.Web.Script.Serialization;
+using System.Net.Http.Headers;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Clients
 {
@@ -234,7 +232,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             });
         }
 
-        public HttpWebResponse SendSMS(string msisdn, string messageContent)
+        public async Task<bool> SendSMS(string msisdn, string messageContent)
         {
             var creds = (EricssonCredentials)_credentialProvider.Provide();
             var senderAddress = creds.EnterpriseSenderNumber;
@@ -244,39 +242,40 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             {
                 throw new ApplicationException("You have not provided an EnterpriseSenderAddress and/or a SmsEndpointBaseUrl");
             }
-            var uri = new Uri(creds.BaseUrl);
-            var webAddr = $"https://{smsEndpointBaseUrl}/dcpapi/smsmessaging/v1/outbound/tel:{senderAddress}/requests";
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(webAddr);
-            httpWebRequest.Headers.Add("Authorization", $"Basic {basicAuthPassword}");
-            httpWebRequest.Host = $"{smsEndpointBaseUrl}:80";
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Accept = "application/json";
-            httpWebRequest.Method = "POST";
-
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            var requestBodyModel = new SendSmsRequest()
             {
-                var request = new SendSmsRequest()
+                outboundSMSMessageRequest = new Outboundsmsmessagerequest()
                 {
-                    outboundSMSMessageRequest = new Outboundsmsmessagerequest()
+                    address = new string[] { $"tel:{msisdn}" },
+                    senderAddress = $"tel:{senderAddress}",
+                    outboundSMSTextMessage = new Outboundsmstextmessage()
                     {
-                        address = new string[] { msisdn },
-                        senderAddress = senderAddress,
-                        outboundSMSTextMessage = new Outboundsmstextmessage()
-                        {
-                            message = messageContent
-                        }
+                        message = messageContent
                     }
-                };
-                streamWriter.Write(JsonConvert.SerializeObject(request));
-                streamWriter.Flush();
+                }
+            };
+            var requestBody = new JavaScriptSerializer().Serialize(requestBodyModel);
+            var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+            var endpointUrl = $"https://{smsEndpointBaseUrl}/dcpapi/smsmessaging/v1/outbound/tel:{senderAddress}/requests";
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", basicAuthPassword);
+                client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+                client.DefaultRequestHeaders.Host = $"{smsEndpointBaseUrl}:80";
+                try
+                {
+                    var response = await client.PostAsync(endpointUrl, content);
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine("error");
+                }
             }
 
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-            }
-            return httpResponse;
+            return true;
         }
 
         private bool isAnActiveState(subscriptionStatus status)

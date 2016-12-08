@@ -20,6 +20,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         bool UpdateSimState(string iccid, string updatedState);
         bool UpdateSubscriptionPackage(string iccid, string updatedPackage);
         bool ReconnectTerminal(string iccid);
-        bool SendSms(string iccid, string msisdn, string smsText);
+        Task<bool> SendSms(string iccid, string msisdn, string smsText);
     }
 }
