@@ -1664,7 +1664,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete filter..
+        ///   Looks up a localized string similar to Failed to delete this filter because it it associated with jobs..
         /// </summary>
         public static string FailedToDeleteFilter {
             get {
@@ -1745,7 +1745,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to save filter..
+        ///   Looks up a localized string similar to Failed to save this filter because it it associated with jobs..
         /// </summary>
         public static string FailedToSaveFilter {
             get {

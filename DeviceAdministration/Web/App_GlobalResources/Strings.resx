@@ -1906,7 +1906,7 @@
     <comment>Button label.</comment>
   </data>
   <data name="FailedToDeleteFilter" xml:space="preserve">
-    <value>Failed to delete filter.</value>
+    <value>Failed to delete this filter because it it associated with jobs.</value>
     <comment>Error message.</comment>
   </data>
   <data name="FailedToGetDefaultFilters" xml:space="preserve">
@@ -1922,7 +1922,7 @@
     <comment>Error message.</comment>
   </data>
   <data name="FailedToSaveFilter" xml:space="preserve">
-    <value>Failed to save filter.</value>
+    <value>Failed to save this filter because it it associated with jobs.</value>
     <comment>Error message.</comment>
   </data>
   <data name="SearchTypeFilters" xml:space="preserve">

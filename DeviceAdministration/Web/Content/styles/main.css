@@ -1929,6 +1929,9 @@ table#alertHistoryTable tr.selectedAlert {
   -webkit-animation: load5 1.1s infinite ease;
   animation: load5 1.1s infinite ease;
 }
+.details_grid_job_operation_twin {
+  padding-bottom: 1em;
+}
 .job_result_section__twin_list {
   font-size: 12px;
   list-style-type: none;
