@@ -12,6 +12,8 @@ static DMTaskStep _steps[] =
 };
 
 static char* _version;
+static time_t _downloadStartTime = 0;
+static time_t _applyStartTime = 0;
 
 static BOOL OnEnterState(DMTaskState state, time_t now)
 {
@@ -27,6 +29,8 @@ static BOOL OnEnterState(DMTaskState state, time_t now)
 		break;
 
 	case CU_DOWNLOADING:
+		_downloadStartTime = now;
+
 		if (strcmp(_version, "downloadFail") == 0)
 		{
 			succeeded = FALSE;
@@ -34,20 +38,20 @@ static BOOL OnEnterState(DMTaskState state, time_t now)
 			AllocAndPrintf(
 				&report,
 				&size,
-				"{ 'iothubDM': { 'configurationUpdate': { 'status': 'download failed', 'downloadFailTime': '%s' } } }",
-				FormatTime(&now));
+				"{ 'iothubDM': { 'configurationUpdate': { 'status': 'download failed', 'log': 'download failed' } } }");
 		}
 		else
 		{
 			AllocAndPrintf(
 				&report,
 				&size,
-				"{ 'iothubDM': { 'configurationUpdate': { 'status': 'downloading', 'downloadStartTime': '%s' } } }",
-				FormatTime(&now));
+				"{ 'iothubDM': { 'configurationUpdate': { 'status': 'downloading', 'log': 'downloading' } } }");
 		}
 		break;
 
 	case CU_APPLYING:
+		_applyStartTime = 0;
+
 		if (strcmp(_version, "applyFail") == 0)
 		{
 			succeeded = FALSE;
@@ -55,16 +59,16 @@ static BOOL OnEnterState(DMTaskState state, time_t now)
 			AllocAndPrintf(
 				&report,
 				&size,
-				"{ 'iothubDM': { 'configurationUpdate': { 'status': 'apply failed', 'applyFailTime': '%s' } } }",
-				FormatTime(&now));
+				"{ 'iothubDM': { 'configurationUpdate': { 'status': 'apply failed', 'log': 'downloaded(%I64ds) -> apply failed' } } }",
+				now - _downloadStartTime);
 		}
 		else
 		{
 			AllocAndPrintf(
 				&report,
 				&size,
-				"{ 'iothubDM': { 'configurationUpdate': { 'status': 'applying', 'applyStartTime': '%s' } } }",
-				FormatTime(&now));
+				"{ 'iothubDM': { 'configurationUpdate': { 'status': 'applying', 'log': 'downloaded(%I64ds) -> applying' } } }",
+				now - _downloadStartTime);
 		}
 		break;
 
@@ -72,8 +76,10 @@ static BOOL OnEnterState(DMTaskState state, time_t now)
 		AllocAndPrintf(
 			&report,
 			&size,
-			"{ 'iothubDM': { 'configurationUpdate': { 'status': 'idle', 'lastConfigurationUpdateTime': '%s' } }, 'ConfigurationVersion': '%s' }",
-			FormatTime(&now),
+			"{ 'iothubDM': { 'configurationUpdate': { 'status': 'updated to %s', 'log': 'downloaded(%I64ds) -> applied(%I64ds)' } }, 'ConfigurationVersion': '%s' }",
+			_version,
+			_applyStartTime - _downloadStartTime,
+			now - _applyStartTime,
 			_version);
 		break;
 
@@ -109,16 +115,17 @@ static void OnLeaveState(DMTaskState state, time_t now)
 		AllocAndPrintf(
 			&report,
 			&size,
-			"{ 'iothubDM': { 'configurationUpdate': { 'status': 'download completed', 'downloadCompleteTime': '%s' } } }",
-			FormatTime(&now));
+			"{ 'iothubDM': { 'configurationUpdate': { 'status': 'download completed', 'log': 'downloaded(%I64ds)' } } }",
+			now - _downloadStartTime);
 		break;
 
 	case CU_APPLYING:
 		AllocAndPrintf(
 			&report,
 			&size,
-			"{ 'iothubDM': { 'configurationUpdate': { 'status': 'apply completed', 'applyCompleteTime': '%s' } } }",
-			FormatTime(&now));
+			"{ 'iothubDM': { 'configurationUpdate': { 'status': 'apply completed', 'log': 'downloaded(%I64ds) -> applied(%I64ds)' } } }",
+			_applyStartTime - _downloadStartTime,
+			now - _applyStartTime);
 		break;
 
 	default:

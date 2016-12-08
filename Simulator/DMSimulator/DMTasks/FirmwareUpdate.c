@@ -13,6 +13,9 @@ static DMTaskStep _steps[] =
 };
 
 static char* _version = NULL;
+static time_t _downloadStartTime = 0;
+static time_t _applyStartTime = 0;
+static time_t _rebootStartTime = 0;
 
 static BOOL OnEnterState(DMTaskState state, time_t now)
 {
@@ -28,6 +31,8 @@ static BOOL OnEnterState(DMTaskState state, time_t now)
 		break;
 
 	case FU_DOWNLOADING:
+		_downloadStartTime = now;
+
 		if (strcmp(_version, "downloadFail") == 0)
 		{
 			succeeded = FALSE;
@@ -35,20 +40,20 @@ static BOOL OnEnterState(DMTaskState state, time_t now)
 			AllocAndPrintf(
 				&report,
 				&size,
-				"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'download failed', 'downloadFailTime': '%s' } } }",
-				FormatTime(&now));
+				"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'download failed', 'log': 'download failed' } } }");
 		}
 		else
 		{
 			AllocAndPrintf(
 				&report,
 				&size,
-				"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'downloading', 'downloadStartTime': '%s' } } }",
-				FormatTime(&now));
+				"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'downloading', 'log' : 'downloading' } } }");
 		}
 		break;
 
 	case FU_APPLYING:
+		_applyStartTime = now;
+
 		if (strcmp(_version, "applyFail") == 0)
 		{
 			succeeded = FALSE;
@@ -56,20 +61,22 @@ static BOOL OnEnterState(DMTaskState state, time_t now)
 			AllocAndPrintf(
 				&report,
 				&size,
-				"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'apply failed', 'applyFailTime': '%s' } } }",
-				FormatTime(&now));
+				"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'apply failed', 'log': 'downloaded(%I64ds) -> apply failed' } } }",
+				now - _downloadStartTime);
 		}
 		else
 		{
 			AllocAndPrintf(
 				&report,
 				&size,
-				"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'applying', 'applyStartTime': '%s' } } }",
-				FormatTime(&now));
+				"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'applying', 'log': 'downloaded(%I64ds) -> applying' } } }",
+				now - _downloadStartTime);
 		}
 		break;
 
 	case FU_REBOOTING:
+		_rebootStartTime = now;
+
 		if (strcmp(_version, "rebootFail") == 0)
 		{
 			succeeded = FALSE;
@@ -77,16 +84,18 @@ static BOOL OnEnterState(DMTaskState state, time_t now)
 			AllocAndPrintf(
 				&report,
 				&size,
-				"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'reboot failed', 'rebootFailTime': '%s' } } }",
-				FormatTime(&now));
+				"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'reboot failed', 'log': 'downloaded(%I64ds) -> applied(%I64ds) -> reboot failed' } } }",
+				_applyStartTime - _downloadStartTime,
+				now - _applyStartTime);
 		}
 		else
 		{
 			AllocAndPrintf(
 				&report,
 				&size,
-				"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'rebooting', 'rebootStartTime': '%s' } } }",
-				FormatTime(&now));
+				"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'rebooting', 'log': 'downloaded(%I64ds) -> applied(%I64ds) -> rebooting' } } }",
+				_applyStartTime - _downloadStartTime,
+				now - _applyStartTime);
 		}
 		break;
 
@@ -94,8 +103,11 @@ static BOOL OnEnterState(DMTaskState state, time_t now)
 		AllocAndPrintf(
 			&report,
 			&size,
-			"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'idle', 'lastFirmwareUpdateTime': '%s' } }, 'FirmwareVersion': '%s' }",
-			FormatTime(&now),
+			"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'updated to %s', 'log' : 'downloaded(%I64ds) -> applied(%I64ds) -> rebooted(%I64ds)' } }, 'FirmwareVersion' : '%s' }",
+			_version,
+			_applyStartTime - _downloadStartTime,
+			_rebootStartTime - _applyStartTime,
+			now - _rebootStartTime,
 			_version);
 		break;
 
@@ -131,24 +143,27 @@ static void OnLeaveState(DMTaskState state, time_t now)
 		AllocAndPrintf(
 			&report,
 			&size,
-			"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'download completed', 'downloadCompleteTime': '%s' } } }",
-			FormatTime(&now));
+			"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'download completed', 'log': 'downloaded(%I64ds)' } } }",
+			now - _downloadStartTime);
 		break;
 
 	case FU_APPLYING:
 		AllocAndPrintf(
 			&report,
 			&size,
-			"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'apply completed', 'applyCompleteTime': '%s' } } }",
-			FormatTime(&now));
+			"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'apply completed', 'log': 'downloaded(%I64ds) -> applied(%I64ds)' } } }",
+			_applyStartTime - _downloadStartTime,
+			now - _applyStartTime);
 		break;
 
 	case FU_REBOOTING:
 		AllocAndPrintf(
 			&report,
 			&size,
-			"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'reboot completed', 'rebootCompleteTime': '%s' } } }",
-			FormatTime(&now));
+			"{ 'iothubDM': { 'firmwareUpdate': { 'status': 'reboot completed', 'log': 'downloaded(%I64ds) -> applied(%I64ds) -> rebooted(%I64ds)' } } }",
+			_applyStartTime - _downloadStartTime,
+			_rebootStartTime - _applyStartTime,
+			now - _rebootStartTime);
 		break;
 
 	default:
