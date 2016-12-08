@@ -161,7 +161,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to + ADD NEW CLAUSE.
+        ///   Looks up a localized string similar to Add New Clause.
         /// </summary>
         public static string AddNewClause {
             get {
