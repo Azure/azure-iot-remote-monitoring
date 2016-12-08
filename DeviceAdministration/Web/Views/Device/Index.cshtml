@@ -176,10 +176,11 @@
                     </div>
                     <a href="#" class="device_list_clause_clear" data-bind="visible: checkedClauses().length > 0, click: unCheckAllClauses">@Strings.ClearAll</a>
                     <!-- /ko -->
-                    <!--ko if: isAdvanced() -->
+                    <!--ko if: isAdvanced() && advancedClause() -->
                     <div class="device_list_clause" data-bind="attr: { title: advancedClause }">
                         <span data-bind="text: advancedClause"></span>
                     </div>
+                    <a href="#" class="device_list_clause_clear" data-bind="click: clearAdvancedClause">@Strings.ClearAll</a>
                     <!-- /ko -->
                 </div>
             </script>
@@ -206,7 +207,7 @@
                                 <li><a href="#" data-bind="click: function() { setAdvanced(true) }">@Strings.SearchTypeAdvanced</a></li>
                             </ul>
      
-                            <label class="filter_panel_subtitle pull-right" data-bind="visible : !isAdvanced()"><input type="checkbox" data-bind="checked: viewSelectedClausesOnly" /> @Strings.ViewSeletedClausesOnly</label>
+                            <label class="filter_panel_subtitle filter_panel_view_selected_clauses_only" data-bind="visible : !isAdvanced()"><input type="checkbox" data-bind="checked: viewSelectedClausesOnly" /> @Strings.ViewSeletedClausesOnly</label>
                         </div>
                         
                         <div class="filter_panel_clauses" data-bind="foreach: clauses, visible : !isAdvanced()">
@@ -243,12 +244,12 @@
                                 <div class="filter_panel_clause_edit_row_operator">
                                     <select class="filter_panel_select" data-bind="value: currentClause().operator">
                                         <option value="EQ">=</option>
-                                        <option value="NE">&ne;</option>
+                                        <option value="NE">!=</option>
                                         <option value="LT">&lt;</option>
                                         <option value="GT">&gt;</option>
-                                        <option value="LE">&le;</option>
-                                        <option value="GE">&ge;</option>
-                                        <option value="IN">IN</option>
+                                        <option value="LE">&lt;=</option>
+                                        <option value="GE">&gt;=</option>
+                                        <option value="IN">in</option>
                                     </select>
                                 </div>
                                 <div class="filter_panel_clause_edit_row_value">

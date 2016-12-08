@@ -161,7 +161,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to + ADD NEW CLAUSE.
+        ///   Looks up a localized string similar to Add New Clause.
         /// </summary>
         public static string AddNewClause {
             get {
@@ -1835,20 +1835,20 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FILTER.
-        /// </summary>
-        public static string FilterNameHeader {
-            get {
-                return ResourceManager.GetString("FilterNameHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Filter.
         /// </summary>
         public static string FilterLabel {
             get {
                 return ResourceManager.GetString("FilterLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FILTER.
+        /// </summary>
+        public static string FilterNameHeader {
+            get {
+                return ResourceManager.GetString("FilterNameHeader", resourceCulture);
             }
         }
         

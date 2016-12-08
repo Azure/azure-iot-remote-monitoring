@@ -1021,8 +1021,8 @@
     <comment>Input label.</comment>
   </data>
   <data name="AddNewClause" xml:space="preserve">
-    <value>+ ADD NEW CLAUSE</value>
-    <comment>Button label.</comment>
+    <value>Add New Clause</value>
+    <comment>Title label.</comment>
   </data>
   <data name="FilterDevices" xml:space="preserve">
     <value>FILTER DEVICES</value>

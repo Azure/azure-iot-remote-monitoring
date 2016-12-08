@@ -61,6 +61,9 @@
             }
         },
         stopEditFilterName: function () {
+            if (!self.model.name()) {
+                self.model.name(self.originalFilterName);
+            }
             if (self.originalFilterName != self.model.name()) {
                 self.model.isChanged(true);
             }
@@ -228,7 +231,7 @@
             self.model.hidePanel();
         },
         resetFilter: function () {
-            if (self.model.isFilterLoadedFromServer) {
+            if (self.model.isFilterLoadedFromServer()) {
                 self.model.loadFilter(self.model.id());
             }
             else {
@@ -266,10 +269,10 @@
                 checked: ko.observable(checked == null ? true : checked),
                 shortDisplayName: ko.pureComputed(function () {
                     var parts = clause.field().split('.');
-                    return parts[parts.length - 1] + self.model.getOperatorText(clause.operator()) + clause.value();
+                    return parts[parts.length - 1] + " " + self.model.getOperatorText(clause.operator()) + " " + clause.value();
                 }),
                 displayName: ko.pureComputed(function () {
-                    return clause.field() + self.model.getOperatorText(clause.operator()) + clause.value();
+                    return clause.field() + " " + self.model.getOperatorText(clause.operator()) + " " + clause.value();
                 }),
                 toggle: function () {
                     clause.checked(!clause.checked());
@@ -291,6 +294,10 @@
             self.model.isChanged(true);
             IoTApp.DeviceIndex.reloadGrid();
         },
+        clearAdvancedClause: function () {
+            self.model.advancedClause("");
+            self.model.isChanged(true);
+        },
         setAdvanced: function(flag) {
             self.model.isAdvanced(flag);
             if (flag) {
@@ -306,11 +313,11 @@
         },
         operators: {
             "EQ": "=",
-            "NE": "&ne;",
-            "LT": "&lt;",
-            "GT": "&gt;",
-            "LE": "&le;",
-            "GE": "&ge;",
+            "NE": "!=",
+            "LT": "<",
+            "GT": ">",
+            "LE": "<=",
+            "GE": ">=",
             "IN": "in"
         },
         getOperatorText: function (operator) {

@@ -1714,6 +1714,11 @@ table#alertHistoryTable tr.selectedAlert {
   font-size: 14px;
   height: 30px;
 }
+.filter_panel_view_selected_clauses_only {
+  position: absolute;
+  top: 2px;
+  right: 0px;
+}
 .divider_fieldset_subhead {
   font-size: 0.75em;
   color: gray;
