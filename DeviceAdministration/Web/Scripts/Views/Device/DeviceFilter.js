@@ -134,6 +134,9 @@
             }
             else {
                 self.model.resetState();
+                if (execute) {
+                    IoTApp.DeviceIndex.reloadGrid();
+                }
                 if ($.isFunction(callback)) {
                     callback();
                 }
