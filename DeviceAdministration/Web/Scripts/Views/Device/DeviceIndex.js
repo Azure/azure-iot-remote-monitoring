@@ -122,12 +122,7 @@
                 currentSortArray: [[1, "asc"]],
                 start: 0,
                 searchQuery: '',
-                filterId: '',
-                filterName: '',
-                filters: [],
-                sql: '',
-                isAdvanced: false,
-                searchPaneOpen: false
+                filterId: ''
             };
         }
 
@@ -141,11 +136,7 @@
         if (data) {
             uiState.start = data.start;
             uiState.searchQuery = data.search.value;
-            uiState.filterId = data.filterId;
-            uiState.filterName = data.filterName;
-            uiState.clauses = data.clauses;
-            uiState.advancedClause = data.advancedClause;
-            uiState.isAdvanced = data.isAdvanced;
+            uiState.filterId = data.id;
         } else {
             if (uiState.start === undefined) {
                 uiState.start = 0;

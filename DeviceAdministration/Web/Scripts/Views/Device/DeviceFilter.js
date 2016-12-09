@@ -478,8 +478,9 @@
                     });
                 }
 
-                if (resources.filterId) {
-                    self.model.loadFilter(resources.filterId, false, callback);
+                var filterId = resources.filterId || uiState.filterId;
+                if (filterId) {
+                    self.model.loadFilter(filterId, false, callback);
                 }
                 else {
                     callback();
