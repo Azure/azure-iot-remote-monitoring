@@ -499,7 +499,6 @@
     <Content Include="Content\styles\blocks\rules_view\rules_block.less" />
     <Content Include="Content\styles\blocks\actions_view\actions_block.less" />
     <Content Include="Content\styles\blocks\headers\inner_page_header_block.less" />
-    <Content Include="Content\styles\blocks\device_view\search_devices_block.less" />
     <Content Include="Content\styles\blocks\root_styles\root_grid_block.less" />
     <Content Include="Content\styles\blocks\root_styles\loader_block.less" />
     <Content Include="Content\styles\blocks\root_styles\root_containers_block.less" />
