@@ -23,7 +23,8 @@ namespace DeviceManagement.Infrustructure.Connectivity.Proxies
             {
                 licenseKey = _jasperCredentials.LicenceKey,
                 messageId = Guid.NewGuid() + "-" + JasperApiConstants.MESSAGE_ID,
-                version = JasperApiConstants.PROGRAM_VERSION
+                version = JasperApiConstants.PROGRAM_VERSION,
+                value = ""
             };
 
             return _service.Echo(request);

@@ -116,7 +116,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RequestType))]
     public partial class BillingService : System.Web.Services.Protocols.SoapHttpClientProtocol {
 
-        internal Models.Security.SecurityHeader securityHeader;
+        public Models.Security.SecurityHeader securityHeader;
 
         private System.Threading.SendOrPostCallback GetTerminalUsageOperationCompleted;
         
