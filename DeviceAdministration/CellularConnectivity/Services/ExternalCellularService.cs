@@ -24,7 +24,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             List<Iccid> terminals;
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
 
-
             switch (registrationProvider)
             {
                 case ApiRegistrationProviderTypes.Jasper:
@@ -148,7 +147,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         public bool UpdateSimState(string iccid, string updatedState)
         {
             var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
-            // TODO SR: Figure out if we need to do something with responses
             switch (registrationProvider)
             {
                 case ApiRegistrationProviderTypes.Jasper:
