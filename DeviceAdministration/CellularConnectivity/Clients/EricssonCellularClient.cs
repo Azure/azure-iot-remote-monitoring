@@ -55,11 +55,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             //todo : Stubbed out with real ICCIDs from test account until ericsson sort an endpoint to do what we need
             return new List<Iccid>()
             {
-                new Iccid("9883011539830007560"),
-                new Iccid("89883011539830007560"),
-                new Iccid("89883011539830007586"),
-                new Iccid("89883011539830007594"),
-                new Iccid("89883011539830007602"),
             };
         }
 
@@ -236,17 +231,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
 
         public async Task<bool> SendSMS(string msisdn, string messageContent)
         {
-            var creds = new EricssonCredentials()
-            {
-                Username = "everest.demo1234@gmail.com",
-                Password = "demDCP12345",
-                BaseUrl = "https://orange.dcp.ericsson.net/",
-                LicenceKey = "",
-                ApiRegistrationProvider = "Ericsson",
-                EnterpriseSenderNumber = "33604",
-                RegistrationID = "test",
-                SmsEndpointBaseUrl = "exposureapi.dcp.ericsson.net"
-            };
+            var creds = (EricssonCredentials)_credentialProvider.Provide();
             var senderAddress = creds.EnterpriseSenderNumber;
             var smsEndpointBaseUrl = creds.SmsEndpointBaseUrl;
             var basicAuthPassword = Base64Encode($"{creds.Username}:{creds.Password}");
