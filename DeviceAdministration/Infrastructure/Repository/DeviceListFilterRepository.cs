@@ -16,7 +16,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class DeviceListFilterRepository : IDeviceListFilterRepository
     {
         private readonly string _storageAccountConnectionString;
-        private readonly IAzureTableStorageClient _filerTableStorageClient;
+        private readonly IAzureTableStorageClient _filterTableStorageClient;
         private readonly IAzureTableStorageClient _clauseTableStorageClient;
         private readonly string _filterTableName = "FilterList";
         private readonly string _clauseTableName = "SuggestedClausesList";
@@ -43,12 +43,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             _storageAccountConnectionString = configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString");
             string filterTableName = configurationProvider.GetConfigurationSettingValueOrDefault("DeviceListFilterTableName", _filterTableName);
-            _filerTableStorageClient = filterTableStorageClientFactory.CreateClient(_storageAccountConnectionString, filterTableName);
+            _filterTableStorageClient = filterTableStorageClientFactory.CreateClient(_storageAccountConnectionString, filterTableName);
             string clauseTableName = configurationProvider.GetConfigurationSettingValueOrDefault("SuggestedClauseTableName", _clauseTableName);
             _clauseTableStorageClient = clausesTableStorageClientFactory.CreateClient(_storageAccountConnectionString, clauseTableName);
             // Comment this line until we make change on UI to use this as default filter and forbid user to edit it
             //InitializeDefaultFilter();
-            InitializeDefaultFilter();
         }
 
         public async Task InitializeDefaultFilter()
@@ -56,21 +55,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             if (!DefaultFilterInitialized)
             {
                 DefaultFilterInitialized = true;
-                await _filerTableStorageClient.DoTableInsertOrReplaceAsync(new DeviceListFilterTableEntity(DefaultDeviceListFilter) { ETag = "*" }, BuildFilterModelFromEntity);
+                await _filterTableStorageClient.DoTableInsertOrReplaceAsync(new DeviceListFilterTableEntity(DefaultDeviceListFilter) { ETag = "*" }, BuildFilterModelFromEntity);
             }
         }
 
         public async Task<bool> CheckFilterNameAsync(string name)
         {
             TableQuery<DeviceListFilterTableEntity> query = new TableQuery<DeviceListFilterTableEntity>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, name));
-            var entities = await _filerTableStorageClient.ExecuteQueryAsync(query);
+            var entities = await _filterTableStorageClient.ExecuteQueryAsync(query);
             return entities.Count() > 0;
         }
 
         public async Task<DeviceListFilter> GetFilterAsync(string id)
         {
             TableQuery<DeviceListFilterTableEntity> query = new TableQuery<DeviceListFilterTableEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, id));
-            var entities = await _filerTableStorageClient.ExecuteQueryAsync(query);
+            var entities = await _filterTableStorageClient.ExecuteQueryAsync(query);
             if (!entities.Any()) return null;
             return new DeviceListFilter(entities.First());
         }
@@ -87,7 +86,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             DeviceListFilterTableEntity newEntity = new DeviceListFilterTableEntity(filter) { ETag = "*" };
-            var result = await _filerTableStorageClient.DoTableInsertOrReplaceAsync(newEntity, BuildFilterModelFromEntity);
+            var result = await _filterTableStorageClient.DoTableInsertOrReplaceAsync(newEntity, BuildFilterModelFromEntity);
 
             if (result.Status == TableStorageResponseStatus.Successful)
             {
@@ -95,7 +94,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 if (oldFilter != null && !oldFilter.Name.Equals(filter.Name, StringComparison.InvariantCulture))
                 {
                     var oldEntity = new DeviceListFilterTableEntity(oldFilter) { ETag = "*" };
-                    await _filerTableStorageClient.DoDeleteAsync(oldEntity, e => (object)null);
+                    await _filterTableStorageClient.DoDeleteAsync(oldEntity, e => (object)null);
                 }
                 SaveSuggestClausesAsync(filter.Clauses);
                 return await GetFilterAsync(filter.Id);
@@ -114,7 +113,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             if (filter == null) return false;
 
             DeviceListFilterTableEntity entity = new DeviceListFilterTableEntity(id, filter.Name) { ETag = "*" };
-            var result = await _filerTableStorageClient.DoTouchAsync(entity, BuildFilterModelFromEntity);
+            var result = await _filterTableStorageClient.DoTouchAsync(entity, BuildFilterModelFromEntity);
             return result.Status == TableStorageResponseStatus.Successful;
         }
 
@@ -125,14 +124,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             DeviceListFilterTableEntity entity = new DeviceListFilterTableEntity(id, filter.Name);
             entity.ETag = "*";
-            var result = await _filerTableStorageClient.DoDeleteAsync(entity, BuildFilterModelFromEntity);
+            var result = await _filterTableStorageClient.DoDeleteAsync(entity, BuildFilterModelFromEntity);
             return (result.Status == TableStorageResponseStatus.Successful);
         }
 
         public async Task<IEnumerable<DeviceListFilter>> GetRecentFiltersAsync(int Max = 20)
         {
             TableQuery<DeviceListFilterTableEntity> query = new TableQuery<DeviceListFilterTableEntity>();
-            var entities = await _filerTableStorageClient.ExecuteQueryAsync(query);
+            var entities = await _filterTableStorageClient.ExecuteQueryAsync(query);
             var ordered = entities.OrderBy(e => e.Id).ThenByDescending(e => e.Timestamp);
             if (Max > 0)
             {
@@ -147,7 +146,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public async Task<IEnumerable<DeviceListFilter>> GetFilterListAsync(int skip = 0, int take = 1000)
         {
             TableQuery<DeviceListFilterTableEntity> query = new TableQuery<DeviceListFilterTableEntity>();
-            var entities = await _filerTableStorageClient.ExecuteQueryAsync(query);
+            var entities = await _filterTableStorageClient.ExecuteQueryAsync(query);
             var ordered = entities.OrderBy(e => e.Name);
             if (take > 0)
             {
