@@ -57,8 +57,6 @@
 
     var getDeviceListColumnsView = function () {
 
-        close(true);
-        $(".button_details_grid").on("click", closeButtonClick);
         $('.details_grid_closed__grid_subhead').text(resources.editColumnsPanelLabel);
         $('.details_grid__grid_subhead').html(resources.editColumnsPanelLabel);
         $('#loadingElement').show();
@@ -79,8 +77,6 @@
         $('#loadingElement').hide();
         $('#details_grid_container').empty();
         $('#details_grid_container').html(html);
-
-        $('.device_list_columns_button_container').appendTo($('.details_grid'));
 
         IoTApp.Controls.NameSelector.create($('.name_selector__text'), {
             type: IoTApp.Controls.NameSelector.NameListType.tag | IoTApp.Controls.NameSelector.NameListType.property,
@@ -108,16 +104,6 @@
                 }
             });
         });
-    };
-
-    var isEditColumnsMode = function () {
-        return $('.details_grid__grid_subhead').html() === resources.editColumns;
-    };
-
-    var closeButtonClick = function () {
-        if (isEditColumnsMode()) {
-            close(true);
-        }
     };
 
     var setColumns = function (columns) {
@@ -171,13 +157,8 @@
         });
     };
 
-    var close = function (noNeedToggle) {
-        $('.device_list_columns_button_container').remove();
-        $(".button_details_grid").off("click", closeButtonClick);
-
-        if (!noNeedToggle) {
-            IoTApp.DeviceIndex.toggleDetails();
-        }
+    var close = function () {
+        IoTApp.DeviceIndex.toggleDetails();
     };
 
     return {

@@ -2,15 +2,15 @@
 @using GlobalResources
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security
 
-<div class="device_list_columns_container">
-    <div class="name_selector_container">
-        <input class="name_selector__text" placeholder="Property or tag name" />
-        <button class="name_add__button">+</button>
-    </div>
-    <div class="header_grid header_grid_general">
-        <h3 class="grid_subheadhead_detail">@Strings.SelectedColumns</h3><h3 class="grid_subheadhead_detail"><a class="device_list_columns_loaddefault_text">@Strings.LoadDefault</a></h3>
-    </div>
 
+<div class="name_selector_container">
+    <input class="name_selector__text" placeholder="Property or tag name" />
+    <button class="name_add__button">+</button>
+</div>
+<div class="header_grid header_grid_general">
+    <h3 class="grid_subheadhead_detail">@Strings.SelectedColumns</h3><h3 class="grid_subheadhead_detail"><a class="device_list_columns_loaddefault_text">@Strings.LoadDefault</a></h3>
+</div>
+<div class="device_list_columns_container">
     <section class="details_grid_columns" id="selectedColumnsGrid">
         <div data-bind="foreach: columns">
             <div class="device_list_columns_item">
@@ -31,27 +31,27 @@
                     <img src="~/Content/img/column_delete.svg" title="@Strings.Delete" class="device_list_columns_toolbar_button" data-bind="click: $parent.remove" />
                     <!-- /ko -->
                     <!--ko if: $parent.isReserved($data) -->
-                    <img src="~/Content/img/column_delete.svg" title="@Strings.Delete" class="device_list_columns_toolbar_button_disabled"  />
+                    <img src="~/Content/img/column_delete.svg" title="@Strings.Delete" class="device_list_columns_toolbar_button_disabled" />
                     <!-- /ko -->
                     <!-- /ko -->
                 </div>
             </div>
         </div>
     </section>
-    <div class="device_list_columns_button_container_spaceholder"></div>
-    <div class="device_list_columns_button_container">
-        @if (PermsChecker.HasPermission(Permission.SaveDeviceListColumnsAsGlobal))
-        {
-            <label class="grid_detail_label"><input type="checkbox" id="chkSaveDefault"/> @Strings.SaveAsDefault</label>
-        }
-        <button type="button" onclick="IoTApp.DeviceListColumns.updateColumns($('#chkSaveDefault').is(':checked')); $('#chkSaveDefault').prop('checked', false);" class="button_base">
-            @Strings.Update
-        </button>
-        <button type="button" onclick="IoTApp.DeviceListColumns.close()" class="button_base button_secondary">
-            @Strings.Cancel
-        </button>
-    </div>
 </div>
+<div class="device_list_columns_button_container">
+    @if (PermsChecker.HasPermission(Permission.SaveDeviceListColumnsAsGlobal))
+    {
+        <label class="grid_detail_label"><input type="checkbox" id="chkSaveDefault"/> @Strings.SaveAsDefault</label>
+    }
+    <button type="button" onclick="IoTApp.DeviceListColumns.updateColumns($('#chkSaveDefault').is(':checked')); $('#chkSaveDefault').prop('checked', false);" class="button_base">
+        @Strings.Update
+    </button>
+    <button type="button" onclick="IoTApp.DeviceListColumns.close()" class="button_base button_secondary">
+        @Strings.Cancel
+    </button>
+</div>
+
 <script>
     IoTApp.DeviceListColumns.setColumns(@Html.Raw(Model));
 </script>

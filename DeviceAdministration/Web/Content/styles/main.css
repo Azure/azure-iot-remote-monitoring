@@ -299,8 +299,8 @@ nav .selected {
   background-color: #f2f2f2;
 }
 #details_grid_container {
-  overflow-y: scroll;
-  height: calc(100% - 62px);
+  overflow-y: auto;
+  height: calc(100% - 57px);
 }
 .details_grid__grid_subhead {
   background-image: url("/Content/img/icon_deviceExplorer_details_close.svg");
@@ -1507,6 +1507,11 @@ table#alertHistoryTable tr.selectedAlert {
   border-left-width: 0px;
   color: #333333;
   float: left;
+}
+.device_list_columns_container {
+  height: calc(100% - 195px);
+  margin-top: 5px;
+  overflow-y: auto;
 }
 .details_grid_columns {
   overflow: auto;
