@@ -87,7 +87,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         {
             var filters = fixture.CreateMany<Clause>(0);
             var ret = _filterLogic.GenerateAdvancedClause(filters);
-            Assert.Equal("SELECT * FROM devices", ret);
+            Assert.Equal(string.Empty, ret);
             filters = new List<Clause>
             {
                 new Clause
@@ -97,7 +97,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                     ClauseValue = "myDevice-1",
                 }
             };
-            Assert.Equal("SELECT * FROM devices WHERE deviceId = 'myDevice-1'", _filterLogic.GenerateAdvancedClause(filters));
+            Assert.Equal("deviceId = 'myDevice-1'", _filterLogic.GenerateAdvancedClause(filters));
         }
 
         [Fact]

@@ -97,7 +97,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns>The full SQL query</returns>
         public string GetSQLQuery()
         {
-            return IsAdvanced ? AdvancedClause : GetFilterQuery();
+            if (IsAdvanced)
+            {
+                return $"SELECT * FROM devices WHERE {AdvancedClause}";
+            }
+            else
+            {
+                var condition = GetSQLCondition();
+
+                string filterQuery = "SELECT * FROM devices";
+                if (!string.IsNullOrWhiteSpace(condition))
+                {
+                    filterQuery = $"{filterQuery} WHERE {condition}";
+                }
+                return filterQuery;
+            }
         }
 
         /// <summary>
@@ -107,6 +121,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns>The query condition, or empty string if no valid filter found</returns>
         public string GetSQLCondition()
         {
+            if (IsAdvanced) return AdvancedClause;
+
             var filters = Clauses?.
                 Where(filter => !string.IsNullOrWhiteSpace(filter.ColumnName))?.
                 Select(filter =>
@@ -147,18 +163,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }).ToList();
 
             return filters == null ? string.Empty : string.Join(" AND ", filters);
-        }
-
-        public string GetFilterQuery()
-        {
-            var condition = GetSQLCondition();
-
-            string filterQuery = "SELECT * FROM devices";
-            if (!string.IsNullOrWhiteSpace(condition))
-            {
-                filterQuery = $"{filterQuery} WHERE {condition}";
-            }
-            return filterQuery;
         }
     }
 }

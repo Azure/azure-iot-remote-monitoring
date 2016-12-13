@@ -66,7 +66,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public string GenerateAdvancedClause(IEnumerable<Clause> clauses)
         {
-            return new DeviceListFilter { Clauses = clauses?.ToList() }.GetSQLQuery();
+            return new DeviceListFilter { Clauses = clauses?.ToList() }.GetSQLCondition();
         }
 
         public async Task<bool> DeleteFilterAsync(string filterId)
