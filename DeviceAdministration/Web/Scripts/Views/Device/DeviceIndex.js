@@ -98,7 +98,8 @@
             self.isDefaultDeviceDetailsAvailable = false;
             var node = self.dataTable.row(self.defaultSelectedRow).nodes().to$();
             _selectRowFromDataTable(node);
-        } else {
+        }
+        else if (self.isDefaultDeviceIdAvailable) {
             // if selected device is no longer displayed in grid, then close the details pane
             closeAndClearDetails();
         }
@@ -294,9 +295,10 @@
         /* DataTables workaround - reset progress animation display for use with DataTables api */
         self.dataTableContainer.on('processing.dt', function (e, settings, processing) {
             if (processing) {
-                $('.loader_container').show();
+                $('#dataLoading').show();
             }
             else {
+                $('#dataLoading').hide();
                 $('.loader_container').hide();
             }
             _setGridContainerScrollPositionIfRowIsSelected();
@@ -338,18 +340,22 @@
 
             // only do the following if we have a selected device
             var deviceId = IoTApp.Helpers.DeviceIdState.getDeviceIdFromCookie();
+
+            // reset this value each time
+            self.isDefaultDeviceDetailsAvailable = false;
+            self.isDefaultDeviceIdAvailable = false;
+
             if (deviceId) {
                 // iterate through the data before passing it on to grid, and try to
                 // find and save the selected deviceID value
 
-                // reset this value each time
-                self.isDefaultDeviceDetailsAvailable = false;
+                self.isDefaultDeviceIdAvailable = true;
 
                 for (var i = 0, len = json.data.length; i < len; ++i) {
                     var data = json.data[i];
                     if (data &&
                         data.deviceProperties &&
-                        data.deviceProperties.deviceId === deviceId) {
+                        data.deviceProperties.deviceID === deviceId) {
                         self.defaultSelectedRow = i;
                         self.isDefaultDeviceDetailsAvailable = true;
                         break;
@@ -361,6 +367,12 @@
             fnCallback(json, a, b);
         };
 
+        clearRefeshTimeout();
+
+        if (self.getDeviceList) {
+            self.getDeviceList.abort();
+        }
+
         self.getDeviceList = $.ajax({
             "dataType": 'json',
                 'type': 'POST',
@@ -368,12 +380,26 @@
                 'cache': false,
                 'data': data,
                 'success': successCallback
+       }).fail(function (xhr, status, error) {
+            $('.loader_container').hide();
+            if (status !== 'abort') {
+                IoTApp.Helpers.Dialog.displayError(resources.failedToRetrieveDevices);
+                setupRefreshTimeout();
+            }
+       }).done(function () {
+           setupRefreshTimeout();
        });
+    }
 
-       self.getDeviceList.fail(function () {
-           $('.loader_container').hide();
-           IoTApp.Helpers.Dialog.displayError(resources.failedToRetrieveDevices);
-        });
+    function setupRefreshTimeout() {
+        clearRefeshTimeout();
+        self.refreshTimeout = setTimeout(reloadGrid, 10000, true);
+    }
+
+    function clearRefeshTimeout() {
+        if (self.refreshTimeout) {
+            clearTimeout(self.refreshTimeout);
+        }
     }
 
     /* Set the heights of scrollable elements for correct overflow behavior */
@@ -448,8 +474,8 @@
         gridContainer.width(gridWidth);
     }
 
-    var reloadGrid = function () {
-        self.dataTable.ajax.reload();
+    var reloadGrid = function (keepPaging) {
+        self.dataTable.ajax.reload(null, !keepPaging);
     }
 
     var unselectAllRows = function () {

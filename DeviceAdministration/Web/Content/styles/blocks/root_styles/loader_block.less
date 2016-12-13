@@ -51,6 +51,17 @@
     background-color: @loader-background-color;
 }
 
+.loader_container_small {
+    width:20px;
+    height:20px;
+    margin: 12px 0px 0px 8px;
+}
+.loader_container_small__loader {
+    .loader_container__loader;
+    margin:40% auto 0 auto;
+    font-size:3px;
+}
+
 @-webkit-keyframes load5 {
     0%, 100% {
         box-shadow: @progress-box-shadow-1 @progress-opacity-1, @progress-box-shadow-2 @progress-opacity-4, @progress-box-shadow-3 @progress-opacity-4, @progress-box-shadow-4 @progress-opacity-4, @progress-box-shadow-5 @progress-opacity-4, @progress-box-shadow-6 @progress-opacity-4, @progress-box-shadow-7 @progress-opacity-3, @progress-box-shadow-8 @progress-opacity-2;
