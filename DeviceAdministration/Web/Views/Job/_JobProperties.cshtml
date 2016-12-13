@@ -132,7 +132,7 @@
     <div>
         <a id="showFailedJobResultsLink" class="grid_detail_job_result_group">@Strings.ShowJobResults</a>
         <a class="grid_detail_job_result_group grid_detail_job_result_hide_link" style="display:none">@Strings.HideJobResults</a>
-        <div class="grid_detail_job_result_group" style="display:none">
+        <div class="grid_detail_job_result_group grid_detail_job_result_list" style="display:none">
         </div>
         <div class="job_result_loader_container" style="display:none"></div>
     </div>
@@ -140,12 +140,12 @@
 
     <h4 class="grid_subhead_detail_label">@Strings.PendingCountSubHeader</h4>
     <p class="grid_detail_value grid_detail_value_with_link" name="deviceField_pendingCount">@Model.PendingCount</p>
-    @if (!new string[] { Strings.NotApplicableValue, "0" }.Contains(Model.FailedCount))
+    @if (!new string[] { Strings.NotApplicableValue, "0" }.Contains(Model.PendingCount))
     {
     <div>
         <a id="showPendingJobResultsLink" class="grid_detail_job_result_group">@Strings.ShowJobResults</a>
         <a class="grid_detail_job_result_group grid_detail_job_result_hide_link" style="display:none">@Strings.HideJobResults</a>
-        <div class="grid_detail_job_result_group" style="display:none">
+        <div class="grid_detail_job_result_group grid_detail_job_result_list" style="display:none">
         </div>
         <div class="job_result_loader_container" style="display:none"></div>
     </div>
@@ -153,12 +153,12 @@
 
     <h4 class="grid_subhead_detail_label">@Strings.RunningCountSubHeader</h4>
     <p class="grid_detail_value grid_detail_value_with_link" name="deviceField_runningCount">@Model.RunningCount</p>
-    @if (!new string[] { Strings.NotApplicableValue, "0" }.Contains(Model.FailedCount))
+    @if (!new string[] { Strings.NotApplicableValue, "0" }.Contains(Model.RunningCount))
     {
     <div>
         <a id="showRunningJobResultsLink" class="grid_detail_job_result_group">@Strings.ShowJobResults</a>
         <a class="grid_detail_job_result_group grid_detail_job_result_hide_link" style="display:none">@Strings.HideJobResults</a>
-        <div class="grid_detail_job_result_group" style="display:none">
+        <div class="grid_detail_job_result_group grid_detail_job_result_list" style="display:none">
         </div>
         <div class="job_result_loader_container" style="display:none"></div>
     </div>

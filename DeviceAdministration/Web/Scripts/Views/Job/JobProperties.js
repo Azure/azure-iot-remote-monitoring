@@ -123,8 +123,8 @@
                 $element.siblings('.grid_detail_job_result_list').empty();
                 response.data.forEach(function (item, index) {
                     var methodResponse = item.outcome.deviceMethodResponse;
-                    var payload = methodResponse && methodResponse.payload;
-                    var status = methodResponse && methodResponse.status;
+                    var resp = (item.error && item.error.description) || (methodResponse && methodResponse.payload);
+                    var statusCode = (item.error && item.error.code) || (methodResponse && methodResponse.status);
                     var deviceItem = $('<ul />')
                         .addClass('job_result_section__device_list')
                         .appendTo($element.siblings('.grid_detail_job_result_list'))
@@ -133,12 +133,12 @@
                         .text(item.deviceId)
                         .appendTo(deviceItem);
                     $('<li />')
-                        .attr('title', status)
-                        .text(status)
+                        .attr('title', statusCode)
+                        .text(statusCode)
                         .appendTo(deviceItem);
                     $('<li />')
-                        .attr('title', payload)
-                        .text(payload)
+                        .attr('title', resp)
+                        .text(resp)
                         .appendTo(deviceItem);
                 });
             },
