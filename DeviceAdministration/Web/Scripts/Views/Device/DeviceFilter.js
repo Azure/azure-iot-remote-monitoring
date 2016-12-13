@@ -123,13 +123,21 @@
         },
         loadFilter: function (filterId, execute, callback) {
             $('#btnOpen').popover('hide');
+            $('#dataLoading').show();
             if (filterId && filterId !== resources.allDevices) {
                 api.findFilter(filterId, function (filter) {
-                    self.model.setFilter(filter, true);
-                    self.model.isChanged(false);
-                    if (execute) {
-                        IoTApp.DeviceIndex.reloadGrid();
+                    if (filter) {
+                        self.model.setFilter(filter, true);
+                        self.model.isChanged(false);
+
+                        if (execute) {
+                            IoTApp.DeviceIndex.reloadGrid();
+                        }
                     }
+                    else {
+                        $('#dataLoading').hide();
+                    }
+
                     if ($.isFunction(callback)) {
                         callback();
                     }

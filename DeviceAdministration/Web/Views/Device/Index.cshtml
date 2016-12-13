@@ -49,6 +49,9 @@
                     <img src="/Content/img/delete.svg" title="@Strings.DeleteFilter" class="device_list_toolbar_button" data-bind="click: deleteFilter" />
                     <!-- /ko -->
                 </div>
+                <div id="dataLoading" class="loader_container_small pull-left">
+                    <div class="loader_container_small__loader"></div>
+                </div>
                 <div class="device_list_clauses">
                     <!--ko if: !isAdvanced() -->
                     <div data-bind="foreach: checkedClauses">

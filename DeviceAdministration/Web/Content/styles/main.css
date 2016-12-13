@@ -503,6 +503,24 @@ nav .selected {
   height: 150px;
   background-color: white;
 }
+.loader_container_small {
+  width: 20px;
+  height: 20px;
+  margin: 12px 0px 0px 8px;
+}
+.loader_container_small__loader {
+  margin: 20% auto 0 auto;
+  font-size: 16px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-animation: load5 1.1s infinite ease;
+  animation: load5 1.1s infinite ease;
+  margin: 40% auto 0 auto;
+  font-size: 3px;
+}
 @-webkit-keyframes load5 {
   0%, 100% {
     box-shadow: 0em -2.6em 0 0em black, 1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), 2.5em 0em 0 0em rgba(0, 0, 0, 0.2), 1.7em 1.75em 0 0em rgba(0, 0, 0, 0.2), 0em 2.5em 0 0em rgba(0, 0, 0, 0.2), -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), -2.6em 0em 0 0em rgba(0, 0, 0, 0.5), -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.7);
@@ -1708,6 +1726,10 @@ table#alertHistoryTable tr.selectedAlert {
 }
 .grid_detail_value_with_link {
   margin-bottom: 0;
+}
+.job_result_loader {
+  margin-top: 12px;
+  float: left;
 }
 .content_outer--select_device {
   overflow-x: visible;

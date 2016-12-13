@@ -95,7 +95,7 @@
             "lengthChange": false,
             "processing": false,
             "serverSide": false,
-            "dom": "<'dataTables_header'ip>lrt?",
+            "dom": "<'dataTables_header'i<'#loader_area.job_result_loader'>p>lrt?",
             "ajax": onDataTableAjaxCalled,
             "language": {
                 "info": resources.jobsList + " (_TOTAL_)",
@@ -177,6 +177,8 @@
             "order": [[4, "desc"]]
         });
 
+        $('#loader_area').append('<div id="dataLoading" class="loader_container_small"><div class="loader_container_small__loader"></div></div>');
+
         self.dataTableContainer.on("draw.dt", onTableDrawn);
         self.dataTableContainer.on("error.dt", function (e, settings, techNote, message) {
             IoTApp.Helpers.Dialog.displayError(resources.unableToRetrieveJobFromService);
@@ -188,7 +190,13 @@
         $('.loader_container').css('display', 'block');
         $('.loader_container').css('background-color', '#ffffff');
         self.dataTableContainer.on('processing.dt', function (e, settings, processing) {
-            $('.loader_container').css('display', processing ? 'block' : 'none');
+            if (processing) {
+                $('#dataLoading').show();
+            }
+            else {
+                $('#dataLoading').hide();
+                $('.loader_container').hide();
+            }
             _setGridContainerScrollPositionIfRowIsSelected();
         });
 
@@ -225,6 +233,12 @@
             fnCallback(json, a, b);
         };
 
+        clearRefeshTimeout();
+
+        if (self.getJobList) {
+            self.getJobList.abort();
+        }
+
         self.getJobList = $.ajax({
             "dataType": 'json',
             'type': 'GET',
@@ -232,12 +246,26 @@
             'cache': false,
             'data': data,
             'success': successCallback
-        });
-
-        self.getJobList.fail(function () {
+        }).fail(function (xhr, status, error) {
             $('.loader_container').hide();
-            IoTApp.Helpers.Dialog.displayError(resources.failedToRetrieveJobs);
+            if (status !== 'abort') {
+                IoTApp.Helpers.Dialog.displayError(resources.failedToRetrieveJobs);
+                setupRefreshTimeout();
+            }
+        }).done(function () {
+            setupRefreshTimeout();
         });
+    }
+
+    function setupRefreshTimeout() {
+        clearRefeshTimeout();
+        self.refreshTimeout = setTimeout(reloadGrid, 10000, true);
+    }
+
+    function clearRefeshTimeout() {
+        if (self.refreshTimeout) {
+            clearTimeout(self.refreshTimeout);
+        }
     }
 
     /* Set the heights of scrollable elements for correct overflow behavior */
@@ -302,8 +330,8 @@
         gridContainer.width(gridWidth);
     }
 
-    var reloadGrid = function () {
-        self.dataTable.ajax.reload();
+    var reloadGrid = function (keepPaging) {
+        self.dataTable.ajax.reload(null, !keepPaging);
     }
 
     return {
