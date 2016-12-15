@@ -2057,7 +2057,7 @@
     <comment>Table column header.</comment>
   </data>
   <data name="NavigationMenuItemJobs" xml:space="preserve">
-    <value>Jobs</value>
+    <value>Management Jobs</value>
     <comment>Navigation menu item label.</comment>
   </data>
   <data name="ExportDevicesJobType" xml:space="preserve">

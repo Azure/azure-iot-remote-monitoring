@@ -612,6 +612,10 @@ table.dataTable thead {
         background-image:url(/Content/img/icon_status_enabled.svg);
         }
 
+    .table_status.status_completed_with_errors {
+        background-image:url(/Content/img/icon_status_caution.svg);
+        }
+
     .table_status.status_failed {
         background-image:url(/Content/img/icon_status_critical.svg);
         }

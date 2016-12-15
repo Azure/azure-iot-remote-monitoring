@@ -3014,7 +3014,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Jobs.
+        ///   Looks up a localized string similar to Management Jobs.
         /// </summary>
         public static string NavigationMenuItemJobs {
             get {

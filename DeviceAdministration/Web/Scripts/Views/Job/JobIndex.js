@@ -51,13 +51,13 @@
     }
 
     var changeJobStatus = function () {
-        var tableStatus = self.dataTable;
-        resources.allJobStatus.forEach(function (status) {
-            var selector = ".table_status:contains('" + status.toLowerCase() + "')";
-            var cells_status = tableStatus.cells(selector).nodes();
-            var className = 'status_' + status.toLowerCase();
-            $(cells_status).addClass(className);
-            $(cells_status).html(status);
+        self.dataTable.rows(function (index, data, node) {
+            var className = 'status_' + data.status;
+            if (data.status === resources.allJobStatus[3].toLowerCase() && data.failedCount > 0) {
+                className = className + '_with_errors';
+            }
+            var statusNode = self.dataTable.cell(index, 0).node();
+            $(statusNode).addClass(className);
         });
     }
 
