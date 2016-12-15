@@ -55,13 +55,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.ManageJobs)]
-        public async Task<ActionResult> ScheduleJob(string filterId, string filterName)
+        public async Task<ActionResult> ScheduleJob(string filterId)
         {
-            // [WORKAROUND] The default query name for case it is empty
             if (string.IsNullOrEmpty(filterId))
             {
                 filterId = DeviceListFilterRepository.DefaultDeviceListFilter.Id;
-                filterName = DeviceListFilterRepository.DefaultDeviceListFilter.Name;
             }
 
             var jobs = await _jobRepository.QueryByFilterIdAsync(filterId);
@@ -88,7 +86,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var preScheduleJobModel = new PreScheduleJobModel
             {
                 FilterId = filterId,
-                FilterName = filterName,
                 JobsSharingQuery = (await Task.WhenAll(tasks))
                     .Where(model => model.Job != null)
                     .OrderByDescending(model => model.Job.CreatedTimeUtc)
@@ -98,14 +95,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.ManageJobs)]
-        public ActionResult ScheduleTwinUpdate(string filterId, string filterName)
+        public async Task<ActionResult> ScheduleTwinUpdate(string filterId)
         {
-            //ToDo: Jump to the view with desired model
-
+            var deviceListFilter = await GetFilterById(filterId);
             return View(new ScheduleTwinUpdateModel
             {
                 FilterId = filterId,
-                FilterName = filterName
+                FilterName = deviceListFilter.Name,
             });
         }
 
@@ -127,27 +123,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
             twin.ETag = "*";
 
-            string queryCondition = await GetQueryCondition(model.FilterId);
+            var deviceListFilter = await GetFilterById(model.FilterId);
+            string queryCondition = deviceListFilter.GetSQLCondition();
 
             var jobId = await _iotHubDeviceManager.ScheduleTwinUpdate(queryCondition,
                 twin,
                 model.StartDateUtc,
                 model.MaxExecutionTimeInMinutes * 60);
 
-            await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, model.FilterName));
+            await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, deviceListFilter.Name));
 
             return Redirect("/Job/Index");
         }
 
         [RequirePermission(Permission.ManageJobs)]
-        public ActionResult ScheduleDeviceMethod(string filterId, string filterName)
+        public async Task<ActionResult> ScheduleDeviceMethod(string filterId)
         {
-            //ToDo: Jump to the view with desired model
-
+            var deviceListFilter = await GetFilterById(filterId);
             return View(new ScheduleDeviceMethodModel
             {
                 FilterId = filterId,
-                FilterName = filterName
+                FilterName = deviceListFilter.Name,
             });
         }
 
@@ -160,11 +156,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var parameters = model.Parameters?.ToDictionary(p => p.ParameterName, p => p.ParameterValue) ?? new Dictionary<string, string>();
             string payload = JsonConvert.SerializeObject(parameters);
 
-            string queryCondition = await GetQueryCondition(model.FilterId);
+            var deviceListFilter = await GetFilterById(model.FilterId);
+            string queryCondition = deviceListFilter.GetSQLCondition();
 
             var jobId = await _iotHubDeviceManager.ScheduleDeviceMethod(queryCondition, methodName, payload, model.StartDateUtc, model.MaxExecutionTimeInMinutes * 60);
 
-            await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, model.FilterName));
+            await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, deviceListFilter.Name));
 
             return Redirect("/Job/Index");
         }
@@ -188,17 +185,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
         }
 
-        private async Task<string> GetQueryCondition(string filterId)
+        private async Task<DeviceListFilter> GetFilterById(string filterId)
         {
             if (filterId == "*" || filterId == DeviceListFilterRepository.DefaultDeviceListFilter.Id)
             {
                 //[WORKAROUND] No condition available for "All Devices"
-                return DeviceListFilterRepository.DefaultDeviceListFilter.GetSQLCondition();
+                return DeviceListFilterRepository.DefaultDeviceListFilter;
             }
             else
             {
-                var filter = await _filterRepository.GetFilterAsync(filterId);
-                return filter.GetSQLCondition();
+                return await _filterRepository.GetFilterAsync(filterId);
             }
         }
     }

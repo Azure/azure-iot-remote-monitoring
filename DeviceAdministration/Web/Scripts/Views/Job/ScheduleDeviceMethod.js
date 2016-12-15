@@ -47,13 +47,6 @@
 
         this.beforePost = function (elem) {
             $(elem).find("#StartDateHidden").val(moment(this.startDate()).utc().format());
-
-            $("<input>").attr({
-                type: 'hidden',
-                name: 'queryName',
-                value: this.queryName
-            }).appendTo($(elem));
-
             return true;
         }
 
@@ -62,16 +55,15 @@
             IoTApp.Controls.NameSelector.create(jQuery('.edit_form__methodComboBox'), { type: IoTApp.Controls.NameSelector.NameListType.method }, self.methods);
         }
 
-        this.init = function (queryName) {
-            this.queryName = queryName;
+        this.init = function () {
             IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.method }, self.cacheNameList);
         }
     }
 
     var vm = new viewModel();
     return {
-        init: function (queryName) {
-            vm.init(queryName);
+        init: function () {
+            vm.init();
             ko.applyBindings(vm, $("content").get(0));
         }
     }

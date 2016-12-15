@@ -73,13 +73,6 @@
 
         this.beforePost = function (elem) {
             $(elem).find("#StartDateHidden").val(moment(this.startDate()).utc().format());
-
-            $("<input>").attr({
-                type: 'hidden',
-                name: 'queryName',
-                value: this.queryName
-            }).appendTo($(elem));
-
             return true;
         }
 
@@ -110,10 +103,9 @@
             });
         }
 
-        this.init = function (queryName) {
+        this.init = function () {
             this.properties.push(new PropertiesEditItem("", "", false));
             this.tags.push(new TagsEditItem("", "", false));
-            this.queryName = queryName;
             IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.tag }, self.cachetagList);
             IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.desiredProperty }, self.cachepropertyList);
         }
@@ -121,8 +113,8 @@
 
     var vm = new viewModel();
     return {
-        init: function (queryName) {
-            vm.init(queryName);
+        init: function () {
+            vm.init();
             ko.applyBindings(vm, $("content").get(0));
         }
     }
