@@ -20,7 +20,6 @@
         defaultClauses: [],
         recordsFiltered: ko.observable(0),
         recordsTotal: ko.observable(0),
-        lookupBox: ko.observable(null),
         saveAsName: ko.observable(null),
         checkedClauses: ko.pureComputed(function () {
             return self.model.clauses().filter(function (clause) {
@@ -83,7 +82,7 @@
         },
         lookupBoxKeypress: function (data, e){
             if (e.keyCode === 13) {
-                var name = self.model.lookupBox();
+                var name = $(e.target).val();
                 var filterId;
                 self.model.filterNameList().forEach(function (item) {
                     if (item.name === name) {
@@ -91,9 +90,11 @@
                         return false;
                     }
                 });
+                
                 self.model.loadFilter(filterId, true);
-                return false;
             }
+           
+            return true;
         },
         loadFilters: function() {
             api.getFilters(function (data) {

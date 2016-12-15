@@ -34,6 +34,10 @@
             position: options.position 
         }).focus(function () {
             $(this).autocomplete("search", $(this).val());
+        }).keypress(function(e){ 
+            if (e.keyCode == '13'){
+                $(this).autocomplete('close');
+            }
         });
 
         if (data) {
