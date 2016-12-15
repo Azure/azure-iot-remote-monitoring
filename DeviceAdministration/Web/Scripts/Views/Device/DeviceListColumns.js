@@ -113,48 +113,51 @@
 
     var addColumn = function () {
         var columnName = $('.name_selector__text').val();
-        if (self.model.columns().filter(function (column) { return column.name === columnName }).length === 0) {
-            self.model.columns.push({
-                name: columnName,
-                alias: createDefaultDisplayName(columnName)
-            });
-        }
+        if (columnName) {
+            if (self.model.columns().filter(function (column) { return column.name === columnName }).length === 0) {
+                self.model.columns.push({
+                    name: columnName,
+                    alias: createDefaultDisplayName(columnName)
+                });
+            }
 
-        $('.name_selector__text').val('');
-        applyFilters();
+            $('.name_selector__text').val('');
+            applyFilters();
+        }
     };
 
     var applyFilters = function () {
         var filters = self.model.columns().map(function (column) {
             return column.name;
-        });
+    });
 
-        IoTApp.Controls.NameSelector.applyFilters($('.name_selector__text'), filters);
+    IoTApp.Controls.NameSelector.applyFilters($('.name_selector__text'), filters);
     };
 
     var createDefaultDisplayName = function (columnName) {
         var parts = columnName.split('.');
 
-        return parts[parts.length - 1];
+        return parts[parts.length -1];
     };
 
     var updateColumns = function (saveAsGlobal) {
         $('#loadingElement').show();
-        var url = '/api/v1/deviceListColumns?saveAsGlobal=' + saveAsGlobal;
+        var url = '/api/v1/deviceListColumns?saveAsGlobal=' +saveAsGlobal;
         $.ajax({
             url: url,
-            data: { '': self.model.columns() },
+                    data: { '': self.model.columns()
+        },
             type: 'PUT',
-            success: function (result) {
+                success: function (result) {
                 $('#loadingElement').hide();
                 close();
                 IoTApp.DeviceIndex.reinitializeDeviceList();
-            },
-            error: function () {
+        },
+                error: function () {
                 $('#loadingElement').hide();
                 IoTApp.Helpers.Dialog.displayError(resources.failedToUpdateColumns);
-            }
-        });
+    }
+    });
     };
 
     var close = function () {
@@ -163,8 +166,8 @@
 
     return {
         init: getDeviceListColumnsView,
-        setColumns: setColumns,
+    setColumns: setColumns,
         updateColumns: updateColumns,
-        close: close
+    close: close
     }
 }, [jQuery, resources]);
