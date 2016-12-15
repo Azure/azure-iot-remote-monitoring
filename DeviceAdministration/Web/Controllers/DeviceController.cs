@@ -433,7 +433,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
             catch
             {
-                return string.Empty;
+                return $"[{job.JobId}]";
             }
         }
     }
