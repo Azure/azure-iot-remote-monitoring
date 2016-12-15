@@ -97,21 +97,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns>The full SQL query</returns>
         public string GetSQLQuery()
         {
+            string queryWithoutCondition = "SELECT * FROM devices";
+
             if (IsAdvanced)
             {
-                return $"SELECT * FROM devices WHERE {AdvancedClause}";
+                if(!string.IsNullOrWhiteSpace(AdvancedClause))
+                {
+                    return $"{queryWithoutCondition} WHERE {AdvancedClause}";
+                }
             }
             else
             {
-                var condition = GetSQLCondition();
-
-                string filterQuery = "SELECT * FROM devices";
+                string condition = GetSQLCondition();
                 if (!string.IsNullOrWhiteSpace(condition))
                 {
-                    filterQuery = $"{filterQuery} WHERE {condition}";
+                    return $"{queryWithoutCondition} WHERE {condition}";
                 }
-                return filterQuery;
             }
+
+            return queryWithoutCondition;
         }
 
         /// <summary>
