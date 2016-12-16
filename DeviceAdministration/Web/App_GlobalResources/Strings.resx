@@ -2272,4 +2272,8 @@
     <value>Are you sure you want to delete this filter?</value>
     <comment>Confirmation message.</comment>
   </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+    <comment>Tooltip.</comment>
+  </data>
 </root>

@@ -39,6 +39,7 @@
                     (<span class="device_list_toolbar_number" data-bind="text: filteredInfo"></span>)
                 </div>
                 <div class="device_list_toolbar_buttons">
+                    <img src="/Content/img/refresh.svg" title="@Strings.Refresh" class="device_list_toolbar_button" onclick="IoTApp.DeviceIndex.reloadGrid()" />
                     <img id="btnOpen" src="/Content/img/open_query.svg" title="@Strings.OpenSavedFilter" class="device_list_toolbar_button" data-bind="openFilterPopover: { template: '#openfilterContent', filterNameList: filterNameList }"/>
                     <img src="/Content/img/edit_filter.svg" title="@Strings.EditFilter" class="device_list_toolbar_button" data-bind="click: showPanel" />
                     <!--ko if: isFilterLoaded() -->

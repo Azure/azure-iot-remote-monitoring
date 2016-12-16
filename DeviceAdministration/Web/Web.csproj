@@ -394,6 +394,7 @@
     <Content Include="Content\img\icon_jasper.svg" />
     <Content Include="Content\img\icon_jobs.svg" />
     <Content Include="Content\img\open_query.svg" />
+    <Content Include="Content\img\refresh.svg" />
     <Content Include="Content\img\save.svg" />
     <Content Include="Content\img\saveas.svg" />
     <Content Include="Content\img\search.svg" />

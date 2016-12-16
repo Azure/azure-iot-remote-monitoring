@@ -295,10 +295,9 @@
         /* DataTables workaround - reset progress animation display for use with DataTables api */
         self.dataTableContainer.on('processing.dt', function (e, settings, processing) {
             if (processing) {
-                $('#dataLoading').show();
+                $('.loader_container').show();
             }
             else {
-                $('#dataLoading').hide();
                 $('.loader_container').hide();
             }
             _setGridContainerScrollPositionIfRowIsSelected();
@@ -392,8 +391,11 @@
     }
 
     function setupRefreshTimeout() {
-        clearRefeshTimeout();
-        self.refreshTimeout = setTimeout(reloadGrid, 10000, true);
+        // Disable auto refresh feature for now. Can be enable when the detail panel can be refreshed in client side
+        if (self.autoRefresh) {
+            clearRefeshTimeout();
+            self.refreshTimeout = setTimeout(reloadGrid, 10000, true);
+        }
     }
 
     function clearRefeshTimeout() {

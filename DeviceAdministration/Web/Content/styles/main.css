@@ -504,6 +504,7 @@ nav .selected {
   background-color: white;
 }
 .loader_container_small {
+  display: none;
   width: 20px;
   height: 20px;
   margin: 12px 0px 0px 8px;
@@ -1727,8 +1728,9 @@ table#alertHistoryTable tr.selectedAlert {
 .grid_detail_value_with_link {
   margin-bottom: 0;
 }
-.job_result_loader {
+.job_list_toolbar {
   margin-top: 12px;
+  margin-left: 10px;
   float: left;
 }
 .content_outer--select_device {

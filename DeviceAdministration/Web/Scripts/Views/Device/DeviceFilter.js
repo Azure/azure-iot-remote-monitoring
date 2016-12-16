@@ -124,7 +124,6 @@
         },
         loadFilter: function (filterId, execute, callback) {
             $('#btnOpen').popover('hide');
-            $('#dataLoading').show();
             if (filterId && filterId !== resources.allDevices) {
                 api.findFilter(filterId, function (filter) {
                     if (filter) {
@@ -134,9 +133,6 @@
                         if (execute) {
                             IoTApp.DeviceIndex.reloadGrid();
                         }
-                    }
-                    else {
-                        $('#dataLoading').hide();
                     }
 
                     if ($.isFunction(callback)) {

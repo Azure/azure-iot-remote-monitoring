@@ -39,6 +39,10 @@
                 <tbody></tbody>
 
             </table>
+            <script type="text/html" id="toolbarTemplate">
+                <img src="/Content/img/refresh.svg" title="@Strings.Refresh" class="device_list_toolbar_button" onclick="IoTApp.JobIndex.reloadGrid()" />
+                <div id="dataLoading" class="loader_container_small"><div class="loader_container_small__loader"></div></div>
+            </script>
         </div>
 
         <div class="details_grid_closed height_fixed button_details_grid">

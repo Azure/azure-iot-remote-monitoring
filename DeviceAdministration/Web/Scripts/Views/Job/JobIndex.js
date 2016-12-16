@@ -95,7 +95,7 @@
             "lengthChange": false,
             "processing": false,
             "serverSide": false,
-            "dom": "<'dataTables_header'i<'#loader_area.job_result_loader'>p>lrt?",
+            "dom": "<'dataTables_header'i<'#toolbar_area.job_list_toolbar'>p>lrt?",
             "ajax": onDataTableAjaxCalled,
             "language": {
                 "info": resources.jobsList + " (_TOTAL_)",
@@ -177,7 +177,7 @@
             "order": [[4, "desc"]]
         });
 
-        $('#loader_area').append('<div id="dataLoading" class="loader_container_small"><div class="loader_container_small__loader"></div></div>');
+        $('#toolbar_area').html($('#toolbarTemplate').html());
 
         self.dataTableContainer.on("draw.dt", onTableDrawn);
         self.dataTableContainer.on("error.dt", function (e, settings, techNote, message) {
@@ -187,14 +187,12 @@
         self.dataTableContainer.find("tbody").delegate("tr", "click", onTableRowClicked);
 
         /* DataTables workaround - reset progress animation display for use with DataTables api */
-        $('.loader_container').css('display', 'block');
-        $('.loader_container').css('background-color', '#ffffff');
+        $('.loader_container').show();
         self.dataTableContainer.on('processing.dt', function (e, settings, processing) {
             if (processing) {
-                $('#dataLoading').show();
+                $('.loader_container').show();
             }
             else {
-                $('#dataLoading').hide();
                 $('.loader_container').hide();
             }
             _setGridContainerScrollPositionIfRowIsSelected();
@@ -258,8 +256,11 @@
     }
 
     function setupRefreshTimeout() {
-        clearRefeshTimeout();
-        self.refreshTimeout = setTimeout(reloadGrid, 10000, true);
+        // Disable auto refresh feature for now. Can be enable when the detail panel can be refreshed in client side
+        if (self.autoRefresh) {
+            clearRefeshTimeout();
+            self.refreshTimeout = setTimeout(reloadGrid, 10000, true);
+        }
     }
 
     function clearRefeshTimeout() {
