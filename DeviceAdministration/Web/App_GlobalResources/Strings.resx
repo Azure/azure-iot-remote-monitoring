@@ -2264,4 +2264,12 @@
     <value>Failed to update twin properties, please check input value.</value>
     <comment>Error message</comment>
   </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
+    <comment>Dialog title.</comment>
+  </data>
+  <data name="DeleteFilterConfirmation" xml:space="preserve">
+    <value>Are you sure you want to delete this filter?</value>
+    <comment>Confirmation message.</comment>
+  </data>
 </root>

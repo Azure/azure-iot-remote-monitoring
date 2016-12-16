@@ -181,11 +181,15 @@
 
         },
         deleteFilter: function () {
-            api.deleteFilter(self.model.id(), function () {
-                self.model.loadFilters();
-                self.model.resetState();
-                IoTApp.DeviceIndex.reloadGrid();
-            });
+            if (IoTApp.Helpers.Dialog.confirm(resources.deleteFilterConfirmation, function (result) {
+                if (result) {
+                    api.deleteFilter(self.model.id(), function () {
+                        self.model.loadFilters();
+                        self.model.resetState();
+                        IoTApp.DeviceIndex.reloadGrid();
+                    });
+                }
+            }));
         },
         setFilter: function (filter, isLoadedFromServer) {
             if (filter) {

@@ -1,6 +1,11 @@
 ﻿@using GlobalResources
-<div style="display:none" id="dialog-error">
+<div style="display:none" id="dialog-error" data-resource-ok="@Strings.Ok" data-resource-title="@Strings.Error">
     <div>
-        <span id="dialog_error_text" data-resource-ok="@Strings.Ok" data-resource-error="@Strings.Error"></span>
+        <span></span>
+    </div>
+</div>
+<div style="display:none" id="dialog-confirm" data-resource-ok="@Strings.Ok" data-resource-cancel="@Strings.Cancel" data-resource-title="@Strings.Confirmation">
+    <div>
+        <span></span>
     </div>
 </div>

@@ -800,6 +800,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirmation.
+        /// </summary>
+        public static string Confirmation {
+            get {
+                return ResourceManager.GetString("Confirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm or customize the device metadata.
         /// </summary>
         public static string ConfirmOrCustomizeTheMetadata {
@@ -1003,6 +1012,15 @@ namespace GlobalResources {
         public static string DeleteFilter {
             get {
                 return ResourceManager.GetString("DeleteFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this filter?.
+        /// </summary>
+        public static string DeleteFilterConfirmation {
+            get {
+                return ResourceManager.GetString("DeleteFilterConfirmation", resourceCulture);
             }
         }
         
