@@ -175,7 +175,6 @@
     <Compile Include="Exceptions\JobNotFoundException.cs" />
     <Compile Include="Exceptions\JobRepositoryRemoveException.cs" />
     <Compile Include="Exceptions\JobRepositorySaveException.cs" />
-    <Compile Include="Exceptions\FilterAssociatedWithJobException.cs" />
     <Compile Include="Exceptions\FilterNotFoundException.cs" />
     <Compile Include="Exceptions\UnsupportedCommandException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />

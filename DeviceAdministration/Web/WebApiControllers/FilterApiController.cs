@@ -35,6 +35,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         //api/v1/filters/{filterId}
         public async Task<HttpResponseMessage> GetFilter(string filterId)
         {
+            ValidateArgumentNotNullOrWhitespace("filterId", filterId);
+
             return await GetServiceResponseAsync<Filter>(async () =>
             {
                 return await _filterLogic.GetFilterAsync(filterId);
@@ -53,13 +55,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
         
         [HttpDelete]
-        [Route("{filterId}")]
+        [Route("{filterId}/{force}")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> DeleteFilter(string filterId)
+        public async Task<HttpResponseMessage> DeleteFilter(string filterId, bool force = false)
         {
+            ValidateArgumentNotNullOrWhitespace("filterId", filterId);
+
             return await GetServiceResponseAsync<bool>(async () =>
             {
-                return await _filterLogic.DeleteFilterAsync(filterId);
+                return await _filterLogic.DeleteFilterAsync(filterId, force);
             });
         }
 

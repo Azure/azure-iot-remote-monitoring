@@ -1,11 +1,11 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Moq;
 using Ploeh.AutoFixture;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infrastructure
@@ -64,11 +64,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         public async void GetFilterAsyncTests()
         {
             var filter = new Mock<DeviceListFilter>();
-            _deviceListFilterRepositoryMock.Setup(x => x.GetFilterAsync(It.IsAny<string>())).ReturnsAsync(filter.Object);
-            var ret = await _filterLogic.GetFilterAsync("filterId");
-            Assert.NotNull(ret);
+            var jobs = fixture.CreateMany<JobRepositoryModel>();
             _deviceListFilterRepositoryMock.Setup(x => x.GetFilterAsync(It.IsAny<string>())).ReturnsAsync(null);
             await Assert.ThrowsAsync<FilterNotFoundException>(async () => await _filterLogic.GetFilterAsync("filterId"));
+            _deviceListFilterRepositoryMock.Setup(x => x.GetFilterAsync(It.IsAny<string>())).ReturnsAsync(filter.Object);
+            _jobRepositoryMock.Setup(x => x.QueryByFilterIdAsync(It.IsNotNull<string>())).ReturnsAsync(jobs);
+            var ret = await _filterLogic.GetFilterAsync("filterId");
+            Assert.NotNull(ret);
+            Assert.Equal(ret.AssociatedJobsCount, jobs.Count());
         }
 
         [Fact]
@@ -105,10 +108,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         {
             var jobs = fixture.CreateMany<JobRepositoryModel>(3);
             _deviceListFilterRepositoryMock.Setup(x => x.DeleteFilterAsync(It.IsAny<string>())).ReturnsAsync(true);
-            var ret = await _filterLogic.DeleteFilterAsync("myFilter");
+            var ret = await _filterLogic.DeleteFilterAsync("myFilter", true);
             Assert.True(ret);
             _jobRepositoryMock.Setup(x => x.QueryByFilterIdAsync(It.IsAny<string>())).ReturnsAsync(jobs);
-            await Assert.ThrowsAnyAsync<FilterAssociatedWithJobException>(async () => await _filterLogic.DeleteFilterAsync("myFilter"));
+            ret = await _filterLogic.DeleteFilterAsync("myFilter", false);
+            Assert.False(ret);
         }
 
         [Fact]

@@ -10,7 +10,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<IEnumerable<Filter>> GetRecentFiltersAsync(int max);
         Task<Filter> GetFilterAsync(string filterId);
         Task<string> GetAvailableFilterNameAsync(string filterName);
-        Task<bool> DeleteFilterAsync(string filterId);
+        Task<bool> DeleteFilterAsync(string filterId, bool force);
         string GenerateAdvancedClause(IEnumerable<Clause> filters);
         Task<IEnumerable<Filter>> GetFilterList(int skip, int take);
         Task<IEnumerable<Clause>> GetSuggestClauses(int skip, int take);

@@ -221,7 +221,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             _filterTableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListFilterTableEntity>>()))
                 .ReturnsAsync(new List<DeviceListFilterTableEntity>());
             ret = await deviceListFilterRepository.DeleteFilterAsync(filter.Id);
-            Assert.False(ret);
+            Assert.True(ret);
         }
 
         [Fact]

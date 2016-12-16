@@ -53,7 +53,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.We
         [Fact]
         public async void DeleteFilterTest()
         {
-            logicMock.Setup(x => x.DeleteFilterAsync(It.IsAny<string>())).ReturnsAsync(true);
+            logicMock.Setup(x => x.DeleteFilterAsync(It.IsAny<string>(), It.IsAny<bool>())).ReturnsAsync(true);
             var result = await controller.DeleteFilter("myFilter");
             result.AssertOnError();
         }

@@ -120,7 +120,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public async Task<bool> DeleteFilterAsync(string id)
         {
             var filter = await GetFilterAsync(id);
-            if (filter == null) return false;
+            // if the filter doesn't exist, return true idempotently just behave as it has been deleted successfully.
+            if (filter == null) return true;
 
             DeviceListFilterTableEntity entity = new DeviceListFilterTableEntity(id, filter.Name);
             entity.ETag = "*";
