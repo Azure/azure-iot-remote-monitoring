@@ -381,12 +381,8 @@ table.dataTable {
     border-collapse:collapse;
     }
 
-table.dataTable tbody tr:hover {
+table.dataTable tbody tr:hover:not(.selected) {
     background-color: #f9f9f9; 
-    }
-
-table.dataTable tbody tr.selected {
-    background-color :#f9f9f9; 
     }
 
 #deviceTable thead td.sorting_asc {
