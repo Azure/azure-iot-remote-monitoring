@@ -49,7 +49,6 @@
                             @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label primary__label" });
                             @Html.TextBoxFor(m => m.JobName, new { placeholder = Strings.ScheduleJobNamePlaceHolder, data_bind = "value: jobName", @class = "edit_form__text" });
                             @Html.HiddenFor(m => m.FilterId)
-                            @Html.HiddenFor(m => m.FilterName)
                             <div style="clear:both"></div>
 
                             @Html.LabelFor(m => m.MethodName, Strings.InvokeMethodLabel, new { @class = "edit_form__label primary__label" });
@@ -130,7 +129,7 @@
 <script type="text/javascript" src="~/Scripts/Views/Job/ScheduleDeviceMethod.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        IoTApp.ScheduleDeviceMethod.init("@Model.FilterName");
+        IoTApp.ScheduleDeviceMethod.init();
     });
 
 </script>

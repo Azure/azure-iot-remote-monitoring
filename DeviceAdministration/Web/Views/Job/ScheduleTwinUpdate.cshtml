@@ -49,7 +49,6 @@
                             @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label primary__label" });
                             @Html.TextBoxFor(m => m.JobName, new { placeholder = Strings.ScheduleJobNamePlaceHolder, data_bind = "value: jobName", @class = "edit_form__text" });
                             @Html.HiddenFor(m => m.FilterId)
-                            @Html.HiddenFor(m => m.FilterName)
                             <div style="clear:both"></div>
                             <label for="propertiesTable" class="edit_form__label primary__label">@Strings.ScheduleChangeDesiredProperties</label>
                             <table class="values_editor" id="propertiesTable">
@@ -155,7 +154,7 @@
 <script type="text/javascript" src="~/Scripts/Views/Job/ScheduleTwinUpdate.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        IoTApp.ScheduleTwinUpdate.init("@Model.FilterName");
+        IoTApp.ScheduleTwinUpdate.init();
     });
 
 </script>
