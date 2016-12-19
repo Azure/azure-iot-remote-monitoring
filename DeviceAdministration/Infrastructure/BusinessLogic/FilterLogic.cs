@@ -48,7 +48,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var filter = await _filterRepository.GetFilterAsync(filterId);
             if (filter == null) throw new FilterNotFoundException(filterId);
-            return new Filter(filter);
+            var jobs = await _jobRepository.QueryByFilterIdAsync(filterId);
+            return new Filter(filter) { AssociatedJobsCount = jobs.Count() };
         }
 
         public async Task<string> GetAvailableFilterNameAsync(string filterName = "MyNewFilter")
@@ -69,13 +70,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return new DeviceListFilter { Clauses = clauses?.ToList() }.GetSQLCondition();
         }
 
-        public async Task<bool> DeleteFilterAsync(string filterId)
+        public async Task<bool> DeleteFilterAsync(string filterId, bool force = false)
         {
-            var jobs = await _jobRepository.QueryByFilterIdAsync(filterId);
-            if (jobs.Any())
+            var associatedJobs = (await _jobRepository.QueryByFilterIdAsync(filterId)).ToList();
+            if (associatedJobs.Any())
             {
-                throw new FilterAssociatedWithJobException(filterId, jobs.Select(j => j.JobName).Distinct().Take(3));
+                if (force)
+                {
+                    associatedJobs.ForEach(j => j.FilterName = string.Empty);
+                    _jobRepository.UpdateAssociatedFilterNameAsync(associatedJobs);
+                }
+                else
+                {
+                    return false;
+                }
             }
+
             return await _filterRepository.DeleteFilterAsync(filterId);
         }
 

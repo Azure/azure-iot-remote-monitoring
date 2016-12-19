@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
@@ -125,6 +126,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var model = await _repository.QueryByJobIDAsync(jobId);
 
             Assert.True(IsModelCreatedByEntity(model, entity));
+        }
+
+        [Fact]
+        public async Task UpdateAssociatedFilterNameAsyncTest()
+        {
+            var job = _fixture.Create<JobTableEntity>();
+            var jobs = new List<JobRepositoryModel>()
+            {
+                new JobRepositoryModel(job)
+            };
+            _tableStorageClientMock.Setup(x => x.ExecuteAsync(It.IsAny<TableOperation>())).ReturnsAsync(new TableResult() { Result = job });
+            var ret = await _repository.UpdateAssociatedFilterNameAsync(jobs);
+            Assert.NotNull(ret);
+            Assert.Equal(jobs.Select(j => j.FilterName), ret.Select(r => r.FilterName));
         }
 
         [Fact]

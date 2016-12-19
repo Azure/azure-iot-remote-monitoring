@@ -27,5 +27,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public bool IsTemporary { get; set; }
 
         public bool IsAdvanced { get; set; }
+
+        public int AssociatedJobsCount { get; set; }
     }
 }
