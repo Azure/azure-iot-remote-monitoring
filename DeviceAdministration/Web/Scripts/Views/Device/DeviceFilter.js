@@ -9,6 +9,7 @@
         isAdvanced: ko.observable(false),
         advancedClause: ko.observable(null),
         clauses: ko.observableArray([]),
+        associatedJobsCount:ko.observable(0),
 
         isFilterLoaded: ko.observable(false),
         isFilterLoadedFromServer: ko.observable(false),
@@ -117,6 +118,7 @@
             self.model.name(resources.allDevices);
             self.model.isAdvanced(false);
             self.model.advancedClause(null);
+            self.model.associatedJobsCount(0);
             self.model.clauses.removeAll();
             self.model.isFilterLoaded(false);
             self.model.isFilterLoadedFromServer(false);
@@ -176,13 +178,28 @@
             })
 
         },
-        deleteFilter: function () {
-            if (IoTApp.Helpers.Dialog.confirm(resources.deleteFilterConfirmation, function (result) {
+        deleteFilter: function (data, e, forceDelete) {
+            if (self.model.associatedJobsCount()) {
+                forceDelete = true;
+            }
+
+            var confirmMessage = forceDelete ? resources.deleteFilterWithJobsConfirmation : resources.deleteFilterConfirmation;
+
+            if (IoTApp.Helpers.Dialog.confirm(confirmMessage, function (result) {
                 if (result) {
-                    api.deleteFilter(self.model.id(), function () {
-                        self.model.loadFilters();
-                        self.model.resetState();
-                        IoTApp.DeviceIndex.reloadGrid();
+                    api.deleteFilter(self.model.id(), forceDelete, function (isDeleted) {
+                        if (isDeleted) {
+                            self.model.loadFilters();
+                            self.model.resetState();
+                            IoTApp.DeviceIndex.reloadGrid();
+                        }
+                        else if (!forceDelete) {
+                            // Try again with force delete flag.
+                            self.model.deleteFilter(data, e, true);
+                        }
+                        else {
+                            IoTApp.Helpers.Dialog.displayError(resources.failedToDeleteFilter);
+                        }
                     });
                 }
             }));
@@ -196,6 +213,7 @@
                 self.model.name(filter.name);
                 self.model.isAdvanced(filter.isAdvanced);
                 self.model.advancedClause(filter.advancedClause);
+                self.model.associatedJobsCount(filter.associatedJobsCount);
                 self.model.viewSelectedClausesOnly(false);
                 self.model.clauses.removeAll();
                 self.model.defaultClauses.forEach(function (item) {
@@ -230,7 +248,8 @@
                     name: name,
                     clauses: [],
                     isAdvanced: false,
-                    advancedClause: ""
+                    advancedClause: "",
+                    associatedJobsCount: 0
                 });
                 self.model.isChanged(true);
             });
@@ -443,8 +462,8 @@
                 }
             });
         },
-        deleteFilter: function (filterId, callback) {
-            var url = "/api/v1/filters/" + filterId;
+        deleteFilter: function (filterId, forceDelete, callback) {
+            var url = "/api/v1/filters/" + filterId + "/" + forceDelete;
             return $.ajax({
                 url: url,
                 type: 'DELETE',

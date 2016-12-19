@@ -1025,6 +1025,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This filter is associated with jobs. Are you sure you want to delete this filter?.
+        /// </summary>
+        public static string DeleteFilterWithJobsConfirmation {
+            get {
+                return ResourceManager.GetString("DeleteFilterWithJobsConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Desired Properties.
         /// </summary>
         public static string DesiredProperties {
@@ -1700,7 +1709,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete this filter because it is associated with jobs..
+        ///   Looks up a localized string similar to Failed to delete this filter..
         /// </summary>
         public static string FailedToDeleteFilter {
             get {
