@@ -14,7 +14,7 @@
     <section class="details_grid_actions">
 
         <p class="grid_detail_value">
-            @Html.ActionLink(Strings.CloneJobAction, "ScheduleJob", "Job", new { jobId = Model.JobId }, new { id = "queryLink" })
+            @Html.ActionLink(Strings.CloneJobAction, "CloneJob", "Job", new { jobId = Model.JobId }, new { id = "queryLink" })
         </p>
 
         @if (Model.Status == JobStatus.Scheduled || Model.Status == JobStatus.Enqueued || Model.Status == JobStatus.Queued)

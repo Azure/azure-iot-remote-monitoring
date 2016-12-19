@@ -12,6 +12,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public string JobName { get; set; }
 
+        public string MethodName { get; set; }
+
         public JobTableEntity()
         {
         }
@@ -22,6 +24,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             RowKey = FilterId = job.FilterId;
             JobName = job.JobName;
             FilterName = job.FilterName;
+            MethodName = job.MethodName;
         }
     }
 }

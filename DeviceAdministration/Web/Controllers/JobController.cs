@@ -12,6 +12,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Mode
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -96,6 +97,56 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.ManageJobs)]
+        public async Task<ActionResult> CloneJob(string jobId)
+        {
+            var jobResponse = await _iotHubDeviceManager.GetJobResponseByJobIdAsync(jobId);
+            var job = await _jobRepository.QueryByJobIDAsync(jobId);
+            switch (jobResponse.Type)
+            {
+                case JobType.ScheduleUpdateTwin:
+                    var twin = jobResponse.UpdateTwin;
+                    return View("ScheduleTwinUpdate", new ScheduleTwinUpdateModel
+                    {
+                        FilterId = job.FilterId,
+                        FilterName = job.FilterName,
+                        JobName = job.JobName,
+                        DesiredProperties = twin.Properties.Desired.AsEnumerableFlatten().Select(p => {
+                            return new DesiredPropetiesEditViewModel
+                            {
+                                PropertyName = p.Key,
+                                PropertyValue = p.Value.Value.ToString(),
+                            };
+                        }).ToList(),
+                        Tags = twin.Tags.AsEnumerableFlatten().Select(t =>
+                        {
+                            return new TagsEditViewModel
+                            {
+                                TagName = t.Key,
+                                TagValue = t.Value.Value.ToString(),
+                            };
+                        }).ToList(),
+                    });
+                case JobType.ScheduleDeviceMethod:
+                    var parameters = JsonConvert.DeserializeObject<Dictionary<string,string>>(jobResponse.CloudToDeviceMethod.GetPayloadAsJson());
+                    return View("ScheduleDeviceMethod", new ScheduleDeviceMethodModel
+                    {
+                        FilterId = job.FilterId,
+                        FilterName = job.FilterName,
+                        JobName = job.JobName,
+                        MethodName = job.MethodName,
+                        Parameters = parameters.Select(pair => new MethodParameterEditViewModel
+                        {
+                            ParameterName = pair.Key,
+                            ParameterValue = pair.Value,
+                        }).ToList(),
+                        MaxExecutionTimeInMinutes = (int)jobResponse.MaxExecutionTimeInSeconds/60,
+                    });
+                default:
+                    return await ScheduleJob(job.FilterId);
+            }
+        }
+
+        [RequirePermission(Permission.ManageJobs)]
         public async Task<ActionResult> ScheduleTwinUpdate(string filterId)
         {
             var deviceListFilter = await GetFilterById(filterId);
@@ -132,7 +183,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 model.StartDateUtc,
                 model.MaxExecutionTimeInMinutes * 60);
 
-            await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, deviceListFilter.Name));
+            await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, deviceListFilter.Name, null));
 
             return Redirect("/Job/Index");
         }
@@ -162,7 +213,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             var jobId = await _iotHubDeviceManager.ScheduleDeviceMethod(queryCondition, methodName, payload, model.StartDateUtc, model.MaxExecutionTimeInMinutes * 60);
 
-            await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, deviceListFilter.Name));
+            await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, deviceListFilter.Name, model.MethodName));
 
             return Redirect("/Job/Index");
         }

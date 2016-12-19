@@ -103,9 +103,32 @@
             });
         }
 
-        this.init = function () {
-            this.properties.push(new PropertiesEditItem("", "", false));
-            this.tags.push(new TagsEditItem("", "", false));
+        this.init = function (data) {
+            if (data) {
+                self.jobName(data.JobName);
+                self.maxExecutionTime(data.MaxExecutionTimeInMinutes);
+
+                if (!data.DesiredProperties || data.DesiredProperties.length == 0) {
+                    self.properties.push(new PropertiesEditItem("", "", false));
+                } else {
+                    self.properties($.map(data.DesiredProperties, function (p) {
+                        return new PropertiesEditItem(p.PropertyName, p.PropertyValue, false );
+                    }));
+                }
+
+                if (!data.Tags || data.Tags.length == 0) {
+                    self.tags.push(new TagsEditItem("", "", false));
+                } else {
+                    self.tags($.map(data.Tags, function (t) {
+                        return new TagsEditItem(t.TagName, t.TagValue, false);
+                    }));
+                }
+            }
+            else {
+                self.properties.push(new PropertiesEditItem("", "", false));
+                self.tags.push(new TagsEditItem("", "", false));
+            }
+
             IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.tag }, self.cachetagList);
             IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.desiredProperty }, self.cachepropertyList);
         }
@@ -113,8 +136,8 @@
 
     var vm = new viewModel();
     return {
-        init: function () {
-            vm.init();
+        init: function (data) {
+            vm.init(data);
             ko.applyBindings(vm, $("content").get(0));
         }
     }

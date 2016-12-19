@@ -1,8 +1,5 @@
-﻿@using System.Globalization
-@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
-@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
-@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
-@using GlobalResources
+﻿@using GlobalResources
+@using Newtonsoft.Json;
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.ScheduleTwinUpdateModel
 
 @{
@@ -154,7 +151,7 @@
 <script type="text/javascript" src="~/Scripts/Views/Job/ScheduleTwinUpdate.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        IoTApp.ScheduleTwinUpdate.init();
+        IoTApp.ScheduleTwinUpdate.init(@Html.Raw(JsonConvert.SerializeObject(Model)));
     });
 
 </script>
