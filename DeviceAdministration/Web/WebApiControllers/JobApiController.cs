@@ -86,8 +86,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             try
             {
                 var model = await _jobRepository.QueryByJobIDAsync(job.JobId);
-                string filterName = model.FilterName ?? (job.QueryCondition ?? Strings.NotApplicableValue);
                 string filterId = model.FilterId;
+                string filterName = model.FilterName;
+                if (string.IsNullOrEmpty(filterName))
+                {
+                    filterName = job.QueryCondition ?? Strings.NotApplicableValue;
+                }
                 if (filterName == "*" || DeviceListFilterRepository.DefaultDeviceListFilter.Id.Equals(filterId))
                 {
                     filterName = Strings.AllDevices;
