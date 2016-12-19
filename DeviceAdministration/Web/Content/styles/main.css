@@ -1173,7 +1173,7 @@ table#alertHistoryTable tr.selectedAlert {
   font-size: 1.2em;
   font-weight: 700;
   padding-top: 0.3em;
-  width: calc(100% - 2em);
+  width: calc(100% - 19em);
 }
 .device_list_toolbar_title {
   float: left;
@@ -1191,7 +1191,7 @@ table#alertHistoryTable tr.selectedAlert {
 .device_list_clauses {
   clear: both;
   overflow: hidden;
-  width: calc(100% - 200px);
+  width: 100%;
 }
 .device_list_clause {
   display: block;
@@ -1227,8 +1227,8 @@ table#alertHistoryTable tr.selectedAlert {
   line-height: 18px;
 }
 .device_list_button_area {
-  position: absolute;
-  right: 10px;
+  float: right;
+  margin-right: 10px;
 }
 .filter_panel_container {
   display: none;
@@ -1615,6 +1615,29 @@ table#alertHistoryTable tr.selectedAlert {
   text-align: center;
   vertical-align: middle;
   margin-left: 5px;
+}
+.button_with_icon {
+  float: left;
+  width: 1.8em;
+  text-align: center;
+  margin: 0.2em 0.4em -0.6em -0.5em;
+  pointer-events: none;
+}
+.device_list_button_edit_column:before {
+  float: left;
+  width: 1.8em;
+  text-align: center;
+  margin: 0.2em 0.4em -0.6em -0.5em;
+  pointer-events: none;
+  content: url('/Content/img/edit_columns.svg');
+}
+.device_list_button_schedule_job:before {
+  float: left;
+  width: 1.8em;
+  text-align: center;
+  margin: 0.2em 0.4em -0.6em -0.5em;
+  pointer-events: none;
+  content: url('/Content/img/schedule_job.svg');
 }
 .grid_rules_details {
   overflow: auto;

@@ -146,3 +146,21 @@
     vertical-align: middle;
     margin-left:5px
 }
+
+.button_with_icon {
+    float: left;
+    width: 1.8em;
+    text-align: center;
+    margin: 0.2em 0.4em -0.6em -0.5em;
+    pointer-events: none;
+}
+
+.device_list_button_edit_column:before {
+    .button_with_icon;
+    content: url('/Content/img/edit_columns.svg');
+}
+
+.device_list_button_schedule_job:before {
+    .button_with_icon;
+    content: url('/Content/img/schedule_job.svg');
+}

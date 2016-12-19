@@ -385,6 +385,7 @@
     <Content Include="Content\img\column_down.svg" />
     <Content Include="Content\img\column_up.svg" />
     <Content Include="Content\img\delete.svg" />
+    <Content Include="Content\img\edit_columns.svg" />
     <Content Include="Content\img\edit_filter.svg" />
     <Content Include="Content\img\edit_name.svg" />
     <Content Include="Content\img\expanded.svg" />
@@ -397,6 +398,7 @@
     <Content Include="Content\img\refresh.svg" />
     <Content Include="Content\img\save.svg" />
     <Content Include="Content\img\saveas.svg" />
+    <Content Include="Content\img\schedule_job.svg" />
     <Content Include="Content\img\search.svg" />
     <Content Include="Content\styles\datatables.css" />
     <Content Include="Content\favicon.ico" />

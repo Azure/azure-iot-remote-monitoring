@@ -264,7 +264,7 @@
         
         $('<button/>', {
             id: 'editColumnsButton',
-            "class": 'button_base devicelist_toolbar_button devicelist_toolbar_button_gray',
+            "class": 'button_base devicelist_toolbar_button devicelist_toolbar_button_gray device_list_button_edit_column',
             text: resources.editColumns,
             click: function () {
                 unselectAllRows();
@@ -275,7 +275,7 @@
 
         $('<button/>', {
             id: 'scheduleJobButton',
-            "class": 'button_base devicelist_toolbar_button devicelist_toolbar_button_gray',
+            "class": 'button_base devicelist_toolbar_button devicelist_toolbar_button_gray device_list_button_schedule_job',
             text: resources.scheduleJob,
             click: function () {
                 unselectAllRows();
