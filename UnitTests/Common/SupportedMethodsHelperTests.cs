@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
+using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
@@ -58,7 +59,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
 
             SupportedMethodsHelper.AddSupportedMethodsFromReportedProperty(device, twin);
             Assert.Equal(supportedMethods.Count - 2, device.Commands.Count);
-            foreach(var command in device.Commands)
+            foreach (var command in device.Commands)
             {
                 var srcCommand = commands.FirstOrDefault(c => c.Name == command.Name);
                 Assert.Equal(command.Name, srcCommand.Name);

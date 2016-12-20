@@ -1,6 +1,7 @@
-﻿using GlobalResources;
-using System;
+﻿using System;
+using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Extensions;
+using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 

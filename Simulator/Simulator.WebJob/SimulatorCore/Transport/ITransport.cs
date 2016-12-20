@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Client;
+using Microsoft.Azure.Devices.Shared;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport
 {
@@ -26,5 +27,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         Task SignalCompletedCommand(DeserializableCommand command);
 
         Task SignalRejectedCommand(DeserializableCommand command);
+
+        Task UpdateReportedPropertiesAsync(TwinCollection reportedProperties);
+
+        void SetMethodHandler(string methodName, MethodCallback callback);
     }
 }

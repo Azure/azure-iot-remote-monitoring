@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
+using Microsoft.Azure.Devices.Client;
+using Microsoft.Azure.Devices.Shared;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport
 {
@@ -80,6 +83,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             }
 
             await Task.Run(() => { });
+        }
+
+        public async Task UpdateReportedPropertiesAsync(TwinCollection reportedProperties)
+        {
+            _logger.LogInfo("UpdateReportedPropertiesAsync called");
+            _logger.LogInfo($"UpdateReportedPropertiesAsync: reportedProperties: {reportedProperties.ToJson(Formatting.Indented)}");
+
+            await Task.FromResult(0);
+        }
+
+        public void SetMethodHandler(string methodName, MethodCallback callback)
+        {
+            _logger.LogInfo("SetMethodHandler called:");
+            _logger.LogInfo($"SetMethodHandler: methodName: {methodName}");
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
+using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -110,12 +111,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             }
         }
 
-        private static string NormalizeMethodName(Command command)
+        public static string NormalizeMethodName(Command command)
         {
             var parts = new List<string> { command.Name.Replace("_", "__") };
             parts.AddRange(command.Parameters.Select(p => p.Type).ToList());
 
-            return  string.Join("_", parts);
+            return string.Join("_", parts);
         }
     }
 }

@@ -1,16 +1,15 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
 using Microsoft.Azure.Devices.Client;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json;
-using System.Text;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport
 {
@@ -39,7 +38,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 throw new ArgumentException("DeviceID value cannot be missing, null, or whitespace");
             }
 
-            _deviceClient = DeviceClient.CreateFromConnectionString(GetConnectionString());
+            _deviceClient = DeviceClient.CreateFromConnectionString(GetConnectionString(), Client.TransportType.Mqtt);
+            _deviceClient.OpenAsync().Wait();
         }
 
         public async Task CloseAsync()
@@ -274,6 +274,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 return "";
             var value = propertyInfo.GetValue(eventData, null);
             return value == null ? "" : value.ToString();
+        }
+
+        public async Task UpdateReportedPropertiesAsync(TwinCollection reportedProperties)
+        {
+            await _deviceClient.UpdateReportedPropertiesAsync(reportedProperties);
+        }
+
+        public void SetMethodHandler(string methodName, MethodCallback callback)
+        {
+            _deviceClient.SetMethodHandler(methodName, callback, null);
         }
 
         /// <summary>

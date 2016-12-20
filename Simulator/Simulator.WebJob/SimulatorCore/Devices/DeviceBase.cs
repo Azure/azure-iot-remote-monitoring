@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.JsonContractResolvers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors;
@@ -16,9 +15,9 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Telemetry.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
+using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.Devices.Common.Exceptions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Microsoft.Azure.Devices.Shared;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices
 {
@@ -144,10 +143,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             {
                 Transport.Open();
 
+                await UpdateReportedProperties();
+                SetMethodHandlers();
+
                 var loopTasks = new List<Task>
                 {
-                    // [WORKAROUND] Disable receiving C2D message until the C# device SDK was ready
-                    //StartReceiveLoopAsync(token),
+                    StartReceiveLoopAsync(token),
                     StartSendLoopAsync(token)
                 };
 
@@ -180,21 +181,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                 var authMethod = new Client.DeviceAuthenticationWithRegistrySymmetricKey(DeviceID, PrimaryAuthKey);
                 var deviceConnectionString = Client.IotHubConnectionStringBuilder.Create(HostName, authMethod).ToString();
-
-                // Device properties (InstalledRAM, Processor, etc.) should be treat as reported proerties
-                // Supported methods should be treat as reported property
-                var jObject = JObject.FromObject(DeviceProperties);
-                jObject.Merge(JObject.FromObject(SupportedMethodsHelper.GenerateSupportedMethodsReportedProperty(Commands)));
-
-                var reportedProperties = JsonConvert.SerializeObject(jObject, Formatting.Indented, new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore,
-                    ContractResolver = new SkipByNameContractResolver("DeviceID")
-                }).Replace('\"', '\'');
-
-                // [WORKAROUND] Launch a standalone simulator to show the device managemnt features until the the C# device SDK was ready
-                dmProcess = Process.Start("DMSimulator", $"/d:\"{deviceConnectionString}\" /p:\"{reportedProperties}\"");
-                Logger.LogInfo($"DMSimulator kicked off for device {DeviceID}, with reported properties: {reportedProperties}");
 
                 do
                 {
@@ -344,6 +330,55 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             }
 
             Logger.LogInfo("********** Processing Device {0} has been cancelled - StartReceiveLoopAsync Ending. **********", DeviceID);
+        }
+
+        private async Task UpdateReportedProperties()
+        {
+            var reportedProperties = new TwinCollection();
+
+            foreach (var property in DeviceProperties.GetType().GetProperties())
+            {
+                if (property.Name == "DeviceID")
+                {
+                    continue;
+                }
+
+                reportedProperties[property.Name] = property.GetValue(DeviceProperties);
+            }
+
+            var supportedMethods = new TwinCollection();
+            foreach (var method in Commands.Where(c => c.DeliveryType == DeliveryType.Method))
+            {
+                var parametersObj = new TwinCollection();
+                foreach (var parameter in method.Parameters)
+                {
+                    var parameterObj = new TwinCollection();
+                    parameterObj["Name"] = parameter.Name;
+                    parameterObj["Type"] = parameter.Type;
+                    parametersObj[parameter.Name] = parameterObj;
+                }
+
+                var methodObj = new TwinCollection();
+                methodObj["Name"] = method.Name;
+                methodObj["Description"] = method.Description;
+                methodObj["Parameters"] = parametersObj;
+
+                string normalizedName = SupportedMethodsHelper.NormalizeMethodName(method);
+                supportedMethods[normalizedName] = methodObj;
+            }
+            reportedProperties["SupportedMethods"] = supportedMethods;
+
+            await Transport.UpdateReportedPropertiesAsync(reportedProperties);
+        }
+
+        private void SetMethodHandlers()
+        {
+            foreach (var method in Commands.Where(c => c.DeliveryType == DeliveryType.Method))
+            {
+                var callback = GetType().GetMethod($"On{method.Name}").CreateDelegate(typeof(MethodCallback), this) as MethodCallback;
+
+                Transport.SetMethodHandler(method.Name, callback);
+            }
         }
     }
 }

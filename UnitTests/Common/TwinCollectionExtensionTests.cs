@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
+using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;

@@ -1,12 +1,17 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.CommandProcessors;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Telemetry;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices.DMTasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Telemetry.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
+using Microsoft.Azure.Devices.Client;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices
 {
@@ -15,6 +20,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// </summary>
     public class CoolerDevice : DeviceBase
     {
+        private Task _deviceManagementTask = null;
 
         public CoolerDevice(ILogger logger, ITransportFactory transportFactory,
             ITelemetryFactory telemetryFactory, IConfigurationProvider configurationProvider)
@@ -78,6 +84,83 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             remoteMonitorTelemetry.ActivateExternalTemperature = active;
             string externalTempActive = active ? "on" : "off";
             Logger.LogInfo("Device {0}: External Temperature: {1}", DeviceID, externalTempActive);
+        }
+
+        public async Task<MethodResponse> OnChangeDeviceState(MethodRequest methodRequest, object userContext)
+        {
+            Logger.LogInfo($"Method {methodRequest.Name} invoked on device {DeviceID}, payload: {methodRequest.DataAsJson}");
+
+            return await Task.FromResult(BuildMethodRespose(methodRequest.DataAsJson));
+        }
+
+        public async Task<MethodResponse> OnFirmwareUpdate(MethodRequest methodRequest, object userContext)
+        {
+            if (_deviceManagementTask != null && !_deviceManagementTask.IsCompleted)
+            {
+                return await Task.FromResult(BuildMethodRespose(new
+                {
+                    Message = "Device is busy"
+                }, 409));
+            }
+
+            try
+            {
+                var operation = new FirmwareUpdate(methodRequest);
+                _deviceManagementTask = operation.Run(Transport);
+
+                return await Task.FromResult(BuildMethodRespose(new
+                {
+                    Message = "Firmware updating accepted",
+                    Uri = operation.Uri
+                }));
+            }
+            catch (Exception ex)
+            {
+                return await Task.FromResult(BuildMethodRespose(new
+                {
+                    Message = ex.Message
+                }, 400));
+            }
+        }
+
+        public async Task<MethodResponse> OnConfigurationUpdate(MethodRequest methodRequest, object userContext)
+        {
+            if (_deviceManagementTask != null && !_deviceManagementTask.IsCompleted)
+            {
+                return await Task.FromResult(BuildMethodRespose(new
+                {
+                    Message = "Device is busy"
+                }, 409));
+            }
+
+            try
+            {
+                var operation = new ConfigurationUpdate(methodRequest);
+                _deviceManagementTask = operation.Run(Transport);
+
+                return await Task.FromResult(BuildMethodRespose(new
+                {
+                    Message = "Configuration updating accepted",
+                    Uri = operation.Uri
+                }));
+            }
+            catch (Exception ex)
+            {
+                return await Task.FromResult(BuildMethodRespose(new
+                {
+                    Message = ex.Message
+                }, 400));
+            }
+        }
+
+        private MethodResponse BuildMethodRespose(string responseInJSON, int status = 200)
+        {
+            return new MethodResponse(Encoding.UTF8.GetBytes(responseInJSON), status);
+        }
+
+        private MethodResponse BuildMethodRespose(object response, int status = 200)
+        {
+            return BuildMethodRespose(JsonConvert.SerializeObject(response), status);
         }
     }
 }
