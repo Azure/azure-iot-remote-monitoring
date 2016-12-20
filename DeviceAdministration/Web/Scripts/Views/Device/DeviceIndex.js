@@ -89,14 +89,23 @@
         Cookies.set('ui-state', uiState, IoTApp.Helpers.DeviceIdState.cookieOptions);
     }
 
-    var _selectRowFromDataTable = function (node) {
-        node.addClass('selected');
+    var _selectRowFromDataTable = function (row) {
+        var rowData = row.data();
+        if (rowData != null) {
+            self.dataTable.$(".selected").removeClass("selected");
+            row.nodes().to$().addClass("selected");
+            var deviceId = rowData.deviceProperties.deviceID;
+            self.selectedRow = row.index();
+            IoTApp.Helpers.DeviceIdState.saveDeviceIdToCookie(deviceId);
+            showDetails();
+            self.loader = self.deviceDetails.init(deviceId);
+        }
     }
 
     var _setDefaultRowAndPage = function() {
         if (self.isDefaultDeviceDetailsAvailable === true) {
             self.isDefaultDeviceDetailsAvailable = false;
-            var node = self.dataTable.row(self.defaultSelectedRow).nodes().to$();
+            var node = self.dataTable.row(self.defaultSelectedRow);
             _selectRowFromDataTable(node);
         }
         else if (self.isDefaultDeviceIdAvailable) {
@@ -211,7 +220,7 @@
 
         var onTableDrawn = function () {
             changeDeviceStatus();
-            _setDefaultRowAndPage();
+            setImmediate(_setDefaultRowAndPage);
 
             var pagingDiv = $('#deviceTable_paginate');
             if (pagingDiv) {
@@ -224,14 +233,7 @@
         };
 
         var onTableRowClicked = function () {
-            var data = this.cells[1].innerHTML;
-            self.dataTable.$(".selected").removeClass("selected");
-            $(this).addClass("selected");
-            self.selectedRow = self.dataTable.row(this).index();
-            showDetails();
-            self.loader = self.deviceDetails.init(data);
-
-            IoTApp.Helpers.DeviceIdState.saveDeviceIdToCookie(data);
+            _selectRowFromDataTable(self.dataTable.row(this));
         }
 
         var options = {
