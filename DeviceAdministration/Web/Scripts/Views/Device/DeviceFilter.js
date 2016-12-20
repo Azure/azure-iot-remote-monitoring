@@ -2,9 +2,10 @@
     "use strict";
     
     var self = this;
+    var defaultFilterId = "00000000-0000-0000-0000-000000000000";
 
     self.model = {
-        id: ko.observable(null),
+        id: ko.observable(defaultFilterId),
         name: ko.observable(resources.allDevices),
         isAdvanced: ko.observable(false),
         advancedClause: ko.observable(null),
@@ -28,15 +29,24 @@
             });
         }),
         filteredInfo: ko.pureComputed(function () {
-            if (self.model.isFilterLoaded()) {
+            if (!self.model.isDefatulFilter()) {
                 return resources.infoFiltered.replace('{0}', self.model.recordsFiltered()).replace('{1}', self.model.recordsTotal());
             }
             else {
                 return self.model.recordsTotal();
             }
         }),
+        isDefatulFilter: ko.pureComputed(function () {
+            return self.model.id() == defaultFilterId;
+        }),
+        canSave: ko.pureComputed(function () {
+            return !self.model.isDefatulFilter() && self.model.isFilterLoaded();
+        }),
+        canDelete: ko.pureComputed(function () {
+            return !self.model.isDefatulFilter() && self.model.isFilterLoadedFromServer();
+        }),
         showPanel: function () {
-            if (self.model.name() == resources.allDevices)
+            if (self.model.isDefatulFilter())
             {
                 self.model.newFilter();
             }
@@ -100,7 +110,6 @@
         loadFilters: function() {
             api.getFilters(function (data) {
                 self.model.filters.removeAll();
-                self.model.filters.push({ id: null, name: resources.allDevices });
                 data.forEach(function (item) {
                     if (item.id !== resources.allDevices) {
                         self.model.filters.push({ id: item.id, name: item.name });
@@ -114,19 +123,11 @@
 
         },
         resetState: function () {
-            self.model.id(null);
-            self.model.name(resources.allDevices);
-            self.model.isAdvanced(false);
-            self.model.advancedClause(null);
-            self.model.associatedJobsCount(0);
-            self.model.clauses.removeAll();
-            self.model.isFilterLoaded(false);
-            self.model.isFilterLoadedFromServer(false);
-            self.model.isChanged(false);
+            self.model.loadFilter(defaultFilterId, true);
         },
         loadFilter: function (filterId, execute, callback) {
             $('#btnOpen').popover('hide');
-            if (filterId && filterId !== resources.allDevices) {
+            if (filterId) {
                 api.findFilter(filterId, function (filter) {
                     if (filter) {
                         self.model.setFilter(filter, true);
@@ -144,9 +145,7 @@
             }
             else {
                 self.model.resetState();
-                if (execute) {
-                    IoTApp.DeviceIndex.reloadGrid();
-                }
+
                 if ($.isFunction(callback)) {
                     callback();
                 }
@@ -191,7 +190,6 @@
                         if (isDeleted) {
                             self.model.loadFilters();
                             self.model.resetState();
-                            IoTApp.DeviceIndex.reloadGrid();
                         }
                         else if (!forceDelete) {
                             // Try again with force delete flag.
@@ -506,14 +504,8 @@
                     });
                 }
 
-                var filterId = resources.filterId || uiState.filterId;
-                if (filterId) {
-                    self.model.loadFilter(filterId, false, callback);
-                }
-                else {
-                    callback();
-                }
-
+                var filterId = resources.filterId || uiState.filterId || defaultFilterId;
+                self.model.loadFilter(filterId, false, callback);
             });
 
             self.model.loadFilters();

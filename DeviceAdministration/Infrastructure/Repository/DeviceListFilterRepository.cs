@@ -25,15 +25,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             Id = Guid.Empty.ToString(),
             Name = "All Devices",
-            Clauses = new List<Clause>()
-            {
-                new Clause
-                {
-                    ColumnName = "deviceId",
-                    ClauseType = ClauseType.NE,
-                    ClauseValue = "",
-                }
-            },
+            Clauses = new List<Clause>(),
             AdvancedClause = null,
             IsAdvanced = false,
             IsTemporary = false,
@@ -46,8 +38,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _filterTableStorageClient = filterTableStorageClientFactory.CreateClient(_storageAccountConnectionString, filterTableName);
             string clauseTableName = configurationProvider.GetConfigurationSettingValueOrDefault("SuggestedClauseTableName", _clauseTableName);
             _clauseTableStorageClient = clausesTableStorageClientFactory.CreateClient(_storageAccountConnectionString, clauseTableName);
-            // Comment this line until we make change on UI to use this as default filter and forbid user to edit it
-            //InitializeDefaultFilter();
+            InitializeDefaultFilter();
         }
 
         public async Task InitializeDefaultFilter()

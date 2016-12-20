@@ -42,11 +42,11 @@
                     <img src="/Content/img/refresh.svg" title="@Strings.Refresh" class="device_list_toolbar_button" onclick="IoTApp.DeviceIndex.reloadGrid()" />
                     <img id="btnOpen" src="/Content/img/open_query.svg" title="@Strings.OpenSavedFilter" class="device_list_toolbar_button" data-bind="openFilterPopover: { template: '#openfilterContent', filterNameList: filterNameList }"/>
                     <img src="/Content/img/edit_filter.svg" title="@Strings.EditFilter" class="device_list_toolbar_button" data-bind="click: showPanel" />
-                    <!--ko if: isFilterLoaded() -->
+                    <!--ko if: canSave() -->
                     <img src="/Content/img/save.svg" title="@Strings.SaveFilter" class="device_list_toolbar_button" data-bind="click: saveFilter" />
                     <img src="/Content/img/saveas.svg" title="@Strings.SaveAsFilter" class="device_list_toolbar_button" data-bind="click: openSaveAsDialog" />
                     <!-- /ko -->
-                    <!--ko if: isFilterLoadedFromServer() -->
+                    <!--ko if: canDelete() -->
                     <img src="/Content/img/delete.svg" title="@Strings.DeleteFilter" class="device_list_toolbar_button" data-bind="click: deleteFilter" />
                     <!-- /ko -->
                 </div>
