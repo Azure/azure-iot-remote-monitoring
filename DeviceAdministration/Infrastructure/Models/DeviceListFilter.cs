@@ -149,13 +149,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                     // For syntax reason, the value should be surrounded by ''
                     // This feature will be skipped if the value is a number. To compare a number as string, user should surround it by '' manually                    
-                    if (filter.ClauseType != ClauseType.IN &&
-                        !(value.All(c => char.IsDigit(c)) && value.Any()) &&
-                        !value.StartsWith("\'") &&
-                        !value.EndsWith("\'"))
+                    if (filter.ClauseType == ClauseType.IN)
                     {
-                        value = $"\'{value}\'";
+                        var items = value.TrimStart('[').TrimEnd(']').Split(',');
+                        for (var i = 0; i < items.Length; i++)
+                        {
+                            var item = items[i].Trim();
+                            items[i] = AddQuoteIfNeeded(item);
+                        }
+
+                        value = $"[{string.Join(", ", items)}]";
                     }
+                    else {
+                        value = AddQuoteIfNeeded(value);
+                    }
+
                     if (filter.ColumnName.StartsWith("reported.") || filter.ColumnName.StartsWith("desired."))
                     {
                         return $"properties.{filter.ColumnName} {op} {value}";
@@ -167,6 +175,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 }).ToList();
 
             return filters == null ? string.Empty : string.Join(" AND ", filters);
+        }
+
+        private string AddQuoteIfNeeded(string value)
+        {
+            if (!(value.All(c => char.IsDigit(c)) && value.Any()) &&
+                !value.StartsWith("\'") &&
+                !value.EndsWith("\'"))
+            {
+                value = $"\'{value}\'";
+            }
+
+            return value;
         }
     }
 }

@@ -140,7 +140,7 @@
                                     </select>
                                 </div>
                                 <div class="filter_panel_clause_edit_row_value">
-                                    <input type="text" class="filter_panel_text" data-bind="textInput: currentClause().value" />
+                                    <input type="text" class="filter_panel_text" data-bind="textInput: currentClause().value, attr: { placeholder: newClauseValuePlaceHolder }, event: { focus: newClauseValueFocus, blur: newClauseValueBlur }" />
                                 </div>
                                 <div class="filter_panel_clause_edit_row_add">
                                     <button type="button" class="button_base" data-bind="click: addClause, enable: currentClause().field() && currentClause().value()">

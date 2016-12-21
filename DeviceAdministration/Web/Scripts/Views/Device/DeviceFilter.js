@@ -313,6 +313,61 @@
 
             return clause;
         },
+        newClauseValueFocus: function (data, e) {
+            if (self.model.currentClause().field()) {
+                var availableValues = IoTApp.DeviceIndex.getAvailableValuesFromPath(self.model.currentClause().field());
+                if (self.model.currentClause().operator() == "IN") {
+                    $(e.target).autocomplete({
+                        source: function (request, response) {
+                            var terms = util.split(this.term);
+                            terms.pop();
+                            var filteredValues = availableValues.filter(function (item) { return terms.indexOf(item) === -1 });
+                            response($.ui.autocomplete.filter(filteredValues, util.extractLast(request.term)));
+                        },
+                        minLength: 0,
+                        focus: function () {
+                            return false;
+                        },
+                        select: function (event, ui) {
+                            var terms = util.split(this.value);
+                            terms.pop();
+                            terms.push(ui.item.value);
+                            terms.push("");
+                            this.value = terms.join(", ");
+                            $(this).change();
+                            setImmediate(function () { $(e.target).autocomplete("search", ""); });
+
+                            return false;
+                        }
+                    });
+                }
+                else {
+                    $(e.target).autocomplete({
+                        source: availableValues,
+                        minLength: 0,
+                        select: function (event, ui) {
+                            $(this).val(ui.item.value).change();
+                        }
+                    });
+                }
+
+                $(e.target).autocomplete("search", "");
+            }
+        },
+        newClauseValueBlur: function (data, e) {
+            if (self.model.currentClause().operator() == "IN") {
+                self.model.currentClause().value(util.trim(self.model.currentClause().value(), ", "));
+            }
+
+            if ($(e.target).data('ui-autocomplete')) {
+                $(e.target).autocomplete("destroy");
+            }
+        },
+        newClauseValuePlaceHolder: ko.pureComputed(function () {
+            if (self.model.currentClause().operator() == "IN") {
+                return "ex: value1, value2";
+            }
+        }),
         unCheckClause: function (clause) {
             clause.checked(false);
             self.model.isChanged(true);
@@ -358,6 +413,22 @@
 
     self.model.currentClause(self.model.newClause());
 
+    var util = {
+        split: function (val) {
+            return val.split(/,\s*/);
+        },
+        extractLast: function(term) {
+            return util.split(term).pop();
+        },
+        trim: function (str, chars) {
+            if (str) {
+                chars = chars.replace(/[\[\](){}?*+\^$\\.|\-]/g, "\\$&");
+                str = str.replace(new RegExp("^[" + chars + "]+|[" + chars + "]+$", "g"), '');
+            }
+
+            return str;
+        }
+    }
     var api = {
         GetSuggestClauses: function (callback) {
             var url = "/api/v1/suggestedClauses?skip=0&take=10";
@@ -540,7 +611,6 @@
             self.model.saveFilter();
         }
     }
-
 
     return {
         init: init,

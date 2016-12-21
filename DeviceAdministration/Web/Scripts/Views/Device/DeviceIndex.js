@@ -487,11 +487,40 @@
         IoTApp.Helpers.DeviceIdState.saveDeviceIdToCookie('');
     }
 
+    var getAvailableValuesFromPath = function (path) {
+        path = "twin." + (path.indexOf("reported.") === 0 || path.indexOf("desired.") === 0 ? "properties." : "") + path;
+
+        var values = {};
+        var data = self.dataTable.data();
+        $.each(data, function (idx, row) {
+            var value = getValueFromPath(row, path);
+            if (value != null && !values.hasOwnProperty(value)) {
+                values[value] = true;
+            }
+        });
+
+        return $.map(values, function (value, key) {
+            return key;
+        });
+    }
+    var getValueFromPath = function (data, path) {
+        var parts = path.split('.');
+        $.each(parts, function (idx, part) {
+            data = data[part];
+            if (data == null) {
+                return false;
+            }
+        });
+
+        return data;
+    }
+
     return {
         init: init,
         toggleDetails: toggleDetails,
         reloadGrid: reloadGrid,
-        reinitializeDeviceList: reinitializeDeviceList
+        reinitializeDeviceList: reinitializeDeviceList,
+        getAvailableValuesFromPath: getAvailableValuesFromPath
     }
 }, [jQuery, resources]);
 
