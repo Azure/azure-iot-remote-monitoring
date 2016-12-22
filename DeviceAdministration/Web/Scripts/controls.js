@@ -27,6 +27,7 @@
         }, options);
 
         $element.autocomplete({
+            source: [],
             select: function (event, ui) {
                 $(this).val(ui.item.value).change();
             },
