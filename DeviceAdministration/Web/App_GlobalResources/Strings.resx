@@ -2292,4 +2292,8 @@
     <value>You don't have permission for these actions.</value>
     <comment>Error message.</comment>
   </data>
+  <data name="SavedFilters" xml:space="preserve">
+    <value>Saved Filters</value>
+    <comment>Tooltip.</comment>
+  </data>
 </root>

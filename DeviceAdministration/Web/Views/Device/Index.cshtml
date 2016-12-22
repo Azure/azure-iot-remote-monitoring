@@ -73,7 +73,7 @@
             </script>
             <div id="openfilterContent" class="display_none">
                 <div class="filter_panel_lookup_title">@Strings.OpenSavedFilter</div>
-                <input class="filter_panel_lookup_box" id="lookupFilterBox" data-bind="event: { keypress: lookupBoxKeypress}" />
+                <input class="filter_panel_lookup_box" id="lookupFilterBox" placeholder="@Strings.SavedFilters" data-bind="event: { keypress: lookupBoxKeypress}" />
                 <div class="filter_panel_filters" data-bind="foreach: filters">
                     <a href="#" class="filter_panel_filter_link" data-bind="text: name, click: $parent.loadFilter.bind($data, id, true)"></a>
                 </div>

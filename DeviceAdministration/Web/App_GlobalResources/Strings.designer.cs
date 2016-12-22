@@ -3959,6 +3959,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saved Filters.
+        /// </summary>
+        public static string SavedFilters {
+            get {
+                return ResourceManager.GetString("SavedFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save Filter.
         /// </summary>
         public static string SaveFilter {
