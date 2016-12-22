@@ -12,9 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventProcessor.WebJob", "EventProcessor\EventProcessor.WebJob\EventProcessor.WebJob.csproj", "{588C29C8-3BF8-4CF6-89A7-33D611388E0E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator.WebJob", "Simulator\Simulator.WebJob\Simulator.WebJob.csproj", "{8F0FF371-2306-4210-9C22-0D0657B595DC}"
-	ProjectSection(ProjectDependencies) = postProject
-		{88C4CAFE-3DA8-4CDC-A7DC-1A8635DBE533} = {88C4CAFE-3DA8-4CDC-A7DC-1A8635DBE533}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3E3CB1FA-112D-49FB-A60A-71085BF01992}"
 	ProjectSection(SolutionItems) = preProject
@@ -35,8 +32,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CodeCoverage.runsettings = CodeCoverage.runsettings
 		WebEssentials-Settings.json = WebEssentials-Settings.json
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iothub_client_sample_device_method", "Simulator\DMSimulator\iothub_client_sample_device_method.vcxproj", "{88C4CAFE-3DA8-4CDC-A7DC-1A8635DBE533}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -102,14 +97,6 @@ Global
 		{350C5961-0778-45F8-9A59-D309FCD653DD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{350C5961-0778-45F8-9A59-D309FCD653DD}.Release|x86.ActiveCfg = Release|Any CPU
 		{350C5961-0778-45F8-9A59-D309FCD653DD}.Release|x86.Build.0 = Release|Any CPU
-		{88C4CAFE-3DA8-4CDC-A7DC-1A8635DBE533}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{88C4CAFE-3DA8-4CDC-A7DC-1A8635DBE533}.Debug|Any CPU.Build.0 = Debug|Win32
-		{88C4CAFE-3DA8-4CDC-A7DC-1A8635DBE533}.Debug|x86.ActiveCfg = Debug|Win32
-		{88C4CAFE-3DA8-4CDC-A7DC-1A8635DBE533}.Debug|x86.Build.0 = Debug|Win32
-		{88C4CAFE-3DA8-4CDC-A7DC-1A8635DBE533}.Release|Any CPU.ActiveCfg = Release|Win32
-		{88C4CAFE-3DA8-4CDC-A7DC-1A8635DBE533}.Release|Any CPU.Build.0 = Release|Win32
-		{88C4CAFE-3DA8-4CDC-A7DC-1A8635DBE533}.Release|x86.ActiveCfg = Release|Win32
-		{88C4CAFE-3DA8-4CDC-A7DC-1A8635DBE533}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
