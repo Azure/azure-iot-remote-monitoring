@@ -471,6 +471,7 @@ nav .selected {
   -o-transform: rotate(90deg);
   transform: rotate(90deg);
   white-space: nowrap;
+  text-transform: uppercase;
   padding: 8px 0 0 40px;
   font-size: 1.1em;
   font-weight: normal;
@@ -501,7 +502,7 @@ nav .selected {
   background-color: white;
 }
 .loader_container__loader {
-  margin: 20% auto 0 auto;
+  margin: 30% auto 0 auto;
   font-size: 16px;
   width: 1em;
   height: 1em;
@@ -526,7 +527,7 @@ nav .selected {
   margin: 12px 0px 0px 8px;
 }
 .loader_container_small__loader {
-  margin: 20% auto 0 auto;
+  margin: 30% auto 0 auto;
   font-size: 16px;
   width: 1em;
   height: 1em;
@@ -745,8 +746,6 @@ nav .selected {
   border: 1px solid #999999;
   background-color: #f2f2f2;
   margin: 0.25em 1em 0em 0;
-  height: 30px;
-  width: 30px;
 }
 .values_editor {
   margin: 15px 4px;
