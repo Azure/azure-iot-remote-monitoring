@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models
 {
@@ -7,5 +8,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public string FilterId { get; set; }
 
         public IEnumerable<NamedJobResponseModel> JobsSharingQuery { get; set; }
+
+        public bool HasManageJobsPerm
+        {
+            get
+            {
+                return PermsChecker.HasPermission(Permission.ManageJobs);
+            }
+        }
     }
 }

@@ -11,32 +11,40 @@
     <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.JobsTooltip" />
 </div>
 
-<section class="details_grid_general" id="jobsGrid">
-    <p class="grid_detail_value">
-        @Html.ActionLink(
-             Strings.UpdateTwin, "ScheduleTwinUpdate", "Job",
-             new
-             {
-                 filterId = Model.FilterId,
-             },
-             new
-             {
-                 id = "scheduleTwinUpdateLink"
-             })
-    </p>
 
-    <p class="grid_detail_value">
-        @Html.ActionLink(
-             Strings.InvokeMethod, "ScheduleDeviceMethod", "Job",
-             new
-             {
-                 filterId = Model.FilterId,
-             },
-             new
-             {
-                 id = "scheduleDeviceMethodLink"
-             })
-    </p>
+    <section class="details_grid_general" id="jobsGrid">
+    @if (Model.HasManageJobsPerm)
+    {
+        <p class="grid_detail_value">
+            @Html.ActionLink(
+               Strings.UpdateTwin, "ScheduleTwinUpdate", "Job",
+               new
+               {
+                   filterId = Model.FilterId,
+               },
+               new
+               {
+                   id = "scheduleTwinUpdateLink"
+               })
+        </p>
+
+        <p class="grid_detail_value">
+            @Html.ActionLink(
+               Strings.InvokeMethod, "ScheduleDeviceMethod", "Job",
+               new
+               {
+                   filterId = Model.FilterId,
+               },
+               new
+               {
+                   id = "scheduleDeviceMethodLink"
+               })
+        </p>
+    }
+    else
+    {
+        <p class="grid_detail_value">@Strings.HaveNoPermissionError</p>
+    }
 </section>
 
 @if (Model.JobsSharingQuery.Any())

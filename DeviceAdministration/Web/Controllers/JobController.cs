@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return PartialView("_JobProperties", result);
         }
 
-        [RequirePermission(Permission.ManageJobs)]
+        [RequirePermission(Permission.ViewJobs)]
         public async Task<ActionResult> ScheduleJob(string filterId)
         {
             if (string.IsNullOrEmpty(filterId))

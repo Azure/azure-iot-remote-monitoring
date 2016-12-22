@@ -2288,4 +2288,8 @@
     <value>Input value.</value>
     <comment>Tooltip.</comment>
   </data>
+  <data name="HaveNoPermissionError" xml:space="preserve">
+    <value>You don't have permission for these actions.</value>
+    <comment>Error message.</comment>
+  </data>
 </root>

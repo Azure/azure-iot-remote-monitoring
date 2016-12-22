@@ -2231,6 +2231,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You don&apos;t have permission for these actions..
+        /// </summary>
+        public static string HaveNoPermissionError {
+            get {
+                return ResourceManager.GetString("HaveNoPermissionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Health Beat.
         /// </summary>
         public static string HealthBeat {
