@@ -118,8 +118,15 @@ main.main_no_nav {
   color: #f1f1f1;
 }
 /* ##### Prefix functions ##### */
+.input-placeholder {
+  color: #b3b3b3;
+  background-color: #f2f2f2;
+  border-color: #e6e6e6;
+  font-style: italic;
+}
 ::-webkit-input-placeholder {
   /* WebKit browsers */
+
   color: #b3b3b3;
   background-color: #f2f2f2;
   border-color: #e6e6e6;
@@ -127,6 +134,15 @@ main.main_no_nav {
 }
 ::-moz-placeholder {
   /* Mozilla Firefox 19+ */
+
+  color: #b3b3b3;
+  background-color: #f2f2f2;
+  border-color: #e6e6e6;
+  font-style: italic;
+}
+:-ms-input-placeholder {
+  /* IE 10+ */
+
   color: #b3b3b3;
   background-color: #f2f2f2;
   border-color: #e6e6e6;
@@ -2357,7 +2373,7 @@ table#alertHistoryTable tr.selectedAlert {
   border: 1px solid #999999;
 }
 .ui-state-focus {
-  background-color: #f2f2f2;
+  background-color: #b2ebfc;
 }
 /*!
  * Bootstrap v3.3.5 (http://getbootstrap.com)

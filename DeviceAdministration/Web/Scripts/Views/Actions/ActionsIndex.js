@@ -73,12 +73,12 @@
             "autoWidth": false,
             "pageLength": 20,
             "displayStart": 0,
-            "pagingType": "simple",
+            "pagingType": "simple_numbers",
             "paging": false,
             "lengthChange": false,
             "processing": false,
             "serverSide": false,
-            "dom": "<'dataTables_header'ip>lrt?",
+            "dom": "<'dataTables_header'i>lrtp?",
             "ajax": onDataTableAjaxCalled,
             "language": {
                 "info": resources.actionsList + " (_TOTAL_)"

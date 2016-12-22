@@ -240,12 +240,12 @@
             "autoWidth": false,
             "pageLength": 20,
             "displayStart": cookieData.start,
-            "pagingType": "simple",
+            "pagingType": "simple_numbers",
             "paging": true,
             "lengthChange": false,
             "processing": false,
             "serverSide": true,
-            "dom": "<'dataTables_header'<'device_list_toolbar'><'device_list_button_area'>p>lrt?",
+            "dom": "<'dataTables_header'<'device_list_toolbar'><'device_list_button_area'>>lrtp?",
             "ajax": onDataTableAjaxCalled,
             "language": {
                 "paginate": {

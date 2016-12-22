@@ -12,7 +12,7 @@
     foreach (var job in Model.OrderByDescending(job => job.Job.LastUpdatedDateTimeUtc))
     {
         <div class="overflow_auto">
-            @Html.ActionLink(job.Name, "Select", "Job", new { jobId = job.Job.JobId }, new { @class = "link_grid_jobName" })
+            @Html.ActionLink(job.Name, "Index", "Job", new { jobId = job.Job.JobId }, new { @class = "link_grid_jobName" })
             <div class="grid_container_job pull-right">
                 @switch (job.Job.Status)
                 {

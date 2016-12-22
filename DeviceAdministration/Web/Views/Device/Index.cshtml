@@ -39,7 +39,6 @@
                     (<span class="device_list_toolbar_number" data-bind="text: filteredInfo"></span>)
                 </div>
                 <div class="device_list_toolbar_buttons">
-                    <img src="/Content/img/refresh.svg" title="@Strings.Refresh" class="device_list_toolbar_button" onclick="IoTApp.DeviceIndex.reloadGrid()" />
                     <img id="btnOpen" src="/Content/img/open_query.svg" title="@Strings.OpenSavedFilter" class="device_list_toolbar_button" data-bind="openFilterPopover: { template: '#openfilterContent', filterNameList: filterNameList }"/>
                     <img src="/Content/img/edit_filter.svg" title="@Strings.EditFilter" class="device_list_toolbar_button" data-bind="click: showPanel" />
                     <!--ko if: canSave() -->
@@ -49,6 +48,7 @@
                     <!--ko if: canDelete() -->
                     <img src="/Content/img/delete.svg" title="@Strings.DeleteFilter" class="device_list_toolbar_button" data-bind="click: deleteFilter" />
                     <!-- /ko -->
+                    <img src="/Content/img/refresh.svg" title="@Strings.Refresh" class="device_list_toolbar_button" onclick="IoTApp.DeviceIndex.reloadGrid()" />
                 </div>
                 <div id="dataLoading" class="loader_container_small pull-left">
                     <div class="loader_container_small__loader"></div>
@@ -73,7 +73,7 @@
             </script>
             <div id="openfilterContent" class="display_none">
                 <div class="filter_panel_lookup_title">@Strings.OpenSavedFilter</div>
-                <input class="filter_panel_lookup_box" id="lookupFilterBox" data-bind="event: { keypress: lookupBoxKeypress}" />
+                <input class="filter_panel_lookup_box" id="lookupFilterBox" placeholder="@Strings.SavedFilters" data-bind="event: { keypress: lookupBoxKeypress}" />
                 <div class="filter_panel_filters" data-bind="foreach: filters">
                     <a href="#" class="filter_panel_filter_link" data-bind="text: name, click: $parent.loadFilter.bind($data, id, true)"></a>
                 </div>

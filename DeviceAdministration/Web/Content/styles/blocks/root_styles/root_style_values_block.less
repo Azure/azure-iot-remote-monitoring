@@ -144,18 +144,23 @@ main.main_no_nav {
     display: inline-flex;
 }
 
-::-webkit-input-placeholder { /* WebKit browsers */
+.input-placeholder {
     color: @form-textbox-disabled-color;
     background-color: @form-textbox-disabled-background;
     border-color: @form-textbox-disabled-border;
     font-style: italic;
 }
 
+::-webkit-input-placeholder { /* WebKit browsers */
+    .input-placeholder;
+}
+
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: @form-textbox-disabled-color;
-    background-color: @form-textbox-disabled-background;
-    border-color: @form-textbox-disabled-border;
-    font-style: italic;
+    .input-placeholder;
+}
+
+:-ms-input-placeholder { /* IE 10+ */
+    .input-placeholder;
 }
 
 /* Common style */

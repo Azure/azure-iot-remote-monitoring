@@ -47,7 +47,7 @@ table.dataTable {
   table.dataTable tbody tr {
     background-color: white; }
     table.dataTable tbody tr.selected {
-      background-color: #b0bed9; }
+      background-color: #b2ebfc; }
   table.dataTable tbody th,
   table.dataTable tbody td {
     padding: 8px 10px; }
@@ -93,7 +93,7 @@ table.dataTable {
   table.dataTable.order-column tbody tr.selected > .sorting_3, table.dataTable.display tbody tr.selected > .sorting_1,
   table.dataTable.display tbody tr.selected > .sorting_2,
   table.dataTable.display tbody tr.selected > .sorting_3 {
-    background-color: #acbad4; }
+    background-color: #b2ebfc; }
   table.dataTable.display tbody tr.odd > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {
     background-color: #f1f1f1; }
   table.dataTable.display tbody tr.odd > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd > .sorting_2 {
@@ -569,6 +569,7 @@ table.dataTable thead {
 .dataTables_wrapper .dataTables_paginate {
     float:right;
     margin-right:1em;
+    margin-bottom:10px;
     padding-top:0;
     }
 

@@ -10,6 +10,7 @@
         self.jobGridContainer = $(".grid_container");
         self.buttonDetailsGrid = $(".button_details_grid");
         self.reloadGrid = this.reloadGrid;
+        self.selectedJobId = resources.jobId;
 
         _initializeDatatable();
 
@@ -90,12 +91,12 @@
             "autoWidth": false,
             "pageLength": 20,
             "displayStart": 0,
-            "pagingType": "simple",
+            "pagingType": "simple_numbers",
             "paging": true,
             "lengthChange": false,
             "processing": false,
             "serverSide": false,
-            "dom": "<'dataTables_header'i<'#toolbar_area.job_list_toolbar'>p>lrt?",
+            "dom": "<'dataTables_header'i<'#toolbar_area.job_list_toolbar'>>lrtp?",
             "ajax": onDataTableAjaxCalled,
             "language": {
                 "info": resources.jobsList + " (_TOTAL_)",
