@@ -2280,4 +2280,12 @@
     <value>This filter is associated with jobs. Are you sure you want to delete this filter?</value>
     <comment>Confirmation message.</comment>
   </data>
+  <data name="ClauseMultipleValuesHint" xml:space="preserve">
+    <value>Input values separated by commas.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ClauseSingleValueHint" xml:space="preserve">
+    <value>Input value.</value>
+    <comment>Tooltip.</comment>
+  </data>
 </root>

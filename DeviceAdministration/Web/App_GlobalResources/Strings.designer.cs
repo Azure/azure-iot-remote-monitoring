@@ -566,6 +566,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Input values separated by commas..
+        /// </summary>
+        public static string ClauseMultipleValuesHint {
+            get {
+                return ResourceManager.GetString("ClauseMultipleValuesHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Input value..
+        /// </summary>
+        public static string ClauseSingleValueHint {
+            get {
+                return ResourceManager.GetString("ClauseSingleValueHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear.
         /// </summary>
         public static string Clear {

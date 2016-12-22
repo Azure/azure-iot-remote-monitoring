@@ -364,9 +364,7 @@
             }
         },
         newClauseValuePlaceHolder: ko.pureComputed(function () {
-            if (self.model.currentClause().operator() == "IN") {
-                return "ex: value1, value2";
-            }
+            return self.model.currentClause().operator() == "IN" ? resources.clauseMultipleValuesHint : resources.clauseSingleValueHint;
         }),
         unCheckClause: function (clause) {
             clause.checked(false);
