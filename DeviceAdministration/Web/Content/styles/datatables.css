@@ -569,6 +569,7 @@ table.dataTable thead {
 .dataTables_wrapper .dataTables_paginate {
     float:right;
     margin-right:1em;
+    margin-bottom:10px;
     padding-top:0;
     }
 
