@@ -13,12 +13,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<ConfigurationProvider>().As<IConfigurationProvider>().SingleInstance();
-            builder.RegisterType<DeviceLogic>().As<IDeviceLogic>();
+            builder.RegisterType<DeviceLogicWithIoTHubDM>().As<IDeviceLogic>();
             builder.RegisterType<IotHubRepository>().As<IIotHubRepository>();
             builder.RegisterType<IoTHubDeviceManager>().As<IIoTHubDeviceManager>();
             builder.RegisterType<DeviceRulesLogic>().As<IDeviceRulesLogic>();
-            builder.RegisterType<DeviceRegistryRepository>().As<IDeviceRegistryCrudRepository>();
-            builder.RegisterType<DeviceRegistryRepository>().As<IDeviceRegistryListRepository>();
+            builder.RegisterType<DeviceRegistryRepositoryWithIoTHubDM>().As<IDeviceRegistryCrudRepository>();
+            builder.RegisterType<DeviceRegistryRepositoryWithIoTHubDM>().As<IDeviceRegistryListRepository>();
             builder.RegisterType<DeviceRulesRepository>().As<IDeviceRulesRepository>();
             builder.RegisterType<SecurityKeyGenerator>().As<ISecurityKeyGenerator>();
             builder.RegisterType<VirtualDeviceTableStorage>().As<IVirtualDeviceStorage>();
