@@ -58,7 +58,7 @@
         @foreach (var jobModel in Model.JobsSharingQuery)
         {
             <div class="overflow_auto">
-                @Html.ActionLink(jobModel.Name.Any() ? jobModel.Name : "[" + jobModel.Job.JobId + "]", "Select", "Job", new { jobId = jobModel.Job.JobId }, new { @class = "link_grid_jobName" })
+                @Html.ActionLink(jobModel.Name.Any() ? jobModel.Name : "[" + jobModel.Job.JobId + "]", "Index", "Job", new { jobId = jobModel.Job.JobId }, new { @class = "link_grid_jobName" })
                 <div class="grid_container_job pull-right">
                     @switch (jobModel.Job.Status)
                     {

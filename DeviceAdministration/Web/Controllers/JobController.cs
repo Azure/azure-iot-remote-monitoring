@@ -36,8 +36,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.ViewJobs)]
-        public ActionResult Index()
+        public ActionResult Index(string jobId)
         {
+            ViewBag.JobId = jobId;
             return View();
         }
 

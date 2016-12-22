@@ -10,6 +10,7 @@
         self.jobGridContainer = $(".grid_container");
         self.buttonDetailsGrid = $(".button_details_grid");
         self.reloadGrid = this.reloadGrid;
+        self.selectedJobId = resources.jobId;
 
         _initializeDatatable();
 
