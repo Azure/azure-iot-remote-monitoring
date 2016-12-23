@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -173,8 +172,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         /// <returns></returns>
         private async Task StartSendLoopAsync(CancellationToken token)
         {
-            Process dmProcess = null;
-
             try
             {
                 Logger.LogInfo("Booting device {0}...", DeviceID);
@@ -221,12 +218,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             if (token.IsCancellationRequested)
             {
                 Logger.LogInfo("********** Processing Device {0} has been cancelled - StartSendLoopAsync Ending. **********", DeviceID);
-            }
-
-            if (dmProcess != null)
-            {
-                dmProcess.Kill();
-                dmProcess.Dispose();
             }
         }
 
