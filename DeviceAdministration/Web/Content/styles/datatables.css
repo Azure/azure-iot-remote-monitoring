@@ -553,10 +553,6 @@ table.dataTable thead {
         border-right:0;
         }
 
-        table.dataTable tbody tr td:nth-child(1) {
-            padding-left:40px;
-            }
-
 
 .dataTables_wrapper .dataTables_info {
     float:left;
@@ -579,6 +575,9 @@ table.dataTable thead {
     background-repeat:no-repeat;
     background-position:20px center;
     background-size: 13px 13px;
+    }
+    table.dataTable tbody tr td.table_status {
+        padding-left:40px;
     }
 
     .table_status.status_false {
