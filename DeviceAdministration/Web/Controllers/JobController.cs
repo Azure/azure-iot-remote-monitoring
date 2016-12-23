@@ -179,7 +179,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var deviceListFilter = await GetFilterById(model.FilterId);
             string queryCondition = deviceListFilter.GetSQLCondition();
 
-            var jobId = await _iotHubDeviceManager.ScheduleTwinUpdate(queryCondition,
+            // The query condition can not be empty when schduling job, use a default clause
+            // is_defined(deviceId) to represent no clause condition for all devices.
+            var jobId = await _iotHubDeviceManager.ScheduleTwinUpdate(
+                string.IsNullOrWhiteSpace(queryCondition) ? "is_defined(deviceId)" : queryCondition,
                 twin,
                 model.StartDateUtc,
                 model.MaxExecutionTimeInMinutes * 60);
@@ -212,7 +215,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var deviceListFilter = await GetFilterById(model.FilterId);
             string queryCondition = deviceListFilter.GetSQLCondition();
 
-            var jobId = await _iotHubDeviceManager.ScheduleDeviceMethod(queryCondition, methodName, payload, model.StartDateUtc, model.MaxExecutionTimeInMinutes * 60);
+            // The query condition can not be empty when schduling job, use a default clause
+            // is_defined(deviceId) to represent no clause condition for all devices.
+            var jobId = await _iotHubDeviceManager.ScheduleDeviceMethod(
+                string.IsNullOrWhiteSpace(queryCondition) ? "is_defined(deviceId)" : queryCondition,
+                methodName,
+                payload,
+                model.StartDateUtc,
+                model.MaxExecutionTimeInMinutes * 60);
 
             await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, deviceListFilter.Name, model.MethodName));
 
