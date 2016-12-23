@@ -2,6 +2,8 @@
     "use strict";
 
     var self = this;
+    var selectedDeviceIds = [];
+
     var init = function (deviceDetails) {
         self.deviceDetails = deviceDetails;
         self.dataTableContainer = $('#deviceTable');
@@ -134,6 +136,19 @@
             var header = $("#deviceTable thead tr").empty();
             var columns = [];
             var columnDefs = [];
+
+            columns.push({
+                defaultContent: '<input type="checkbox" class="datatable_checkbox_row" />',
+                searchable: false,
+                orderable: false,
+                width: '1%',
+                className: 'dt-body-center'
+            });
+            $('<th />')
+                .html('<input type="checkbox" class="datatable_checkbox_all" />')
+                .attr('title', '')
+                .appendTo(header);
+
             data.forEach(function (column, index) {
                 var columnOption = {
                     data:"twin." + (column.name.indexOf("reported.") === 0 || column.name.indexOf("desired.") === 0 ? "properties." : "") + column.name,
@@ -157,11 +172,11 @@
                         return htmlEncode(data);
                     };
 
-                    columnDefs.push({ className: "table_status", "targets": [index] });
+                    columnDefs.push({ className: "table_status", "targets": [columns.length] });
                 }
 
                 if (column.name === "deviceId") {
-                    columnDefs.push({ "searchable": true, "targets": [index] });
+                    columnDefs.push({ "searchable": true, "targets": [columns.length] });
                 }
 
                 columns.push(columnOption);
@@ -199,6 +214,7 @@
         var onTableDrawn = function () {
             changeDeviceStatus();
             setTimeout(_setDefaultRowAndPage, 0);
+            updateDataTableSelectAllCheckbox();
 
             var pagingDiv = $('#deviceTable_paginate');
             if (pagingDiv) {
@@ -211,7 +227,8 @@
         };
 
         var onTableRowClicked = function () {
-            _selectRowFromDataTable(self.dataTable.row(this));
+            stopMultiSelectionIfNeeded();
+            _selectRowFromDataTable(self.dataTable.row($(this).parent()));
         }
 
         var options = {
@@ -233,7 +250,8 @@
             },
             "columns": columns,
             "columnDefs": columnDefs,
-            "order": cookieData.currentSortArray
+            "order": cookieData.currentSortArray,
+            "rowCallback": setupCheckbox
         };
         //$.fn.dataTable.ext.legacy.ajax = true;
         self.dataTable = self.dataTableContainer.DataTable(options);
@@ -270,7 +288,9 @@
             IoTApp.Helpers.Dialog.displayError(resources.unableToRetrieveDeviceFromService);
         });
 
-        self.dataTableContainer.find("tbody").delegate("tr", "click", onTableRowClicked);
+        self.dataTableContainer.find("tbody").delegate("td:not(:first-child)", "click", onTableRowClicked);
+        
+        initialMultiSelection();
 
         /* DataTables workaround - reset progress animation display for use with DataTables api */
         self.dataTableContainer.on('processing.dt', function (e, settings, processing) {
@@ -475,6 +495,7 @@
             return key;
         });
     }
+
     var getValueFromPath = function (data, path) {
         var parts = path.split('.');
         $.each(parts, function (idx, part) {
@@ -487,12 +508,159 @@
         return data;
     }
 
+    /* Multi-Selection */
+    var initialMultiSelection = function () {
+        self.dataTableContainer.delegate('thead input[type="checkbox"]', 'click', selectAllCheckboxClickHandler);
+        self.dataTableContainer.delegate('tbody input[type="checkbox"]', 'click', checkboxClickHandler);
+        self.dataTableContainer.delegate('tbody td:first-child, thead th:first-child', 'click', function (e) {
+            $(this).parent().find('input[type="checkbox"]').trigger('click');
+            e.stopPropagation();
+        });
+
+        $('#lnkSaveAsFilter').click(function () {
+            IoTApp.DeviceFilter.openSaveAsDialogForSelectedDevices(selectedDeviceIds);
+        });
+
+        $('.multi_selection_job').click(function () {
+            $('.loader_container').show();
+            var jobType = $(this).data('jobType');
+            IoTApp.DeviceFilter.saveFilterForSelectedDevices(null, selectedDeviceIds, function (filterId) {
+                window.location = '/Job/' + jobType + '?filterId=' + filterId;
+            });
+        });
+    }
+
+    var updateDataTableSelectAllCheckbox = function () {
+        var $table = self.dataTable.table().node();
+        var $allCheckbox = $('tbody input[type="checkbox"]', $table);
+        var $checkedCheckbox = $('tbody input[type="checkbox"]:checked', $table);
+        var selectAllCheckbox = $('thead input[type="checkbox"]', $table).get(0);
+
+        if($checkedCheckbox.length === 0) {
+            selectAllCheckbox.checked = false;
+            selectAllCheckbox.indeterminate = false;
+        } 
+        else if ($checkedCheckbox.length === $allCheckbox.length) {
+            selectAllCheckbox.checked = true;
+            selectAllCheckbox.indeterminate = false;
+        } 
+        else {
+            selectAllCheckbox.checked = true;
+            selectAllCheckbox.indeterminate = true;
+        }
+    }
+
+    var setupCheckbox = function(row, data, dataIndex) {
+        var deviceId = data.twin.deviceId;
+        if(selectedDeviceIds.indexOf(deviceId) !== -1) {
+            $(row).find('input[type="checkbox"]').prop('checked', true);
+            $(row).addClass('selected');
+        }
+
+        if (isMultiSelectionMode()) {
+            $(row).find('input[type="checkbox"]').addClass('datatable_checkbox_show');
+        }
+    }
+
+    var selectAllCheckboxClickHandler = function (e) {
+        var $table = self.dataTable.table().node();
+        var $allCheckbox = $('tbody input[type="checkbox"]', $table);
+        if (this.checked) {
+            $('tbody input[type="checkbox"]:not(:checked)').trigger('click');
+        } else {
+            $('tbody input[type="checkbox"]:checked').trigger('click');
+        }
+
+        e.stopPropagation();
+    }
+
+    var checkboxClickHandler = function (e) {
+        
+        startMultiSelection();
+        var $row = $(this).closest('tr');
+        var deviceId = self.dataTable.row($row).data().twin.deviceId;
+
+        var index = selectedDeviceIds.indexOf(deviceId);
+
+        if (this.checked && index === -1) {
+            selectedDeviceIds.push(deviceId);
+        } 
+        else if (!this.checked && index !== -1) {
+            selectedDeviceIds.splice(index, 1);
+        }
+
+        var message = selectedDeviceIds.length > 1 ? resources.devicesSelected : resources.deviceSelected;
+        $('#lblSelectedCount').text(message.replace('{0}', selectedDeviceIds.length));
+
+        if( this.checked) {
+            $row.addClass('selected');
+        } 
+        else {
+            $row.removeClass('selected');
+        }
+
+        updateDataTableSelectAllCheckbox();
+        stopMultiSelectionIfNoSelectedDevice();
+
+        e.stopPropagation();
+    }
+
+    var startMultiSelection = function () {
+        if (!isMultiSelectionMode()) { 
+            unselectAllRows();
+            closeAndClearDetails();
+            var $table = self.dataTable.table().node();
+            $('tbody input[type="checkbox"]', $table).addClass('datatable_checkbox_show');
+            showMultiSelectionPane();
+            IoTApp.DeviceFilter.setMultiSelectionMode(true);
+        }
+    }
+
+    var stopMultiSelectionIfNeeded = function () {
+        if (isMultiSelectionMode()) {
+            stopMultiSelection();
+        }
+    }
+    
+    var stopMultiSelectionIfNoSelectedDevice = function () {
+        if (!isMultiSelectionMode()) {
+            stopMultiSelection();
+        }
+    }
+    
+    var stopMultiSelection = function () {
+        selectedDeviceIds = [];
+        var $table = self.dataTable.table().node();
+        $('tbody input[type="checkbox"]', $table).prop('checked', false).removeClass('datatable_checkbox_show');
+        unselectAllRows();
+        updateDataTableSelectAllCheckbox();
+        hideMultiSelectionPane();
+        IoTApp.DeviceFilter.setMultiSelectionMode(false);
+    }
+
+    var isMultiSelectionMode = function () {
+        return selectedDeviceIds.length > 0;
+    }
+
+    var showMultiSelectionPane = function () {
+        $('.device_list_multi_selection_grid').css('right', 0);
+    }
+
+    var hideMultiSelectionPane = function () {
+        $('.device_list_multi_selection_grid').css('right', $('.device_list_multi_selection_grid').width() * -1);
+    }
+
+    var getSelectedDeviceIds = function () {
+        return selectedDeviceIds;
+    }
+
     return {
         init: init,
         toggleDetails: toggleDetails,
         reloadGrid: reloadGrid,
         reinitializeDeviceList: reinitializeDeviceList,
-        getAvailableValuesFromPath: getAvailableValuesFromPath
+        getAvailableValuesFromPath: getAvailableValuesFromPath,
+        stopMultiSelectionIfNeeded: stopMultiSelectionIfNeeded
     }
 }, [jQuery, resources]);
 

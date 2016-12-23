@@ -1385,6 +1385,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} device selected.
+        /// </summary>
+        public static string DeviceSelected {
+            get {
+                return ResourceManager.GetString("DeviceSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} devices selected.
+        /// </summary>
+        public static string DevicesSelected {
+            get {
+                return ResourceManager.GetString("DevicesSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device to View:.
         /// </summary>
         public static string DeviceToView {
@@ -1538,7 +1556,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Editor Filter.
+        ///   Looks up a localized string similar to Edit Filter.
         /// </summary>
         public static string EditFilter {
             get {
@@ -3928,6 +3946,15 @@ namespace GlobalResources {
         public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save and Open.
+        /// </summary>
+        public static string SaveAndOpen {
+            get {
+                return ResourceManager.GetString("SaveAndOpen", resourceCulture);
             }
         }
         

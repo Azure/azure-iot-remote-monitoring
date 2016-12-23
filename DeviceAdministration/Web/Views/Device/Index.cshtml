@@ -40,7 +40,9 @@
                 </div>
                 <div class="device_list_toolbar_buttons">
                     <img id="btnOpen" src="/Content/img/open_query.svg" title="@Strings.OpenSavedFilter" class="device_list_toolbar_button" data-bind="openFilterPopover: { template: '#openfilterContent', filterNameList: filterNameList }"/>
+                    <!--ko if: canEdit() -->
                     <img src="/Content/img/edit_filter.svg" title="@Strings.EditFilter" class="device_list_toolbar_button" data-bind="click: showPanel" />
+                    <!-- /ko -->
                     <!--ko if: canSave() -->
                     <img src="/Content/img/save.svg" title="@Strings.SaveFilter" class="device_list_toolbar_button" data-bind="click: saveFilter" />
                     <img src="/Content/img/saveas.svg" title="@Strings.SaveAsFilter" class="device_list_toolbar_button" data-bind="click: openSaveAsDialog" />
@@ -161,25 +163,7 @@
                     </div>
                 </div>
             </div>
-            <div class="filter_panel_dialog_container">
-                <div class="filter_panel_dialog">
-                    <span class="filter_panel_title">@Strings.SaveAs</span>
-                    <div class="filter_panel_filtername_saveas">
-                        <label>@Strings.NameYourFilter</label>
-                        <input class="filter_panel_filtername_saveas_input" data-bind="textInput: saveAsName">
-                    </div>
-
-                    
-                    <div class="filter_panel_buttons">
-                        <button type="button" class="button_base pull-right" data-bind="click: saveAsFilter">
-                            @Strings.Save
-                        </button>
-                        <button type="button" class="button_base filter_panel_button_gray pull-right" data-bind="click: closeSaveAsDialog">
-                            @Strings.Cancel
-                        </button>
-                    </div>
-                </div>
-            </div>
+            
         </div>
 
         <div class="details_grid_closed height_fixed button_details_grid">
@@ -201,6 +185,77 @@
 
         </div>
 
+        <div class="device_list_multi_selection_grid height_fixed">
+            <h2 id="lblSelectedCount" class="device_list_multi_selection_grid_subhead"></h2>
+            <div class="header_grid header_grid_general">
+                <h3 class="grid_subheadhead_detail">@Strings.FilterLabel</h3>
+            </div>
+            <section class="details_grid_general">
+                <p class="grid_detail_value">
+                    <a id="lnkSaveAsFilter">@Strings.SaveAsFilter</a>
+                </p>
+            </section>
+
+            <div class="header_grid header_grid_general">
+                <h3 class="grid_subheadhead_detail">@Strings.Jobs</h3>
+            </div>
+            <section class="details_grid_general">
+            @if (ViewBag.HasManageJobsPerm)
+            {
+                <p class="grid_detail_value">
+                    <a class="multi_selection_job" data-job-type="ScheduleTwinUpdate">@Strings.UpdateTwin</a>
+                </p>
+
+                <p class="grid_detail_value">
+                    <a class="multi_selection_job" data-job-type="ScheduleDeviceMethod">@Strings.InvokeMethod</a>
+                </p>
+            }
+            else
+            {
+                <p class="grid_detail_value">@Strings.HaveNoPermissionError</p>
+            }
+            </section>
+            <div class="device_list_columns_button_container">
+                <button type="button" onclick="IoTApp.DeviceIndex.stopMultiSelectionIfNeeded()" class="button_base">
+                    @Strings.Cancel
+                </button>
+            </div>
+        </div>
+
+        <div class="filter_panel_dialog_container height_fixed">
+            <div class="filter_panel_dialog">
+                <span class="filter_panel_title">@Strings.SaveAs</span>
+                <div class="filter_panel_filtername_saveas">
+                    <label>@Strings.NameYourFilter</label>
+                    <div>
+                        <div id="defaultNameLoadingElement">
+                            <div></div>
+                        </div>
+                        <input class="filter_panel_filtername_saveas_input" data-bind="textInput: saveAsName">
+                    </div>
+                </div>
+
+                <div id="saveAdFilterButtons" class="filter_panel_buttons">
+                    <button type="button" class="button_base pull-right" data-bind="click: saveAsFilter, enable: saveAsName()">
+                        @Strings.Save
+                    </button>
+                    <button type="button" class="button_base filter_panel_button_gray pull-right" data-bind="click: closeSaveAsDialog">
+                        @Strings.Cancel
+                    </button>
+                </div>
+                <div id="saveAdFilterButtonsMultiSelection" class="filter_panel_buttons">
+                    <button type="button" class="button_base pull-right" data-bind="click: saveAsFilterForSelectedDevices.bind($data, true), enable: saveAsName()">
+                        @Strings.SaveAndOpen
+                    </button>
+                    <button type="button" class="button_base filter_panel_secondary_button pull-right" data-bind="click: saveAsFilterForSelectedDevices.bind($data, false), enable: saveAsName()">
+                        @Strings.Save
+                    </button>
+                    <button type="button" class="button_base filter_panel_button_gray pull-right" data-bind="click: closeSaveAsDialog">
+                        @Strings.Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -247,7 +302,9 @@
         deleteFilterConfirmation: '@Html.JavaScriptString(Strings.DeleteFilterConfirmation)',
         deleteFilterWithJobsConfirmation: '@Html.JavaScriptString(Strings.DeleteFilterWithJobsConfirmation)',
         clauseMultipleValuesHint: '@Html.JavaScriptString(Strings.ClauseMultipleValuesHint)',
-        clauseSingleValueHint: '@Html.JavaScriptString(Strings.ClauseSingleValueHint)'
+        clauseSingleValueHint: '@Html.JavaScriptString(Strings.ClauseSingleValueHint)',
+        deviceSelected: '@Html.JavaScriptString(Strings.DeviceSelected)',
+        devicesSelected: '@Html.JavaScriptString(Strings.DevicesSelected)'
     };
 </script>
 

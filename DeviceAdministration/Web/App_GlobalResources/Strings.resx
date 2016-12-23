@@ -2249,7 +2249,7 @@
     <comment>Tooltip.</comment>
   </data>
   <data name="EditFilter" xml:space="preserve">
-    <value>Editor Filter</value>
+    <value>Edit Filter</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="SaveAsFilter" xml:space="preserve">
@@ -2295,6 +2295,18 @@
   <data name="SavedFilters" xml:space="preserve">
     <value>Saved Filters</value>
     <comment>Tooltip.</comment>
+  </data>
+  <data name="DeviceSelected" xml:space="preserve">
+    <value>{0} device selected</value>
+    <comment>Session heading.</comment>
+  </data>
+  <data name="DevicesSelected" xml:space="preserve">
+    <value>{0} devices selected</value>
+    <comment>Session heading.</comment>
+  </data>
+  <data name="SaveAndOpen" xml:space="preserve">
+    <value>Save and Open</value>
+    <comment>Button label.</comment>
   </data>
   <data name="NoDesiredProperties" xml:space="preserve">
     <value>No Desired Properties</value>
