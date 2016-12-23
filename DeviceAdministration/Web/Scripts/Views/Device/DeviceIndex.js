@@ -220,7 +220,7 @@
 
         var onTableDrawn = function () {
             changeDeviceStatus();
-            setImmediate(_setDefaultRowAndPage);
+            setTimeout(_setDefaultRowAndPage, 0);
 
             var pagingDiv = $('#deviceTable_paginate');
             if (pagingDiv) {

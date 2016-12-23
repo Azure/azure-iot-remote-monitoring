@@ -335,7 +335,7 @@
                             terms.push("");
                             this.value = terms.join(", ");
                             $(this).change();
-                            setImmediate(function () { $(e.target).autocomplete("search", ""); });
+                            setTimeout(function () { $(e.target).autocomplete("search", ""); }, 0);
 
                             return false;
                         }
