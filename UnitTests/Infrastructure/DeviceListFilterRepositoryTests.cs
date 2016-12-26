@@ -238,7 +238,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             _filterTableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListFilterTableEntity>>()))
                 .ReturnsAsync(tableEntities);
             ret = await deviceListFilterRepository.GetRecentFiltersAsync(max);
-            var expectedNams = tableEntities.OrderBy(e => e.Id).ThenByDescending(e => e.Timestamp).Take(max).Select(e => e.Name).ToArray();
+            var expectedNams = tableEntities.OrderByDescending(e => e.Timestamp).Take(max).Select(e => e.Name).ToArray();
             Assert.Equal(max, ret.Count());
             Assert.Equal(expectedNams, ret.Select(e => e.Name).ToArray());
         }

@@ -124,7 +124,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             TableQuery<DeviceListFilterTableEntity> query = new TableQuery<DeviceListFilterTableEntity>();
             var entities = await _filterTableStorageClient.ExecuteQueryAsync(query);
-            var ordered = entities.OrderBy(e => e.Id).ThenByDescending(e => e.Timestamp);
+            // replace the timestamp of default filter with current time so that it is always sorted at top of filter list.
+            var ordered = entities.Select(e => {
+                if (e.Id.Equals(DefaultDeviceListFilter.Id)) {
+                    e.Timestamp = DateTimeOffset.Now;
+                }
+                return e;
+            }).OrderByDescending(e => e.Timestamp);
             if (Max > 0)
             {
                 return ordered.Take(Max).Select(e => BuildFilterModelFromEntity(e));
