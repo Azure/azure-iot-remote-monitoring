@@ -9,7 +9,6 @@
         self.deviceGridClosed = $(".details_grid_closed");
         self.deviceGridContainer = $(".grid_container");
         self.buttonDetailsGrid = $(".button_details_grid");
-        self.imageNameList = ["tags.network.AT&T", "tags.network.T-Mobile", "tags.network.Verizon"];
 
         Cookies.json = true;
 
@@ -137,44 +136,23 @@
             var columnDefs = [];
             data.forEach(function (column, index) {
                 var columnOption = {
-                    data: function (row, type, set, meta) {
-                        var validdata = {
-                            value: {},
-                            columninfo:""
-                        };
-                        if (column.name.indexOf("reported.") === 0 || column.name.indexOf("desired.") === 0) {
-                            validdata.value = row.twin.properties;
-                        }
-                        else {
-                            validdata.value = row.twin;
-                        }
-                        var twinSearchToken = column.name.split('.');
-
-                        for (var i = 0; i < twinSearchToken.length; i++)
-                        {
-                            if (validdata.value) {
-                                validdata.value = validdata.value[twinSearchToken[i]];
-                            }
-                            else {
-                                validdata.value = "";
-                            }
-                        }
-                        validdata.columninfo = column.name;
-
-                        return validdata;
-                    },//"twin." + (column.name.indexOf("reported.") === 0 || column.name.indexOf("desired.") === 0 ? "properties." : "") + column.name,
+                    data:"twin." + (column.name.indexOf("reported.") === 0 || column.name.indexOf("desired.") === 0 ? "properties." : "") + column.name,
                     mRender: function (data, type, row, meta) {
+                        if (self.dataTable) {
+                          return  htmlEncode(data, self.dataTable.column(meta.col).dataSrc())
+                        }
                         return htmlEncode(data);
                     },
-                    name: column.alias || column.name
+                    name: column.alias || column.name,
+                    rawName: column.name,
                 };
 
                 if (column.name === "tags.HubEnabledState") {
                     columnOption.mRender = function (data) {
-                        if (data.value === "Disabled") {
-                            return htmlEncode({ value: "false" });
-                        } else if (data.value === "Running") {
-                            return htmlEncode({ value: "true" });
+                        if (data === "Disabled") {
+                            return htmlEncode("false" );
+                        } else if (data === "Running") {
+                            return htmlEncode("true");
                         }
                         return htmlEncode(data);
                     };
@@ -320,14 +298,8 @@
     }
 
     var htmlEncode = function (data) {
-        if (self.imageNameList.indexOf(data.columninfo + '.' + data.value) >= 0)
-        {
-            return $('<img/>').attr("src", 'https://localrmea00a.blob.core.windows.net/uploadedimgs/' + data.columninfo + '.' + data.value + '.jpg')
-                .addClass("device_list_cell_image").get(0).outerHTML +
-                $('<div/>').addClass("device_list_cell_text").text(data.value).get(0).outerHTML;
-        }
         // "trick" to HTML encode data from JS--essentially dip it in a <div> and pull it out again
-        return data.value ? $('<div/>').text(data.value).html() : null;
+        return data ? $('<div/>').text(data).html() : null;
     }
 
     var onDataTableAjaxCalled = function (data, fnCallback) {

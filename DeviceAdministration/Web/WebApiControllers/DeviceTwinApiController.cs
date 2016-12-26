@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -70,7 +71,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     key = key.Substring(8);
                 }
                 updatetwin.Properties.Desired.Set(key, twin.Value.Value.ToString());
-                _nameCacheLogic.AddNameAsync(twin.Key);
+                await _nameCacheLogic.AddNameAsync(twin.Key);
             }
             await _deviceManager.UpdateTwinAsync(deviceId, updatetwin);
         }

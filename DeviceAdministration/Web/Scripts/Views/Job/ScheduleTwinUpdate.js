@@ -51,6 +51,7 @@
                 self.tags.push(new TagsEditItem("", "", false, false))
                 self.onetagleft(false);
             }
+            return true
         }
 
         this.removeTag = function (tag) {

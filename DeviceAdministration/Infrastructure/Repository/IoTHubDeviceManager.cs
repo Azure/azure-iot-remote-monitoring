@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Shared;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -113,6 +114,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             return twins;
+        }
+
+        public async Task<int> GetDeviceCountAsync(DeviceListFilter filter)
+        {
+            var sqlQuery = filter.GetSQLQuery(true);
+            var deviceQuery = this._deviceManager.CreateQuery(sqlQuery);
+
+            var result = new List<string>();
+            while (deviceQuery.HasMoreResults)
+            {
+                result.AddRange(await deviceQuery.GetNextAsJsonAsync());
+            }
+            JToken jtoken = null;
+            if (result != null && result.Count != 0)
+            {
+                jtoken = JToken.Parse(String.Join(String.Empty, result));
+                return jtoken.Value<int>("total");
+            }
+            else
+            {
+                return 0;
+            }
+
+            
         }
 
         public async Task<long> GetDeviceCountAsync()

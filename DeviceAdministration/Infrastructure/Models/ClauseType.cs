@@ -31,6 +31,7 @@
         GT, // >
         LE, // <=
         GE, // >=
-        IN  // IN
+        IN,  // IN
+        ISDEFINED
     }
 }

@@ -12,6 +12,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Data
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json.Linq;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
+using static Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions.TwinCollectionExtension;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
@@ -19,10 +21,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     public class DeviceApiController : WebApiControllerBase
     {
         private readonly IDeviceLogic _deviceLogic;
+        private readonly IDeviceListFilterRepository _filterRepository;
+        private readonly IIoTHubDeviceManager _deviceManager;
 
-        public DeviceApiController(IDeviceLogic deviceLogic)
+        public DeviceApiController(IDeviceLogic deviceLogic,IDeviceListFilterRepository filterRepository,IIoTHubDeviceManager deviceManager)
         {
             this._deviceLogic = deviceLogic;
+            this._filterRepository = filterRepository;
+            this._deviceManager = deviceManager;
         }
 
         // POST: api/v1/devices/sample/5
@@ -343,5 +349,98 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 await Task.FromResult(true);
             });
         }
+
+        [HttpPost]
+        [Route("count/{filterId}")]
+        [WebApiRequirePermission(Permission.ViewDevices)]
+        public async Task<HttpResponseMessage> GetApplicableDeviceCountByMethod(string filterId,[FromBody] dynamic method )
+        {
+            string queryColumnName;
+            string methodNamePostfix = "";
+
+            // Deal multi-params method name postfix
+            foreach (dynamic param in method.parameters)
+            {
+                methodNamePostfix += $"_{param.Type}";
+            }
+            
+            // Build twin property name for supported method
+            queryColumnName = $"reported.SupportedMethods.{method.methodName}{methodNamePostfix}";
+            DeviceListFilter rawfilter = new DeviceListFilter();
+            DeviceListFilter methodfilter = new DeviceListFilter();
+            if (filterId == "*" || filterId == DeviceListFilterRepository.DefaultDeviceListFilter.Id)
+            {
+
+                rawfilter = DeviceListFilterRepository.DefaultDeviceListFilter;
+                methodfilter = rawfilter.AddClause(new Clause() { ColumnName = queryColumnName, ClauseType = ClauseType.ISDEFINED, ClauseValue = "" });
+            }
+            else
+            {
+                rawfilter = await _filterRepository.GetFilterAsync(filterId);
+                methodfilter = rawfilter.AddClause(new Clause() { ColumnName = queryColumnName, ClauseType = ClauseType.ISDEFINED, ClauseValue = "" });
+            }
+
+            var totalDeviceForRawFilter = await _deviceManager.GetDeviceCountAsync(rawfilter);
+            var methodApplicableDeviceForFilter = await _deviceManager.GetDeviceCountAsync(methodfilter);
+
+            return await GetServiceResponseAsync(async () =>
+            {
+               return await Task.FromResult(new { Total = totalDeviceForRawFilter, Applicable = methodApplicableDeviceForFilter });
+            });
+        }
+
+        [HttpPost]
+        [Route("count/{filterId}/save")]
+        [WebApiRequirePermission(Permission.ViewDevices)]
+        public async Task<HttpResponseMessage> SaveApplicableDeviceFilter(string filterId,bool isMatched, [FromBody] dynamic method)
+        {
+            string queryColumnName;
+            string methodNamePostfix = "";
+
+            // Deal multi-params method name postfix
+            foreach (dynamic param in method.parameters)
+            {
+                methodNamePostfix += $"_{param.Type}";
+            }
+
+            // Build twin property name for supported method
+            queryColumnName = $"reported.SupportedMethods.{method.methodName}{methodNamePostfix}";
+            DeviceListFilter rawfilter = new DeviceListFilter();
+            DeviceListFilter methodfilter = new DeviceListFilter();
+            if (filterId == "*" || filterId == DeviceListFilterRepository.DefaultDeviceListFilter.Id)
+            {
+
+                rawfilter = DeviceListFilterRepository.DefaultDeviceListFilter;
+                methodfilter = rawfilter.AddClause(new Clause() { ColumnName = queryColumnName, ClauseType = ClauseType.ISDEFINED, ClauseValue = "" });
+            }
+            else
+            {
+                rawfilter = await _filterRepository.GetFilterAsync(filterId);
+                methodfilter = rawfilter.AddClause(new Clause() { ColumnName = queryColumnName, ClauseType = ClauseType.ISDEFINED, ClauseValue = "" });
+            }
+
+            if (isMatched)
+            {
+                methodfilter.AdvancedClause = methodfilter.GetSQLCondition();
+                methodfilter.Name = $"{rawfilter.Name}_{method.methodName}_match";
+            }
+            else
+            {
+                methodfilter.AdvancedClause = methodfilter.GetSQLCondition() + "!= true";
+                methodfilter.Name = $"{rawfilter.Name}_{method.methodName}_nomatch";
+            }
+
+            methodfilter.Id = Guid.NewGuid().ToString();
+            methodfilter.IsAdvanced = true;
+            methodfilter.IsTemporary = true;            
+            var savedfilter = await _filterRepository.SaveFilterAsync(methodfilter, false);
+
+
+            return await GetServiceResponseAsync(async () =>
+            {
+                return await Task.FromResult(new { filterId = savedfilter.Id});
+            });
+        }        
+
     }
 }
