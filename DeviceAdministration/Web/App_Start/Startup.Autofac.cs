@@ -94,6 +94,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             builder.RegisterType<JobRepository>().As<IJobRepository>();
             builder.RegisterType<DeviceListFilterRepository>().As<IDeviceListFilterRepository>();
             builder.RegisterType<UserSettingsRepository>().As<IUserSettingsRepository>();
+            builder.RegisterType<DeviceIconRepository>().As<IDeviceIconRepository>();
         }
     }
 }

@@ -2324,4 +2324,40 @@
     <value>No Tags</value>
     <comment>Informational text block.</comment>
   </data>
+  <data name="ApplyExistingImageLabel" xml:space="preserve">
+    <value>Apply existing image</value>
+    <comment>Option label.</comment>
+  </data>
+  <data name="EditIconFor" xml:space="preserve">
+    <value>Edit Image for {0}</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="PreviewImage" xml:space="preserve">
+    <value>Preview</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="RemoveCurrentImageLabel" xml:space="preserve">
+    <value>Remove current image</value>
+    <comment>Option label.</comment>
+  </data>
+  <data name="UploadNewImageLabel" xml:space="preserve">
+    <value>Upload new image</value>
+    <comment>Option label.</comment>
+  </data>
+  <data name="FailedToUploadImage" xml:space="preserve">
+    <value>Failed to upload image file, please retry.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="OpenImage" xml:space="preserve">
+    <value>Open Image</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="OpenImageTooltip" xml:space="preserve">
+    <value>Please choose an image file.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="OverSizedFile" xml:space="preserve">
+    <value>Please use an image with smaller size than 4MB.</value>
+    <comment>Error message.</comment>
+  </data>
 </root>

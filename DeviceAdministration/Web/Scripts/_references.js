@@ -40,6 +40,7 @@
 /// <reference path="views/device/deviceselecttype.js" />
 /// <reference path="views/device/editdesiredproperties.js" />
 /// <reference path="views/device/editdeviceproperties.js" />
+/// <reference path="views/device/editicon.js" />
 /// <reference path="views/device/edittags.js" />
 /// <reference path="views/device/removedevice.js" />
 /// <reference path="Views/DeviceCommand/DeviceCommandIndex.js" />

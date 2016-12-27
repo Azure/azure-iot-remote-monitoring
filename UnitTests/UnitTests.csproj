@@ -221,6 +221,7 @@
     <Compile Include="Infrastructure\ApiRegistrationRepositoryTest.cs" />
     <Compile Include="Infrastructure\CommandParameterTypeLogicTests.cs" />
     <Compile Include="Common\ExceptionSerializationTests.cs" />
+    <Compile Include="Infrastructure\DeviceIconRepositoryTest.cs" />
     <Compile Include="Infrastructure\DeviceListFilterRepositoryTests.cs" />
     <Compile Include="Infrastructure\DeviceListFilterTests.cs" />
     <Compile Include="Infrastructure\DeviceLogicTests.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="Web\Helpers\JasperCredentialProviderTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceActionsApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceApiControllerTests.cs" />
+    <Compile Include="Web\WebApiControllers\DeviceIconApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceRulesApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\DeviceListColumnsApiControllerTests.cs" />
     <Compile Include="Web\WebApiControllers\JobApiControllerTests.cs" />

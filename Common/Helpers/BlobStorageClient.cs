@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
@@ -35,6 +36,60 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 accessCondition,
                 options,
                 operationContext);
+        }
+
+        public async Task<CloudBlockBlob> UploadFromStreamAsync(string blobName, Stream stream, AccessCondition condition, BlobRequestOptions options, OperationContext context)
+        {
+            await CreateCloudBlobContainerAsync();
+
+            var blob = await CreateCloudBlockBlobAsync(blobName);
+            await blob.UploadFromStreamAsync(stream, condition, options, context);
+            return blob;
+        }
+
+        public async Task<CloudBlockBlob> DownloadToStream(string blobName, Stream stream)
+        {
+            await CreateCloudBlobContainerAsync();
+
+            var blob = _container.GetBlockBlobReference(blobName);
+            blob.DownloadToStream(stream);
+            return blob;
+        }
+
+        public async Task<List<ICloudBlob>> ListBlobs(string blobPrefix, bool useFlatBlobListing = true)
+        {
+            await CreateCloudBlobContainerAsync();
+
+            var blobs = new List<ICloudBlob>();
+            foreach (ICloudBlob blob in _container.ListBlobs(blobPrefix, useFlatBlobListing))
+            {
+                blobs.Add(blob);
+            }
+            return blobs;
+        }
+
+        public async Task<CloudBlockBlob> MoveBlob(string sourceName, string targetName)
+        {
+            await CreateCloudBlobContainerAsync();
+
+            var sourceBlob = _container.GetBlockBlobReference(sourceName);
+            var targetBlob = _container.GetBlockBlobReference(targetName);
+            if (targetBlob.Exists())
+            {
+                // create a new name if conflict with existing icon by appending a timestamp.
+                if (!sourceBlob.Properties.ContentMD5.Equals(targetBlob.Properties.ContentMD5))
+                {
+                    targetName = $"{targetName}-{sourceBlob.Properties.LastModified.ToString()}";
+                    await targetBlob.StartCopyAsync(sourceBlob);
+                }
+            }
+            else
+            {
+                await targetBlob.StartCopyAsync(sourceBlob);
+            }
+
+            sourceBlob.DeleteAsync();
+            return targetBlob;
         }
 
         public async Task<byte[]> GetBlobData(string blobName)
@@ -95,6 +150,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
             return new BlobStorageReader(blobs);
         }
+
+        public Task<SharedAccessBlobPolicies> CreateSASPolicyIfNotExist(string policyName, SharedAccessBlobPermissions permissions, DateTimeOffset offset)
+        {
+            var currentPermissions = _container.GetPermissions();
+            var policies = currentPermissions.SharedAccessPolicies;
+            if (!policies.ContainsKey(policyName))
+            {
+                policies.Add(policyName,
+                    new SharedAccessBlobPolicy
+                    {
+                        Permissions = permissions,
+                        SharedAccessExpiryTime = offset,
+                    });
+
+                _container.SetPermissions(currentPermissions);
+            }
+            return Task.FromResult<SharedAccessBlobPolicies>(policies);
+        }
+
 
         private async Task CreateCloudBlobContainerAsync()
         {

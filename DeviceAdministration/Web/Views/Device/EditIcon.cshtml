@@ -1,0 +1,91 @@
+﻿@using GlobalResources
+@using System.Globalization
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.EditDevicePropertiesModel
+
+@{
+    ViewBag.Title = @Strings.EditDeviceProperties;
+    Layout = "~/Views/Shared/_LayoutNoNavigation.cshtml";
+}
+
+<header class="header_main">
+    <button class="header_main__button_back" type="button" data-bind="click: backButtonClicked"></button>
+    <h2 class="header_main__subhead header_main__subhead--large">@string.Format(Strings.EditIconFor, Model.DeviceId)</h2>
+</header>
+<div class="content_outer">
+
+    <div class="content_inner">
+        <div id="content">
+            <form id="deviceIconForm" action="" enctype="multipart/form-data">
+                <div class="device_icon_action_container">
+                    <div style="margin-right:10px">
+                        <label class="edit_form__label device_icon_label">
+                            <input type="radio" name="actionType" value="Upload" data-bind='checked: actionType' />
+                            @Strings.UploadNewImageLabel
+                        </label>
+                    </div>
+                    <div class="device_icon_action_upload">
+                        <input type="text" id="filePathBox" class="edit_form__file" placeholder="@Strings.OpenImageTooltip" disabled="disabled">
+                        <input type="file" id="file" class="device_icon_file" size="1" accept="image/gif, image/jpeg, image/png" hidefocus>
+                        <button id="openImageBtn" class="button_base devicelist_toolbar_button devicelist_toolbar_button_gray device_icon_button_open_image">@Strings.OpenImage</button>
+                    </div>
+                    <div id="progressBar"></div>
+                    <p class="edit_form__label">@Strings.PreviewImage</p>
+                    <img id="previewImage" class="device_icon_preview_image" data-bind="attr: {src: previewIcon().url } " />
+                </div>
+                <div class="device_icon_action_container" data-bind='checked: actionType'>
+                    <div>
+                        <label class="edit_form__label device_icon_label">
+                            <input type="radio" name="actionType" value="Apply" data-bind='checked: actionType' />
+                            @Strings.ApplyExistingImageLabel
+                        </label>
+                    </div>
+                    <div id="imageListContainer" data-bind="foreach: iconList ">
+                        <img class="device_icon_apply_image" data-bind="attr: {id: name, src: url }" />
+                    </div>
+                </div>
+
+                <div class="device_icon_action_container" data-bind="visible: removable">
+                    <div>
+                        <label class="edit_form__label device_icon_label">
+                            <input type="radio" name="actionType" value="Remove" data-bind='checked: actionType' />
+                            @Strings.RemoveCurrentImageLabel
+                        </label>
+                    </div>
+                    <img id="currentImage" class="device_icon_current_image" data-bind="attr: { src: currentIcon().url }" />
+                </div>
+                <fieldset class="fieldset_button">
+                    <button id="cancelBtn" class="button_base button_secondary button_cancel" data-bind="click: backButtonClicked">@Strings.Cancel</button>
+                    <button id="saveBtn" class="button_base">@Strings.Save</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    "use strict";
+
+    var resources = {
+        redirectUrl: '@Url.Action("Index", "Device")',
+        overSizedFile: '@Html.JavaScriptString(Strings.OverSizedFile)',
+        uploadActionType: '@Html.JavaScriptString(IconActionType.Upload.ToString())',
+        applyActionType: '@Html.JavaScriptString(IconActionType.Apply.ToString())',
+        removeActionType: '@Html.JavaScriptString(IconActionType.Remove.ToString())',
+        iconTagName: '@Html.JavaScriptString(Constants.DeviceIconTagName)',
+        failedToUploadImage: '@Html.JavaScriptString(Strings.FailedToUploadImage)',
+        failedToUpdateTwin: '@Html.JavaScriptString(Strings.FailedToUpdateTwin)'
+    }
+</script>
+<script type="text/javascript" src="~/Scripts/Views/Device/EditIcon.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        IoTApp.EditIcon.init("@Model.DeviceId");
+    });
+
+</script>
+

@@ -816,6 +816,18 @@ nav .selected {
   min-height: 30px;
   box-sizing: content-box;
 }
+.edit_form__file {
+  display: block;
+  float: left;
+  width: 300px;
+  margin: 10px 1em 0 0;
+  border: 1px solid #999999;
+  background-color: #f2f2f2;
+  font-size: 0.85em;
+  padding: 0 5px;
+  min-height: 30px;
+  box-sizing: content-box;
+}
 .edit_form__link {
   font-size: 0.8em;
 }
@@ -1730,6 +1742,57 @@ table#alertHistoryTable tr.selectedAlert {
   padding: 14px 20px 20px 20px;
   font-weight: bold;
 }
+.device_icon_button_open_image:before {
+  float: left;
+  width: 1.8em;
+  text-align: center;
+  margin: 0.2em 0.4em -0.6em -0.5em;
+  pointer-events: none;
+  content: url('/Content/img/open_image.svg');
+}
+.device_icon_label {
+  text-transform: none;
+  display: inline-block;
+}
+.device_icon_action_container {
+  margin-bottom: 20px;
+}
+.device_icon_file {
+  margin-top: 10px;
+}
+#progressBar {
+  width: 310px;
+  background-color: white;
+}
+#progressBar .ui-progressbar-value {
+  background-color: lime;
+  height: 2px;
+}
+.device_icon_action_upload {
+  height: 45px;
+}
+.device_icon_preview_image {
+  height: 100px;
+  width: 100px;
+}
+.device_icon_apply_image {
+  height: 100px;
+  width: 100px;
+}
+.device_icon_apply_image:hover {
+  border-style: groove;
+  border-color: aqua;
+  border-width: thin;
+}
+.device_icon_apply_image_selected {
+  border-style: groove;
+  border-color: deepskyblue;
+  border-width: thin;
+}
+.device_icon_current_image {
+  height: 100px;
+  width: 100px;
+}
 .grid_rules_details {
   overflow: auto;
   background-color: white;
@@ -2636,7 +2699,7 @@ input[type="checkbox"] {
   line-height: normal;
 }
 input[type="file"] {
-  display: block;
+  display: none;
 }
 input[type="range"] {
   display: block;

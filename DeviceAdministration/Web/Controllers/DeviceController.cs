@@ -364,6 +364,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View(new EditDevicePropertiesModel() { DeviceId = deviceId });
         }
 
+        [RequirePermission(Permission.EditDeviceMetadata)]
+        public ActionResult EditIcon(string deviceId)
+        {
+            return View(new EditDevicePropertiesModel() { DeviceId = deviceId });
+        }
+
         private static IEnumerable<DevicePropertyValueModel> ApplyDevicePropertyOrdering(IEnumerable<DevicePropertyValueModel> devicePropertyModels)
         {
             Debug.Assert(

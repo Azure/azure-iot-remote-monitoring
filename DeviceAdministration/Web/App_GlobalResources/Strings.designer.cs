@@ -332,6 +332,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply existing image.
+        /// </summary>
+        public static string ApplyExistingImageLabel {
+            get {
+                return ResourceManager.GetString("ApplyExistingImageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Associate.
         /// </summary>
         public static string Associate {
@@ -1565,6 +1574,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Image for {0}.
+        /// </summary>
+        public static string EditIconFor {
+            get {
+                return ResourceManager.GetString("EditIconFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Tags for {0}.
         /// </summary>
         public static string EditTagsFor {
@@ -1885,6 +1903,15 @@ namespace GlobalResources {
         public static string FailedToUpdateTwin {
             get {
                 return ResourceManager.GetString("FailedToUpdateTwin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to upload image file, please retry..
+        /// </summary>
+        public static string FailedToUploadImage {
+            get {
+                return ResourceManager.GetString("FailedToUploadImage", resourceCulture);
             }
         }
         
@@ -3320,6 +3347,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open Image.
+        /// </summary>
+        public static string OpenImage {
+            get {
+                return ResourceManager.GetString("OpenImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please choose an image file..
+        /// </summary>
+        public static string OpenImageTooltip {
+            get {
+                return ResourceManager.GetString("OpenImageTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open Saved Filter.
         /// </summary>
         public static string OpenSavedFilter {
@@ -3361,6 +3406,15 @@ namespace GlobalResources {
         public static string OptionalBrackets {
             get {
                 return ResourceManager.GetString("OptionalBrackets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please use an image with smaller size than 4MB..
+        /// </summary>
+        public static string OverSizedFile {
+            get {
+                return ResourceManager.GetString("OverSizedFile", resourceCulture);
             }
         }
         
@@ -3442,6 +3496,15 @@ namespace GlobalResources {
         public static string PowerSourceVoltage {
             get {
                 return ResourceManager.GetString("PowerSourceVoltage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preview.
+        /// </summary>
+        public static string PreviewImage {
+            get {
+                return ResourceManager.GetString("PreviewImage", resourceCulture);
             }
         }
         
@@ -3613,6 +3676,15 @@ namespace GlobalResources {
         public static string RemoteNameNotResolved {
             get {
                 return ResourceManager.GetString("RemoteNameNotResolved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove current image.
+        /// </summary>
+        public static string RemoveCurrentImageLabel {
+            get {
+                return ResourceManager.GetString("RemoveCurrentImageLabel", resourceCulture);
             }
         }
         
@@ -4846,6 +4918,15 @@ namespace GlobalResources {
         public static string UpdateTwin {
             get {
                 return ResourceManager.GetString("UpdateTwin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload new image.
+        /// </summary>
+        public static string UploadNewImageLabel {
+            get {
+                return ResourceManager.GetString("UploadNewImageLabel", resourceCulture);
             }
         }
         

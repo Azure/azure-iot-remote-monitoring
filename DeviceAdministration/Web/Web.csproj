@@ -304,6 +304,7 @@
     <Compile Include="Models\ActionPropertiesModel.cs" />
     <Compile Include="Models\AlertHistoryDeviceModel.cs" />
     <Compile Include="Models\EditDeviceRuleModel.cs" />
+    <Compile Include="Models\IconActionType.cs" />
     <Compile Include="Models\PreScheduleJobModel.cs" />
     <Compile Include="Models\ScheduleDeviceMethodModel.cs" />
     <Compile Include="Models\DeviceJobModel.cs" />
@@ -341,6 +342,7 @@
     <Compile Include="Security\WebApiRequirePermissionAttribute.cs" />
     <Compile Include="WebApiControllers\DeviceActionsApiController.cs" />
     <Compile Include="WebApiControllers\DeviceApiController.cs" />
+    <Compile Include="WebApiControllers\DeviceIconApiController.cs" />
     <Compile Include="WebApiControllers\DeviceTwinApiController.cs" />
     <Compile Include="Navigation\NavigationMenu.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -382,6 +384,7 @@
     <Content Include="Content\img\column_down.svg" />
     <Content Include="Content\img\column_up.svg" />
     <Content Include="Content\img\delete.svg" />
+    <Content Include="Content\img\device_default.svg" />
     <Content Include="Content\img\edit_columns.svg" />
     <Content Include="Content\img\edit_filter.svg" />
     <Content Include="Content\img\edit_name.svg" />
@@ -391,6 +394,7 @@
     <Content Include="Content\img\icon-globe.png" />
     <Content Include="Content\img\icon_jasper.svg" />
     <Content Include="Content\img\icon_jobs.svg" />
+    <Content Include="Content\img\open_image.svg" />
     <Content Include="Content\img\open_query.svg" />
     <Content Include="Content\img\refresh.svg" />
     <Content Include="Content\img\save.svg" />
@@ -594,6 +598,7 @@
     <Content Include="Scripts\Views\Device\DeviceIndex.js" />
     <Content Include="Scripts\Views\Device\DeviceListColumns.js" />
     <Content Include="Scripts\Views\Device\DeviceSelectType.js" />
+    <Content Include="Scripts\Views\Device\EditIcon.js" />
     <Content Include="Scripts\Views\Device\EditTags.js" />
     <Content Include="Scripts\Views\Device\EditDesiredProperties.js" />
     <Content Include="Scripts\Views\Device\EditDeviceProperties.js" />
@@ -697,6 +702,7 @@
     <Content Include="Views\Device\EditDesiredProperties.cshtml" />
     <Content Include="Views\Device\EditTags.cshtml" />
     <Content Include="Views\Device\_DeviceJobs.cshtml" />
+    <Content Include="Views\Device\EditIcon.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
