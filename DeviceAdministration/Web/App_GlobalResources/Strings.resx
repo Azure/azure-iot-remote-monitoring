@@ -2296,4 +2296,12 @@
     <value>Saved Filters</value>
     <comment>Tooltip.</comment>
   </data>
+  <data name="NoDesiredProperties" xml:space="preserve">
+    <value>No Desired Properties</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="NoTags" xml:space="preserve">
+    <value>No Tags</value>
+    <comment>Informational text block.</comment>
+  </data>
 </root>

@@ -62,25 +62,32 @@
     @if (Model.IsDeviceEditEnabled)
     {
         @Html.ActionLink(@Strings.Edit, "EditTags", "Device", new { deviceId = Model.DeviceID }, new
-        {
-            id = "edit_tags_link",
-            @class ="link_grid_subheadhead_detail",
-        })
+   {
+       id = "edit_tags_link",
+       @class = "link_grid_subheadhead_detail",
+   })
     }
 </div>
 
 <section class="details_grid_general tag_toggle_target" id="tagsGrid">
-    @foreach (var val in tags)
+    @if (tags.Any())
     {
+        foreach (var val in tags)
+        {
         <h4 class="grid_subhead_detail_label">@val.Name.Substring(5)</h4>
-        if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
-        {
+            if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
+            {
             <p class="grid_detail_value" name="tagField_@val.Name">@resolvedDate.Value.ToString()</p>
-        }
-        else
-        {
+            }
+            else
+            {
             <p class="grid_detail_value" name="tagField_@val.Name">@val.Value</p>
+            }
         }
+    }
+    else
+    {
+        <p class="grid_detail_value">@Strings.NoTags</p>
     }
 </section>
 
@@ -92,30 +99,37 @@
     @if (Model.IsDeviceEditEnabled)
     {
         @Html.ActionLink(@Strings.Edit, "EditDesiredProperties", "Device", new { deviceId = Model.DeviceID }, new
-        {
-            id = "edit_desiredProperties_link",
-            @class = "link_grid_subheadhead_detail",
-        })
+   {
+       id = "edit_desiredProperties_link",
+       @class = "link_grid_subheadhead_detail",
+   })
     }
 </div>
 
 <section class="details_grid_general desiredproperty_toggle_target" id="desiredPropertiesGrid">
-    @foreach (var val in desiredProperties)
+    @if (desiredProperties.Any())
     {
-        <h4 class="grid_subhead_detail_label">@val.Name.Substring(19)</h4>
-        <div>
-            <p class="grid_detail_value" name="desiredPropertyField_@val.Name">
-                @if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
-                {
-                    @resolvedDate.Value.ToString()
-                }
-                else
-                {
-                    @val.Value
-                }
-                <span class="grid_detail_lastUpdated pull-right" name="desiredPropertyField_lastUpdated_@val.Name">@TimeSpanExtension.ToFloorShortString(utcNow - val.LastUpdatedUtc, Strings.LastUpdatedFormatString)</span>
-            </p>
-        </div>
+        foreach (var val in desiredProperties)
+        {
+            <h4 class="grid_subhead_detail_label">@val.Name.Substring(19)</h4>
+            <div>
+                <p class="grid_detail_value" name="desiredPropertyField_@val.Name">
+                    @if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
+                    {
+                        @resolvedDate.Value.ToString()
+                    }
+                    else
+                    {
+                        @val.Value
+                    }
+                    <span class="grid_detail_lastUpdated pull-right" name="desiredPropertyField_lastUpdated_@val.Name">@TimeSpanExtension.ToFloorShortString(utcNow - val.LastUpdatedUtc, Strings.LastUpdatedFormatString)</span>
+                </p>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="grid_detail_value">@Strings.NoDesiredProperties</p>
     }
 </section>
 
@@ -158,7 +172,7 @@
 
 <section class="details_grid_general job_toggle_target" id="deviceJobGrid">
     <div id="deviceJobLoadingElement" class="loader_container_panel">
-        <div class="loader_container__loader loader_container__loader--large_top_margin"/>
+        <div class="loader_container__loader loader_container__loader--large_top_margin" />
     </div>
 </section>
 

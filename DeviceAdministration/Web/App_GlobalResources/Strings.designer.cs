@@ -3113,6 +3113,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Desired Properties.
+        /// </summary>
+        public static string NoDesiredProperties {
+            get {
+                return ResourceManager.GetString("NoDesiredProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No device selected.
         /// </summary>
         public static string NoDeviceSelectedLabel {
@@ -3199,6 +3208,15 @@ namespace GlobalResources {
         public static string NoscriptP2 {
             get {
                 return ResourceManager.GetString("NoscriptP2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Tags.
+        /// </summary>
+        public static string NoTags {
+            get {
+                return ResourceManager.GetString("NoTags", resourceCulture);
             }
         }
         
