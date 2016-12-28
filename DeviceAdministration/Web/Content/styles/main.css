@@ -1308,10 +1308,11 @@ table#alertHistoryTable tr.selectedAlert {
   background-color: white;
   color: gray;
   border: 1px solid gray;
-  margin: 4px;
+  margin: 4px 8px 4px 0px;
   padding: 5px;
   height: 22px;
   cursor: pointer;
+  border-radius: 3px;
 }
 .filter_panel_clause_text {
   display: block;
@@ -1380,7 +1381,7 @@ table#alertHistoryTable tr.selectedAlert {
 }
 .filter_panel_clause_edit {
   width: 100%;
-  margin: 10px 10px 10px 4px;
+  margin: 10px 10px 10px 0px;
 }
 .filter_panel_clause_edit_label {
   color: gray;
@@ -1415,8 +1416,9 @@ table#alertHistoryTable tr.selectedAlert {
 .filter_panel_clause_edit_row_add {
   -webkit-flex: none;
   flex: none;
-  width: 100px;
+  width: 6.45em;
   padding: 2px 14px 2px 0px;
+  padding-right: 10px;
 }
 .filter_panel_buttons {
   height: 32px;
@@ -1486,6 +1488,8 @@ table#alertHistoryTable tr.selectedAlert {
   position: absolute;
   top: 2px;
   right: 0px;
+  font-size: 16px;
+  font-weight: normal;
 }
 .filter_panel_secondary_button {
   margin-right: 10px;
