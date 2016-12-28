@@ -798,20 +798,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         throw new DeviceRequiredPropertyNotFoundException("Required DeviceProperties not found");
                     }
 
-                    if (device.DeviceProperties.Longitude == null || device.DeviceProperties.Latitude == null)
-                    {
-                        continue;
-                    }
-
                     double latitude;
                     double longitude;
 
                     try
                     {
-                        latitude = device.DeviceProperties.Latitude.Value;
-                        longitude = device.DeviceProperties.Longitude.Value;
+                        latitude = (double)device.Twin.Properties.Reported["Latitude"];
+                        longitude = (double)device.Twin.Properties.Reported["Longitude"];
                     }
-                    catch (FormatException)
+                    catch
                     {
                         continue;
                     }

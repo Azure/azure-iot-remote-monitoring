@@ -1899,16 +1899,16 @@ table#alertHistoryTable tr.selectedAlert {
   }
 }
 .deviceid_case_warning {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .add_device_create_form {
-  padding: 15px 30px;
+  padding: 0 30px;
   background-color: white;
-  font-size: 1.4em;
+  font-size: 16px;
   color: #4d4d4d;
 }
 .radio_button {
-  margin: 15px 0;
+  margin: 20px 0;
 }
 .radio_button__label {
   clear: none;
@@ -1990,7 +1990,7 @@ table#alertHistoryTable tr.selectedAlert {
   margin-top: 1.5em;
 }
 .add_iccid {
-  margin: 15px 0;
+  margin: 20px 0;
   margin-top: 2em;
 }
 .device_credentials_header {
@@ -2246,7 +2246,7 @@ table#alertHistoryTable tr.selectedAlert {
   text-decoration: none;
 }
 .fieldset_button {
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 .button_secondary {
