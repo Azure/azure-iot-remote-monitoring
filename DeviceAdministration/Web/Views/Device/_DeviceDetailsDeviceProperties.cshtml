@@ -15,44 +15,10 @@
     var utcNow = DateTime.UtcNow;
 }
 <div class="header_grid header_grid_general">
-    <img id="deviceDetailsClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer devicedetails_toggle_target devicedetails_toggle_source" />
-    <img id="deviceDetailsOpen" src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer display_none devicedetails_toggle_target devicedetails_toggle_source" />
-    <h3 class="grid_subheadhead_detail_collapsable cursor_pointer devicedetails_toggle_source">@Strings.DeviceProperties</h3>
-    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DevicePropertiesFormattedAsStored" />
+    <h3 class="grid_subheadhead_detail">@Strings.DeviceTwin</h3>
 </div>
 
-<section class="details_grid_general devicedetails_toggle_target" id="deviceDetailsGrid">
-    @foreach (var propVal in deviceProperties)
-    {
-        <h4 class="grid_subhead_detail_label">@DeviceDisplayHelper.GetDevicePropertyFieldLocalName(propVal.Name)</h4>
-        if (DeviceDisplayHelper.GetIsCopyControlPropertyName(propVal.Name))
-        {
-            string classname = "text_copy_container__input--details_grid";
-            string class_styles_modifier = "text_copy_container--details_grid";
-            string button_style_modifier = "details_grid_general__copy_button";
-            @IoTHelpers.TextCopy(propVal.Name, classname, propVal.Value, class_styles_modifier, button_style_modifier);
-        }
-        else
-        {
-            if ((propVal.PropertyType == PropertyType.DateTime) &&
-                (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, propVal.Value)).HasValue)
-            {
-                <p class="grid_detail_value" name="deviceField_@propVal.Name">@resolvedDate.Value.ToString()</p>
-            }
-            else
-            {
-                <p class="grid_detail_value" name="deviceField_@propVal.Name">@propVal.Value</p>
-            }
-        }
-    }
-
-    @if (Model.HasKeyViewingPerm)
-    {
-        <p class="grid_detail_value">
-            <a href="#" id="deviceExplorer_authKeys" class="not_disable">@Strings.ViewAuthenticationKeys</a>
-        </p>
-    }
-</section>
+<hr class="details_grid_twin_begin_line" />
 
 <div class="header_grid header_grid_general">
     <img id="tagClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer tag_toggle_target tag_toggle_source" />
@@ -162,6 +128,48 @@
         }
     </section>
 }
+
+<hr class="details_grid_twin_end_line" />
+
+<div class="header_grid header_grid_general">
+    <img id="deviceDetailsClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer devicedetails_toggle_target devicedetails_toggle_source" />
+    <img id="deviceDetailsOpen" src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer display_none devicedetails_toggle_target devicedetails_toggle_source" />
+    <h3 class="grid_subheadhead_detail_collapsable cursor_pointer devicedetails_toggle_source">@Strings.DeviceProperties</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DevicePropertiesFormattedAsStored" />
+</div>
+
+<section class="details_grid_general devicedetails_toggle_target" id="deviceDetailsGrid">
+    @foreach (var propVal in deviceProperties)
+    {
+        <h4 class="grid_subhead_detail_label">@DeviceDisplayHelper.GetDevicePropertyFieldLocalName(propVal.Name)</h4>
+        if (DeviceDisplayHelper.GetIsCopyControlPropertyName(propVal.Name))
+        {
+            string classname = "text_copy_container__input--details_grid";
+            string class_styles_modifier = "text_copy_container--details_grid";
+            string button_style_modifier = "details_grid_general__copy_button";
+            @IoTHelpers.TextCopy(propVal.Name, classname, propVal.Value, class_styles_modifier, button_style_modifier);
+        }
+        else
+        {
+            if ((propVal.PropertyType == PropertyType.DateTime) &&
+                (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, propVal.Value)).HasValue)
+            {
+                <p class="grid_detail_value" name="deviceField_@propVal.Name">@resolvedDate.Value.ToString()</p>
+            }
+            else
+            {
+                <p class="grid_detail_value" name="deviceField_@propVal.Name">@propVal.Value</p>
+            }
+        }
+    }
+
+    @if (Model.HasKeyViewingPerm)
+    {
+        <p class="grid_detail_value">
+            <a href="#" id="deviceExplorer_authKeys" class="not_disable">@Strings.ViewAuthenticationKeys</a>
+        </p>
+    }
+</section>
 
 <div class="header_grid header_grid_general">
     <img id="jobClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer job_toggle_target job_toggle_source" />

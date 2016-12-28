@@ -60,7 +60,7 @@
         // if c is not populated, just set defaults
         if (!c) {
             c = {
-                currentSortArray: [[1, "asc"]],
+                currentSortArray: [[3, "asc"]],
                 start: 0,
                 searchQuery: '',
                 filterId: ''
@@ -147,6 +147,20 @@
             $('<th />')
                 .html('<input type="checkbox" class="datatable_checkbox_all" />')
                 .attr('title', '')
+                .appendTo(header);
+
+            columns.push({
+                data: 'twin.tags.icon',
+                mRender: function (data, type, row, meta) {
+                    var image = data ? '/api/v1/devices/' + row.twin.deviceId + '/icons/' + data + '/true' : '/Content/img/device_default.svg';
+                    return '<img class="device_list_cell_image" src="' + image + '" />';
+                },
+                searchable: false,
+                orderable: false
+            });
+            $('<th />')
+                .text(resources.image)
+                .attr('title', resources.image)
                 .appendTo(header);
 
             data.forEach(function (column, index) {

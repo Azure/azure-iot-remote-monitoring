@@ -2360,4 +2360,12 @@
     <value>Please use an image with smaller size than 4MB.</value>
     <comment>Error message.</comment>
   </data>
+  <data name="DeviceTwin" xml:space="preserve">
+    <value>Device Twin</value>
+    <comment>Session heading.</comment>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image</value>
+    <comment>Table column header.</comment>
+  </data>
 </root>

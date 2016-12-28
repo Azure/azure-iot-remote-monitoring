@@ -1421,6 +1421,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Device Twin.
+        /// </summary>
+        public static string DeviceTwin {
+            get {
+                return ResourceManager.GetString("DeviceTwin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to update the device. An unexpected error occurred..
         /// </summary>
         public static string DeviceUpdateError {
@@ -2389,6 +2398,15 @@ namespace GlobalResources {
         public static string IccidLabel {
             get {
                 return ResourceManager.GetString("IccidLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image.
+        /// </summary>
+        public static string Image {
+            get {
+                return ResourceManager.GetString("Image", resourceCulture);
             }
         }
         

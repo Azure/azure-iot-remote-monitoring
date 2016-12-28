@@ -1793,6 +1793,37 @@ table#alertHistoryTable tr.selectedAlert {
   height: 100px;
   width: 100px;
 }
+.details_grid_header {
+  overflow: auto;
+  overflow-y: hidden;
+  margin: 0px 20px 20px 20px;
+}
+.details_grid_header_image_container {
+  float: left;
+  width: 150px;
+  height: 150px;
+}
+.details_grid_header_image {
+  width: 150px;
+  height: 150px;
+}
+.details_grid_header_image_edit {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+.details_grid_header_actions {
+  float: left;
+  margin-left: 20px;
+}
+.details_grid_twin_begin_line {
+  clear: both;
+  margin: 10px 20px 20px 20px;
+}
+.details_grid_twin_end_line {
+  clear: both;
+  margin: 20px;
+}
 .grid_rules_details {
   overflow: auto;
   background-color: white;

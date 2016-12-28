@@ -387,6 +387,7 @@
     <Content Include="Content\img\device_default.svg" />
     <Content Include="Content\img\edit_columns.svg" />
     <Content Include="Content\img\edit_filter.svg" />
+    <Content Include="Content\img\edit_image.svg" />
     <Content Include="Content\img\edit_name.svg" />
     <Content Include="Content\img\expanded.svg" />
     <Content Include="Content\img\filters.svg" />
