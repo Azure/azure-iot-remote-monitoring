@@ -244,6 +244,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         public void ExtractLocationsDataTest()
         {
             var listOfDevices = this.fixture.Create<List<DeviceModel>>();
+            foreach (var d in listOfDevices)
+            {
+                d.Twin.Properties.Reported["Latitude"] = fixture.Create<double>();
+                d.Twin.Properties.Reported["Longitude"] = fixture.Create<double>();
+            }
+
             var latitudes = new List<double>();
             var longitudes = new List<double>();
             var locations = new List<DeviceLocationModel>();
@@ -251,14 +257,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             {
                 try
                 {
-                    latitudes.Add(d.DeviceProperties.Latitude.Value);
-                    longitudes.Add(d.DeviceProperties.Longitude.Value);
+                    latitudes.Add((double)d.Twin.Properties.Reported["Latitude"]);
+                    longitudes.Add((double)d.Twin.Properties.Reported["Longitude"]);
                     locations.Add(new DeviceLocationModel
-                                  {
-                                      DeviceId = d.DeviceProperties.DeviceID,
-                                      Latitude = d.DeviceProperties.Latitude.Value,
-                                      Longitude = d.DeviceProperties.Longitude.Value
-                                  });
+                    {
+                        DeviceId = d.DeviceProperties.DeviceID,
+                        Latitude = (double)d.Twin.Properties.Reported["Latitude"],
+                        Longitude = (double)d.Twin.Properties.Reported["Longitude"]
+                    });
                 }
                 catch (Exception)
                 {
@@ -296,11 +302,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             foreach (var t in d.Telemetry)
             {
                 exp.Add(new DeviceTelemetryFieldModel
-                        {
-                            DisplayName = t.DisplayName,
-                            Name = t.Name,
-                            Type = t.Type
-                        });
+                {
+                    DisplayName = t.DisplayName,
+                    Name = t.Name,
+                    Type = t.Type
+                });
             }
 
             Assert.Null(this._deviceLogic.ExtractTelemetry(null));
