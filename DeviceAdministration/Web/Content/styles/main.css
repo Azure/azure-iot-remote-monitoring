@@ -2404,6 +2404,9 @@ table#alertHistoryTable tr.selectedAlert {
   margin-left: 0.5em;
   margin-right: 0.5em;
 }
+.button_no_left_margin {
+  margin-left: 0em;
+}
 .error_noscript {
   background-color: transparent;
   color: #ed1c24;
