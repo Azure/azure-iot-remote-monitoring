@@ -57,12 +57,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             for (int i = 1; i <= MaxRetryCount; ++i)
             {
                 string availableName = string.Format("{0}{1}", filterName, i);
-                if (! await _filterRepository.CheckFilterNameAsync(availableName))
+                if (!await _filterRepository.CheckFilterNameAsync(availableName))
                 {
                     return availableName;
                 }
             }
-            return filterName + DateTime.Now.ToString("MM-dd-hh-mm-dd-fffff");
+            return filterName + DateTime.Now.ToString("yyyy-MM-dd");
         }
 
         public string GenerateAdvancedClause(IEnumerable<Clause> clauses)

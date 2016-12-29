@@ -36,7 +36,7 @@
                     <p class="edit_form__label">@Strings.PreviewImage</p>
                     <img id="previewImage" class="device_icon_preview_image" data-bind="attr: {src: previewIcon().url } " />
                 </div>
-                <div class="device_icon_action_container" data-bind='checked: actionType'>
+                <div class="device_icon_action_container" data-bind='checked: actionType, visible: iconList().length > 0'>
                     <div>
                         <label class="edit_form__label device_icon_label">
                             <input type="radio" name="actionType" value="Apply" data-bind='checked: actionType' />
@@ -58,7 +58,7 @@
                     <img id="currentImage" class="device_icon_current_image" data-bind="attr: { src: currentIcon().url }" />
                 </div>
                 <fieldset class="fieldset_button">
-                    <button id="cancelBtn" class="button_base button_secondary button_cancel" data-bind="click: backButtonClicked">@Strings.Cancel</button>
+                    <button id="cancelBtn" class="button_base button_secondary button_cancel button_no_left_margin" data-bind="click: backButtonClicked">@Strings.Cancel</button>
                     <button id="saveBtn" class="button_base">@Strings.Save</button>
                 </fieldset>
             </form>

@@ -26,7 +26,7 @@
         this.tagApiRoute = '/api/v1/devices/' + deviceId + '/twin/tag';
 
         this.actionType = ko.observable(resources.uploadActionType);
-        this.iconList = ko.observableArray([defaultDeviceIcon]);
+        this.iconList = ko.observableArray([]);
         this.selectedIcon = ko.observable(null);
         this.previewIcon = ko.observable(defaultDeviceIcon);
         this.defaultIcon = ko.observable(defaultDeviceIcon);
