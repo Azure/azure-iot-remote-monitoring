@@ -83,7 +83,7 @@
             $('.filter_panel_dialog_container').hide();
         },
         startEditFilterName: function () {
-            if (self.model.isFilterLoaded()) {
+            if (self.model.canSave()) {
                 self.originalFilterName = self.model.name();
                 $('.device_list_toolbar_filtername').hide();
                 $('.device_list_toolbar_filtername_input').show().focus();
@@ -435,6 +435,7 @@
         },
         newClauseValueKeypress: function (data, e) {
             if (e.keyCode == 13 && self.model.canAddClause()) {
+                self.model.newClauseValueBlur(data, e);
                 self.model.addClause();
                 return false;
             }
