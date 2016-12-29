@@ -320,7 +320,7 @@
             });
         },
         executeFilter: function () {
-            if (self.model.currentClause().field() && self.model.currentClause().value())
+            if (self.model.canAddClause())
             {
                 self.model.addClause();
             }
@@ -354,6 +354,9 @@
                 })
             };
         },
+        canAddClause: ko.pureComputed(function () {
+            return self.model.currentClause().field() && self.model.currentClause().value();
+        }),
         addClause: function () {
             self.model.clauses.push(self.model.currentClause());
             self.model.currentClause(self.model.newClause());
@@ -429,6 +432,14 @@
             if ($(e.target).data('ui-autocomplete')) {
                 $(e.target).autocomplete("destroy");
             }
+        },
+        newClauseValueKeypress: function (data, e) {
+            if (e.keyCode == 13 && self.model.canAddClause()) {
+                self.model.addClause();
+                return false;
+            }
+            
+            return true;
         },
         newClauseValuePlaceHolder: ko.pureComputed(function () {
             return self.model.currentClause().operator() == "IN" ? resources.clauseMultipleValuesHint : resources.clauseSingleValueHint;

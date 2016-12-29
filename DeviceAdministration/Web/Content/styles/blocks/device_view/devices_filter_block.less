@@ -143,10 +143,11 @@
     background-color: @background-color;
     color: @filter-panel-text-color;
     border: 1px solid @filter-panel-text-color;
-    margin: 4px;
+    margin: 4px 8px 4px 0px;
     padding: 5px;
     height: 22px;
     cursor: pointer;
+    border-radius: 3px;
 }
 
 .filter_panel_clause_text {
@@ -226,7 +227,7 @@
 
 .filter_panel_clause_edit {
     width: 100%;
-    margin: 10px 10px 10px 4px;
+    margin: 10px 10px 10px 0px;
 }
 
 .filter_panel_clause_edit_label {
@@ -249,7 +250,7 @@
     -webkit-flex: 2;
      flex: 2;
      .filter_panel_clause_edit_row_cell;
-     padding-right:20px;
+     padding-right: 20px;
 }
 
 .filter_panel_clause_edit_row_operator {
@@ -268,8 +269,9 @@
 .filter_panel_clause_edit_row_add {
     -webkit-flex: none;
     flex:none;
-    width:100px;
+    width: 6.45em;
     .filter_panel_clause_edit_row_cell;
+    padding-right:10px;
 }
 
 .filter_panel_buttons {
@@ -354,6 +356,8 @@
     position:absolute;
     top:2px;
     right:0px;
+    font-size: 16px;
+    font-weight: normal;
 }
 
 .filter_panel_secondary_button {
