@@ -71,7 +71,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     key = key.Substring(8);
                 }
                 updatetwin.Properties.Desired.Set(key, twin.Value.Value.ToString());
-                await _nameCacheLogic.AddNameAsync(twin.Key);
+                var addnametask = _nameCacheLogic.AddNameAsync(twin.Key);
             }
             await _deviceManager.UpdateTwinAsync(deviceId, updatetwin);
         }
@@ -95,7 +95,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     key = key.Substring(5);
                 }
                 updatetwin.Tags.Set(key, twin.Value.Value.ToString());
-                await _nameCacheLogic.AddNameAsync(twin.Key);
+                var addnametask = _nameCacheLogic.AddNameAsync(twin.Key);
             }
             await _deviceManager.UpdateTwinAsync(deviceId, updatetwin);
         }

@@ -11,6 +11,8 @@ using Moq;
 using Newtonsoft.Json.Linq;
 using Ploeh.AutoFixture;
 using Xunit;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
+using System.Dynamic;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
     WebApiControllers
@@ -19,12 +21,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
     {
         private readonly DeviceApiController deviceApiController;
         private readonly Mock<IDeviceLogic> deviceLogic;
+        private readonly Mock<IDeviceListFilterRepository> devicefilterRepository;
+        private readonly Mock<IIoTHubDeviceManager> deviceManager;        
         private readonly IFixture fixture;
 
         public DeviceApiControllerTests()
         {
             deviceLogic = new Mock<IDeviceLogic>();
-            deviceApiController = new DeviceApiController(deviceLogic.Object);
+            devicefilterRepository = new Mock<IDeviceListFilterRepository>();
+            deviceManager = new Mock<IIoTHubDeviceManager>();            
+            deviceApiController = new DeviceApiController(deviceLogic.Object, devicefilterRepository.Object, deviceManager.Object);
             deviceApiController.InitializeRequest();
             fixture = new Fixture();
         }
@@ -78,6 +84,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
             Assert.Equal(data.RecordsTotal, devices.TotalDeviceCount);
             Assert.Equal(data.RecordsFiltered, devices.TotalFilteredCount);
             Assert.Equal(data.Data, devices.Results.ToArray());
+        }
+
+        [Fact]
+        public async void GetApplicableDeviceCountByMethodTest()
+        {
+            var filter = fixture.Create<DeviceListFilter>();
+
+            dynamic method = new ExpandoObject();
+            method.methodName = "mockname";
+            method.parameters = new List<ExpandoObject>();
+
+            deviceManager.Setup(mock => mock.GetDeviceCountAsync(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(100);
+            deviceManager.Setup(mock => mock.GetDeviceCountAsync(It.Is<string>(p => p.Contains("is_defined")), It.IsAny<string>()))
+                .ReturnsAsync(80);
+            devicefilterRepository.Setup(mock => mock.GetFilterAsync(It.IsAny<string>()))
+                .ReturnsAsync(filter);
+            
+            System.Net.Http.HttpResponseMessage res = await deviceApiController.GetApplicableDeviceCountByMethod("mockfilterId",method);
+
+            res.AssertOnError();
+            var data = res.ExtractContentDataAs<DeviceApplicableResult>();
+            Assert.Equal(80, data.Applicable);
+            Assert.Equal(100, data.Total);
         }
 
         [Fact]

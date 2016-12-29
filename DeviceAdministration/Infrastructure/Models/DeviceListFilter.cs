@@ -8,7 +8,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// <summary>
     /// Stores all data needed to filter the devices (sorting, filtering etc)
     /// </summary>
-    public class DeviceListFilter : ICloneable
+    public class DeviceListFilter
     {
         /// <summary>
         /// An unique id
@@ -95,15 +95,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// Full text searching, paging and sorting are not supported by the IoT Hub SQL query until now
         /// </summary>
         /// <returns>The full SQL query</returns>
-        public string GetSQLQuery(bool isCountQuery = false)
+        public string GetSQLQuery()
         {
-            string queryWithoutCondition = isCountQuery? "SELECT COUNT() AS total FROM devices":"SELECT * FROM devices";
+            string queryWithoutCondition = "SELECT * FROM devices";
 
             if (IsAdvanced)
             {
                 if (!string.IsNullOrWhiteSpace(AdvancedClause))
                 {
-                    return $"{queryWithoutCondition} WHERE {AdvancedClause}";   
+                    return $"{queryWithoutCondition} WHERE {AdvancedClause}";
                 }
             }
             else
@@ -116,17 +116,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
 
             return queryWithoutCondition;
-        }
-
-        /// <summary>
-        /// Return a new DeviceListFilter and append newClause to new filter
-        /// </summary>
-        /// <param name="newClause">new DeviceListFilter with new clause</param>
-        public DeviceListFilter AddClause(Clause newClause)
-        {
-            DeviceListFilter cloneFilter = this.Clone() as DeviceListFilter;
-            cloneFilter.Clauses.Add(newClause);
-            return cloneFilter;
         }
 
         /// <summary>
@@ -153,7 +142,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         case ClauseType.LE: op = "<="; break;
                         case ClauseType.GE: op = ">="; break;
                         case ClauseType.IN: op = "IN"; break;
-                        case ClauseType.ISDEFINED: op = "is_defined({0})"; break;
                         default: throw new NotSupportedException();
                     }
 
@@ -161,11 +149,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                     // For syntax reason, the value should be surrounded by ''
                     // This feature will be skipped if the value is a number. To compare a number as string, user should surround it by '' manually                    
-                    if (filter.ClauseType != ClauseType.IN &&
-                        filter.ClauseType != ClauseType.ISDEFINED &&
-                        !(value.All(c => char.IsDigit(c)) && value.Any()) &&
-                        !value.StartsWith("\'") &&
-                        !value.EndsWith("\'"))
+                    if (filter.ClauseType == ClauseType.IN)
                     {
                         var items = value.TrimStart('[').TrimEnd(']').Split(',');
                         for (var i = 0; i < items.Length; i++)
@@ -186,15 +170,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     {
                         twinPropertyName = $"properties.{filter.ColumnName}";
                     }
+                    return $"{twinPropertyName} {op} {value}";
 
-                    if (filter.ClauseType == ClauseType.ISDEFINED)
-                    {
-                        return string.Format(op, twinPropertyName);
-                    }
-                    else
-                    {
-                        return $"{twinPropertyName} {op} {value}";
-                    }
                 }).ToList();
 
             return filters == null ? string.Empty : string.Join(" AND ", filters);
@@ -203,24 +180,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private bool IsProperties(string name)
         {
             return name.StartsWith("reported.") || name.StartsWith("desired.");
-        }
-
-        public object Clone()
-        {
-            return new DeviceListFilter()
-            {
-                Id = this.Id,
-                Name = this.Name,
-                Clauses = this.Clauses.ToList(),
-                SearchQuery = this.SearchQuery,
-                SortColumn = this.SortColumn,
-                SortOrder = this.SortOrder,
-                AdvancedClause = this.AdvancedClause,
-                Skip = this.Skip,
-                Take = this.Take,
-                IsAdvanced = this.IsAdvanced,
-                IsTemporary = this.IsTemporary
-            };
         }
 
         private string AddQuoteIfNeeded(string value)

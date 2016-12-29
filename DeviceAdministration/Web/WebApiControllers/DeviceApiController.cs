@@ -24,7 +24,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly IDeviceListFilterRepository _filterRepository;
         private readonly IIoTHubDeviceManager _deviceManager;
 
-        public DeviceApiController(IDeviceLogic deviceLogic,IDeviceListFilterRepository filterRepository,IIoTHubDeviceManager deviceManager)
+        public DeviceApiController(IDeviceLogic deviceLogic, IDeviceListFilterRepository filterRepository, IIoTHubDeviceManager deviceManager)
         {
             this._deviceLogic = deviceLogic;
             this._filterRepository = filterRepository;
@@ -353,48 +353,73 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPost]
         [Route("count/{filterId}")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> GetApplicableDeviceCountByMethod(string filterId,[FromBody] dynamic method )
+        public async Task<HttpResponseMessage> GetApplicableDeviceCountByMethod(string filterId, [FromBody] dynamic method)
         {
-            string queryColumnName;
-            string methodNamePostfix = "";
-
-            // Deal multi-params method name postfix
-            foreach (dynamic param in method.parameters)
+            return await GetServiceResponseAsync<DeviceApplicableResult>(async () =>
             {
-                methodNamePostfix += $"_{param.Type}";
-            }
-            
-            // Build twin property name for supported method
-            queryColumnName = $"reported.SupportedMethods.{method.methodName}{methodNamePostfix}";
-            DeviceListFilter rawfilter = new DeviceListFilter();
-            DeviceListFilter methodfilter = new DeviceListFilter();
-            if (filterId == "*" || filterId == DeviceListFilterRepository.DefaultDeviceListFilter.Id)
-            {
+                string rawFilterCountString = String.Empty;
+                string methodFilterCountString = String.Empty;
+                string countAlias = "total";
+                string queryColumnName = GenerateQueryColumnName(method);
 
-                rawfilter = DeviceListFilterRepository.DefaultDeviceListFilter;
-                methodfilter = rawfilter.AddClause(new Clause() { ColumnName = queryColumnName, ClauseType = ClauseType.ISDEFINED, ClauseValue = "" });
-            }
-            else
-            {
-                rawfilter = await _filterRepository.GetFilterAsync(filterId);
-                methodfilter = rawfilter.AddClause(new Clause() { ColumnName = queryColumnName, ClauseType = ClauseType.ISDEFINED, ClauseValue = "" });
-            }
+                var conjunctionClause = await this.GetConjunctionClause(filterId, method);
+                rawFilterCountString = $"SELECT COUNT() AS {countAlias} FROM devices {conjunctionClause.WHERE} {conjunctionClause.CONDITION}";
+                methodFilterCountString = $"SELECT COUNT() AS {countAlias} FROM devices WHERE {conjunctionClause.CONDITION} {conjunctionClause.AND} is_defined({queryColumnName})";
 
-            var totalDeviceForRawFilter = await _deviceManager.GetDeviceCountAsync(rawfilter);
-            var methodApplicableDeviceForFilter = await _deviceManager.GetDeviceCountAsync(methodfilter);
+                var totalDeviceForRawFilter = await _deviceManager.GetDeviceCountAsync(rawFilterCountString, countAlias);
+                var methodApplicableDeviceForFilter = await _deviceManager.GetDeviceCountAsync(methodFilterCountString, countAlias);
 
-            return await GetServiceResponseAsync(async () =>
-            {
-               return await Task.FromResult(new { Total = totalDeviceForRawFilter, Applicable = methodApplicableDeviceForFilter });
+
+                return new DeviceApplicableResult() { Total = totalDeviceForRawFilter, Applicable = methodApplicableDeviceForFilter };
             });
         }
 
         [HttpPost]
         [Route("count/{filterId}/save")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> SaveApplicableDeviceFilter(string filterId,bool isMatched, [FromBody] dynamic method)
+        public async Task<HttpResponseMessage> SaveApplicableDeviceFilter(string filterId, bool isMatched, [FromBody] dynamic method)
         {
-            string queryColumnName;
+            DeviceListFilter methodfilter = new DeviceListFilter();
+            DeviceListFilter rawfilter = await _filterRepository.GetFilterAsync(filterId);
+            string queryColumnName = GenerateQueryColumnName(method);
+            var conjunctionClause = await this.GetConjunctionClause(filterId, method);
+
+            if (isMatched)
+            {
+                methodfilter.AdvancedClause = $"{conjunctionClause.CONDITION} {conjunctionClause.AND} is_defined({queryColumnName})";
+                methodfilter.Name = $"{rawfilter.Name}_{method.methodName}_match";
+            }
+            else
+            {
+                methodfilter.AdvancedClause = $"{conjunctionClause.CONDITION} {conjunctionClause.AND} NOT is_defined({queryColumnName})";
+                methodfilter.Name = $"{rawfilter.Name}_{method.methodName}_nomatch";
+            }
+
+            methodfilter.Id = Guid.NewGuid().ToString();
+            methodfilter.IsAdvanced = true;
+            methodfilter.IsTemporary = true;
+            var savedfilter = await _filterRepository.SaveFilterAsync(methodfilter, false);
+
+
+            return await GetServiceResponseAsync(async () =>
+            {
+                return await Task.FromResult(new { filterId = savedfilter.Id });
+            });
+        }
+
+        private async Task<dynamic> GetConjunctionClause(string filterId, dynamic method)
+        {
+            string queryColumnName = GenerateQueryColumnName(method);
+            DeviceListFilter rawfilter = await _filterRepository.GetFilterAsync(filterId);
+            var conditionstring = rawfilter.GetSQLCondition();
+            var whereClause = String.IsNullOrEmpty(conditionstring) ? "" : "WHERE";
+            var andClause = String.IsNullOrEmpty(conditionstring) ? "" : "AND";
+
+            return new { CONDITION=conditionstring, WHERE = whereClause, AND = andClause };
+        }
+
+        private string GenerateQueryColumnName(dynamic method)
+        {
             string methodNamePostfix = "";
 
             // Deal multi-params method name postfix
@@ -404,43 +429,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
 
             // Build twin property name for supported method
-            queryColumnName = $"reported.SupportedMethods.{method.methodName}{methodNamePostfix}";
-            DeviceListFilter rawfilter = new DeviceListFilter();
-            DeviceListFilter methodfilter = new DeviceListFilter();
-            if (filterId == "*" || filterId == DeviceListFilterRepository.DefaultDeviceListFilter.Id)
-            {
-
-                rawfilter = DeviceListFilterRepository.DefaultDeviceListFilter;
-                methodfilter = rawfilter.AddClause(new Clause() { ColumnName = queryColumnName, ClauseType = ClauseType.ISDEFINED, ClauseValue = "" });
-            }
-            else
-            {
-                rawfilter = await _filterRepository.GetFilterAsync(filterId);
-                methodfilter = rawfilter.AddClause(new Clause() { ColumnName = queryColumnName, ClauseType = ClauseType.ISDEFINED, ClauseValue = "" });
-            }
-
-            if (isMatched)
-            {
-                methodfilter.AdvancedClause = methodfilter.GetSQLCondition();
-                methodfilter.Name = $"{rawfilter.Name}_{method.methodName}_match";
-            }
-            else
-            {
-                methodfilter.AdvancedClause = methodfilter.GetSQLCondition() + "!= true";
-                methodfilter.Name = $"{rawfilter.Name}_{method.methodName}_nomatch";
-            }
-
-            methodfilter.Id = Guid.NewGuid().ToString();
-            methodfilter.IsAdvanced = true;
-            methodfilter.IsTemporary = true;            
-            var savedfilter = await _filterRepository.SaveFilterAsync(methodfilter, false);
-
-
-            return await GetServiceResponseAsync(async () =>
-            {
-                return await Task.FromResult(new { filterId = savedfilter.Id});
-            });
-        }        
-
+            return $"properties.reported.SupportedMethods.{method.methodName}{methodNamePostfix}";
+        }
     }
 }

@@ -139,7 +139,7 @@
     return {
         init: function (data) {
             vm.init(data);
-            ko.applyBindings(vm, $("content").get(0));
+            ko.applyBindings(vm);
         }
     }
 

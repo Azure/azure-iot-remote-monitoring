@@ -2296,4 +2296,12 @@
     <value>Saved Filters</value>
     <comment>Tooltip.</comment>
   </data>
+  <data name="FailedToCreateTempFilter" xml:space="preserve">
+    <value>Failed to create temp filter.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToSearchApplicableDevice" xml:space="preserve">
+    <value>Failed to get applicable devices count.</value>
+    <comment>Error message.</comment>
+  </data>
 </root>

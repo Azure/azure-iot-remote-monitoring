@@ -116,10 +116,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return twins;
         }
 
-        public async Task<int> GetDeviceCountAsync(DeviceListFilter filter)
+        public async Task<int> GetDeviceCountAsync(string filterSQL, string countColAlias="total")
         {
-            var sqlQuery = filter.GetSQLQuery(true);
-            var deviceQuery = this._deviceManager.CreateQuery(sqlQuery);
+            if (string.IsNullOrWhiteSpace(countColAlias))
+            {
+                throw new ArgumentException("Count column alias cannot be null or empty", "countColAlias");
+            }
+            var deviceQuery = this._deviceManager.CreateQuery(filterSQL);
 
             var result = new List<string>();
             while (deviceQuery.HasMoreResults)
@@ -130,14 +133,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             if (result != null && result.Count != 0)
             {
                 jtoken = JToken.Parse(String.Join(String.Empty, result));
-                return jtoken.Value<int>("total");
+                return jtoken.Value<int>(countColAlias);
             }
             else
             {
                 return 0;
             }
-
-            
         }
 
         public async Task<long> GetDeviceCountAsync()

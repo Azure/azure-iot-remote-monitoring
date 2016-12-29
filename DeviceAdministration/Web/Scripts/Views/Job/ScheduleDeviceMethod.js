@@ -10,7 +10,7 @@
         self.ParameterValue = value;
     }
 
-    function viewModel($) {
+    function viewModel() {
         var self = this;
         this.filterId = "";
         this.jobName = ko.observable("");
@@ -22,22 +22,26 @@
         this.clonedMethodName = null;
         this.clonedMethodParameters = [];
         this.currentMethodData = {};
+        this.startDate = ko.observable(moment());
+        this.isLoading = ko.observable(true);
+        this.maxExecutionTime = ko.observable(30);
+        
 
         this.parameters = ko.pureComputed(function () {
             if (self.methodName != undefined
                 && self.methodName().length != 0) {
 
-                var rawparam = $.grep(self.methods, function (e) { return e.name == self.methodName(); });
+                var rawMethod = $.grep(self.methods, function (e) { return e.name == self.methodName(); });
                 //Matched method founded
-                if (rawparam.length != 0) {
-                    var params = $.map(rawparam[0].parameters, function (item) {
-                        return new MethodParameterEditItem(item.name, item.type, "")
+                if (rawMethod.length != 0) {
+                    var params = $.map(rawMethod[0].parameters, function (item) {
+                        return new MethodParameterEditItem(item.name, item.type,  item.value || "")
                     });
 
                     //Search applicable devices
                     self.isLoading(true);
                     self.currentMethodData = {
-                        methodName : rawparam[0].name.replace(/\(\S+|\s+\)/,""),
+                        methodName: rawMethod[0].name.replace(/\(\S+|\s+\)/, ""),
                         params : params,
                     }
                     self.searchApplicableDevices(self.currentMethodData.methodName,self.currentMethodData.params);
@@ -61,8 +65,12 @@
         }, this);
 
         this.gotoDeviceList = function (isMatched, data) {
-            $('#countloadingElement').show();
-            $.ajax({
+            $('#loadingElement').show();
+
+            if (self.saveMethodFilterQuery) {
+                self.saveMethodFilterQuery.abort()
+            }
+            self.saveMethodFilterQuery = $.ajax({
                 url: '/api/v1/devices/count/' + self.filterId + "/save?isMatched="+ isMatched,
                 type: 'POST',
                 data: ko.mapping.toJSON({ 'methodName': self.currentMethodData.methodName, 'parameters': self.currentMethodData.params }),
@@ -71,7 +79,8 @@
                     location.href = resources.redirectUrl + "?filterId=" + result.data.filterId;
                 },
                 error: function (xhr, status, error) {
-                    IoTApp.Helpers.Dialog.displayError(resources.failedToUpdateTwin);
+                    $('#loadingElement').hide();
+                    IoTApp.Helpers.Dialog.displayError(resources.failedToCreateTempFilter);
                 }
 
             });
@@ -79,7 +88,11 @@
 
         this.searchApplicableDevices = function (methodName, param) {
             $('#countloadingElement').show();
-            $.ajax({
+
+            if (self.getApplicableDevice){
+                self.getApplicableDevice.abort()
+            }
+            self.getApplicableDevice= $.ajax({
                 url: '/api/v1/devices/count/' + self.filterId,
                 type: 'POST',
                 data: ko.mapping.toJSON({ 'methodName': methodName, 'parameters': param }),
@@ -94,7 +107,7 @@
                 error: function (xhr, status, error) {
                     self.isLoading(true);
                     $('#countloadingElement').hide();
-                    IoTApp.Helpers.Dialog.displayError(resources.failedToUpdateTwin);
+                    IoTApp.Helpers.Dialog.displayError(resources.failedToSearchApplicableDevice);
                 }
 
             });
@@ -104,10 +117,6 @@
         this.backButtonClicked = function () {
             location.href = resources.redirectUrl;
         }
-
-        this.startDate = ko.observable(moment());
-        this.isLoading = ko.observable(true);
-        this.maxExecutionTime = ko.observable(30);
 
         this.beforePost = function (elem) {
             $(elem).find("#StartDateHidden").val(moment(this.startDate()).utc().format());
@@ -152,12 +161,12 @@
     }
 
 
-    var vm = new viewModel(jQuery);
+    var vm = new viewModel();
     return {
         init: function (data) {
             vm.init(data);
-            ko.applyBindings(vm, $("content").get(0));
+            ko.applyBindings(vm);
         }
     }
 
-}, [jQuery, resources]);
+}, [resources]);

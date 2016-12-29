@@ -46,7 +46,8 @@
         this.propertieslist = {};
 
         this.createEmptyPropertyIfNeeded = function (property) {
-            self.properties.push(new propertyModel( { "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false }));
+            self.properties.push(new propertyModel({ "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false }));
+            return ture;
         }
 
         this.makeproplist = function (elem, index, data) {

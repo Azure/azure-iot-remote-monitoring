@@ -138,9 +138,6 @@
                 var columnOption = {
                     data:"twin." + (column.name.indexOf("reported.") === 0 || column.name.indexOf("desired.") === 0 ? "properties." : "") + column.name,
                     mRender: function (data, type, row, meta) {
-                        if (self.dataTable) {
-                          return  htmlEncode(data, self.dataTable.column(meta.col).dataSrc())
-                        }
                         return htmlEncode(data);
                     },
                     name: column.alias || column.name,

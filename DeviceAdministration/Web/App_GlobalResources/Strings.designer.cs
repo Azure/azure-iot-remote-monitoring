@@ -1727,6 +1727,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to create temp filter..
+        /// </summary>
+        public static string FailedToCreateTempFilter {
+            get {
+                return ResourceManager.GetString("FailedToCreateTempFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete this filter..
         /// </summary>
         public static string FailedToDeleteFilter {
@@ -1813,6 +1822,15 @@ namespace GlobalResources {
         public static string FailedToSaveFilter {
             get {
                 return ResourceManager.GetString("FailedToSaveFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to get applicable devices count..
+        /// </summary>
+        public static string FailedToSearchApplicableDevice {
+            get {
+                return ResourceManager.GetString("FailedToSearchApplicableDevice", resourceCulture);
             }
         }
         

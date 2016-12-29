@@ -47,6 +47,7 @@
 
         this.createEmptyPropertyIfNeeded = function (property) {
             self.properties.push(new propertyModel({ "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false }));
+            return true;
         }
 
         this.makeproplist = function (elem, index, data) {
@@ -70,9 +71,6 @@
             }
             return 'N/A';
         }
-
-
-
 
         this.formSubmit = function () {
             $("#loadingElement").show();

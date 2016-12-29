@@ -32,6 +32,5 @@
         LE, // <=
         GE, // >=
         IN,  // IN
-        ISDEFINED
     }
 }

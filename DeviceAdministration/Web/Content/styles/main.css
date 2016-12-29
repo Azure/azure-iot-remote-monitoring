@@ -501,8 +501,29 @@ nav .selected {
   z-index: 200;
   background-color: white;
 }
+.loader_container_half {
+  display: none;
+  position: relative;
+  top: 0;
+  left: 0;
+  max-width: 25%;
+  max-height: 25%;
+  z-index: 200;
+  background-color: white;
+}
 .loader_container__loader {
   margin: 30% auto 0 auto;
+  font-size: 16px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-animation: load5 1.1s infinite ease;
+  animation: load5 1.1s infinite ease;
+}
+.loader_container_half__loader {
+  margin: 20% auto;
   font-size: 16px;
   width: 1em;
   height: 1em;

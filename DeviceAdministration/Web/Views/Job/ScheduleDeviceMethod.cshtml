@@ -1,5 +1,6 @@
 ﻿@using GlobalResources
 @using Newtonsoft.Json;
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.ScheduleDeviceMethodModel
 
 @{
@@ -52,8 +53,8 @@
                             @Html.TextBoxFor(m => m.MethodName, new { data_bind = "textInput: methodName, event{ blur: $root.updateParameter }", @class = "edit_form__methodComboBox edit_form__text" });
 
                             <div style="clear:both"></div>
-                            <div id="countloadingElement" class="loader_container">
-                                <div class="loader_container__loader"></div>
+                            <div id="countloadingElement" class="loader_container_half">
+                                <div class="loader_container_half__loader"></div>
                             </div>
                             <div data-bind="ifnot: isLoading">
                                 <span class="text_small" data-bind="text:MatchedDevices"></span>&nbsp;<a class="edit_form__link" data-bind="click: gotoDeviceList.bind($data,true)" href="javascript:void(0)">query</a>
@@ -123,8 +124,10 @@
 
     var resources = {
         redirectUrl: '@Url.Action("Index", "Device")',
-        SomeDevicesApplicable: '@Strings.SomeDevicesApplicable',
-        SomeDeviceInapplicable: '@Strings.SomeDeviceInapplicable',        
+        SomeDevicesApplicable: '@Html.JavaScriptString(Strings.SomeDevicesApplicable)',
+        SomeDeviceInapplicable: '@Html.JavaScriptString(Strings.SomeDeviceInapplicable)',
+        failedToCreateTempFilter: '@Html.JavaScriptString(Strings.FailedToCreateTempFilter)',
+        failedToSearchApplicableDevice: '@Html.JavaScriptString(Strings.FailedToSearchApplicableDevice)'
     }
 </script>
 <script type="text/javascript" src="~/Scripts/Views/Job/ScheduleDeviceMethod.js"></script>
