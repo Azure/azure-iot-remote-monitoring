@@ -1502,7 +1502,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit Columns.
+        ///   Looks up a localized string similar to Column Editor.
         /// </summary>
         public static string EditColumns {
             get {
@@ -4166,7 +4166,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit Properties or Tags.
+        ///   Looks up a localized string similar to Edit Device Twin.
         /// </summary>
         public static string ScheduleEditPropertiesOrTags {
             get {
@@ -4184,7 +4184,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Schedule Job.
+        ///   Looks up a localized string similar to Job Scheduler.
         /// </summary>
         public static string ScheduleJob {
             get {
@@ -4256,7 +4256,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit Properties and Tags.
+        ///   Looks up a localized string similar to Edit Device Twin.
         /// </summary>
         public static string ScheduleUpdateTwinJobType {
             get {
@@ -4913,7 +4913,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit Properties or Tags.
+        ///   Looks up a localized string similar to Edit Device Twin.
         /// </summary>
         public static string UpdateTwin {
             get {
