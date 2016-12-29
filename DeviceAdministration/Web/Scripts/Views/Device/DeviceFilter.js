@@ -14,6 +14,7 @@
 
         isFilterLoaded: ko.observable(false),
         isFilterLoadedFromServer: ko.observable(false),
+        isMultiSelectionMode: ko.observable(false),
         isChanged: ko.observable(false),
         filters: ko.observableArray([]),
         filterNameList: ko.observableArray([]),
@@ -40,10 +41,13 @@
             return self.model.id() == defaultFilterId;
         }),
         canSave: ko.pureComputed(function () {
-            return !self.model.isDefatulFilter() && self.model.isFilterLoaded();
+            return !self.model.isDefatulFilter() && self.model.isFilterLoaded() && !self.model.isMultiSelectionMode();
         }),
         canDelete: ko.pureComputed(function () {
-            return !self.model.isDefatulFilter() && self.model.isFilterLoadedFromServer();
+            return !self.model.isDefatulFilter() && self.model.isFilterLoadedFromServer() && !self.model.isMultiSelectionMode();
+        }),
+        canEdit: ko.pureComputed(function () {
+            return !self.model.isMultiSelectionMode();
         }),
         showPanel: function () {
             if (self.model.isDefatulFilter())
@@ -57,14 +61,29 @@
         },
         openSaveAsDialog: function () {
             self.model.saveAsName(self.model.name());
+            $('#saveAdFilterButtons').show();
+            $('#saveAdFilterButtonsMultiSelection').hide();
             $('.filter_panel_dialog_container').show();
             $('.filter_panel_filtername_saveas_input').focus();
+        },
+        openSaveAsDialogForSelectedDevices: function (selectedDeviceIds) {
+            self.selectedDeviceIds = selectedDeviceIds;
+            self.model.saveAsName('');
+            $('#defaultNameLoadingElement').show();
+            api.getNewFilterName(function (name) {
+                $('.filter_panel_filtername_saveas_input').focus();
+                self.model.saveAsName(name);
+                $('#defaultNameLoadingElement').hide();
+            });
+            $('#saveAdFilterButtons').hide();
+            $('#saveAdFilterButtonsMultiSelection').show();
+            $('.filter_panel_dialog_container').show();
         },
         closeSaveAsDialog: function () {
             $('.filter_panel_dialog_container').hide();
         },
         startEditFilterName: function () {
-            if (self.model.isFilterLoaded()) {
+            if (self.model.canSave()) {
                 self.originalFilterName = self.model.name();
                 $('.device_list_toolbar_filtername').hide();
                 $('.device_list_toolbar_filtername_input').show().focus();
@@ -134,6 +153,7 @@
                         self.model.isChanged(false);
 
                         if (execute) {
+                            IoTApp.DeviceIndex.stopMultiSelectionIfNeeded();
                             IoTApp.DeviceIndex.reloadGrid();
                         }
                     }
@@ -175,7 +195,54 @@
                 self.model.loadFilters();
                 self.model.isChanged(false);
             })
+        },
+        saveAsFilterForSelectedDevices: function (open) {
+            self.model.closeSaveAsDialog();
+            var newName = self.model.saveAsName();
+            $('.loader_container').show();
+            self.model.saveFilterForSelectedDevices(newName, self.selectedDeviceIds, function (filterId) {
+                if (open) {
+                    self.model.loadFilter(filterId, true);
+                }
+                else {
+                    $('.loader_container').hide();
+                    IoTApp.DeviceIndex.stopMultiSelectionIfNeeded();
+                }
 
+                self.model.loadFilters();
+            });
+        },
+        saveFilterForSelectedDevices: function (name, deviceIds, callback) {
+            if (name == null) {
+                api.getNewFilterName(function (name) {
+                    self.model.saveFilterForSelectedDevices(name, deviceIds, callback);
+                });
+            }
+            else {
+                self.model.createAndSaveFilterWithClause(name, "deviceId", "IN", deviceIds.join(", "), function (filterId) {
+                    if ($.isFunction(callback)) {
+                        callback(filterId);
+                    }
+                });
+            }
+        },
+        createAndSaveFilterWithClause: function (name, columnName, operator, value, callback) {
+            var filter = {
+                name: name,
+                filterName: name,
+                isAdvanced: false,
+                clauses: [{
+                    columnName: columnName,
+                    clauseType: operator,
+                    clauseValue: value
+                }]
+            };
+
+            api.saveFilter(filter, function (result) {
+                if ($.isFunction(callback)) {
+                    callback(result.id);
+                }
+            })
         },
         deleteFilter: function (data, e, forceDelete) {
             if (self.model.associatedJobsCount()) {
@@ -253,7 +320,7 @@
             });
         },
         executeFilter: function () {
-            if (self.model.currentClause().field() && self.model.currentClause().value())
+            if (self.model.canAddClause())
             {
                 self.model.addClause();
             }
@@ -287,6 +354,9 @@
                 })
             };
         },
+        canAddClause: ko.pureComputed(function () {
+            return self.model.currentClause().field() && self.model.currentClause().value();
+        }),
         addClause: function () {
             self.model.clauses.push(self.model.currentClause());
             self.model.currentClause(self.model.newClause());
@@ -362,6 +432,15 @@
             if ($(e.target).data('ui-autocomplete')) {
                 $(e.target).autocomplete("destroy");
             }
+        },
+        newClauseValueKeypress: function (data, e) {
+            if (e.keyCode == 13 && self.model.canAddClause()) {
+                self.model.newClauseValueBlur(data, e);
+                self.model.addClause();
+                return false;
+            }
+            
+            return true;
         },
         newClauseValuePlaceHolder: ko.pureComputed(function () {
             return self.model.currentClause().operator() == "IN" ? resources.clauseMultipleValuesHint : resources.clauseSingleValueHint;
@@ -609,6 +688,9 @@
             self.model.saveFilter();
         }
     }
+    var setMultiSelectionMode = function (mode) {
+        self.model.isMultiSelectionMode(mode);
+    }
 
     return {
         init: init,
@@ -617,7 +699,10 @@
         updateFilterResult: updateFilterResult,
         getFilterId: getFilterId,
         getFilterName: getFilterName,
-        saveFilterIfNeeded: saveFilterIfNeeded
+        saveFilterIfNeeded: saveFilterIfNeeded,
+        openSaveAsDialogForSelectedDevices: self.model.openSaveAsDialogForSelectedDevices,
+        saveFilterForSelectedDevices: self.model.saveFilterForSelectedDevices,
+        setMultiSelectionMode: setMultiSelectionMode
     }
 }, [jQuery, resources]);
 

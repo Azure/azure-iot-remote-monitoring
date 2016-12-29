@@ -8,7 +8,7 @@
             @Html.DropDownList("UnassignedDeviceIds", new SelectList(ViewBag.UnassignedDeviceIds, ViewBag.UnassignedDeviceIds), new { @class = "advanced_dropdown" })
         </div>
     </fieldset>
-    <fieldset class="registration_content">
+    <fieldset class="registration_content registration_content_last">
         <div class="registration_textbox">
             <h2 class="registration_description">@Strings.IccidLabel</h2>
                 @Html.DropDownList("UnassignedIccids", new SelectList(ViewBag.UnassignedIccidList, ViewBag.UnassignedIccidList), new { @class = "advanced_dropdown" })         
@@ -30,7 +30,7 @@
 }
 else
 {
-    <fieldset class="registration_content">
+    <fieldset class="registration_content registration_content_last">
         <div class="registration_textbox">
             <div class="api_registration_not_available iccid_association" id="noRegistration">
                 @Strings.ApiRegistrationNotAvailable

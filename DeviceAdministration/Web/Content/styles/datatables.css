@@ -563,7 +563,7 @@ table.dataTable thead {
     }
 
 .dataTables_wrapper .dataTables_paginate {
-    float:right;
+    float:left;
     margin-right:1em;
     margin-bottom:10px;
     padding-top:0;
@@ -649,3 +649,19 @@ table.dataTable thead {
     width: 13px;
     min-height: 19px;
     }
+
+.datatable_checkbox_row {
+    visibility: hidden;
+}
+
+table.dataTable tbody tr:hover .datatable_checkbox_row {
+    visibility:visible;
+}
+
+.datatable_all_checkbox {
+    visibility: hidden;
+}
+
+.datatable_checkbox_show {
+    visibility:visible;
+}

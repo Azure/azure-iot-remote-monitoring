@@ -61,10 +61,10 @@
 
         <label class="edit_form__label">@Strings.RuleOutputHeader</label>
         @{
-            object htmlAttributes = new { @class = "edit_form__select" };
+            object htmlAttributes = new { @class = "edit_form__select edit_form_control_last" };
             if (Model.AvailableRuleOutputs.Count < 2)
             {
-                htmlAttributes = new { @disabled = "disabled", @class = "edit_form__select" };
+                htmlAttributes = new { @disabled = "disabled", @class = "edit_form__select edit_form_control_last" };
                 @Html.HiddenFor(m => m.RuleOutput);
             }
         }

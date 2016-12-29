@@ -31,10 +31,12 @@
     width: 15px;
     padding-left: 6px;
 }
+
 .name_selector_container {
     margin:5px 20px 20px 20px;
     overflow:auto;
 }
+
 .name_selector__text {
     display: block;
     float: left;
@@ -47,6 +49,7 @@
     width: ~"calc(100% - 44px)";
     margin-bottom:20px;
 }
+
 .name_add__button {
     min-height:32px;
     min-width:32px;
@@ -56,17 +59,20 @@
     color: @text-color;
     float:left
 }
+
 .device_list_columns_container {
     height:~"calc(100% - 195px)";
     margin-top:5px; 
     overflow-y:auto;
- }
+}
+
 .details_grid_columns {
     overflow: auto;
     background-color: @background-color;
     margin: 5px 20px 20px 20px;
     padding: 10px 0px 10px 0px;
 }
+
 .device_list_columns_item {
     padding:5px 15px 5px 15px;
     white-space: nowrap;
@@ -74,9 +80,11 @@
     text-overflow: ellipsis;
     color: @text-devicecolumnlist-color;
 }
+
 .device_list_columns_item:hover {
     background-color: @menu-item-hover-background-color;
 }
+
 .device_list_columns_toolbar{
     position: absolute;
     right: 0px;
@@ -84,9 +92,11 @@
     background-color: @menu-item-hover-background-color;
     visibility:hidden;
 }
+
 .device_list_columns_item:hover .device_list_columns_toolbar{
     visibility:visible;
 }
+
 .device_list_columns_toolbar_button{
     width:18px;
     height:18px;
@@ -95,9 +105,11 @@
     border: 1px solid transparent;
     cursor:pointer;
 }
+
 .device_list_columns_toolbar_button:hover {
     border: 1px solid @menu-border-color
 }
+
 .device_list_columns_toolbar_button_disabled {  
     width: 18px;  
     height: 18px;  
@@ -107,6 +119,7 @@
     cursor: pointer;  
     cursor: default;  
 } 
+
 .device_list_columns_button_container {
     position:absolute;
     bottom: 0px;
@@ -115,9 +128,11 @@
     padding:16px;
     background-color: @secondary-color;
 }
+
 .device_list_columns_button_container_spaceholder {
     height:64px;
 }
+
 .device_list_columns_displayname_text {
     border: 1px solid @form-textbox-border;
     background-color: @form-textbox-background;
@@ -127,11 +142,13 @@
     box-sizing: content-box;
     width: ~"calc(100% - 8px)";
 }
+
 .device_list_columns_loaddefault_text {  
     position: absolute;  
     top: 0px;  
     right: 20px;  
 }
+
 .device_list_cell_image{
     height: 20px;
     width: 20px;
@@ -163,4 +180,22 @@
 .device_list_button_schedule_job:before {
     .button_with_icon;
     content: url('/Content/img/schedule_job.svg');
+}
+
+.device_list_multi_selection_grid {
+    position: absolute;
+    top: 0;
+    right: -368px;
+    width: 368px;
+    background-color: @secondary-color;
+    transition:right 0.1s linear;
+    border-left: 2px solid @layout-border-color;
+    z-index:200;
+}
+
+.device_list_multi_selection_grid_subhead {
+  font-size: 1.1em;
+  margin: 0;
+  padding: 14px 20px 20px 20px;
+  font-weight: bold;
 }

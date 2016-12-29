@@ -60,6 +60,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public ActionResult Index(string filterId)
         {
             ViewBag.FilterId = filterId;
+            ViewBag.HasManageJobsPerm = PermsChecker.HasPermission(Permission.ManageJobs);
 
             return View();
         }
