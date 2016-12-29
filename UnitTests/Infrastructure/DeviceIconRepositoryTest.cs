@@ -12,6 +12,7 @@ using Moq;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
 using Xunit;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infrastructure
 {
@@ -43,12 +44,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             string blobData = "This is image blob data";
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(blobData));
             _blobStorageClientMock.Setup(x => x.UploadFromStreamAsync(It.IsAny<string>(),
+                It.IsAny<KeyValuePair<string, string>>(),
                 It.IsNotNull<Stream>(),
                 It.IsNotNull<AccessCondition>(),
                 It.IsNotNull<BlobRequestOptions>(),
                 It.IsAny<OperationContext>())).ReturnsAsync(mockBlob);
             var icon = await deviceIconRepository.AddIcon("DeviceId", "Image.png", stream);
-            Assert.Equal(icon.Name, "Image_png");
+            Assert.Equal(icon.Name, "Image");
         }
 
         [Fact]

@@ -12,7 +12,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         Task UploadFromByteArrayAsync(string blobName, byte[] buffer, int index, int count,
             AccessCondition accessCondition,
             BlobRequestOptions options, OperationContext operationContext);
-        Task<CloudBlockBlob> UploadFromStreamAsync(string blobName, Stream stream, AccessCondition condition, BlobRequestOptions options, OperationContext context);
+        Task<CloudBlockBlob> UploadFromStreamAsync(string blobName, KeyValuePair<string, string> metadataKeyValuePair, Stream stream, AccessCondition condition, BlobRequestOptions options, OperationContext context);
         Task<CloudBlockBlob> DownloadToStream(string blobName, Stream stream);
         Task<List<ICloudBlob>> ListBlobs(string blobPrefix, bool useFlatBlobListing);
         Task<CloudBlockBlob> MoveBlob(string sourceName, string targetName);

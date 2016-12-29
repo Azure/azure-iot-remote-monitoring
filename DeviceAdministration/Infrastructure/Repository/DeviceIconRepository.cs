@@ -31,8 +31,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public async Task<DeviceIcon> AddIcon(string deviceId, string fileName, Stream fileStream)
         {
             // replace '.' with '_' so that the name can be used in MVC Url route.
-            var name = Path.GetFileName(fileName).Replace(".", "_");
+            var name = Path.GetFileNameWithoutExtension(fileName).Replace(".", "_");
+            var extension = Path.GetExtension(fileName);
+
             var blob = await _blobStorageClient.UploadFromStreamAsync($"{_uploadedFolder}/{name}",
+                new KeyValuePair<string, string>(DeviceIcon.FileExtensionMetadataKey, extension),
                 fileStream,
                 AccessCondition.GenerateEmptyCondition(),
                 new BlobRequestOptions() { StoreBlobContentMD5 = true },

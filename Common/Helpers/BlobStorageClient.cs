@@ -38,12 +38,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 operationContext);
         }
 
-        public async Task<CloudBlockBlob> UploadFromStreamAsync(string blobName, Stream stream, AccessCondition condition, BlobRequestOptions options, OperationContext context)
+        public async Task<CloudBlockBlob> UploadFromStreamAsync(string blobName, KeyValuePair<string, string> metadataKeyValuePair, Stream stream, AccessCondition condition, BlobRequestOptions options, OperationContext context)
         {
             await CreateCloudBlobContainerAsync();
 
             var blob = await CreateCloudBlockBlobAsync(blobName);
             await blob.UploadFromStreamAsync(stream, condition, options, context);
+            blob.Metadata[metadataKeyValuePair.Key] = metadataKeyValuePair.Value;
+            blob.SetMetadata();
             return blob;
         }
 

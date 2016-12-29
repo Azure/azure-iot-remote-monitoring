@@ -7,9 +7,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 {
     public class DeviceIcon
     {
+        public const string FileExtensionMetadataKey = "FileExtension";
+
         public DeviceIcon(string name, ICloudBlob blob)
         {
             Name = name;
+            string value = string.Empty;
+            blob.Metadata.TryGetValue(FileExtensionMetadataKey, out value);
+            Extension = value;
             BlobUrl = blob.StorageUri.PrimaryUri.AbsoluteUri;
             Size = blob.Properties.Length;
             LastModified = blob.Properties.LastModified;
@@ -17,6 +22,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         public string Name { get; set; }
+        public string Extension { get; set; }
         public string BlobUrl { get; internal set; }
         public string ETag { get; internal set; }
         public DateTimeOffset? LastModified { get; internal set; }

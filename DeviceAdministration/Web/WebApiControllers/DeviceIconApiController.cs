@@ -80,14 +80,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpGet]
         [Route("{deviceId}/icons/{name}/{applied}")]
         [WebApiRequirePermission(Permission.EditDeviceMetadata)]
-        public async Task<HttpResponseMessage> GetIcon(string deviceId, string name, bool applied)
+        public async Task<HttpResponseMessage> GetIcon(string deviceId, string name, bool? applied)
         {
             return await Task.Run(async () =>
             {
-                var icon = await _deviceIconRepository.GetIcon(deviceId, name, applied);
+                var icon = await _deviceIconRepository.GetIcon(deviceId, name, applied.HasValue ? applied.Value : true);
                 HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
                 result.Content = new ByteArrayContent(icon.ImageStream.ToArray());
-                var mediaType = MimeMapping.GetMimeMapping(name.Substring(name.LastIndexOf("_") + 1));
+                var mediaType = MimeMapping.GetMimeMapping(string.IsNullOrEmpty(icon.Extension) ? "image/png" : icon.Extension);
                 result.Content.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
                 return result;
             });
