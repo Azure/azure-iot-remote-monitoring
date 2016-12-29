@@ -38,7 +38,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 throw new ArgumentException("DeviceID value cannot be missing, null, or whitespace");
             }
 
-            _deviceClient = DeviceClient.CreateFromConnectionString(GetConnectionString(), Client.TransportType.Mqtt);
+            _deviceClient = DeviceClient.CreateFromConnectionString(GetConnectionString(), Client.TransportType.Mqtt_WebSocket_Only);
             _deviceClient.OpenAsync().Wait();
         }
 

@@ -125,6 +125,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         private static void AssignCommands(DeviceModel device)
         {
+            // Device commands
             device.Commands.Add(new Command(
                 "PingDevice",
                 DeliveryType.Message,
@@ -158,6 +159,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
                 "Sets the device state metadata property that the device reports. This is useful for testing back-end logic.",
                 new[] { new Parameter("DeviceState", "string") }
             ));
+
+            // Device methods
             device.Commands.Add(new Command(
                 "ChangeDeviceState",
                 DeliveryType.Method,
@@ -175,6 +178,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
                 DeliveryType.Method,
                 "Configuration update",
                 new[] { new Parameter("ConfigUri", "string") }
+            ));
+            device.Commands.Add(new Command(
+                "PingDevice",
+                DeliveryType.Method,
+                "The device responds to this command with an acknowledgement. This is useful for checking that the device is still active and listening."
+            ));
+            device.Commands.Add(new Command(
+                "StartTelemetry",
+                DeliveryType.Method,
+                "Instructs the device to start sending telemetry."
+            ));
+            device.Commands.Add(new Command(
+                "StopTelemetry",
+                DeliveryType.Method,
+                "Instructs the device to stop sending telemetry."
             ));
         }
 

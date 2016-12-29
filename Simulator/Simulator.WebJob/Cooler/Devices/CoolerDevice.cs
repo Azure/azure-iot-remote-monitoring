@@ -11,6 +11,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Telemetry.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
 using Microsoft.Azure.Devices.Client;
+using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices
@@ -49,18 +50,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             RootCommandProcessor = pingDeviceProcessor;
         }
 
-        public void StartTelemetryData()
+        public bool StartTelemetryData()
         {
             var remoteMonitorTelemetry = (RemoteMonitorTelemetry)_telemetryController;
+            bool lastStatus = remoteMonitorTelemetry.TelemetryActive;
             remoteMonitorTelemetry.TelemetryActive = true;
             Logger.LogInfo("Device {0}: Telemetry has started", DeviceID);
+
+            return lastStatus;
         }
 
-        public void StopTelemetryData()
+        public bool StopTelemetryData()
         {
             var remoteMonitorTelemetry = (RemoteMonitorTelemetry)_telemetryController;
+            bool lastStatus = remoteMonitorTelemetry.TelemetryActive;
             remoteMonitorTelemetry.TelemetryActive = false;
             Logger.LogInfo("Device {0}: Telemetry has stopped", DeviceID);
+
+            return lastStatus;
         }
 
         public void ChangeSetPointTemp(double setPointTemp)
@@ -90,7 +97,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             Logger.LogInfo($"Method {methodRequest.Name} invoked on device {DeviceID}, payload: {methodRequest.DataAsJson}");
 
-            return await Task.FromResult(BuildMethodRespose(methodRequest.DataAsJson));
+            var twin = new TwinCollection();
+            twin["DeviceState"] = methodRequest.DataAsJson;
+            await Transport.UpdateReportedPropertiesAsync(twin);
+
+            return BuildMethodRespose(methodRequest.DataAsJson);
         }
 
         public async Task<MethodResponse> OnFirmwareUpdate(MethodRequest methodRequest, object userContext)
@@ -151,6 +162,34 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     Message = ex.Message
                 }, 400));
             }
+        }
+
+        public async Task<MethodResponse> OnPingDevice(MethodRequest methodRequest, object userContext)
+        {
+            return await Task.FromResult(BuildMethodRespose(new
+            {
+                DeviceUtcTime = DateTime.UtcNow
+            }));
+        }
+
+        public async Task<MethodResponse> OnStartTelemetry(MethodRequest methodRequest, object userContext)
+        {
+            bool lastStatus = StartTelemetryData();
+
+            return await Task.FromResult(BuildMethodRespose(new
+            {
+                LastStatus = lastStatus
+            }));
+        }
+
+        public async Task<MethodResponse> OnStopTelemetry(MethodRequest methodRequest, object userContext)
+        {
+            bool lastStatus = StopTelemetryData();
+
+            return await Task.FromResult(BuildMethodRespose(new
+            {
+                LastStatus = lastStatus
+            }));
         }
 
         private MethodResponse BuildMethodRespose(string responseInJSON, int status = 200)
