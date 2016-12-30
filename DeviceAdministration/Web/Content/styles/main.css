@@ -1230,7 +1230,7 @@ table#alertHistoryTable tr.selectedAlert {
   font-size: 1.2em;
   font-weight: 700;
   padding-top: 0.3em;
-  width: calc(100% - 19em);
+  width: calc(100% - 20em);
 }
 .device_list_toolbar_title {
   float: left;
