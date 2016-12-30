@@ -97,7 +97,7 @@
                 }
 
                 var deviceTable = $('#deviceTable').dataTable();
-                var selectedTableRowStatus = deviceTable.find('.selected').find('td:eq(0)');
+                var selectedTableRowStatus = deviceTable.find('.selected').find('.table_status');
 
                 if (isEnabled) {
                     _enableDisableDetailsLinks(true);
