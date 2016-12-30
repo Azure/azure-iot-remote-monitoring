@@ -2368,4 +2368,8 @@
     <value>Image</value>
     <comment>Table column header.</comment>
   </data>
+  <data name="EditDisplayName" xml:space="preserve">
+    <value>Edit Display Name</value>
+    <comment>Button label.</comment>
+  </data>
 </root>

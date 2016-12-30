@@ -1589,8 +1589,13 @@ table#alertHistoryTable tr.selectedAlert {
   width: 15px;
   padding-left: 6px;
 }
+.device_list_column_editor_container {
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+}
 .name_selector_container {
-  margin: 5px 20px 20px 20px;
+  margin: 5px 20px 0px 20px;
   overflow: auto;
 }
 .name_selector__text {
@@ -1602,17 +1607,21 @@ table#alertHistoryTable tr.selectedAlert {
   padding: 0 5px;
   min-height: 30px;
   box-sizing: content-box;
-  width: calc(100% - 44px);
+  width: calc(100% - 48px);
   margin-bottom: 20px;
 }
 .name_add__button {
+  height: 32px;
+  width: 32px;
   min-height: 32px;
   min-width: 32px;
-  background-color: #dddddd;
-  border: 1px solid #999999;
-  border-left-width: 0px;
-  color: #333333;
   float: left;
+  padding: 3px;
+  margin-left: 4px;
+}
+.name_add__button_image {
+  height: 100%;
+  width: 100%;
 }
 .device_list_columns_container {
   height: calc(100% - 195px);
@@ -1665,12 +1674,15 @@ table#alertHistoryTable tr.selectedAlert {
   cursor: pointer;
   cursor: default;
 }
+.device_list_columns_save_default {
+  margin-bottom: 20px;
+}
 .device_list_columns_button_container {
   position: absolute;
   bottom: 0px;
   left: 0px;
   right: 0px;
-  padding: 16px;
+  padding: 20px;
   background-color: #f2f2f2;
 }
 .device_list_columns_button_container_spaceholder {

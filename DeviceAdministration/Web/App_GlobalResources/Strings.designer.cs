@@ -1574,6 +1574,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Display Name.
+        /// </summary>
+        public static string EditDisplayName {
+            get {
+                return ResourceManager.GetString("EditDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Filter.
         /// </summary>
         public static string EditFilter {
