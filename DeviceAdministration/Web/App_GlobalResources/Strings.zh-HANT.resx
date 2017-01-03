@@ -642,7 +642,7 @@
     <comment>Error message.</comment>
   </data>
   <data name="ControlCToCopy" xml:space="preserve">
-    <value>Ctrl+C to Copy</value>
+    <value>Ctrl+C 以複製</value>
     <comment>{StrContains=i"Ctrl+C"}</comment>
   </data>
   <data name="DeviceKeysError" xml:space="preserve">
@@ -1021,8 +1021,8 @@
     <comment>Input label.</comment>
   </data>
   <data name="AddNewClause" xml:space="preserve">
-    <value>+ 加入新的子句</value>
-    <comment>Button label.</comment>
+    <value>新增子句</value>
+    <comment>Title label.</comment>
   </data>
   <data name="FilterDevices" xml:space="preserve">
     <value>篩選裝置</value>
@@ -1521,7 +1521,7 @@
   </data>
   <data name="ApiRegistrationTitle" xml:space="preserve">
     <value>Jasper API 註冊</value>
-    <comment>Panel heading. {Locked="Jasper API"}</comment>
+    <comment>Panel heading. {Locked="Jasper"}{Locked="API"}</comment>
   </data>
   <data name="CellularConnViewTitle" xml:space="preserve">
     <value>行動數據連線</value>
@@ -1552,7 +1552,7 @@
     <comment>Success message.</comment>
   </data>
   <data name="ApiRegistrationNotAvailable" xml:space="preserve">
-    <value>目前未對此帳戶註冊任何 API</value>
+    <value>目前還沒為此帳戶註冊任何 API</value>
     <comment>Error message.</comment>
   </data>
   <data name="JasperHelpLink" xml:space="preserve">
@@ -1572,8 +1572,8 @@
     <comment>Button label.</comment>
   </data>
   <data name="FilterInfo" xml:space="preserve">
-    <value>(從總共 _MAX_ 筆記錄中篩選)</value>
-    <comment>Do not translate the substring "_MAX_"--it is programmatically replaced with the total number of records.</comment>
+    <value>從 {1} 中篩選了 {0}</value>
+    <comment>Label.</comment>
   </data>
   <data name="RemoveRuleButtonLabel" xml:space="preserve">
     <value>移除規則...</value>
@@ -1666,5 +1666,618 @@
   <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
     <value>提供意見反應</value>
     <comment>Hyperlink label.</comment>
+  </data>
+  <data name="InvalidDeviceTelemetryFormat" xml:space="preserve">
+    <value>裝置 {0} 的 DeviceInfo 具有無效的遙測規格</value>
+  </data>
+  <data name="CommandValuesReturned" xml:space="preserve">
+    <value>傳回的值</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="InvokeMethod" xml:space="preserve">
+    <value>叫用方法</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DesiredProperties" xml:space="preserve">
+    <value>預期屬性</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ReportedProperties" xml:space="preserve">
+    <value>回報的屬性</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>標記</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="DesiredPropertiesTooltip" xml:space="preserve">
+    <value>預期屬性</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ReportedPropertiesTooltip" xml:space="preserve">
+    <value>回報的屬性</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="TagsTooltip" xml:space="preserve">
+    <value>標記</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="InvokeMethodLabel" xml:space="preserve">
+    <value>叫用方法</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="EditColumns" xml:space="preserve">
+    <value>編輯資料行</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ScheduleJob" xml:space="preserve">
+    <value>排程作業</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ScheduleJobPanelLabel" xml:space="preserve">
+    <value>排程作業</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="UpdateTwin" xml:space="preserve">
+    <value>編輯屬性或標籤</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RecentJobs" xml:space="preserve">
+    <value>最近的工作</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="RecentJobsTooltip" xml:space="preserve">
+    <value>最近的工作</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
+    <value>檢視全部 ({0})</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>清除</value>
+    <comment>Hyperlink label</comment>
+  </data>
+  <data name="SelectedColumns" xml:space="preserve">
+    <value>選取的資料行</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FailedToUpdateColumns" xml:space="preserve">
+    <value>無法更新資料行</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveColumnsFromService" xml:space="preserve">
+    <value>無法從服務擷取資料行</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>刪除</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="MaxExecutionTime" xml:space="preserve">
+    <value>最長執行時間</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="Method" xml:space="preserve">
+    <value>方法</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="Query" xml:space="preserve">
+    <value>查詢</value>
+    <comment>Hyperlink label</comment>
+  </data>
+  <data name="ScheduleChangeDesiredProperties" xml:space="preserve">
+    <value>變更所需屬性</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleChangeTags" xml:space="preserve">
+    <value>變更標籤</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleDesiredPropertyName" xml:space="preserve">
+    <value>所需屬性名稱</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleEditPropertiesOrTags" xml:space="preserve">
+    <value>編輯屬性或標籤</value>
+    <comment>Label</comment>
+  </data>
+  <data name="ScheduleEditValue" xml:space="preserve">
+    <value>編輯值</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleJobName" xml:space="preserve">
+    <value>工作名稱</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleSetJobTime" xml:space="preserve">
+    <value>設定作業時間</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="SomeDeviceInapplicable" xml:space="preserve">
+    <value>{0} 部裝置不適用，共有 {1} 部</value>
+    <comment>label</comment>
+  </data>
+  <data name="SomeDevicesApplicable" xml:space="preserve">
+    <value>{0} 部裝置適用，共有 {1} 部</value>
+    <comment>label</comment>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>開始時間</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>標籤名稱</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleJobNamePlaceHolder" xml:space="preserve">
+    <value>在此輸入您的作業名稱</value>
+    <comment>Placeholder message</comment>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>下移</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>上移</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="LastUpdatedFormatString" xml:space="preserve">
+    <value>{0} 前</value>
+    <comment>LastUpdated format string.</comment>
+  </data>
+  <data name="DayPlural" xml:space="preserve">
+    <value>天</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="DaySingular" xml:space="preserve">
+    <value>天</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="HourPlural" xml:space="preserve">
+    <value>小時</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="HourSingular" xml:space="preserve">
+    <value>小時</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MinutePlural" xml:space="preserve">
+    <value>分鐘</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MinuteSingular" xml:space="preserve">
+    <value>分鐘</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MonthPlural" xml:space="preserve">
+    <value>月</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MonthSingular" xml:space="preserve">
+    <value>月</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="TimeSpanMin" xml:space="preserve">
+    <value>&lt; 1 分鐘</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="WeekPlural" xml:space="preserve">
+    <value>週</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="WeekSingular" xml:space="preserve">
+    <value>週</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="YearPlural" xml:space="preserve">
+    <value>年</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="YearSingular" xml:space="preserve">
+    <value>年</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="FailedToRetrieveColumns" xml:space="preserve">
+    <value>擷取資料行清單時發生錯誤。</value>
+  </data>
+  <data name="AddNewFilter" xml:space="preserve">
+    <value>新增篩選</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="FindQuery" xml:space="preserve">
+    <value>尋找查詢</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="ShowRecentFilters" xml:space="preserve">
+    <value>近期篩選</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="TypeOfSearch" xml:space="preserve">
+    <value>搜尋的類型</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="SearchType" xml:space="preserve">
+    <value>搜尋的類型</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="ClearClauses" xml:space="preserve">
+    <value>- 清除子句</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FailedToDeleteFilter" xml:space="preserve">
+    <value>無法刪除此篩選。</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetDefaultFilters" xml:space="preserve">
+    <value>找不到預設篩選，請重試。</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetFilter" xml:space="preserve">
+    <value>無法取得篩選。</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetRecentFilters" xml:space="preserve">
+    <value>無法取得近期篩選。</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToSaveFilter" xml:space="preserve">
+    <value>因為此篩選已與作業建立關聯，所以無法予以儲存。</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SearchTypeFilters" xml:space="preserve">
+    <value>篩選</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="SearchTypeAdvanced" xml:space="preserve">
+    <value>進階</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FilterIsEmpty" xml:space="preserve">
+    <value>篩選名稱或篩選為空白。</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="LoadDefault" xml:space="preserve">
+    <value>載入預設</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="SaveAsDefault" xml:space="preserve">
+    <value>另存為所有使用者的預設</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="Jobs" xml:space="preserve">
+    <value>工作</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobHistoryForQuery" xml:space="preserve">
+    <value>查詢的作業記錄</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobHistoryForQueryTooltip" xml:space="preserve">
+    <value>查詢的作業記錄</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobsTooltip" xml:space="preserve">
+    <value>工作</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ScheduleJobError" xml:space="preserve">
+    <value>無法排程作業。發生未預期的錯誤。</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RequiredValidationString" xml:space="preserve">
+    <value>這是必要欄位</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="ScheduleParameterName" xml:space="preserve">
+    <value>參數</value>
+  </data>
+  <data name="ScheduleParameters" xml:space="preserve">
+    <value>參數</value>
+    <comment>Input Label</comment>
+  </data>
+  <data name="DeviceMethodIsDisabled" xml:space="preserve">
+    <value>目前無法對此裝置叫用方法</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceMethodsHeader" xml:space="preserve">
+    <value>為 {0} 叫用方法</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="MethodCallError" xml:space="preserve">
+    <value>叫用方法時發生錯誤</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="MethodError" xml:space="preserve">
+    <value>擷取選取的方法時發生錯誤</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="MethodHistory" xml:space="preserve">
+    <value>方法記錄</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="MethodName" xml:space="preserve">
+    <value>方法名稱</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="NoMethodsAvailable" xml:space="preserve">
+    <value>裝置 {0} 沒有可用的方法</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Reinvoke" xml:space="preserve">
+    <value>重新叫用</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ReinvokeMethodError" xml:space="preserve">
+    <value>重新叫用方法時發生錯誤</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SelectAMethod" xml:space="preserve">
+    <value>選取方法</value>
+    <comment>Dropdown unselected option label.</comment>
+  </data>
+  <data name="DeviceCountHeader" xml:space="preserve">
+    <value>裝置數目</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="EndTimeHeader" xml:space="preserve">
+    <value>結束時間</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FailedCountHeader" xml:space="preserve">
+    <value>失敗計數</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="JobNameHeader" xml:space="preserve">
+    <value>作業名稱</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="JobPropertiesPaneLabel" xml:space="preserve">
+    <value>作業詳細資料</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoJobSelectedLabel" xml:space="preserve">
+    <value>未選取任何作業</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="OperationsHeader" xml:space="preserve">
+    <value>作業</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FilterNameHeader" xml:space="preserve">
+    <value>篩選</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="StartTimeHeader" xml:space="preserve">
+    <value>開始時間</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="SucceedCountHeader" xml:space="preserve">
+    <value>成功計數</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="NavigationMenuItemJobs" xml:space="preserve">
+    <value>管理作業</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="ExportDevicesJobType" xml:space="preserve">
+    <value>匯出的裝置</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ImportDevicesJobType" xml:space="preserve">
+    <value>匯入的裝置</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ScheduleDeviceMethodJobType" xml:space="preserve">
+    <value>叫用方法</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ScheduleUpdateTwinJobType" xml:space="preserve">
+    <value>編輯屬性及標籤</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="UnknownJobType" xml:space="preserve">
+    <value>未知的作業類型</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="CancelJobAction" xml:space="preserve">
+    <value>取消</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CloneJobAction" xml:space="preserve">
+    <value>複製作業</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceCountSubHeader" xml:space="preserve">
+    <value>作業中的裝置</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="FailedCountSubHeader" xml:space="preserve">
+    <value>失敗的裝置</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="FailedToRetrieveJobs" xml:space="preserve">
+    <value>無法擷取作業</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="JobId" xml:space="preserve">
+    <value>工作 ID</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="JobProperties" xml:space="preserve">
+    <value>作業屬性</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobStatistics" xml:space="preserve">
+    <value>裝置</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoJobSelected" xml:space="preserve">
+    <value>未選取任何作業</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="PendingCountSubHeader" xml:space="preserve">
+    <value>擱置中裝置</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="RunningCountSubHeader" xml:space="preserve">
+    <value>執行中裝置</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="SucceededCountSubHeader" xml:space="preserve">
+    <value>成功的裝置</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="UnableToRetrieveJobFromService" xml:space="preserve">
+    <value>無法從服務擷取作業</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToCancelJob" xml:space="preserve">
+    <value>無法取消作業。</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ActiveJobs" xml:space="preserve">
+    <value>使用中的作業</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="FailedJobsInLast24Hours" xml:space="preserve">
+    <value>過去 24 小時內失敗的作業</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>n/a</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ScheduledJobs" xml:space="preserve">
+    <value>排程作業</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="DeviceMethods" xml:space="preserve">
+    <value>方法</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="AddDesiredProperty" xml:space="preserve">
+    <value>新增所需屬性</value>
+    <comment>Button label</comment>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>新增標籤</value>
+    <comment>Button label</comment>
+  </data>
+  <data name="EditDesiredPropertiesFor" xml:space="preserve">
+    <value>編輯 {0} 所需屬性</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="EditTagsFor" xml:space="preserve">
+    <value>編輯 {0} 的標籤</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="NotApplicableValue" xml:space="preserve">
+    <value>N/A</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="CompletedJobsInLast24Hours" xml:space="preserve">
+    <value>過去 24 小時內完成的作業</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="EditColumnsPanelLabel" xml:space="preserve">
+    <value>編輯資料行</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="IncorrectFilterName" xml:space="preserve">
+    <value>查詢名稱不得包含下列字元: # % / \ . * + : ? &lt; &gt; &amp;</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="HideJobResults" xml:space="preserve">
+    <value>隱藏詳細資料</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="ShowJobResults" xml:space="preserve">
+    <value>顯示詳細資料</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="JobOperationResult" xml:space="preserve">
+    <value>作業的作業</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobOperationResultTooltip" xml:space="preserve">
+    <value>作業的作業結果</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobPropertiesTooltip" xml:space="preserve">
+    <value>作業的屬性</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobStatisticsTooltip" xml:space="preserve">
+    <value>作業的裝置統計</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>全部清除</value>
+    <comment>Hyperlink label</comment>
+  </data>
+  <data name="FilterEditor" xml:space="preserve">
+    <value>篩選編輯器</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FilterLabel" xml:space="preserve">
+    <value>篩選</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="NameYourFilter" xml:space="preserve">
+    <value>為您的篩選命名</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="OpenSavedFilter" xml:space="preserve">
+    <value>開啟儲存的篩選</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>另存新檔</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ViewSeletedClausesOnly" xml:space="preserve">
+    <value>僅檢視選取的子句</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="NoJobs" xml:space="preserve">
+    <value>沒有任何作業</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="DeleteFilter" xml:space="preserve">
+    <value>刪除篩選</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="EditFilter" xml:space="preserve">
+    <value>編輯器篩選</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="SaveAsFilter" xml:space="preserve">
+    <value>另存為篩選</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="SaveFilter" xml:space="preserve">
+    <value>儲存篩選</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="FailedToUpdateTwin" xml:space="preserve">
+    <value>無法更新孿生屬性，請檢查輸入值。</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>確認</value>
+    <comment>Dialog title.</comment>
+  </data>
+  <data name="DeleteFilterConfirmation" xml:space="preserve">
+    <value>確定要刪除此篩選嗎?</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>重新整理</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="DeleteFilterWithJobsConfirmation" xml:space="preserve">
+    <value>此篩選已與作業建立關聯。確定要刪除此篩選嗎?</value>
+    <comment>Confirmation message.</comment>
   </data>
 </root>

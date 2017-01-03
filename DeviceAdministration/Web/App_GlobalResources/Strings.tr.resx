@@ -130,7 +130,7 @@
     <comment>Button label.</comment>
   </data>
   <data name="AuthenticationKey" xml:space="preserve">
-    <value>Kimlik Doğrulama Anahtarı</value>
+    <value>Kimlik Doğrulaması Anahtarı</value>
     <comment>(Unused)</comment>
   </data>
   <data name="AuthKey1" xml:space="preserve">
@@ -158,11 +158,11 @@
     <comment>Button label.</comment>
   </data>
   <data name="CopyCredentialsIntoFile" xml:space="preserve">
-    <value>Kimlik bilgilerini cihazdaki yapılandırma dosyasına kopyala</value>
+    <value>Kimlik bilgilerini cihazdaki yapılandırma dosyasına kopyalama</value>
     <comment>(Unused)</comment>
   </data>
   <data name="CopyDeviceIdAndAuthKeyLabel" xml:space="preserve">
-    <value>Cihaz Kimliğini ve Kimlik Doğrulama Anahtarını kopyala</value>
+    <value>Cihaz Kimliğini ve Kimlik Doğrulaması Anahtarını kopyala</value>
     <comment>(Unused)</comment>
   </data>
   <data name="Create" xml:space="preserve">
@@ -282,7 +282,7 @@
     <comment>Button label.</comment>
   </data>
   <data name="AuthenticationKeys" xml:space="preserve">
-    <value>Kimlik Doğrulama Anahtarları</value>
+    <value>Kimlik Doğrulaması Anahtarları</value>
     <comment>Device details section heading.</comment>
   </data>
   <data name="AvailableActions" xml:space="preserve">
@@ -382,7 +382,7 @@
     <comment>(Unused)</comment>
   </data>
   <data name="PriceRange" xml:space="preserve">
-    <value>Fiyat değeri 0'dan fazla olmalıdır</value>
+    <value>Fiyat değeri 0'dan büyük olmalıdır</value>
     <comment>Error message.</comment>
   </data>
   <data name="Product" xml:space="preserve">
@@ -518,7 +518,7 @@
     <comment>Part of confirmation message. (Unused)</comment>
   </data>
   <data name="ViewAuthenticationKeys" xml:space="preserve">
-    <value>Kimlik Doğrulama Anahtarlarını Görüntüle</value>
+    <value>Kimlik Doğrulaması Anahtarlarını Görüntüle</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="DeviceUpdateError" xml:space="preserve">
@@ -618,7 +618,7 @@
     <comment>Button label.</comment>
   </data>
   <data name="CopyCredentials" xml:space="preserve">
-    <value>Kimlik bilgilerini cihazdaki yapılandırma dosyasına kopyala</value>
+    <value>Kimlik bilgilerini cihazdaki yapılandırma dosyasına kopyalama</value>
     <comment>Table heading.</comment>
   </data>
   <data name="EditDeviceProperties" xml:space="preserve">
@@ -642,7 +642,7 @@
     <comment>Error message.</comment>
   </data>
   <data name="ControlCToCopy" xml:space="preserve">
-    <value>Ctrl+C to Copy</value>
+    <value>Kopyalamak için Ctrl+C</value>
     <comment>{StrContains=i"Ctrl+C"}</comment>
   </data>
   <data name="DeviceKeysError" xml:space="preserve">
@@ -733,7 +733,7 @@
     <comment>Section heading.</comment>
   </data>
   <data name="AuthenticationKeyFor" xml:space="preserve">
-    <value>{0} için kimlik doğrulama anahtarı</value>
+    <value>{0} için kimlik doğrulaması anahtarı</value>
     <comment>(Unused)</comment>
   </data>
   <data name="KeyInUse" xml:space="preserve">
@@ -1001,7 +1001,7 @@
     <comment>Input field tooltip.</comment>
   </data>
   <data name="StringCommandHint" xml:space="preserve">
-    <value>Veri türü: dize ('Hoş geldiniz, kullanıcı!' gibi)</value>
+    <value>Veri türü: dize ('Hoş geldiniz.' gibi)</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="FindDevices" xml:space="preserve">
@@ -1021,8 +1021,8 @@
     <comment>Input label.</comment>
   </data>
   <data name="AddNewClause" xml:space="preserve">
-    <value>+ YENİ YAN TÜMCE EKLE</value>
-    <comment>Button label.</comment>
+    <value>Yeni Yan Tümce Ekle</value>
+    <comment>Title label.</comment>
   </data>
   <data name="FilterDevices" xml:space="preserve">
     <value>CİHAZLARI FİLTRELE</value>
@@ -1521,7 +1521,7 @@
   </data>
   <data name="ApiRegistrationTitle" xml:space="preserve">
     <value>Jasper API Kaydı</value>
-    <comment>Panel heading. {Locked="Jasper API"}</comment>
+    <comment>Panel heading. {Locked="Jasper"}{Locked="API"}</comment>
   </data>
   <data name="CellularConnViewTitle" xml:space="preserve">
     <value>Şebeke Bağlantısı</value>
@@ -1540,7 +1540,7 @@
     <comment>Section heading.</comment>
   </data>
   <data name="LogicAppsViewTitle" xml:space="preserve">
-    <value>Logic Apps</value>
+    <value>Mantıksal Uygulamalar</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ApiRegistrationFailed" xml:space="preserve">
@@ -1572,8 +1572,8 @@
     <comment>Button label.</comment>
   </data>
   <data name="FilterInfo" xml:space="preserve">
-    <value>(toplam _MAX_ kayıt içinden filtrelendi)</value>
-    <comment>Do not translate the substring "_MAX_"--it is programmatically replaced with the total number of records.</comment>
+    <value>{1} içinden {0} filtrelendi</value>
+    <comment>Label.</comment>
   </data>
   <data name="RemoveRuleButtonLabel" xml:space="preserve">
     <value>Kuralı Kaldır...</value>
@@ -1664,7 +1664,620 @@
     <comment>Hyperlink label.</comment>
   </data>
   <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
-    <value>Geri bildirimde bulunun</value>
+    <value>Görüş bildirin</value>
     <comment>Hyperlink label.</comment>
+  </data>
+  <data name="InvalidDeviceTelemetryFormat" xml:space="preserve">
+    <value>{0} cihazının DeviceInfo üzerindeki Telemetri belirtimi geçersiz</value>
+  </data>
+  <data name="CommandValuesReturned" xml:space="preserve">
+    <value>DÖNDÜRÜLEN DEĞERLER</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="InvokeMethod" xml:space="preserve">
+    <value>Yöntemi Çağır</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DesiredProperties" xml:space="preserve">
+    <value>İstenen Özellikler</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ReportedProperties" xml:space="preserve">
+    <value>Bildirilen Özellikler</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Etiketler</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="DesiredPropertiesTooltip" xml:space="preserve">
+    <value>İstenen Özellikler</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ReportedPropertiesTooltip" xml:space="preserve">
+    <value>Bildirilen Özellikler</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="TagsTooltip" xml:space="preserve">
+    <value>Etiketler</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="InvokeMethodLabel" xml:space="preserve">
+    <value>Yöntemi Çağır</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="EditColumns" xml:space="preserve">
+    <value>Sütunları Düzenle</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ScheduleJob" xml:space="preserve">
+    <value>Zamanlanan İş</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ScheduleJobPanelLabel" xml:space="preserve">
+    <value>İŞİ ZAMANLA</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="UpdateTwin" xml:space="preserve">
+    <value>Özellikleri veya Etiketleri Düzenle</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RecentJobs" xml:space="preserve">
+    <value>Son İşler</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="RecentJobsTooltip" xml:space="preserve">
+    <value>Son İşler</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
+    <value>Tümünü görüntüle ({0})</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Temizle</value>
+    <comment>Hyperlink label</comment>
+  </data>
+  <data name="SelectedColumns" xml:space="preserve">
+    <value>Seçilen Sütunlar</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FailedToUpdateColumns" xml:space="preserve">
+    <value>Sütunlar güncelleştirilemedi</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveColumnsFromService" xml:space="preserve">
+    <value>Sütunlar hizmetten alınamıyor</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Sil</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="MaxExecutionTime" xml:space="preserve">
+    <value>EN UZUN YÜRÜTME SÜRESİ</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="Method" xml:space="preserve">
+    <value>Metot</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="Query" xml:space="preserve">
+    <value>Sorgu</value>
+    <comment>Hyperlink label</comment>
+  </data>
+  <data name="ScheduleChangeDesiredProperties" xml:space="preserve">
+    <value>İstenen Özellikleri Değiştir</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleChangeTags" xml:space="preserve">
+    <value>Etiketleri Değiştir</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleDesiredPropertyName" xml:space="preserve">
+    <value>İstenen Özellik Adı</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleEditPropertiesOrTags" xml:space="preserve">
+    <value>Özellikleri veya Etiketleri Düzenle</value>
+    <comment>Label</comment>
+  </data>
+  <data name="ScheduleEditValue" xml:space="preserve">
+    <value>Değeri Düzenle</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleJobName" xml:space="preserve">
+    <value>İş Adı</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleSetJobTime" xml:space="preserve">
+    <value>İş Saatini Ayarla</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="SomeDeviceInapplicable" xml:space="preserve">
+    <value>{0} / {1} cihaz geçerli değil</value>
+    <comment>label</comment>
+  </data>
+  <data name="SomeDevicesApplicable" xml:space="preserve">
+    <value>{0} / {1} cihaz geçerli</value>
+    <comment>label</comment>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>BAŞLANGIÇ SAATİ</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Etiket Adı</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleJobNamePlaceHolder" xml:space="preserve">
+    <value>İş adını buraya girin</value>
+    <comment>Placeholder message</comment>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Aşağı taşı</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Yukarı taşı</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="LastUpdatedFormatString" xml:space="preserve">
+    <value>{0} önce</value>
+    <comment>LastUpdated format string.</comment>
+  </data>
+  <data name="DayPlural" xml:space="preserve">
+    <value>Gün</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="DaySingular" xml:space="preserve">
+    <value>Gün</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="HourPlural" xml:space="preserve">
+    <value>Saat</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="HourSingular" xml:space="preserve">
+    <value>Saat</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MinutePlural" xml:space="preserve">
+    <value>Dakika</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MinuteSingular" xml:space="preserve">
+    <value>Dakika</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MonthPlural" xml:space="preserve">
+    <value>Ay</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MonthSingular" xml:space="preserve">
+    <value>Ay</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="TimeSpanMin" xml:space="preserve">
+    <value>&lt; 1 Dakika</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="WeekPlural" xml:space="preserve">
+    <value>Hafta</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="WeekSingular" xml:space="preserve">
+    <value>Hafta</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="YearPlural" xml:space="preserve">
+    <value>Yıl</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="YearSingular" xml:space="preserve">
+    <value>Yıl</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="FailedToRetrieveColumns" xml:space="preserve">
+    <value>Sütun listesi alınırken bir hata oluştu.</value>
+  </data>
+  <data name="AddNewFilter" xml:space="preserve">
+    <value>YENİ FİLTRE</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="FindQuery" xml:space="preserve">
+    <value>Sorgu bul</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="ShowRecentFilters" xml:space="preserve">
+    <value>SON FİLTRELER</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="TypeOfSearch" xml:space="preserve">
+    <value>Arama türü</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="SearchType" xml:space="preserve">
+    <value>Arama türü</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="ClearClauses" xml:space="preserve">
+    <value>- YAN TÜMCEYİ TEMİZLE</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FailedToDeleteFilter" xml:space="preserve">
+    <value>Bu filtre silinemedi.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetDefaultFilters" xml:space="preserve">
+    <value>Varsayılan filtreler bulunamadı, lütfen yeniden deneyin.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetFilter" xml:space="preserve">
+    <value>Filtre alınamadı.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetRecentFilters" xml:space="preserve">
+    <value>Son filtreler alınamadı.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToSaveFilter" xml:space="preserve">
+    <value>Bu filtre, işlerle ilişkili olduğu için kaydedilemedi.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SearchTypeFilters" xml:space="preserve">
+    <value>FİLTRE</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="SearchTypeAdvanced" xml:space="preserve">
+    <value>GELİŞMİŞ</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FilterIsEmpty" xml:space="preserve">
+    <value>Filtre adı veya filtreler boş.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="LoadDefault" xml:space="preserve">
+    <value>Varsayılanı Yükle</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="SaveAsDefault" xml:space="preserve">
+    <value>Tüm kullanıcılar için varsayılan olarak kaydet</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="Jobs" xml:space="preserve">
+    <value>İşler</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobHistoryForQuery" xml:space="preserve">
+    <value>Sorgunun İş Geçmişi</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobHistoryForQueryTooltip" xml:space="preserve">
+    <value>Sorgunun İş Geçmişi</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobsTooltip" xml:space="preserve">
+    <value>İşler</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ScheduleJobError" xml:space="preserve">
+    <value>İş zamanlanamıyor. Beklenmeyen bir hata oluştu.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RequiredValidationString" xml:space="preserve">
+    <value>Bu alan gereklidir</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="ScheduleParameterName" xml:space="preserve">
+    <value>Parametreler</value>
+  </data>
+  <data name="ScheduleParameters" xml:space="preserve">
+    <value>Parametreler</value>
+    <comment>Input Label</comment>
+  </data>
+  <data name="DeviceMethodIsDisabled" xml:space="preserve">
+    <value>Bu cihazdaki yöntemler şu anda çağrılamıyor</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceMethodsHeader" xml:space="preserve">
+    <value>{0} için Yöntem Çağır</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="MethodCallError" xml:space="preserve">
+    <value>Yöntem çağrılırken bir hata oluştu</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="MethodError" xml:space="preserve">
+    <value>Seçilen yöntem alınırken bir hata oluştu</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="MethodHistory" xml:space="preserve">
+    <value>Yöntem Geçmişi</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="MethodName" xml:space="preserve">
+    <value>YÖNTEM ADI</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="NoMethodsAvailable" xml:space="preserve">
+    <value>{0} cihazında kullanılabilen yöntem yok</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Reinvoke" xml:space="preserve">
+    <value>Yeniden Çağır</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ReinvokeMethodError" xml:space="preserve">
+    <value>Yöntem yeniden çağrılırken bir hata oluştu</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SelectAMethod" xml:space="preserve">
+    <value>Yöntem Seç</value>
+    <comment>Dropdown unselected option label.</comment>
+  </data>
+  <data name="DeviceCountHeader" xml:space="preserve">
+    <value>CİHAZ SAYISI</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="EndTimeHeader" xml:space="preserve">
+    <value>BİTİŞ ZAMANI</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FailedCountHeader" xml:space="preserve">
+    <value>BAŞARISIZ SAYISI</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="JobNameHeader" xml:space="preserve">
+    <value>İŞ ADI</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="JobPropertiesPaneLabel" xml:space="preserve">
+    <value>İŞ AYRINTILARI</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoJobSelectedLabel" xml:space="preserve">
+    <value>İş Seçilmedi</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="OperationsHeader" xml:space="preserve">
+    <value>İŞLEMLER</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FilterNameHeader" xml:space="preserve">
+    <value>FİLTRE</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="StartTimeHeader" xml:space="preserve">
+    <value>BAŞLANGIÇ SAATİ</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="SucceedCountHeader" xml:space="preserve">
+    <value>BAŞARILI SAYISI</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="NavigationMenuItemJobs" xml:space="preserve">
+    <value>Yönetim İşleri</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="ExportDevicesJobType" xml:space="preserve">
+    <value>Dışa Aktarılan Cihazlar</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ImportDevicesJobType" xml:space="preserve">
+    <value>İçe Aktarılan Cihazlar</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ScheduleDeviceMethodJobType" xml:space="preserve">
+    <value>Yöntemi Çağır</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ScheduleUpdateTwinJobType" xml:space="preserve">
+    <value>Özellikleri ve Etiketleri Düzenle</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="UnknownJobType" xml:space="preserve">
+    <value>Bilinmeyen İş Türü</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="CancelJobAction" xml:space="preserve">
+    <value>İptal</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CloneJobAction" xml:space="preserve">
+    <value>İşi Kopyala</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceCountSubHeader" xml:space="preserve">
+    <value>İŞTEKİ CİHAZ</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="FailedCountSubHeader" xml:space="preserve">
+    <value>BAŞARISIZ CİHAZLAR</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="FailedToRetrieveJobs" xml:space="preserve">
+    <value>İşler alınamadı</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="JobId" xml:space="preserve">
+    <value>İŞ KİMLİĞİ</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="JobProperties" xml:space="preserve">
+    <value>İş Özellikleri</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobStatistics" xml:space="preserve">
+    <value>Cihazlar</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoJobSelected" xml:space="preserve">
+    <value>İş seçilmedi</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="PendingCountSubHeader" xml:space="preserve">
+    <value>CİHAZ BEKLİYOR</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="RunningCountSubHeader" xml:space="preserve">
+    <value>CİHAZ ÇALIŞIYOR</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="SucceededCountSubHeader" xml:space="preserve">
+    <value>BAŞARILI CİHAZLAR</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="UnableToRetrieveJobFromService" xml:space="preserve">
+    <value>İş hizmetten alınamıyor</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToCancelJob" xml:space="preserve">
+    <value>İş iptal edilemedi.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ActiveJobs" xml:space="preserve">
+    <value>Etkin İşler</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="FailedJobsInLast24Hours" xml:space="preserve">
+    <value>Son 24 saatte başarısız olan işler</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>Kullanılamaz</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ScheduledJobs" xml:space="preserve">
+    <value>Zamanlanan İşler</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="DeviceMethods" xml:space="preserve">
+    <value>Yöntemler</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="AddDesiredProperty" xml:space="preserve">
+    <value>İstenen Özelliği Ekle</value>
+    <comment>Button label</comment>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Etiket Ekle</value>
+    <comment>Button label</comment>
+  </data>
+  <data name="EditDesiredPropertiesFor" xml:space="preserve">
+    <value>{0} için İstenen Özellikleri Düzenle</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="EditTagsFor" xml:space="preserve">
+    <value>{0} için Etiketleri Düzenle</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="NotApplicableValue" xml:space="preserve">
+    <value>Yok</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="CompletedJobsInLast24Hours" xml:space="preserve">
+    <value>Son 24 saatte tamamlanan işler</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="EditColumnsPanelLabel" xml:space="preserve">
+    <value>SÜTUNLARI DÜZENLE</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="IncorrectFilterName" xml:space="preserve">
+    <value>Sorgu adı şu karakterleri içeremez: # % / \ . * + : ? &lt; &gt; &amp;</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="HideJobResults" xml:space="preserve">
+    <value>Ayrıntıları Gizle</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="ShowJobResults" xml:space="preserve">
+    <value>Ayrıntıları Göster</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="JobOperationResult" xml:space="preserve">
+    <value>İş İşlemleri</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobOperationResultTooltip" xml:space="preserve">
+    <value>İşin İşlem Sonuçları</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobPropertiesTooltip" xml:space="preserve">
+    <value>İşin Özellikleri</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobStatisticsTooltip" xml:space="preserve">
+    <value>İşin Cihaz İstatistikleri</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Tümünü Temizle</value>
+    <comment>Hyperlink label</comment>
+  </data>
+  <data name="FilterEditor" xml:space="preserve">
+    <value>Filtre Düzenleyicisi</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FilterLabel" xml:space="preserve">
+    <value>Filtre</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="NameYourFilter" xml:space="preserve">
+    <value>Filtrenizi Adlandırın</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="OpenSavedFilter" xml:space="preserve">
+    <value>Kaydedilmiş Filtre Aç</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>Farklı kaydet</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ViewSeletedClausesOnly" xml:space="preserve">
+    <value>Yalnızca seçilen yan tümceleri görüntüle</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="NoJobs" xml:space="preserve">
+    <value>İş Yok</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="DeleteFilter" xml:space="preserve">
+    <value>Filtreyi Sil</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="EditFilter" xml:space="preserve">
+    <value>Filtreyi Düzenle</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="SaveAsFilter" xml:space="preserve">
+    <value>Filtre Olarak Kaydet</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="SaveFilter" xml:space="preserve">
+    <value>Filtreyi Kaydet</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="FailedToUpdateTwin" xml:space="preserve">
+    <value>İkiz özellikler güncelleştirilemedi; lütfen girilen değeri kontrol edin.</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Onay</value>
+    <comment>Dialog title.</comment>
+  </data>
+  <data name="DeleteFilterConfirmation" xml:space="preserve">
+    <value>Bu filtreyi silmek istediğinizden emin misiniz?</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Yenile</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="DeleteFilterWithJobsConfirmation" xml:space="preserve">
+    <value>Bu filtre işlerle ilişkili. Bu filtreyi silmek istediğinizden emin misiniz?</value>
+    <comment>Confirmation message.</comment>
   </data>
 </root>

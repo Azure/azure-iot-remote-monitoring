@@ -642,7 +642,7 @@
     <comment>Error message.</comment>
   </data>
   <data name="ControlCToCopy" xml:space="preserve">
-    <value>Ctrl+C to Copy</value>
+    <value>Zkopírujte stisknutím Ctrl+C.</value>
     <comment>{StrContains=i"Ctrl+C"}</comment>
   </data>
   <data name="DeviceKeysError" xml:space="preserve">
@@ -849,7 +849,7 @@
     <comment>Error message. {StrContains="JavaScript"}</comment>
   </data>
   <data name="NoscriptP2" xml:space="preserve">
-    <value>To learn how to allow JavaScript or to find out whether your browser supports JavaScript, check the online help in your web browser.</value>
+    <value>Pokud potřebujete nápovědu, jak JavaScript spustit, nebo zjistit, jestli ho váš prohlížeč podporuje, podívejte se do online nápovědy ve webovém prohlížeči.</value>
     <comment>Informational text block. {StrContains="JavaScript"}</comment>
   </data>
   <data name="DeviceIdColon" xml:space="preserve">
@@ -1021,8 +1021,8 @@
     <comment>Input label.</comment>
   </data>
   <data name="AddNewClause" xml:space="preserve">
-    <value>+ PŘIDAT NOVOU KLAUZULI</value>
-    <comment>Button label.</comment>
+    <value>Přidat novou klauzuli</value>
+    <comment>Title label.</comment>
   </data>
   <data name="FilterDevices" xml:space="preserve">
     <value>FILTROVAT ZAŘÍZENÍ</value>
@@ -1521,7 +1521,7 @@
   </data>
   <data name="ApiRegistrationTitle" xml:space="preserve">
     <value>Registrace Jasper API</value>
-    <comment>Panel heading. {Locked="Jasper API"}</comment>
+    <comment>Panel heading. {Locked="Jasper"}{Locked="API"}</comment>
   </data>
   <data name="CellularConnViewTitle" xml:space="preserve">
     <value>Mobilní připojení</value>
@@ -1572,8 +1572,8 @@
     <comment>Button label.</comment>
   </data>
   <data name="FilterInfo" xml:space="preserve">
-    <value>(filtrováno z _MAXIMÁLNÍHO_ celkového počtu záznamů)</value>
-    <comment>Do not translate the substring "_MAX_"--it is programmatically replaced with the total number of records.</comment>
+    <value>Vyfiltrováno: {0} z {1}</value>
+    <comment>Label.</comment>
   </data>
   <data name="RemoveRuleButtonLabel" xml:space="preserve">
     <value>Odebrat pravidlo...</value>
@@ -1666,5 +1666,618 @@
   <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
     <value>Poslat názor</value>
     <comment>Hyperlink label.</comment>
+  </data>
+  <data name="InvalidDeviceTelemetryFormat" xml:space="preserve">
+    <value>Zařízení {0} má ve svém DeviceInfo neplatnou specifikaci Telemetry</value>
+  </data>
+  <data name="CommandValuesReturned" xml:space="preserve">
+    <value>VRÁCENÉ HODNOTY</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="InvokeMethod" xml:space="preserve">
+    <value>Vyvolat metodu</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DesiredProperties" xml:space="preserve">
+    <value>Požadované vlastnosti</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ReportedProperties" xml:space="preserve">
+    <value>Vykázané vlastnosti</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Značky</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="DesiredPropertiesTooltip" xml:space="preserve">
+    <value>Požadované vlastnosti</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ReportedPropertiesTooltip" xml:space="preserve">
+    <value>Vykázané vlastnosti</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="TagsTooltip" xml:space="preserve">
+    <value>Značky</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="InvokeMethodLabel" xml:space="preserve">
+    <value>Vyvolat metodu</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="EditColumns" xml:space="preserve">
+    <value>Upravit sloupce</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ScheduleJob" xml:space="preserve">
+    <value>Naplánovat úlohu</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ScheduleJobPanelLabel" xml:space="preserve">
+    <value>NAPLÁNOVAT ÚLOHU</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="UpdateTwin" xml:space="preserve">
+    <value>Upravit vlastnosti nebo značky</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RecentJobs" xml:space="preserve">
+    <value>Poslední úlohy</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="RecentJobsTooltip" xml:space="preserve">
+    <value>Poslední úlohy</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
+    <value>Zobrazit všechny ({0})</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Vymazat</value>
+    <comment>Hyperlink label</comment>
+  </data>
+  <data name="SelectedColumns" xml:space="preserve">
+    <value>Vybrané sloupce</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FailedToUpdateColumns" xml:space="preserve">
+    <value>Nepovedlo se aktualizovat sloupce.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveColumnsFromService" xml:space="preserve">
+    <value>Nejde načíst sloupce ze služby.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Odstranit</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="MaxExecutionTime" xml:space="preserve">
+    <value>MAXIMÁLNÍ ČAS PROVEDENÍ</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="Method" xml:space="preserve">
+    <value>Metoda</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="Query" xml:space="preserve">
+    <value>Dotaz</value>
+    <comment>Hyperlink label</comment>
+  </data>
+  <data name="ScheduleChangeDesiredProperties" xml:space="preserve">
+    <value>Změnit požadované vlastnosti</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleChangeTags" xml:space="preserve">
+    <value>Změnit značky</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleDesiredPropertyName" xml:space="preserve">
+    <value>Název požadované vlastnosti</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleEditPropertiesOrTags" xml:space="preserve">
+    <value>Upravit vlastnosti nebo značky</value>
+    <comment>Label</comment>
+  </data>
+  <data name="ScheduleEditValue" xml:space="preserve">
+    <value>Upravit hodnotu</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleJobName" xml:space="preserve">
+    <value>Název úlohy</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleSetJobTime" xml:space="preserve">
+    <value>Nastavit čas úlohy</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="SomeDeviceInapplicable" xml:space="preserve">
+    <value>Nepoužitelné pro {0} z {1} zařízení</value>
+    <comment>label</comment>
+  </data>
+  <data name="SomeDevicesApplicable" xml:space="preserve">
+    <value>Použitelné pro {0} z {1} zařízení</value>
+    <comment>label</comment>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>POČÁTEČNÍ ČAS</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Název značky</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleJobNamePlaceHolder" xml:space="preserve">
+    <value>Sem zadejte název úlohy.</value>
+    <comment>Placeholder message</comment>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Přesunout dolů</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Přesunout nahoru</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="LastUpdatedFormatString" xml:space="preserve">
+    <value>Před: {0}</value>
+    <comment>LastUpdated format string.</comment>
+  </data>
+  <data name="DayPlural" xml:space="preserve">
+    <value>Dny</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="DaySingular" xml:space="preserve">
+    <value>Den</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="HourPlural" xml:space="preserve">
+    <value>Hodiny</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="HourSingular" xml:space="preserve">
+    <value>Hodina</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MinutePlural" xml:space="preserve">
+    <value>Minuty</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MinuteSingular" xml:space="preserve">
+    <value>Minuta</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MonthPlural" xml:space="preserve">
+    <value>Měsíce</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MonthSingular" xml:space="preserve">
+    <value>Měsíc</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="TimeSpanMin" xml:space="preserve">
+    <value>&lt; 1 min</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="WeekPlural" xml:space="preserve">
+    <value>Týdny</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="WeekSingular" xml:space="preserve">
+    <value>Týden</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="YearPlural" xml:space="preserve">
+    <value>Roky</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="YearSingular" xml:space="preserve">
+    <value>Rok</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="FailedToRetrieveColumns" xml:space="preserve">
+    <value>Během načítání seznamu sloupců došlo k chybě.</value>
+  </data>
+  <data name="AddNewFilter" xml:space="preserve">
+    <value>NOVÝ FILTR</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="FindQuery" xml:space="preserve">
+    <value>Najít dotaz</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="ShowRecentFilters" xml:space="preserve">
+    <value>POSLEDNÍ FILTRY</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="TypeOfSearch" xml:space="preserve">
+    <value>Typ hledání</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="SearchType" xml:space="preserve">
+    <value>Typ hledání</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="ClearClauses" xml:space="preserve">
+    <value>- VYMAZAT KLAUZULI</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FailedToDeleteFilter" xml:space="preserve">
+    <value>Nepovedlo se odstranit tento filtr.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetDefaultFilters" xml:space="preserve">
+    <value>Nepovedlo se najít výchozí filtry, zkuste to prosím znovu.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetFilter" xml:space="preserve">
+    <value>Nepovedlo se načíst filtr.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetRecentFilters" xml:space="preserve">
+    <value>Nepovedlo se načíst poslední filtry.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToSaveFilter" xml:space="preserve">
+    <value>Nepovedlo se uložit tento filtr, protože je přidružený k úlohám.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SearchTypeFilters" xml:space="preserve">
+    <value>FILTR</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="SearchTypeAdvanced" xml:space="preserve">
+    <value>UPŘESNIT</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FilterIsEmpty" xml:space="preserve">
+    <value>Název filtru nebo filtry jsou prázdné.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="LoadDefault" xml:space="preserve">
+    <value>Načíst výchozí</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="SaveAsDefault" xml:space="preserve">
+    <value>Uložit jako výchozí pro všechny uživatele</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="Jobs" xml:space="preserve">
+    <value>Úlohy</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobHistoryForQuery" xml:space="preserve">
+    <value>Historie úlohy dotazu</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobHistoryForQueryTooltip" xml:space="preserve">
+    <value>Historie úlohy dotazu</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobsTooltip" xml:space="preserve">
+    <value>Úlohy</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ScheduleJobError" xml:space="preserve">
+    <value>Nejde naplánovat úlohu. Došlo k neočekávané chybě.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RequiredValidationString" xml:space="preserve">
+    <value>Toto pole je povinné.</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="ScheduleParameterName" xml:space="preserve">
+    <value>Parametry</value>
+  </data>
+  <data name="ScheduleParameters" xml:space="preserve">
+    <value>Parametry</value>
+    <comment>Input Label</comment>
+  </data>
+  <data name="DeviceMethodIsDisabled" xml:space="preserve">
+    <value>Do tohoto zařízení momentálně nejde vyvolat metody.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceMethodsHeader" xml:space="preserve">
+    <value>Vyvolat metodu pro {0}</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="MethodCallError" xml:space="preserve">
+    <value>Při vyvolávání metody došlo k chybě.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="MethodError" xml:space="preserve">
+    <value>Při načítání vybrané metody došlo k chybě.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="MethodHistory" xml:space="preserve">
+    <value>Historie metody</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="MethodName" xml:space="preserve">
+    <value>NÁZEV METODY</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="NoMethodsAvailable" xml:space="preserve">
+    <value>Zařízení {0} nemá žádné dostupné metody.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Reinvoke" xml:space="preserve">
+    <value>Znovu vyvolat</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ReinvokeMethodError" xml:space="preserve">
+    <value>Při opětovném vyvolávání metody došlo k chybě.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SelectAMethod" xml:space="preserve">
+    <value>Vybrat metodu</value>
+    <comment>Dropdown unselected option label.</comment>
+  </data>
+  <data name="DeviceCountHeader" xml:space="preserve">
+    <value>POČET ZAŘÍZENÍ</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="EndTimeHeader" xml:space="preserve">
+    <value>KONCOVÝ ČAS</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FailedCountHeader" xml:space="preserve">
+    <value>POČET NEÚSPĚCHŮ</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="JobNameHeader" xml:space="preserve">
+    <value>NÁZEV ÚLOHY</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="JobPropertiesPaneLabel" xml:space="preserve">
+    <value>PODROBNOSTI ÚLOHY</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoJobSelectedLabel" xml:space="preserve">
+    <value>Není vybraná žádná úloha</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="OperationsHeader" xml:space="preserve">
+    <value>OPERACE</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FilterNameHeader" xml:space="preserve">
+    <value>FILTR</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="StartTimeHeader" xml:space="preserve">
+    <value>POČÁTEČNÍ ČAS</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="SucceedCountHeader" xml:space="preserve">
+    <value>POČET NEÚSPĚCHŮ</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="NavigationMenuItemJobs" xml:space="preserve">
+    <value>Úlohy správy</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="ExportDevicesJobType" xml:space="preserve">
+    <value>Exportovaná zařízení</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ImportDevicesJobType" xml:space="preserve">
+    <value>Importovaná zařízení</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ScheduleDeviceMethodJobType" xml:space="preserve">
+    <value>Vyvolat metodu</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ScheduleUpdateTwinJobType" xml:space="preserve">
+    <value>Upravit vlastnosti a značky</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="UnknownJobType" xml:space="preserve">
+    <value>Neznámý typ úlohy</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="CancelJobAction" xml:space="preserve">
+    <value>Zrušit</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CloneJobAction" xml:space="preserve">
+    <value>Naklonovat úlohu</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceCountSubHeader" xml:space="preserve">
+    <value>ZAŘÍZENÍ V ÚLOZE</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="FailedCountSubHeader" xml:space="preserve">
+    <value>NEÚSPĚŠNÁ ZAŘÍZENÍ</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="FailedToRetrieveJobs" xml:space="preserve">
+    <value>Nepovedlo se načíst úlohy.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="JobId" xml:space="preserve">
+    <value>ID ÚLOHY</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="JobProperties" xml:space="preserve">
+    <value>Vlastnosti úlohy</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobStatistics" xml:space="preserve">
+    <value>Zařízení</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoJobSelected" xml:space="preserve">
+    <value>Není vybraná žádná úloha.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="PendingCountSubHeader" xml:space="preserve">
+    <value>NEVYŘÍZENÉ ZAŘÍZENÍ</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="RunningCountSubHeader" xml:space="preserve">
+    <value>SPUŠTĚNÉ ZAŘÍZENÍ</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="SucceededCountSubHeader" xml:space="preserve">
+    <value>ÚSPĚŠNÁ ZAŘÍZENÍ</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="UnableToRetrieveJobFromService" xml:space="preserve">
+    <value>Nejde načíst úlohu ze služby.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToCancelJob" xml:space="preserve">
+    <value>Nepovedlo se zrušit úlohu.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ActiveJobs" xml:space="preserve">
+    <value>Aktivní úlohy</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="FailedJobsInLast24Hours" xml:space="preserve">
+    <value>Neúspěšné úlohy za posledních 24 hodin</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>neužívá se</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ScheduledJobs" xml:space="preserve">
+    <value>Naplánované úlohy</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="DeviceMethods" xml:space="preserve">
+    <value>Metody</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="AddDesiredProperty" xml:space="preserve">
+    <value>Přidat požadovanou vlastnost</value>
+    <comment>Button label</comment>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Přidat značku</value>
+    <comment>Button label</comment>
+  </data>
+  <data name="EditDesiredPropertiesFor" xml:space="preserve">
+    <value>Upravit požadované vlastnosti pro {0}</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="EditTagsFor" xml:space="preserve">
+    <value>Upravit značky pro {0}</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="NotApplicableValue" xml:space="preserve">
+    <value>Není k dispozici</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="CompletedJobsInLast24Hours" xml:space="preserve">
+    <value>Dokončené úlohy za posledních 24 hodin</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="EditColumnsPanelLabel" xml:space="preserve">
+    <value>UPRAVIT SLOUPCE</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="IncorrectFilterName" xml:space="preserve">
+    <value>Název dotazu nemůže obsahovat tyto znaky: # % / \ . * + : ? &lt; &gt; &amp;</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="HideJobResults" xml:space="preserve">
+    <value>Skrýt podrobnosti</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="ShowJobResults" xml:space="preserve">
+    <value>Zobrazit podrobnosti</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="JobOperationResult" xml:space="preserve">
+    <value>Operace úlohy</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobOperationResultTooltip" xml:space="preserve">
+    <value>Výsledky operace úlohy</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobPropertiesTooltip" xml:space="preserve">
+    <value>Vlastnosti úlohy</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobStatisticsTooltip" xml:space="preserve">
+    <value>Statistika zařízení úlohy</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Zrušit výběr</value>
+    <comment>Hyperlink label</comment>
+  </data>
+  <data name="FilterEditor" xml:space="preserve">
+    <value>Editor filtru</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FilterLabel" xml:space="preserve">
+    <value>Filtr</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="NameYourFilter" xml:space="preserve">
+    <value>Pojmenujte filtr</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="OpenSavedFilter" xml:space="preserve">
+    <value>Otevřít uložený filtr</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>Uložit jako</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ViewSeletedClausesOnly" xml:space="preserve">
+    <value>Zobrazit jenom vybrané klauzule</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="NoJobs" xml:space="preserve">
+    <value>Žádné úlohy</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="DeleteFilter" xml:space="preserve">
+    <value>Odstranit filtr</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="EditFilter" xml:space="preserve">
+    <value>Filtr editoru</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="SaveAsFilter" xml:space="preserve">
+    <value>Uložit jako filtr</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="SaveFilter" xml:space="preserve">
+    <value>Uložit filtr</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="FailedToUpdateTwin" xml:space="preserve">
+    <value>Nepovedlo se aktualizovat dvojité vlastnosti, zkontrolujte prosím vstupní hodnotu.</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Potvrzení</value>
+    <comment>Dialog title.</comment>
+  </data>
+  <data name="DeleteFilterConfirmation" xml:space="preserve">
+    <value>Určitě chcete odstranit tento filtr?</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Aktualizovat</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="DeleteFilterWithJobsConfirmation" xml:space="preserve">
+    <value>Tento filtr je přidružený k úlohám. Určitě ho chcete odstranit?</value>
+    <comment>Confirmation message.</comment>
   </data>
 </root>

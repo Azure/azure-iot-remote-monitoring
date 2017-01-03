@@ -502,7 +502,7 @@
     <comment>Error message.</comment>
   </data>
   <data name="DeviceIdLengthError" xml:space="preserve">
-    <value>L'ID dispositivo deve avere una lunghezza compresa tra 2 e 128 caratteri.</value>
+    <value>La lunghezza dell'ID dispositivo deve essere compresa tra 2 e 128 caratteri.</value>
     <comment>Error message.</comment>
   </data>
   <data name="GoBack" xml:space="preserve">
@@ -642,7 +642,7 @@
     <comment>Error message.</comment>
   </data>
   <data name="ControlCToCopy" xml:space="preserve">
-    <value>Ctrl+C to Copy</value>
+    <value>Premere CTRL+C per copiare</value>
     <comment>{StrContains=i"Ctrl+C"}</comment>
   </data>
   <data name="DeviceKeysError" xml:space="preserve">
@@ -785,7 +785,7 @@
     <comment>Error message.</comment>
   </data>
   <data name="DeviceIDMustBeBetween2And128Characters" xml:space="preserve">
-    <value>L'ID dispositivo deve avere una lunghezza compresa tra 2 e 128 caratteri.</value>
+    <value>La lunghezza dell'ID dispositivo deve essere compresa tra 2 e 128 caratteri.</value>
     <comment>Error message.</comment>
   </data>
   <data name="DeviceCommandIsDisabled" xml:space="preserve">
@@ -793,35 +793,35 @@
     <comment>Error message.</comment>
   </data>
   <data name="FirmwareVersionMustBeLessThan200Characters" xml:space="preserve">
-    <value>Versione firmware può contenere un massimo di 200 caratteri.</value>
+    <value>La lunghezza del campo Versione firmware deve essere inferiore a 200 caratteri.</value>
     <comment>Error message.</comment>
   </data>
   <data name="InstalledRAMFieldMustBeLessThan200Characters" xml:space="preserve">
-    <value>Il campo RAM installata può contenere un massimo di 200 caratteri.</value>
+    <value>La lunghezza del campo RAM installata deve essere inferiore a 200 caratteri.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ModelNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>Il campo Numero modello può contenere un massimo di 200 caratteri.</value>
+    <value>La lunghezza del campo Numero modello deve essere inferiore a 200 caratteri.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ObjectNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>Il campo Nome oggetto può contenere un massimo di 200 caratteri.</value>
+    <value>La lunghezza del campo Nome oggetto deve essere inferiore a 200 caratteri.</value>
     <comment>Error message.</comment>
   </data>
   <data name="PlatformNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>Il campo Nome piattaforma può contenere un massimo di 200 caratteri.</value>
+    <value>La lunghezza del campo Nome piattaforma deve essere inferiore a 200 caratteri.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ProcessorNameMustBeLessThan200Characters" xml:space="preserve">
-    <value>Il campo Nome processore può contenere un massimo di 200 caratteri.</value>
+    <value>La lunghezza del campo Nome processore deve essere inferiore a 200 caratteri.</value>
     <comment>Error message.</comment>
   </data>
   <data name="SerialNumberMustBeLessThan200Characters" xml:space="preserve">
-    <value>Il campo Numero di serie può contenere un massimo di 200 caratteri.</value>
+    <value>La lunghezza del campo Numero di serie deve essere inferiore a 200 caratteri.</value>
     <comment>Error message.</comment>
   </data>
   <data name="VersionMustBeLessThan200Characters" xml:space="preserve">
-    <value>Il campo Versione può contenere un massimo di 200 caratteri.</value>
+    <value>La lunghezza del campo Versione deve essere inferiore a 200 caratteri.</value>
     <comment>Error message.</comment>
   </data>
   <data name="ClickToDisplayError" xml:space="preserve">
@@ -1021,8 +1021,8 @@
     <comment>Input label.</comment>
   </data>
   <data name="AddNewClause" xml:space="preserve">
-    <value>+ AGGIUNGI NUOVA CLAUSOLA</value>
-    <comment>Button label.</comment>
+    <value>Aggiungi nuova clausola</value>
+    <comment>Title label.</comment>
   </data>
   <data name="FilterDevices" xml:space="preserve">
     <value>FILTRA DISPOSITIVI</value>
@@ -1360,7 +1360,7 @@
     <comment>Error message.</comment>
   </data>
   <data name="TableDataSaveConflictErrorMessage" xml:space="preserve">
-    <value>È stato rilevato un conflitto durante il salvataggio dei dati. Verificare i dati e riprovare.</value>
+    <value>Si è verificato un conflitto durante il salvataggio dei dati. Verificare i dati e riprovare.</value>
     <comment>Error message.</comment>
   </data>
   <data name="SimulatorCredentialHeader" xml:space="preserve">
@@ -1521,7 +1521,7 @@
   </data>
   <data name="ApiRegistrationTitle" xml:space="preserve">
     <value>Registrazione Jasper API</value>
-    <comment>Panel heading. {Locked="Jasper API"}</comment>
+    <comment>Panel heading. {Locked="Jasper"}{Locked="API"}</comment>
   </data>
   <data name="CellularConnViewTitle" xml:space="preserve">
     <value>Connessione cellulare</value>
@@ -1540,7 +1540,7 @@
     <comment>Section heading.</comment>
   </data>
   <data name="LogicAppsViewTitle" xml:space="preserve">
-    <value>Logic Apps</value>
+    <value>App per la logica</value>
     <comment>Section heading.</comment>
   </data>
   <data name="ApiRegistrationFailed" xml:space="preserve">
@@ -1572,8 +1572,8 @@
     <comment>Button label.</comment>
   </data>
   <data name="FilterInfo" xml:space="preserve">
-    <value>(risultati filtrati da _MAX_ record totali)</value>
-    <comment>Do not translate the substring "_MAX_"--it is programmatically replaced with the total number of records.</comment>
+    <value>{0} risultati filtrati da {1}</value>
+    <comment>Label.</comment>
   </data>
   <data name="RemoveRuleButtonLabel" xml:space="preserve">
     <value>Rimuovi regola...</value>
@@ -1666,5 +1666,618 @@
   <data name="LinkLabelHelpGiveFeedback" xml:space="preserve">
     <value>Invia commenti</value>
     <comment>Hyperlink label.</comment>
+  </data>
+  <data name="InvalidDeviceTelemetryFormat" xml:space="preserve">
+    <value>Il dispositivo {0} contiene una specifica di telemetria non valida nelle informazioni del dispositivo</value>
+  </data>
+  <data name="CommandValuesReturned" xml:space="preserve">
+    <value>VALORI RESTITUITI</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="InvokeMethod" xml:space="preserve">
+    <value>Richiama metodo</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DesiredProperties" xml:space="preserve">
+    <value>Proprietà desiderate</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ReportedProperties" xml:space="preserve">
+    <value>Proprietà segnalate</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tag</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="DesiredPropertiesTooltip" xml:space="preserve">
+    <value>Proprietà desiderate</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ReportedPropertiesTooltip" xml:space="preserve">
+    <value>Proprietà segnalate</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="TagsTooltip" xml:space="preserve">
+    <value>Tag</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="InvokeMethodLabel" xml:space="preserve">
+    <value>Richiama metodo</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="EditColumns" xml:space="preserve">
+    <value>Modifica colonne</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ScheduleJob" xml:space="preserve">
+    <value>Pianifica processo</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ScheduleJobPanelLabel" xml:space="preserve">
+    <value>PIANIFICA PROCESSO</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="UpdateTwin" xml:space="preserve">
+    <value>Modifica proprietà o tag</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="RecentJobs" xml:space="preserve">
+    <value>Processi recenti</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="RecentJobsTooltip" xml:space="preserve">
+    <value>Processi recenti</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
+    <value>Visualizza tutto ({0})</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Cancella</value>
+    <comment>Hyperlink label</comment>
+  </data>
+  <data name="SelectedColumns" xml:space="preserve">
+    <value>Colonne selezionate</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FailedToUpdateColumns" xml:space="preserve">
+    <value>Non è stato possibile aggiornare le colonne</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="UnableToRetrieveColumnsFromService" xml:space="preserve">
+    <value>Non è possibile recuperare le colonne dal servizio</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Elimina</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="MaxExecutionTime" xml:space="preserve">
+    <value>TEMPO ESECUZIONE MASSIMO</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="Method" xml:space="preserve">
+    <value>Metodo</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="Query" xml:space="preserve">
+    <value>Query</value>
+    <comment>Hyperlink label</comment>
+  </data>
+  <data name="ScheduleChangeDesiredProperties" xml:space="preserve">
+    <value>Modifica proprietà desiderate</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleChangeTags" xml:space="preserve">
+    <value>Modifica tag</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleDesiredPropertyName" xml:space="preserve">
+    <value>Nome proprietà desiderata</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleEditPropertiesOrTags" xml:space="preserve">
+    <value>Modifica proprietà o tag</value>
+    <comment>Label</comment>
+  </data>
+  <data name="ScheduleEditValue" xml:space="preserve">
+    <value>Modifica valore</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleJobName" xml:space="preserve">
+    <value>Nome processo</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleSetJobTime" xml:space="preserve">
+    <value>Imposta ora processo</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="SomeDeviceInapplicable" xml:space="preserve">
+    <value>{0} di {1} dispositivi non applicabili</value>
+    <comment>label</comment>
+  </data>
+  <data name="SomeDevicesApplicable" xml:space="preserve">
+    <value>{0} di {1} dispositivi applicabili</value>
+    <comment>label</comment>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>ORA INIZIO</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Nome del tag</value>
+    <comment>Input label</comment>
+  </data>
+  <data name="ScheduleJobNamePlaceHolder" xml:space="preserve">
+    <value>Immettere qui il nome del processo</value>
+    <comment>Placeholder message</comment>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Sposta giù</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Sposta su</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="LastUpdatedFormatString" xml:space="preserve">
+    <value>{0} fa</value>
+    <comment>LastUpdated format string.</comment>
+  </data>
+  <data name="DayPlural" xml:space="preserve">
+    <value>Giorni</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="DaySingular" xml:space="preserve">
+    <value>Giorno</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="HourPlural" xml:space="preserve">
+    <value>Ore</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="HourSingular" xml:space="preserve">
+    <value>Ora</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MinutePlural" xml:space="preserve">
+    <value>Minuti</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MinuteSingular" xml:space="preserve">
+    <value>Minuto</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MonthPlural" xml:space="preserve">
+    <value>Mesi</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="MonthSingular" xml:space="preserve">
+    <value>Mese</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="TimeSpanMin" xml:space="preserve">
+    <value>&lt; 1 minuto</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="WeekPlural" xml:space="preserve">
+    <value>Settimane</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="WeekSingular" xml:space="preserve">
+    <value>Settimana</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="YearPlural" xml:space="preserve">
+    <value>Anni</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="YearSingular" xml:space="preserve">
+    <value>Anno</value>
+    <comment>TimeSpan formatting string.</comment>
+  </data>
+  <data name="FailedToRetrieveColumns" xml:space="preserve">
+    <value>Si è verificato un errore durante il recupero dell'elenco di colonne.</value>
+  </data>
+  <data name="AddNewFilter" xml:space="preserve">
+    <value>NUOVO FILTRO</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="FindQuery" xml:space="preserve">
+    <value>Trova query</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="ShowRecentFilters" xml:space="preserve">
+    <value>FILTRI RECENTI</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="TypeOfSearch" xml:space="preserve">
+    <value>Tipo di ricerca</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="SearchType" xml:space="preserve">
+    <value>Tipo di ricerca</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="ClearClauses" xml:space="preserve">
+    <value>- CANCELLA CLAUSOLA</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FailedToDeleteFilter" xml:space="preserve">
+    <value>Non è stato possibile eliminare questo filtro.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetDefaultFilters" xml:space="preserve">
+    <value>Non sono stati trovati filtri predefiniti. Riprovare.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetFilter" xml:space="preserve">
+    <value>Non è stato possibile ottenere il filtro.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToGetRecentFilters" xml:space="preserve">
+    <value>Non è stato possibile ottenere i filtri recenti.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToSaveFilter" xml:space="preserve">
+    <value>Non è stato possibile salvare questo filtro perché è associato a processi.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SearchTypeFilters" xml:space="preserve">
+    <value>Filtro</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="SearchTypeAdvanced" xml:space="preserve">
+    <value>AVANZATE</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FilterIsEmpty" xml:space="preserve">
+    <value>Il nome del filtro o i filtri sono vuoti.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="LoadDefault" xml:space="preserve">
+    <value>Carica predefinito</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="SaveAsDefault" xml:space="preserve">
+    <value>Salva come predefinito per tutti gli utenti</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="Jobs" xml:space="preserve">
+    <value>Processi</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobHistoryForQuery" xml:space="preserve">
+    <value>Cronologia processo per la query</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobHistoryForQueryTooltip" xml:space="preserve">
+    <value>Cronologia processo per la query</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobsTooltip" xml:space="preserve">
+    <value>Processi</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ScheduleJobError" xml:space="preserve">
+    <value>Non è possibile pianificare il processo. Si è verificato un errore imprevisto.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="RequiredValidationString" xml:space="preserve">
+    <value>Questo campo è obbligatorio</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="ScheduleParameterName" xml:space="preserve">
+    <value>Parametri</value>
+  </data>
+  <data name="ScheduleParameters" xml:space="preserve">
+    <value>Parametri</value>
+    <comment>Input Label</comment>
+  </data>
+  <data name="DeviceMethodIsDisabled" xml:space="preserve">
+    <value>Non è attualmente possibile richiamare metodi per questo dispositivo</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceMethodsHeader" xml:space="preserve">
+    <value>Chiama metodo per {0}</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="MethodCallError" xml:space="preserve">
+    <value>Si è verificato un errore durante la chiamata al metodo</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="MethodError" xml:space="preserve">
+    <value>Si è verificato un errore durante il recupero del metodo selezionato</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="MethodHistory" xml:space="preserve">
+    <value>Cronologia metodo</value>
+    <comment>Table heading.</comment>
+  </data>
+  <data name="MethodName" xml:space="preserve">
+    <value>NOME METODO</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="NoMethodsAvailable" xml:space="preserve">
+    <value>Per il dispositivo {0} non sono presenti metodi disponibili</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="Reinvoke" xml:space="preserve">
+    <value>Richiama</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="ReinvokeMethodError" xml:space="preserve">
+    <value>Si è verificato un errore durante l'ulteriore tentativo di chiamata al metodo</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SelectAMethod" xml:space="preserve">
+    <value>Selezionare un metodo</value>
+    <comment>Dropdown unselected option label.</comment>
+  </data>
+  <data name="DeviceCountHeader" xml:space="preserve">
+    <value>N. DI DISPOSITIVI</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="EndTimeHeader" xml:space="preserve">
+    <value>ORA FINE</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FailedCountHeader" xml:space="preserve">
+    <value>NUMERO EVENTI NON RIUSCITI</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="JobNameHeader" xml:space="preserve">
+    <value>NOME PROCESSO</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="JobPropertiesPaneLabel" xml:space="preserve">
+    <value>DETTAGLI PROCESSO</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoJobSelectedLabel" xml:space="preserve">
+    <value>Nessun processo selezionato</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="OperationsHeader" xml:space="preserve">
+    <value>OPERAZIONI</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="FilterNameHeader" xml:space="preserve">
+    <value>Filtro</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="StartTimeHeader" xml:space="preserve">
+    <value>ORA INIZIO</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="SucceedCountHeader" xml:space="preserve">
+    <value>NUMERO EVENTI RIUSCITI</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="NavigationMenuItemJobs" xml:space="preserve">
+    <value>Processi di gestione</value>
+    <comment>Navigation menu item label.</comment>
+  </data>
+  <data name="ExportDevicesJobType" xml:space="preserve">
+    <value>Dispositivi esportati</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ImportDevicesJobType" xml:space="preserve">
+    <value>Dispositivi importati</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ScheduleDeviceMethodJobType" xml:space="preserve">
+    <value>Richiama metodo</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ScheduleUpdateTwinJobType" xml:space="preserve">
+    <value>Modifica proprietà e tag</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="UnknownJobType" xml:space="preserve">
+    <value>Tipo di processo sconosciuto</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="CancelJobAction" xml:space="preserve">
+    <value>Annulla</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="CloneJobAction" xml:space="preserve">
+    <value>Clona processo</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="DeviceCountSubHeader" xml:space="preserve">
+    <value>DISPOSITIVI NEL PROCESSO</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="FailedCountSubHeader" xml:space="preserve">
+    <value>DISPOSITIVI CON ESITO NEGATIVO</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="FailedToRetrieveJobs" xml:space="preserve">
+    <value>Non è stato possibile recuperare i processi</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="JobId" xml:space="preserve">
+    <value>ID processo</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="JobProperties" xml:space="preserve">
+    <value>Proprietà processo</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobStatistics" xml:space="preserve">
+    <value>Dispositivi</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="NoJobSelected" xml:space="preserve">
+    <value>Nessun processo selezionato</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="PendingCountSubHeader" xml:space="preserve">
+    <value>DISPOSITIVI IN SOSPESO</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="RunningCountSubHeader" xml:space="preserve">
+    <value>DISPOSITIVI IN ESECUZIONE</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="SucceededCountSubHeader" xml:space="preserve">
+    <value>DISPOSITIVI CON ESITO POSITIVO</value>
+    <comment>Section subheader.</comment>
+  </data>
+  <data name="UnableToRetrieveJobFromService" xml:space="preserve">
+    <value>Non è possibile recuperare il processo dal servizio</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToCancelJob" xml:space="preserve">
+    <value>Non è stato possibile annullare il processo.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ActiveJobs" xml:space="preserve">
+    <value>Processi attivi</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="FailedJobsInLast24Hours" xml:space="preserve">
+    <value>Processi non riusciti nelle ultime 24 ore</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>N/D</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ScheduledJobs" xml:space="preserve">
+    <value>Processi pianificati</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="DeviceMethods" xml:space="preserve">
+    <value>Metodi</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="AddDesiredProperty" xml:space="preserve">
+    <value>Aggiungi proprietà desiderata</value>
+    <comment>Button label</comment>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Aggiungi tag</value>
+    <comment>Button label</comment>
+  </data>
+  <data name="EditDesiredPropertiesFor" xml:space="preserve">
+    <value>Modifica le proprietà desiderate per {0}</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="EditTagsFor" xml:space="preserve">
+    <value>Modifica tag per {0}</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="NotApplicableValue" xml:space="preserve">
+    <value>N/D</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="CompletedJobsInLast24Hours" xml:space="preserve">
+    <value>Processi completati nelle ultime 24 ore</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="EditColumnsPanelLabel" xml:space="preserve">
+    <value>MODIFICA COLONNE</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="IncorrectFilterName" xml:space="preserve">
+    <value>Il nome della query non può includere i caratteri seguenti: # % / \ . * + : ? &lt; &gt; &amp;</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="HideJobResults" xml:space="preserve">
+    <value>Nascondi dettagli</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="ShowJobResults" xml:space="preserve">
+    <value>Mostra dettagli</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="JobOperationResult" xml:space="preserve">
+    <value>Operazioni processo</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="JobOperationResultTooltip" xml:space="preserve">
+    <value>Risultati dell'operazione per il processo</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobPropertiesTooltip" xml:space="preserve">
+    <value>Proprietà del processo</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="JobStatisticsTooltip" xml:space="preserve">
+    <value>Statistiche dispositivo del processo</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Deseleziona tutto</value>
+    <comment>Hyperlink label</comment>
+  </data>
+  <data name="FilterEditor" xml:space="preserve">
+    <value>Editor dei filtri</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="FilterLabel" xml:space="preserve">
+    <value>Filtro</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="NameYourFilter" xml:space="preserve">
+    <value>Assegnare un nome al filtro</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="OpenSavedFilter" xml:space="preserve">
+    <value>Apri filtro salvato</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>Salva con nome</value>
+    <comment>Section heading.</comment>
+  </data>
+  <data name="ViewSeletedClausesOnly" xml:space="preserve">
+    <value>Visualizza solo clausole selezionate</value>
+    <comment>Checkbox label.</comment>
+  </data>
+  <data name="NoJobs" xml:space="preserve">
+    <value>Nessun processo</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="DeleteFilter" xml:space="preserve">
+    <value>Elimina filtro</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="EditFilter" xml:space="preserve">
+    <value>Filtro editor</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="SaveAsFilter" xml:space="preserve">
+    <value>Salva come filtro</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="SaveFilter" xml:space="preserve">
+    <value>Salva filtro</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="FailedToUpdateTwin" xml:space="preserve">
+    <value>Non è stato possibile aggiornare le proprietà gemelle. Verificare il valore di input.</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Conferma</value>
+    <comment>Dialog title.</comment>
+  </data>
+  <data name="DeleteFilterConfirmation" xml:space="preserve">
+    <value>Eliminare questo filtro?</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Aggiorna</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="DeleteFilterWithJobsConfirmation" xml:space="preserve">
+    <value>Questo filtro è associato a processi. Eliminare il filtro?</value>
+    <comment>Confirmation message.</comment>
   </data>
 </root>
