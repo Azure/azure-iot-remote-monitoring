@@ -665,3 +665,8 @@ table.dataTable tbody tr:hover .datatable_checkbox_row {
 .datatable_checkbox_show {
     visibility:visible;
 }
+
+table.dataTable tbody td.image_column {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}

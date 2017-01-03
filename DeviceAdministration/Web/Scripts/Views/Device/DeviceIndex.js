@@ -156,7 +156,8 @@
                     return '<img class="device_list_cell_image" src="' + image + '" />';
                 },
                 searchable: false,
-                orderable: false
+                orderable: false,
+                className: 'image_column'
             });
             $('<th />')
                 .text(resources.image)
