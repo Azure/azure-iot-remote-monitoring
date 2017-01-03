@@ -560,7 +560,7 @@
             });
         },
         getNewFilterName: function (callback) {
-            var prefix = "MyNewFilter";
+            var prefix = "NewFilter";
             $.ajax({
                 url: "/api/v1/defaultFilterName/" + prefix,
                 type: 'GET',
