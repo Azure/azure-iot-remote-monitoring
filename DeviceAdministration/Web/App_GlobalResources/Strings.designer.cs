@@ -1754,6 +1754,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to External Job {0}.
+        /// </summary>
+        public static string ExternalJobNamePrefix {
+            get {
+                return ResourceManager.GetString("ExternalJobNamePrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FAILED COUNT.
         /// </summary>
         public static string FailedCountHeader {
