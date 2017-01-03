@@ -22,8 +22,9 @@
         this.file = null;
         this.maxSizeInMB = 4;
         this.sizeOk = false;
+        this.pageSize = 10;
         this.apiRoute = '/api/v1/devices/' + deviceId + '/icons/';
-        this.tagApiRoute = '/api/v1/devices/' + deviceId + '/twin/tag';
+        this.getIconApiRoute = '/api/v1/devices/' + deviceId + '/icon'
 
         this.actionType = ko.observable(resources.uploadActionType);
         this.iconList = ko.observableArray([]);
@@ -32,6 +33,7 @@
         this.defaultIcon = ko.observable(defaultDeviceIcon);
         this.currentIcon = ko.observable(defaultDeviceIcon);
         this.removable = ko.observable(false);
+        this.currentPage = ko.observable(0);
 
         this.fileChanged = function (f) {
             self.file = f.files[0];
@@ -51,7 +53,7 @@
                 url: self.apiRoute,
                 data: data,
                 success: function (result) {
-                    var icon = new DeviceIcon(result.data.name, self.apiRoute + result.data.name + '/false');
+                    var icon = new DeviceIcon(result.data.name, result.data.blobUrl);
                     self.previewIcon(icon);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -63,7 +65,7 @@
                         var percentage = Math.floor(evt.loaded / evt.total * 100);
                         self.setProgress(percentage);
                         if (percentage == 100) {
-                            $('#progressBar').hide();
+                            $('#progressBar').fadeOut(1000);
                         }
                     };
                     return xhr;
@@ -82,7 +84,7 @@
 
         this.backButtonClicked = function () {
             location.href = resources.redirectUrl;
-        }
+        };
 
         this.saveIcon = function () {
             var currentIcon;
@@ -110,18 +112,66 @@
             });
 
             return false;
-        }
+        };
+
+        this.deleteIcon = function (item) {
+            $.ajax({
+                url: self.apiRoute + item.name,
+                type: 'DELETE',
+                data: {},
+                dataType: 'json',
+                success: function (result) {
+                    var pageN = self.iconList().length == 1 && self.currentPage() > 0 ? self.currentPage() - 1 : self.currentPage();
+                    self.loadIconList(pageN);
+                },
+                error: function (xhr, status, error) {
+                    IoTApp.Helpers.Dialog.displayError(resources.failedToDeleteIcon);
+                }
+            });
+
+            return false;
+        };
+
+        this.previousPage = function () {
+            var pageN = self.currentPage();
+            if (pageN > 0) {
+                self.loadIconList(pageN - 1);
+            }
+        };
+
+        this.nextPage = function () {
+            var pageN = self.currentPage();
+            self.loadIconList(pageN + 1);
+        };
+
+        this.loadIconList = function (page) {
+            var skip = page * self.pageSize;
+            $.ajax({
+                url: '/api/v1/devices/' + deviceId + '/icons?skip=' + skip + '&take=' + self.pageSize,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    if (!result.data || result.data.length == 0) {
+                        return;
+                    }
+                    self.iconList(result.data);
+                    self.currentPage(page);
+                    self.selectable();
+                }
+            });
+        };
 
         this.selectable = function () {
             $(".device_icon_apply_image").click(function () {
-                $(this).siblings().removeClass('device_icon_apply_image_selected');
-                $(this).addClass('device_icon_apply_image_selected');
+                $('.device_icon_apply_image').removeClass('device_icon_apply_image_selected').siblings('a').hide();
+                $(this).addClass('device_icon_apply_image_selected')
+                $(this).siblings('a').show();
                 var name = $(this).get(0).id;
                 var icon = new DeviceIcon(name, self.apiRoute + name + '/true');
                 self.selectedIcon(icon);
                 self.actionType(resources.applyActionType);
             });
-        }
+        };
 
         $("#file").change(function () {
             self.fileChanged(this);
@@ -141,33 +191,17 @@
             return false;
         });
 
-        $.ajax({
-            url: self.apiRoute,
-            type: 'GET',
-            cache: false,
-            success: function (result) {
-                var icons = $.map(result.data, function (item) {
-                    item.url = self.apiRoute + item.name + '/true';
-                    return item;
-                });
-                self.iconList(icons);
-                self.selectable();
-            }
-        });
+        this.loadIconList(0);
 
         $.ajax({
-            url: self.tagApiRoute,
+            url: self.getIconApiRoute,
             type: 'GET',
             cache: false,
             success: function (result) {
-                result.data = $.map(result.data, function (item) {
-                    var fullName = 'tags.' + resources.iconTagName;
-                    if (item.key == fullName) {
-                        self.removable(true);
-                        var currentIcon = new DeviceIcon(item.value.value, self.apiRoute + item.value.value + '/true');
-                        self.currentIcon(currentIcon);
-                    }
-                });
+                if (result.data) {
+                    self.currentIcon(result.data);
+                    self.removable(true);
+                }
             }
         });
     }

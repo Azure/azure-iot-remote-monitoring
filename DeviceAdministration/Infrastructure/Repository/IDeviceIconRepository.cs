@@ -8,8 +8,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public interface IDeviceIconRepository
     {
         Task<DeviceIcon> AddIcon(string deviceId, string fileName, Stream fileStream);
-        Task<DeviceIcon> GetIcon(string deviceId, string name, bool applied);
-        Task<IEnumerable<DeviceIcon>> GetIcons(string deviceId);
+        Task<DeviceIcon> GetIcon(string deviceId, string name);
+        Task<IEnumerable<DeviceIcon>> GetIcons(string deviceId, int skip, int take);
         Task<DeviceIcon> SaveIcon(string deviceId, string name);
+        Task<bool> DeleteIcon(string deviceId, string name);
     }
 }

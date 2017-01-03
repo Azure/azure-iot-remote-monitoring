@@ -33,18 +33,28 @@
                         <button id="openImageBtn" class="button_base devicelist_toolbar_button devicelist_toolbar_button_gray device_icon_button_open_image">@Strings.OpenImage</button>
                     </div>
                     <div id="progressBar"></div>
+                    <p class="device_icon_preview_tooptip">@Strings.ImageSizeSuggestions</p>
                     <p class="edit_form__label">@Strings.PreviewImage</p>
                     <img id="previewImage" class="device_icon_preview_image" data-bind="attr: {src: previewIcon().url } " />
                 </div>
-                <div class="device_icon_action_container" data-bind='checked: actionType, visible: iconList().length > 0'>
+                <div class="device_icon_action_container" data-bind='visible: iconList().length > 0'>
                     <div>
                         <label class="edit_form__label device_icon_label">
                             <input type="radio" name="actionType" value="Apply" data-bind='checked: actionType' />
                             @Strings.ApplyExistingImageLabel
                         </label>
                     </div>
-                    <div id="imageListContainer" data-bind="foreach: iconList ">
-                        <img class="device_icon_apply_image" data-bind="attr: {id: name, src: url }" />
+                    <div class="device_icon_list">
+                        <div class="device_icon_page"><a data-bind="click: previousPage"><img title="@Strings.Previous"  src="~/Content/img/button_page_prev.svg"/></a></div>
+                        <div class="device_icon_list_container" id="imageListContainer" data-bind="foreach: iconList ">
+                            <div>
+                                <img class="device_icon_apply_image" data-bind="attr: {id: name, src: blobUrl }" />
+                                <a class="device_icon_apply_image_delete_link">
+                                    <img title="@Strings.DeleteIconTooltip" class="device_icon_apply_image_delete_icon" src="~/Content/img/column_delete.svg" data-bind="click: $parent.deleteIcon" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="device_icon_page"><a data-bind="click: nextPage"><img title="@Strings.Next" src="~/Content/img/button_page_next.svg" /></a></div>
                     </div>
                 </div>
 
@@ -55,7 +65,7 @@
                             @Strings.RemoveCurrentImageLabel
                         </label>
                     </div>
-                    <img id="currentImage" class="device_icon_current_image" data-bind="attr: { src: currentIcon().url }" />
+                    <img id="currentImage" class="device_icon_current_image" data-bind="attr: { src: currentIcon().blobUrl }" />
                 </div>
                 <fieldset class="fieldset_button">
                     <button id="cancelBtn" class="button_base button_secondary button_cancel button_no_left_margin" data-bind="click: backButtonClicked">@Strings.Cancel</button>
@@ -78,7 +88,8 @@
         removeActionType: '@Html.JavaScriptString(IconActionType.Remove.ToString())',
         iconTagName: '@Html.JavaScriptString(Constants.DeviceIconTagName)',
         failedToUploadImage: '@Html.JavaScriptString(Strings.FailedToUploadImage)',
-        failedToUpdateTwin: '@Html.JavaScriptString(Strings.FailedToUpdateTwin)'
+        failedToUpdateTwin: '@Html.JavaScriptString(Strings.FailedToUpdateTwin)',
+        failedToDeleteIcon: '@Html.JavaScriptString(Strings.FailedToDeleteIcon)'
     }
 </script>
 <script type="text/javascript" src="~/Scripts/Views/Device/EditIcon.js"></script>

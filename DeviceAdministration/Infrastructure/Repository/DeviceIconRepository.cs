@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
@@ -17,7 +18,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly string _deviceIconsBlobStoreContainerName;
         private readonly string _uploadedFolder = "uploaded";
         private readonly string _appliedFolder = "applied";
-        private readonly string _policyName;
+        private readonly string _writePolicyName;
         private readonly IBlobStorageClient _blobStorageClient;
 
         public DeviceIconRepository(IConfigurationProvider configurationProvider, IBlobStorageClientFactory blobStorageClientFactory)
@@ -25,54 +26,65 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _storageAccountConnectionString = configurationProvider.GetConfigurationSettingValue("device.StorageConnectionString");
             _deviceIconsBlobStoreContainerName = configurationProvider.GetConfigurationSettingValueOrDefault("DeviceIconStoreContainerName", "deviceicons");
             _blobStorageClient = blobStorageClientFactory.CreateClient(_storageAccountConnectionString, _deviceIconsBlobStoreContainerName);
-            _policyName = _deviceIconsBlobStoreContainerName + "-write";
+            _writePolicyName = _deviceIconsBlobStoreContainerName + "-write";
+            _blobStorageClient.SetPublicPolicyType(BlobContainerPublicAccessType.Blob);
+            CreateSASPolicyIfNotExist();
         }
 
         public async Task<DeviceIcon> AddIcon(string deviceId, string fileName, Stream fileStream)
         {
             // replace '.' with '_' so that the name can be used in MVC Url route.
-            var name = Path.GetFileNameWithoutExtension(fileName).Replace(".", "_");
+            var name = Path.GetFileName(fileName).Replace(".", "_");
             var extension = Path.GetExtension(fileName);
-
+            string contentType = MimeMapping.GetMimeMapping(string.IsNullOrEmpty(extension) ? "image/png" : extension);
             var blob = await _blobStorageClient.UploadFromStreamAsync($"{_uploadedFolder}/{name}",
-                new KeyValuePair<string, string>(DeviceIcon.FileExtensionMetadataKey, extension),
+                contentType,
                 fileStream,
                 AccessCondition.GenerateEmptyCondition(),
                 new BlobRequestOptions() { StoreBlobContentMD5 = true },
                 null);
-
             return new DeviceIcon(name, blob);
         }
 
-        public Task<DeviceIcon> GetIcon(string deviceId, string name, bool applied)
+        public async Task<DeviceIcon> GetIcon(string deviceId, string name)
         {
-            string folder = applied ? _appliedFolder : _uploadedFolder;
-            MemoryStream stream = new MemoryStream();
-
-            var blob = _blobStorageClient.DownloadToStream($"{folder}/{name}", stream).Result;
-            var icon = new DeviceIcon(name, blob)
-            {
-                ImageStream = stream,
-            };
-
-            return Task.FromResult(icon);
+            var blob = await _blobStorageClient.GetBlob($"{_appliedFolder}/{name}");
+            return new DeviceIcon(name, blob);
         }
 
-        public async Task<IEnumerable<DeviceIcon>> GetIcons(string deviceId)
+        public async Task<IEnumerable<DeviceIcon>> GetIcons(string deviceId, int skip, int take)
         {
             string folderPrefix = _appliedFolder + "/";
             var blobs = await _blobStorageClient.ListBlobs(folderPrefix, true);
-            return blobs.Select(b =>
+            var icons = blobs.Select(b =>
             {
                 string name = b.Name.Substring(folderPrefix.Length);
                 return new DeviceIcon(name, b);
-            }).OrderByDescending(i => i.LastModified);
+            });
+
+            return icons.OrderByDescending(i => i.LastModified).Skip(skip).Take(take);
         }
 
         public async Task<DeviceIcon> SaveIcon(string deviceId, string name)
         {
             var appliedBlob = await _blobStorageClient.MoveBlob($"{_uploadedFolder}/{name}", $"{_appliedFolder}/{name}");
             return new DeviceIcon(name, appliedBlob);
+        }
+
+        public async Task<bool> DeleteIcon(string deviceId, string name)
+        {
+            return  await _blobStorageClient.DeleteBlob($"{_appliedFolder}/{name}");
+        }
+
+        private void CreateSASPolicyIfNotExist()
+        {
+            var writePolicy = new SharedAccessBlobPolicy
+            {
+                Permissions = SharedAccessBlobPermissions.Add | SharedAccessBlobPermissions.Delete | SharedAccessBlobPermissions.List | SharedAccessBlobPermissions.Read | SharedAccessBlobPermissions.Write,
+                SharedAccessExpiryTime = DateTime.UtcNow.AddYears(10)
+            };
+
+            _blobStorageClient.CreateSASPolicyIfNotExist(_writePolicyName, writePolicy).Wait();
         }
     }
 }

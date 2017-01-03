@@ -1061,6 +1061,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Icon.
+        /// </summary>
+        public static string DeleteIconTooltip {
+            get {
+                return ResourceManager.GetString("DeleteIconTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Desired Properties.
         /// </summary>
         public static string DesiredProperties {
@@ -1799,6 +1808,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You are not able to delete the device icon. It is used by devices..
+        /// </summary>
+        public static string FailedToDeleteIcon {
+            get {
+                return ResourceManager.GetString("FailedToDeleteIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to find default filters, please retry..
         /// </summary>
         public static string FailedToGetDefaultFilters {
@@ -2416,6 +2434,15 @@ namespace GlobalResources {
         public static string Image {
             get {
                 return ResourceManager.GetString("Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please use image with 150*150 pixels and less than 4MB file size..
+        /// </summary>
+        public static string ImageSizeSuggestions {
+            get {
+                return ResourceManager.GetString("ImageSizeSuggestions", resourceCulture);
             }
         }
         
