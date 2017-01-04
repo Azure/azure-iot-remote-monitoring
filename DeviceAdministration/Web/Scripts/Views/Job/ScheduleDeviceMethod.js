@@ -17,7 +17,7 @@
         this.methodName = ko.observable("");
         this.applicableDevices = ko.observable(0);
         this.inapplicableDevices = ko.observable(0);
-        this.totalDevices = ko.observable(0);
+        this.totalDevices = ko.observable(0);        
         this.methods = {};
         this.clonedMethodName = null;
         this.clonedMethodParameters = [];
@@ -25,6 +25,7 @@
         this.startDate = ko.observable(moment());
         this.isLoading = ko.observable(true);
         this.maxExecutionTime = ko.observable(30);
+        this.totalFilteredCount = ko.observable();
         
 
         this.parameters = ko.pureComputed(function () {
@@ -147,6 +148,15 @@
             IoTApp.Controls.NameSelector.create(jQuery('.edit_form__methodComboBox'), { type: IoTApp.Controls.NameSelector.NameListType.method }, self.methods);
         }
 
+        this.getTotalFilterdCount = ko.pureComputed(function () {
+            if (self.totalFilteredCount()) {
+                return resources.TotalDeviceString.replace(/\{0\}/, self.totalFilteredCount());
+            }
+            else {
+                return resources.TotalDeviceString.replace(/\{0\}/, resources.LoadingText);
+            }
+        }, this);
+
         this.init = function (data) {
             if (data) {
                 self.filterName = data.FilterName;
@@ -155,6 +165,17 @@
                 self.clonedMethodName = data.MethodName;
                 self.clonedMethodParameters = data.Parameters;
                 self.maxExecutionTime(data.MaxExecutionTimeInMinutes);
+
+                $.ajax({
+                    url: '/api/v1/devices/count/' + self.filterId,
+                    type: 'GET',
+                    success: function (result) {
+                        self.totalFilteredCount(result.data);
+                    },
+                    error: function (xhr, status, error) {
+                        IoTApp.Helpers.Dialog.displayError(resources.failedToGetDeviceCount);
+                    }
+                });
             }
             IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.method }, self.cacheNameList);
         }

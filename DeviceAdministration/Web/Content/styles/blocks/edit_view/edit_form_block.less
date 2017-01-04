@@ -33,9 +33,11 @@
 }
 
 .primary__label {
-    color: @primary-color;
+    color: @form-fieldset-label;
     text-transform: none;
     margin: 10px 4px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size:16px;
 }
 
 .edit_form__labelHeader {
@@ -83,14 +85,18 @@
 .edit_form__texthalf {
     display: block;
     float: left;
-    width: 230px;
+    width: 260px;
     margin: .25em 1em 0 0;
     border: 1px solid @form-textbox-border;
     background-color: @form-textbox-background;
-    font-size: .85em;
+    font-size: .6em;
     padding: 0 5px;
     min-height: 30px;
     box-sizing: content-box;
+}
+.edit_form__texthalfvalue {
+    .edit_form__texthalf;
+    width: 150px;
 }
 
 .edit_form__textsmall {
@@ -158,4 +164,16 @@
 
 .text_small{
     font-size:.8em;
+}
+
+.edit_form__inputGroup{
+    margin :30px 0 0 0;
+    overflow:visible;
+}
+.edit_form__datePickerImg{
+    position:relative;
+    height:18px;
+    width:18px;
+    right:25px;
+    top:4px;    
 }

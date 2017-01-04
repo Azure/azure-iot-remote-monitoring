@@ -27,6 +27,7 @@
                     </text>
                 }
             }
+            <small data-bind="text:getTotalFilterdCount"></small>
         </span>
     </h2>
 </header>
@@ -44,75 +45,87 @@
 
                     <fieldset class="edit_form">
                         @{
-                            @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label primary__label" });
-                            @Html.TextBoxFor(m => m.JobName, new { placeholder = Strings.ScheduleJobNamePlaceHolder, data_bind = "value: jobName", @class = "edit_form__text" });
+                            <div>
+                                @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label primary__label" })
+                                @Html.TextBoxFor(m => m.JobName, new { placeholder = Strings.ScheduleJobNamePlaceHolder, data_bind = "value: jobName", @class = "edit_form__text" })
+                            </div>
                             @Html.HiddenFor(m => m.FilterId)
                             <div style="clear:both"></div>
 
-                            @Html.LabelFor(m => m.MethodName, Strings.InvokeMethodLabel, new { @class = "edit_form__label primary__label" });
-                            @Html.TextBoxFor(m => m.MethodName, new { data_bind = "textInput: methodName, event{ blur: $root.updateParameter }", @class = "edit_form__methodComboBox edit_form__text" });
-
-                            <div style="clear:both"></div>
-                            <div id="countloadingElement" class="loader_container_half">
-                                <div class="loader_container_half__loader"></div>
-                            </div>
-                            <div data-bind="ifnot: isLoading">
-                                <span class="text_small" data-bind="text:MatchedDevices"></span>&nbsp;<a class="edit_form__link" data-bind="click: gotoDeviceList.bind($data,true)" href="javascript:void(0)">query</a>
-                            </div>
-                            <div data-bind="ifnot: isLoading">
-                                <span class="text_small" data-bind="text: UnmatchedDevices"></span>&nbsp;<a class="edit_form__link" data-bind="click: gotoDeviceList.bind($data,false)" href="javascript:void(0)">query</a>
-                            </div>
-
-                            <div style="clear:both"></div>
-                            <label for="parameterTable" class="edit_form__label primary__label" data-bind="if: parameters">@Strings.ScheduleParameters</label>
-                            <table class="values_editor" id="paramterTable" data-bind="if: parameters">
-                                <thead>
-                                    <tr class="values_editor__groupheader">
-                                        <th class="edit_form__labelHeader">@Strings.ScheduleParameterName</th>
-                                        <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
-                                    </tr>
-                                </thead>
-                                <tbody data-bind="foreach:{data: parameters}">
-                                    <tr class="values_editor__group">
-                                        <td>
-                                            <input type="text" class="edit_form__texthalf"
-                                                   data-bind='value: ParameterName, attr: { name: "Parameters[" + $index() + "].ParameterName", id: "Parameters" + $index() + ".ParameterName" }' />
-                                        </td>
-                                        <td>
-                                            @*data-msg-required="@Strings.RequiredValidationString"
-                                                data-rule-required="true"*@
-                                            <input type="text" class="edit_form__texthalf"
-                                                   data-bind='value: ParameterValue, attr: { name: "Parameters[" + $index() + "].ParameterValue", id: "Parameters" + $index() + ".ParameterValue" }' />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <label for="scheduleJobTime" class="edit_form__label primary__label">@Strings.ScheduleSetJobTime</label>
-
-                            <div id="scheduleJobTime" class="values_editor">
-                                <div class="values_editor__group">
-                                    <label class="edit_form__labelHeader">@Strings.StartTime</label>
-                                    <input type='text' id="StartDate" class="non_float edit_form__text less_margin" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ widgetPositioning : {horizontal: 'left' ,vertical: 'top'},format: 'LLL' , locale: getCulture()}"
-                                           data-msg-required="@Strings.RequiredValidationString"
-                                           data-rule-required="true" />
-                                    <input type="hidden" id="StartDateHidden" name="StartDateUtc"/>
+                            <div class="edit_form__inputGroup">
+                                @Html.LabelFor(m => m.MethodName, Strings.InvokeMethodLabel, new { @class = "edit_form__label primary__label" })
+                                @Html.TextBoxFor(m => m.MethodName, new { data_bind = "textInput: methodName, event{ blur: $root.updateParameter }", @class = "edit_form__methodComboBox edit_form__text" })
+                                <div style="clear:both"></div>
+                                <div id="countloadingElement" class="loader_container_half">
+                                    <div class="loader_container_half__loader"></div>
                                 </div>
-                                <div class="values_editor__group">
-                                    <label class="edit_form__labelHeader">@Strings.MaxExecutionTime</label>
-                                    <input type="text" class="non_float edit_form__textsmall less_margin" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
-                                           data-msg-required="@Strings.RequiredValidationString"
-                                           data-rule-required="true" />
-                                    <span>Mins</span>
+                                <div style="clear:both"></div>
+                                <div data-bind="ifnot: isLoading">
+                                    <a class="edit_form__link" data-bind="click: gotoDeviceList.bind($data,true), text:MatchedDevices" href="javascript:void(0)"></a>
+                                </div>
+                                <div data-bind="ifnot: isLoading">
+                                    <a class="edit_form__link" data-bind="click: gotoDeviceList.bind($data,false),text: UnmatchedDevices" href="javascript:void(0)"></a>
+                                </div>
+                            </div>
+
+                            <div class="edit_form__inputGroup" data-bind="style:{display: parameters() ?'block':'none' }">
+                                <label for="parameterTable" class="edit_form__label primary__label" data-bind="">@Strings.ScheduleParameters</label>
+                                <table class="values_editor" id="paramterTable">
+                                    <thead>
+                                        <tr class="values_editor__groupheader">
+                                            <th class="edit_form__labelHeader">@Strings.ScheduleParameterName</th>
+                                            <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach:{data: parameters}">
+                                        <tr class="values_editor__group">
+                                            <td>
+                                                <input type="text" class="edit_form__texthalf"
+                                                       data-bind='value: ParameterName, attr: { name: "Parameters[" + $index() + "].ParameterName", id: "Parameters" + $index() + ".ParameterName" }' />
+                                            </td>
+                                            <td>
+                                                @*data-msg-required="@Strings.RequiredValidationString"
+                                                    data-rule-required="true"*@
+                                                <input type="text" class="edit_form__texthalf"
+                                                       data-bind='value: ParameterValue, attr: { name: "Parameters[" + $index() + "].ParameterValue", id: "Parameters" + $index() + ".ParameterValue" }' />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="edit_form__inputGroup">
+                                <label for="scheduleJobTime" class="edit_form__label primary__label">@Strings.ScheduleSetJobTime</label>
+
+                                <div id="scheduleJobTime" class="values_editor">
+                                    <div class="values_editor__group">
+                                        <label class="edit_form__labelHeader">@Strings.StartTime</label>
+                                        <div class="input-group" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ widgetPositioning : {horizontal: 'left' ,vertical: 'top'},format: 'LLL' , locale: getCulture()}">
+                                            <input type='text' id="StartDate" class="non_float edit_form__text less_margin"
+                                                   data-msg-required="@Strings.RequiredValidationString"
+                                                   data-rule-required="true" />
+                                            <span class="input-group-addon">
+                                                <img class="edit_form__datePickerImg" src="/Content/img/expanded.svg">
+                                            </span>
+                                        </div>
+                                        <input type="hidden" id="StartDateHidden" name="StartDateUtc" />
+                                    </div>
+                                    <div class="values_editor__group">
+                                        <label class="edit_form__labelHeader">@Strings.MaxExecutionTime</label>
+                                        <input type="text" class="non_float edit_form__textsmall less_margin" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
+                                               data-msg-required="@Strings.RequiredValidationString"
+                                               data-rule-required="true" />
+                                        <span>Mins</span>
+                                    </div>
                                 </div>
                             </div>
                         }
                     </fieldset>
 
                     <fieldset class="fieldset_button">
-                        <input type="button" class="button_base button_secondary button_cancel" data-bind="click: backButtonClicked" value="@Strings.Cancel"/>
+                        <input type="button" class="button_base button_secondary button_cancel" data-bind="click: backButtonClicked" value="@Strings.Cancel" />
                         <button class="button_base" type="submit">@Strings.Create</button>
-                    </fieldset>     
+                    </fieldset>
                             }
             </div>
         </div>
@@ -127,7 +140,9 @@
         SomeDevicesApplicable: '@Html.JavaScriptString(Strings.SomeDevicesApplicable)',
         SomeDeviceInapplicable: '@Html.JavaScriptString(Strings.SomeDeviceInapplicable)',
         failedToCreateTempFilter: '@Html.JavaScriptString(Strings.FailedToCreateTempFilter)',
-        failedToSearchApplicableDevice: '@Html.JavaScriptString(Strings.FailedToSearchApplicableDevice)'
+        failedToSearchApplicableDevice: '@Html.JavaScriptString(Strings.FailedToSearchApplicableDevice)',
+        TotalDeviceString: "@Html.JavaScriptString(Strings.FilteredDeviceCount)",
+        LoadingText: "@Html.JavaScriptString(Strings.LoadingText)"
     }
 </script>
 <script type="text/javascript" src="~/Scripts/Views/Job/ScheduleDeviceMethod.js"></script>
