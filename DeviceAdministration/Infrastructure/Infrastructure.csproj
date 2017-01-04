@@ -184,6 +184,7 @@
     <Compile Include="Models\ClauseTableEntity.cs" />
     <Compile Include="Models\DeviceApplicableResult.cs" />
     <Compile Include="Models\DeviceIcon.cs" />
+    <Compile Include="Models\DeviceIconResult.cs" />
     <Compile Include="Models\JobRepositoryModel.cs" />
     <Compile Include="Models\JobTableEntity.cs" />
     <Compile Include="Models\DeviceListColumnsTableEntity.cs" />

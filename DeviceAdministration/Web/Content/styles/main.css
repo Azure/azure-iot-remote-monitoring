@@ -1838,6 +1838,9 @@ table#alertHistoryTable tr.selectedAlert {
   border-style: groove;
   border-width: thin;
 }
+.device_icon_page_disabled {
+  opacity: 0.3;
+}
 .device_icon_page:hover {
   border-color: lightgray;
 }

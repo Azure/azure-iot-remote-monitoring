@@ -47,7 +47,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 It.IsAny<string>(),
                 It.IsNotNull<Stream>(),
                 It.IsNotNull<AccessCondition>(),
-                It.IsNotNull<BlobRequestOptions>(),
+                It.IsAny<BlobRequestOptions>(),
                 It.IsAny<OperationContext>())).ReturnsAsync(mockBlob);
             var icon = await deviceIconRepository.AddIcon("DeviceId", "Image.png", stream);
             Assert.Equal(icon.Name, "Image_png");
@@ -66,7 +66,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             _blobStorageClientMock.Setup(x => x.ListBlobs(It.IsAny<string>(),
                 It.IsAny<bool>())).ReturnsAsync(mockBlobs);
             var icons = await deviceIconRepository.GetIcons("DeviceId", 0, 10);
-            Assert.Equal(new string[] { "device1_jpg", "device2_jpg" }, icons.Select(i => i.Name).ToArray());
+            Assert.Equal(new string[] { "device1_jpg", "device2_jpg" }, icons.Results.Select(i => i.Name).ToArray());
+            Assert.Equal(2, icons.TotalCount);
         }
 
         [Fact]

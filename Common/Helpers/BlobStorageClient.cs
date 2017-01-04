@@ -75,8 +75,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             var targetBlob = _container.GetBlockBlobReference(targetName);
             if (targetBlob.Exists())
             {
+                await sourceBlob.FetchAttributesAsync();
                 // create a new name if conflict with existing icon by appending ticks.
-                if (!sourceBlob.Properties.ContentMD5.Equals(targetBlob.Properties.ContentMD5))
+                if (string.IsNullOrEmpty(sourceBlob.Properties.ContentMD5) || !sourceBlob.Properties.ContentMD5.Equals(targetBlob.Properties.ContentMD5))
                 {
                     DateTimeOffset timeOffset = sourceBlob.Properties.LastModified ?? DateTime.Now;
                     string newTargetName = string.Format("{0}_{1}", targetName, timeOffset.Ticks.ToString());

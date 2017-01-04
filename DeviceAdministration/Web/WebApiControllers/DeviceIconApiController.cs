@@ -32,7 +32,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [WebApiRequirePermission(Permission.ViewDevices)]
         public async Task<HttpResponseMessage> GetIcons(string deviceId, [FromUri]int skip = 0, [FromUri]int take = 10)
         {
-            return await GetServiceResponseAsync<IEnumerable<DeviceIcon>>(async () =>
+            return await GetServiceResponseAsync<DeviceIconResult>(async () =>
             {
                 return await _deviceIconRepository.GetIcons(deviceId, skip, take);
             });
