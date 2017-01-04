@@ -17,14 +17,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             _logger = logger;
         }
 
-        public void Open()
+        public async Task OpenAsync()
         {
-            return;
+            await Task.FromResult(0);
         }
 
-        public Task CloseAsync()
+        public async Task CloseAsync()
         {
-            return Task.Run(() => { });
+            await Task.FromResult(0);
         }
 
         public async Task SendEventAsync(dynamic eventData)
@@ -39,20 +39,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             _logger.LogInfo("SendEventAsync: EventId: " + eventId.ToString());
             _logger.LogInfo("SendEventAsync: message: " + eventData.ToString());
 
-            await Task.Run(() => { return; });
+            await Task.FromResult(0);
         }
 
         public async Task SendEventBatchAsync(IEnumerable<Client.Message> messages)
         {
             _logger.LogInfo("SendEventBatchAsync called");
 
-            await Task.Run(() => { return; });
+            await Task.FromResult(0);
         }
 
         public async Task<DeserializableCommand> ReceiveAsync()
         {
             _logger.LogInfo("ReceiveAsync: waiting...");
-            return await Task.Run(() => new DeserializableCommand(new Client.Message()));
+
+            return await Task.FromResult(new DeserializableCommand(new Client.Message()));
         }
 
         public async Task SignalAbandonedCommand(DeserializableCommand command)
@@ -62,7 +63,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 throw new ArgumentNullException("command");
             }
 
-            await Task.Run(() => { });
+            await Task.FromResult(0);
         }
 
         public async Task SignalCompletedCommand(DeserializableCommand command)
@@ -72,7 +73,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 throw new ArgumentNullException("command");
             }
 
-            await Task.Run(() => { });
+            await Task.FromResult(0);
         }
 
         public async Task SignalRejectedCommand(DeserializableCommand command)
@@ -82,7 +83,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 throw new ArgumentNullException("command");
             }
 
-            await Task.Run(() => { });
+            await Task.FromResult(0);
         }
 
         public async Task UpdateReportedPropertiesAsync(TwinCollection reportedProperties)
@@ -91,6 +92,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             _logger.LogInfo($"UpdateReportedPropertiesAsync: reportedProperties: {reportedProperties.ToJson(Formatting.Indented)}");
 
             await Task.FromResult(0);
+        }
+
+        public async Task<TwinCollection> GetReportedPropertiesAsync()
+        {
+            _logger.LogInfo("GetReportedPropertiesAsync called");
+
+            return await Task.FromResult(new TwinCollection());
         }
 
         public void SetMethodHandler(string methodName, MethodCallback callback)

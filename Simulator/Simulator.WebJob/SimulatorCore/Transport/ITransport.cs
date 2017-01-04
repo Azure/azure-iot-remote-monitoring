@@ -11,7 +11,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// </summary>
     public interface ITransport
     {
-        void Open();
+        Task OpenAsync();
+
         Task CloseAsync();
 
         Task SendEventAsync(dynamic eventData);
@@ -29,6 +30,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         Task SignalRejectedCommand(DeserializableCommand command);
 
         Task UpdateReportedPropertiesAsync(TwinCollection reportedProperties);
+
+        Task<TwinCollection> GetReportedPropertiesAsync();
 
         void SetMethodHandler(string methodName, MethodCallback callback);
     }
