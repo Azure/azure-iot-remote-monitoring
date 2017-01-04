@@ -17,6 +17,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         Task<List<ICloudBlob>> ListBlobs(string blobPrefix, bool useFlatBlobListing);
         Task<CloudBlockBlob> MoveBlob(string sourceName, string targetName);
         Task<bool> DeleteBlob(string blobName);
+        Task<string> GetContainerUri();
         Task<byte[]> GetBlobData(string blobName);
         Task<string> GetBlobEtag(string blobName);
         Task UploadTextAsync(string blobName, string data);

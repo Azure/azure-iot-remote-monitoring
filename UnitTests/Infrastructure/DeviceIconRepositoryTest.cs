@@ -101,5 +101,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var result = await deviceIconRepository.DeleteIcon("DeviceId", targetName);
             Assert.True(result);
         }
+
+        [Fact]
+        public void GetIconStorageUrlPrefixTest()
+        {
+            string containerUri = "https://account1.blob.core.windows.net/deviceicons";
+            _blobStorageClientMock.Setup(x => x.GetContainerUri()).ReturnsAsync(containerUri);
+            string url = deviceIconRepository.GetIconStorageUriPrefix();
+            Assert.True(url.StartsWith(containerUri));
+        }
     }
 }
