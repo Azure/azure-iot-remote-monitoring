@@ -2438,7 +2438,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Image.
+        ///   Looks up a localized string similar to Icon.
         /// </summary>
         public static string Image {
             get {

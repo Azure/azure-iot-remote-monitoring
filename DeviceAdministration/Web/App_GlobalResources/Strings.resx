@@ -2365,7 +2365,7 @@
     <comment>Session heading.</comment>
   </data>
   <data name="Image" xml:space="preserve">
-    <value>Image</value>
+    <value>Icon</value>
     <comment>Table column header.</comment>
   </data>
   <data name="EditDisplayName" xml:space="preserve">

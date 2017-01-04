@@ -64,7 +64,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             ViewBag.FilterId = filterId;
             ViewBag.HasManageJobsPerm = PermsChecker.HasPermission(Permission.ManageJobs);
-            ViewBag.IconStorageUriPrefix = _iconRepository.GetIconStorageUriPrefix();
+            ViewBag.IconBaseUrl = _iconRepository.GetIconStorageUriPrefix();
+            ViewBag.IconTagName = Constants.DeviceIconTagName;
 
             return View();
         }
@@ -293,6 +294,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             // check if value is cellular by checking iccid property
             deviceModel.IsCellular = device.SystemProperties.ICCID != null;
             deviceModel.Iccid = device.SystemProperties.ICCID; // todo: try get rid of null checks
+
+            ViewBag.IconBaseUrl = _iconRepository.GetIconStorageUriPrefix();
 
             return PartialView("_DeviceDetails", deviceModel);
         }
