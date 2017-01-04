@@ -7,9 +7,9 @@
     <section class="details_grid_header">
         <div class="details_grid_header_image_container">
             @{ 
-                var tagImage = Model.DevicePropertyValueModels.Where(m => m.Name == "tags.icon").FirstOrDefault();
+                var tagImage = Model.DevicePropertyValueModels.Where(m => m.Name == "tags." + Constants.DeviceIconTagName).FirstOrDefault();
                 var image = tagImage != null && !string.IsNullOrWhiteSpace(tagImage.Value) ? 
-                    string.Format("/api/v1/devices/{0}/icons/{1}/true", Model.DeviceID, tagImage.Value) : "/Content/img/device_default.svg";
+                    ViewBag.IconBaseUrl + tagImage.Value : "/Content/img/device_default.svg";
             }
             <img src="@image" class="details_grid_header_image" />
             @if (Model.IsDeviceEditEnabled)

@@ -1061,6 +1061,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Icon.
+        /// </summary>
+        public static string DeleteIconTooltip {
+            get {
+                return ResourceManager.GetString("DeleteIconTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Desired Properties.
         /// </summary>
         public static string DesiredProperties {
@@ -1745,6 +1754,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to External Job {0}.
+        /// </summary>
+        public static string ExternalJobNamePrefix {
+            get {
+                return ResourceManager.GetString("ExternalJobNamePrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FAILED COUNT.
         /// </summary>
         public static string FailedCountHeader {
@@ -1795,6 +1813,15 @@ namespace GlobalResources {
         public static string FailedToDeleteFilter {
             get {
                 return ResourceManager.GetString("FailedToDeleteFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are not able to delete the device icon. It is used by devices..
+        /// </summary>
+        public static string FailedToDeleteIcon {
+            get {
+                return ResourceManager.GetString("FailedToDeleteIcon", resourceCulture);
             }
         }
         
@@ -2420,11 +2447,20 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Image.
+        ///   Looks up a localized string similar to Icon.
         /// </summary>
         public static string Image {
             get {
                 return ResourceManager.GetString("Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please use image with 150*150 pixels and less than 4MB file size..
+        /// </summary>
+        public static string ImageSizeSuggestions {
+            get {
+                return ResourceManager.GetString("ImageSizeSuggestions", resourceCulture);
             }
         }
         
@@ -2708,7 +2744,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Operation Results of Job.
+        ///   Looks up a localized string similar to Operation Details.
         /// </summary>
         public static string JobOperationResultTooltip {
             get {

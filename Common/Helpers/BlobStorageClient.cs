@@ -38,24 +38,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 operationContext);
         }
 
-        public async Task<CloudBlockBlob> UploadFromStreamAsync(string blobName, KeyValuePair<string, string> metadataKeyValuePair, Stream stream, AccessCondition condition, BlobRequestOptions options, OperationContext context)
+        public async Task<CloudBlockBlob> UploadFromStreamAsync(string blobName, string contentType, Stream stream, AccessCondition condition, BlobRequestOptions options, OperationContext context)
         {
             await CreateCloudBlobContainerAsync();
 
             var blob = await CreateCloudBlockBlobAsync(blobName);
             await blob.UploadFromStreamAsync(stream, condition, options, context);
-            blob.Metadata[metadataKeyValuePair.Key] = metadataKeyValuePair.Value;
-            blob.SetMetadata();
+            blob.Properties.ContentType = contentType;
+            await blob.SetPropertiesAsync();
             return blob;
         }
 
-        public async Task<CloudBlockBlob> DownloadToStream(string blobName, Stream stream)
+        public async Task<CloudBlockBlob> GetBlob(string blobName)
         {
             await CreateCloudBlobContainerAsync();
-
-            var blob = _container.GetBlockBlobReference(blobName);
-            blob.DownloadToStream(stream);
-            return blob;
+            return _container.GetBlockBlobReference(blobName);
         }
 
         public async Task<List<ICloudBlob>> ListBlobs(string blobPrefix, bool useFlatBlobListing = true)
@@ -78,10 +75,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             var targetBlob = _container.GetBlockBlobReference(targetName);
             if (targetBlob.Exists())
             {
-                // create a new name if conflict with existing icon by appending a timestamp.
+                // create a new name if conflict with existing icon by appending ticks.
                 if (!sourceBlob.Properties.ContentMD5.Equals(targetBlob.Properties.ContentMD5))
                 {
-                    targetName = $"{targetName}-{sourceBlob.Properties.LastModified.ToString()}";
+                    DateTimeOffset timeOffset = sourceBlob.Properties.LastModified ?? DateTime.Now;
+                    string newTargetName = string.Format("{0}_{1}", targetName, timeOffset.Ticks.ToString());
+                    targetBlob = _container.GetBlockBlobReference(newTargetName);
                     await targetBlob.StartCopyAsync(sourceBlob);
                 }
             }
@@ -92,6 +91,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
             sourceBlob.DeleteAsync();
             return targetBlob;
+        }
+
+        public async Task<bool> DeleteBlob(string blobName)
+        {
+            await CreateCloudBlobContainerAsync();
+
+            var blob = _container.GetBlockBlobReference(blobName);
+            return await blob.DeleteIfExistsAsync();
+        }
+
+        public async Task<string> GetContainerUri()
+        {
+            await CreateCloudBlobContainerAsync();
+
+            return _container.StorageUri.PrimaryUri.AbsoluteUri;
         }
 
         public async Task<byte[]> GetBlobData(string blobName)
@@ -153,24 +167,28 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             return new BlobStorageReader(blobs);
         }
 
-        public Task<SharedAccessBlobPolicies> CreateSASPolicyIfNotExist(string policyName, SharedAccessBlobPermissions permissions, DateTimeOffset offset)
+        public async Task<SharedAccessBlobPolicies> CreateSASPolicyIfNotExist(string policyName, SharedAccessBlobPolicy policy)
         {
+            await CreateCloudBlobContainerAsync();
+
             var currentPermissions = _container.GetPermissions();
             var policies = currentPermissions.SharedAccessPolicies;
             if (!policies.ContainsKey(policyName))
             {
-                policies.Add(policyName,
-                    new SharedAccessBlobPolicy
-                    {
-                        Permissions = permissions,
-                        SharedAccessExpiryTime = offset,
-                    });
-
+                policies.Add(policyName, policy);
                 _container.SetPermissions(currentPermissions);
             }
-            return Task.FromResult<SharedAccessBlobPolicies>(policies);
+            return policies;
         }
 
+        public async Task SetPublicPolicyType(BlobContainerPublicAccessType accessType)
+        {
+            await CreateCloudBlobContainerAsync();
+
+            var currentPermissions = _container.GetPermissions();
+            currentPermissions.PublicAccess = accessType;
+            _container.SetPermissions(currentPermissions);
+        }
 
         private async Task CreateCloudBlobContainerAsync()
         {

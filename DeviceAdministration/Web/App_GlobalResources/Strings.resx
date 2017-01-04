@@ -2201,7 +2201,7 @@
     <comment>Section heading.</comment>
   </data>
   <data name="JobOperationResultTooltip" xml:space="preserve">
-    <value>The Operation Results of Job</value>
+    <value>Operation Details</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="JobPropertiesTooltip" xml:space="preserve">
@@ -2365,7 +2365,7 @@
     <comment>Session heading.</comment>
   </data>
   <data name="Image" xml:space="preserve">
-    <value>Image</value>
+    <value>Icon</value>
     <comment>Table column header.</comment>
   </data>
   <data name="EditDisplayName" xml:space="preserve">
@@ -2391,5 +2391,21 @@
   <data name="ValueTextPlaceHolder" xml:space="preserve">
     <value>e.g. "123" or Tom</value>
     <comment>Text input Placeholder</comment>
+  </data>
+  <data name="DeleteIconTooltip" xml:space="preserve">
+    <value>Delete Icon</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="FailedToDeleteIcon" xml:space="preserve">
+    <value>You are not able to delete the device icon. It is used by devices.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ImageSizeSuggestions" xml:space="preserve">
+    <value>Please use image with 150*150 pixels and less than 4MB file size.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ExternalJobNamePrefix" xml:space="preserve">
+    <value>External Job {0}</value>
+    <comment>Table cell.</comment>
   </data>
 </root>

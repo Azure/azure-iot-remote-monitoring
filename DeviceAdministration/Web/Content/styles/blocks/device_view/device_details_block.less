@@ -223,6 +223,10 @@
 .device_icon_label {
     text-transform: none;
     display: inline-block;
+    font-family: 'Segoe UI';
+    font-size: 16px;
+    color: #666666;
+    margin-bottom: 20px;
 }
 
 .device_icon_action_container {
@@ -248,18 +252,53 @@
 }
 
 .device_icon_preview_image {
+    margin-top: 20px;
     height: 100px;
     width: 100px;
 }
 
+.device_icon_preview_tooptip {
+    font-size: 16px;
+    color: gray;
+    text-overflow: ellipsis;
+    margin-bottom: 20px;
+}
+
+.device_icon_list {
+    display: flex;
+}
+
+.device_icon_list_container {
+    display: flex;
+}
+
+.device_icon_page {
+    height: 100px;
+    width: 20px;
+    float: left;
+    border-color: transparent;
+    border-style: groove;
+    border-width: thin;
+}
+
+.device_icon_page:hover {
+    border-color: lightgray;
+}
+
 .device_icon_apply_image {
+    border-style: groove;
+    border-width: thin;
+    border-color: transparent;
     height: 100px;
     width: 100px;
+    padding: 2px;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .device_icon_apply_image:hover {
     border-style: groove;
-    border-color: aqua;
+    border-color: deepskyblue;
     border-width: thin;
 }
 
@@ -267,6 +306,16 @@
     border-style: groove;
     border-color: deepskyblue;
     border-width: thin;
+}
+
+.device_icon_apply_image_delete_link {
+    display: none;
+}
+
+.device_icon_apply_image_delete_icon {
+    position: absolute;
+    right: 9px;
+    top: 1px;
 }
 
 .device_icon_current_image {

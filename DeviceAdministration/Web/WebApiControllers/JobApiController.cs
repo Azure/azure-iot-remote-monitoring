@@ -100,7 +100,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
             catch
             {
-                return Tuple.Create(job.JobId, string.Empty, job.QueryCondition ?? Strings.NotApplicableValue);
+                string externalJobName = string.Format(Strings.ExternalJobNamePrefix, job.JobId);
+                return Tuple.Create(externalJobName, string.Empty, job.QueryCondition ?? Strings.NotApplicableValue);
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -18,21 +20,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         private readonly IDeviceIconRepository _deviceIconRepository;
         private readonly IIoTHubDeviceManager _deviceManager;
+
         public DeviceIconApiController(IIoTHubDeviceManager deviceManager, IDeviceIconRepository deviceIconRepository)
         {
             this._deviceIconRepository = deviceIconRepository;
             this._deviceManager = deviceManager;
         }
 
-
         [HttpGet]
         [Route("{deviceId}/icons")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> GetDeviceIcons(string deviceId)
+        public async Task<HttpResponseMessage> GetIcons(string deviceId, [FromUri]int skip = 0, [FromUri]int take = 10)
         {
             return await GetServiceResponseAsync<IEnumerable<DeviceIcon>>(async () =>
             {
-                return await _deviceIconRepository.GetIcons(deviceId);
+                return await _deviceIconRepository.GetIcons(deviceId, skip, take);
             });
         }
 
@@ -78,18 +80,49 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [HttpGet]
-        [Route("{deviceId}/icons/{name}/{applied}")]
-        [WebApiRequirePermission(Permission.EditDeviceMetadata)]
-        public async Task<HttpResponseMessage> GetIcon(string deviceId, string name, bool? applied)
+        [Route("{deviceId}/icon")]
+        [WebApiRequirePermission(Permission.ViewDevices)]
+        public async Task<HttpResponseMessage> GetIcon(string deviceId)
         {
-            return await Task.Run(async () =>
+            return await GetServiceResponseAsync<DeviceIcon>(async () =>
             {
-                var icon = await _deviceIconRepository.GetIcon(deviceId, name, applied.HasValue ? applied.Value : true);
-                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-                result.Content = new ByteArrayContent(icon.ImageStream.ToArray());
-                var mediaType = MimeMapping.GetMimeMapping(string.IsNullOrEmpty(icon.Extension) ? "image/png" : icon.Extension);
-                result.Content.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
-                return result;
+                Twin twin = await _deviceManager.GetTwinAsync(deviceId);
+                if (twin.Tags.Contains(Constants.DeviceIconTagName))
+                {
+                    return await _deviceIconRepository.GetIcon(deviceId, twin.Tags[Constants.DeviceIconTagName].Value);
+                }
+                else
+                {
+                    return null;
+                }
+            });
+        }
+
+        [HttpDelete]
+        [Route("{deviceId}/icons/{name}")]
+        [WebApiRequirePermission(Permission.EditDeviceMetadata)]
+        public async Task<HttpResponseMessage> DeleteIcon(string deviceId, string name)
+        {
+            return await GetServiceResponseAsync<bool>(async () =>
+            {
+                var filter = new DeviceListFilter() {
+                    Clauses = new List<Clause>(),
+                };
+
+                filter.Clauses.Add(new Clause
+                {
+                    ColumnName = "tags." + Constants.DeviceIconTagName,
+                    ClauseType = ClauseType.EQ,
+                    ClauseValue = name,
+                });
+
+                var devices = await _deviceManager.QueryDevicesAsync(filter);
+                if (devices.Any())
+                {
+                    throw new Exception("The device icon has been used by devices and can not be deleted.");
+                }
+
+                return await _deviceIconRepository.DeleteIcon(deviceId, name);
             });
         }
     }
