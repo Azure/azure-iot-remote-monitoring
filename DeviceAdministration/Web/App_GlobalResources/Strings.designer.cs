@@ -233,6 +233,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        public static string All {
+            get {
+                return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All Devices.
         /// </summary>
         public static string AllDevices {
@@ -1084,6 +1093,15 @@ namespace GlobalResources {
         public static string DesiredPropertiesTooltip {
             get {
                 return ResourceManager.GetString("DesiredPropertiesTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
             }
         }
         
@@ -2749,6 +2767,15 @@ namespace GlobalResources {
         public static string JobPropertiesPaneLabel {
             get {
                 return ResourceManager.GetString("JobPropertiesPaneLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job results for {0}.
+        /// </summary>
+        public static string JobResultsFor {
+            get {
+                return ResourceManager.GetString("JobResultsFor", resourceCulture);
             }
         }
         
@@ -4427,6 +4454,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select device status.
+        /// </summary>
+        public static string SelectDeviceStatus {
+            get {
+                return ResourceManager.GetString("SelectDeviceStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Selected Columns.
         /// </summary>
         public static string SelectedColumns {
@@ -4526,7 +4562,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Details.
+        ///   Looks up a localized string similar to Show Results.
         /// </summary>
         public static string ShowJobResults {
             get {

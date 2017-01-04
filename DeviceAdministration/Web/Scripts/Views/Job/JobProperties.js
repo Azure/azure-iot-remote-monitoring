@@ -3,8 +3,10 @@
 
     var self = this;
 
-    var init = function (jobId, updateCallback) {
+    var init = function (jobId, jobName, operationType, updateCallback) {
         self.jobId = jobId;
+        self.jobName = jobName;
+        self.operationType = operationType;
         self.updateCallback = updateCallback;
         getJobPropertiesView();
     }
@@ -52,6 +54,10 @@
         $('.toggle_source').on('click', function () {
             $(this).parent().children('.toggle_target').toggle();
             $(this).parent().next().toggle();
+        });
+
+        $('#lnkViewJobResult').on('click', function () {
+            IoTApp.JobResult.init(self.jobId, self.jobName, self.operationType);
         });
 
         renderPayload();

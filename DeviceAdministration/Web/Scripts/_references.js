@@ -52,5 +52,6 @@
 /// <reference path="views/iotapp.js" />
 /// <reference path="views/job/jobindex.js" />
 /// <reference path="views/job/jobproperties.js" />
+/// <reference path="views/job/jobresult.js" />
 /// <reference path="views/job/scheduledevicemethod.js" />
 /// <reference path="Views/Job/ScheduleTwinUpdate.js" />

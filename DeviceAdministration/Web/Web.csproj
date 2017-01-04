@@ -488,6 +488,7 @@
     <Content Include="Content\styles\bootstrap\popovers.less" />
     <Content Include="Content\styles\blocks\job_view\job_details_block.less" />
     <Content Include="Content\styles\blocks\device_view\devices_filter_block.less" />
+    <Content Include="Content\styles\elements\dialog.less" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -607,6 +608,7 @@
     <Content Include="Scripts\Views\Device\EditDeviceProperties.js" />
     <Content Include="Scripts\Views\Device\RemoveDevice.js" />
     <Content Include="Scripts\Views\IoTApp.js" />
+    <Content Include="Scripts\Views\Job\JobResult.js" />
     <Content Include="Scripts\Views\Job\ScheduleDeviceMethod.js" />
     <Content Include="Scripts\Views\Job\ScheduleTwinUpdate.js" />
     <Content Include="Scripts\Views\Job\JobIndex.js" />
@@ -706,6 +708,7 @@
     <Content Include="Views\Device\EditTags.cshtml" />
     <Content Include="Views\Device\_DeviceJobs.cshtml" />
     <Content Include="Views\Device\EditIcon.cshtml" />
+    <Content Include="Views\Job\_JobResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

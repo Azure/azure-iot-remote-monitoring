@@ -71,7 +71,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.We
         {
             var jobResponses = fixture.Create<IEnumerable<DeviceJob>>();
             iotHubDeviceManager.Setup(x => x.GetDeviceJobsByJobIdAsync(It.IsNotNull<string>())).ReturnsAsync(jobResponses);
-            var result = await controller.GetJobResults("job1", DeviceJobStatus.Completed);
+            var result = await controller.GetJobResults("job1");
             result.AssertOnError();
             result.ExtractContentDataAs<IEnumerable<DeviceJob>>();
         }

@@ -2189,7 +2189,7 @@
     <comment>Hyperlink label.</comment>
   </data>
   <data name="ShowJobResults" xml:space="preserve">
-    <value>Show Details</value>
+    <value>Show Results</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="JobOperationResult" xml:space="preserve">
@@ -2403,5 +2403,21 @@
   <data name="Schedule" xml:space="preserve">
     <value>Schedule</value>
     <comment>Buttone label.</comment>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="JobResultsFor" xml:space="preserve">
+    <value>Job results for {0}</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+    <comment>Label</comment>
+  </data>
+  <data name="SelectDeviceStatus" xml:space="preserve">
+    <value>Select device status</value>
+    <comment>Label</comment>
   </data>
 </root>

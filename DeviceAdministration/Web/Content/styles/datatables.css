@@ -5,7 +5,7 @@
  */
 table.dataTable {
   width: 100%;
-  margin: 10px auto;
+  margin: 0px auto 10px auto;
   clear: both;
   border-collapse: separate;
   border-spacing: 0;
@@ -616,7 +616,7 @@ table.dataTable thead {
         background-image:url(/Content/img/icon_status_critical.svg);
         }
 
-    .table_status.status_cancelled {
+    .table_status.status_canceled {
         background-image:url(/Content/img/icon_status_disabled.svg);
         }
 

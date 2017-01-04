@@ -63,8 +63,45 @@
 .grid_detail_value_with_link {
     margin-bottom: 0;
 }
+
 .job_list_toolbar {
     margin-top: 12px;
     margin-left:10px;
     float:left;
+}
+
+.job_result_header {
+    background-color: @background-color;
+    padding: 20px 20px 0px 20px;
+    color: @text-pagehead-color;
+}
+
+.job_result_status_filters {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    height: 22px;
+}
+
+.job_result_status_filter {
+    margin-right: 20px;
+}
+
+.job_result_status_filter_selected {
+    border-bottom: 1px solid;
+}
+
+.job_result_payload {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#jobResultDialog .dialog_dialog {
+    width: 80%;
+    height: 80%;
+}
+
+#jobResultGridContainer .dataTables_paginate {
+    margin-bottom: 0px;
 }

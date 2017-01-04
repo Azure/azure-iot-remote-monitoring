@@ -1,0 +1,57 @@
+﻿@using GlobalResources
+@using Microsoft.Azure.Devices
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+<script type="text/html" id="jobResultTemplate">
+    <div class="job_result_header">
+        <div>@Strings.SelectDeviceStatus</div>
+        <div class="job_result_status_filters"></div>
+        <div>@Strings.Details</div>
+    </div>
+    <div id="jobResultGridContainer" class="">
+
+        @*Datatables plugin for jQuery. www.datatables.net*@
+        <table id="jobResultTable" class="order-column">
+
+            <thead>
+                <tr>
+                    <th>@Strings.StatusHeader</th>
+                    <th>@Strings.DeviceId</th>
+                    <th>@Strings.CommandResult</th>
+                    <th>@Strings.CommandValuesReturned</th>
+                    <th>@Strings.CommandTimeCreated</th>
+                    <th>@Strings.CommandTimeUpdated</th>
+                </tr>
+            </thead>
+
+            <tbody></tbody>
+
+        </table>
+
+    </div>
+    <div id="loadingElementJobResult" class="loader_container">
+        <div class="loader_container__loader"></div>
+    </div>
+</script>
+<script>
+    "use strict";
+
+    var jobResultResources = {
+        allDeviceJobStatus: [
+            '@DeviceJobStatus.Completed',
+            '@DeviceJobStatus.Pending',
+            '@DeviceJobStatus.Scheduled',
+            '@DeviceJobStatus.Running',
+            '@DeviceJobStatus.Failed',
+            '@DeviceJobStatus.Canceled'
+        ],
+        jobResultsFor: '@Html.JavaScriptString(Strings.JobResultsFor)',
+        all: '@Html.JavaScriptString(Strings.All)',
+        nextPage: '@Html.JavaScriptString(Strings.Next)',
+        previousPage: '@Html.JavaScriptString(Strings.Previous)',
+        unableToRetrieveJobFromService: '@Html.JavaScriptString(Strings.UnableToRetrieveJobFromService)'
+    };
+
+    </script>
+
+    <script src="~/Scripts/jquery-datatables-api-extensions.js"></script>
+    <script src="~/Scripts/Views/Job/JobResult.js"></script>

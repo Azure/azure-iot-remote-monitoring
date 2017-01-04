@@ -37,7 +37,7 @@
             row.nodes().to$().addClass("selected");
             self.selectedRow = row.index();
             self.selectedJobId = rowData["jobId"];
-            self.jobProperties.init(rowData["jobId"], self.reloadGrid);
+            self.jobProperties.init(rowData["jobId"], rowData["jobName"], rowData["operationType"], self.reloadGrid);
         }
     }
 

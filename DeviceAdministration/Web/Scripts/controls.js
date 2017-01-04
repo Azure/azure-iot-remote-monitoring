@@ -152,3 +152,42 @@
         applyFilters: applyFilters
     };
 }, [jQuery]);
+
+IoTApp.createModule("IoTApp.Controls.Dialog", function () {
+    "use strict";
+
+    var self = this;
+    var dialogHtml = '<div class="dialog_container"><div class="dialog_mask"><div class="dialog_dialog"><img src="/Content/img/column_delete.svg" class="dialog_close_img"/><div class="dialog_title"><h2 class="dialog_title_text"></h2></div><div class="dialog_content"></div></div></div></div>';
+    
+    var create = function (options) {
+        
+        options = $.extend({
+            container: $('body')
+        }, options);
+
+        self.dialog = $(dialogHtml);
+        if (options.dialogId) {
+            self.dialog.attr('id', options.dialogId);
+        }
+        $('.dialog_title_text', self.dialog).text(options.title);
+        $('.dialog_content', self.dialog).html($(options.templateId).html());
+
+        $('.dialog_close_img', self.dialog).click(function () {
+            destory();
+        });
+
+        options.container.append(self.dialog);
+
+        self.dialog.show();
+
+        return self.dialog;
+    }
+
+    var destory = function () {
+        self.dialog.remove();
+    }
+
+    return {
+        create: create
+    };
+}, [jQuery]);

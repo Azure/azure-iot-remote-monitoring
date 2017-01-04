@@ -69,15 +69,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [HttpGet]
-        [Route("{id}/{status}")]
+        [Route("{id}/results")]
         [WebApiRequirePermission(Permission.ViewJobs)]
-        // GET: api/v1/jobs/{id}/{status}
-        public async Task<HttpResponseMessage> GetJobResults(string id, [FromUri] DeviceJobStatus status)
+        // GET: api/v1/jobs/{id}/results
+        public async Task<HttpResponseMessage> GetJobResults(string id)
         {
             return await GetServiceResponseAsync<IEnumerable<DeviceJob>>(async () =>
             {
                 var jobResponses = await _iotHubDeviceManager.GetDeviceJobsByJobIdAsync(id);
-                return jobResponses.Where(j => j.Status == status).OrderByDescending(j => j.LastUpdatedDateTimeUtc).ToList();
+                return jobResponses.OrderByDescending(j => j.LastUpdatedDateTimeUtc).ToList();
             });
         }
 
