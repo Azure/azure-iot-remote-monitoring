@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return new Filter(filter) { AssociatedJobsCount = jobs.Count() };
         }
 
-        public async Task<string> GetAvailableFilterNameAsync(string filterName = "MyNewFilter")
+        public async Task<string> GetAvailableFilterNameAsync(string filterName = "NewFilter")
         {
             for (int i = 1; i <= MaxRetryCount; ++i)
             {

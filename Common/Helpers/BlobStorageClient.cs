@@ -101,6 +101,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             return await blob.DeleteIfExistsAsync();
         }
 
+        public async Task<string> GetContainerUri()
+        {
+            await CreateCloudBlobContainerAsync();
+
+            return _container.StorageUri.PrimaryUri.AbsoluteUri;
+        }
+
         public async Task<byte[]> GetBlobData(string blobName)
         {
             var blob = await CreateCloudBlockBlobAsync(blobName);

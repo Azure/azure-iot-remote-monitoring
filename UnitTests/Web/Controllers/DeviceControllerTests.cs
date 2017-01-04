@@ -28,6 +28,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
         private readonly Mock<IJobRepository> _jobRepositoryMock;
         private readonly Mock<IUserSettingsLogic> _userSettingsLogic;
         private readonly Mock<IIoTHubDeviceManager> _deviceManager;
+        private readonly Mock<IDeviceIconRepository> _iconRepository;
         private readonly Fixture _fixture;
 
         public DeviceControllerTests()
@@ -38,6 +39,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             _jobRepositoryMock = new Mock<IJobRepository>();
             _userSettingsLogic = new Mock<IUserSettingsLogic>();
             _deviceManager = new Mock<IIoTHubDeviceManager>();
+            _iconRepository = new Mock<IDeviceIconRepository>();
 
             var configProviderMock = new Mock<IConfigurationProvider>();
             configProviderMock
@@ -52,7 +54,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
                 _cellulerExtensionsMock.Object,
                 _jobRepositoryMock.Object,
                 _userSettingsLogic.Object,
-                _deviceManager.Object);
+                _deviceManager.Object,
+                _iconRepository.Object);
 
             _fixture = new Fixture();
         }

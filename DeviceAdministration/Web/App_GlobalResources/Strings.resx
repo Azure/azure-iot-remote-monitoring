@@ -2384,4 +2384,8 @@
     <value>Please use image with 150*150 pixels and less than 4MB file size.</value>
     <comment>Tooltip.</comment>
   </data>
+  <data name="ExternalJobNamePrefix" xml:space="preserve">
+    <value>External Job {0}</value>
+    <comment>Table cell.</comment>
+  </data>
 </root>

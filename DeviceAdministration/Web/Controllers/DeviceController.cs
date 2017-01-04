@@ -34,6 +34,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly IJobRepository _jobRepository;
         private readonly IUserSettingsLogic _userSettingsLogic;
         private readonly IIoTHubDeviceManager _deviceManager;
+        private readonly IDeviceIconRepository _iconRepository;
         private readonly string _iotHubName;
 
         public DeviceController(IDeviceLogic deviceLogic,
@@ -43,7 +44,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             ICellularExtensions cellularExtensions,
             IJobRepository jobRepository,
             IUserSettingsLogic userSettingsLogic,
-            IIoTHubDeviceManager deviceManager)
+            IIoTHubDeviceManager deviceManager,
+            IDeviceIconRepository iconRepository)
         {
             _deviceLogic = deviceLogic;
             _deviceTypeLogic = deviceTypeLogic;
@@ -52,6 +54,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             _jobRepository = jobRepository;
             _userSettingsLogic = userSettingsLogic;
             _deviceManager = deviceManager;
+            _iconRepository = iconRepository;
 
             _iotHubName = configProvider.GetConfigurationSettingValue("iotHub.HostName");
         }
@@ -61,7 +64,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             ViewBag.FilterId = filterId;
             ViewBag.HasManageJobsPerm = PermsChecker.HasPermission(Permission.ManageJobs);
-            ViewBag.IconBaseUrl = "https://darrenrmdev.blob.core.windows.net/deviceicons/applied/";
+            ViewBag.IconBaseUrl = _iconRepository.GetIconStorageUriPrefix();
             ViewBag.IconTagName = Constants.DeviceIconTagName;
 
             return View();
@@ -292,7 +295,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             deviceModel.IsCellular = device.SystemProperties.ICCID != null;
             deviceModel.Iccid = device.SystemProperties.ICCID; // todo: try get rid of null checks
 
-            ViewBag.IconBaseUrl = "https://darrenrmdev.blob.core.windows.net/deviceicons/applied/";
+            ViewBag.IconBaseUrl = _iconRepository.GetIconStorageUriPrefix();
 
             return PartialView("_DeviceDetails", deviceModel);
         }

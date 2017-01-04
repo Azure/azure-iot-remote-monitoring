@@ -76,6 +76,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return  await _blobStorageClient.DeleteBlob($"{_appliedFolder}/{name}");
         }
 
+        public string GetIconStorageUriPrefix()
+        {
+            return  string.Format("{0}/{1}/", _blobStorageClient.GetContainerUri().Result, _appliedFolder);
+        }
+
         private void CreateSASPolicyIfNotExist()
         {
             var writePolicy = new SharedAccessBlobPolicy
