@@ -2735,7 +2735,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Operation Results of Job.
+        ///   Looks up a localized string similar to Operation Details.
         /// </summary>
         public static string JobOperationResultTooltip {
             get {
