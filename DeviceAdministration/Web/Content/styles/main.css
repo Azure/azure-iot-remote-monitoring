@@ -510,7 +510,7 @@ nav .selected {
   background-color: white;
 }
 .loader_container__loader {
-  margin: 30% auto 0 auto;
+  margin: 20% auto 0 auto;
   font-size: 16px;
   width: 1em;
   height: 1em;
@@ -546,7 +546,7 @@ nav .selected {
   margin: 12px 0px 0px 8px;
 }
 .loader_container_small__loader {
-  margin: 30% auto 0 auto;
+  margin: 20% auto 0 auto;
   font-size: 16px;
   width: 1em;
   height: 1em;
