@@ -6,8 +6,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 {
     public class DataTablesRequest
     {
-        public string FilterId { get; set; }
-        public string FilterName { get; set; }
+        // keep consitent with the property 'Id' and 'Name' of DeviceListFilter
+        public string Id { get; set; }
+        public string Name { get; set; }
         public int Draw { get; set; }
         public int Start { get; set; }
         public int Length { get; set; }

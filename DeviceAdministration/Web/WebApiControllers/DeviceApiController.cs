@@ -122,8 +122,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
                 var listFilter = new DeviceListFilter()
                 {
-                    Id = dataTableRequest.FilterId,
-                    Name = dataTableRequest.FilterName,
+                    Id = dataTableRequest.Id,
+                    Name = dataTableRequest.Name,
 
                     SortOrder = dataTableRequest.SortColumns[0].SortOrder,
                     SortColumn = dataTableRequest.Columns[sortColumnIndex].Data,
