@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using DeviceManagement.Infrustructure.Connectivity.Models.Security;
-using System.ServiceModel.Channels;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using DeviceManagement.Infrustructure.Connectivity.DeviceReconnect;
 using DeviceManagement.Infrustructure.Connectivity.EricssonApiService;
 using DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService;
 using DeviceManagement.Infrustructure.Connectivity.EricssonTrafficManagment;
+using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Builders
 {
@@ -25,7 +20,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Builders
             var binding = GetBasicHttpBinding();
             //end
 
-            return new ApiStatusClient(binding,endpointAddress);
+            return new ApiStatusClient(binding, endpointAddress);
         }
 
         public static SubscriptionManagementClient GetSubscriptionManagementClient(ICredentials credentials)
@@ -40,7 +35,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Builders
 
         public static SubscriptionTrafficClient GetSubscriptionTrafficClient(ICredentials credentials)
         {
-            var endpointAddress = GetAuthorizedEndpoint(credentials, $"{credentials.BaseUrl}/dcpapi/SubscriptionManagement");
+            var endpointAddress = GetAuthorizedEndpoint(credentials, $"{credentials.BaseUrl}/dcpapi/SubscriptionTraffic");
             var binding = GetBasicHttpBinding();
             return new SubscriptionTrafficClient(binding, endpointAddress);
         }
@@ -54,8 +49,6 @@ namespace DeviceManagement.Infrustructure.Connectivity.Builders
 
             return new DeviceReconnectClient(binding, endpointAddress);
         }
-
-
 
         //STATIC HELPERS FOR THIS CLASS
         private static EndpointAddress GetAuthorizedEndpoint(ICredentials credentials, string endpointUrl)
@@ -76,9 +69,5 @@ namespace DeviceManagement.Infrustructure.Connectivity.Builders
         {
             return new BasicHttpBinding { Security = { Mode = BasicHttpSecurityMode.Transport } };
         }
-
     }
-
-
-   
 }
