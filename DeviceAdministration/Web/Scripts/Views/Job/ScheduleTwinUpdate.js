@@ -35,8 +35,10 @@
         this.cachepropertyList = {};
         this.onepropleft = ko.observable(true);
         this.onetagleft = ko.observable(true);
+        this.totalFilteredCount = ko.observable();
         this.propertieslist = {};
         this.tagslist = {};
+        this.filterId = "";
 
         this.createEmptyPropertyIfNeeded = function (property) {
             if (self.properties.indexOf(property) == self.properties().length - 1 && !property.isEmptyValue()) {
@@ -95,6 +97,15 @@
             self.refreshnamecontrol();
         }
 
+        this.getTotalFilterdCount = ko.pureComputed(function () {
+            if (self.totalFilteredCount()) {
+                return resources.TotalDeviceString.replace(/\{0\}/, self.totalFilteredCount());
+            }
+            else {
+                return resources.TotalDeviceString.replace(/\{0\}/, resources.LoadingText);
+            }
+        }, this);
+
         this.refreshnamecontrol = function () {
             jQuery('.edit_form__texthalf.edit_form__propertiesComboBox').each(function () {
                 IoTApp.Controls.NameSelector.create(jQuery(this), { type: IoTApp.Controls.NameSelector.NameListType.properties }, self.propertieslist);
@@ -108,12 +119,13 @@
             if (data) {
                 self.jobName(data.JobName);
                 self.maxExecutionTime(data.MaxExecutionTimeInMinutes);
+                self.filterId = data.FilterId;
 
                 if (!data.DesiredProperties || data.DesiredProperties.length == 0) {
                     self.properties.push(new PropertiesEditItem("", "", false));
                 } else {
                     self.properties($.map(data.DesiredProperties, function (p) {
-                        return new PropertiesEditItem(p.PropertyName, p.PropertyValue, false );
+                        return new PropertiesEditItem(p.PropertyName, p.PropertyValue, false);
                     }));
                 }
 
@@ -124,6 +136,17 @@
                         return new TagsEditItem(t.TagName, t.TagValue, false);
                     }));
                 }
+
+                $.ajax({
+                    url: '/api/v1/devices/count/' + self.filterId,
+                    type: 'GET',
+                    success: function (result) {
+                        self.totalFilteredCount(result.data);
+                    },
+                    error: function (xhr, status, error) {
+                        IoTApp.Helpers.Dialog.displayError(resources.failedToGetDeviceCount);
+                    }
+                });
             }
             else {
                 self.properties.push(new PropertiesEditItem("", "", false));
@@ -132,6 +155,7 @@
 
             IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.tag }, self.cachetagList);
             IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.desiredProperty }, self.cachepropertyList);
+
         }
     }
 

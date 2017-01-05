@@ -1755,7 +1755,7 @@
     <comment>Button label.</comment>
   </data>
   <data name="MaxExecutionTime" xml:space="preserve">
-    <value>MAXEXECUTION TIME</value>
+    <value>MAXIMUM EXECUTION TIME</value>
     <comment>Input label</comment>
   </data>
   <data name="Method" xml:space="preserve">
@@ -1795,11 +1795,11 @@
     <comment>Input label</comment>
   </data>
   <data name="SomeDeviceInapplicable" xml:space="preserve">
-    <value>{0} of {1} devices inapplicable</value>
+    <value>{0} devices inapplicable</value>
     <comment>label</comment>
   </data>
   <data name="SomeDevicesApplicable" xml:space="preserve">
-    <value>{0} of {1} devices applicable</value>
+    <value>{0} devices applicable</value>
     <comment>label</comment>
   </data>
   <data name="StartTime" xml:space="preserve">
@@ -2201,7 +2201,7 @@
     <comment>Section heading.</comment>
   </data>
   <data name="JobOperationResultTooltip" xml:space="preserve">
-    <value>The Operation Results of Job</value>
+    <value>Operation Details</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="JobPropertiesTooltip" xml:space="preserve">
@@ -2371,6 +2371,26 @@
   <data name="EditDisplayName" xml:space="preserve">
     <value>Edit Display Name</value>
     <comment>Button label.</comment>
+  </data>
+  <data name="FilteredDeviceCount" xml:space="preserve">
+    <value>({0})</value>
+    <comment>Label string</comment>
+  </data>
+  <data name="LoadingText" xml:space="preserve">
+    <value>Loading...</value>
+    <comment>Label message</comment>
+  </data>
+  <data name="PropertyTextPlaceHolder" xml:space="preserve">
+    <value>Start with "desired." e.g. desired.sampleprop</value>
+    <comment>Text input Placeholder </comment>
+  </data>
+  <data name="TagTextPlaceHolder" xml:space="preserve">
+    <value>Start with "tags." e.g. tags.sampletag</value>
+    <comment>Text input Placeholder</comment>
+  </data>
+  <data name="ValueTextPlaceHolder" xml:space="preserve">
+    <value>e.g. "123" or Tom</value>
+    <comment>Text input Placeholder</comment>
   </data>
   <data name="DeleteIconTooltip" xml:space="preserve">
     <value>Delete Icon</value>

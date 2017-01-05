@@ -206,6 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AzureRetryHelperTests.cs" />
+    <Compile Include="Common\ObjectExtensionTest.cs" />
     <Compile Include="Common\SampleDeviceFactoryTests.cs" />
     <Compile Include="Common\SkipByNameContractResolverTests.cs" />
     <Compile Include="Common\StringExtensionTests.cs" />

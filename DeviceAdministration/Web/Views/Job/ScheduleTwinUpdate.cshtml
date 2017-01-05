@@ -1,5 +1,6 @@
 ﻿@using GlobalResources
-@using Newtonsoft.Json;
+@using Newtonsoft.Json
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.ScheduleTwinUpdateModel
 
 @{
@@ -12,29 +13,30 @@
     <button class="header_main__button_back" type="button" data-bind="click: backButtonClicked"></button>
     <h2 class="header_main__subhead header_main__subhead--large">
         @Strings.ScheduleEditPropertiesOrTags <span class="item__description">
-                                                  @{
-                                                      if (Model.FilterName == "*")
-                                                      {
-                                                          <text>
-                                                             @Strings.AllDevices
-                                                          </text>
-                                                      }
-                                                      else
-                                                      {
-                                                          <text>
-                                                              @Model.FilterName
-                                                          </text>
-                                                      }
-                                                  }
+            @{
+                if (Model.FilterName == "*")
+                {
+                    <text>
+                        @Strings.AllDevices
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        @Model.FilterName
+                    </text>
+                }
+            }
+            <small data-bind="text:getTotalFilterdCount"></small>
         </span>
-</h2>
+    </h2>
 </header>
 <div class="content_outer">
 
     <div class="content_inner">
         <div id="content">
             <div id="scheduleJobParameter">
-                @using (Html.BeginForm("ScheduleTwinUpdate", "Job", FormMethod.Post,new { data_bind="submit: beforePost" }))
+                @using (Html.BeginForm("ScheduleTwinUpdate", "Job", FormMethod.Post, new { data_bind = "submit: beforePost" }))
                 {
                     @Html.AntiForgeryToken()
                     <p>
@@ -43,89 +45,100 @@
 
                     <fieldset class="edit_form">
                         @{
-                            @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label primary__label" });
-                            @Html.TextBoxFor(m => m.JobName, new { placeholder = Strings.ScheduleJobNamePlaceHolder, data_bind = "value: jobName", @class = "edit_form__text" });
+                            <div>
+                                @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label primary__label" })
+                                @Html.TextBoxFor(m => m.JobName, new { placeholder = Strings.ScheduleJobNamePlaceHolder, data_bind = "value: jobName", @class = "edit_form__text" })
+                            </div>
                             @Html.HiddenFor(m => m.FilterId)
                             <div style="clear:both"></div>
-                            <label for="propertiesTable" class="edit_form__label primary__label">@Strings.ScheduleChangeDesiredProperties</label>
-                            <table class="values_editor" id="propertiesTable">
-                                <thead>
-                                    <tr class="values_editor__groupheader">
-                                        <th class="edit_form__labelHeader">@Strings.ScheduleDesiredPropertyName</th>
-                                        <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
-                                        <th class="edit_form__labelHeader">@Strings.Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody data-bind="foreach:{data: properties, afterAdd:makeproplist}">
-                                    <tr class="values_editor__group">
-                                        <td>
-                                            <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox"
-                                                   data-bind='value: PropertyName, attr: { name: "DesiredProperties[" + $index() + "].PropertyName", id: "DesiredProperties" + $index() + ".PropertyName" }' />
-                                        </td>
-                                        <td>
-                                            @*data-msg-required="@Strings.RequiredValidationString"
-                                                data-rule-required="true"*@
-                                            <input type="text" class="edit_form__texthalf"
-                                                   data-bind='textInput: PropertyValue, event: { keyup: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
-                                        </td>
-                                        <td>
-                                            <input type="checkbox"
-                                                   value="true"
-                                                   data-bind='check: isDeleted, attr: { name: "DesiredProperties[" + $index() + "].isDeleted", id: "DesiredProperties" + $index() + ".isDeleted" }' />
-                                            <input type="hidden" value="false" name="checkbox" data-bind='attr:{ name: "DesiredProperties[" + $index() + "].isDeleted" }' />
-                                        </td>
-                                        <td><a data-bind="ifnot:$root.onepropleft , click:$root.removeProperty">@Strings.Clear</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="edit_form__inputGroup">
+                                <label for="propertiesTable" class="edit_form__label primary__label">@Strings.ScheduleChangeDesiredProperties</label>
+                                <table class="values_editor" id="propertiesTable">
+                                    <thead>
+                                        <tr class="values_editor__groupheader">
+                                            <th class="edit_form__labelHeader">@Strings.ScheduleDesiredPropertyName</th>
+                                            <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
+                                            <th class="edit_form__labelHeader">@Strings.Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach:{data: properties, afterAdd:makeproplist}">
+                                        <tr class="values_editor__group">
+                                            <td>
+                                                <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox" placeholder="@Strings.PropertyTextPlaceHolder"
+                                                       data-bind='value: PropertyName, attr: { name: "DesiredProperties[" + $index() + "].PropertyName", id: "DesiredProperties" + $index() + ".PropertyName" }' />
+                                            </td>
+                                            <td>
+                                                @*data-msg-required="@Strings.RequiredValidationString"
+                                                    data-rule-required="true"*@
+                                                <input type="text" class="edit_form__texthalfvalue" placeholder="@Strings.ValueTextPlaceHolder"
+                                                       data-bind='textInput: PropertyValue, event: { keyup: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
+                                            </td>
+                                            <td>
+                                                <input type="checkbox"
+                                                       value="true"
+                                                       data-bind='check: isDeleted, attr: { name: "DesiredProperties[" + $index() + "].isDeleted", id: "DesiredProperties" + $index() + ".isDeleted" }' />
+                                                <input type="hidden" value="false" name="checkbox" data-bind='attr:{ name: "DesiredProperties[" + $index() + "].isDeleted" }' />
+                                            </td>
+                                            <td><a data-bind="ifnot:$root.onepropleft , click:$root.removeProperty">@Strings.Clear</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="edit_form__inputGroup">
+                                <label for="tagsTable" class="edit_form__label primary__label">@Strings.ScheduleChangeTags</label>
+                                <table class="values_editor" id="tagsTable">
+                                    <thead>
+                                        <tr class="values_editor__groupheader">
+                                            <th class="edit_form__labelHeader">@Strings.TagName</th>
+                                            <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
+                                            <th class="edit_form__labelHeader">@Strings.Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: {data: tags, afterAdd: maketaglist}">
+                                        <tr class="values_editor__group">
 
-                            <label for="tagsTable" class="edit_form__label primary__label">@Strings.ScheduleChangeTags</label>
-                            <table class="values_editor" id="tagsTable">
-                                <thead>
-                                    <tr class="values_editor__groupheader">
-                                        <th class="edit_form__labelHeader">@Strings.TagName</th>
-                                        <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
-                                        <th class="edit_form__labelHeader">@Strings.Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody data-bind="foreach: {data: tags, afterAdd: maketaglist}">
-                                    <tr class="values_editor__group">
+                                            <td>
+                                                <input type="text" class="edit_form__texthalf edit_form__tagsComboBox" placeholder="@Strings.TagTextPlaceHolder"
+                                                       data-bind='value: TagName, attr: { name: "Tags[" + $index() + "].TagName", id: "Tags" + $index() + ".TagName" }' />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="edit_form__texthalfvalue" placeholder="@Strings.ValueTextPlaceHolder"
+                                                       data-bind='textInput: TagValue, event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />
+                                            </td>
+                                            <td>
+                                                <input type="checkbox"
+                                                       value="true"
+                                                       data-bind='check: isDeleted, attr: { name: "Tags[" + $index() + "].isDeleted", id: "Tags" + $index() + ".isDeleted" }' />
+                                                <input type="hidden" value="false" name="checkbox" data-bind='attr:{ name: "Tags[" + $index() + "].isDeleted" }' />
+                                            </td>
+                                            <td><a class="edit_form__link" data-bind="ifnot:$root.onetagleft , click:$root.removeTag">@Strings.Clear</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="edit_form__inputGroup">
+                                <label for="scheduleJobTime" class="edit_form__label primary__label">@Strings.ScheduleSetJobTime</label>
 
-                                        <td>
-                                            <input type="text" class="edit_form__texthalf edit_form__tagsComboBox"
-                                                   data-bind='value: TagName, attr: { name: "Tags[" + $index() + "].TagName", id: "Tags" + $index() + ".TagName" }' />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="edit_form__texthalf"
-                                                   data-bind='textInput: TagValue, event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />
-                                        </td>
-                                        <td>
-                                            <input type="checkbox"
-                                                   value="true"
-                                                   data-bind='check: isDeleted, attr: { name: "Tags[" + $index() + "].isDeleted", id: "Tags" + $index() + ".isDeleted" }' />
-                                            <input type="hidden" value="false" name="checkbox" data-bind='attr:{ name: "Tags[" + $index() + "].isDeleted" }' />
-                                        </td>
-                                        <td><a class="edit_form__link" data-bind="ifnot:$root.onetagleft , click:$root.removeTag">@Strings.Clear</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <label for="scheduleJobTime" class="edit_form__label primary__label">@Strings.ScheduleSetJobTime</label>
-
-                            <div id="scheduleJobTime" class="values_editor">
-                                <div class="values_editor__group">
-                                    <label class="edit_form__labelHeader">@Strings.StartTime</label>
-                                    <input type='text' id="StartDate" class="non_float edit_form__text less_margin" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ widgetPositioning : {horizontal: 'left' ,vertical: 'top'}, format: 'LLL', locale: getCulture() }"
-                                           data-msg-required="@Strings.RequiredValidationString"
-                                           data-rule-required="true" />
-                                    <input type="hidden" id="StartDateHidden" name="StartDateUtc" />
-                                </div>
-                                <div class="values_editor__group">
-                                    <label class="edit_form__labelHeader">@Strings.MaxExecutionTime</label>
-                                    <input type="text" class="non_float less_margin edit_form__textsmall" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
-                                           data-msg-required="@Strings.RequiredValidationString"
-                                           data-rule-required="true" />
-                                    <span>Mins</span>
+                                <div id="scheduleJobTime" class="values_editor">
+                                    <div class="values_editor__group">
+                                        <label class="edit_form__labelHeader">@Strings.StartTime</label>
+                                        <div class="input-group" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ widgetPositioning : {horizontal: 'left' ,vertical: 'top'}, format: 'LLL', locale: getCulture() }">
+                                            <input type='text' id="StartDate" class="non_float edit_form__text less_margin"
+                                                   data-msg-required="@Strings.RequiredValidationString"
+                                                   data-rule-required="true" />
+                                            <span class="input-group-addon">
+                                                <img class="edit_form__datePickerImg" src="/Content/img/expanded.svg" >
+                                            </span>
+                                        </div>
+                                        <input type="hidden" id="StartDateHidden" name="StartDateUtc" />
+                                    </div>
+                                    <div class="values_editor__group">
+                                        <label class="edit_form__labelHeader">@Strings.MaxExecutionTime</label>
+                                        <input type="text" class="non_float less_margin edit_form__textsmall" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
+                                               data-msg-required="@Strings.RequiredValidationString"
+                                               data-rule-required="true" />
+                                        <span>Mins</span>
+                                    </div>
                                 </div>
                             </div>
                         }
@@ -146,6 +159,8 @@
 
     var resources = {
         redirectUrl: '@Url.Action("Index", "Device")',
+        TotalDeviceString: "@Html.JavaScriptString(Strings.FilteredDeviceCount)",
+        LoadingText: "@Html.JavaScriptString(Strings.LoadingText)"
     }
 </script>
 <script type="text/javascript" src="~/Scripts/Views/Job/ScheduleTwinUpdate.js"></script>

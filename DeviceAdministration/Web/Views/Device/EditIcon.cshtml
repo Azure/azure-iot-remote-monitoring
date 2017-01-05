@@ -45,7 +45,14 @@
                         </label>
                     </div>
                     <div class="device_icon_list">
-                        <div class="device_icon_page"><a data-bind="click: previousPage"><img title="@Strings.Previous"  src="~/Content/img/button_page_prev.svg"/></a></div>
+                        <div class="device_icon_page">
+                            <!--ko if: isFirstPage() -->
+                            <img class="device_icon_page_disabled" title="@Strings.Previous" src="~/Content/img/button_page_prev.svg" />
+                            <!-- /ko -->
+                            <!--ko ifnot: isFirstPage() -->
+                            <a data-bind="click: previousPage"><img title="@Strings.Previous" src="~/Content/img/button_page_prev.svg" /></a>
+                            <!-- /ko -->
+                        </div>
                         <div class="device_icon_list_container" id="imageListContainer" data-bind="foreach: iconList ">
                             <div>
                                 <img class="device_icon_apply_image" data-bind="attr: {id: name, src: blobUrl }" />
@@ -54,7 +61,14 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="device_icon_page"><a data-bind="click: nextPage"><img title="@Strings.Next" src="~/Content/img/button_page_next.svg" /></a></div>
+                        <div class="device_icon_page">
+                        <!--ko if: isLastPage() -->
+                           <img class="device_icon_page_disabled" title="@Strings.Next" src="~/Content/img/button_page_next.svg" />
+                        <!-- /ko -->
+                        <!--ko ifnot: isLastPage() -->
+                            <a data-bind="click: nextPage"><img title="@Strings.Next" src="~/Content/img/button_page_next.svg" /></a>
+                        <!-- /ko -->
+                        </div>
                     </div>
                 </div>
 

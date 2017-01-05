@@ -31,15 +31,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             _device = device;
         }
 
-        public void Open()
+        public async Task OpenAsync()
         {
             if (string.IsNullOrWhiteSpace(_device.DeviceID))
             {
                 throw new ArgumentException("DeviceID value cannot be missing, null, or whitespace");
             }
 
-            _deviceClient = DeviceClient.CreateFromConnectionString(GetConnectionString(), Client.TransportType.Mqtt_WebSocket_Only);
-            _deviceClient.OpenAsync().Wait();
+            var websiteHostName = Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME");
+            var transportType = websiteHostName == null ? Client.TransportType.Mqtt : Client.TransportType.Mqtt_WebSocket_Only;
+            _deviceClient = DeviceClient.CreateFromConnectionString(GetConnectionString(), transportType);
+            await _deviceClient.OpenAsync();
+
+            _logger.LogInfo($"Transport opened for device {_device.DeviceID} with type {transportType}");
         }
 
         public async Task CloseAsync()
@@ -279,6 +283,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public async Task UpdateReportedPropertiesAsync(TwinCollection reportedProperties)
         {
             await _deviceClient.UpdateReportedPropertiesAsync(reportedProperties);
+        }
+
+        public async Task<TwinCollection> GetReportedPropertiesAsync()
+        {
+            var twin = await _deviceClient.GetTwinAsync();
+            return twin.Properties.Reported;
         }
 
         public void SetMethodHandler(string methodName, MethodCallback callback)

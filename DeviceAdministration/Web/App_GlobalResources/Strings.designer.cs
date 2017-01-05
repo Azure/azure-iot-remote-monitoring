@@ -1979,6 +1979,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ({0}).
+        /// </summary>
+        public static string FilteredDeviceCount {
+            get {
+                return ResourceManager.GetString("FilteredDeviceCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter Editor.
         /// </summary>
         public static string FilterEditor {
@@ -2735,7 +2744,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Operation Results of Job.
+        ///   Looks up a localized string similar to Operation Details.
         /// </summary>
         public static string JobOperationResultTooltip {
             get {
@@ -2888,6 +2897,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        public static string LoadingText {
+            get {
+                return ResourceManager.GetString("LoadingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Local.
         /// </summary>
         public static string Local {
@@ -2942,7 +2960,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MAXEXECUTION TIME.
+        ///   Looks up a localized string similar to MAXIMUM EXECUTION TIME.
         /// </summary>
         public static string MaxExecutionTime {
             get {
@@ -3658,6 +3676,15 @@ namespace GlobalResources {
         public static string PropertiesPaneLabel {
             get {
                 return ResourceManager.GetString("PropertiesPaneLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start with &quot;desired.&quot; e.g. desired.sampleprop.
+        /// </summary>
+        public static string PropertyTextPlaceHolder {
+            get {
+                return ResourceManager.GetString("PropertyTextPlaceHolder", resourceCulture);
             }
         }
         
@@ -4634,7 +4661,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} of {1} devices inapplicable.
+        ///   Looks up a localized string similar to {0} devices inapplicable.
         /// </summary>
         public static string SomeDeviceInapplicable {
             get {
@@ -4643,7 +4670,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} of {1} devices applicable.
+        ///   Looks up a localized string similar to {0} devices applicable.
         /// </summary>
         public static string SomeDevicesApplicable {
             get {
@@ -4774,6 +4801,15 @@ namespace GlobalResources {
         public static string TagsTooltip {
             get {
                 return ResourceManager.GetString("TagsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start with &quot;desired.&quot; e.g. tag.sampletag.
+        /// </summary>
+        public static string TagTextPlaceHolder {
+            get {
+                return ResourceManager.GetString("TagTextPlaceHolder", resourceCulture);
             }
         }
         
@@ -5035,6 +5071,15 @@ namespace GlobalResources {
         public static string ValueHeader {
             get {
                 return ResourceManager.GetString("ValueHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to e.g. &quot;123&quot; or Tom.
+        /// </summary>
+        public static string ValueTextPlaceHolder {
+            get {
+                return ResourceManager.GetString("ValueTextPlaceHolder", resourceCulture);
             }
         }
         

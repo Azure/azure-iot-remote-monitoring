@@ -753,9 +753,11 @@ nav .selected {
   text-decoration: none;
 }
 .primary__label {
-  color: #212528;
+  color: #666666;
   text-transform: none;
   margin: 10px 4px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
 }
 .edit_form__labelHeader {
   color: gray;
@@ -795,14 +797,27 @@ nav .selected {
 .edit_form__texthalf {
   display: block;
   float: left;
-  width: 230px;
+  width: 260px;
   margin: 0.25em 1em 0 0;
   border: 1px solid #999999;
   background-color: #f2f2f2;
-  font-size: 0.85em;
+  font-size: 0.6em;
   padding: 0 5px;
   min-height: 30px;
   box-sizing: content-box;
+}
+.edit_form__texthalfvalue {
+  display: block;
+  float: left;
+  width: 260px;
+  margin: 0.25em 1em 0 0;
+  border: 1px solid #999999;
+  background-color: #f2f2f2;
+  font-size: 0.6em;
+  padding: 0 5px;
+  min-height: 30px;
+  box-sizing: content-box;
+  width: 150px;
 }
 .edit_form__textsmall {
   display: block;
@@ -861,6 +876,17 @@ nav .selected {
 }
 .text_small {
   font-size: 0.8em;
+}
+.edit_form__inputGroup {
+  margin: 30px 0 0 0;
+  overflow: visible;
+}
+.edit_form__datePickerImg {
+  position: relative;
+  height: 18px;
+  width: 18px;
+  right: 25px;
+  top: 4px;
 }
 .remove_form {
   padding: 15px 30px;
@@ -1811,6 +1837,9 @@ table#alertHistoryTable tr.selectedAlert {
   border-color: transparent;
   border-style: groove;
   border-width: thin;
+}
+.device_icon_page_disabled {
+  opacity: 0.3;
 }
 .device_icon_page:hover {
   border-color: lightgray;

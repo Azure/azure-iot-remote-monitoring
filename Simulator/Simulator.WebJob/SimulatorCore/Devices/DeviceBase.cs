@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
@@ -140,9 +141,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             try
             {
-                Transport.Open();
+                await Transport.OpenAsync();
+                await UpdateReportedPropertiesAsync();
 
-                await UpdateReportedProperties();
                 SetMethodHandlers();
 
                 var loopTasks = new List<Task>
@@ -323,20 +324,67 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             Logger.LogInfo("********** Processing Device {0} has been cancelled - StartReceiveLoopAsync Ending. **********", DeviceID);
         }
 
-        private async Task UpdateReportedProperties()
+        protected async Task UpdateReportedPropertiesAsync(bool regenerate = false)
         {
-            var reportedProperties = new TwinCollection();
+            var reported = await Transport.GetReportedPropertiesAsync();
 
-            foreach (var property in DeviceProperties.GetType().GetProperties())
+            var patch = new TwinCollection();
+            CrossSyncProperties(patch, reported, regenerate);
+            AddSupportedMethods(patch);
+
+            // Update ReportedProperties to IoT Hub
+            await Transport.UpdateReportedPropertiesAsync(patch);
+        }
+
+        /// <summary>
+        /// Cross synchonize DeviceProperties and ReportedProperties
+        /// </summary>
+        /// <returns></returns>
+        protected void CrossSyncProperties(TwinCollection patch, TwinCollection reported, bool regenerate)
+        {
+            var devicePropertiesType = DeviceProperties.GetType();
+
+            if (!regenerate)
+            {
+                // Overwrite regenerated DeviceProperties by current ReportedProperties
+                foreach (var pair in reported.AsEnumerableFlatten())
+                {
+                    if (pair.Key.Contains("."))
+                    {
+                        // Hierarchical ReportedProperties could not be expressed in DeviceProperties, ignore
+                        continue;
+                    }
+
+                    try
+                    {
+                        DeviceProperties.SetProperty(pair.Key, pair.Value.Value);
+                    }
+                    catch
+                    {
+                        // Ignore any failure while overwriting the DeviceProperties
+                    }
+                }
+            }
+
+            // Add missing DeviceProperties to ReportedProperties
+            foreach (var property in devicePropertiesType.GetProperties())
             {
                 if (property.Name == "DeviceID")
                 {
+                    // DeviceID is part of the Twin. Never put it into ReportedProperties
                     continue;
                 }
 
-                reportedProperties[property.Name] = property.GetValue(DeviceProperties);
+                var value = property.GetValue(DeviceProperties);
+                if (regenerate || !reported.Contains(property.Name) && value != null)
+                {
+                    patch[property.Name] = value;
+                }
             }
+        }
 
+        protected void AddSupportedMethods(TwinCollection patch)
+        {
             var supportedMethods = new TwinCollection();
             foreach (var method in Commands.Where(c => c.DeliveryType == DeliveryType.Method))
             {
@@ -357,9 +405,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 string normalizedName = SupportedMethodsHelper.NormalizeMethodName(method);
                 supportedMethods[normalizedName] = methodObj;
             }
-            reportedProperties["SupportedMethods"] = supportedMethods;
 
-            await Transport.UpdateReportedPropertiesAsync(reportedProperties);
+            patch["SupportedMethods"] = supportedMethods;
         }
 
         private void SetMethodHandlers()
