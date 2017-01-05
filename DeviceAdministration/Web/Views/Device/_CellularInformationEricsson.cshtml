@@ -31,7 +31,7 @@
     <strong>@Strings.CellularInformationLocaleLabel</strong>
 </p>
 <select id="localeSelect" class="form_input select_box space_below" disabled>
-    @if (Model.LastServiceRequestState != null) // ToDo: Show actual locale valee for "Completed" state
+    @if (Model.LastServiceRequestState != null)
     {
         <option disabled selected value>@Model.LastServiceRequestState</option>
     }

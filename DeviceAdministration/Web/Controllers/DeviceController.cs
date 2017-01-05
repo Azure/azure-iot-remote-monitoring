@@ -477,7 +477,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             try
             {
                 IEnumerable<string> availableLocaleNames;
-                string lastServiceRequestState;
                 string currentLocaleName = _cellularExtensions.GetLocale(iccid, out availableLocaleNames);
 
                 viewModel.CurrentLocaleName = currentLocaleName;
@@ -488,7 +487,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 viewModel.CurrentLocaleName = string.Empty;
                 viewModel.AvailableLocaleNames = new List<string>();
             }
-            viewModel.LastServiceRequestState = _cellularExtensions.GetLastSetLocaleServiceRequestState(iccid);
+
+            var state = _cellularExtensions.GetLastSetLocaleServiceRequestState(iccid);
+            if (string.Equals(state, "IN_PROGRESS") || string.Equals(state, "PENDING"))
+            {
+                viewModel.LastServiceRequestState = state;
+            }
 
             return viewModel;
         }
