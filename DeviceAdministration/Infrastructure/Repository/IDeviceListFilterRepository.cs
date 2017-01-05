@@ -59,7 +59,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// Get suggestion list of filter names
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<DeviceListFilter>> GetFilterListAsync(int skip, int take);
+        Task<IEnumerable<DeviceListFilter>> GetFilterListAsync(int skip, int take, bool excludeTemporary);
 
         /// <summary>
         /// Save suggestion list of clauses

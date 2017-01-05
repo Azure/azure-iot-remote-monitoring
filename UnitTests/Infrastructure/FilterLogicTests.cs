@@ -119,7 +119,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         public async void GetFilterListTests()
         {
             var filters = fixture.CreateMany<DeviceListFilter>(5);
-            _deviceListFilterRepositoryMock.Setup(x => x.GetFilterListAsync(It.IsNotNull<int>(), It.IsNotNull<int>())).ReturnsAsync(filters);
+            _deviceListFilterRepositoryMock.Setup(x => x.GetFilterListAsync(It.IsNotNull<int>(), It.IsNotNull<int>(), It.IsAny<bool>())).ReturnsAsync(filters);
             var ret = await _filterLogic.GetFilterList(0, 10);
             Assert.Equal(5, ret.Count());
         }
