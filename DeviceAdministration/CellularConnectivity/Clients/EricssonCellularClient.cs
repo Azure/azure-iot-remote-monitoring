@@ -176,7 +176,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             {
                 resource = new EricssonTrafficManagment.resource()
                 {
-                    id = "901312000000466",
+                    id = imsi,
                     type = resourceType.imsi
                 }
             });
