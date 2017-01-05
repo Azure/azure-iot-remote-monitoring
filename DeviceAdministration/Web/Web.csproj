@@ -394,6 +394,7 @@
     <Content Include="Content\img\filters.svg" />
     <Content Include="Content\img\icon-account.png" />
     <Content Include="Content\img\icon-globe.png" />
+    <Content Include="Content\img\icon_add_dark.svg" />
     <Content Include="Content\img\icon_jasper.svg" />
     <Content Include="Content\img\icon_jobs.svg" />
     <Content Include="Content\img\open_image.svg" />
