@@ -105,7 +105,13 @@
         if (config.goBackUrl) {
             $(backButtonId).show();
             $(backButtonId).off('click').click(function () {
-                $(contentId).load(config.goBackUrl);
+                $.ajax({
+                    url: config.goBackUrl,
+                    cache: false,
+                    success: function (data) {
+                        $(contentId).html(data);
+                    }
+                });
             });
         } else {
             $(backButtonId).hide();
@@ -116,7 +122,13 @@
     };
 
     var redirecToPartial = function redirecToPartial(partialUrl) {
-        $(contentId).load(partialUrl);
+        $.ajax({
+            url: partialUrl,
+            cache: false,
+            success: function (data) {
+                $(contentId).html(data);
+            }
+        });
     }
 
     var initRegistration = function (config) {
@@ -185,11 +197,11 @@
         var url = '/Advanced/DeviceAssociation';
         IoTApp.Advanced.processCsvFileInput(this)
         .then(IoTApp.Advanced.postIccidFileData)
-		.then(function () {
+        .then(function () {
             IoTApp.Advanced.redirecToPartial(url);
-		}, function (error) {
+        }, function (error) {
             console.error(error);
-		});
+        });
     }
 
     var uploadIccidsButtonOnClick = function () {
