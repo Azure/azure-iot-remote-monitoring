@@ -72,5 +72,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
             string[] str = key.Split(speicialChars, StringSplitOptions.RemoveEmptyEntries);
             return String.Join("_", str);
         }
+
+        /// <summary>
+        /// The twin's tag and property flat name start with "__" and end with "__" is reserved
+        /// for internal usage purpose.
+        /// e.g.
+        ///     tags.__icon__, tags.cpu.__version__
+        ///     desired.__location__, desired.__location.latitude
+        ///     reported.__location__, reported.__location__.__latitude__
+        /// </summary>
+        /// <param name="flatName"></param>
+        /// <returns></returns>
+        static public bool IsReservedTwinName(this string flatName)
+        {
+            if (string.IsNullOrEmpty(flatName)) return false;
+            string[] parts = flatName.Split('.');
+            return parts.Any(p => p.StartsWith("__") && p.EndsWith("__"));
+        }
     }
 }
