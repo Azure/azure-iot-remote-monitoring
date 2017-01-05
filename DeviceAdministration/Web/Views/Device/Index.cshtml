@@ -44,7 +44,9 @@
                     <img src="/Content/img/edit_filter.svg" title="@Strings.EditFilter" class="device_list_toolbar_button" data-bind="click: showPanel" />
                     <!-- /ko -->
                     <!--ko if: canSave() -->
+                    <!--ko if: isChanged() -->
                     <img src="/Content/img/save.svg" title="@Strings.SaveFilter" class="device_list_toolbar_button" data-bind="click: saveFilter" />
+                    <!-- /ko -->
                     <img src="/Content/img/saveas.svg" title="@Strings.SaveAsFilter" class="device_list_toolbar_button" data-bind="click: openSaveAsDialog" />
                     <!-- /ko -->
                     <!--ko if: canDelete() -->
@@ -82,7 +84,7 @@
             </div>
             <div class="filter_panel_container">
                 <div class="filter_panel">
-                    <img src="~/Content/img/column_delete.svg" class="filter_panel_close_img" data-bind="click: hidePanel" />
+                    <img src="~/Content/img/column_delete.svg" class="filter_panel_close_img" data-bind="click: cancelEdit" />
                     <span class="filter_panel_title">@Strings.FilterEditor</span>
                     <div class="filter_panel_content">
                         <div>
@@ -156,8 +158,8 @@
                             <button type="button" class="button_base pull-right" data-bind="click: executeFilter">
                                 @Strings.FilterLabel
                             </button>
-                            <button type="button" class="button_base filter_panel_button_gray pull-right" data-bind="click: resetFilter">
-                                @Strings.ResetLabel
+                            <button type="button" class="button_base filter_panel_button_gray pull-right" data-bind="click: cancelEdit">
+                                @Strings.Cancel
                             </button>
                         </div>
                     </div>

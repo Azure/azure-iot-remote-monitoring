@@ -34,6 +34,13 @@
         this.currentIcon = ko.observable(defaultDeviceIcon);
         this.removable = ko.observable(false);
         this.currentPage = ko.observable(0);
+        this.totalCount = ko.observable(0);
+        this.isFirstPage = ko.pureComputed(function () {
+            return self.currentPage() == 0;
+        });
+        this.isLastPage = ko.pureComputed(function () {
+            return self.currentPage() == Math.ceil(self.totalCount()/self.pageSize) - 1;
+        });
 
         this.fileChanged = function (f) {
             self.file = f.files[0];
@@ -133,15 +140,15 @@
         };
 
         this.previousPage = function () {
-            var pageN = self.currentPage();
-            if (pageN > 0) {
-                self.loadIconList(pageN - 1);
+            if (!self.isFirstPage()) {
+                self.loadIconList(self.currentPage() - 1);
             }
         };
 
         this.nextPage = function () {
-            var pageN = self.currentPage();
-            self.loadIconList(pageN + 1);
+            if (!self.isLastPage()) {
+                self.loadIconList(self.currentPage() + 1);
+            }
         };
 
         this.loadIconList = function (page) {
@@ -151,10 +158,11 @@
                 type: 'GET',
                 cache: false,
                 success: function (result) {
-                    if (!result.data || result.data.length == 0) {
+                    if (!result.data.results || result.data.totalCount == 0) {
                         return;
                     }
-                    self.iconList(result.data);
+                    self.iconList(result.data.results);
+                    self.totalCount(result.data.totalCount);
                     self.currentPage(page);
                     self.selectable();
                 }

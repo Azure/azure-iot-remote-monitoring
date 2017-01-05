@@ -38,8 +38,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 throw new ArgumentException("DeviceID value cannot be missing, null, or whitespace");
             }
 
-            _deviceClient = DeviceClient.CreateFromConnectionString(GetConnectionString(), Client.TransportType.Mqtt_WebSocket_Only);
+            var websiteHostName = Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME");
+            var transportType = websiteHostName == null ? Client.TransportType.Mqtt : Client.TransportType.Mqtt_WebSocket_Only;
+            _deviceClient = DeviceClient.CreateFromConnectionString(GetConnectionString(), transportType);
             await _deviceClient.OpenAsync();
+
+            _logger.LogInfo($"Transport opened for device {_device.DeviceID} with type {transportType}");
         }
 
         public async Task CloseAsync()

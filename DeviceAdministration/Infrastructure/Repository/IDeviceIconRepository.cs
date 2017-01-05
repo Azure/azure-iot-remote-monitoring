@@ -9,7 +9,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     {
         Task<DeviceIcon> AddIcon(string deviceId, string fileName, Stream fileStream);
         Task<DeviceIcon> GetIcon(string deviceId, string name);
-        Task<IEnumerable<DeviceIcon>> GetIcons(string deviceId, int skip, int take);
+        Task<DeviceIconResult> GetIcons(string deviceId, int skip, int take);
         Task<DeviceIcon> SaveIcon(string deviceId, string name);
         Task<bool> DeleteIcon(string deviceId, string name);
         string GetIconStorageUriPrefix();

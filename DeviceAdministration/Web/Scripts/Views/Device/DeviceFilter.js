@@ -50,6 +50,7 @@
             return !self.model.isMultiSelectionMode();
         }),
         showPanel: function () {
+            self.model.backupState();
             if (self.model.isDefatulFilter())
             {
                 self.model.newFilter();
@@ -336,6 +337,24 @@
                 self.model.newFilter();
             }
         },
+        cancelEdit: function () {
+            self.model.restoreState();
+            self.model.hidePanel();
+        },
+        backupState: function () {
+            self.state = {
+                filter: self.model.getFilterModel(),
+                isChanged: self.model.isChanged(),
+                isFilterLoaded: self.model.isFilterLoaded(),
+                isFilterLoadedFromServer: self.model.isFilterLoadedFromServer()
+            }
+        },
+        restoreState: function () {
+            self.model.setFilter(self.state.filter);
+            self.model.isChanged(self.state.isChanged);
+            self.model.isFilterLoaded(self.state.isFilterLoaded);
+            self.model.isFilterLoadedFromServer(self.state.isFilterLoadedFromServer);
+        },
         getFilterModel: function () {
             return {
                 id: self.model.id(),
@@ -364,7 +383,7 @@
         },
         newClause: function (field, operator, value, checked) {
             var clause = {
-                field: ko.observable(field),
+                field: ko.observable(field || ""),
                 operator: ko.observable(operator || "EQ"),
                 value: ko.observable(value),
                 checked: ko.observable(checked == null ? true : checked),

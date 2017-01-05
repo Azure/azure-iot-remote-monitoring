@@ -41,7 +41,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 contentType,
                 fileStream,
                 AccessCondition.GenerateEmptyCondition(),
-                new BlobRequestOptions() { StoreBlobContentMD5 = true },
+                null,
                 null);
             return new DeviceIcon(name, blob);
         }
@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return new DeviceIcon(name, blob);
         }
 
-        public async Task<IEnumerable<DeviceIcon>> GetIcons(string deviceId, int skip, int take)
+        public async Task<DeviceIconResult> GetIcons(string deviceId, int skip, int take)
         {
             string folderPrefix = _appliedFolder + "/";
             var blobs = await _blobStorageClient.ListBlobs(folderPrefix, true);
@@ -62,13 +62,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return new DeviceIcon(name, b);
             });
 
-            return icons.OrderByDescending(i => i.LastModified).Skip(skip).Take(take);
+            return new DeviceIconResult
+            {
+                TotalCount = icons.Count(),
+                Results = icons.OrderByDescending(i => i.LastModified).Skip(skip).Take(take),
+            };
         }
 
         public async Task<DeviceIcon> SaveIcon(string deviceId, string name)
         {
             var appliedBlob = await _blobStorageClient.MoveBlob($"{_uploadedFolder}/{name}", $"{_appliedFolder}/{name}");
-            return new DeviceIcon(name, appliedBlob);
+            return new DeviceIcon(Path.GetFileName(appliedBlob.Name), appliedBlob);
         }
 
         public async Task<bool> DeleteIcon(string deviceId, string name)
