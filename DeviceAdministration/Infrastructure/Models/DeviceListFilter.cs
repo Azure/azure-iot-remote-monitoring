@@ -184,8 +184,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private string AddQuoteIfNeeded(string value)
         {
-            if (!(value.All(c => char.IsDigit(c)) && value.Any()) &&
-                !value.StartsWith("\'") &&
+            // Currently, we treat all properties as string while editing twin. We might give users an option to specifiy the data type(string, bool, or number) in the future.
+            // Do not check if is a number for now while generating sql
+            if (!value.StartsWith("\'") &&
                 !value.EndsWith("\'"))
             {
                 value = $"\'{value}\'";
