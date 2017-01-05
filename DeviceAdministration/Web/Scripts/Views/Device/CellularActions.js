@@ -14,7 +14,8 @@ IoTApp.createModule("IoTApp.CellularActions", function () {
         reconnectDevice: "ReconnectDevice",
         sendSms: "SendSms",
         updateStatus: "UpdateStatus",
-        updateSubscriptionPackage: "UpdateSubscriptionPackage"
+        updateSubscriptionPackage: "UpdateSubscriptionPackage",
+        updateLocale: "UpdateLocale"
     }
     self.htmlElementIds = {
         reconnectDevice: "#reconnectDevice",

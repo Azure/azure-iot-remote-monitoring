@@ -33,13 +33,44 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DCP_eUICC_V2\ApiHandlers\ApiHandler.cs" />
+    <Compile Include="DCP_eUICC_V2\ApiHandlers\CompanyApiHandler.cs" />
+    <Compile Include="DCP_eUICC_V2\ApiHandlers\EchoApiHandler.cs" />
+    <Compile Include="DCP_eUICC_V2\ApiHandlers\EuiccAgreementsApiHandler.cs" />
+    <Compile Include="DCP_eUICC_V2\ApiHandlers\EuiccApiHandler.cs" />
+    <Compile Include="DCP_eUICC_V2\ApiHandlers\EuiccLocalesApiHandler.cs" />
+    <Compile Include="DCP_eUICC_V2\ApiHandlers\EuiccLocalizationApiHandler.cs" />
+    <Compile Include="DCP_eUICC_V2\ApiHandlers\LoginApiHandler.cs" />
+    <Compile Include="DCP_eUICC_V2\ApiHandlers\ServiceRequestApiHandler.cs" />
+    <Compile Include="DCP_eUICC_V2\ApiHandlers\SubscriptionsApiHandler.cs" />
     <Compile Include="Builders\EricssonServiceBuilder.cs" />
     <Compile Include="Builders\JasperServiceBuilder.cs" />
     <Compile Include="Clients\SubscriptionStatusFactory.cs" />
     <Compile Include="Constants\JasperApiConstants.cs" />
     <Compile Include="Exceptions\CellularConnectivityException.cs" />
     <Compile Include="Argument.cs" />
+    <Compile Include="DCP_eUICC_V2\ModelExtensions\SubscriptionExtension.cs" />
+    <Compile Include="DCP_eUICC_V2\ModelExtensions\SubscriptionV1.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\CompanyV1.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\CredentialsV1.cs" />
     <Compile Include="Models\Ericsson\EricssonCredentials.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\Error.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\EuiccAgreementListV1.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\EuiccAgreementV1.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\EuiccLocaleV1.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\EuiccSubscriptionV1.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\EuiccV1.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\FormSpecificationV1.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\Instant.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\LabelUpdateV1.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\LoginV1.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\ProfileSpecification.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\ServiceContractV1.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\ServiceRequestResponseV1.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\ServiceRequestV1.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\SubscriptionPackageV1.cs" />
+    <Compile Include="DCP_eUICC_V2\Models\TokenReissueV1.cs" />
+    <Compile Include="Models\Other\LocalizationModel.cs" />
     <Compile Include="Models\Other\SubscriptionPackage.cs" />
     <Compile Include="Models\Constants\ApiRegistrationProviderTypes.cs" />
     <Compile Include="Models\Jasper\JasperCredentials.cs" />
@@ -477,6 +508,14 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RestSharp.105.2.3\lib\net451\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.EnterpriseServices" />

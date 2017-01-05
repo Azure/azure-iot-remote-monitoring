@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using DeviceManagement.Infrustructure.Connectivity;
 using DeviceManagement.Infrustructure.Connectivity.Exceptions;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using GlobalResources;
@@ -21,7 +18,6 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
-using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -398,7 +394,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private async Task<CellularActionUpdateResponseModel> processActionRequests(DeviceModel device, List<CellularActionModel> actions)
         {
             var iccid = device.SystemProperties.ICCID;
-            var terminal =  _cellularExtensions.GetSingleTerminalDetails(new Iccid(iccid));
+            var terminal = _cellularExtensions.GetSingleTerminalDetails(new Iccid(iccid));
             var completedActions = new List<CellularActionModel>();
             var failedActions = new List<CellularActionModel>();
             var exceptions = new List<ErrorModel>();
@@ -410,30 +406,28 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     switch (action.Type)
                     {
                         case CellularActionType.UpdateStatus:
-                        {
                             success = _cellularExtensions.UpdateSimState(iccid, action.Value);
                             break;
-                        }
+
                         case CellularActionType.UpdateSubscriptionPackage:
-                        {
                             success = _cellularExtensions.UpdateSubscriptionPackage(iccid, action.Value);
                             break;
-                        }
+
+                        case CellularActionType.UpdateLocale:
+                            success = _cellularExtensions.SetLocale(iccid, action.Value);
+                            break;
+
                         case CellularActionType.ReconnectDevice:
-                        {
                             success = _cellularExtensions.ReconnectDevice(iccid);
                             break;
-                        }
+
                         case CellularActionType.SendSms:
-                        {
                             success = await _cellularExtensions.SendSms(iccid, action.Value);
                             break;
-                        }
+
                         default:
-                        {
                             failedActions.Add(action);
                             break;
-                        }
                     }
                 }
                 catch (Exception exception)
@@ -456,20 +450,46 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 FailedActions = failedActions,
                 Exceptions = exceptions
             };
-
         }
 
         private SimInformationViewModel generateSimInformationViewModel(string iccid, CellularActionUpdateResponseModel actionResponstModel = null)
         {
             var viewModel = new SimInformationViewModel();
             viewModel.TerminalDevice = _cellularExtensions.GetSingleTerminalDetails(new Iccid(iccid));
-            viewModel.SessionInfo = _cellularExtensions.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ??
-                                    new SessionInfo();
+            viewModel.SessionInfo = _cellularExtensions.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ?? new SessionInfo();
+
             var apiProviderDetails = _apiRegistrationRepository.RecieveDetails();
             viewModel.ApiRegistrationProvider = Convert.ToString(apiProviderDetails.ApiRegistrationProvider);
             viewModel.AvailableSimStates = _cellularExtensions.GetValidTargetSimStates(iccid, viewModel.TerminalDevice.Status);
-            viewModel.AvailableSubscriptionPackages = _cellularExtensions.GetAvailableSubscriptionPackages(iccid, viewModel.TerminalDevice.RatePlan);
+
+            try
+            {
+                viewModel.AvailableSubscriptionPackages = _cellularExtensions.GetAvailableSubscriptionPackages(iccid, viewModel.TerminalDevice.RatePlan);
+            }
+            catch
+            {
+                // [WORKAROUND] GetAvailableSubscriptionPackages does not work
+                viewModel.AvailableSubscriptionPackages = new List<DeviceManagement.Infrustructure.Connectivity.Models.Other.SubscriptionPackage>();
+            }
+
             viewModel.CellularActionUpdateResponse = actionResponstModel;
+
+            try
+            {
+                IEnumerable<string> availableLocaleNames;
+                string lastServiceRequestState;
+                string currentLocaleName = _cellularExtensions.GetLocale(iccid, out availableLocaleNames);
+
+                viewModel.CurrentLocaleName = currentLocaleName;
+                viewModel.AvailableLocaleNames = availableLocaleNames;
+            }
+            catch
+            {
+                viewModel.CurrentLocaleName = string.Empty;
+                viewModel.AvailableLocaleNames = new List<string>();
+            }
+            viewModel.LastServiceRequestState = _cellularExtensions.GetLastSetLocaleServiceRequestState(iccid);
+
             return viewModel;
         }
     }

@@ -14,6 +14,7 @@ IoTApp.createModule("IoTApp.CellularInformation", function () {
     self.htmlElementIds = {
         simStateSelect: "#simStateSelect",
         subscriptionPackageSelect: "#subscriptionPackageSelect",
+        localeSelect: "#localeSelect",
         saveCellularInformation: "#saveCellularInformation",
         editCellularInformation: "#editCellularInformation",
         cancelEditCellularInformation: "#cancelEditCellularInformation",
@@ -29,6 +30,7 @@ IoTApp.createModule("IoTApp.CellularInformation", function () {
    var resetInputsToInitial = function() {
        $(self.htmlElementIds.simStateSelect).val(self.initialCellActionSettings.simStatus);
        $(self.htmlElementIds.subscriptionPackageSelect).val(self.initialCellActionSettings.subscriptionPackage);
+       $(self.htmlElementIds.localeSelect).val(self.initialCellActionSettings.locale);
    }
 
     /**
@@ -40,6 +42,7 @@ IoTApp.createModule("IoTApp.CellularInformation", function () {
         if (disabled) {
             $(self.htmlElementIds.simStateSelect).attr("disabled", "disabled");
             $(self.htmlElementIds.subscriptionPackageSelect).attr("disabled", "disabled");
+            $(self.htmlElementIds.localeSelect).attr("disabled", "disabled");
             $(self.htmlElementIds.saveCellularInformation).hide();
             $(self.htmlElementIds.cancelEditCellularInformation).hide();
             $(self.htmlElementIds.editCellularInformation).show();
@@ -47,6 +50,7 @@ IoTApp.createModule("IoTApp.CellularInformation", function () {
         } else {
             $(self.htmlElementIds.simStateSelect).removeAttr("disabled");
             $(self.htmlElementIds.subscriptionPackageSelect).removeAttr("disabled");
+            $(self.htmlElementIds.localeSelect).removeAttr("disabled");
             $(self.htmlElementIds.saveCellularInformation).show();
             $(self.htmlElementIds.cancelEditCellularInformation).show();
             $(self.htmlElementIds.editCellularInformation).hide();
@@ -62,10 +66,12 @@ IoTApp.createModule("IoTApp.CellularInformation", function () {
     var retrieveActionFormValues = function () {
         var simStatus = $(self.htmlElementIds.simStateSelect).val();
         var subscriptionPackage = $(self.htmlElementIds.subscriptionPackageSelect).val();
-        debugger
+        var locale = $(self.htmlElementIds.localeSelect).val();
+
         return {
             subscriptionPackage: subscriptionPackage,
-            simStatus: simStatus
+            simStatus: simStatus,
+            locale: locale
         }
     }
 
@@ -91,6 +97,13 @@ IoTApp.createModule("IoTApp.CellularInformation", function () {
                 type: self.actionTypes.updateStatus,
                 previousValue: self.initialCellActionSettings.simStatus,
                 value: currentFormValues.simStatus
+            });
+        }
+        if (currentFormValues.locale != self.initialCellActionSettings.locale) {
+            cellularCellularActionRequestModel.cellularActions.push({
+                type: self.actionTypes.updateLocale,
+                previousValue: self.initialCellActionSettings.locale,
+                value: currentFormValues.locale
             });
         }
         cellularCellularActionRequestModel.deviceId = self.deviceId;

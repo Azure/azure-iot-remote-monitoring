@@ -1810,4 +1810,12 @@
   <data name="ApiRegistrationInfoTextEricsson" xml:space="preserve">
     <value>To activate the integration to view and control your Ericsson IoT account devices through IoT Suite please enter the following credentials:</value>
   </data>
+  <data name="CellularInformationLocaleLabel" xml:space="preserve">
+    <value>Locale</value>
+    <comment>Label</comment>
+  </data>
+  <data name="CellularInformationNotLocaledOption" xml:space="preserve">
+    <value>-- select a locale --</value>
+    <comment>Dropdown label.</comment>
+  </data>
 </root>

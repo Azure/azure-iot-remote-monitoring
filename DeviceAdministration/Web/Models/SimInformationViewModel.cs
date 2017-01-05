@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models
 {
@@ -10,9 +9,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public string DeviceId { get; set; }
         public Terminal TerminalDevice { get; set; }
         public SessionInfo SessionInfo { get; set; }
-        public string ApiRegistrationProvider { get; set;}
+        public string ApiRegistrationProvider { get; set; }
         public List<SimState> AvailableSimStates { get; set; }
         public List<SubscriptionPackage> AvailableSubscriptionPackages { get; set; }
         public CellularActionUpdateResponseModel CellularActionUpdateResponse { get; set; }
+        public string CurrentLocaleName { get; set; }
+        public IEnumerable<string> AvailableLocaleNames { get; set; }
+        public string LastServiceRequestState { get; set; }
     }
 }

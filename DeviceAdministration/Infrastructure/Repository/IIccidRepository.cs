@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
@@ -15,5 +11,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         bool DeleteIccidTableEntity(IccidTableEntity iccidTableEntity);
         bool DeleteAllIccids();
         IList<Iccid> GetIccids();
+        string GetLastSetLocaleServiceRequestId(string iccid);
+        void SetLastSetLocaleServiceRequestId(string iccid, string serviceRequestId);
     }
 }

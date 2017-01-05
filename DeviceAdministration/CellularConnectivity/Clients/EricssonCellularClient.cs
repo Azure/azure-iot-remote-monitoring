@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
+using DCP_eUICC_V2;
 using DeviceManagement.Infrustructure.Connectivity.Builders;
 using DeviceManagement.Infrustructure.Connectivity.DeviceReconnect;
 using DeviceManagement.Infrustructure.Connectivity.EricssonApiService;
 using DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService;
 using DeviceManagement.Infrustructure.Connectivity.EricssonTrafficManagment;
+using DeviceManagement.Infrustructure.Connectivity.Exceptions;
+using DeviceManagement.Infrustructure.Connectivity.Models.Jasper;
 using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using resource = DeviceManagement.Infrustructure.Connectivity.EricssonSubscriptionService.resource;
-using System.Net.Http;
-using System.Text;
-using DeviceManagement.Infrustructure.Connectivity.Models.Jasper;
-using System.Web.Script.Serialization;
-using System.Net.Http.Headers;
-using DeviceManagement.Infrustructure.Connectivity.Exceptions;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Clients
 {
@@ -99,7 +100,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                 }
 
             }
-            catch (Exception exception)
+            catch
             {
                 return terminal;
             }
@@ -282,6 +283,70 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Get current locale name and available locale names
+        /// </summary>
+        /// <param name="iccid">ICCID</param>
+        /// <param name="availableLocaleNames">Available locale names</param>
+        /// <returns>Current locale name</returns>
+        public string GetLocale(string iccid, out IEnumerable<string> availableLocaleNames)
+        {
+            var euicc = GetEuicc(iccid);
+
+            string localeTableId = euicc.LocalizationTableId.ToString();
+            availableLocaleNames = new EuiccLocalesApiHandler().getLocales(localeTableId).Select(l => l.Name);
+
+            return euicc.LocaleName ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Set locale
+        /// </summary>
+        /// <param name="iccid">ICCID</param>
+        /// <param name="localeName">Desired locale name</param>
+        /// <returns>True if succeeded, otherwise false</returns>
+        public string SetLocale(string iccid, string localeName)
+        {
+            var euicc = GetEuicc(iccid);
+
+            string localeTableId = euicc.LocalizationTableId.ToString();
+            var locales = new EuiccLocalesApiHandler().getLocales(localeTableId);
+            var locale = locales.First(l => l.Name == localeName);
+
+            var request = new EuiccLocalizationApiHandler().localize(euicc.EuiccId, locale.Id, localeTableId);
+            return request?.ServiceRequestId;
+        }
+
+        private EuiccV1 GetEuicc(string iccid)
+        {
+            var credential = _credentialProvider.Provide();
+            var loginCredentials = new LoginApiHandler(
+                credential.BaseUrl + "/dcpapi/rest",
+                "06000147", // Hard-coded companyId. To be replaced by the real ID provided by mobile operator
+                credential.Username,
+                credential.Password,
+                false);
+
+            var client = EricssonServiceBuilder.GetSubscriptionManagementClient(credential);
+            var response = client.QuerySimResource_v2(new QuerySimResource_v2
+            {
+                resource = new resource
+                {
+                    id = iccid,
+                    type = "icc"
+                }
+            });
+
+            var subscription = new SubscriptionApiHandler().get(response.simResource.First().imsi);
+
+            return new EuiccApiHandler().get(subscription.EuiccId);
+        }
+
+        public string GetLastSetLocaleServiceRequestState(string serviceRequestId)
+        {
+            return new ServiceRequestApiHandler().get(serviceRequestId)?.ServiceRequestState;
         }
 
         private bool isAnActiveState(subscriptionStatus status)

@@ -21,5 +21,8 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
         bool UpdateSubscriptionPackage(string iccid, string updatedPackage);
         bool ReconnectTerminal(string iccid);
         Task<bool> SendSms(string iccid, string msisdn, string smsText);
+        string GetLocale(string iccid, out IEnumerable<string> availableLocaleNames);
+        string SetLocale(string iccid, string localeName);
+        string GetLastSetLocaleServiceRequestState(string serviceRequestId);
     }
 }

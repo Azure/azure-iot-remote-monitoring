@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Clients;
 using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
@@ -260,6 +259,72 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
             return isValid;
         }
 
+        /// <summary>
+        /// Get current locale name and available locale names
+        /// </summary>
+        /// <param name="iccid">ICCID</param>
+        /// <param name="availableLocaleNames">Available locale names</param>
+        /// <returns>Current locale name</returns>
+        public string GetLocale(string iccid, out IEnumerable<string> availableLocaleNames)
+        {
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
+
+            switch (registrationProvider)
+            {
+                case ApiRegistrationProviderTypes.Jasper:
+                    throw new NotSupportedException();
+
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var client = new EricssonCellularClient(_credentialProvider);
+                    return client.GetLocale(iccid, out availableLocaleNames);
+
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider.ToString()}' provider");
+            }
+        }
+
+        /// <summary>
+        /// Set locale
+        /// </summary>
+        /// <param name="iccid">ICCID</param>
+        /// <param name="localeName">Desired locale name</param>
+        /// <returns>True if succeeded, otherwise false</returns>
+        public string SetLocale(string iccid, string localeName)
+        {
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
+
+            switch (registrationProvider)
+            {
+                case ApiRegistrationProviderTypes.Jasper:
+                    throw new NotSupportedException();
+
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var client = new EricssonCellularClient(_credentialProvider);
+                    return client.SetLocale(iccid, localeName);
+
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider.ToString()}' provider");
+            }
+        }
+
+        public string GetLastSetLocaleServiceRequestState(string serviceRequestId)
+        {
+            var registrationProvider = _credentialProvider.Provide().ApiRegistrationProvider;
+
+            switch (registrationProvider)
+            {
+                case ApiRegistrationProviderTypes.Jasper:
+                    throw new NotSupportedException();
+
+                case ApiRegistrationProviderTypes.Ericsson:
+                    var client = new EricssonCellularClient(_credentialProvider);
+                    return client.GetLastSetLocaleServiceRequestState(serviceRequestId);
+
+                default:
+                    throw new IndexOutOfRangeException($"Could not find a service for '{registrationProvider.ToString()}' provider");
+            }
+        }
+
         private List<SimState> getAvailableSimStates()
         {
             return new List<SimState>()
@@ -293,6 +358,5 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
                 }
             };
         }
-
     }
 }

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 {
@@ -23,5 +22,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         bool UpdateSubscriptionPackage(string iccid, string updatedPackage);
         bool ReconnectDevice(string iccid);
         Task<bool> SendSms(string iccid, string smsText);
+        string GetLocale(string iccid, out IEnumerable<string> availableLocaleNames);
+        bool SetLocale(string iccid, string localeName);
+        string GetLastSetLocaleServiceRequestState(string iccid);
     }
 }

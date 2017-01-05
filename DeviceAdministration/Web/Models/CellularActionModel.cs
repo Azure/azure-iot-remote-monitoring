@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models
 {
@@ -15,9 +12,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
     public enum CellularActionType
     {
-        UpdateStatus=1,
-        UpdateSubscriptionPackage=2,
-        ReconnectDevice=3,
-        SendSms=4
+        UpdateStatus = 1,
+        UpdateSubscriptionPackage = 2,
+        ReconnectDevice = 3,
+        SendSms = 4,
+        UpdateLocale = 5
     }
 }

@@ -8,7 +8,6 @@ using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using DeviceManagement.Infrustructure.Connectivity.Services;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 {
@@ -21,7 +20,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             if (cellularService == null)
             {
-               throw new ArgumentNullException(nameof(cellularService));
+                throw new ArgumentNullException(nameof(cellularService));
             }
             _cellularService = cellularService;
             _iccidRepository = iccidRepository;
@@ -44,8 +43,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public IEnumerable<string> GetListOfAvailableIccids(IList<DeviceModel> devices, string providerName)
         {
-            var fullIccidList = providerName == ApiRegistrationProviderTypes.Ericsson ? 
-                _iccidRepository.GetIccids().Select(e => e.Id) : 
+            var fullIccidList = providerName == ApiRegistrationProviderTypes.Ericsson ?
+                _iccidRepository.GetIccids().Select(e => e.Id) :
                 _cellularService.GetTerminals().Select(i => i.Id);
 
             var usedIccidList = GetUsedIccidList(devices).Select(i => i.Id);
@@ -114,10 +113,44 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return await _cellularService.SendSms(iccid, terminal.Msisdn.Id, smsText);
         }
 
+        public string GetLocale(string iccid, out IEnumerable<string> availableLocaleNames)
+        {
+            return _cellularService.GetLocale(iccid, out availableLocaleNames);
+        }
+
+        public bool SetLocale(string iccid, string localeName)
+        {
+            var serviceRequestId = _cellularService.SetLocale(iccid, localeName);
+
+            if (!string.IsNullOrWhiteSpace(serviceRequestId))
+            {
+                _iccidRepository.SetLastSetLocaleServiceRequestId(iccid, serviceRequestId);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public string GetLastSetLocaleServiceRequestState(string iccid)
+        {
+            var serviceRequestId = _iccidRepository.GetLastSetLocaleServiceRequestId(iccid);
+
+            if (!string.IsNullOrWhiteSpace(serviceRequestId))
+            {
+                return _cellularService.GetLastSetLocaleServiceRequestState(serviceRequestId);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         private IEnumerable<Iccid> GetUsedIccidList(IList<DeviceModel> devices)
         {
             return (from device in devices
-                    where device.DeviceProperties?.DeviceID != null && 
+                    where device.DeviceProperties?.DeviceID != null &&
                         device.SystemProperties?.ICCID != null
                     select new Iccid(device.SystemProperties.ICCID)
                    ).ToList();

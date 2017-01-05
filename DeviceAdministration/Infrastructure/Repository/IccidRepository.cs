@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
@@ -12,7 +10,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
-    public class IccidRepository: IIccidRepository
+    public class IccidRepository : IIccidRepository
     {
         private const string ICCID_TABLE_NAME = "IccidTable";
         private readonly IAzureTableStorageClient _azureTableStorageClient;
@@ -77,6 +75,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, IccidRegistrationKey.Default.ToString()));
             var queryResponse = _azureTableStorageClient.ExecuteQuery(query);
             return (from iccid in queryResponse select new Iccid(iccid.Iccid)).ToList();
+        }
+
+        public string GetLastSetLocaleServiceRequestId(string iccid)
+        {
+            return Find(iccid)?.LastSetLocaleServiceRequestId;
+        }
+
+        public void SetLastSetLocaleServiceRequestId(string iccid, string serviceRequestId)
+        {
+            var entity = Find(iccid);
+            if (entity != null)
+            {
+                entity.LastSetLocaleServiceRequestId = serviceRequestId;
+                _azureTableStorageClient.Execute(TableOperation.InsertOrReplace(entity));
+            }
+        }
+
+        private IccidTableEntity Find(string iccid)
+        {
+            var query = new TableQuery<IccidTableEntity>().Where(TableQuery.CombineFilters(
+                TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, IccidRegistrationKey.Default.ToString()),
+                TableOperators.And,
+                TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, iccid)));
+
+            return _azureTableStorageClient.ExecuteQuery(query).SingleOrDefault();
         }
     }
 }

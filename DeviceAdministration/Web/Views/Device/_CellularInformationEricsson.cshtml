@@ -27,6 +27,25 @@
     }
 </select>
 
+<p>
+    <strong>@Strings.CellularInformationLocaleLabel</strong>
+</p>
+<select id="localeSelect" class="form_input select_box space_below" disabled>
+    @if (Model.LastServiceRequestState != null) // ToDo: Show actual locale valee for "Completed" state
+    {
+        <option disabled selected value>@Model.LastServiceRequestState</option>
+    }
+    else if (!Model.AvailableLocaleNames.Contains(Model.CurrentLocaleName))
+    {
+        <option disabled selected value>@Strings.CellularInformationNotLocaledOption</option>
+    }
+
+    @foreach (var localeName in Model.AvailableLocaleNames)
+    {
+        <option value="@localeName" selected=@(localeName == Model.CurrentLocaleName)>@localeName</option>
+    }
+</select>
+
 <div id="updateCellularInformationResults">
     @if (Model.CellularActionUpdateResponse != null)
     {

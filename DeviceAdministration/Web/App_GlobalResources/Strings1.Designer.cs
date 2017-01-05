@@ -638,6 +638,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Locale.
+        /// </summary>
+        public static string CellularInformationLocaleLabel {
+            get {
+                return ResourceManager.GetString("CellularInformationLocaleLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -- select a locale --.
+        /// </summary>
+        public static string CellularInformationNotLocaledOption {
+            get {
+                return ResourceManager.GetString("CellularInformationNotLocaledOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rate Plan.
         /// </summary>
         public static string CellularInformationRatePlanLabel {
