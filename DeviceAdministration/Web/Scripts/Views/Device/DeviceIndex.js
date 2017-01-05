@@ -622,7 +622,7 @@
             unselectAllRows();
             closeAndClearDetails();
             var $table = self.dataTable.table().node();
-            $('tbody input[type="checkbox"]', $table).addClass('datatable_checkbox_show');
+            $('input[type="checkbox"]', $table).addClass('datatable_checkbox_show');
             showMultiSelectionPane();
             IoTApp.DeviceFilter.setMultiSelectionMode(true);
         }
@@ -643,7 +643,7 @@
     var stopMultiSelection = function () {
         selectedDeviceIds = [];
         var $table = self.dataTable.table().node();
-        $('tbody input[type="checkbox"]', $table).prop('checked', false).removeClass('datatable_checkbox_show');
+        $('input[type="checkbox"]', $table).prop('checked', false).removeClass('datatable_checkbox_show');
         unselectAllRows();
         updateDataTableSelectAllCheckbox();
         hideMultiSelectionPane();

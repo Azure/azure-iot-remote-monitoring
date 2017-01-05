@@ -658,7 +658,7 @@ table.dataTable tbody tr:hover .datatable_checkbox_row {
     visibility:visible;
 }
 
-.datatable_all_checkbox {
+.datatable_checkbox_all {
     visibility: hidden;
 }
 
