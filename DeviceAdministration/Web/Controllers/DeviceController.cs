@@ -148,7 +148,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 ModelState.Clear();
 
                 //assign a system generated device Id
-                model.DeviceId = Guid.NewGuid().ToString();
+                while (true)
+                {
+                    var random = BitConverter.ToUInt32(Guid.NewGuid().ToByteArray(), 0);
+                    string deviceId = $"SampleDevice_{random % 10000:d4}";
+
+                    if (!await GetDeviceExistsAsync(deviceId))
+                    {
+                        model.DeviceId = deviceId;
+                        break;
+                    }
+                }
 
                 //validate the model
                 isModelValid = TryValidateModel(model);
@@ -156,7 +166,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             if (isModelValid)
             {
-                bool deviceExists = await GetDeviceExistsAsync(model.DeviceId);
+                bool deviceExists = !model.IsDeviceIdSystemGenerated && await GetDeviceExistsAsync(model.DeviceId);
 
                 model.IsDeviceIdUnique = !deviceExists;
 
