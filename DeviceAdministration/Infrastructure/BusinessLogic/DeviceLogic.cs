@@ -52,8 +52,28 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public async Task<DeviceListFilterResult> GetDevices(DeviceListFilter filter)
         {
             await _deviceListFilterRepository.TouchFilterAsync(filter.Id);
-            _deviceListFilterRepository.SaveSuggestClausesAsync(filter.Clauses);
-            return await _deviceRegistryListRepository.GetDeviceList(filter);
+            var task = _deviceListFilterRepository.SaveSuggestClausesAsync(filter.Clauses);
+
+            var devices = await _deviceRegistryListRepository.GetDeviceList(filter);
+            UpdateNameCache(devices.Results.Select(r => r.Twin));
+            return devices;
+        }
+
+        private void UpdateNameCache(IEnumerable<Shared.Twin> twins)
+        {
+            // Reminder: None of the tasks updating the namecache need to be waited for completed
+
+            var tags = twins.GetNameList(twin => twin.Tags);
+            var tagTask = _nameCacheLogic.AddShortNamesAsync(NameCacheEntityType.Tag, tags);
+
+            var desiredProperties = twins.GetNameList(twin => twin.Tags);
+            var desiredPropertyTask = _nameCacheLogic.AddShortNamesAsync(NameCacheEntityType.DesiredProperty, desiredProperties);
+
+            var reportedProperties = twins.GetNameList(twin => twin.Tags)
+                .Where(name => !SupportedMethodsHelper.IsSupportedMethodProperty(name));
+            var reportedPropertyTask = _nameCacheLogic.AddShortNamesAsync(NameCacheEntityType.ReportedProperty, reportedProperties);
+
+            // No need to update Method here, since it will not change during device running
         }
 
         public async Task<DeviceModel> GetDeviceAsync(string deviceId)
@@ -895,20 +915,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             await _nameCacheLogic.AddNameAsync(nameof(device.Twin.DeviceId));
 
-            foreach (var p in twin.Tags.AsEnumerableFlatten())
-            {
-                await _nameCacheLogic.AddNameAsync("tags." + p.Key);
-            }
+            await _nameCacheLogic.AddShortNamesAsync(
+                NameCacheEntityType.Tag,
+                twin.Tags
+                    .AsEnumerableFlatten()
+                    .Select(pair => pair.Key));
 
-            foreach (var p in twin.Properties.Desired.AsEnumerableFlatten())
-            {
-                await _nameCacheLogic.AddNameAsync("desired." + p.Key);
-            }
+            await _nameCacheLogic.AddShortNamesAsync(
+                NameCacheEntityType.DesiredProperty,
+                twin.Properties.Desired
+                    .AsEnumerableFlatten()
+                    .Select(pair => pair.Key));
 
-            foreach (var p in twin.Properties.Reported.AsEnumerableFlatten().Where(pair => !SupportedMethodsHelper.IsSupportedMethodProperty(pair.Key)))
-            {
-                await _nameCacheLogic.AddNameAsync("reported." + p.Key);
-            }
+            await _nameCacheLogic.AddShortNamesAsync(
+                NameCacheEntityType.ReportedProperty,
+                twin.Properties.Reported
+                    .AsEnumerableFlatten()
+                    .Select(pair => pair.Key)
+                    .Where(name => !SupportedMethodsHelper.IsSupportedMethodProperty(name)));
 
             foreach (var command in device.Commands.Where(c => c.DeliveryType == DeliveryType.Method))
             {

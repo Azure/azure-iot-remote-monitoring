@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Azure.Devices.Shared;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions
@@ -90,6 +91,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
         {
             return current.Tags.ToJson() != existing.Tags.ToJson() ||
                 current.Properties.Desired.ToJson() != existing.Properties.Desired.ToJson();
+        }
+
+        static public IEnumerable<string> GetNameList(this IEnumerable<Twin> twins, Func<Twin, TwinCollection> selector, string prefix = "")
+        {
+            var nameGroups = twins.Select(twin => selector(twin).AsEnumerableFlatten(prefix).Select(pair => pair.Key));
+            return nameGroups.Aggregate((s1, s2) => s1.Union(s2));
         }
     }
 }

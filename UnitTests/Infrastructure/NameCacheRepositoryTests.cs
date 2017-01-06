@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
@@ -35,10 +36,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         }
 
         [Fact]
-        public async void GetNameListAsyncTest()
+        public async Task GetNameListAsyncTest()
         {
             List<NameCacheTableEntity> tableEntities = fixture.Create<List<NameCacheTableEntity>>();
-            foreach (var e in tableEntities) {
+            foreach (var e in tableEntities)
+            {
                 e.MethodParameters = "[{'Name':'fake-parameter', 'Type': 'String'}]";
                 e.PartitionKey = NameCacheEntityType.DesiredProperty.ToString();
             }
@@ -51,7 +53,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         }
 
         [Fact]
-        public async void AddNameAsyncTest()
+        public async Task AddNameAsyncTest()
         {
             var newNameCache = fixture.Create<NameCacheEntity>();
             NameCacheTableEntity tableEntity = null;
@@ -79,7 +81,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         }
 
         [Fact]
-        public async void AddNameAsyncFailureTest()
+        public async Task AddNameAsyncFailureTest()
         {
             var newNameCache = fixture.Create<NameCacheEntity>();
             NameCacheTableEntity tableEntity = null;
@@ -106,7 +108,51 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         }
 
         [Fact]
-        public async void DeleteNameAsyncTest()
+        public async Task AddNamesAsyncTest()
+        {
+            await AddNamesAsyncTest(0);
+            await AddNamesAsyncTest(nameCacheRepository.MaxBatchSize - 1);
+            await AddNamesAsyncTest(nameCacheRepository.MaxBatchSize);
+            await AddNamesAsyncTest(nameCacheRepository.MaxBatchSize + 1);
+        }
+
+        private async Task AddNamesAsyncTest(int totalNames)
+        {
+            var names = fixture.CreateMany<string>(totalNames);
+
+            _tableStorageClientMock.Reset();
+            _tableStorageClientMock.Setup(x => x.ExecuteBatchAsync(
+                It.IsAny<TableBatchOperation>()))
+                .Returns(async () => await Task.FromResult(new List<TableResult>()));
+
+            await nameCacheRepository.AddNamesAsync(NameCacheEntityType.Tag, names);
+
+            // Currently, it is impossible to check if the operation inside the batch is expected
+            // Here we just check if the total of operations is expected
+
+            int times = totalNames / nameCacheRepository.MaxBatchSize;
+            if (totalNames % nameCacheRepository.MaxBatchSize > 0)
+            {
+                times++;
+            }
+
+            int totalOperations = 0;
+
+            _tableStorageClientMock.Verify(x => x.ExecuteBatchAsync(
+                It.Is<TableBatchOperation>(batch => CountOperations(batch, ref totalOperations))),
+                Times.Exactly(times));
+
+            Assert.Equal(totalOperations, names.Count());
+        }
+
+        private bool CountOperations(TableBatchOperation batch, ref int totalOperations)
+        {
+            totalOperations += batch.Count;
+            return true;
+        }
+
+        [Fact]
+        public async Task DeleteNameAsyncTest()
         {
             var newNameCache = fixture.Create<NameCacheEntity>();
             NameCacheTableEntity tableEntity = null;
@@ -129,7 +175,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         }
 
         [Fact]
-        public async void DeleteNameAsyncFailureTest()
+        public async Task DeleteNameAsyncFailureTest()
         {
             var newNameCache = fixture.Create<NameCacheEntity>();
             NameCacheTableEntity tableEntity = null;

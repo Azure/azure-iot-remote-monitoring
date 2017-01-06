@@ -33,6 +33,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             return await table.ExecuteAsync(operation);
         }
 
+        public async Task<IList<TableResult>> ExecuteBatchAsync(TableBatchOperation operation)
+        {
+            var table = await GetCloudTableAsync();
+            return await table.ExecuteBatchAsync(operation);
+        }
+
         public IEnumerable<T> ExecuteQuery<T>(TableQuery<T> tableQuery) where T : TableEntity, new()
         {
             var table = GetCloudTable();
@@ -89,7 +95,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 TableOperation.Retrieve<TInput>(incomingEntity.PartitionKey, incomingEntity.RowKey);
             var tableResult = await table.ExecuteAsync(retrieveOperation);
             var retrievedEntity = tableResult.Result as TInput;
-            if (retrievedEntity != null)            {
+            if (retrievedEntity != null)
+            {
                 var replaceOperation = TableOperation.Replace(retrievedEntity);
                 return await PerformTableOperation(replaceOperation, retrievedEntity, tableEntityToModelConverter);
             }
@@ -146,7 +153,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 if (retrievedEntity != null)
                 {
                     // Return the found version of this rule in case it had been modified by someone else since our last read.
-                    var retrievedModel = tableEntityToModelConverter((TInput) retrievedEntity.Result);
+                    var retrievedModel = tableEntityToModelConverter((TInput)retrievedEntity.Result);
                     result.Entity = retrievedModel;
                 }
                 else
@@ -155,11 +162,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                     result.Entity = tableEntityToModelConverter(incomingEntity);
                 }
 
-                if (ex.GetType() == typeof (StorageException)
+                if (ex.GetType() == typeof(StorageException)
                     &&
-                    (((StorageException) ex).RequestInformation.HttpStatusCode ==
-                     (int) HttpStatusCode.PreconditionFailed
-                     || ((StorageException) ex).RequestInformation.HttpStatusCode == (int) HttpStatusCode.Conflict))
+                    (((StorageException)ex).RequestInformation.HttpStatusCode ==
+                     (int)HttpStatusCode.PreconditionFailed
+                     || ((StorageException)ex).RequestInformation.HttpStatusCode == (int)HttpStatusCode.Conflict))
                 {
                     result.Status = TableStorageResponseStatus.ConflictError;
                 }

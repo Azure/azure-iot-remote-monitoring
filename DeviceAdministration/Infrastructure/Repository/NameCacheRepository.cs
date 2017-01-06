@@ -20,6 +20,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </summary>
     public class NameCacheRepository : INameCacheRepository
     {
+        public int MaxBatchSize => 100;
+
         private readonly string _storageAccountConnectionString;
         private readonly IAzureTableStorageClient _azureTableStorageClient;
         private readonly string _nameCacheTableName;
@@ -73,6 +75,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             tableEntity.ETag = "*";
             var result = await _azureTableStorageClient.DoTableInsertOrReplaceAsync<NameCacheEntity, NameCacheTableEntity>(tableEntity, BuildNameCacheFromTableEntity);
             return (result.Status == TableStorageResponseStatus.Successful);
+        }
+
+        /// <summary>
+        /// Add a set of names in batch
+        /// Reminder: Considering it will be called periodically to update the cache, it was
+        /// not designed as a realiable routine to reduce complexity
+        /// </summary>
+        /// <param name="entityType">Type of adding names</param>
+        /// <param name="names">Names to be added</param>
+        /// <returns>The asychornize task</returns>
+        public async Task AddNamesAsync(NameCacheEntityType entityType, IEnumerable<string> names)
+        {
+            CheckSingleEntityType(entityType);
+
+            var operations = names.Select(name => TableOperation.InsertOrReplace(new NameCacheTableEntity(entityType, name)
+            {
+                MethodParameters = "null",  // [WORKAROUND] Existing code requires "null" rather than null for tag or properties
+                ETag = "*"
+            }));
+
+            while (operations.Any())
+            {
+                var batch = new TableBatchOperation();
+
+                operations.Take(MaxBatchSize).ToList().ForEach(op => batch.Add(op));
+                await _azureTableStorageClient.ExecuteBatchAsync(batch);
+
+                operations = operations.Skip(MaxBatchSize);
+            }
         }
 
         /// <summary>

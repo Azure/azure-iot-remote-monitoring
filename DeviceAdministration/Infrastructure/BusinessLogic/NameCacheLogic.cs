@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
@@ -14,9 +15,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class NameCacheLogic : INameCacheLogic
     {
         private readonly INameCacheRepository _nameCacheRepository;
-        private const string PREFIX_REPORTED = "reported.";
-        private const string PREFIX_DESIRED = "desired.";
-        private const string PREFIX_TAGS = "tags.";
+
+        public string PREFIX_REPORTED => "reported.";
+        public string PREFIX_DESIRED => "desired.";
+        public string PREFIX_TAGS => "tags.";
 
         public NameCacheLogic(INameCacheRepository nameCacheRepository)
         {
@@ -32,11 +34,28 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public async Task<bool> AddNameAsync(string name)
         {
             var type = this.GetEntityType(name);
-            var entity = new NameCacheEntity() {
+            var entity = new NameCacheEntity()
+            {
                 Name = name
             };
 
             return await _nameCacheRepository.AddNameAsync(type, entity);
+        }
+
+        public async Task AddShortNamesAsync(NameCacheEntityType type, IEnumerable<string> shortNames)
+        {
+            var names = shortNames.Select(s =>
+            {
+                switch (type)
+                {
+                    case NameCacheEntityType.Tag: return PREFIX_TAGS + s;
+                    case NameCacheEntityType.DesiredProperty: return PREFIX_DESIRED + s;
+                    case NameCacheEntityType.ReportedProperty: return PREFIX_REPORTED + s;
+                    default: throw new ArgumentOutOfRangeException();
+                }
+            }).ToList();
+
+            await _nameCacheRepository.AddNamesAsync(type, names);
         }
 
         public async Task<bool> AddMethodAsync(Command method)
@@ -80,7 +99,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 type = NameCacheEntityType.Tag;
             }
-            else 
+            else
             {
                 type = NameCacheEntityType.DeviceInfo;
             }

@@ -20,6 +20,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
         TableResult Execute(TableOperation tableOperation);
         Task<TableResult> ExecuteAsync(TableOperation operation);
+        Task<IList<TableResult>> ExecuteBatchAsync(TableBatchOperation operation);
         IEnumerable<T> ExecuteQuery<T>(TableQuery<T> tableQuery) where T : TableEntity, new();
         Task<IEnumerable<T>> ExecuteQueryAsync<T>(TableQuery<T> tableQuery) where T : TableEntity, new();
     }
