@@ -111,6 +111,7 @@ main.main_no_nav {
   padding: 0 1em;
   min-height: 32px;
   cursor: pointer;
+  outline: 0;
 }
 .button_base:disabled {
   background-color: #cccccc;
@@ -2590,7 +2591,6 @@ table#alertHistoryTable tr.selectedAlert {
 
 .ui-dialog {
   background: none white;
-  border: 1px solid #1c9dd7;
   border-radius: 0;
   margin: 0;
   padding: 0;
@@ -2613,6 +2613,9 @@ table#alertHistoryTable tr.selectedAlert {
   background: transparent;
   color: #333333;
 }
+.ui-widget-overlay {
+  background-color: rgba(80, 80, 80, 0.8);
+}
 /* Addressing an issue in jQuery UI's initial visibility
 */
 
@@ -2630,7 +2633,7 @@ table#alertHistoryTable tr.selectedAlert {
   color: #333333;
   border: 1px solid #999999;
 }
-.ui-state-focus {
+li.ui-state-focus {
   background-color: #b2ebfc;
 }
 /*!
