@@ -12,6 +12,7 @@
 
     function viewModel() {
         var self = this;
+        this.backUrl = ko.observable(resources.redirectToDeviceIndexUrl);
         this.filterId = "";
         this.jobName = ko.observable("");
         this.methodName = ko.observable("");
@@ -116,7 +117,7 @@
 
 
         this.backButtonClicked = function () {
-            location.href = resources.redirectUrl;
+            location.href = self.backUrl();
         }
 
         this.beforePost = function (elem) {
@@ -161,7 +162,12 @@
             if (data) {
                 self.filterName = data.FilterName;
                 self.filterId = data.FilterId;
-                self.jobName(data.JobName);
+                if (resources.originalJobId) {
+                    self.backUrl(resources.redirectToJobIndexUrl + "?jobId=" + resources.originalJobId);
+                    self.jobName(data.JobName);
+                } else {
+                    self.backUrl(resources.redirectToDeviceIndexUrl + "?filterId=" + self.filterId);
+                }
                 self.clonedMethodName = data.MethodName;
                 self.clonedMethodParameters = data.Parameters;
                 self.maxExecutionTime(data.MaxExecutionTimeInMinutes);

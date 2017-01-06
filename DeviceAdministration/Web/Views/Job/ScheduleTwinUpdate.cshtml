@@ -158,7 +158,9 @@
     "use strict";
 
     var resources = {
-        redirectUrl: '@Url.Action("Index", "Device")',
+        redirectToDeviceIndexUrl: '@Url.Action("Index", "Device")',
+        redirectToJobIndexUrl: '@Url.Action("Index", "Job")',
+        originalJobId: '@Html.JavaScriptString(Model.OriginalJobId)',
         TotalDeviceString: "@Html.JavaScriptString(Strings.FilteredDeviceCount)",
         LoadingText: "@Html.JavaScriptString(Strings.LoadingText)"
     }

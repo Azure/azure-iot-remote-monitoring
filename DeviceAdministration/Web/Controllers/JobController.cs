@@ -111,6 +111,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         FilterId = job.FilterId,
                         FilterName = job.FilterName,
                         JobName = job.JobName,
+                        OriginalJobId = jobId,
                         DesiredProperties = twin.Properties.Desired.AsEnumerableFlatten().Select(p => {
                             return new DesiredPropetiesEditViewModel
                             {
@@ -134,6 +135,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         FilterId = job.FilterId,
                         FilterName = job.FilterName,
                         JobName = job.JobName,
+                        OriginalJobId = jobId,
                         MethodName = job.MethodName,
                         Parameters = parameters.Select(pair => new MethodParameterEditViewModel
                         {
@@ -189,7 +191,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, deviceListFilter.Name, null));
 
-            return Redirect("/Job/Index");
+            return RedirectToAction("Index", "Job", new { jobId = jobId });
         }
 
         [RequirePermission(Permission.ManageJobs)]
@@ -226,7 +228,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, deviceListFilter.Name, model.MethodName));
 
-            return Redirect("/Job/Index");
+            return RedirectToAction("Index", "Job", new { jobId = jobId });
         }
 
         private async Task<Tuple<string, string, string>> GetJobNameAndFilterNameAsync(DeviceJobModel job)

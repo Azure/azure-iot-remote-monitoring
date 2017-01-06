@@ -11,6 +11,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [Required]
         public string FilterName { get; set; }
 
+        public string OriginalJobId { get; set; }
+
         [Required]
         public string JobName { get; set; }
 
