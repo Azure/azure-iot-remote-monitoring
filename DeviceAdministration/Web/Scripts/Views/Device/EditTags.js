@@ -80,6 +80,7 @@
             $.ajax({
                 url: '/api/v1/devices/' + deviceId + '/twin/tag',
                 type: 'PUT',
+                cache: false,
                 data: ko.mapping.toJSON(updatedata),
                 contentType: "application/json",
                 success: function (result) {
@@ -99,6 +100,7 @@
         $.ajax({
             url: '/api/v1/devices/' + deviceId + '/twin/tag',
             type: 'GET',
+            cache: false,
             success: function (result) {
 
                 //add 'isDeleted' field for model binding, default false

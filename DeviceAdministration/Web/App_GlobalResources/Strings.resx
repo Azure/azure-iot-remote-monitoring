@@ -1703,7 +1703,7 @@
     <comment>Tooltip.</comment>
   </data>
   <data name="InvokeMethodLabel" xml:space="preserve">
-    <value>Invoke Method</value>
+    <value>Method</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="EditColumns" xml:space="preserve">
@@ -1767,11 +1767,11 @@
     <comment>Hyperlink label</comment>
   </data>
   <data name="ScheduleChangeDesiredProperties" xml:space="preserve">
-    <value>Change Desired Properties</value>
+    <value>Desired Properties</value>
     <comment>Input label</comment>
   </data>
   <data name="ScheduleChangeTags" xml:space="preserve">
-    <value>Change Tags</value>
+    <value>Tags</value>
     <comment>Input label</comment>
   </data>
   <data name="ScheduleDesiredPropertyName" xml:space="preserve">
@@ -1783,7 +1783,7 @@
     <comment>Label</comment>
   </data>
   <data name="ScheduleEditValue" xml:space="preserve">
-    <value>Edit Value</value>
+    <value>Value</value>
     <comment>Input label</comment>
   </data>
   <data name="ScheduleJobName" xml:space="preserve">
@@ -1791,7 +1791,7 @@
     <comment>Input label</comment>
   </data>
   <data name="ScheduleSetJobTime" xml:space="preserve">
-    <value>Set Job Time</value>
+    <value>Job Time</value>
     <comment>Input label</comment>
   </data>
   <data name="SomeDeviceInapplicable" xml:space="preserve">
@@ -2069,7 +2069,7 @@
     <comment>Table cell.</comment>
   </data>
   <data name="ScheduleDeviceMethodJobType" xml:space="preserve">
-    <value>Invoke Method</value>
+    <value>Method</value>
     <comment>Table cell.</comment>
   </data>
   <data name="ScheduleUpdateTwinJobType" xml:space="preserve">
@@ -2381,15 +2381,15 @@
     <comment>Label message</comment>
   </data>
   <data name="PropertyTextPlaceHolder" xml:space="preserve">
-    <value>Start with "desired." e.g. desired.sampleprop</value>
+    <value>desired.sampleprop</value>
     <comment>Text input Placeholder </comment>
   </data>
   <data name="TagTextPlaceHolder" xml:space="preserve">
-    <value>Start with "tags." e.g. tags.sampletag</value>
+    <value> tags.sampletag</value>
     <comment>Text input Placeholder</comment>
   </data>
   <data name="ValueTextPlaceHolder" xml:space="preserve">
-    <value>e.g. "123" or Tom</value>
+    <value>123</value>
     <comment>Text input Placeholder</comment>
   </data>
   <data name="DeleteIconTooltip" xml:space="preserve">
@@ -2407,5 +2407,9 @@
   <data name="ExternalJobNamePrefix" xml:space="preserve">
     <value>External Job {0}</value>
     <comment>Table cell.</comment>
+  </data>
+  <data name="NewScheduleJobNameFormat" xml:space="preserve">
+    <value>NewJob yyyy-MM-dd</value>
+    <comment>Name format</comment>
   </data>
 </root>

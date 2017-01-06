@@ -8,9 +8,9 @@
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceDetailModel
 @{
     DateTime? resolvedDate;
-    var tags = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("tags."));
-    var desiredProperties = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("properties.desired."));
-    var reportedProperties = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("properties.reported."));
+    var tags = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("tags.") && !m.Name.IsReservedTwinName());
+    var desiredProperties = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("properties.desired.") && !m.Name.IsReservedTwinName());
+    var reportedProperties = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("properties.reported.") && !m.Name.IsReservedTwinName());
     var deviceProperties = Model.DevicePropertyValueModels.Except(tags).Except(desiredProperties).Except(reportedProperties);
     var utcNow = DateTime.UtcNow;
 }

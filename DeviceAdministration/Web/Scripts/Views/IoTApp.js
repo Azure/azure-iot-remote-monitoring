@@ -85,7 +85,14 @@ function getCulture() {
             c = c.substring(1);
         }
         if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
+            var localename = c.substring(name.length, c.length);
+            //Match to closet culture
+            switch (localename) {
+                case "zh-Hans": return "zh-cn";
+                case "zh-Hant": return "zh-tw";
+                case "pt-PT": return "pt-br";
+                default: return localename;
+            }            
         }
     }
     return window.navigator.language;

@@ -2627,7 +2627,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invoke Method.
+        ///   Looks up a localized string similar to Method.
         /// </summary>
         public static string InvokeMethodLabel {
             get {
@@ -3230,6 +3230,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NewJob yyyy-MM-dd.
+        /// </summary>
+        public static string NewScheduleJobNameFormat {
+            get {
+                return ResourceManager.GetString("NewScheduleJobNameFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
         public static string Next {
@@ -3680,7 +3689,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start with &quot;desired.&quot; e.g. desired.sampleprop.
+        ///   Looks up a localized string similar to desired.sampleprop.
         /// </summary>
         public static string PropertyTextPlaceHolder {
             get {
@@ -4211,7 +4220,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change Desired Properties.
+        ///   Looks up a localized string similar to Desired Properties.
         /// </summary>
         public static string ScheduleChangeDesiredProperties {
             get {
@@ -4220,7 +4229,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change Tags.
+        ///   Looks up a localized string similar to Tags.
         /// </summary>
         public static string ScheduleChangeTags {
             get {
@@ -4238,7 +4247,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invoke Method.
+        ///   Looks up a localized string similar to Method.
         /// </summary>
         public static string ScheduleDeviceMethodJobType {
             get {
@@ -4265,7 +4274,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit Value.
+        ///   Looks up a localized string similar to Value.
         /// </summary>
         public static string ScheduleEditValue {
             get {
@@ -4337,7 +4346,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Set Job Time.
+        ///   Looks up a localized string similar to Job Time.
         /// </summary>
         public static string ScheduleSetJobTime {
             get {
@@ -4805,7 +4814,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start with &quot;desired.&quot; e.g. tag.sampletag.
+        ///   Looks up a localized string similar to  tags.sampletag.
         /// </summary>
         public static string TagTextPlaceHolder {
             get {
@@ -5075,7 +5084,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to e.g. &quot;123&quot; or Tom.
+        ///   Looks up a localized string similar to 123.
         /// </summary>
         public static string ValueTextPlaceHolder {
             get {

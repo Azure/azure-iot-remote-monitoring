@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.CommandProcessors;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Telemetry;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors;
@@ -121,7 +123,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                 return await Task.FromResult(BuildMethodRespose(new
                 {
-                    Message = "Firmware updating accepted",
+                    Message = "FirmwareUpdate accepted",
                     Uri = operation.Uri
                 }));
             }
@@ -151,7 +153,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                 return await Task.FromResult(BuildMethodRespose(new
                 {
-                    Message = "Configuration updating accepted",
+                    Message = "ConfigurationUpdate accepted",
                     Uri = operation.Uri
                 }));
             }
@@ -162,6 +164,58 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     Message = ex.Message
                 }, 400));
             }
+        }
+
+        public async Task<MethodResponse> OnReboot(MethodRequest methodRequest, object userContext)
+        {
+            var task = RebootAsync();
+
+            return await Task.FromResult(BuildMethodRespose(new
+            {
+                Message = "Reboot accepted"
+            }));
+        }
+
+        private async Task RebootAsync()
+        {
+            const string LogPath = "Method.Reboot.Log";
+
+            await SetReportedPropertyAsync(LogPath, "Rebooting");
+
+            await Task.Delay(TimeSpan.FromSeconds(10));
+
+            await SetReportedPropertyAsync(new Dictionary<string, dynamic>
+            {
+                { LogPath, "Rebooted" },
+                { StartupTimePropertyName, DateTime.UtcNow.ToString() }
+            });
+        }
+
+        public async Task<MethodResponse> OnFactoryReset(MethodRequest methodRequest, object userContext)
+        {
+            var task = FactoryResetAsync();
+
+            return await Task.FromResult(BuildMethodRespose(new
+            {
+                Message = "FactoryReset accepted"
+            }));
+        }
+
+        private async Task FactoryResetAsync()
+        {
+            const string LogPath = "Method.FactoryReset.Log";
+
+            await SetReportedPropertyAsync(LogPath, "Reseting");
+
+            await Task.Delay(TimeSpan.FromSeconds(10));
+
+            await SetReportedPropertyAsync(new Dictionary<string, dynamic>
+            {
+                { LogPath, "Reset" },
+                { StartupTimePropertyName, DateTime.UtcNow.ToString() },
+                { FirmwareVersionPropertyName, "1.0" },
+                { ConfigurationVersionPropertyName, null },
+            });
         }
 
         public async Task<MethodResponse> OnPingDevice(MethodRequest methodRequest, object userContext)
@@ -200,6 +254,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         private MethodResponse BuildMethodRespose(object response, int status = 200)
         {
             return BuildMethodRespose(JsonConvert.SerializeObject(response), status);
+        }
+
+        private async Task SetReportedPropertyAsync(string name, dynamic value)
+        {
+            var collection = new TwinCollection();
+            TwinCollectionExtension.Set(collection, name, value);
+            await Transport.UpdateReportedPropertiesAsync(collection);
+        }
+
+        private async Task SetReportedPropertyAsync(Dictionary<string, dynamic> pairs)
+        {
+            var collection = new TwinCollection();
+            foreach (var pair in pairs)
+            {
+                TwinCollectionExtension.Set(collection, pair.Key, pair.Value);
+            }
+            await Transport.UpdateReportedPropertiesAsync(collection);
         }
     }
 }

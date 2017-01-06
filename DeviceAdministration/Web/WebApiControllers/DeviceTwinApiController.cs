@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -9,6 +10,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Microsoft.Azure.Devices.Shared;
+
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
@@ -30,8 +32,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<HttpResponseMessage> GetDeviceTwinDesired(string deviceId)
         {
             var twin = await this._deviceManager.GetTwinAsync(deviceId);
-            IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>> flattenReportedTwin = twin.Properties.Reported.AsEnumerableFlatten("reported.");
-            IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>> flattenTwin = twin.Properties.Desired.AsEnumerableFlatten("desired.");
+            IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>> flattenReportedTwin = twin.Properties.Reported.AsEnumerableFlatten("reported.").Where(t => !t.Key.IsReservedTwinName());
+            IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>> flattenTwin = twin.Properties.Desired.AsEnumerableFlatten("desired.").Where(t => !t.Key.IsReservedTwinName());
             return await GetServiceResponseAsync<dynamic>(async () =>
             {
                 return await Task.FromResult(new { desired = flattenTwin, reported = flattenReportedTwin });
@@ -44,7 +46,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<HttpResponseMessage> GetDeviceTwinTag(string deviceId)
         {
             var twin = await this._deviceManager.GetTwinAsync(deviceId);
-            IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>> flattenTwin = twin.Tags.AsEnumerableFlatten("tags.");
+            IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>> flattenTwin = twin.Tags.AsEnumerableFlatten("tags.").Where(t=>!t.Key.IsReservedTwinName());
             return await GetServiceResponseAsync<IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>>>(async () =>
             {
                 return await Task.FromResult(flattenTwin);

@@ -26,6 +26,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// </summary>
     public class DeviceBase : IDevice
     {
+        public const string StartupTimePropertyName = "StartupTime";
+        public const string FirmwareVersionPropertyName = "FirmwareVersion";
+        public const string ConfigurationVersionPropertyName = "ConfigurationVersion";
+
         // pointer to the currently executing event group
         private int _currentEventGroup = 0;
 
@@ -331,6 +335,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             var patch = new TwinCollection();
             CrossSyncProperties(patch, reported, regenerate);
             AddSupportedMethods(patch);
+            patch.Set(StartupTimePropertyName, DateTime.UtcNow.ToString());
 
             // Update ReportedProperties to IoT Hub
             await Transport.UpdateReportedPropertiesAsync(patch);
