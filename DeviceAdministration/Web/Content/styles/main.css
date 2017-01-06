@@ -1548,7 +1548,7 @@ table#alertHistoryTable tr.selectedAlert {
 .filter_panel_filtername_saveas_input {
   border-color: #cccccc;
   border-width: 1px;
-  width: calc(100% - 12px);
+  width: calc(100% - 10px);
   font-size: 14px;
   height: 30px;
   padding: 0px 4px 0px 4px;
@@ -1907,6 +1907,11 @@ table#alertHistoryTable tr.selectedAlert {
 .details_grid_twin_end_line {
   clear: both;
   margin: 20px;
+}
+.details_grid_twin_begin_line,
+.details_grid_twin_end_line {
+  border: 0;
+  border-top: 1px solid #999999;
 }
 .grid_rules_details {
   overflow: auto;
