@@ -234,6 +234,7 @@ function ValidateResourceName()
         "microsoft.documentdb/databaseaccounts"
         {
             $resourceUrl = $global:docdbSuffix
+            $resourceBaseName = $resourceBaseName.Substring(0, [System.Math]::Min(19, $resourceBaseName.Length))
         }
         "microsoft.eventhub/namespaces"
         {
