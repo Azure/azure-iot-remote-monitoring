@@ -91,6 +91,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 if (string.IsNullOrEmpty(filterName))
                 {
                     filterName = job.QueryCondition ?? Strings.NotApplicableValue;
+                    filterId = string.Empty;
                 }
                 if (filterName == "*" || DeviceListFilterRepository.DefaultDeviceListFilter.Id.Equals(filterId))
                 {
