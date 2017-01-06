@@ -108,7 +108,7 @@
 
         this.refreshnamecontrol = function () {
             jQuery('.edit_form__texthalf.edit_form__propertiesComboBox').each(function () {
-                IoTApp.Controls.NameSelector.create(jQuery(this), { type: IoTApp.Controls.NameSelector.NameListType.properties }, self.propertieslist);
+                IoTApp.Controls.NameSelector.create(jQuery(this), { type: IoTApp.Controls.NameSelector.NameListType.desiredProperty }, self.propertieslist);
             });
             jQuery('.edit_form__texthalf.edit_form__tagsComboBox').each(function () {
                 IoTApp.Controls.NameSelector.create(jQuery(this), { type: IoTApp.Controls.NameSelector.NameListType.tags }, self.tagslist);

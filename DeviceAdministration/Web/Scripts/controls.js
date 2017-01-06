@@ -18,13 +18,20 @@
         rightBottom: { my: "right top", at: "right bottom" },
         leftTop: { my: "left bottom", at: "left top" },
         rightTop: { my: "right bottom", at: "right top" },
-    }
+    };
+
+    var prefixes = {};
+    prefixes[NameListType.tag] = "tags.";
+    prefixes[NameListType.desiredProperty] = "desired.";
+    prefixes[NameListType.reportedProperty] = "reported.";
 
     var create = function ($element, options, data) {
         options = $.extend({
             type: NameListType.all,
             position: PositionType.leftBottom
         }, options);
+
+        var defaultPrefix = prefixes[options.type];
 
         $element.autocomplete({
             source: [],
@@ -33,7 +40,13 @@
             },
             minLength: 0,
             position: options.position 
-        }).focus(function () {
+        }).focus(function (e) {
+            if (!$(this).val() && defaultPrefix) {
+                $(this).val(defaultPrefix).change();
+                var input = this;
+                setTimeout(function () { setCaretPosition(input, defaultPrefix.length) }, 0);
+            }
+
             $(this).autocomplete("search", $(this).val());
         }).keypress(function(e){ 
             if (e.keyCode == '13'){
@@ -116,6 +129,19 @@
             }
         });
     }
+
+    var setCaretPosition = function (input, pos) {
+        if (input.setSelectionRange) {
+            input.setSelectionRange(pos, pos);
+        }
+        else if (input.createTextRange) {
+            var range = input.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', pos);
+            range.moveStart('character', pos);
+            range.select();
+        }
+    };
 
     return {
         create: create,
