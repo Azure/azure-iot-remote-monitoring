@@ -11,7 +11,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         public void GetSQLQueryTest()
         {
             string sql = BuildFilter().GetSQLQuery();
-            Assert.Equal(sql, "SELECT * FROM devices WHERE tags.x = 'one' AND properties.desired.y < 1 AND properties.reported.z > '1' AND tags.u != 'two' AND properties.desired.v <= 2 AND properties.reported.w >= '2' AND deviceId IN ['SampleDevice001', 'SampleDevice002', 'SampleDevice003']");
+            Assert.Equal(sql, "SELECT * FROM devices WHERE tags.x = 'one' AND properties.desired.y < '1' AND properties.reported.z > '1' AND tags.u != 'two' AND properties.desired.v <= '2' AND properties.reported.w >= '2' AND deviceId IN ['SampleDevice001', 'SampleDevice002', 'SampleDevice003']");
 
             sql = BuildEmptyFilter().GetSQLQuery();
             Assert.Equal(sql, "SELECT * FROM devices");
@@ -23,14 +23,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             Assert.Equal(sql, "SELECT * FROM devices WHERE tag.x != ''");
 
             sql = BuildFilterWithoutPropertiesPrefix().GetSQLQuery();
-            Assert.Equal(sql, "SELECT * FROM devices WHERE tags.x = 'one' AND properties.desired.y < 1 AND properties.reported.z > '1'");
+            Assert.Equal(sql, "SELECT * FROM devices WHERE tags.x = 'one' AND properties.desired.y < '1' AND properties.reported.z > '1'");
         }
 
         [Fact]
         public void GetSQLCondition()
         {
             string condition = BuildFilter().GetSQLCondition();
-            Assert.Equal(condition, "tags.x = 'one' AND properties.desired.y < 1 AND properties.reported.z > '1' AND tags.u != 'two' AND properties.desired.v <= 2 AND properties.reported.w >= '2' AND deviceId IN ['SampleDevice001', 'SampleDevice002', 'SampleDevice003']");
+            Assert.Equal(condition, "tags.x = 'one' AND properties.desired.y < '1' AND properties.reported.z > '1' AND tags.u != 'two' AND properties.desired.v <= '2' AND properties.reported.w >= '2' AND deviceId IN ['SampleDevice001', 'SampleDevice002', 'SampleDevice003']");
 
             condition = BuildEmptyFilter().GetSQLCondition();
             Assert.Equal(condition, string.Empty);
@@ -42,7 +42,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             Assert.Equal(condition, "tag.x != ''");
 
             condition = BuildFilterWithoutPropertiesPrefix().GetSQLCondition();
-            Assert.Equal(condition, "tags.x = 'one' AND properties.desired.y < 1 AND properties.reported.z > '1'");
+            Assert.Equal(condition, "tags.x = 'one' AND properties.desired.y < '1' AND properties.reported.z > '1'");
         }
 
         [Fact]

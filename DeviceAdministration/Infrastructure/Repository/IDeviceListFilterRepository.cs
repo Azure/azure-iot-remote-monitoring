@@ -62,6 +62,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<IEnumerable<DeviceListFilter>> GetFilterListAsync(int skip, int take);
 
         /// <summary>
+        /// Save suggestion list of clauses
+        /// </summary>
+        /// <param name="clauses"></param>
+        /// <returns>Count of saved clauses</returns>
+        Task<int> SaveSuggestClausesAsync(List<Clause> clauses);
+
+        /// <summary>
         /// Get suggestion list of clauses extracted from filters
         /// </summary>
         /// <param name="skip"></param>

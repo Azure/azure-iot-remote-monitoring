@@ -11,6 +11,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             ClauseType = clause.ClauseType.ToString();
             RowKey = ColumnName = clause.ColumnName;
             PartitionKey = $"{clause.ColumnName} {clause.ClauseType.ToString()} {ClauseValue.NormalizedTableKey()}";
+            HitCounter = 1;
         }
 
         public ClauseTableEntity() { }
@@ -18,5 +19,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public string ColumnName { get; set; }
         public string ClauseType { get; set; }
         public string ClauseValue { get; set; }
+        public long HitCounter { get; set; }
     }
 }
