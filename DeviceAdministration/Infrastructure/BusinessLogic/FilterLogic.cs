@@ -40,7 +40,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<IEnumerable<Filter>> GetRecentFiltersAsync(int max)
         {
-            var filters = await _filterRepository.GetRecentFiltersAsync(max);
+            var filters = await _filterRepository.GetRecentFiltersAsync(max, true);
             return filters.Select(filter => new Filter(filter));
         }
 
