@@ -2699,20 +2699,11 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Job History for the Query.
+        ///   Looks up a localized string similar to Job history for the filter.
         /// </summary>
-        public static string JobHistoryForQuery {
+        public static string JobHistoryForFilter {
             get {
-                return ResourceManager.GetString("JobHistoryForQuery", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Job History for the Query.
-        /// </summary>
-        public static string JobHistoryForQueryTooltip {
-            get {
-                return ResourceManager.GetString("JobHistoryForQueryTooltip", resourceCulture);
+                return ResourceManager.GetString("JobHistoryForFilter", resourceCulture);
             }
         }
         
@@ -2744,15 +2735,6 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operation Details.
-        /// </summary>
-        public static string JobOperationResultTooltip {
-            get {
-                return ResourceManager.GetString("JobOperationResultTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Job Properties.
         /// </summary>
         public static string JobProperties {
@@ -2767,15 +2749,6 @@ namespace GlobalResources {
         public static string JobPropertiesPaneLabel {
             get {
                 return ResourceManager.GetString("JobPropertiesPaneLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Properties of Job.
-        /// </summary>
-        public static string JobPropertiesTooltip {
-            get {
-                return ResourceManager.GetString("JobPropertiesTooltip", resourceCulture);
             }
         }
         
@@ -4216,6 +4189,15 @@ namespace GlobalResources {
         public static string sbyteCommandErrorMessage {
             get {
                 return ResourceManager.GetString("sbyteCommandErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schedule.
+        /// </summary>
+        public static string Schedule {
+            get {
+                return ResourceManager.GetString("Schedule", resourceCulture);
             }
         }
         

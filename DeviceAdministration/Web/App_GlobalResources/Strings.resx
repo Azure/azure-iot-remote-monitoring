@@ -1949,13 +1949,9 @@
     <value>Jobs</value>
     <comment>Section heading.</comment>
   </data>
-  <data name="JobHistoryForQuery" xml:space="preserve">
-    <value>Job History for the Query</value>
+  <data name="JobHistoryForFilter" xml:space="preserve">
+    <value>Job history for the filter</value>
     <comment>Section heading.</comment>
-  </data>
-  <data name="JobHistoryForQueryTooltip" xml:space="preserve">
-    <value>Job History for the Query</value>
-    <comment>Tooltip.</comment>
   </data>
   <data name="JobsTooltip" xml:space="preserve">
     <value>Jobs</value>
@@ -2200,14 +2196,6 @@
     <value>Job Operations</value>
     <comment>Section heading.</comment>
   </data>
-  <data name="JobOperationResultTooltip" xml:space="preserve">
-    <value>Operation Details</value>
-    <comment>Tooltip.</comment>
-  </data>
-  <data name="JobPropertiesTooltip" xml:space="preserve">
-    <value>Properties of Job</value>
-    <comment>Tooltip.</comment>
-  </data>
   <data name="JobStatisticsTooltip" xml:space="preserve">
     <value>Device Statistics of Job</value>
     <comment>Tooltip.</comment>
@@ -2411,5 +2399,9 @@
   <data name="NewScheduleJobNameFormat" xml:space="preserve">
     <value>NewJob yyyy-MM-dd</value>
     <comment>Name format</comment>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>Schedule</value>
+    <comment>Buttone label.</comment>
   </data>
 </root>
