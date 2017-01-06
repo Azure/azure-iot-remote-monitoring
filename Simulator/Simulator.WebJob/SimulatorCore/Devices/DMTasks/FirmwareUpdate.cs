@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport;
@@ -20,7 +20,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         private LogBuilder _logBuilder = new LogBuilder();
 
         public string Uri { get; private set; }
-        public string Version { get; private set; }
+        public string FirmwareVersion { get; private set; }
 
         public FirmwareUpdate(MethodRequest request)
         {
@@ -32,21 +32,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 throw new ArgumentException("Missing FwPackageUri");
             }
 
-            // [WORKAROUND] Directly pick the version from the URI
-            var match = new Regex("/firmware/(?<version>.*)$").Match(uri);
-            if (!match.Success)
-            {
-                throw new ArgumentException("Bad format of FwPackageUri");
-            }
-
             Uri = uri;
-            Version = match.Groups["version"].Value;
 
             // State switch graph: pending -> downloading -> applying -> rebooting -> idle
             _steps = new List<DMTaskStep>
             {
                 new DMTaskStep { CurrentState = DMTaskState.FU_PENDING, ExecuteTime = TimeSpan.Zero, NextState = DMTaskState.FU_DOWNLOADING },
-                new DMTaskStep { CurrentState = DMTaskState.FU_DOWNLOADING, ExecuteTime = TimeSpan.FromSeconds(10), NextState = DMTaskState.FU_APPLYING },
+                new DMTaskStep { CurrentState = DMTaskState.FU_DOWNLOADING, ExecuteTime = TimeSpan.Zero, NextState = DMTaskState.FU_APPLYING },
                 new DMTaskStep { CurrentState = DMTaskState.FU_APPLYING, ExecuteTime = TimeSpan.FromSeconds(10), NextState = DMTaskState.FU_REBOOTING },
                 new DMTaskStep { CurrentState = DMTaskState.FU_REBOOTING, ExecuteTime = TimeSpan.FromSeconds(10), NextState = DMTaskState.DM_IDLE }
             };
@@ -66,15 +58,29 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                 case DMTaskState.FU_DOWNLOADING:
                     _watch = Stopwatch.StartNew();
-                    succeed = Version != "downloadFail";
-                    status = succeed ? "downloading" : "dowload failed";
+
+                    try
+                    {
+                        using (var client = new HttpClient())
+                        {
+                            FirmwareVersion = (await client.GetStringAsync(Uri)).Trim();
+                        }
+
+                        status = "downloading";
+                    }
+                    catch (Exception ex)
+                    {
+                        succeed = false;
+                        status = $"download failed: {ex.Message}";
+                    }
+
                     report.Set(StatusPath, status);
                     report.Set(LogPath, _logBuilder.Append(status, succeed));
                     break;
 
                 case DMTaskState.FU_APPLYING:
                     _watch = Stopwatch.StartNew();
-                    succeed = Version != "applyFail";
+                    succeed = FirmwareVersion != "applyFail";
                     status = succeed ? "applying" : "apply failed";
                     report.Set(StatusPath, status);
                     report.Set(LogPath, _logBuilder.Append(status, succeed));
@@ -82,15 +88,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                 case DMTaskState.FU_REBOOTING:
                     _watch = Stopwatch.StartNew();
-                    succeed = Version != "rebootFail";
+                    succeed = FirmwareVersion != "rebootFail";
                     status = succeed ? "rebooting" : "reboot failed";
                     report.Set(StatusPath, status);
                     report.Set(LogPath, _logBuilder.Append(status, succeed));
                     break;
 
                 case DMTaskState.DM_IDLE:
-                    report.Set("iothubDM.firmwareUpdate.status", $"updated to {Version}");
-                    report.Set("FirmwareVersion", Version);
+                    report.Set("iothubDM.firmwareUpdate.status", $"updated to {FirmwareVersion}");
+                    report.Set("FirmwareVersion", FirmwareVersion);
                     break;
 
                 default:
