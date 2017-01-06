@@ -161,7 +161,7 @@
             });
             $('<th />')
                 .text(resources.image)
-                .attr('title', 'twin.tags.' + resources.iconTagName)
+                .attr('title', 'tags.' + resources.iconTagName)
                 .appendTo(header);
 
             data.forEach(function (column, index) {
