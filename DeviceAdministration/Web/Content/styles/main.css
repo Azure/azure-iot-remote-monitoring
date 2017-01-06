@@ -1274,6 +1274,7 @@ table#alertHistoryTable tr.selectedAlert {
   clear: both;
   overflow: hidden;
   width: 100%;
+  margin-bottom: 16px;
 }
 .device_list_clause {
   display: block;
@@ -1311,6 +1312,7 @@ table#alertHistoryTable tr.selectedAlert {
 .device_list_button_area {
   float: right;
   margin-right: 10px;
+  margin-top: 9px;
 }
 .filter_panel_container {
   display: none;
