@@ -120,12 +120,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return (result.Status == TableStorageResponseStatus.Successful);
         }
 
-        public async Task<IEnumerable<DeviceListFilter>> GetRecentFiltersAsync(int Max = 20)
+        public async Task<IEnumerable<DeviceListFilter>> GetRecentFiltersAsync(int Max = 20, bool excludeTemporary = true)
         {
             TableQuery<DeviceListFilterTableEntity> query = new TableQuery<DeviceListFilterTableEntity>();
             var entities = await _filterTableStorageClient.ExecuteQueryAsync(query);
             // replace the timestamp of default filter with current time so that it is always sorted at top of filter list.
-            var ordered = entities.Select(e =>
+            var ordered = entities.Where(e => !excludeTemporary || !e.IsTemporary).Select(e =>
             {
                 if (e.Id.Equals(DefaultDeviceListFilter.Id))
                 {

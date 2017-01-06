@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// Return recenty queries executed recently, sorted by timestamp.
         /// </summary>
         /// <returns>a set of queries</returns>
-        Task<IEnumerable<DeviceListFilter>> GetRecentFiltersAsync(int Max=20);
+        Task<IEnumerable<DeviceListFilter>> GetRecentFiltersAsync(int Max, bool excludeTemporary);
 
         /// <summary>
         /// Delete the saved filter by name.

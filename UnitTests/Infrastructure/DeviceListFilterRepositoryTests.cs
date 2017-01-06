@@ -241,6 +241,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var expectedNams = tableEntities.OrderByDescending(e => e.Timestamp).Take(max).Select(e => e.Name).ToArray();
             Assert.Equal(max, ret.Count());
             Assert.Equal(expectedNams, ret.Select(e => e.Name).ToArray());
+
+            filters.Take(max).All(f => f.IsTemporary = true);
+            tableEntities = filters.Select(f => new DeviceListFilterTableEntity(f));
+            ret = await deviceListFilterRepository.GetRecentFiltersAsync(max, false);
+            Assert.Equal(max, ret.Count());
+            ret = await deviceListFilterRepository.GetRecentFiltersAsync(max, true);
+            Assert.Equal(40 - max, ret.Count());
         }
 
         [Fact]

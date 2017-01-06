@@ -55,7 +55,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             {
                 filter.Clauses = null;
             }
-            _deviceListFilterRepositoryMock.Setup(x => x.GetRecentFiltersAsync(It.IsAny<int>())).ReturnsAsync(filters.Take(3));
+            _deviceListFilterRepositoryMock.Setup(x => x.GetRecentFiltersAsync(It.IsAny<int>(), It.IsAny<bool>())).ReturnsAsync(filters.Take(3));
             var ret = await _filterLogic.GetRecentFiltersAsync(3);
             Assert.Equal(3, ret.Count());
         }
