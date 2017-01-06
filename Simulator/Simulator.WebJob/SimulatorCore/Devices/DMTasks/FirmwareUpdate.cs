@@ -13,8 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 {
     class FirmwareUpdate : DMTaskBase
     {
-        static private string StatusPath = "iothubDM.firmwareUpdate.status";
-        static private string LogPath = "iothubDM.firmwareUpdate.log";
+        static private string LogPath = "Method.FirmwareUpdate.Log";
 
         private Stopwatch _watch;
         private LogBuilder _logBuilder = new LogBuilder();
@@ -66,37 +65,34 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                             FirmwareVersion = (await client.GetStringAsync(Uri)).Trim();
                         }
 
-                        status = "downloading";
+                        status = "Downloading";
                     }
                     catch (Exception ex)
                     {
                         succeed = false;
-                        status = $"download failed: {ex.Message}";
+                        status = $"Download failed: {ex.Message}";
                     }
 
-                    report.Set(StatusPath, status);
                     report.Set(LogPath, _logBuilder.Append(status, succeed));
                     break;
 
                 case DMTaskState.FU_APPLYING:
                     _watch = Stopwatch.StartNew();
                     succeed = FirmwareVersion != "applyFail";
-                    status = succeed ? "applying" : "apply failed";
-                    report.Set(StatusPath, status);
+                    status = succeed ? "Applying" : "Apply failed";
                     report.Set(LogPath, _logBuilder.Append(status, succeed));
                     break;
 
                 case DMTaskState.FU_REBOOTING:
                     _watch = Stopwatch.StartNew();
                     succeed = FirmwareVersion != "rebootFail";
-                    status = succeed ? "rebooting" : "reboot failed";
-                    report.Set(StatusPath, status);
+                    status = succeed ? "Rebooting" : "Reboot failed";
                     report.Set(LogPath, _logBuilder.Append(status, succeed));
                     break;
 
                 case DMTaskState.DM_IDLE:
-                    report.Set("iothubDM.firmwareUpdate.status", $"updated to {FirmwareVersion}");
-                    report.Set("FirmwareVersion", FirmwareVersion);
+                    report.Set(DeviceBase.StartupTimePropertyName, DateTime.UtcNow.ToString());
+                    report.Set(DeviceBase.FirmwareVersionPropertyName, FirmwareVersion);
                     break;
 
                 default:
@@ -106,7 +102,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             if (report != null)
             {
                 await transport.UpdateReportedPropertiesAsync(report);
-                Trace.TraceInformation($"Sent report {report.ToJson(Formatting.Indented)}");
             }
 
             return succeed;
@@ -127,18 +122,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     break;
 
                 case DMTaskState.FU_DOWNLOADING:
-                    report.Set(StatusPath, "download completed");
-                    report.Set(LogPath, _logBuilder.Append($"downloaded({(int)_watch.Elapsed.TotalSeconds}s)"));
+                    report.Set(LogPath, _logBuilder.Append($"Downloaded({(int)_watch.Elapsed.TotalSeconds}s)"));
                     break;
 
                 case DMTaskState.FU_APPLYING:
-                    report.Set(StatusPath, "apply completed");
-                    report.Set(LogPath, _logBuilder.Append($"applied({(int)_watch.Elapsed.TotalSeconds}s)"));
+                    report.Set(LogPath, _logBuilder.Append($"Applied({(int)_watch.Elapsed.TotalSeconds}s)"));
                     break;
 
                 case DMTaskState.FU_REBOOTING:
-                    report.Set(StatusPath, "reboot completed");
-                    report.Set(LogPath, _logBuilder.Append($"rebooted({(int)_watch.Elapsed.TotalSeconds}s)"));
+                    report.Set(LogPath, _logBuilder.Append($"Rebooted"));
                     break;
 
                 default:
@@ -148,7 +140,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             if (report != null)
             {
                 await transport.UpdateReportedPropertiesAsync(report);
-                Trace.TraceInformation($"Sent report {report.ToJson(Formatting.Indented)}");
             }
 
             return true;

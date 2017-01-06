@@ -180,6 +180,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
                 new[] { new Parameter("ConfigUri", "string") }
             ));
             device.Commands.Add(new Command(
+                "Reboot",
+                DeliveryType.Method,
+                "Reboot the device"
+            ));
+            device.Commands.Add(new Command(
+                "FactoryReset",
+                DeliveryType.Method,
+                "Reset the device (including firmware and configuration) to factory default state"
+            ));
+            device.Commands.Add(new Command(
                 "PingDevice",
                 DeliveryType.Method,
                 "The device responds to this command with an acknowledgement. This is useful for checking that the device is still active and listening."

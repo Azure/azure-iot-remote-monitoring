@@ -13,8 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 {
     class ConfigurationUpdate : DMTaskBase
     {
-        static private string StatusPath = "iothubDM.configurationUpdate.status";
-        static private string LogPath = "iothubDM.configurationUpdate.log";
+        static private string LogPath = "Method.ConfigurationUpdate.Log";
 
         private Stopwatch _watch;
         private LogBuilder _logBuilder = new LogBuilder();
@@ -66,22 +65,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 case DMTaskState.CU_DOWNLOADING:
                     _watch = Stopwatch.StartNew();
                     succeed = Version != "downloadFail";
-                    status = succeed ? "downloading" : "dowload failed";
-                    report.Set(StatusPath, status);
+                    status = succeed ? "Downloading" : "Dowload failed";
                     report.Set(LogPath, _logBuilder.Append(status, succeed));
                     break;
 
                 case DMTaskState.CU_APPLYING:
                     _watch = Stopwatch.StartNew();
                     succeed = Version != "applyFail";
-                    status = succeed ? "applying" : "apply failed";
-                    report.Set(StatusPath, status);
+                    status = succeed ? "Applying" : "Apply failed";
                     report.Set(LogPath, _logBuilder.Append(status, succeed));
                     break;
 
                 case DMTaskState.DM_IDLE:
-                    report.Set("iothubDM.configurationUpdate.status", $"updated to {Version}");
-                    report.Set("ConfigurationVersion", Version);
+                    report.Set(DeviceBase.ConfigurationVersionPropertyName, Version);
                     break;
 
                 default:
@@ -111,13 +107,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     break;
 
                 case DMTaskState.CU_DOWNLOADING:
-                    report.Set(StatusPath, "download completed");
-                    report.Set(LogPath, _logBuilder.Append($"downloaded({(int)_watch.Elapsed.TotalSeconds}s)"));
+                    report.Set(LogPath, _logBuilder.Append($"Downloaded({(int)_watch.Elapsed.TotalSeconds}s)"));
                     break;
 
                 case DMTaskState.CU_APPLYING:
-                    report.Set(StatusPath, "apply completed");
-                    report.Set(LogPath, _logBuilder.Append($"applied({(int)_watch.Elapsed.TotalSeconds}s)"));
+                    report.Set(LogPath, _logBuilder.Append($"Applied({(int)_watch.Elapsed.TotalSeconds}s)"));
                     break;
 
                 default:
