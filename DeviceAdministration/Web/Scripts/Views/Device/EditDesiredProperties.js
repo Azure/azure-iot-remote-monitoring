@@ -47,7 +47,7 @@
 
         this.createEmptyPropertyIfNeeded = function (property) {
             self.properties.push(new propertyModel({ "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false }));
-            return ture;
+            return true;
         }
 
         this.makeproplist = function (elem, index, data) {
@@ -61,7 +61,7 @@
 
         this.refreshnamecontrol = function () {
             jQuery('.edit_form__texthalf.edit_form__propertiesComboBox').each(function () {
-                IoTApp.Controls.NameSelector.create(jQuery(this), { type: IoTApp.Controls.NameSelector.NameListType.properties }, self.propertieslist);
+                IoTApp.Controls.NameSelector.create(jQuery(this), { type: IoTApp.Controls.NameSelector.NameListType.desiredProperty }, self.propertieslist);
             });
         }
 

@@ -253,6 +253,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var ret = await deviceListFilterRepository.GetFilterListAsync(0, 1000);
             Assert.Equal(10, ret.Count());
             Assert.Equal(tableEntities.OrderBy(e => e.Name).Select(e => new string[] { e.PartitionKey, e.Name }).ToArray(), ret.Select(e => new string[] { e.Id, e.Name }).ToArray());
+            filters.Take(4).All(f => f.IsTemporary = true);
+            ret = await deviceListFilterRepository.GetFilterListAsync(0, 10, true);
+            Assert.Equal(6, ret.Count());
+            ret = await deviceListFilterRepository.GetFilterListAsync(0, 10, false);
+            Assert.Equal(10, ret.Count());
         }
 
         [Fact]

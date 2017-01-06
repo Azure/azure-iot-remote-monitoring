@@ -24,6 +24,7 @@
 
     function viewModel() {
         var self = this;
+        this.backUrl = ko.observable(resources.redirectToDeviceIndexUrl);
         this.jobName = ko.observable("");
         this.properties = ko.observableArray();
         this.tags = ko.observableArray();
@@ -64,7 +65,7 @@
         }
 
         this.backButtonClicked = function () {
-            location.href = resources.redirectUrl;
+            location.href = self.backUrl();
         }
 
         this.removeProperty = function (prop) {
@@ -108,7 +109,7 @@
 
         this.refreshnamecontrol = function () {
             jQuery('.edit_form__texthalf.edit_form__propertiesComboBox').each(function () {
-                IoTApp.Controls.NameSelector.create(jQuery(this), { type: IoTApp.Controls.NameSelector.NameListType.properties }, self.propertieslist);
+                IoTApp.Controls.NameSelector.create(jQuery(this), { type: IoTApp.Controls.NameSelector.NameListType.desiredProperty }, self.propertieslist);
             });
             jQuery('.edit_form__texthalf.edit_form__tagsComboBox').each(function () {
                 IoTApp.Controls.NameSelector.create(jQuery(this), { type: IoTApp.Controls.NameSelector.NameListType.tags }, self.tagslist);
@@ -117,9 +118,15 @@
 
         this.init = function (data) {
             if (data) {
-                self.jobName(data.JobName);
-                self.maxExecutionTime(data.MaxExecutionTimeInMinutes);
                 self.filterId = data.FilterId;
+                self.jobName(data.JobName);
+                if (resources.originalJobId) {
+                    self.backUrl(resources.redirectToJobIndexUrl + "?jobId=" + resources.originalJobId);
+                    self.jobName(data.JobName);
+                } else {
+                    self.backUrl(resources.redirectToDeviceIndexUrl + "?filterId=" + self.filterId);
+                }
+                self.maxExecutionTime(data.MaxExecutionTimeInMinutes);
 
                 if (!data.DesiredProperties || data.DesiredProperties.length == 0) {
                     self.properties.push(new PropertiesEditItem("", "", false));

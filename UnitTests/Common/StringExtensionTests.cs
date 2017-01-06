@@ -52,5 +52,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
         {
             Assert.Equal(@"?a#?b\c/d?".NormalizedTableKey(), "a_b_c_d");
         }
+
+        [Fact]
+        public void IsReservedTwinNameTest()
+        {
+            Assert.False(string.Empty.IsReservedTwinName());
+            Assert.False("deviceId".IsReservedTwinName());
+            Assert.False("tags.icon".IsReservedTwinName());
+            Assert.False("tags._icon_".IsReservedTwinName());
+            Assert.True("__icon__".IsReservedTwinName());
+            Assert.True("tags.__icon__".IsReservedTwinName());
+            Assert.True("tags.cpu.__version__".IsReservedTwinName());
+            Assert.True("desired.__location__".IsReservedTwinName());
+            Assert.True("desired.position.__latitude__".IsReservedTwinName());
+            Assert.True("reported.__position__".IsReservedTwinName());
+            Assert.True("reported.position.__latitude__".IsReservedTwinName());
+        }
     }
 }

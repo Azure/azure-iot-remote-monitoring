@@ -91,16 +91,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<IEnumerable<Filter>> GetFilterList(int skip, int take)
         {
-            var filters = await _filterRepository.GetFilterListAsync(skip, take);
-            return filters.Select(f => new Filter
-            {
-                Id = f.Id,
-                Name = f.Name,
-                IsTemporary = false,
-                Clauses = f.Clauses,
-                AdvancedClause = f.AdvancedClause,
-                IsAdvanced = f.IsAdvanced,
-            });
+            var filters = await _filterRepository.GetFilterListAsync(skip, take, true);
+            return filters.Select(f => new Filter(f));
         }
 
         public async Task<IEnumerable<Clause>> GetSuggestClauses(int skip, int take)

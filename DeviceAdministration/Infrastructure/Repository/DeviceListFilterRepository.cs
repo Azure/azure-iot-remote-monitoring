@@ -143,11 +143,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
         }
 
-        public async Task<IEnumerable<DeviceListFilter>> GetFilterListAsync(int skip = 0, int take = 1000)
+        public async Task<IEnumerable<DeviceListFilter>> GetFilterListAsync(int skip = 0, int take = 1000, bool excludeTemporary = true)
         {
             TableQuery<DeviceListFilterTableEntity> query = new TableQuery<DeviceListFilterTableEntity>();
             var entities = await _filterTableStorageClient.ExecuteQueryAsync(query);
-            var ordered = entities.OrderBy(e => e.Name);
+            var ordered = entities.Where(e => !excludeTemporary || !e.IsTemporary).OrderBy(e => e.Name);
             if (take > 0)
             {
                 return ordered.Skip(skip).Take(take).Select(e => BuildFilterModelFromEntity(e));

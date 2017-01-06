@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
@@ -24,7 +25,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<IEnumerable<NameCacheEntity>> GetNameListAsync(NameCacheEntityType type)
         {
-            return await _nameCacheRepository.GetNameListAsync(type);
+            var namelist = await _nameCacheRepository.GetNameListAsync(type);
+            return namelist.Where(n => !n.Name.IsReservedTwinName());
         }
 
         public async Task<bool> AddNameAsync(string name)
