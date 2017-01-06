@@ -1908,6 +1908,11 @@ table#alertHistoryTable tr.selectedAlert {
   clear: both;
   margin: 20px;
 }
+.details_grid_twin_begin_line,
+.details_grid_twin_end_line {
+  border: 0;
+  border-top: 1px solid #999999;
+}
 .grid_rules_details {
   overflow: auto;
   background-color: white;
