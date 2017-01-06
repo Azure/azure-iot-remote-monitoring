@@ -40,15 +40,19 @@
 }
 
 .loader_container__loader {
-    margin: 20% auto 0 auto;
     font-size: @progress-size;
     width: 1em;
     height: 1em;
     border-radius: 50%;
-    position: relative;
     text-indent: -9999em;
     -webkit-animation: load5 1.1s infinite ease;
     animation: load5 1.1s infinite ease;
+    margin: auto; 
+    left: 0px; 
+    top: 0px; 
+    right: 0px; 
+    bottom: 0px; 
+    position: absolute;
 }
 
 .loader_container_half__loader {
@@ -63,10 +67,6 @@
     animation: load5 1.1s infinite ease;
 }
 
-.loader_container__loader--large_top_margin {
-    margin-top: 50%;
-}
-
 .loader_container_panel {
     z-index: 200;
     height: 150px;
@@ -79,9 +79,9 @@
     height:20px;
     margin: 12px 0px 0px 8px;
 }
+
 .loader_container_small__loader {
     .loader_container__loader;
-    margin:40% auto 0 auto;
     font-size:3px;
 }
 
