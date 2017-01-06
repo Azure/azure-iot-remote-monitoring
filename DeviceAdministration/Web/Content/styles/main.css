@@ -1547,7 +1547,7 @@ table#alertHistoryTable tr.selectedAlert {
 .filter_panel_filtername_saveas_input {
   border-color: #cccccc;
   border-width: 1px;
-  width: calc(100% - 12px);
+  width: calc(100% - 10px);
   font-size: 14px;
   height: 30px;
   padding: 0px 4px 0px 4px;
