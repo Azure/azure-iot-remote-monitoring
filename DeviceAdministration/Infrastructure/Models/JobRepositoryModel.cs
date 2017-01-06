@@ -11,9 +11,10 @@
         public JobRepositoryModel(JobTableEntity e)
         {
             JobId = e.JobId;
-            FilterId = e.FilterId;
             JobName = e.JobName;
             FilterName = e.FilterName;
+            // Both FilterId and FilterName should be empty when the filter deleted
+            FilterId = string.IsNullOrEmpty(e.FilterName) ? string.Empty : e.FilterId;
             MethodName = e.MethodName;
         }
 
