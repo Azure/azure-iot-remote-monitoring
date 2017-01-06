@@ -22,7 +22,6 @@
 
 .ui-dialog {
     background: none @background-color;
-    border: 1px solid @widget-border-color;
     border-radius: 0;
     margin: 0;
     padding: 0;
@@ -51,6 +50,10 @@
     color: @text-color;
 }
 
+.ui-widget-overlay {
+    background-color: @dialog-container-background-color;
+}
+
 /* Addressing an issue in jQuery UI's initial visibility
 */
 #ui-datepicker-div {
@@ -68,6 +71,6 @@
     color: @text-color;
     border: 1px solid @menu-border-color;
 }
-.ui-state-focus {
+li.ui-state-focus {
     background-color: @menu-item-hover-background-color;
 }

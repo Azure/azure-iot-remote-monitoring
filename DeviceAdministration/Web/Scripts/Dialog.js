@@ -5,6 +5,7 @@
         resizable: false,
         modal: true,
         closeText: "hide",
+        width: 400,
         open: function (event, ui) {
             $(".ui-dialog-titlebar-close").hide();
         }
@@ -33,7 +34,6 @@
         showDialog(container, {
             open: function (event, ui) {
                 $(".ui-dialog-titlebar-close").hide();
-                $(".ui-dialog-buttonpane button:eq(1)").focus();
             },
             buttons: [
                 {
@@ -43,7 +43,8 @@
                         if ($.isFunction(callback)) {
                             callback(false);
                         }
-                    }
+                    },
+                    "class": "button_base button_secondary"
                 },
                 {
                     text: container.data("resource-ok"),
@@ -52,7 +53,8 @@
                         if ($.isFunction(callback)) {
                             callback(true);
                         }
-                    }
+                    },
+                    "class": "button_base"
                 }
             ]
         });
