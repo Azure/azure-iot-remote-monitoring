@@ -75,6 +75,7 @@
             self.saveMethodFilterQuery = $.ajax({
                 url: '/api/v1/devices/count/' + self.filterId + "/save?isMatched="+ isMatched,
                 type: 'POST',
+                cache: false,
                 data: ko.mapping.toJSON({ 'methodName': self.currentMethodData.methodName, 'parameters': self.currentMethodData.params }),
                 contentType: "application/json",
                 success: function (result) {
@@ -97,6 +98,7 @@
             self.getApplicableDevice= $.ajax({
                 url: '/api/v1/devices/count/' + self.filterId,
                 type: 'POST',
+                cache: false,
                 data: ko.mapping.toJSON({ 'methodName': methodName, 'parameters': param }),
                 contentType: "application/json",
                 success: function (result) {
@@ -175,6 +177,7 @@
                 $.ajax({
                     url: '/api/v1/devices/count/' + self.filterId,
                     type: 'GET',
+                    cache: false,
                     success: function (result) {
                         self.totalFilteredCount(result.data);
                     },

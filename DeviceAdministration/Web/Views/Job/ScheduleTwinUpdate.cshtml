@@ -71,15 +71,15 @@
                                                 @*data-msg-required="@Strings.RequiredValidationString"
                                                     data-rule-required="true"*@
                                                 <input type="text" class="edit_form__texthalfvalue" placeholder="@Strings.ValueTextPlaceHolder"
-                                                       data-bind='textInput: PropertyValue, event: { keyup: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
+                                                       data-bind='textInput: PropertyValue, enable:PropertyName() && !isDeleted(),  event: { keyup: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />                                                
                                             </td>
                                             <td>
                                                 <input type="checkbox"
                                                        value="true"
-                                                       data-bind='check: isDeleted, attr: { name: "DesiredProperties[" + $index() + "].isDeleted", id: "DesiredProperties" + $index() + ".isDeleted" }' />
+                                                       data-bind='checked: isDeleted, enable:PropertyName() ,attr: { name: "DesiredProperties[" + $index() + "].isDeleted", id: "DesiredProperties" + $index() + ".isDeleted" }' />
                                                 <input type="hidden" value="false" name="checkbox" data-bind='attr:{ name: "DesiredProperties[" + $index() + "].isDeleted" }' />
                                             </td>
-                                            <td><a data-bind="ifnot:$root.onepropleft , click:$root.removeProperty">@Strings.Clear</a></td>
+                                            <td><a data-bind="ifnot:$root.onepropleft , click:$root.removeProperty"><small class="text_small">@Strings.Clear</small></a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -103,15 +103,15 @@
                                             </td>
                                             <td>
                                                 <input type="text" class="edit_form__texthalfvalue" placeholder="@Strings.ValueTextPlaceHolder"
-                                                       data-bind='textInput: TagValue, event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />
+                                                       data-bind='textInput: TagValue, enable:TagName() && !isDeleted(), event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />                                                
                                             </td>
                                             <td>
                                                 <input type="checkbox"
                                                        value="true"
-                                                       data-bind='check: isDeleted, attr: { name: "Tags[" + $index() + "].isDeleted", id: "Tags" + $index() + ".isDeleted" }' />
+                                                       data-bind='checked: isDeleted, enable:TagName(), attr: { name: "Tags[" + $index() + "].isDeleted", id: "Tags" + $index() + ".isDeleted" }' />
                                                 <input type="hidden" value="false" name="checkbox" data-bind='attr:{ name: "Tags[" + $index() + "].isDeleted" }' />
                                             </td>
-                                            <td><a class="edit_form__link" data-bind="ifnot:$root.onetagleft , click:$root.removeTag">@Strings.Clear</a></td>
+                                            <td><a class="edit_form__link" data-bind="ifnot:$root.onetagleft , click:$root.removeTag"><small class="text_small">@Strings.Clear</small></a></td>
                                         </tr>
                                     </tbody>
                                 </table>

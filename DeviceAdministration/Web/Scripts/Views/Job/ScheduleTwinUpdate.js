@@ -147,6 +147,7 @@
                 $.ajax({
                     url: '/api/v1/devices/count/' + self.filterId,
                     type: 'GET',
+                    cache: false,
                     success: function (result) {
                         self.totalFilteredCount(result.data);
                     },

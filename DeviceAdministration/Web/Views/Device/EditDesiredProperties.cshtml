@@ -47,12 +47,12 @@
                                     </td>
                                     <td>
                                         <input type="text" class="edit_form__texthalf"
-                                               data-bind='value: value.value, enable:!isDeleted()' />
+                                               data-bind='value: value.value, enable:!isDeleted() && key()' />
                                     </td>
                                     <td>
                                         <input type="checkbox"
                                                value="true"
-                                               data-bind='checked: isDeleted' />
+                                               data-bind='checked: isDeleted ,enable: key().' />
                                     </td>
                                     <td data-bind="if:$root.MatchReportedProp(key) != null"><span class="edit_form__labelsmall" data-bind="text:$root.MatchReportedProp(key).key"></span></td>
                                     <td data-bind="if:$root.MatchReportedProp(key) != null"><span class="edit_form__labelsmall" data-bind="text:$root.fromNowValue($root.MatchReportedProp(key).value.lastUpdated,getCulture())"></span></td>

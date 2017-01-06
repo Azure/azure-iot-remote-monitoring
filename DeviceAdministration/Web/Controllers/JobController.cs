@@ -157,6 +157,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 FilterId = filterId,
                 FilterName = deviceListFilter.Name,
+                JobName = DateTime.Now.ToString(Strings.NewScheduleJobNameFormat)
             });
         }
 
@@ -202,6 +203,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 FilterId = filterId,
                 FilterName = deviceListFilter.Name,
+                JobName = DateTime.Now.ToString(Strings.NewScheduleJobNameFormat)
             });
         }
 

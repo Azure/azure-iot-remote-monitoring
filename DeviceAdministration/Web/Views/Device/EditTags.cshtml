@@ -47,12 +47,12 @@
                                     </td>
                                     <td>
                                         <input type="text" class="edit_form__texthalf"
-                                               data-bind='value: value.value, enable:!isDeleted()' />
+                                               data-bind='value: value.value, enable:!isDeleted() && key()' />
                                     </td>
                                     <td>
                                         <input type="checkbox"
                                                value="true"
-                                               data-bind='checked: isDeleted' />
+                                               data-bind='checked: isDeleted ,enable: key()' />
                                     </td>
                                 </tr>
                             </tbody>

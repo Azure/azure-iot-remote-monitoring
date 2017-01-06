@@ -9,6 +9,7 @@
 *.user
 *.sln.docstates
 *.opendb
+*.patch
 
 # Build results
 [Dd]ebug/

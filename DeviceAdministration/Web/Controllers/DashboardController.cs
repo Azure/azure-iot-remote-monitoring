@@ -13,6 +13,8 @@ using StringPair = System.Collections.Generic.KeyValuePair<string, string>;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
+    using Helpers;
+    using System.Threading;
     using System.Web;
 
     /// <summary>
@@ -104,6 +106,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             string key = _configProvider.GetConfigurationSettingValue("MapApiQueryKey");
             model.MapApiQueryKey = key.Equals("0") ? string.Empty : key;
 
+            // Set default culture
+            HttpCookie cookie = this.Request.Cookies[Constants.CultureCookieName];
+
+            if (cookie == null)
+            {
+                cookie = new HttpCookie(Constants.CultureCookieName);
+                cookie.Value = CultureHelper.GetClosestCulture(Thread.CurrentThread.CurrentCulture.Name).Name;
+                cookie.Expires = DateTime.Now.AddYears(1);
+                Response.Cookies.Add(cookie);
+            }
+           
             return View(model);
         }
 

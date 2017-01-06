@@ -102,6 +102,7 @@
                 type: 'PUT',
                 data: ko.mapping.toJSON(updatedata),
                 contentType: "application/json",
+                cache: false,
                 success: function (result) {
                     location.href = resources.redirectUrl;
                 },
@@ -119,6 +120,7 @@
         $.ajax({
             url: '/api/v1/devices/' + deviceId + '/twin/desired',
             type: 'GET',
+            cache: false,
             success: function (result) {
                 self.reported = ko.mapping.fromJS(result.data.reported);
 
