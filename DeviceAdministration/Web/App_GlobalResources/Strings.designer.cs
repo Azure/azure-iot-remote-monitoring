@@ -2699,7 +2699,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Job history for the filter.
+        ///   Looks up a localized string similar to Job history for this filter.
         /// </summary>
         public static string JobHistoryForFilter {
             get {

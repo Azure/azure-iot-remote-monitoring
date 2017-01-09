@@ -1950,7 +1950,7 @@
     <comment>Section heading.</comment>
   </data>
   <data name="JobHistoryForFilter" xml:space="preserve">
-    <value>Job history for the filter</value>
+    <value>Job history for this filter</value>
     <comment>Section heading.</comment>
   </data>
   <data name="JobsTooltip" xml:space="preserve">
