@@ -170,14 +170,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             device.Commands.Add(new Command(
                 "FirmwareUpdate",
                 DeliveryType.Method,
-                "Firmware update",
+                "Updates device Firmware. Use parameter 'FwPackageUri' to specifiy the URI of the firmware file, e.g. https://iotrmassets.blob.core.windows.net/firmwares/FW20.bin",
                 new[] { new Parameter("FwPackageUri", "string") }
-            ));
-            device.Commands.Add(new Command(
-                "ConfigurationUpdate",
-                DeliveryType.Method,
-                "Configuration update",
-                new[] { new Parameter("ConfigUri", "string") }
             ));
             device.Commands.Add(new Command(
                 "Reboot",
@@ -192,7 +186,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             device.Commands.Add(new Command(
                 "PingDevice",
                 DeliveryType.Method,
-                "The device responds to this command with an acknowledgement. This is useful for checking that the device is still active and listening."
+                "The device responds to this method with an acknowledgement. This is useful for checking that the device is still active and listening."
             ));
             device.Commands.Add(new Command(
                 "StartTelemetry",
