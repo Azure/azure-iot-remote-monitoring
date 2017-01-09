@@ -1,14 +1,14 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using StringPair = System.Collections.Generic.KeyValuePair<string, string>;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
@@ -65,7 +65,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             var model = new DashboardModel();
             var clauses = new List<Infrastructure.Models.Clause>
             {
-                new Infrastructure.Models.Clause()
+                new Clause()
                 {
                     ColumnName = "tags.HubEnabledState",
                     ClauseType = ClauseType.EQ,
@@ -106,20 +106,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             string key = _configProvider.GetConfigurationSettingValue("MapApiQueryKey");
             model.MapApiQueryKey = key.Equals("0") ? string.Empty : key;
 
-            // Set default culture
-            HttpCookie cookie = this.Request.Cookies[Constants.CultureCookieName];
+            AddDefaultCultureIntoCookie();
 
-            if (cookie == null)
-            {
-                cookie = new HttpCookie(Constants.CultureCookieName);
-                cookie.Value = CultureHelper.GetClosestCulture(Thread.CurrentThread.CurrentCulture.Name).Name;
-                cookie.Expires = DateTime.Now.AddYears(1);
-                Response.Cookies.Add(cookie);
-            }
-           
             return View(model);
         }
-
 
         [HttpGet]
         [Route("culture/{cultureName}")]
@@ -142,6 +132,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             Response.Cookies.Add(cookie);
 
             return RedirectToAction("Index");
+        }
+
+        private void AddDefaultCultureIntoCookie()
+        {
+            if (this.Request == null) return;
+            // Set default culture
+            HttpCookie cookie = this.Request.Cookies[Constants.CultureCookieName];
+
+            if (cookie == null)
+            {
+                cookie = new HttpCookie(Constants.CultureCookieName);
+                cookie.Value = CultureHelper.GetClosestCulture(Thread.CurrentThread.CurrentCulture.Name).Name;
+                cookie.Expires = DateTime.Now.AddYears(1);
+                Response.Cookies.Add(cookie);
+            }
         }
     }
 }
