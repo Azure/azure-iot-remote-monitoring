@@ -376,6 +376,18 @@ nav .selected {
   color: gray;
   font-weight: normal;
 }
+.grid_subheadhead {
+  font-size: 16pt;
+  color: #4d4d4d;
+  display: inline;
+  font-weight: 600;
+}
+.grid_subheadhead_left_space {
+  padding-left: 14px;
+}
+.header_grid_left_space {
+  padding-left: 24px;
+}
 .grid_subheadhead_detail_collapsable {
   float: left;
   margin: 0;
@@ -561,7 +573,6 @@ nav .selected {
   right: 0px;
   bottom: 0px;
   position: absolute;
-  margin: 40% auto 0 auto;
   font-size: 3px;
 }
 @-webkit-keyframes load5 {

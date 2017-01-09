@@ -15,174 +15,178 @@
     var utcNow = DateTime.UtcNow;
 }
 <div class="header_grid header_grid_general">
-    <h3 class="grid_subheadhead_detail">@Strings.DeviceTwin</h3>
+    <h3 class="grid_subheadhead_detail grid_subheadhead">@Strings.DeviceTwin</h3>
 </div>
 
 <hr class="details_grid_twin_begin_line" />
 
-<div class="header_grid header_grid_general">
-    <img id="tagClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer tag_toggle_target tag_toggle_source" />
-    <img id="tagOpen" src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer display_none tag_toggle_target tag_toggle_source" />
-    <h3 class="grid_subheadhead_detail_collapsable cursor_pointer tag_toggle_source">@Strings.Tags</h3>
-    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.TagsTooltip" />
-    @if (Model.IsDeviceEditEnabled)
-    {
-        @Html.ActionLink(@Strings.Edit, "EditTags", "Device", new { deviceId = Model.DeviceID }, new
+<div class="header_grid_left_space">
+    <div class="header_grid header_grid_general">
+        <img id="tagClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer tag_toggle_target tag_toggle_source" />
+        <img id="tagOpen" src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer display_none tag_toggle_target tag_toggle_source" />
+        <h3 class="grid_subheadhead_detail_collapsable cursor_pointer tag_toggle_source">@Strings.Tags</h3>
+        <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.TagsTooltip" />
+        @if (Model.IsDeviceEditEnabled)
+        {
+            @Html.ActionLink(@Strings.Edit, "EditTags", "Device", new { deviceId = Model.DeviceID }, new
    {
        id = "edit_tags_link",
        @class = "link_grid_subheadhead_detail",
    })
-    }
-</div>
+        }
+    </div>
 
-<section class="details_grid_general tag_toggle_target" id="tagsGrid">
-    @if (tags.Any())
-    {
-        foreach (var val in tags)
+    <section class="details_grid_general tag_toggle_target" id="tagsGrid">
+        @if (tags.Any())
         {
-        <h4 class="grid_subhead_detail_label">@val.Name.Substring(5)</h4>
-            if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
+            foreach (var val in tags)
             {
-            <p class="grid_detail_value" name="tagField_@val.Name">@resolvedDate.Value.ToString()</p>
-            }
-            else
-            {
-            <p class="grid_detail_value" name="tagField_@val.Name">@val.Value</p>
+                <h4 class="grid_subhead_detail_label">@val.Name.Substring(5)</h4>
+                if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
+                {
+                    <p class="grid_detail_value" name="tagField_@val.Name">@resolvedDate.Value.ToString()</p>
+                }
+                else
+                {
+                    <p class="grid_detail_value" name="tagField_@val.Name">@val.Value</p>
+                }
             }
         }
-    }
-    else
-    {
-        <p class="grid_detail_value">@Strings.NoTags</p>
-    }
-</section>
+        else
+        {
+            <p class="grid_detail_value">@Strings.NoTags</p>
+        }
+    </section>
 
-<div class="header_grid header_grid_general">
-    <img id="desiredPropertyClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer desiredproperty_toggle_target desiredproperty_toggle_source" />
-    <img id="desiredPropertyOpen" src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer display_none desiredproperty_toggle_target desiredproperty_toggle_source" />
-    <h3 class="grid_subheadhead_detail_collapsable cursor_pointer desiredproperty_toggle_source">@Strings.DesiredProperties</h3>
-    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DesiredPropertiesTooltip" />
-    @if (Model.IsDeviceEditEnabled)
-    {
-        @Html.ActionLink(@Strings.Edit, "EditDesiredProperties", "Device", new { deviceId = Model.DeviceID }, new
+    <div class="header_grid header_grid_general">
+        <img id="desiredPropertyClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer desiredproperty_toggle_target desiredproperty_toggle_source" />
+        <img id="desiredPropertyOpen" src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer display_none desiredproperty_toggle_target desiredproperty_toggle_source" />
+        <h3 class="grid_subheadhead_detail_collapsable cursor_pointer desiredproperty_toggle_source">@Strings.DesiredProperties</h3>
+        <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DesiredPropertiesTooltip" />
+        @if (Model.IsDeviceEditEnabled)
+        {
+            @Html.ActionLink(@Strings.Edit, "EditDesiredProperties", "Device", new { deviceId = Model.DeviceID }, new
    {
        id = "edit_desiredProperties_link",
        @class = "link_grid_subheadhead_detail",
    })
-    }
-</div>
-
-<section class="details_grid_general desiredproperty_toggle_target" id="desiredPropertiesGrid">
-    @if (desiredProperties.Any())
-    {
-        foreach (var val in desiredProperties)
-        {
-            <h4 class="grid_subhead_detail_label">@val.Name.Substring(19)</h4>
-            <div>
-                <p class="grid_detail_value" name="desiredPropertyField_@val.Name">
-                    @if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
-                    {
-                        @resolvedDate.Value.ToString()
-                    }
-                    else
-                    {
-                        @val.Value
-                    }
-                    <span class="grid_detail_lastUpdated pull-right" name="desiredPropertyField_lastUpdated_@val.Name">@TimeSpanExtension.ToFloorShortString(utcNow - val.LastUpdatedUtc, Strings.LastUpdatedFormatString)</span>
-                </p>
-            </div>
         }
-    }
-    else
-    {
-        <p class="grid_detail_value">@Strings.NoDesiredProperties</p>
-    }
-</section>
-
-@if (reportedProperties.Any())
-{
-    <div class="header_grid header_grid_general">
-        <img id="reportedPropertyClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer reportedproperty_toggle_target reportedproperty_toggle_source" />
-        <img id="reportedPropertyOpen" src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer display_none reportedproperty_toggle_target reportedproperty_toggle_source" />
-        <h3 class="grid_subheadhead_detail_collapsable cursor_pointer reportedproperty_toggle_source">@Strings.ReportedProperties</h3>
-        <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.ReportedPropertiesTooltip" />
     </div>
 
-    <section class="details_grid_general reportedproperty_toggle_target" id="reportedPropertiesGrid">
-        @foreach (var val in reportedProperties)
+    <section class="details_grid_general desiredproperty_toggle_target" id="desiredPropertiesGrid">
+        @if (desiredProperties.Any())
         {
-            <h4 class="grid_subhead_detail_label">@val.Name.Substring(20)</h4>
-            <div>
-                <p class="grid_detail_value" name="reportedPropertyField_@val.Name">
-                    @if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
+            foreach (var val in desiredProperties)
+            {
+                <h4 class="grid_subhead_detail_label">@val.Name.Substring(19)</h4>
+                <div>
+                    <p class="grid_detail_value" name="desiredPropertyField_@val.Name">
+                        @if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
                     {
-                        @resolvedDate.Value.ToString()
-                    }
-                    else
-                    {
-                        @val.Value
-                    }
-                    <span class="grid_detail_lastUpdated pull-right" name="reportedPropertyField_lastUpdated_@val.Name">@TimeSpanExtension.ToFloorShortString(utcNow - val.LastUpdatedUtc, Strings.LastUpdatedFormatString)</span>
-                </p>
-            </div>
-        }
-    </section>
-}
-
-<hr class="details_grid_twin_end_line" />
-
-<div class="header_grid header_grid_general">
-    <img id="deviceDetailsClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer devicedetails_toggle_target devicedetails_toggle_source" />
-    <img id="deviceDetailsOpen" src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer display_none devicedetails_toggle_target devicedetails_toggle_source" />
-    <h3 class="grid_subheadhead_detail_collapsable cursor_pointer devicedetails_toggle_source">@Strings.DeviceProperties</h3>
-    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DevicePropertiesFormattedAsStored" />
-</div>
-
-<section class="details_grid_general devicedetails_toggle_target" id="deviceDetailsGrid">
-    @foreach (var propVal in deviceProperties)
-    {
-        <h4 class="grid_subhead_detail_label">@DeviceDisplayHelper.GetDevicePropertyFieldLocalName(propVal.Name)</h4>
-        if (DeviceDisplayHelper.GetIsCopyControlPropertyName(propVal.Name))
-        {
-            string classname = "text_copy_container__input--details_grid";
-            string class_styles_modifier = "text_copy_container--details_grid";
-            string button_style_modifier = "details_grid_general__copy_button";
-            @IoTHelpers.TextCopy(propVal.Name, classname, propVal.Value, class_styles_modifier, button_style_modifier);
+                            @resolvedDate.Value.ToString()
+                        }
+                        else
+                        {
+                            @val.Value
+                        }
+                        <span class="grid_detail_lastUpdated pull-right" name="desiredPropertyField_lastUpdated_@val.Name">@TimeSpanExtension.ToFloorShortString(utcNow - val.LastUpdatedUtc, Strings.LastUpdatedFormatString)</span>
+                    </p>
+                </div>
+            }
         }
         else
         {
-            if ((propVal.PropertyType == PropertyType.DateTime) &&
-                (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, propVal.Value)).HasValue)
+            <p class="grid_detail_value">@Strings.NoDesiredProperties</p>
+        }
+    </section>
+
+    @if (reportedProperties.Any())
+    {
+        <div class="header_grid header_grid_general">
+            <img id="reportedPropertyClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer reportedproperty_toggle_target reportedproperty_toggle_source" />
+            <img id="reportedPropertyOpen" src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer display_none reportedproperty_toggle_target reportedproperty_toggle_source" />
+            <h3 class="grid_subheadhead_detail_collapsable cursor_pointer reportedproperty_toggle_source">@Strings.ReportedProperties</h3>
+            <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.ReportedPropertiesTooltip" />
+        </div>
+
+        <section class="details_grid_general reportedproperty_toggle_target" id="reportedPropertiesGrid">
+            @foreach (var val in reportedProperties)
             {
-                <p class="grid_detail_value" name="deviceField_@propVal.Name">@resolvedDate.Value.ToString()</p>
+                <h4 class="grid_subhead_detail_label">@val.Name.Substring(20)</h4>
+                <div>
+                    <p class="grid_detail_value" name="reportedPropertyField_@val.Name">
+                        @if (val.PropertyType == PropertyType.DateTime && (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, val.Value)).HasValue)
+                    {
+                            @resolvedDate.Value.ToString()
+                        }
+                        else
+                        {
+                            @val.Value
+                        }
+                        <span class="grid_detail_lastUpdated pull-right" name="reportedPropertyField_lastUpdated_@val.Name">@TimeSpanExtension.ToFloorShortString(utcNow - val.LastUpdatedUtc, Strings.LastUpdatedFormatString)</span>
+                    </p>
+                </div>
+            }
+        </section>
+    }
+</div>
+<hr class="details_grid_twin_end_line" />
+
+<div class="grid_subheadhead_left_space">
+    <div class="header_grid header_grid_general">
+        <img id="deviceDetailsClose" src="~/Content/img/expanded.svg" class="details_grid_info cursor_pointer devicedetails_toggle_target devicedetails_toggle_source" />
+        <img id="deviceDetailsOpen" src="~/Content/img/collapsed.svg" class="details_grid_info cursor_pointer display_none devicedetails_toggle_target devicedetails_toggle_source" />
+        <h3 class="grid_subheadhead cursor_pointer devicedetails_toggle_source">@Strings.DeviceProperties</h3>
+        <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DevicePropertiesFormattedAsStored" />
+    </div>
+
+    <section class="details_grid_general devicedetails_toggle_target" id="deviceDetailsGrid">
+        @foreach (var propVal in deviceProperties)
+        {
+            <h4 class="grid_subhead_detail_label">@DeviceDisplayHelper.GetDevicePropertyFieldLocalName(propVal.Name)</h4>
+            if (DeviceDisplayHelper.GetIsCopyControlPropertyName(propVal.Name))
+            {
+                string classname = "text_copy_container__input--details_grid";
+                string class_styles_modifier = "text_copy_container--details_grid";
+                string button_style_modifier = "details_grid_general__copy_button";
+                @IoTHelpers.TextCopy(propVal.Name, classname, propVal.Value, class_styles_modifier, button_style_modifier);
             }
             else
             {
-                <p class="grid_detail_value" name="deviceField_@propVal.Name">@propVal.Value</p>
+                if ((propVal.PropertyType == PropertyType.DateTime) &&
+                    (resolvedDate = DynamicValuesHelper.ConvertToDateTime(CultureInfo.InvariantCulture, propVal.Value)).HasValue)
+                {
+                    <p class="grid_detail_value" name="deviceField_@propVal.Name">@resolvedDate.Value.ToString()</p>
+                }
+                else
+                {
+                    <p class="grid_detail_value" name="deviceField_@propVal.Name">@propVal.Value</p>
+                }
             }
         }
-    }
 
-    @if (Model.HasKeyViewingPerm)
-    {
-        <p class="grid_detail_value">
-            <a href="#" id="deviceExplorer_authKeys" class="not_disable">@Strings.ViewAuthenticationKeys</a>
-        </p>
-    }
-</section>
+        @if (Model.HasKeyViewingPerm)
+        {
+            <p class="grid_detail_value">
+                <a href="#" id="deviceExplorer_authKeys" class="not_disable">@Strings.ViewAuthenticationKeys</a>
+            </p>
+        }
+    </section>
 
-<div class="header_grid header_grid_general">
-    <img id="jobClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer job_toggle_target job_toggle_source" />
-    <img id="jobOpen" src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer display_none job_toggle_target job_toggle_source" />
-    <h3 class="grid_subheadhead_detail_collapsable cursor_pointer job_toggle_source">@Strings.RecentJobs</h3>
-    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.RecentJobsTooltip" />
-</div>
 
-<section class="details_grid_general job_toggle_target" id="deviceJobGrid">
-    <div id="deviceJobLoadingElement" class="loader_container_panel">
-        <div class="loader_container__loader" />
+    <div class="header_grid header_grid_general">
+        <img id="jobClose" src="~/Content/img/expanded.svg" class="details_grid_info cursor_pointer job_toggle_target job_toggle_source" />
+        <img id="jobOpen" src="~/Content/img/collapsed.svg" class="details_grid_info cursor_pointer display_none job_toggle_target job_toggle_source" />
+        <h3 class="grid_subheadhead cursor_pointer job_toggle_source" >@Strings.RecentJobs</h3>
+        <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.RecentJobsTooltip" />
     </div>
-</section>
+
+    <section class="details_grid_general job_toggle_target" id="deviceJobGrid">
+        <div id="deviceJobLoadingElement" class="loader_container_panel">
+            <div class="loader_container__loader loader_container__loader--large_top_margin" />
+        </div>
+    </section>
+</div>
 
 <script type="text/javascript">
     (function () {
