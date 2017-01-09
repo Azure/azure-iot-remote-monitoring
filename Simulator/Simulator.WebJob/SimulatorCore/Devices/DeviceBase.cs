@@ -334,7 +334,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             var patch = new TwinCollection();
             CrossSyncProperties(patch, reported, regenerate);
-            AddSupportedMethods(patch);
+            AddSupportedMethods(patch, reported);
             patch.Set(StartupTimePropertyName, DateTime.UtcNow.ToString());
 
             // Update ReportedProperties to IoT Hub
@@ -388,8 +388,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             }
         }
 
-        protected void AddSupportedMethods(TwinCollection patch)
+        protected void AddSupportedMethods(TwinCollection patch, TwinCollection reported)
         {
+            var existingMethods = new HashSet<string>();
+            if (reported.Contains("SupportedMethods"))
+            {
+                existingMethods.UnionWith(reported.AsEnumerableFlatten()
+                    .Select(pair => pair.Key)
+                    .Where(key => key.StartsWith("SupportedMethods."))
+                    .Select(key => key.Split('.')[1]));
+            }
+
             var supportedMethods = new TwinCollection();
             foreach (var method in Commands.Where(c => c.DeliveryType == DeliveryType.Method))
             {
@@ -409,6 +418,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                 string normalizedName = SupportedMethodsHelper.NormalizeMethodName(method);
                 supportedMethods[normalizedName] = methodObj;
+
+                existingMethods.Remove(normalizedName);
+            }
+
+            foreach (var method in existingMethods)
+            {
+                supportedMethods[method] = null;
             }
 
             patch["SupportedMethods"] = supportedMethods;
