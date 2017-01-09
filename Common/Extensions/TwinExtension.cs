@@ -96,7 +96,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
         static public IEnumerable<string> GetNameList(this IEnumerable<Twin> twins, Func<Twin, TwinCollection> selector, string prefix = "")
         {
             var nameGroups = twins.Select(twin => selector(twin).AsEnumerableFlatten(prefix).Select(pair => pair.Key));
-            return nameGroups.Aggregate((s1, s2) => s1.Union(s2));
+            return nameGroups.Any() ?
+                nameGroups.Aggregate((s1, s2) => s1.Union(s2)) :
+                new List<string>();
         }
     }
 }

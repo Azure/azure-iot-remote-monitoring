@@ -66,10 +66,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var tags = twins.GetNameList(twin => twin.Tags);
             var tagTask = _nameCacheLogic.AddShortNamesAsync(NameCacheEntityType.Tag, tags);
 
-            var desiredProperties = twins.GetNameList(twin => twin.Tags);
+            var desiredProperties = twins.GetNameList(twin => twin.Properties.Desired);
             var desiredPropertyTask = _nameCacheLogic.AddShortNamesAsync(NameCacheEntityType.DesiredProperty, desiredProperties);
 
-            var reportedProperties = twins.GetNameList(twin => twin.Tags)
+            var reportedProperties = twins.GetNameList(twin => twin.Properties.Reported)
                 .Where(name => !SupportedMethodsHelper.IsSupportedMethodProperty(name));
             var reportedPropertyTask = _nameCacheLogic.AddShortNamesAsync(NameCacheEntityType.ReportedProperty, reportedProperties);
 

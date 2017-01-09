@@ -120,7 +120,7 @@
 
         var resources = {
             redirectToIndexUrl: '@Url.Action("Index", "Device")',
-            commands: '@Html.Raw(Model.CommandsJson)',
+            commands: '@Html.JavaScriptString(@Model.CommandsJson)',
             deviceId: '@Model.DeviceId',
             deviceIsEnabled: '@Model.DeviceIsEnabled.ToString().ToLower()',
             commandError: '@Html.JavaScriptString(Strings.MethodError)',

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 using Microsoft.Azure.Devices.Shared;
 using Xunit;
@@ -98,6 +99,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
             existing.Properties.Desired["y"] = current.Properties.Desired["y"];
             existing.Tags["xx"] = 3;
             Assert.True(current.UpdateRequired(existing));
+        }
+
+        [Fact]
+        public void GetNameListTest()
+        {
+            var twinA = new Twin();
+            twinA.Tags.Set("Tag0", "value");
+            twinA.Tags.Set("Tag1.Sub0", "value");
+            twinA.Tags.Set("Tag1.Sub1", "value");
+
+            var twinB = new Twin();
+            twinA.Tags.Set("Tag0", "value");
+            twinA.Tags.Set("Tag2.Sub0", "value");
+            twinA.Tags.Set("Tag2.Sub1", "value");
+
+            var names = (new Twin[] { twinA, twinB }).GetNameList(twin => twin.Tags);
+            Assert.True(names.SequenceEqual(new string[] { "Tag0", "Tag1.Sub0", "Tag1.Sub1", "Tag2.Sub0", "Tag2.Sub1" }));
+
+            Assert.False((new Twin[] { }).GetNameList(twin => twin.Tags).Any());
         }
     }
 }

@@ -1950,7 +1950,7 @@
     <comment>Section heading.</comment>
   </data>
   <data name="JobHistoryForFilter" xml:space="preserve">
-    <value>Job history for the filter</value>
+    <value>Job history for this filter</value>
     <comment>Section heading.</comment>
   </data>
   <data name="JobsTooltip" xml:space="preserve">
@@ -2312,24 +2312,24 @@
     <value>No Tags</value>
     <comment>Informational text block.</comment>
   </data>
-  <data name="ApplyExistingImageLabel" xml:space="preserve">
-    <value>Apply existing image</value>
+  <data name="ApplyExistingIconLabel" xml:space="preserve">
+    <value>Apply existing icon</value>
     <comment>Option label.</comment>
   </data>
   <data name="EditIconFor" xml:space="preserve">
-    <value>Edit Image for {0}</value>
+    <value>Edit Icon for {0}</value>
     <comment>Page heading.</comment>
   </data>
   <data name="PreviewImage" xml:space="preserve">
     <value>Preview</value>
     <comment>Label.</comment>
   </data>
-  <data name="RemoveCurrentImageLabel" xml:space="preserve">
-    <value>Remove current image</value>
+  <data name="RemoveCurrentIconLabel" xml:space="preserve">
+    <value>Remove current icon</value>
     <comment>Option label.</comment>
   </data>
-  <data name="UploadNewImageLabel" xml:space="preserve">
-    <value>Upload new image</value>
+  <data name="UploadNewIconLabel" xml:space="preserve">
+    <value>Upload new icon</value>
     <comment>Option label.</comment>
   </data>
   <data name="FailedToUploadImage" xml:space="preserve">
@@ -2389,7 +2389,7 @@
     <comment>Error message.</comment>
   </data>
   <data name="ImageSizeSuggestions" xml:space="preserve">
-    <value>Please use image with 150*150 pixels and less than 4MB file size.</value>
+    <value>Please use an image file with 150*150 pixels and less than 4MB.</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="ExternalJobNamePrefix" xml:space="preserve">

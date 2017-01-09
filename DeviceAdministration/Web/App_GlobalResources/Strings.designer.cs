@@ -332,11 +332,11 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Apply existing image.
+        ///   Looks up a localized string similar to Apply existing icon.
         /// </summary>
-        public static string ApplyExistingImageLabel {
+        public static string ApplyExistingIconLabel {
             get {
-                return ResourceManager.GetString("ApplyExistingImageLabel", resourceCulture);
+                return ResourceManager.GetString("ApplyExistingIconLabel", resourceCulture);
             }
         }
         
@@ -1601,7 +1601,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit Image for {0}.
+        ///   Looks up a localized string similar to Edit Icon for {0}.
         /// </summary>
         public static string EditIconFor {
             get {
@@ -2456,7 +2456,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please use image with 150*150 pixels and less than 4MB file size..
+        ///   Looks up a localized string similar to Please use an image file with 150*150 pixels and less than 4MB..
         /// </summary>
         public static string ImageSizeSuggestions {
             get {
@@ -2699,7 +2699,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Job history for the filter.
+        ///   Looks up a localized string similar to Job history for this filter.
         /// </summary>
         public static string JobHistoryForFilter {
             get {
@@ -3752,11 +3752,11 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove current image.
+        ///   Looks up a localized string similar to Remove current icon.
         /// </summary>
-        public static string RemoveCurrentImageLabel {
+        public static string RemoveCurrentIconLabel {
             get {
-                return ResourceManager.GetString("RemoveCurrentImageLabel", resourceCulture);
+                return ResourceManager.GetString("RemoveCurrentIconLabel", resourceCulture);
             }
         }
         
@@ -5012,11 +5012,11 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload new image.
+        ///   Looks up a localized string similar to Upload new icon.
         /// </summary>
-        public static string UploadNewImageLabel {
+        public static string UploadNewIconLabel {
             get {
-                return ResourceManager.GetString("UploadNewImageLabel", resourceCulture);
+                return ResourceManager.GetString("UploadNewIconLabel", resourceCulture);
             }
         }
         
