@@ -30,7 +30,7 @@
                     <div class="device_icon_action_upload">
                         <input type="text" id="filePathBox" class="edit_form__file" placeholder="@Strings.OpenImageTooltip" disabled="disabled">
                         <input type="file" id="file" class="device_icon_file" size="1" accept="image/gif, image/jpeg, image/png" hidefocus>
-                        <button id="openImageBtn" class="button_base devicelist_toolbar_button devicelist_toolbar_button_gray device_icon_button_open_image">@Strings.OpenImage</button>
+                        <button id="chooseFileBtn" class="button_base devicelist_toolbar_button devicelist_toolbar_button_gray device_icon_button_open_image">@Strings.ChooseFileLabel</button>
                     </div>
                     <div id="progressBar"></div>
                     <p class="device_icon_preview_tooptip">@Strings.ImageSizeSuggestions</p>
@@ -54,8 +54,8 @@
                             <!-- /ko -->
                         </div>
                         <div class="device_icon_list_container" id="imageListContainer" data-bind="foreach: iconList ">
-                            <div>
-                                <img class="device_icon_apply_image" data-bind="attr: {id: name, src: blobUrl }" />
+                            <div class="device_icon_apply_image_container">
+                                <img class="device_icon_apply_image" data-bind="attr: {id: name, src: blobUrl }, click: $parent.selectIcon" />
                                 <a class="device_icon_apply_image_delete_link">
                                     <img title="@Strings.DeleteIconTooltip" class="device_icon_apply_image_delete_icon" src="~/Content/img/column_delete.svg" data-bind="click: $parent.deleteIcon" />
                                 </a>

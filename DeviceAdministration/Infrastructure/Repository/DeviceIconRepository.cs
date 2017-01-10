@@ -31,7 +31,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             CreateSASPolicyIfNotExist();
         }
 
-        public async Task<DeviceIcon> AddIcon(string deviceId, string fileName, Stream fileStream)
+        public async Task<DeviceIcon> AddIcon(string fileName, Stream fileStream)
         {
             // replace '.' with '_' so that the name can be used in MVC Url route.
             var name = Path.GetFileName(fileName).Replace(".", "_");
@@ -43,16 +43,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 AccessCondition.GenerateEmptyCondition(),
                 null,
                 null);
+
             return new DeviceIcon(name, blob);
         }
 
-        public async Task<DeviceIcon> GetIcon(string deviceId, string name)
+        public async Task<DeviceIcon> GetIcon(string name)
         {
             var blob = await _blobStorageClient.GetBlob($"{_appliedFolder}/{name}");
             return new DeviceIcon(name, blob);
         }
 
-        public async Task<DeviceIconResult> GetIcons(string deviceId, int skip, int take)
+        public async Task<DeviceIconResult> GetIcons(int skip, int take)
         {
             string folderPrefix = _appliedFolder + "/";
             var blobs = await _blobStorageClient.ListBlobs(folderPrefix, true);
@@ -69,13 +70,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             };
         }
 
-        public async Task<DeviceIcon> SaveIcon(string deviceId, string name)
+        public async Task<DeviceIcon> SaveIcon(string name)
         {
             var appliedBlob = await _blobStorageClient.MoveBlob($"{_uploadedFolder}/{name}", $"{_appliedFolder}/{name}");
             return new DeviceIcon(Path.GetFileName(appliedBlob.Name), appliedBlob);
         }
 
-        public async Task<bool> DeleteIcon(string deviceId, string name)
+        public async Task<bool> DeleteIcon(string name)
         {
             return  await _blobStorageClient.DeleteBlob($"{_appliedFolder}/{name}");
         }

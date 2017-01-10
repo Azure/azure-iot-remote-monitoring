@@ -8,5 +8,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
     {
         public const string CultureCookieName = "_culture";
         public const string DeviceIconTagName = "__icon__";
+        public const string DeviceIconFullTagName = "tags." + DeviceIconTagName;
     }
 }

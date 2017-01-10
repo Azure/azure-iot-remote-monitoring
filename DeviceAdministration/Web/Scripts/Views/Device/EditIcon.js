@@ -23,7 +23,7 @@
         this.maxSizeInMB = 4;
         this.sizeOk = false;
         this.pageSize = 10;
-        this.apiRoute = '/api/v1/devices/' + deviceId + '/icons/';
+        this.apiRoute = '/api/v1/icons/';
         this.getIconApiRoute = '/api/v1/devices/' + deviceId + '/icon'
 
         this.actionType = ko.observable(resources.uploadActionType);
@@ -106,7 +106,7 @@
             }
 
             $.ajax({
-                url: self.apiRoute + currentIcon.name + '/' + self.actionType(),
+                url: self.apiRoute + currentIcon.name + '/' + self.deviceId + '/' + self.actionType(),
                 type: 'PUT',
                 data: {},
                 dataType: 'json',
@@ -121,9 +121,9 @@
             return false;
         };
 
-        this.deleteIcon = function (item) {
+        this.deleteIcon = function (icon) {
             $.ajax({
-                url: self.apiRoute + item.name,
+                url: self.apiRoute + icon.name,
                 type: 'DELETE',
                 data: {},
                 dataType: 'json',
@@ -154,7 +154,7 @@
         this.loadIconList = function (page) {
             var skip = page * self.pageSize;
             $.ajax({
-                url: '/api/v1/devices/' + deviceId + '/icons?skip=' + skip + '&take=' + self.pageSize,
+                url: self.apiRoute + '?skip=' + skip + '&take=' + self.pageSize,
                 type: 'GET',
                 cache: false,
                 success: function (result) {
@@ -164,28 +164,36 @@
                     self.iconList(result.data.results);
                     self.totalCount(result.data.totalCount);
                     self.currentPage(page);
-                    self.selectable();
                 }
             });
         };
 
-        this.selectable = function () {
-            $(".device_icon_apply_image").click(function () {
-                $('.device_icon_apply_image').removeClass('device_icon_apply_image_selected').siblings('a').hide();
-                $(this).addClass('device_icon_apply_image_selected')
-                $(this).siblings('a').show();
-                var name = $(this).get(0).id;
-                var icon = new DeviceIcon(name, self.apiRoute + name + '/true');
-                self.selectedIcon(icon);
-                self.actionType(resources.applyActionType);
+        this.loadCurrentIcon = function () {
+            $.ajax({
+                url: self.apiRoute + self.deviceId,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    if (result.data) {
+                        self.currentIcon(result.data);
+                        self.removable(true);
+                    }
+                }
             });
+        };
+
+        this.selectIcon = function (icon, event) {
+            $('.device_icon_apply_image').removeClass('device_icon_apply_image_selected');
+            $(event.target).addClass('device_icon_apply_image_selected');
+            self.selectedIcon(icon);
+            self.actionType(resources.applyActionType);
         };
 
         $("#file").change(function () {
             self.fileChanged(this);
         });
 
-        $('#openImageBtn').click(function () {
+        $('#chooseFileBtn').click(function () {
             $("#file").click();
             if (self.sizeOk) {
                 self.uploadImage();
@@ -200,18 +208,7 @@
         });
 
         this.loadIconList(0);
-
-        $.ajax({
-            url: self.getIconApiRoute,
-            type: 'GET',
-            cache: false,
-            success: function (result) {
-                if (result.data) {
-                    self.currentIcon(result.data);
-                    self.removable(true);
-                }
-            }
-        });
+        this.loadCurrentIcon();
     }
 
     return {

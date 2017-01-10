@@ -584,6 +584,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose File.
+        /// </summary>
+        public static string ChooseFileLabel {
+            get {
+                return ResourceManager.GetString("ChooseFileLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Input values separated by commas..
         /// </summary>
         public static string ClauseMultipleValuesHint {
@@ -1835,7 +1844,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You are not able to delete the device icon. It is used by devices..
+        ///   Looks up a localized string similar to This icon is used by other devices..
         /// </summary>
         public static string FailedToDeleteIcon {
             get {
@@ -3433,15 +3442,6 @@ namespace GlobalResources {
         public static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Open Image.
-        /// </summary>
-        public static string OpenImage {
-            get {
-                return ResourceManager.GetString("OpenImage", resourceCulture);
             }
         }
         

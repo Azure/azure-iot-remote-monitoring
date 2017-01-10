@@ -270,6 +270,8 @@
 
 .device_icon_list_container {
     display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .device_icon_nav_container {
@@ -278,6 +280,12 @@
     float: left;
     border-color: transparent;
     border-style: groove;
+    border-width: thin;
+}
+
+.device_icon_nav_container:hover {
+    border-style: groove;
+    border-color: deepskyblue;
     border-width: thin;
 }
 
@@ -292,10 +300,6 @@
     opacity: 0.3;
 }
 
-.device_icon_page:hover {
-    border-color: lightgray;
-}
-
 .device_icon_apply_image {
     border-style: groove;
     border-width: thin;
@@ -307,7 +311,11 @@
     margin-left: 10px;
 }
 
-.device_icon_apply_image:hover {
+.device_icon_upload_image {
+    .device_icon_apply_image
+}
+
+.device_icon_apply_image_container:hover .device_icon_apply_image {
     border-style: groove;
     border-color: deepskyblue;
     border-width: thin;
@@ -320,7 +328,11 @@
 }
 
 .device_icon_apply_image_delete_link {
-    display: none;
+    visibility: hidden;
+}
+
+.device_icon_apply_image_container:hover .device_icon_apply_image_delete_link {
+    visibility: visible;
 }
 
 .device_icon_apply_image_delete_icon {

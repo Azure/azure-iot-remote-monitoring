@@ -49,7 +49,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 It.IsNotNull<AccessCondition>(),
                 It.IsAny<BlobRequestOptions>(),
                 It.IsAny<OperationContext>())).ReturnsAsync(mockBlob);
-            var icon = await deviceIconRepository.AddIcon("DeviceId", "Image.png", stream);
+            var icon = await deviceIconRepository.AddIcon("Image.png", stream);
             Assert.Equal(icon.Name, "Image_png");
         }
 
@@ -65,7 +65,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(blobData));
             _blobStorageClientMock.Setup(x => x.ListBlobs(It.IsAny<string>(),
                 It.IsAny<bool>())).ReturnsAsync(mockBlobs);
-            var icons = await deviceIconRepository.GetIcons("DeviceId", 0, 10);
+            var icons = await deviceIconRepository.GetIcons(0, 10);
             Assert.Equal(new string[] { "device1_jpg", "device2_jpg" }, icons.Results.Select(i => i.Name).ToArray());
             Assert.Equal(2, icons.TotalCount);
         }
@@ -78,7 +78,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             string blobData = "This is image blob data";
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(blobData));
             _blobStorageClientMock.Setup(x => x.GetBlob(It.IsAny<string>())).ReturnsAsync(mockBlob);
-            var icon = await deviceIconRepository.GetIcon("DeviceId", "device1_jpg");
+            var icon = await deviceIconRepository.GetIcon("device1_jpg");
             Assert.Equal("device1_jpg", icon.Name);
             Assert.Equal(uri.ToString(), icon.BlobUrl);
         }
@@ -90,7 +90,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var uri = new Uri("https://account1.blob.core.windows.net/deviceicons/applied/device1_jpg");
             var mockBlob = new CloudBlockBlob(uri);
             _blobStorageClientMock.Setup(x => x.MoveBlob(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(mockBlob);
-            var icons = await deviceIconRepository.SaveIcon("DeviceId", targetName);
+            var icons = await deviceIconRepository.SaveIcon(targetName);
             Assert.Equal(targetName, icons.Name);
         }
 
@@ -99,7 +99,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         {
             string targetName = "device1_jpg";
             _blobStorageClientMock.Setup(x => x.DeleteBlob(It.IsAny<string>())).ReturnsAsync(true);
-            var result = await deviceIconRepository.DeleteIcon("DeviceId", targetName);
+            var result = await deviceIconRepository.DeleteIcon(targetName);
             Assert.True(result);
         }
 
