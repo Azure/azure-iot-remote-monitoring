@@ -112,7 +112,7 @@
                 IoTApp.Controls.NameSelector.create(jQuery(this), { type: IoTApp.Controls.NameSelector.NameListType.desiredProperty }, self.propertieslist);
             });
             jQuery('.edit_form__texthalf.edit_form__tagsComboBox').each(function () {
-                IoTApp.Controls.NameSelector.create(jQuery(this), { type: IoTApp.Controls.NameSelector.NameListType.tags }, self.tagslist);
+                IoTApp.Controls.NameSelector.create(jQuery(this), { type: IoTApp.Controls.NameSelector.NameListType.tag }, self.tagslist);
             });
         }
 
