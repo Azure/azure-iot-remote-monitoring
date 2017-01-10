@@ -824,8 +824,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
                     try
                     {
-                        latitude = (double)device.Twin.Properties.Reported["Latitude"];
-                        longitude = (double)device.Twin.Properties.Reported["Longitude"];
+                        latitude = (double)device.Twin.Properties.Reported.Get("Location.Latitude");
+                        longitude = (double)device.Twin.Properties.Reported.Get("Location.Longitude");
                     }
                     catch
                     {

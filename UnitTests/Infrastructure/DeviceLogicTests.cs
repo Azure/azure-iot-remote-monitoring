@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
@@ -246,8 +247,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var listOfDevices = this.fixture.Create<List<DeviceModel>>();
             foreach (var d in listOfDevices)
             {
-                d.Twin.Properties.Reported["Latitude"] = fixture.Create<double>();
-                d.Twin.Properties.Reported["Longitude"] = fixture.Create<double>();
+                d.Twin.Properties.Reported.Set("Location.Latitude", fixture.Create<double>());
+                d.Twin.Properties.Reported.Set("Location.Longitude", fixture.Create<double>());
             }
 
             var latitudes = new List<double>();
@@ -257,13 +258,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             {
                 try
                 {
-                    latitudes.Add((double)d.Twin.Properties.Reported["Latitude"]);
-                    longitudes.Add((double)d.Twin.Properties.Reported["Longitude"]);
+                    latitudes.Add((double)d.Twin.Properties.Reported.Get("Location.Latitude"));
+                    longitudes.Add((double)d.Twin.Properties.Reported.Get("Location.Longitude"));
                     locations.Add(new DeviceLocationModel
                     {
                         DeviceId = d.DeviceProperties.DeviceID,
-                        Latitude = (double)d.Twin.Properties.Reported["Latitude"],
-                        Longitude = (double)d.Twin.Properties.Reported["Longitude"]
+                        Latitude = (double)d.Twin.Properties.Reported.Get("Location.Latitude"),
+                        Longitude = (double)d.Twin.Properties.Reported.Get("Location.Longitude")
                     });
                 }
                 catch (Exception)
