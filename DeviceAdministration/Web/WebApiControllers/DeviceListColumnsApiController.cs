@@ -17,13 +17,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private readonly List<DeviceListColumns> defaultColumns = new List<DeviceListColumns>() {
                     new DeviceListColumns() { Name = "tags.HubEnabledState", Alias = Strings.StatusHeader },
                     new DeviceListColumns() { Name = "deviceId", Alias = Strings.DeviceIdHeader },
-                    new DeviceListColumns() { Name = "reported.Manufacturer", Alias = Strings.ManufactureHeader },
-                    new DeviceListColumns() { Name = "reported.ModelNumber", Alias = Strings.ModelNumberHeader },
-                    new DeviceListColumns() { Name = "reported.SerialNumber", Alias = Strings.SerialNumberHeader },
-                    new DeviceListColumns() { Name = "reported.FirmwareVersion", Alias = Strings.FirmwareHeader },
-                    new DeviceListColumns() { Name = "reported.Platform", Alias = Strings.PlatformHeader },
-                    new DeviceListColumns() { Name = "reported.Processor", Alias = Strings.ProcessorHeader },
-                    new DeviceListColumns() { Name = "reported.InstalledRAM", Alias = Strings.InstalledRamHeader }};
+                    new DeviceListColumns() { Name = "reported.System.Manufacturer", Alias = Strings.ManufactureHeader },
+                    new DeviceListColumns() { Name = "reported.System.ModelNumber", Alias = Strings.ModelNumberHeader },
+                    new DeviceListColumns() { Name = "reported.System.SerialNumber", Alias = Strings.SerialNumberHeader },
+                    new DeviceListColumns() { Name = "reported.System.FirmwareVersion", Alias = Strings.FirmwareHeader },
+                    new DeviceListColumns() { Name = "reported.System.Platform", Alias = Strings.PlatformHeader },
+                    new DeviceListColumns() { Name = "reported.System.Processor", Alias = Strings.ProcessorHeader },
+                    new DeviceListColumns() { Name = "reported.System.InstalledRAM", Alias = Strings.InstalledRamHeader }};
 
         public DeviceListColumnsApiController(IUserSettingsLogic userSettingsLogic)
         {

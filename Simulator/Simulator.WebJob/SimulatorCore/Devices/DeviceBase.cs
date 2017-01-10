@@ -65,6 +65,29 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         protected object _telemetryController;
 
+        private Dictionary<string, string> _propertyMapping = new Dictionary<string, string>
+        {
+            { "CreatedTime", "CreatedTime" },
+            { "UpdatedTime", "UpdatedTime" },
+            { "DeviceState", "DeviceState" },
+            { "Manufacturer", "System.Manufacturer" },
+            { "ModelNumber", "System.ModelNumber" },
+            { "SerialNumber", "System.SerialNumber" },
+            { "FirmwareVersion", "System.FirmwareVersion" },
+            { "AvailablePowerSources", "System.AvailablePowerSources" },
+            { "PowerSourceVoltage", "System.PowerSourceVoltage" },
+            { "BatteryLevel", "System.BatteryLevel" },
+            { "MemoryFree", "System.MemoryFree" },
+            { "HostName", "System.HostName" },
+            { "Platform", "System.Platform" },
+            { "Processor", "System.Processor" },
+            { "InstalledRAM", "System.InstalledRAM" },
+            { "Latitude", "Location.Latitude" },
+            { "Longitude", "Location.Longitude" }
+        };
+
+        protected Dictionary<string, Func<object, Task>> _desiredPropertyUdateHandlers = new Dictionary<string, Func<object, Task>>();
+
         /// <summary>
         /// 
         /// </summary>
@@ -348,21 +371,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         protected void CrossSyncProperties(TwinCollection patch, TwinCollection reported, bool regenerate)
         {
             var devicePropertiesType = DeviceProperties.GetType();
+            var reportedPairs = reported.AsEnumerableFlatten().ToDictionary(pair => pair.Key, pair => pair.Value);
 
             if (!regenerate)
             {
                 // Overwrite regenerated DeviceProperties by current ReportedProperties
-                foreach (var pair in reported.AsEnumerableFlatten())
+                foreach (var pair in reportedPairs)
                 {
-                    if (pair.Key.Contains("."))
+                    string devicePropertyName = _propertyMapping.SingleOrDefault(p => p.Value == pair.Key).Key;
+                    if (string.IsNullOrWhiteSpace(devicePropertyName))
                     {
-                        // Hierarchical ReportedProperties could not be expressed in DeviceProperties, ignore
                         continue;
                     }
 
                     try
                     {
-                        DeviceProperties.SetProperty(pair.Key, pair.Value.Value);
+                        DeviceProperties.SetProperty(devicePropertyName, pair.Value.Value);
                     }
                     catch
                     {
@@ -374,16 +398,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             // Add missing DeviceProperties to ReportedProperties
             foreach (var property in devicePropertiesType.GetProperties())
             {
-                if (property.Name == "DeviceID")
+                string reportedName;
+                if (!_propertyMapping.TryGetValue(property.Name, out reportedName))
                 {
-                    // DeviceID is part of the Twin. Never put it into ReportedProperties
                     continue;
                 }
 
                 var value = property.GetValue(DeviceProperties);
-                if (regenerate || !reported.Contains(property.Name) && value != null)
+                if (regenerate || value != null && !reportedPairs.ContainsKey(reportedName))
                 {
-                    patch[property.Name] = value;
+                    patch.Set(reportedName, value);
                 }
             }
         }
