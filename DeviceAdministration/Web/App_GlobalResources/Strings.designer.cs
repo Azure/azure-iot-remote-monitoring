@@ -5231,15 +5231,6 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 123.
-        /// </summary>
-        public static string ValueTextPlaceHolder {
-            get {
-                return ResourceManager.GetString("ValueTextPlaceHolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to VERSION.
         /// </summary>
         public static string Version {

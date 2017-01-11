@@ -75,7 +75,7 @@
                                             <td>
                                                 @*data-msg-required="@Strings.RequiredValidationString"
                                                     data-rule-required="true"*@
-                                                <input type="text" class="edit_form__texthalfvalue" placeholder="@Strings.ValueTextPlaceHolder"
+                                                <input type="text" class="edit_form__texthalfvalue" 
                                                        data-bind='textInput: PropertyValue, enable:PropertyName() && !isDeleted(),  event: { keyup: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
                                             </td>
                                             <td>
@@ -112,8 +112,8 @@
                                                        data-bind='value: TagName, attr: { name: "Tags[" + $index() + "].TagName", id: "Tags" + $index() + ".TagName" }' />
                                             </td>
                                             <td>
-                                                <input type="text" class="edit_form__texthalfvalue" placeholder="@Strings.ValueTextPlaceHolder"
-                                                       data-bind='textInput: TagValue, enable:TagName() && !isDeleted(), event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />
+                                                <input type="text" class="edit_form__texthalfvalue"
+                                                       data-bind='textInput: TagValue, enable:TagName() && !isDeleted(), event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />                                                
                                             </td>
                                             <td>
                                                 <input type="checkbox"

@@ -2376,10 +2376,6 @@
     <value> tags.sampletag</value>
     <comment>Text input Placeholder</comment>
   </data>
-  <data name="ValueTextPlaceHolder" xml:space="preserve">
-    <value>123</value>
-    <comment>Text input Placeholder</comment>
-  </data>
   <data name="DeleteIconTooltip" xml:space="preserve">
     <value>Delete Icon</value>
     <comment>Tooltip.</comment>
