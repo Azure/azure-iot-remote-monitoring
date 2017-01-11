@@ -26,9 +26,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.SampleDat
         private long _tickCounter;
         object sync = new Object();
 
-        public SampleDataGenerator(double minValueToGenerate, 
-            double maxNonPeakValueToGenerate, double minPeakValueToGenerate, 
-            int peakInterval, IRandomGenerator randomGenerator) 
+        public SampleDataGenerator(double minValueToGenerate,
+            double maxNonPeakValueToGenerate, double minPeakValueToGenerate,
+            int peakInterval, IRandomGenerator randomGenerator)
         {
             if (minValueToGenerate >= maxNonPeakValueToGenerate)
             {
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.SampleDat
 
             // minPeakValueToGenerate is zero when peaks are not generated
             _generatePeaks = minPeakValueToGenerate != 0 ? true : false;
-            
+
             if (_generatePeaks && peakInterval == 0)
             {
                 throw new ArgumentOutOfRangeException("peakInterval", "peakInterval cannot be 0.");
@@ -82,21 +82,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.SampleDat
 
         }
 
-        public SampleDataGenerator(double minValueToGenerate, double maxNonPeakValueToGenerate, 
+        public SampleDataGenerator(double minValueToGenerate, double maxNonPeakValueToGenerate,
             double minPeakValueToGenerate, int peakInterval)
-            : this(minValueToGenerate, maxNonPeakValueToGenerate, minPeakValueToGenerate, 
+            : this(minValueToGenerate, maxNonPeakValueToGenerate, minPeakValueToGenerate,
             peakInterval, new RandomGenerator())
         {
         }
 
-        public SampleDataGenerator(double minValueToGenerate, double maxNonPeakValueToGenerate, 
+        public SampleDataGenerator(double minValueToGenerate, double maxNonPeakValueToGenerate,
             IRandomGenerator randomGenerator)
             : this(minValueToGenerate, maxNonPeakValueToGenerate, 0, 0, randomGenerator)
         {
         }
 
-        public SampleDataGenerator(double minValueToGenerate, double maxNonPeakValueToGenerate) 
-            : this (minValueToGenerate, maxNonPeakValueToGenerate, 0, 0, new RandomGenerator())
+        public SampleDataGenerator(double minValueToGenerate, double maxNonPeakValueToGenerate)
+            : this(minValueToGenerate, maxNonPeakValueToGenerate, 0, 0, new RandomGenerator())
         {
         }
 
@@ -130,6 +130,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.SampleDat
                 _minValueToGenerate = newMidPointOfRange - shift;
                 _maxNonPeakValueToGenerate = newMidPointOfRange + shift;
             }
+        }
+
+        public double GetMidPointOfRange()
+        {
+            return (_minValueToGenerate + _maxNonPeakValueToGenerate) / 2;
         }
 
         private void GetNextRawValue()

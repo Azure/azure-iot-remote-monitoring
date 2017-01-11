@@ -31,8 +31,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         Task UpdateReportedPropertiesAsync(TwinCollection reportedProperties);
 
-        Task<TwinCollection> GetReportedPropertiesAsync();
+        Task<Twin> GetTwinAsync();
 
         void SetMethodHandler(string methodName, MethodCallback callback);
+
+        void SetDesiredPropertyUpdateCallback(DesiredPropertyUpdateCallback callback);
     }
 }

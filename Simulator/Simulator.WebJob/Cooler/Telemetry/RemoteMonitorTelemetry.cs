@@ -8,7 +8,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Telemetry
 {
-    public class RemoteMonitorTelemetry : ITelemetry
+    public class RemoteMonitorTelemetry : ITelemetry, ITelemetryWithInterval, ITelemetryWithSetPointTemperature
     {
         private readonly ILogger _logger;
         private readonly string _deviceId;
@@ -32,11 +32,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             ActivateExternalTemperature = false;
             TelemetryActive = true;
 
-            int peakFrequencyInTicks = Convert.ToInt32(Math.Ceiling((double)PEAK_FREQUENCY_IN_SECONDS /  REPORT_FREQUENCY_IN_SECONDS));
+            int peakFrequencyInTicks = Convert.ToInt32(Math.Ceiling((double)PEAK_FREQUENCY_IN_SECONDS / REPORT_FREQUENCY_IN_SECONDS));
 
             _temperatureGenerator = new SampleDataGenerator(33, 36, 42, peakFrequencyInTicks);
             _humidityGenerator = new SampleDataGenerator(20, 50);
             _externalTemperatureGenerator = new SampleDataGenerator(-20, 120);
+
+            TelemetryIntervalInSeconds = REPORT_FREQUENCY_IN_SECONDS;
         }
 
         public async Task SendEventsAsync(CancellationToken token, Func<object, Task> sendMessageAsync)
@@ -67,13 +69,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                     await sendMessageAsync(monitorData);
                 }
-                await Task.Delay(TimeSpan.FromSeconds(REPORT_FREQUENCY_IN_SECONDS), token);
+                await Task.Delay(TimeSpan.FromSeconds(TelemetryIntervalInSeconds), token);
             }
         }
 
-        public void ChangeSetPointTemperature(double newSetPointTemperature)
+        public int TelemetryIntervalInSeconds { get; set; }
+
+        public double SetPointTemperature
         {
-            _temperatureGenerator.ShiftSubsequentData(newSetPointTemperature);
+            get
+            {
+                return _temperatureGenerator.GetMidPointOfRange();
+            }
+
+            set
+            {
+                _temperatureGenerator.ShiftSubsequentData(value);
+            }
         }
     }
 }
