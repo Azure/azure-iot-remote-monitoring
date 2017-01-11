@@ -91,17 +91,21 @@
             }
         });
         $('.device_list_columns_loaddefault_text').click(function () {
-            $('#loadingElement').show();
-            $.ajax({
-                url: '/api/v1/deviceListColumns/global',
-                type: 'GET',
-                success: function (result) {
-                    $('#loadingElement').hide();
-                    self.model.columns(result.data);
-                },
-                error: function () {
-                    $('#loadingElement').hide();
-                    IoTApp.Helpers.Dialog.displayError(resources.unableToRetrieveColumnsFromService);
+            IoTApp.Helpers.Dialog.confirm(resources.loadDefaultConfirmation, function (result) {
+                if (result) {
+                    $('#loadingElement').show();
+                    $.ajax({
+                        url: '/api/v1/deviceListColumns/global',
+                        type: 'GET',
+                        success: function (result) {
+                            $('#loadingElement').hide();
+                            self.model.columns(result.data);
+                        },
+                        error: function () {
+                            $('#loadingElement').hide();
+                            IoTApp.Helpers.Dialog.displayError(resources.unableToRetrieveColumnsFromService);
+                        }
+                    });
                 }
             });
         });
