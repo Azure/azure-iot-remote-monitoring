@@ -204,7 +204,10 @@ $(function () {
     /* tooltip */
     $(document).tooltip({
         hide: false,
-        show: false
+        show: false,
+        content: function () {
+              return $(this).prop('title');
+          }
     });
     var copy;
     $(document).on("mouseover", ".button_copy", function() {

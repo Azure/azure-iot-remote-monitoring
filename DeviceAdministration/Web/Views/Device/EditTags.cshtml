@@ -34,7 +34,12 @@
                                 <tr class="values_editor__groupheader">
                                     <th class="edit_form__labelHeader">@Strings.ScheduleChangeTags</th>
                                     <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
-                                    <th class="edit_form__labelHeader">@Strings.Delete</th>
+                                    <th class="edit_form__labelHeader">
+                                        <div class="tooltip_header">
+                                            @Strings.Delete
+                                            <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info tooltip_icon" title="@Strings.EditTagDelete" />
+                                        </div>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody data-bind="foreach:{data: properties, afterAdd:makeproplist}">
@@ -59,7 +64,7 @@
                         </table>
                         <div style="clear:both"></div>
                         <a data-bind="click:$root.createEmptyPropertyIfNeeded">
-                            <span class="icon-add" ></span>
+                            <span class="icon-add"></span>
                             <div class="edit_form__labelbutton">
                                 @Strings.AddTag
                             </div>
@@ -67,7 +72,7 @@
                     </fieldset>
 
                     <fieldset class="fieldset_button">
-                        <input type="button" class="button_base button_secondary button_cancel" data-bind="click: backButtonClicked" value="@Strings.Cancel" />                        
+                        <input type="button" class="button_base button_secondary button_cancel" data-bind="click: backButtonClicked" value="@Strings.Cancel" />
                         <button class="button_base" type="submit">@Strings.SaveChangesToDevice</button>
                     </fieldset>
                 }

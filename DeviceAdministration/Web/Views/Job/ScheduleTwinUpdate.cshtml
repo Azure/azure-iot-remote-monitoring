@@ -58,7 +58,12 @@
                                         <tr class="values_editor__groupheader">
                                             <th class="edit_form__labelHeader">@Strings.ScheduleDesiredPropertyName</th>
                                             <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
-                                            <th class="edit_form__labelHeader">@Strings.Delete</th>
+                                            <th class="edit_form__labelHeader" title="@Strings.EditDesiredPropertyDelete">
+                                                <div class="tooltip_header">
+                                                    @Strings.Delete
+                                                    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info tooltip_icon" title="@Strings.EditDesiredPropertyDelete" />
+                                                </div>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody data-bind="foreach:{data: properties, afterAdd:makeproplist}">
@@ -71,7 +76,7 @@
                                                 @*data-msg-required="@Strings.RequiredValidationString"
                                                     data-rule-required="true"*@
                                                 <input type="text" class="edit_form__texthalfvalue" placeholder="@Strings.ValueTextPlaceHolder"
-                                                       data-bind='textInput: PropertyValue, enable:PropertyName() && !isDeleted(),  event: { keyup: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />                                                
+                                                       data-bind='textInput: PropertyValue, enable:PropertyName() && !isDeleted(),  event: { keyup: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
                                             </td>
                                             <td>
                                                 <input type="checkbox"
@@ -91,7 +96,12 @@
                                         <tr class="values_editor__groupheader">
                                             <th class="edit_form__labelHeader">@Strings.TagName</th>
                                             <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
-                                            <th class="edit_form__labelHeader">@Strings.Delete</th>
+                                            <th class="edit_form__labelHeader" title="@Strings.EditTagDelete">
+                                                <div class="tooltip_header">
+                                                    @Strings.Delete
+                                                    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info tooltip_icon" title="@Strings.EditTagDelete" />
+                                                </div>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody data-bind="foreach: {data: tags, afterAdd: maketaglist}">
@@ -103,7 +113,7 @@
                                             </td>
                                             <td>
                                                 <input type="text" class="edit_form__texthalfvalue" placeholder="@Strings.ValueTextPlaceHolder"
-                                                       data-bind='textInput: TagValue, enable:TagName() && !isDeleted(), event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />                                                
+                                                       data-bind='textInput: TagValue, enable:TagName() && !isDeleted(), event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />
                                             </td>
                                             <td>
                                                 <input type="checkbox"
@@ -127,13 +137,14 @@
                                                    data-msg-required="@Strings.RequiredValidationString"
                                                    data-rule-required="true" />
                                             <span class="input-group-addon">
-                                                <img class="edit_form__datePickerImg" src="/Content/img/expanded.svg" >
+                                                <img class="edit_form__datePickerImg" src="/Content/img/expanded.svg">
                                             </span>
                                         </div>
                                         <input type="hidden" id="StartDateHidden" name="StartDateUtc" />
                                     </div>
                                     <div class="values_editor__group">
-                                        <label class="edit_form__labelHeader">@Strings.MaxExecutionTime</label>
+                                            <label class="edit_form__labelHeader tooltip_header">@Strings.MaxExecutionTime  <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info tooltip_icon" title="@Strings.MaximumExecutionTime" /></label>
+                                          
                                         <input type="text" class="non_float less_margin edit_form__textsmall" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
                                                data-msg-required="@Strings.RequiredValidationString"
                                                data-rule-required="true" />

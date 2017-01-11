@@ -1466,6 +1466,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to JSON documents that store device state information.
+        /// </summary>
+        public static string DeviceTwinHeader {
+            get {
+                return ResourceManager.GetString("DeviceTwinHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to update the device. An unexpected error occurred..
         /// </summary>
         public static string DeviceUpdateError {
@@ -1574,11 +1583,29 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check to delete this property from device.
+        /// </summary>
+        public static string EditDesiredPropertyDelete {
+            get {
+                return ResourceManager.GetString("EditDesiredPropertyDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Configuration for {0}.
         /// </summary>
         public static string EditDeviceConfiguration {
             get {
                 return ResourceManager.GetString("EditDeviceConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit device icon.
+        /// </summary>
+        public static string EditDeviceIcon {
+            get {
+                return ResourceManager.GetString("EditDeviceIcon", resourceCulture);
             }
         }
         
@@ -1610,6 +1637,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check to delete this tag from device.
+        /// </summary>
+        public static string EditDeviceTwinDelete {
+            get {
+                return ResourceManager.GetString("EditDeviceTwinDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Display Name.
         /// </summary>
         public static string EditDisplayName {
@@ -1633,6 +1669,15 @@ namespace GlobalResources {
         public static string EditIconFor {
             get {
                 return ResourceManager.GetString("EditIconFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check to delete this tag from device.
+        /// </summary>
+        public static string EditTagDelete {
+            get {
+                return ResourceManager.GetString("EditTagDelete", resourceCulture);
             }
         }
         
@@ -2978,6 +3023,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0: no limit.
+        /// </summary>
+        public static string MaximumExecutionTime {
+            get {
+                return ResourceManager.GetString("MaximumExecutionTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Price cannot be longer than 1024 characters..
         /// </summary>
         public static string MaxLengthPrice {
@@ -3037,6 +3091,27 @@ namespace GlobalResources {
         public static string MethodError {
             get {
                 return ResourceManager.GetString("MethodError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Methods are extracted from device twin reported property SupportedMethods. Sample property:
+        ///&quot;SupportedMethods&quot;: {
+        ///  &quot;FirmwareUpdate_string&quot;: {
+        ///    &quot;Name&quot;: &quot;FirmwareUpdate&quot;,
+        ///    &quot;Description&quot;: &quot;Updates device Firmware. Use parameter &apos;FwPackageUri&apos; to specifiy the URI of the firmware file, e.g. https://iotrmassets.blob.core.windows.net/firmwares/FW20.bin&quot;,
+        ///    &quot;Parameters&quot;: {
+        ///      &quot;FwPackageUri&quot;: {
+        ///        &quot;Name&quot;: &quot;FwPackageUri&quot;,
+        ///        &quot;Type&quot;: &quot;string&quot;
+        ///      }
+        ///    }
+        ///  }
+        ///}.
+        /// </summary>
+        public static string MethodHeader {
+            get {
+                return ResourceManager.GetString("MethodHeader", resourceCulture);
             }
         }
         

@@ -381,6 +381,7 @@ nav .selected {
   color: #4d4d4d;
   display: inline;
   font-weight: 600;
+  float: none;
 }
 .grid_subheadhead_left_space {
   padding-left: 14px;
@@ -902,6 +903,19 @@ nav .selected {
   width: 18px;
   right: 0px;
   top: 4px;
+}
+.tooltip_header {
+  position: relative;
+  padding-right: 20px;
+}
+.tooltip_header {
+  position: relative;
+  padding-right: 20px;
+}
+.tooltip_icon {
+  position: absolute;
+  top: 2px;
+  right: 0;
 }
 .remove_form {
   padding: 15px 30px;

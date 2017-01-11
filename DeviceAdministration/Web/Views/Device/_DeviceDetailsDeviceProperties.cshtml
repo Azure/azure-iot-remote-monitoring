@@ -16,6 +16,7 @@
 }
 <div class="header_grid header_grid_general">
     <h3 class="grid_subheadhead_detail grid_subheadhead">@Strings.DeviceTwin</h3>
+    <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DeviceTwinHeader" />
 </div>
 
 <hr class="details_grid_twin_begin_line" />
@@ -25,7 +26,6 @@
         <img id="tagClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer tag_toggle_target tag_toggle_source" />
         <img id="tagOpen" src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer display_none tag_toggle_target tag_toggle_source" />
         <h3 class="grid_subheadhead_detail_collapsable cursor_pointer tag_toggle_source">@Strings.Tags</h3>
-        <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.TagsTooltip" />
         @if (Model.IsDeviceEditEnabled)
         {
             @Html.ActionLink(@Strings.Edit, "EditTags", "Device", new { deviceId = Model.DeviceID }, new
@@ -62,7 +62,6 @@
         <img id="desiredPropertyClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer desiredproperty_toggle_target desiredproperty_toggle_source" />
         <img id="desiredPropertyOpen" src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer display_none desiredproperty_toggle_target desiredproperty_toggle_source" />
         <h3 class="grid_subheadhead_detail_collapsable cursor_pointer desiredproperty_toggle_source">@Strings.DesiredProperties</h3>
-        <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DesiredPropertiesTooltip" />
         @if (Model.IsDeviceEditEnabled)
         {
             @Html.ActionLink(@Strings.Edit, "EditDesiredProperties", "Device", new { deviceId = Model.DeviceID }, new
@@ -106,7 +105,6 @@
             <img id="reportedPropertyClose" src="~/Content/img/expanded.svg" class="details_grid_info pull-left cursor_pointer reportedproperty_toggle_target reportedproperty_toggle_source" />
             <img id="reportedPropertyOpen" src="~/Content/img/collapsed.svg" class="details_grid_info pull-left cursor_pointer display_none reportedproperty_toggle_target reportedproperty_toggle_source" />
             <h3 class="grid_subheadhead_detail_collapsable cursor_pointer reportedproperty_toggle_source">@Strings.ReportedProperties</h3>
-            <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.ReportedPropertiesTooltip" />
         </div>
 
         <section class="details_grid_general reportedproperty_toggle_target" id="reportedPropertiesGrid">
@@ -137,7 +135,6 @@
         <img id="deviceDetailsClose" src="~/Content/img/expanded.svg" class="details_grid_info cursor_pointer devicedetails_toggle_target devicedetails_toggle_source" />
         <img id="deviceDetailsOpen" src="~/Content/img/collapsed.svg" class="details_grid_info cursor_pointer display_none devicedetails_toggle_target devicedetails_toggle_source" />
         <h3 class="grid_subheadhead cursor_pointer devicedetails_toggle_source">@Strings.DeviceProperties</h3>
-        <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DevicePropertiesFormattedAsStored" />
     </div>
 
     <section class="details_grid_general devicedetails_toggle_target" id="deviceDetailsGrid">
@@ -178,7 +175,6 @@
         <img id="jobClose" src="~/Content/img/expanded.svg" class="details_grid_info cursor_pointer job_toggle_target job_toggle_source" />
         <img id="jobOpen" src="~/Content/img/collapsed.svg" class="details_grid_info cursor_pointer display_none job_toggle_target job_toggle_source" />
         <h3 class="grid_subheadhead cursor_pointer job_toggle_source" >@Strings.RecentJobs</h3>
-        <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.RecentJobsTooltip" />
     </div>
 
     <section class="details_grid_general job_toggle_target" id="deviceJobGrid">

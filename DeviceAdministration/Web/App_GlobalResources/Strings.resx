@@ -2404,6 +2404,22 @@
     <value>Schedule</value>
     <comment>Buttone label.</comment>
   </data>
+  <data name="DeviceTwinHeader" xml:space="preserve">
+    <value>JSON documents that store device state information</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="EditDesiredPropertyDelete" xml:space="preserve">
+    <value>Check to delete this property from device</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="EditDeviceIcon" xml:space="preserve">
+    <value>Edit device icon</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="EditDeviceTwinDelete" xml:space="preserve">
+    <value>Check to delete this tag from device</value>
+    <comment>Tooltip</comment>
+  </data>
   <data name="All" xml:space="preserve">
     <value>All</value>
     <comment>Hyperlink label.</comment>
@@ -2419,5 +2435,29 @@
   <data name="SelectDeviceStatus" xml:space="preserve">
     <value>Select device status</value>
     <comment>Label</comment>
+  </data>
+  <data name="EditTagDelete" xml:space="preserve">
+    <value>Check to delete this tag from device</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="MaximumExecutionTime" xml:space="preserve">
+    <value>0: no limit</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="MethodHeader" xml:space="preserve">
+    <value>Methods are extracted from device twin reported property SupportedMethods. Sample property:
+"SupportedMethods": {
+  "FirmwareUpdate_string": {
+    "Name": "FirmwareUpdate",
+    "Description": "Updates device Firmware. Use parameter 'FwPackageUri' to specifiy the URI of the firmware file, e.g. https://iotrmassets.blob.core.windows.net/firmwares/FW20.bin",
+    "Parameters": {
+      "FwPackageUri": {
+        "Name": "FwPackageUri",
+        "Type": "string"
+      }
+    }
+  }
+}</value>
+    <comment>Tooltip</comment>
   </data>
 </root>

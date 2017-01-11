@@ -34,7 +34,12 @@
                                 <tr class="values_editor__groupheader">
                                     <th class="edit_form__labelHeader">@Strings.ScheduleDesiredPropertyName</th>
                                     <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
-                                    <th class="edit_form__labelHeader">@Strings.Delete</th>
+                                    <th class="edit_form__labelHeader">
+                                        <div class="tooltip_header">
+                                            @Strings.Delete
+                                            <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info tooltip_icon" title="@Strings.EditDesiredPropertyDelete" />
+                                        </div>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody data-bind="foreach:{data: properties, afterAdd:makeproplist}">
