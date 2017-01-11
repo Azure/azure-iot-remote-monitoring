@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.DataTables;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
@@ -38,10 +39,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 var result = jobResponses.Select(r => new DeviceJobModel(r)).OrderByDescending(j => j.StartTime).ToList();
                 foreach(var job in result)
                 {
-                    var tuple = await GetJobNameAndFilterNameAsync(job);
+                    var tuple = await GetJobDetailsAsync(job);
                     job.JobName = tuple.Item1;
                     job.FilterId = tuple.Item2;
                     job.FilterName = tuple.Item3;
+                    job.OperationType = tuple.Item4;
                 };
 
                 var dataTablesResponse = new DataTablesResponse<DeviceJobModel>()
@@ -81,28 +83,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             });
         }
 
-        private async Task<Tuple<string, string, string>> GetJobNameAndFilterNameAsync(DeviceJobModel job)
+        private async Task<Tuple<string, string, string, string>> GetJobDetailsAsync(DeviceJobModel job)
         {
-            try
-            {
-                var model = await _jobRepository.QueryByJobIDAsync(job.JobId);
-                string filterId = model.FilterId;
-                string filterName = model.FilterName;
-                if (string.IsNullOrEmpty(filterName))
-                {
-                    filterName = job.QueryCondition ?? Strings.NotApplicableValue;
-                }
-                if (filterName == "*" || DeviceListFilterRepository.DefaultDeviceListFilter.Id.Equals(filterId))
-                {
-                    filterName = Strings.AllDevices;
-                }
-                return Tuple.Create(model.JobName ?? Strings.NotApplicableValue, filterId, filterName);
-            }
-            catch
-            {
-                string externalJobName = string.Format(Strings.ExternalJobNamePrefix, job.JobId);
-                return Tuple.Create(externalJobName, string.Empty, job.QueryCondition ?? Strings.NotApplicableValue);
-            }
+            Task<JobRepositoryModel> queryJobTask = _jobRepository.QueryByJobIDAsync(job.JobId);
+            return await DeviceJobHelper.GetJobDetailsAsync(job, queryJobTask);
         }
     }
 }

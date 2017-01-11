@@ -294,6 +294,7 @@
     <Compile Include="DataTables\Search.cs" />
     <Compile Include="DataTables\SortColumn.cs" />
     <Compile Include="Extensions\JobTypeExtension.cs" />
+    <Compile Include="Helpers\DeviceJobHelper.cs" />
     <Compile Include="Helpers\ICellularExtensions.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
@@ -610,6 +611,7 @@
     <Content Include="Scripts\Views\IoTApp.js" />
     <Content Include="Scripts\Views\Job\JobResult.js" />
     <Content Include="Scripts\Views\Job\ScheduleDeviceMethod.js" />
+    <Content Include="Scripts\Views\Job\ScheduleIconUpdate.js" />
     <Content Include="Scripts\Views\Job\ScheduleTwinUpdate.js" />
     <Content Include="Scripts\Views\Job\JobIndex.js" />
     <Content Include="Scripts\Views\Job\JobProperties.js" />
@@ -709,6 +711,7 @@
     <Content Include="Views\Device\_DeviceJobs.cshtml" />
     <Content Include="Views\Device\EditIcon.cshtml" />
     <Content Include="Views\Job\_JobResult.cshtml" />
+    <Content Include="Views\Job\ScheduleIconUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

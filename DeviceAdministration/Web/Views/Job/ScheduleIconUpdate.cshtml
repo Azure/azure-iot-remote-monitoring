@@ -1,0 +1,186 @@
+﻿@using GlobalResources
+@using Newtonsoft.Json
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.ScheduleTwinUpdateModel
+
+@{
+    ViewBag.Title = @Strings.UpdateIcon;
+    Layout = "~/Views/Shared/_LayoutNoNavigation.cshtml";
+}
+
+<header class="header_main">
+
+    <button class="header_main__button_back" type="button" data-bind="click: backButtonClicked"></button>
+    <h2 class="header_main__subhead header_main__subhead--large">
+        @Strings.UpdateIcon <span class="item__description">
+            @{
+                if (Model.FilterName == "*")
+                {
+                    <text>
+                        @Strings.AllDevices
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        @Model.FilterName
+                    </text>
+                }
+            }
+            <small data-bind="text:getTotalFilterdCount"></small>
+        </span>
+    </h2>
+</header>
+<div class="content_outer">
+
+    <div class="content_inner">
+        <div id="content">
+            <div id="scheduleJobParameter">
+                @using (Html.BeginForm("ScheduleIconUpdate", "Job", FormMethod.Post, new { data_bind = "submit: beforePost" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <p>
+                        @Html.ValidationSummary(false)
+                    </p>
+
+                    <fieldset class="edit_form">
+                        @{
+                            <div>
+                                @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label primary__label" })
+                                @Html.TextBoxFor(m => m.JobName, new { placeholder = Strings.ScheduleJobNamePlaceHolder, data_bind = "value: jobName", @class = "edit_form__text" })
+                            </div>
+                            @Html.HiddenFor(m => m.FilterId)
+                            <div style="clear:both"></div>
+
+                            <div class="device_icon_action_container">
+                                <div style="margin-right:10px">
+                                    <label class="edit_form__label device_icon_label">
+                                        <input type="radio" name="actionType" value="Upload" data-bind='checked: actionType' />
+                                        @Strings.UploadNewIconLabel
+                                    </label>
+                                </div>
+                                <div class="device_icon_action_upload">
+                                    <input type="text" id="filePathBox" class="edit_form__file" placeholder="@Strings.OpenImageTooltip" disabled="disabled">
+                                    <input type="file" id="file" class="device_icon_file" size="1" accept="image/gif, image/jpeg, image/png" hidefocus>
+                                    <button id="chooseFileBtn" class="button_base devicelist_toolbar_button devicelist_toolbar_button_gray device_icon_button_open_image">@Strings.ChooseFileLabel</button>
+                                </div>
+                                <div id="progressBar"></div>
+                                <p class="device_icon_preview_tooptip">@Strings.ImageSizeSuggestions</p>
+                                <p class="edit_form__label">@Strings.PreviewImage</p>
+                                <img id="previewImage" class="device_icon_preview_image" data-bind="attr: {src: previewIcon().url } " />
+                            </div>
+                            <div class="device_icon_action_container" data-bind='visible: iconList().length > 0'>
+                                <div>
+                                    <label class="edit_form__label device_icon_label">
+                                        <input type="radio" name="actionType" value="Apply" data-bind='checked: actionType' />
+                                        @Strings.ApplyExistingIconLabel
+                                    </label>
+                                </div>
+                                <div class="device_icon_list">
+                                    <input type="hidden" name="Tags[0].TagName" value="@Constants.DeviceIconFullTagName" />
+                                    <input type="hidden" name="Tags[0].TagValue" data-bind="value: actionableIcon() && actionableIcon().name" />
+                                    <input type="hidden" name="Tags[0].isDeleted" data-bind="value: actionType() == 'Remove'"/>
+
+                                    <div class="device_icon_nav_container">
+                                        <!--ko if: isFirstPage() -->
+                                        <img class="device_icon_nav_image device_icon_nav_image_disabled" title="@Strings.Previous" src="~/Content/img/button_page_prev.svg" />
+                                        <!-- /ko -->
+                                        <!--ko ifnot: isFirstPage() -->
+                                        <a data-bind="click: previousPage"><img class="device_icon_nav_image" title="@Strings.Previous" src="~/Content/img/button_page_prev.svg" /></a>
+                                        <!-- /ko -->
+                                    </div>
+                                    <div class="device_icon_list_container" id="imageListContainer" data-bind="foreach: iconList ">
+                                        <div class="device_icon_apply_image_container">
+                                            <img class="device_icon_apply_image" data-bind="attr: {id: name, src: blobUrl }, click: $parent.selectIcon" />
+                                            <a class="device_icon_apply_image_delete_link">
+                                                <img title="@Strings.DeleteIconTooltip" class="device_icon_apply_image_delete_icon" src="~/Content/img/column_delete.svg" data-bind="click: $parent.deleteIcon" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="device_icon_nav_container">
+                                        <!--ko if: isLastPage() -->
+                                        <img class="device_icon_nav_image device_icon_nav_image_disabled" title="@Strings.Next" src="~/Content/img/button_page_next.svg" />
+                                        <!-- /ko -->
+                                        <!--ko ifnot: isLastPage() -->
+                                        <a data-bind="click: nextPage"><img class="device_icon_nav_image" title="@Strings.Next" src="~/Content/img/button_page_next.svg" /></a>
+                                        <!-- /ko -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="device_icon_action_container">
+                                <div>
+                                    <label class="edit_form__label device_icon_label">
+                                        <input type="radio" name="actionType" value="Remove" data-bind='checked: actionType' />
+                                        @Strings.RemoveCurrentIconLabel
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="edit_form__inputGroup">
+                                <label for="scheduleJobTime" class="edit_form__label primary__label">@Strings.ScheduleSetJobTime</label>
+
+                                <div id="scheduleJobTime" class="values_editor">
+                                    <div class="values_editor__group">
+                                        <label class="edit_form__labelHeader">@Strings.StartTime</label>
+                                        <div class="input-group" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ widgetPositioning : {horizontal: 'left' ,vertical: 'top'}, format: 'LLL', locale: getCulture() }">
+                                            <input type='text' id="StartDate" class="non_float edit_form__text less_margin"
+                                                   data-msg-required="@Strings.RequiredValidationString"
+                                                   data-rule-required="true" />
+                                            <span class="input-group-addon">
+                                                <img class="edit_form__datePickerImg" src="/Content/img/expanded.svg" >
+                                            </span>
+                                        </div>
+                                        <input type="hidden" id="StartDateHidden" name="StartDateUtc" />
+                                    </div>
+                                    <div class="values_editor__group">
+                                        <label class="edit_form__labelHeader">@Strings.MaxExecutionTime</label>
+                                        <input type="text" class="non_float less_margin edit_form__textsmall" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
+                                               data-msg-required="@Strings.RequiredValidationString"
+                                               data-rule-required="true" />
+                                        <span>Mins</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </fieldset>
+
+                    <fieldset class="fieldset_button">
+                        <input type="button" class="button_base button_secondary button_cancel" data-bind="click: backButtonClicked" value="@Strings.Cancel" />
+                        <button class="button_base" type="submit">@Strings.Schedule</button>
+                    </fieldset>
+                            }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    "use strict";
+
+    var resources = {
+        redirectToDeviceIndexUrl: '@Url.Action("Index", "Device")',
+        redirectToJobIndexUrl: '@Url.Action("Index", "Job")',
+        originalJobId: '@Html.JavaScriptString(Model.OriginalJobId)',
+        TotalDeviceString: "@Html.JavaScriptString(Strings.FilteredDeviceCount)",
+        LoadingText: "@Html.JavaScriptString(Strings.LoadingText)",
+        overSizedFile: '@Html.JavaScriptString(Strings.OverSizedFile)',
+        uploadActionType: '@Html.JavaScriptString(IconActionType.Upload.ToString())',
+        applyActionType: '@Html.JavaScriptString(IconActionType.Apply.ToString())',
+        removeActionType: '@Html.JavaScriptString(IconActionType.Remove.ToString())',
+        iconTagName: '@Html.JavaScriptString(Constants.DeviceIconTagName)',
+        failedToUploadImage: '@Html.JavaScriptString(Strings.FailedToUploadImage)',
+        failedToUpdateTwin: '@Html.JavaScriptString(Strings.FailedToUpdateTwin)',
+        failedToDeleteIcon: '@Html.JavaScriptString(Strings.FailedToDeleteIcon)',
+        noSelectedIcon: '@Html.JavaScriptString(Strings.NoSelectedIcon)'
+    }
+</script>
+<script type="text/javascript" src="~/Scripts/Views/Job/ScheduleIconUpdate.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        IoTApp.ScheduleIconUpdate.init(@Html.Raw(JsonConvert.SerializeObject(Model)));
+    });
+
+</script>
+

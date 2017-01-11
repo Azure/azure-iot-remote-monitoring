@@ -2464,4 +2464,24 @@
     <value>Load default columns will overwrite current columns setting. Click "OK" buttion to continue or click "Cancel" to abort.</value>
     <comment>Confirmation message.</comment>
   </data>
+  <data name="UpdateIcon" xml:space="preserve">
+    <value>Edit Device Icon</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="NoSelectedIcon" xml:space="preserve">
+    <value>You must select an icon to schedule this job.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ScheduleRemoveIconJobType" xml:space="preserve">
+    <value>Remove Device Icon</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ScheduleUpdateIconJobType" xml:space="preserve">
+    <value>Update Device Icon</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="NoAvailableActions" xml:space="preserve">
+    <value>No Available Actions</value>
+    <comment>Error message.</comment>
+  </data>
 </root>

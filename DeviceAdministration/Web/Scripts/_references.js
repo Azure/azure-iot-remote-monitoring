@@ -54,4 +54,5 @@
 /// <reference path="views/job/jobproperties.js" />
 /// <reference path="views/job/jobresult.js" />
 /// <reference path="views/job/scheduledevicemethod.js" />
+/// <reference path="views/job/scheduleiconupdate.js" />
 /// <reference path="Views/Job/ScheduleTwinUpdate.js" />

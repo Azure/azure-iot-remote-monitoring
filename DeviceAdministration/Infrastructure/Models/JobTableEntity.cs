@@ -14,6 +14,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public string MethodName { get; set; }
 
+        public string JobType { get; set; }
+
         public JobTableEntity()
         {
         }
@@ -25,6 +27,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             JobName = job.JobName;
             FilterName = job.FilterName;
             MethodName = job.MethodName;
+            JobType = job.JobType.ToString();
         }
     }
 }

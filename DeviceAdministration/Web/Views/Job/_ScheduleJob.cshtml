@@ -17,6 +17,19 @@
     {
         <p class="grid_detail_value">
             @Html.ActionLink(
+               Strings.UpdateIcon, "ScheduleIconUpdate", "Job",
+               new
+               {
+                   filterId = Model.FilterId,
+               },
+               new
+               {
+                   id = "scheduleIconUpdateLink"
+               })
+        </p>
+
+        <p class="grid_detail_value">
+            @Html.ActionLink(
                Strings.UpdateTwin, "ScheduleTwinUpdate", "Job",
                new
                {

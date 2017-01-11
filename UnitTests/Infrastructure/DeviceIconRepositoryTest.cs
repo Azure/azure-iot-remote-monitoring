@@ -49,8 +49,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 It.IsNotNull<AccessCondition>(),
                 It.IsAny<BlobRequestOptions>(),
                 It.IsAny<OperationContext>())).ReturnsAsync(mockBlob);
-            var icon = await deviceIconRepository.AddIcon("Image.png", stream);
-            Assert.Equal(icon.Name, "Image_png");
+            _blobStorageClientMock.Setup(x => x.MoveBlob(It.IsAny<string>(), It.IsNotNull<string>())).ReturnsAsync(mockBlob);
+            var icon = await deviceIconRepository.AddIcon("device1.jpg", stream);
+            Assert.Equal(icon.Name, "device1_jpg");
         }
 
         [Fact]

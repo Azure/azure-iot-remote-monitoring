@@ -7,15 +7,18 @@
 
 @if (PermsChecker.HasPermission(Permission.ManageJobs))
 {
+    bool hasActions = false;
+
     <div class="header_grid header_grid_general">
         <h3 class="grid_subheadhead_detail">@Strings.Actions</h3>
     </div>
 
     <section class="details_grid_actions">
-        @if (!string.IsNullOrEmpty(Model.FilterId)){
+        @if (!string.IsNullOrEmpty(Model.FilterId) && !Model.IsIconJob){
             <p class="grid_detail_value">
                 @Html.ActionLink(Strings.CloneJobAction, "CloneJob", "Job", new { jobId = Model.JobId }, new { id = "queryLink" })
             </p>
+            hasActions = true;
         }
 
         @if (Model.Status == JobStatus.Scheduled || Model.Status == JobStatus.Enqueued || Model.Status == JobStatus.Queued)
@@ -25,6 +28,12 @@
                    @Strings.CancelJobAction
                 </a>
             </p>
+            hasActions = true;
+        }
+
+        @if (!hasActions)
+        {
+            <p class="grid_detail_value">@Strings.NoAvailableActions</p>
         }
     </section>
 }
@@ -65,7 +74,7 @@
 </div>
 
 <section class="details_grid_general details_grid_general_section_job" id="jobOperationGrid"> 
-    @if (Model.OperationType.Equals(JobType.ScheduleDeviceMethod.LocalizedString(), StringComparison.InvariantCultureIgnoreCase))
+    @if (Model.IsMethodJob)
     {
         <h4 class="grid_subhead_detail_label" name="deviceField_operationType">
             @Strings.InvokeMethod
@@ -74,7 +83,7 @@
         <input type="hidden" id="payloadBox" value="@Model.CloudToDeviceMethod.GetPayloadAsJson()"/>
         <ul class="details_grid_job_method_payload"></ul>
     }
-    else if (Model.OperationType.Equals(JobType.ScheduleUpdateTwin.LocalizedString(), StringComparison.InvariantCultureIgnoreCase))
+    else if (Model.IsTwinJob)
     {
         <h4 class="grid_subhead_detail_label" name="deviceField_operationType">
            @Strings.ScheduleEditPropertiesOrTags
@@ -97,6 +106,10 @@
             </ul>
             }
         </div>
+    }
+    else if (Model.IsIconJob)
+    {
+        <p class="grid_detail_value" name="deviceField_status">@Model.OperationType</p>
     }
 </section>
 

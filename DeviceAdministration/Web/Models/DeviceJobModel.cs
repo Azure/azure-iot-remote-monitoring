@@ -1,5 +1,6 @@
-﻿using System;
-using GlobalResources;
+﻿using GlobalResources;
+using System;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Extensions;
 using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json;
@@ -60,6 +61,31 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public string DeviceId { get; set; }
         public Twin UpdateTwin { get; set; }
         public CloudToDeviceMethod CloudToDeviceMethod { get; set; }
+
+        public bool IsMethodJob
+        {
+            get
+            {
+                return OperationType.Equals(ExtendJobType.ScheduleDeviceMethod.LocalizedString(), StringComparison.InvariantCultureIgnoreCase);
+            }
+        }
+
+        public bool IsTwinJob
+        {
+            get
+            {
+                return OperationType.Equals(ExtendJobType.ScheduleUpdateTwin.LocalizedString(), StringComparison.InvariantCultureIgnoreCase);
+            }
+        }
+
+        public bool IsIconJob
+        {
+            get
+            {
+                return OperationType.Equals(ExtendJobType.ScheduleUpdateIcon.LocalizedString(), StringComparison.InvariantCultureIgnoreCase)
+                    || OperationType.Equals(ExtendJobType.ScheduleRemoveIcon.LocalizedString(), StringComparison.InvariantCultureIgnoreCase);
+            }
+        }
 
         private string ConvertNullValue(int? value)
         {

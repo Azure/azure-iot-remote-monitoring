@@ -37,14 +37,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             var name = Path.GetFileName(fileName).Replace(".", "_");
             var extension = Path.GetExtension(fileName);
             string contentType = MimeMapping.GetMimeMapping(string.IsNullOrEmpty(extension) ? "image/png" : extension);
-            var blob = await _blobStorageClient.UploadFromStreamAsync($"{_uploadedFolder}/{name}",
+            var uploadedBlob = await _blobStorageClient.UploadFromStreamAsync($"{_uploadedFolder}/{name}",
                 contentType,
                 fileStream,
                 AccessCondition.GenerateEmptyCondition(),
                 null,
                 null);
 
-            return new DeviceIcon(name, blob);
+            var appliedBlob = await _blobStorageClient.MoveBlob(uploadedBlob.Name, $"{_appliedFolder}/{name}");
+            return new DeviceIcon(Path.GetFileName(appliedBlob.Name), appliedBlob);
         }
 
         public async Task<DeviceIcon> GetIcon(string name)

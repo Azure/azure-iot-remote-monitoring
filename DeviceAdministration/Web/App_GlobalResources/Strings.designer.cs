@@ -3350,6 +3350,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Available Actions.
+        /// </summary>
+        public static string NoAvailableActions {
+            get {
+                return ResourceManager.GetString("NoAvailableActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device {0} has no available commands.
         /// </summary>
         public static string NoCommandsAvailable {
@@ -3454,6 +3463,15 @@ namespace GlobalResources {
         public static string NoscriptP2 {
             get {
                 return ResourceManager.GetString("NoscriptP2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must select an icon to schedule this job..
+        /// </summary>
+        public static string NoSelectedIcon {
+            get {
+                return ResourceManager.GetString("NoSelectedIcon", resourceCulture);
             }
         }
         
@@ -4439,11 +4457,29 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove Device Icon.
+        /// </summary>
+        public static string ScheduleRemoveIconJobType {
+            get {
+                return ResourceManager.GetString("ScheduleRemoveIconJobType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Job Time.
         /// </summary>
         public static string ScheduleSetJobTime {
             get {
                 return ResourceManager.GetString("ScheduleSetJobTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Device Icon.
+        /// </summary>
+        public static string ScheduleUpdateIconJobType {
+            get {
+                return ResourceManager.GetString("ScheduleUpdateIconJobType", resourceCulture);
             }
         }
         
@@ -5119,6 +5155,15 @@ namespace GlobalResources {
         public static string UpdateActionsIsDisabled {
             get {
                 return ResourceManager.GetString("UpdateActionsIsDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Device Icon.
+        /// </summary>
+        public static string UpdateIcon {
+            get {
+                return ResourceManager.GetString("UpdateIcon", resourceCulture);
             }
         }
         
