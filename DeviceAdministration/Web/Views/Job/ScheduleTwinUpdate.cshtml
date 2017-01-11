@@ -122,7 +122,7 @@
                                 <div id="scheduleJobTime" class="values_editor">
                                     <div class="values_editor__group">
                                         <label class="edit_form__labelHeader">@Strings.StartTime</label>
-                                        <div class="input-group" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ widgetPositioning : {horizontal: 'left' ,vertical: 'top'}, format: 'LLL', locale: getCulture() }">
+                                        <div class="input-group" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ allowInputToggle : true, widgetPositioning : {horizontal: 'left' ,vertical: 'top'}, format: 'LLL', locale: getCulture() }">
                                             <input type='text' id="StartDate" class="non_float edit_form__text less_margin"
                                                    data-msg-required="@Strings.RequiredValidationString"
                                                    data-rule-required="true" />
