@@ -252,7 +252,7 @@
 
             var confirmMessage = forceDelete ? resources.deleteFilterWithJobsConfirmation : resources.deleteFilterConfirmation;
 
-            if (IoTApp.Helpers.Dialog.confirm(confirmMessage, function (result) {
+            IoTApp.Helpers.Dialog.confirm(confirmMessage, function (result) {
                 if (result) {
                     api.deleteFilter(self.model.id(), forceDelete, function (isDeleted) {
                         if (isDeleted) {
@@ -268,7 +268,7 @@
                         }
                     });
                 }
-            }));
+            });
         },
         setFilter: function (filter, isLoadedFromServer) {
             if (filter) {

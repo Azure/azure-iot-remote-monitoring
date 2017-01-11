@@ -2460,4 +2460,8 @@
 }</value>
     <comment>Tooltip</comment>
   </data>
+  <data name="LoadDefaultConfirmation" xml:space="preserve">
+    <value>Load default columns will overwrite current columns setting. Click "OK" buttion to continue or click "Cancel" to abort.</value>
+    <comment>Confirmation message.</comment>
+  </data>
 </root>

@@ -2951,6 +2951,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load default columns will overwrite current columns setting. Click &quot;OK&quot; buttion to continue or click &quot;Cancel&quot; to abort..
+        /// </summary>
+        public static string LoadDefaultConfirmation {
+            get {
+                return ResourceManager.GetString("LoadDefaultConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
         public static string LoadingText {

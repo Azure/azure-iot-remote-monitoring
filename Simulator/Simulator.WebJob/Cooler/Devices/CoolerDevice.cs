@@ -10,6 +10,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices.DMTasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Telemetry;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Telemetry.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
 using Microsoft.Azure.Devices.Client;
@@ -29,6 +30,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             ITelemetryFactory telemetryFactory, IConfigurationProvider configurationProvider)
             : base(logger, transportFactory, telemetryFactory, configurationProvider)
         {
+            _desiredPropertyUdateHandlers.Add(SetPointTempPropertyName, OnSetPointTempUpdate);
+            _desiredPropertyUdateHandlers.Add(TelemetryIntervalPropertyName, OnTelemetryIntervalUpdate);
         }
 
         /// <summary>
@@ -75,7 +78,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public void ChangeSetPointTemp(double setPointTemp)
         {
             var remoteMonitorTelemetry = (RemoteMonitorTelemetry)_telemetryController;
-            remoteMonitorTelemetry.ChangeSetPointTemperature(setPointTemp);
+            remoteMonitorTelemetry.SetPointTemperature = setPointTemp;
             Logger.LogInfo("Device {0} temperature changed to {1}", DeviceID, setPointTemp);
         }
 
@@ -271,6 +274,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 TwinCollectionExtension.Set(collection, pair.Key, pair.Value);
             }
             await Transport.UpdateReportedPropertiesAsync(collection);
+        }
+
+        protected async Task OnSetPointTempUpdate(object value)
+        {
+            var telemetry = _telemetryController as ITelemetryWithSetPointTemperature;
+            telemetry.SetPointTemperature = Convert.ToDouble(value);
+
+            await SetReportedPropertyAsync(SetPointTempPropertyName, telemetry.SetPointTemperature);
+        }
+
+        protected async Task OnTelemetryIntervalUpdate(object value)
+        {
+            var telemetry = _telemetryController as ITelemetryWithInterval;
+            telemetry.TelemetryIntervalInSeconds = Convert.ToInt32(value);
+
+            await SetReportedPropertyAsync(TelemetryIntervalPropertyName, telemetry.TelemetryIntervalInSeconds);
         }
     }
 }

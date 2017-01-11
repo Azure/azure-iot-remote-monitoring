@@ -29,6 +29,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public const string StartupTimePropertyName = "StartupTime";
         public const string FirmwareVersionPropertyName = "FirmwareVersion";
         public const string ConfigurationVersionPropertyName = "ConfigurationVersion";
+        public const string SetPointTempPropertyName = "Config.SetPointTemp";
+        public const string TelemetryIntervalPropertyName = "Config.TelemetryInterval";
 
         // pointer to the currently executing event group
         private int _currentEventGroup = 0;
@@ -168,10 +170,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             try
             {
-                await Transport.OpenAsync();
-                await UpdateReportedPropertiesAsync();
-
-                SetMethodHandlers();
+                await InitializeAsync();
 
                 var loopTasks = new List<Task>
                 {
@@ -189,6 +188,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             {
                 Logger.LogError("Unexpected Exception starting device: {0}", ex.ToString());
             }
+        }
+
+        private async Task InitializeAsync()
+        {
+            await Transport.OpenAsync();
+            SetupCallbacks();
+
+            var twin = await Transport.GetTwinAsync();
+            await UpdateReportedPropertiesAsync(twin.Properties.Reported);
+            await OnDesiredPropertyUpdate(twin.Properties.Desired, null);
         }
 
         /// <summary>
@@ -351,14 +360,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             Logger.LogInfo("********** Processing Device {0} has been cancelled - StartReceiveLoopAsync Ending. **********", DeviceID);
         }
 
-        protected async Task UpdateReportedPropertiesAsync(bool regenerate = false)
+        protected async Task UpdateReportedPropertiesAsync(TwinCollection reported, bool regenerate = false)
         {
-            var reported = await Transport.GetReportedPropertiesAsync();
-
             var patch = new TwinCollection();
             CrossSyncProperties(patch, reported, regenerate);
             AddSupportedMethods(patch, reported);
-            patch.Set(StartupTimePropertyName, DateTime.UtcNow.ToString());
+            AddConfigs(patch);
 
             // Update ReportedProperties to IoT Hub
             await Transport.UpdateReportedPropertiesAsync(patch);
@@ -454,13 +461,58 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             patch["SupportedMethods"] = supportedMethods;
         }
 
-        private void SetMethodHandlers()
+        protected void AddConfigs(TwinCollection patch)
+        {
+            var telemetryWithInterval = _telemetryController as ITelemetryWithInterval;
+            if (telemetryWithInterval != null)
+            {
+                patch.Set(TelemetryIntervalPropertyName, telemetryWithInterval.TelemetryIntervalInSeconds);
+            }
+
+            var telemetryWithSetPointTemp = _telemetryController as ITelemetryWithSetPointTemperature;
+            if (telemetryWithSetPointTemp != null)
+            {
+                patch.Set(SetPointTempPropertyName, telemetryWithSetPointTemp.SetPointTemperature);
+            }
+
+            patch.Set(StartupTimePropertyName, DateTime.UtcNow.ToString());
+        }
+
+        private void SetupCallbacks()
         {
             foreach (var method in Commands.Where(c => c.DeliveryType == DeliveryType.Method))
             {
-                var callback = GetType().GetMethod($"On{method.Name}").CreateDelegate(typeof(MethodCallback), this) as MethodCallback;
+                try
+                {
+                    var handler = GetType().GetMethod($"On{method.Name}").CreateDelegate(typeof(MethodCallback), this) as MethodCallback;
 
-                Transport.SetMethodHandler(method.Name, callback);
+                    Transport.SetMethodHandler(method.Name, handler);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError($"Exception raised while adding callback for method {method.Name}: {ex}");
+                }
+            }
+
+            Transport.SetDesiredPropertyUpdateCallback(OnDesiredPropertyUpdate);
+        }
+
+        public async Task OnDesiredPropertyUpdate(TwinCollection desiredProperties, object userContext)
+        {
+            foreach (var pair in desiredProperties.AsEnumerableFlatten())
+            {
+                Func<object, Task> handler;
+                if (_desiredPropertyUdateHandlers.TryGetValue(pair.Key, out handler))
+                {
+                    try
+                    {
+                        await handler(pair.Value.Value.Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError($"Exception raised while processing desired property {pair.Key} change: {ex}");
+                    }
+                }
             }
         }
     }

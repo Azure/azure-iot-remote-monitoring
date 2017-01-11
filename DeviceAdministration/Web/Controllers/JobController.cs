@@ -12,7 +12,6 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Mode
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
@@ -112,7 +111,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         FilterName = job.FilterName,
                         JobName = job.JobName,
                         OriginalJobId = jobId,
-                        DesiredProperties = twin.Properties.Desired.AsEnumerableFlatten().Select(p => {
+                        DesiredProperties = twin.Properties.Desired.AsEnumerableFlatten().Select(p =>
+                        {
                             return new DesiredPropetiesEditViewModel
                             {
                                 PropertyName = p.Key,
@@ -129,7 +129,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         }).ToList(),
                     });
                 case JobType.ScheduleDeviceMethod:
-                    var parameters = JsonConvert.DeserializeObject<Dictionary<string,string>>(jobResponse.CloudToDeviceMethod.GetPayloadAsJson());
+                    var parameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(jobResponse.CloudToDeviceMethod.GetPayloadAsJson());
                     return View("ScheduleDeviceMethod", new ScheduleDeviceMethodModel
                     {
                         FilterId = job.FilterId,
@@ -142,7 +142,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                             ParameterName = pair.Key,
                             ParameterValue = pair.Value,
                         }).ToList(),
-                        MaxExecutionTimeInMinutes = (int)jobResponse.MaxExecutionTimeInSeconds/60,
+                        MaxExecutionTimeInMinutes = (int)jobResponse.MaxExecutionTimeInSeconds / 60,
                     });
                 default:
                     return await ScheduleJob(job.FilterId);
@@ -188,7 +188,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 string.IsNullOrWhiteSpace(queryCondition) ? "is_defined(deviceId)" : queryCondition,
                 twin,
                 model.StartDateUtc,
-                model.MaxExecutionTimeInMinutes * 60);
+                (int)(model.MaxExecutionTimeInMinutes * 60));
 
             await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, deviceListFilter.Name, null));
 
@@ -226,7 +226,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 methodName,
                 payload,
                 model.StartDateUtc,
-                model.MaxExecutionTimeInMinutes * 60);
+                (int)(model.MaxExecutionTimeInMinutes * 60));
 
             await _jobRepository.AddAsync(new JobRepositoryModel(jobId, model.FilterId, model.JobName, deviceListFilter.Name, model.MethodName));
 
