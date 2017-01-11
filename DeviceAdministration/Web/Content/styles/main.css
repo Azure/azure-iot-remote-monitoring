@@ -121,7 +121,6 @@ main.main_no_nav {
 /* ##### Prefix functions ##### */
 .input-placeholder {
   color: #b3b3b3;
-  background-color: #f2f2f2;
   border-color: #e6e6e6;
   font-style: italic;
 }
@@ -129,7 +128,6 @@ main.main_no_nav {
   /* WebKit browsers */
 
   color: #b3b3b3;
-  background-color: #f2f2f2;
   border-color: #e6e6e6;
   font-style: italic;
 }
@@ -137,7 +135,6 @@ main.main_no_nav {
   /* Mozilla Firefox 19+ */
 
   color: #b3b3b3;
-  background-color: #f2f2f2;
   border-color: #e6e6e6;
   font-style: italic;
 }
@@ -145,7 +142,6 @@ main.main_no_nav {
   /* IE 10+ */
 
   color: #b3b3b3;
-  background-color: #f2f2f2;
   border-color: #e6e6e6;
   font-style: italic;
 }
