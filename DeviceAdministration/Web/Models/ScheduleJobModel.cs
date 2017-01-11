@@ -20,6 +20,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public DateTime StartDateUtc { get; set; }
 
         [Required]
-        public int MaxExecutionTimeInMinutes { get; set; }
+        public double MaxExecutionTimeInMinutes { get; set; }
     }
 }
