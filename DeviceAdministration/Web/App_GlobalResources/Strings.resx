@@ -2480,4 +2480,20 @@
     <value>No Available Actions</value>
     <comment>Error message.</comment>
   </data>
+  <data name="DataTypeLabel" xml:space="preserve">
+    <value>Data Type</value>
+    <comment>Textbox label.</comment>
+  </data>
+  <data name="BooleanLabel" xml:space="preserve">
+    <value>Boolean</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="NumberLabel" xml:space="preserve">
+    <value>Number</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="StringLabel" xml:space="preserve">
+    <value>String</value>
+    <comment>Label.</comment>
+  </data>
 </root>

@@ -502,12 +502,12 @@
         $.each(data, function (idx, row) {
             var value = getValueFromPath(row, path);
             if (value != null && !values.hasOwnProperty(value)) {
-                values[value] = true;
+                values[value] = value;
             }
         });
 
         return $.map(values, function (value, key) {
-            return key;
+            return value;
         });
     }
 

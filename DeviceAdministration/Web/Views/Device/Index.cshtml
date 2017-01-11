@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @{
     ViewBag.Title = "Index";
@@ -125,11 +126,14 @@
                                 <div class="filter_panel_clause_edit_row_value">
                                     <label class="filter_panel_clause_edit_label" for="filterValueREPLACE_ME"><span>@Strings.FilterValueLabel</span></label>
                                 </div>
+                                <div class="filter_panel_clause_edit_row_datatype">
+                                    <label class="filter_panel_clause_edit_label" for="filterOperatorREPLACE_ME"><span>@Strings.DataTypeLabel</span></label>
+                                </div>
                                 <div class="filter_panel_clause_edit_row_add"></div>
                             </div>
                             <div class="filter_panel_clause_edit_row">
                                 <div class="filter_panel_clause_edit_row_column">
-                                    <input id="txtField" class="filter_panel_text" data-bind="textInput: currentClause().field">
+                                    <input id="txtField" class="filter_panel_text" data-bind="textInput: currentClause().field, event: { blur: newClauseFieldBlur }">
                                 </div>
                                 <div class="filter_panel_clause_edit_row_operator">
                                     <select class="filter_panel_select" data-bind="value: currentClause().operator">
@@ -143,7 +147,11 @@
                                     </select>
                                 </div>
                                 <div class="filter_panel_clause_edit_row_value">
-                                    <input type="text" class="filter_panel_text" data-bind="textInput: currentClause().value, attr: { placeholder: newClauseValuePlaceHolder }, event: { focus: newClauseValueFocus, blur: newClauseValueBlur, keypress: newClauseValueKeypress}" />
+                                    <input id="txtValue" class="filter_panel_text" data-bind="textInput: currentClause().value, attr: { placeholder: newClauseValuePlaceHolder }, event: { focus: newClauseValueFocus, blur: newClauseValueBlur, keyup: newClauseValueKeyup , change: newClauseValueChange}" />
+                                </div>
+                                <div class="filter_panel_clause_edit_row_datatype">
+                                    <select class="filter_panel_select" data-bind="value: currentClause().dataType, options: twinDataTypeOptions, optionsText: 'text', optionsValue: 'value'">
+                                    </select>
                                 </div>
                                 <div class="filter_panel_clause_edit_row_add">
                                     <button type="button" class="button_base" data-bind="click: addClause, enable: canAddClause()">
@@ -313,7 +321,17 @@
         image: '@Html.JavaScriptString(Strings.Image)',
         iconTagName: '@Html.JavaScriptString((string)ViewBag.IconTagName)',
         iconBaseUrl: '@Html.JavaScriptString((string)ViewBag.IconBaseUrl)',
-        loadDefaultConfirmation: '@Html.JavaScriptString(Strings.LoadDefaultConfirmation)'
+        loadDefaultConfirmation: '@Html.JavaScriptString(Strings.LoadDefaultConfirmation)',
+        twinDataType: {
+            'string': '@TwinDataType.String',
+            'number': '@TwinDataType.Number',
+            'boolean': '@TwinDataType.Boolean'
+        },
+        twinDataTypeOptions: [
+            { value: '@TwinDataType.String', text: '@Html.JavaScriptString(Strings.StringLabel)' },
+            { value: '@TwinDataType.Number', text: '@Html.JavaScriptString(Strings.NumberLabel)' },
+            { value: '@TwinDataType.Boolean', text: '@Html.JavaScriptString(Strings.BooleanLabel)' }
+        ]
     };
 </script>
 

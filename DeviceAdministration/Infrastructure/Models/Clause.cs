@@ -12,5 +12,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         [JsonConverter(typeof(StringEnumConverter))]
         public ClauseType ClauseType { get; set; }
         public string ClauseValue { get; set; }
+        public TwinDataType ClauseDataType { get; set; }
     }
 }

@@ -503,6 +503,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Boolean.
+        /// </summary>
+        public static string BooleanLabel {
+            get {
+                return ResourceManager.GetString("BooleanLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid byte; expected a format like &apos;24&apos; (between 0 and 255).
         /// </summary>
         public static string byteCommandErrorMessage {
@@ -967,6 +976,15 @@ namespace GlobalResources {
         public static string DataFieldHeader {
             get {
                 return ResourceManager.GetString("DataFieldHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data Type.
+        /// </summary>
+        public static string DataTypeLabel {
+            get {
+                return ResourceManager.GetString("DataTypeLabel", resourceCulture);
             }
         }
         
@@ -3512,6 +3530,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number.
+        /// </summary>
+        public static string NumberLabel {
+            get {
+                return ResourceManager.GetString("NumberLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No. of Devices.
         /// </summary>
         public static string NumberOfDevicesHeader {
@@ -4885,6 +4912,15 @@ namespace GlobalResources {
         public static string StringCommandHint {
             get {
                 return ResourceManager.GetString("StringCommandHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to String.
+        /// </summary>
+        public static string StringLabel {
+            get {
+                return ResourceManager.GetString("StringLabel", resourceCulture);
             }
         }
         

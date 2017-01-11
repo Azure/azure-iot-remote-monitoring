@@ -1511,6 +1511,11 @@ table#alertHistoryTable tr.selectedAlert {
   padding: 2px 14px 2px 0px;
   padding-right: 20px;
 }
+.filter_panel_clause_edit_row_datatype {
+  width: 140px;
+  min-width: 80px;
+  padding: 2px 14px 2px 0px;
+}
 .filter_panel_clause_edit_row_add {
   -webkit-flex: none;
   flex: none;

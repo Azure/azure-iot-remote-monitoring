@@ -24,6 +24,7 @@
         recordsFiltered: ko.observable(0),
         recordsTotal: ko.observable(0),
         saveAsName: ko.observable(null),
+        twinDataTypeOptions: resources.twinDataTypeOptions,
         checkedClauses: ko.pureComputed(function () {
             return self.model.clauses().filter(function (clause) {
                 return clause.checked();
@@ -289,7 +290,7 @@
 
                 if (filter.clauses) {
                     filter.clauses.forEach(function (item) {
-                        var newClause = self.model.newClause(item.columnName, item.clauseType, item.clauseValue);
+                        var newClause = self.model.newClause(item.columnName, item.clauseType, item.clauseValue, item.clauseDataType);
 
                         var existing = self.model.clauses().filter(function (clause) {
                             return clause.field() === newClause.field() &&
@@ -368,7 +369,8 @@
                     return {
                         columnName: clause.field(),
                         clauseType: clause.operator(),
-                        clauseValue: clause.value()
+                        clauseValue: clause.value(),
+                        clauseDataType: clause.dataType()
                     };
                 })
             };
@@ -381,11 +383,12 @@
             self.model.currentClause(self.model.newClause());
             self.model.isChanged(true);
         },
-        newClause: function (field, operator, value, checked) {
+        newClause: function (field, operator, value, dataType, checked) {
             var clause = {
                 field: ko.observable(field || ""),
                 operator: ko.observable(operator || "EQ"),
                 value: ko.observable(value),
+                dataType: ko.observable(dataType || resources.twinDataType.string),
                 checked: ko.observable(checked == null ? true : checked),
                 shortDisplayName: ko.pureComputed(function () {
                     var parts = clause.field().split('.');
@@ -402,15 +405,23 @@
 
             return clause;
         },
-        newClauseValueFocus: function (data, e) {
+        newClauseFieldBlur: function (data, e) {
             if (self.model.currentClause().field()) {
                 var availableValues = IoTApp.DeviceIndex.getAvailableValuesFromPath(self.model.currentClause().field());
+                self.model.setDataTypeFromAvailableValues(availableValues);
+
+                // Convert to string array for autocomplete
+                self.availableValues = availableValues.map(String);
+            }
+        },
+        newClauseValueFocus: function (data, e) {
+            if (self.model.currentClause().field() && self.availableValues) {
                 if (self.model.currentClause().operator() == "IN") {
                     $(e.target).autocomplete({
                         source: function (request, response) {
                             var terms = util.split(this.term);
                             terms.pop();
-                            var filteredValues = availableValues.filter(function (item) { return terms.indexOf(item) === -1 });
+                            var filteredValues = self.availableValues.filter(function (item) { return terms.indexOf(item) === -1 });
                             response($.ui.autocomplete.filter(filteredValues, util.extractLast(request.term)));
                         },
                         minLength: 0,
@@ -432,7 +443,7 @@
                 }
                 else {
                     $(e.target).autocomplete({
-                        source: availableValues,
+                        source: self.availableValues,
                         minLength: 0,
                         select: function (event, ui) {
                             $(this).val(ui.item.value).change();
@@ -452,18 +463,89 @@
                 $(e.target).autocomplete("destroy");
             }
         },
-        newClauseValueKeypress: function (data, e) {
+        newClauseValueKeyup: function (data, e) {
             if (e.keyCode == 13 && self.model.canAddClause()) {
                 self.model.newClauseValueBlur(data, e);
                 self.model.addClause();
                 return false;
             }
-            
+
+            self.model.setDataTypeFromCurrentValue();
+
+            return true;
+        },
+        newClauseValueChange: function (data, e) {
+            self.model.setDataTypeFromCurrentValue();
+
             return true;
         },
         newClauseValuePlaceHolder: ko.pureComputed(function () {
             return self.model.currentClause().operator() == "IN" ? resources.clauseMultipleValuesHint : resources.clauseSingleValueHint;
         }),
+        setDataTypeFromAvailableValues: function (values) {
+            var finalType = null;
+            values.forEach(function (value) {
+                var type = self.model.getDataType(value);
+
+                if (finalType && finalType != type) {
+                    finalType = resources.twinDataType.string;
+                    return false;
+                }
+
+                finalType = type;
+            });
+
+            if (finalType) {
+                self.model.currentClause().dataType(finalType);
+            }
+        },
+        getDataType: function (value) {
+            var type = $.type(value);
+
+            if (type == "boolean" || type == "number") {
+                return resources.twinDataType[type];
+            }
+            else {
+                return resources.twinDataType.string;
+            }
+        },
+        setDataTypeFromCurrentValue: function () {
+            var value = $('#txtValue').val();
+            var values;
+            if (self.model.currentClause().operator() == "IN") {
+                values = util.split(util.trim(value, ', '));
+            }
+            else {
+                values = [value];
+            }
+
+            var finalType = null;
+            values.forEach(function (value) {
+                var type = self.model.getDataTypeFromString(value);
+
+                if (finalType && finalType != type) {
+                    finalType = resources.twinDataType.string;
+                    return false;
+                }
+
+                finalType = type;
+            });
+
+            if (finalType) {
+                self.model.currentClause().dataType(finalType);
+            }
+        },
+        getDataTypeFromString: function (value) {
+            var type = resources.twinDataType.string;
+            if (value === "true" || value === "false") {
+                type = resources.twinDataType.boolean;
+            }
+            else if ($.isNumeric(value)) {
+                type = resources.twinDataType.number;
+            }
+
+            return type;
+        },
         unCheckClause: function (clause) {
             clause.checked(false);
             self.model.isChanged(true);
@@ -666,7 +748,7 @@
             api.GetSuggestClauses(function (data) {
                 if (data) {
                     data.forEach(function (item) {
-                        var newClause = self.model.newClause(item.columnName, item.clauseType, item.clauseValue);
+                        var newClause = self.model.newClause(item.columnName, item.clauseType, item.clauseValue, item.clauseDataType);
                         self.model.defaultClauses.push(newClause);
                     });
                 }

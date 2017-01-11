@@ -155,14 +155,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                         for (var i = 0; i < items.Length; i++)
                         {
                             var item = items[i].Trim();
-                            items[i] = AddQuoteIfNeeded(item);
+                            items[i] = AddQuoteIfNeeded(filter.ClauseDataType, item);
                         }
 
                         value = $"[{string.Join(", ", items)}]";
                     }
                     else
                     {
-                        value = AddQuoteIfNeeded(value);
+                        value = AddQuoteIfNeeded(filter.ClauseDataType, value);
                     }
 
                     var twinPropertyName = filter.ColumnName;
@@ -182,12 +182,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return name.StartsWith("reported.") || name.StartsWith("desired.");
         }
 
-        private string AddQuoteIfNeeded(string value)
+        private string AddQuoteIfNeeded(TwinDataType dataType, string value)
         {
-            // Currently, we treat all properties as string while editing twin. We might give users an option to specifiy the data type(string, bool, or number) in the future.
-            // Do not check if is a number for now while generating sql
-            if (!value.StartsWith("\'") &&
-                !value.EndsWith("\'"))
+            if (dataType == TwinDataType.String && !value.StartsWith("\'") && !value.EndsWith("\'"))
             {
                 value = $"\'{value}\'";
             }

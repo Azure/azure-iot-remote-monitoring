@@ -182,6 +182,7 @@
     <Compile Include="Models\ActionModel.cs" />
     <Compile Include="Models\AlertHistoryItemModel.cs" />
     <Compile Include="Models\ClauseTableEntity.cs" />
+    <Compile Include="Models\TwinDataType.cs" />
     <Compile Include="Models\DeviceApplicableResult.cs" />
     <Compile Include="Models\DeviceIcon.cs" />
     <Compile Include="Models\DeviceIconResult.cs" />
