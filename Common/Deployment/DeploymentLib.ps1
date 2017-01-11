@@ -116,27 +116,27 @@ function GetSuiteLocation()
         $regions += $region
         $index += 1
     }
-    
+
     Write-Host ($regions | Out-String)
-    
+
     $region = "notset"
     while ($region -eq "notset" -or !(ValidateLocation $region))
     {
-        try 
+        try
         {
             [int]$selectedIndex = Read-Host 'Select an option from the above list'
         }
-        catch 
+        catch
         {
             Write-Host "Must be a number"
             continue
         }
-        
+
         if ($selectedIndex -lt 1 -or $selectedIndex -ge $index)
         {
             continue
         }
-        
+
         $region = $global:locations[$selectedIndex - 1]
     }
     return $region
@@ -145,7 +145,7 @@ function GetSuiteLocation()
 function ValidateLocation()
 {
     param ([Parameter(Mandatory=$true)][string]$location)
-        
+
     foreach ($loc in $global:locations)
     {
         if ($loc.Replace(' ', '').ToLowerInvariant() -eq $location.Replace(' ', '').ToLowerInvariant())
@@ -233,7 +233,12 @@ function ValidateResourceName()
         }
         "microsoft.documentdb/databaseaccounts"
         {
+            # DocDB’s documentation says it allows 3-50 chars, but their actual
+            # length limit varies per-region (bug 846765). Restrict to 24 chars
+            # based on their dev’s recommendation, allowing for the 5-character
+            # random string appended by GetUniqueResourceName:
             $resourceUrl = $global:docdbSuffix
+            $resourceBaseName = $resourceBaseName.Substring(0, [System.Math]::Min(24 - 5, $resourceBaseName.Length))
         }
         "microsoft.eventhub/namespaces"
         {
@@ -246,7 +251,7 @@ function ValidateResourceName()
         }
         default {}
     }
-    
+
     # Return name for existing resource if exists
     $resources = Find-AzureRmResource -ResourceGroupNameContains $resourceGroupName -ResourceType $resourceType -ResourceNameContains $resourceBaseName
     if ($resources -ne $null)
@@ -259,7 +264,7 @@ function ValidateResourceName()
             }
         }
     }
-    
+
     return GetUniqueResourceName $resourceBaseName $resourceUrl $cloudDeploy
 }
 
@@ -382,9 +387,9 @@ function UploadFile()
     $containerName = $containerName.ToLowerInvariant()
     $file = Get-Item -Path $filePath
     $fileName = $file.Name.ToLowerInvariant()
-    
+
     $storageAccountKey = (Get-AzureRmStorageAccountKey -StorageAccountName $storageAccountName -ResourceGroupName $resourceGroupName).Value[0]
-    
+
     $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageAccountKey
     if (!(HostEntryExists $context.StorageAccount.BlobEndpoint.Host))
     {
@@ -533,13 +538,13 @@ function LoadAzureAssembly()
 function GetAzureAccountInfo()
 {
     $accounts = Get-AzureAccount
-    
+
     if ($accounts -eq $null)
     {
         Write-Host "Signing you into Azure..."
         $account = Add-AzureAccount -Environment $global:azureEnvironment.Name
     }
-    else 
+    else
     {
         Write-Host "Signed into Azure already, select account"
         $global:index = 0
@@ -564,12 +569,12 @@ function GetAzureAccountInfo()
                 $account = Add-AzureAccount -Environment $global:azureEnvironment.Name
                 break;
             }
-                
+
             if ($selectedIndex -lt 1 -or $selectedIndex -gt $accounts.length)
             {
                 continue
             }
-                
+
             $account = $accounts[$selectedIndex - 1]
             break;
         }
@@ -589,7 +594,7 @@ function ValidateLoginCredentials()
     {
         Add-AzureAccount -Environment $global:azureEnvironment.Name | Out-Null
     }
-    
+
     # Validate Azure RM
     $profilePath = Join-Path $PSScriptRoot "..\..\$($global:AzureAccountName).user"
     if (test-path $profilePath) {
@@ -597,7 +602,7 @@ function ValidateLoginCredentials()
         $rmProfile = Select-AzureRmProfile -Path $profilePath
         $rmProfileLoaded = ($rmProfile -ne $null) -and ($rmProfile.Context -ne $null) -and ((Get-AzureRmSubscription) -ne $null)
     }
-    
+
     if ($rmProfileLoaded -ne $true) {
         Write-Host "Logging in"
         Login-AzureRmAccount -EnvironmentName $global:azureEnvironment.Name | Out-Null
@@ -722,7 +727,7 @@ function GetAADTenant()
         }
         $tenantId = $tenants[$selectedIndex - 1].TenantId
     }
-    
+
     # Configure Application
     $uri = "{0}{1}/applications?api-version=1.6" -f $global:azureEnvironment.GraphUrl, $tenantId
     $searchUri = "{0}&`$filter=identifierUris/any(uri:uri%20eq%20'{1}{2}')" -f $uri, [System.Web.HttpUtility]::UrlEncode($global:site), $global:appName
@@ -853,13 +858,13 @@ function InitializeEnvironment()
         $global:envSettingsXml = [xml](cat $global:environmentSettingsFile)
     }
 
-    $global:AzureAccountName = GetOrSetEnvSetting "AzureAccountName" "GetAzureAccountInfo" 
+    $global:AzureAccountName = GetOrSetEnvSetting "AzureAccountName" "GetAzureAccountInfo"
     ValidateLoginCredentials
 
     if ([string]::IsNullOrEmpty($global:SubscriptionId))
     {
         $global:SubscriptionId = GetEnvSetting "SubscriptionId"
-        
+
         if ([string]::IsNullOrEmpty($global:SubscriptionId) -or $global:SubscriptionId -eq "not set" )
         {
             $global:SubscriptionId = "not set"
@@ -868,7 +873,7 @@ function InitializeEnvironment()
             $global:index = 0
             $selectedIndex = -1
             Write-Host ($subscriptions | Format-Table -Property @{name="Option";expression={$global:index;$global:index+=1}},SubscriptionName, SubscriptionId -au | Out-String)
-            
+
             while (!$subscriptions.SubscriptionId.Contains($global:SubscriptionId))
             {
                 try
@@ -880,19 +885,19 @@ function InitializeEnvironment()
                     Write-Host "Must be a number"
                     continue
                 }
-                
+
                 if ($selectedIndex -lt 1 -or $selectedIndex -gt $subscriptions.length)
                 {
                     continue
                 }
-                
+
                 $global:SubscriptionId = $subscriptions[$selectedIndex - 1].SubscriptionId
             }
 
             UpdateEnvSetting "SubscriptionId" $global:SubscriptionId
         }
     }
-    
+
     Select-AzureSubscription -SubscriptionId $global:SubscriptionId
 
 	$rmSubscription = Get-AzureRmSubscription -SubscriptionId $global:SubscriptionId
@@ -947,21 +952,21 @@ function FixWebJobZip()
     $zip.Dispose()
 }
 
-function ResourceObjectExists		
- {		
+function ResourceObjectExists
+ {
     Param(
         [Parameter(Mandatory=$true,Position=0)] [string] $resourceGroupName,
         [Parameter(Mandatory=$true,Position=1)] [string] $resourceName,
         [Parameter(Mandatory=$true,Position=2)] [string] $type
     )
      return (GetResourceObject -resourceGroupName $resourceGroupName -resourceName $resourceName -type $type | ?{$_.Name -eq $resourceName}) -ne $null
- }		
- 		
+ }
+
  function GetResourceObject
  {
     Param(
          [Parameter(Mandatory=$true,Position=0)] [string] $resourceGroupName,
-         [Parameter(Mandatory=$true,Position=1)] [string] $resourceName,	
+         [Parameter(Mandatory=$true,Position=1)] [string] $resourceName,
          [Parameter(Mandatory=$true,Position=2)] [string] $type
     )
     return Get-AzureRmResource -ResourceName $resourceName -ResourceGroupName $resourceGroupName -ResourceType $type
