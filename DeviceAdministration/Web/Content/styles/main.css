@@ -899,6 +899,9 @@ nav .selected {
   right: 0px;
   top: 4px;
 }
+.edit_form__deleted {
+  text-decoration: line-through;
+}
 .remove_form {
   padding: 15px 30px;
   background-color: white;

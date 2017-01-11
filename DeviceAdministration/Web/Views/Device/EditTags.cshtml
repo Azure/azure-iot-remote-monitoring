@@ -43,11 +43,11 @@
                                         <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox"
                                                data-msg-required="@Strings.RequiredValidationString"
                                                data-rule-required="true"
-                                               data-bind='value: key' />
+                                               data-bind='value: key, css:{edit_form__deleted : isDeleted()' />
                                     </td>
                                     <td>
                                         <input type="text" class="edit_form__texthalf"
-                                               data-bind='value: value.value, enable:!isDeleted() && key()' />
+                                               data-bind='value: value.value, enable:!isDeleted() && key(), css:{edit_form__deleted : isDeleted()' />
                                     </td>
                                     <td>
                                         <input type="checkbox"

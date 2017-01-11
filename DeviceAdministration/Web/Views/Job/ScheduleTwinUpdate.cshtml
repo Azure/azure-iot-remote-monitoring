@@ -99,11 +99,11 @@
 
                                             <td>
                                                 <input type="text" class="edit_form__texthalf edit_form__tagsComboBox" placeholder="@Strings.TagTextPlaceHolder"
-                                                       data-bind='value: TagName, attr: { name: "Tags[" + $index() + "].TagName", id: "Tags" + $index() + ".TagName" }' />
+                                                       data-bind='value: TagName, attr: { name: "Tags[" + $index() + "].TagName", id: "Tags" + $index() + ".TagName" }, css:{edit_form__deleted : isDeleted()}' />
                                             </td>
                                             <td>
                                                 <input type="text" class="edit_form__texthalfvalue" placeholder="@Strings.ValueTextPlaceHolder"
-                                                       data-bind='textInput: TagValue, enable:TagName() && !isDeleted(), event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />                                                
+                                                       data-bind='textInput: TagValue, enable:TagName() && !isDeleted(), event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }, css:{edit_form__deleted : isDeleted()}' />                                                
                                             </td>
                                             <td>
                                                 <input type="checkbox"
