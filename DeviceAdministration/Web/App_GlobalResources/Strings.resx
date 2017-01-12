@@ -1961,10 +1961,6 @@
     <value>Unable to schedule job. An unexpected error occurred.</value>
     <comment>Error message.</comment>
   </data>
-  <data name="RequiredValidationString" xml:space="preserve">
-    <value>This field is required</value>
-    <comment>Error message</comment>
-  </data>
   <data name="ScheduleParameterName" xml:space="preserve">
     <value>Parameters</value>
   </data>

@@ -126,7 +126,7 @@
                                         <label class="edit_form__labelHeader">@Strings.StartTime</label>
                                         <div class="input-group" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ widgetPositioning : {horizontal: 'left' ,vertical: 'top'}, format: 'LLL', locale: getCulture() }">
                                             <input type='text' id="StartDate" class="non_float edit_form__text less_margin"
-                                                   data-msg-required="@Strings.RequiredValidationString"
+                                                   data-msg-required="@Strings.RequiredValue"
                                                    data-rule-required="true" />
                                             <span class="input-group-addon">
                                                 <img class="edit_form__datePickerImg" src="/Content/img/expanded.svg" >
@@ -137,7 +137,7 @@
                                     <div class="values_editor__group">
                                         <label class="edit_form__labelHeader">@Strings.MaxExecutionTime</label>
                                         <input type="text" class="non_float less_margin edit_form__textsmall" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
-                                               data-msg-required="@Strings.RequiredValidationString"
+                                               data-msg-required="@Strings.RequiredValue"
                                                data-rule-required="true" />
                                         <span>Mins</span>
                                     </div>

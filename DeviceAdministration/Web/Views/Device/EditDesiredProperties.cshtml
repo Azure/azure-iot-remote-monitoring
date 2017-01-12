@@ -46,10 +46,11 @@
                                 <tr class="values_editor__group">
                                     <td>
                                         <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox"
-                                               placeholder="@Strings.PropertyTextPlaceHolder"
-                                               data-msg-required="@Strings.RequiredValidationString"
+                                               data-msg-regex="*"
+                                               data-rule-regex="^desired.\S+$"
+                                               data-msg-required="*"
                                                data-rule-required="true"
-                                               data-bind='value: key, css:{edit_form__deleted : isDeleted()}' />
+                                               data-bind="value: key, css:{edit_form__deleted : isDeleted()},attr:{name: 'propertyName' + $index(), id: 'propertyName' + $index()}" />
                                     </td>
                                     <td>
                                         <input type="text" class="edit_form__texthalf"

@@ -4054,15 +4054,6 @@ namespace GlobalResources {
         /// <summary>
         ///   Looks up a localized string similar to This field is required.
         /// </summary>
-        public static string RequiredValidationString {
-            get {
-                return ResourceManager.GetString("RequiredValidationString", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This field is required.
-        /// </summary>
         public static string RequiredValue {
             get {
                 return ResourceManager.GetString("RequiredValue", resourceCulture);
