@@ -670,3 +670,9 @@ table.dataTable tbody td.image_column {
     padding-top: 2px;
     padding-bottom: 2px;
 }
+
+.hide_characters {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

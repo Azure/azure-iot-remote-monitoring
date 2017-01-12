@@ -174,6 +174,8 @@
                     rawName: column.name,
                 };
 
+                columnDefs.push({ className: "hide_characters", "targets": [columns.length] });
+
                 if (column.name === "tags.HubEnabledState") {
                     columnOption.mRender = function (data) {
                         if (data === "Disabled") {
