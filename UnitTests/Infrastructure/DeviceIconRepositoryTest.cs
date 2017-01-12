@@ -90,7 +90,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             string targetName = "device1_jpg";
             var uri = new Uri("https://account1.blob.core.windows.net/deviceicons/applied/device1_jpg");
             var mockBlob = new CloudBlockBlob(uri);
-            _blobStorageClientMock.Setup(x => x.MoveBlob(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(mockBlob);
+            _blobStorageClientMock.Setup(x => x.GetBlob(It.IsNotNull<string>())).ReturnsAsync(mockBlob);
             var icons = await deviceIconRepository.SaveIcon(targetName);
             Assert.Equal(targetName, icons.Name);
         }

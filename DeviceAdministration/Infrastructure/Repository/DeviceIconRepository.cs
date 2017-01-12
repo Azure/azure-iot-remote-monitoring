@@ -73,8 +73,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<DeviceIcon> SaveIcon(string name)
         {
-            var appliedBlob = await _blobStorageClient.MoveBlob($"{_uploadedFolder}/{name}", $"{_appliedFolder}/{name}");
-            return new DeviceIcon(Path.GetFileName(appliedBlob.Name), appliedBlob);
+            var appliedBlob = await _blobStorageClient.GetBlob($"{_appliedFolder}/{name}");
+            return new DeviceIcon(name, appliedBlob);
         }
 
         public async Task<bool> DeleteIcon(string name)
