@@ -169,7 +169,7 @@ IoTApp.createModule("IoTApp.Controls.Dialog", function () {
         if (options.dialogId) {
             self.dialog.attr('id', options.dialogId);
         }
-        $('.dialog_title_text', self.dialog).text(options.title);
+        $('.dialog_title_text', self.dialog).html(options.title);
         $('.dialog_content', self.dialog).html($(options.templateId).html());
 
         $('.dialog_close_img', self.dialog).click(function () {

@@ -25,10 +25,10 @@
                     <div class="device_list_columns_toolbar">
                         <!--ko if: $parent.editingItem() != $data -->
                         <img src="~/Content/img/edit_name.svg" title="@Strings.EditDisplayName" class="device_list_columns_toolbar_button" data-bind="click: $parent.edit" />
-                        <img src="~/Content/img/column_up.svg" title="@Strings.MoveUp" class="device_list_columns_toolbar_button" data-bind="click: $parent.moveUp" />
-                        <img src="~/Content/img/column_down.svg" title="@Strings.MoveDown" class="device_list_columns_toolbar_button" data-bind="click: $parent.moveDown" />
+                        <img src="~/Content/img/column_up.svg" class="device_list_columns_toolbar_button" data-bind="click: $parent.moveUp" />
+                        <img src="~/Content/img/column_down.svg" class="device_list_columns_toolbar_button" data-bind="click: $parent.moveDown" />
                         <!--ko ifnot: $parent.isReserved($data) -->
-                        <img src="~/Content/img/column_delete.svg" title="@Strings.Delete" class="device_list_columns_toolbar_button" data-bind="click: $parent.remove" />
+                        <img src="~/Content/img/column_delete.svg" class="device_list_columns_toolbar_button" data-bind="click: $parent.remove" />
                         <!-- /ko -->
                         <!--ko if: $parent.isReserved($data) -->
                         <img class="device_list_columns_toolbar_button_disabled" />

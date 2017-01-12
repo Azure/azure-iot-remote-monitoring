@@ -8,7 +8,7 @@
         IoTApp.Controls.Dialog.create({
             dialogId: 'jobResultDialog',
             templateId: '#jobResultTemplate',
-            title: resources.jobResultsFor.replace('{0}', jobName)
+            title: resources.jobResultsFor.replace('{0}', '<span class="item__description">' + jobName + '</span>')
         });
         self.dataTableContainer = $('#jobResultTable');
         

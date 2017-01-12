@@ -1601,7 +1601,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check to delete this property from device.
+        ///   Looks up a localized string similar to Check to delete this property from device twin.
         /// </summary>
         public static string EditDesiredPropertyDelete {
             get {
@@ -1691,7 +1691,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check to delete this tag from device.
+        ///   Looks up a localized string similar to Check to delete this tag from device twin.
         /// </summary>
         public static string EditTagDelete {
             get {

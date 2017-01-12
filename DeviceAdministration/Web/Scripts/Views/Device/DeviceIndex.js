@@ -162,6 +162,7 @@
             $('<th />')
                 .text(resources.image)
                 .attr('title', 'tags.' + resources.iconTagName)
+                .addClass('remove_text_transform')
                 .appendTo(header);
 
             data.forEach(function (column, index) {
@@ -199,6 +200,7 @@
                 $('<th />')
                     .text(columnOption.name)
                     .attr('title', column.name)
+                    .addClass('remove_text_transform')
                     .appendTo(header);
             });
             

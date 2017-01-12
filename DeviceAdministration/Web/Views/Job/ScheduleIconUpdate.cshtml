@@ -47,7 +47,7 @@
                     <fieldset class="edit_form">
                         @{
                             <div>
-                                @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label primary__label" })
+                                @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label" })
                                 @Html.TextBoxFor(m => m.JobName, new { placeholder = Strings.ScheduleJobNamePlaceHolder, data_bind = "value: jobName", @class = "edit_form__text" })
                             </div>
                             @Html.HiddenFor(m => m.FilterId)
@@ -119,7 +119,7 @@
                             </div>
 
                             <div class="edit_form__inputGroup">
-                                <label for="scheduleJobTime" class="edit_form__label primary__label">@Strings.ScheduleSetJobTime</label>
+                                <label for="scheduleJobTime" class="edit_form__label">@Strings.ScheduleSetJobTime</label>
 
                                 <div id="scheduleJobTime" class="values_editor">
                                     <div class="values_editor__group">
@@ -135,7 +135,7 @@
                                         <input type="hidden" id="StartDateHidden" name="StartDateUtc" />
                                     </div>
                                     <div class="values_editor__group">
-                                        <label class="edit_form__labelHeader">@Strings.MaxExecutionTime</label>
+                                        <label class="edit_form__labelHeader tooltip_header">@Strings.MaxExecutionTime <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info tooltip_icon" title="@Strings.MaximumExecutionTime" /></label>
                                         <input type="text" class="non_float less_margin edit_form__textsmall" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
                                                data-msg-required="@Strings.RequiredValue"
                                                data-rule-required="true" />

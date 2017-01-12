@@ -771,6 +771,9 @@ nav .selected {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 16px;
 }
+.remove_text_transform {
+  text-transform: none !important;
+}
 .edit_form__labelHeader {
   color: gray;
   font-size: 0.6em;

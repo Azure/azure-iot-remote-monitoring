@@ -2401,7 +2401,7 @@
     <comment>Tooltip</comment>
   </data>
   <data name="EditDesiredPropertyDelete" xml:space="preserve">
-    <value>Check to delete this property from device</value>
+    <value>Check to delete this property from device twin</value>
     <comment>Tooltip</comment>
   </data>
   <data name="EditDeviceIcon" xml:space="preserve">
@@ -2429,7 +2429,7 @@
     <comment>Label</comment>
   </data>
   <data name="EditTagDelete" xml:space="preserve">
-    <value>Check to delete this tag from device</value>
+    <value>Check to delete this tag from device twin</value>
     <comment>Tooltip</comment>
   </data>
   <data name="MaximumExecutionTime" xml:space="preserve">
