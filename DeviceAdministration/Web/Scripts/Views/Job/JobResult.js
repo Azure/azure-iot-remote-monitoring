@@ -156,14 +156,28 @@
 
     var renderPayload = function (json) {
         if (!json) return '';
-        var payload = $.parseJSON(json);
-        var container = $('<div class="job_result_payload"/>');
-        var items = [];
-        $.each(payload, function (key, value) {
-            items.push(key + ": " + value);
-        });
 
-        var content = items.join(', ');
+        try {
+            json = JSON.parse(json);
+        } 
+        catch (e) {
+        }
+
+        var container = $('<div class="job_result_payload"/>');
+        var content = '';
+
+        if ($.isPlainObject(json)) {
+            var items = [];
+            $.each(json, function (key, value) {
+                items.push(key + ": " + value);
+            });
+
+            content = items.join(', ');
+        }
+        else {
+            content = json;
+        }
+        
         container.html(content).attr('title', content);
 
         return $('<div />').append(container).html();
