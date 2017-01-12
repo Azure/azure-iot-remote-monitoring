@@ -50,7 +50,7 @@
                                                data-rule-regex="^desired.\S+$"
                                                data-msg-required="*"
                                                data-rule-required="true"
-                                               data-bind='value: key, css:{edit_form__deleted : isDeleted(),name: 'propertyName' + $index(), id: 'propertyName' + $index()}' />
+                                               data-bind="value: key, css:{edit_form__deleted : isDeleted()},attr:{name: 'propertyName' + $index(), id: 'propertyName' + $index()}" />
                                     </td>
                                     <td>
                                         <input type="text" class="edit_form__texthalf"
