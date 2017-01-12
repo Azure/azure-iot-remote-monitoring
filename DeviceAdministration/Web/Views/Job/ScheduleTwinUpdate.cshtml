@@ -46,13 +46,13 @@
                     <fieldset class="edit_form">
                         @{
                             <div>
-                                @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label primary__label" })
+                                @Html.LabelFor(m => m.JobName, Strings.ScheduleJobName, new { @class = "edit_form__label" })
                                 @Html.TextBoxFor(m => m.JobName, new { placeholder = Strings.ScheduleJobNamePlaceHolder, data_bind = "value: jobName", @class = "edit_form__text" })
                             </div>
                             @Html.HiddenFor(m => m.FilterId)
                             <div style="clear:both"></div>
                             <div class="edit_form__inputGroup">
-                                <label for="propertiesTable" class="edit_form__label primary__label">@Strings.ScheduleChangeDesiredProperties</label>
+                                <label for="propertiesTable" class="edit_form__label">@Strings.ScheduleChangeDesiredProperties</label>
                                 <table class="values_editor" id="propertiesTable">
                                     <thead>
                                         <tr class="values_editor__groupheader">
@@ -90,7 +90,7 @@
                                 </table>
                             </div>
                             <div class="edit_form__inputGroup">
-                                <label for="tagsTable" class="edit_form__label primary__label">@Strings.ScheduleChangeTags</label>
+                                <label for="tagsTable" class="edit_form__label">@Strings.ScheduleChangeTags</label>
                                 <table class="values_editor" id="tagsTable">
                                     <thead>
                                         <tr class="values_editor__groupheader">
@@ -127,7 +127,7 @@
                                 </table>
                             </div>
                             <div class="edit_form__inputGroup">
-                                <label for="scheduleJobTime" class="edit_form__label primary__label">@Strings.ScheduleSetJobTime</label>
+                                <label for="scheduleJobTime" class="edit_form__label">@Strings.ScheduleSetJobTime</label>
 
                                 <div id="scheduleJobTime" class="values_editor">
                                     <div class="values_editor__group">
