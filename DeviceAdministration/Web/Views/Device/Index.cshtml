@@ -44,10 +44,10 @@
                     <!--ko if: canEdit() -->
                     <img src="/Content/img/edit_filter.svg" title="@Strings.EditFilter" class="device_list_toolbar_button" data-bind="click: showPanel" />
                     <!-- /ko -->
-                    <!--ko if: canSave() -->
-                    <!--ko if: isChanged() -->
+                    <!--ko if: canSave() && isChanged() -->
                     <img src="/Content/img/save.svg" title="@Strings.SaveFilter" class="device_list_toolbar_button" data-bind="click: saveFilter" />
                     <!-- /ko -->
+                    <!--ko if: canSaveAs() -->
                     <img src="/Content/img/saveas.svg" title="@Strings.SaveAsFilter" class="device_list_toolbar_button" data-bind="click: openSaveAsDialog" />
                     <!-- /ko -->
                     <!--ko if: canDelete() -->

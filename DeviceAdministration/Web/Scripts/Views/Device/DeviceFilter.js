@@ -42,6 +42,9 @@
             return self.model.id() == defaultFilterId;
         }),
         canSave: ko.pureComputed(function () {
+            return self.model.canSaveAs() && !self.model.associatedJobsCount();
+        }),
+        canSaveAs: ko.pureComputed(function () {
             return !self.model.isDefatulFilter() && self.model.isFilterLoaded() && !self.model.isMultiSelectionMode();
         }),
         canDelete: ko.pureComputed(function () {
