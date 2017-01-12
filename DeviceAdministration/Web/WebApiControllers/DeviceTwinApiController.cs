@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<HttpResponseMessage> GetDeviceTwinTag(string deviceId)
         {
             var twin = await this._deviceManager.GetTwinAsync(deviceId);
-            IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>> flattenTwin = twin.Tags.AsEnumerableFlatten("tags.").Where(t=>!t.Key.IsReservedTwinName());
+            IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>> flattenTwin = twin.Tags.AsEnumerableFlatten("tags.").Where(t => !t.Key.IsReservedTwinName());
             return await GetServiceResponseAsync<IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>>>(async () =>
             {
                 return await Task.FromResult(flattenTwin);
@@ -72,7 +72,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     key = key.Substring(8);
                 }
-                updatetwin.Properties.Desired.Set(key, twin.Value.Value.ToString());
+                var value = twin.Value.Value.ToString();
+                updatetwin.Properties.Desired.Set(key, twin.Value.Value.Type ==  Newtonsoft.Json.Linq.JTokenType.Null ? null : value);
                 var addnametask = _nameCacheLogic.AddNameAsync(twin.Key);
             }
             await _deviceManager.UpdateTwinAsync(deviceId, updatetwin);
@@ -96,7 +97,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     key = key.Substring(5);
                 }
-                updatetwin.Tags.Set(key, twin.Value.Value.ToString());
+                var value = twin.Value.Value.ToString();
+                updatetwin.Tags.Set(key, twin.Value.Value.Type == Newtonsoft.Json.Linq.JTokenType.Null ? null : value);
                 var addnametask = _nameCacheLogic.AddNameAsync(twin.Key);
             }
             await _deviceManager.UpdateTwinAsync(deviceId, updatetwin);

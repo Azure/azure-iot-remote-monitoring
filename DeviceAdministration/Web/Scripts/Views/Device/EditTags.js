@@ -75,7 +75,13 @@
         this.formSubmit = function () {
             $("#loadingElement").show();
             //set the 'value' to empty when try to delete the prop.
-            var updatedata = $.map(self.properties(), function (item) { if (item.isDeleted() == true) { item.value.value = ""; return item; } else { return item; } })
+            var updatedata = $.map(self.properties(), function (item) {
+                if (item.isDeleted() == true) {
+                    item.value.value = null; return item;
+                } else {
+                    return item;
+                }
+            });
 
             $.ajax({
                 url: '/api/v1/devices/' + deviceId + '/twin/tag',
