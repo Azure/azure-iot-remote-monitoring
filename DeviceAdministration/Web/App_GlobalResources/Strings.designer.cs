@@ -4304,7 +4304,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save Changes to Device Registry.
+        ///   Looks up a localized string similar to Save Changes to Device Twin.
         /// </summary>
         public static string SaveChangesToDevice {
             get {
