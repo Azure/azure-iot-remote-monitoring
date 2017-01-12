@@ -20,7 +20,7 @@
         filterNameList: ko.observableArray([]),
         viewSelectedClausesOnly: ko.observable(false),
         currentClause: ko.observable(null),
-        defaultClauses: [],
+        suggestedClauses: [],
         recordsFiltered: ko.observable(0),
         recordsTotal: ko.observable(0),
         saveAsName: ko.observable(null),
@@ -286,7 +286,7 @@
                 self.model.associatedJobsCount(filter.associatedJobsCount);
                 self.model.viewSelectedClausesOnly(false);
                 self.model.clauses.removeAll();
-                self.model.defaultClauses.forEach(function (item) {
+                self.model.suggestedClauses.forEach(function (item) {
                     item.checked(false);
                     self.model.clauses.push(item);
                 });
@@ -298,7 +298,8 @@
                         var existing = self.model.clauses().filter(function (clause) {
                             return clause.field() === newClause.field() &&
                                 clause.operator() === newClause.operator() &&
-                                clause.value() === newClause.value();
+                                clause.value() === newClause.value() && 
+                                clause.dataType() === newClause.dataType();
                         });
 
                         if (existing.length > 0) {
@@ -369,13 +370,16 @@
                 clauses: self.model.clauses().filter(function (clause) {
                     return clause.checked();
                 }).map(function (clause) {
-                    return {
-                        columnName: clause.field(),
-                        clauseType: clause.operator(),
-                        clauseValue: clause.value(),
-                        clauseDataType: clause.dataType()
-                    };
+                    return self.model.getClauseModel(clause);
                 })
+            };
+        },
+        getClauseModel: function (clause) {
+            return {
+                columnName: clause.field(),
+                clauseType: clause.operator(),
+                clauseValue: clause.value(),
+                clauseDataType: clause.dataType()
             };
         },
         canAddClause: ko.pureComputed(function () {
@@ -386,13 +390,17 @@
             self.model.currentClause(self.model.newClause());
             self.model.isChanged(true);
         },
-        newClause: function (field, operator, value, dataType, checked) {
+        removeClause: function (clause) {
+            self.model.clauses.remove(clause);
+        },
+        newClause: function (field, operator, value, dataType, isSuggested, checked) {
             var clause = {
                 field: ko.observable(field || ""),
                 operator: ko.observable(operator || "EQ"),
                 value: ko.observable(value),
                 dataType: ko.observable(dataType || resources.twinDataType.string),
                 checked: ko.observable(checked == null ? true : checked),
+                isSuggested: isSuggested,
                 shortDisplayName: ko.pureComputed(function () {
                     var parts = clause.field().split('.');
                     return parts[parts.length - 1] + " " + self.model.getOperatorText(clause.operator()) + " " + clause.value();
@@ -403,6 +411,15 @@
                 toggle: function () {
                     clause.checked(!clause.checked());
                     self.model.isChanged(true);
+                },
+                remove: function () {
+                    if (clause.isSuggested) {
+                        api.deleteSuggestedClause(self.model.getClauseModel(clause), function () {
+                            getSuggestedClauses();
+                        });
+                    }
+
+                    self.model.removeClause(clause);
                 }
             };
 
@@ -611,12 +628,29 @@
         }
     }
     var api = {
-        GetSuggestClauses: function (callback) {
+        getSuggestedClauses: function (callback) {
             var url = "/api/v1/suggestedClauses?skip=0&take=10";
             return $.ajax({
                 url: url,
                 type: 'GET',
                 dataType: 'json',
+                success: function (result) {
+                    if ($.isFunction(callback)) {
+                        callback(result.data);
+                    }
+                },
+                error: function () {
+                    IoTApp.Helpers.Dialog.displayError(resources.failedToGetRecentFilter);
+                }
+            });
+        },
+        deleteSuggestedClause: function (clause, callback) {
+            var url = "/api/v1/suggestedClauses";
+            return $.ajax({
+                url: url,
+                type: 'DELETE',
+                dataType: 'json',
+                data: { '': [ clause ] },
                 success: function (result) {
                     if ($.isFunction(callback)) {
                         callback(result.data);
@@ -748,14 +782,7 @@
             ko.applyBindings(self.model, $('.filter_panel').get(0));
             ko.applyBindings(self.model, $('.filter_panel_dialog').get(0));
 
-            api.GetSuggestClauses(function (data) {
-                if (data) {
-                    data.forEach(function (item) {
-                        var newClause = self.model.newClause(item.columnName, item.clauseType, item.clauseValue, item.clauseDataType);
-                        self.model.defaultClauses.push(newClause);
-                    });
-                }
-
+            getSuggestedClauses(function (data) {
                 var filterId = resources.filterId || uiState.filterId || defaultFilterId;
                 self.model.loadFilter(filterId, false, callback);
             });
@@ -767,6 +794,21 @@
         else {
             callback();
         }
+    }
+    var getSuggestedClauses = function (callback) {
+        api.getSuggestedClauses(function (data) {
+            if (data) {
+                self.model.suggestedClauses = [];
+                data.forEach(function (item) {
+                    var newClause = self.model.newClause(item.columnName, item.clauseType, item.clauseValue, item.clauseDataType, true);
+                    self.model.suggestedClauses.push(newClause);
+                });
+            }
+
+            if ($.isFunction(callback)) {
+                callback(data);
+            }
+        });
     }
     var initToolbar = function ($container) {
         self.toolbarInitialized = true;

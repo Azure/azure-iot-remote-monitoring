@@ -61,7 +61,7 @@
                 <div class="device_list_clauses">
                     <!--ko if: !isAdvanced() -->
                     <div data-bind="foreach: checkedClauses">
-                        <div class="device_list_clause" data-bind="attr: { title: displayName }">
+                        <div class="device_list_clause no_select" data-bind="attr: { title: displayName }">
                             <span data-bind="text: shortDisplayName"></span>
                             <img src="/Content/img/column_delete.svg" data-bind="click: $parent.unCheckClause" />
                         </div>
@@ -102,8 +102,9 @@
                         </div>
                         
                         <div class="filter_panel_clauses" data-bind="foreach: clauses, visible : !isAdvanced()">
-                            <div class="filter_panel_clause" data-bind="attr: { title: displayName }, click: toggle, css: { checked: checked }, visible: !$parent.viewSelectedClausesOnly() || checked() ">
+                            <div class="filter_panel_clause no_select" data-bind="attr: { title: displayName }, click: toggle, css: { checked: checked }, visible: !$parent.viewSelectedClausesOnly() || checked() ">
                                 <div class="filter_panel_clause_text" data-bind="text: shortDisplayName"></div>
+                                <img class="filter_panel_clause_delete_img" title="@Strings.Delete" src="/Content/img/column_delete.svg" data-bind="click: remove" />
                             </div>
                         </div>
                         <div data-bind="visible: isAdvanced()">

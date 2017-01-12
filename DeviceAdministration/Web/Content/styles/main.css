@@ -156,6 +156,12 @@ main.main_no_nav {
 .vertical_center {
   vertical-align: middle;
 }
+.no_select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 .content_outer {
   width: 100%;
   overflow-x: hidden;
@@ -1415,6 +1421,10 @@ table#alertHistoryTable tr.selectedAlert {
   cursor: pointer;
   border-radius: 3px;
 }
+.filter_panel_clause:hover {
+  border: 1px solid #1c9dd7;
+  color: #1c9dd7;
+}
 .filter_panel_clause_text {
   display: block;
   font-size: 14px;
@@ -1423,6 +1433,17 @@ table#alertHistoryTable tr.selectedAlert {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.filter_panel_clause_delete_img {
+  display: none;
+  top: 4px;
+  right: 0px;
+  position: absolute;
+  background-color: white;
+  cursor: pointer;
+}
+.filter_panel_clause:hover:not(.checked) .filter_panel_clause_delete_img {
+  display: block;
 }
 .filter_panel_clause.checked {
   border-color: #1c9dd7;

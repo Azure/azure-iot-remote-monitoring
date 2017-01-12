@@ -152,6 +152,11 @@
     border-radius: 3px;
 }
 
+.filter_panel_clause:hover {
+    border: 1px solid @button-border-color;
+    color: @button-border-color;
+}
+
 .filter_panel_clause_text {
     display: block;
     font-size: 14px;
@@ -160,6 +165,19 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.filter_panel_clause_delete_img {
+    display: none;
+    top: 4px; 
+    right: 0px; 
+    position: absolute; 
+    background-color: @background-color;
+    cursor: pointer;
+}
+
+.filter_panel_clause:hover:not(.checked) .filter_panel_clause_delete_img {
+    display: block;
 }
 
 .filter_panel_clause.checked {
