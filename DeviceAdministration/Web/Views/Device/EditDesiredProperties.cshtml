@@ -46,9 +46,11 @@
                                 <tr class="values_editor__group">
                                     <td>
                                         <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox"
-                                               data-msg-required="@Strings.RequiredValidationString"
+                                               data-msg-regex="*"
+                                               data-rule-regex="^desired.\S+$"
+                                               data-msg-required="*"
                                                data-rule-required="true"
-                                               data-bind='value: key,' />
+                                               data-bind="value: key, attr:{name: 'propertyName' + $index(), id: 'propertyName' + $index()}" />
                                     </td>
                                     <td>
                                         <input type="text" class="edit_form__texthalf"
@@ -67,7 +69,7 @@
                         <div style="clear:both"></div>
                         <a data-bind="click:$root.createEmptyPropertyIfNeeded">
                             <span class="icon-add"></span>
-                            <div class="edit_form__labelbutton" >
+                            <div class="edit_form__labelbutton">
                                 @Strings.AddDesiredProperty
                             </div>
                         </a>

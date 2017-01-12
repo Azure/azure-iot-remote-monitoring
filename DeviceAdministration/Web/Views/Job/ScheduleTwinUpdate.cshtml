@@ -73,8 +73,6 @@
                                                        data-bind='value: PropertyName, attr: { name: "DesiredProperties[" + $index() + "].PropertyName", id: "DesiredProperties" + $index() + ".PropertyName" }' />
                                             </td>
                                             <td>
-                                                @*data-msg-required="@Strings.RequiredValidationString"
-                                                    data-rule-required="true"*@
                                                 <input type="text" class="edit_form__texthalfvalue" placeholder="@Strings.ValueTextPlaceHolder"
                                                        data-bind='textInput: PropertyValue, enable:PropertyName() && !isDeleted(),  event: { keyup: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
                                             </td>
@@ -134,7 +132,7 @@
                                         <label class="edit_form__labelHeader">@Strings.StartTime</label>
                                         <div class="input-group" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ widgetPositioning : {horizontal: 'left' ,vertical: 'top'}, format: 'LLL', locale: getCulture() }">
                                             <input type='text' id="StartDate" class="non_float edit_form__text less_margin"
-                                                   data-msg-required="@Strings.RequiredValidationString"
+                                                   data-msg-required="*"
                                                    data-rule-required="true" />
                                             <span class="input-group-addon">
                                                 <img class="edit_form__datePickerImg" src="/Content/img/expanded.svg">
@@ -146,7 +144,7 @@
                                             <label class="edit_form__labelHeader tooltip_header">@Strings.MaxExecutionTime  <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info tooltip_icon" title="@Strings.MaximumExecutionTime" /></label>
                                           
                                         <input type="text" class="non_float less_margin edit_form__textsmall" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
-                                               data-msg-required="@Strings.RequiredValidationString"
+                                               data-msg-required="*"
                                                data-rule-required="true" />
                                         <span>Mins</span>
                                     </div>
