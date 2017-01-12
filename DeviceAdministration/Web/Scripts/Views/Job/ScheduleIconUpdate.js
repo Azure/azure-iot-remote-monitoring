@@ -55,6 +55,11 @@
         this.isLastPage = ko.pureComputed(function () {
             return self.currentPage() == Math.ceil(self.totalCount() / self.pageSize) - 1;
         });
+        this.canSave = ko.pureComputed(function () {
+            return self.actionType() == resources.uploadActionType && self.previewIcon() != self.defaultIcon()
+                || self.actionType() == resources.applyActionType && self.selectedIcon()
+                || self.actionType() == resources.removeActionType;
+        });
 
         this.init = function (data) {
             if (data) {
@@ -184,6 +189,7 @@
                         return;
                     }
                     self.iconList(result.data.results);
+                    self.selectedIcon(null);
                     self.totalCount(result.data.totalCount);
                     self.currentPage(page);
                 }

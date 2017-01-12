@@ -148,7 +148,7 @@
 
                     <fieldset class="fieldset_button">
                         <input type="button" class="button_base button_secondary button_cancel" data-bind="click: backButtonClicked" value="@Strings.Cancel" />
-                        <button class="button_base" type="submit">@Strings.Schedule</button>
+                        <button class="button_base" type="submit" data-bind="enable: canSave">@Strings.Schedule</button>
                     </fieldset>
                             }
             </div>
