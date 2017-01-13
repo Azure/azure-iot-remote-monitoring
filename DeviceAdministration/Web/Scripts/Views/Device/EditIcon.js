@@ -21,7 +21,6 @@
         this.deviceId = deviceId;
         this.file = null;
         this.maxSizeInMB = 4;
-        this.sizeOk = false;
         this.pageSize = 10;
         this.apiRoute = '/api/v1/icons/';
         this.getIconApiRoute = '/api/v1/devices/' + deviceId + '/icon'
@@ -53,7 +52,8 @@
             if (self.file && self.file.size > self.maxSizeInMB * 1024 * 1024) {
                 IoTApp.Helpers.Dialog.displayError(resources.overSizedFile);
             } else {
-                self.sizeOk = true;
+                self.uploadImage();
+                self.actionType(resources.uploadActionType);
             }
         };
 
@@ -201,10 +201,6 @@
 
         $('#chooseFileBtn').click(function () {
             $("#file").click();
-            if (self.sizeOk) {
-                self.uploadImage();
-            }
-            self.actionType(resources.uploadActionType);
             return false;
         });
 
