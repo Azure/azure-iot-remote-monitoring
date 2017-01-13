@@ -10,6 +10,8 @@ using Ploeh.AutoFixture;
 using Xunit;
 using System.Web;
 using System.Web.Routing;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
+using System.Threading;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
 {
@@ -54,8 +56,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             var view = result as ViewResult;
             var model = view.Model as DashboardModel;
 
+            string expectedcookievalue = CultureHelper.GetClosestCulture(Thread.CurrentThread.CurrentCulture.Name).Name;
+
             Assert.Equal(_dashboardController.Response.Cookies.Count, 1);
-            Assert.Equal(_dashboardController.Response.Cookies["_culture"].Value, "en-US");
+            Assert.Equal(_dashboardController.Response.Cookies["_culture"].Value, expectedcookievalue);
             Assert.Equal(model.DeviceIdsForDropdown.Count, filterMock.Results.Count);
             var deviceIDs = model.DeviceIdsForDropdown.First();
             var mockDeviceId = filterMock.Results.First().DeviceProperties.DeviceID;
