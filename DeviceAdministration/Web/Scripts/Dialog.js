@@ -21,7 +21,8 @@
                     text: container.data("resource-ok"),
                     click: function () {
                         $(this).dialog("close");
-                    }
+                    },
+                    "class": "button_base"
                 }
             ]
         });
