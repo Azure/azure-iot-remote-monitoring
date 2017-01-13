@@ -1,6 +1,7 @@
 ﻿@using GlobalResources
 @using Newtonsoft.Json
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.ScheduleTwinUpdateModel
 
 @{
@@ -58,6 +59,7 @@
                                         <tr class="values_editor__groupheader">
                                             <th class="edit_form__labelHeader">@Strings.ScheduleDesiredPropertyName</th>
                                             <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
+                                            <th class="edit_form__labelHeader">@Strings.ScheduleEditType</th>
                                             <th class="edit_form__labelHeader" title="@Strings.EditDesiredPropertyDelete">
                                                 <div class="tooltip_header">
                                                     @Strings.Delete
@@ -73,8 +75,11 @@
                                                        data-bind='value: PropertyName, attr: { name: "DesiredProperties[" + $index() + "].PropertyName", id: "DesiredProperties" + $index() + ".PropertyName" }' />
                                             </td>
                                             <td>
-                                                <input type="text" class="edit_form__texthalfvalue" 
+                                                <input type="text" class="edit_form__texthalfvalue"
                                                        data-bind='textInput: PropertyValue, enable:PropertyName() && !isDeleted(),  event: { keyup: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
+                                            </td>
+                                            <td>
+                                                <select class="filter_panel_select" data-bind="value: DataType,  enable:!isDeleted() && PropertyName(), options: $root.twinDataTypeOptions, optionsText: 'text', optionsValue: 'value', attr: { name: 'DesiredProperties[' + $index() + '].DataType', id: 'DesiredProperties' + $index() + '.DataType' }"></select>
                                             </td>
                                             <td>
                                                 <input type="checkbox"
@@ -94,6 +99,7 @@
                                         <tr class="values_editor__groupheader">
                                             <th class="edit_form__labelHeader">@Strings.TagName</th>
                                             <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
+                                            <th class="edit_form__labelHeader">@Strings.ScheduleEditType</th>
                                             <th class="edit_form__labelHeader" title="@Strings.EditTagDelete">
                                                 <div class="tooltip_header">
                                                     @Strings.Delete
@@ -111,7 +117,10 @@
                                             </td>
                                             <td>
                                                 <input type="text" class="edit_form__texthalfvalue"
-                                                       data-bind='textInput: TagValue, enable:TagName() && !isDeleted(), event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />                                                
+                                                       data-bind='textInput: TagValue, enable:TagName() && !isDeleted(), event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />
+                                            </td>
+                                            <td>
+                                                <select class="filter_panel_select" data-bind="value: DataType,  enable:!isDeleted() && TagName(), options: $root.twinDataTypeOptions, optionsText: 'text', optionsValue: 'value', attr: { name: 'Tags[' + $index() + '].DataType', id: 'Tags' + $index() + '.DataType' }"></select>
                                             </td>
                                             <td>
                                                 <input type="checkbox"
@@ -141,8 +150,8 @@
                                         <input type="hidden" id="StartDateHidden" name="StartDateUtc" />
                                     </div>
                                     <div class="values_editor__group">
-                                            <label class="edit_form__labelHeader tooltip_header">@Strings.MaxExecutionTime  <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info tooltip_icon" title="@Strings.MaximumExecutionTime" /></label>
-                                          
+                                        <label class="edit_form__labelHeader tooltip_header">@Strings.MaxExecutionTime  <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info tooltip_icon" title="@Strings.MaximumExecutionTime" /></label>
+
                                         <input type="text" class="non_float less_margin edit_form__textsmall" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
                                                data-msg-required="*"
                                                data-rule-required="true" />
@@ -171,7 +180,17 @@
         redirectToJobIndexUrl: '@Url.Action("Index", "Job")',
         originalJobId: '@Html.JavaScriptString(Model.OriginalJobId)',
         TotalDeviceString: "@Html.JavaScriptString(Strings.FilteredDeviceCount)",
-        LoadingText: "@Html.JavaScriptString(Strings.LoadingText)"
+        LoadingText: "@Html.JavaScriptString(Strings.LoadingText)",
+        twinDataType: {
+            'string': '@TwinDataType.String',
+            'number': '@TwinDataType.Number',
+            'boolean': '@TwinDataType.Boolean'
+        },
+        twinDataTypeOptions: [
+            { value: '@TwinDataType.String', text: '@Html.JavaScriptString(Strings.StringLabel)' },
+            { value: '@TwinDataType.Number', text: '@Html.JavaScriptString(Strings.NumberLabel)' },
+            { value: '@TwinDataType.Boolean', text: '@Html.JavaScriptString(Strings.BooleanLabel)' }
+        ]
     }
 </script>
 <script type="text/javascript" src="~/Scripts/Views/Job/ScheduleTwinUpdate.js"></script>

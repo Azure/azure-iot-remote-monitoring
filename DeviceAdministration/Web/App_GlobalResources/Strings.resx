@@ -2492,4 +2492,8 @@
     <value>String</value>
     <comment>Label.</comment>
   </data>
+  <data name="ScheduleEditType" xml:space="preserve">
+    <value>Type</value>
+    <comment>Table header</comment>
+  </data>
 </root>

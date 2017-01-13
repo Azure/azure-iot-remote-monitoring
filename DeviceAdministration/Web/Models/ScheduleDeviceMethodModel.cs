@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +13,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         public string ParameterName { get; set; }
         public string ParameterValue { get; set; }
-        public string ParameterType { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public TwinDataType Type { get; set; }
     }
 
     public class ScheduleDeviceMethodModel : ScheduleJobViewModel

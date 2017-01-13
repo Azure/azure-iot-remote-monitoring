@@ -4,7 +4,7 @@
     var self = this;
 
     var init = function (deviceId) {
-        self.viewModel = new viewModel(deviceId,jQuery)
+        self.viewModel = new viewModel(deviceId, jQuery)
         IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.desiredProperty }, self.viewModel.cachepropertyList);
 
         ko.applyBindings(self.viewModel);
@@ -15,9 +15,10 @@
         self.key = ko.observable(data.key);
         self.value = ko.mapping.fromJS(data.value);
         self.isDeleted = ko.observable(data.isDeleted);
+        self.dataType = ko.observable(data.dataType);
     }
 
-    var viewModel = function (deviceId,$) {
+    var viewModel = function (deviceId, $) {
         var self = this;
         var defaultData = [
             {
@@ -27,26 +28,51 @@
                     "lastUpdated": ""
                 },
                 "isDeleted": false,
+                "dataType": ""
             }
         ]
 
         var mapping = {
             'isDeleted': {
-                create: function (data) {
+                create: function () {
                     return ko.observable(false);
                 }
-            }
+            },
+            'dataType': {
+                create: function (data) {
+                    var type = self.getDataType(data);
+                    return ko.observable(type);
+                }
+            },
         }
 
+        this.updateDataType = function (data) {
+            data.dataType(self.getDataType(data.value.value()));
+        };
+
+        this.getDataType = function (value) {
+            var type;
+            if ($.isNumeric(value)) {
+                return resources.twinDataType.number
+            }
+            else if (/^true$|^false$/i.test(value)) {
+                return resources.twinDataType.boolean
+            }
+            else {
+                return resources.twinDataType.string;
+            }
+        };
+
+        this.twinDataTypeOptions = ko.observableArray(resources.twinDataTypeOptions),
         this.properties = ko.mapping.fromJS(defaultData, mapping);
-        this.reported = [];
+        this.reported = ko.observableArray([]);
         this.backButtonClicked = function () {
             location.href = resources.redirectUrl;
         }
         this.propertieslist = {};
 
         this.createEmptyPropertyIfNeeded = function (property) {
-            self.properties.push(new propertyModel({ "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false }));
+            self.properties.push(new propertyModel({ "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false, "dataType": "String" }));
             return true;
         }
 
@@ -73,7 +99,7 @@
         }
 
         this.MatchReportedProp = function (desired) {
-            if (typeof(desired) == "function") {
+            if (typeof (desired) == "function") {
                 desired = desired();
             }
             if (desired == null || desired == undefined || desired == "") {
@@ -82,10 +108,9 @@
             if (desired.indexOf("desired.") == 0) {
                 desired = desired.slice(8, desired.length);
             }
-            for (var i = 0; i < this.reported().length;i++) {
+            for (var i = 0; i < this.reported().length; i++) {
 
-                if(this.reported()[i].key().toLowerCase().indexOf(desired.toLowerCase()) >= 0)
-                {
+                if (this.reported()[i].key().toLowerCase().indexOf(desired.toLowerCase()) >= 0) {
                     return this.reported()[i];
                 }
             }
@@ -128,11 +153,12 @@
             type: 'GET',
             cache: false,
             success: function (result) {
-                self.reported = ko.mapping.fromJS(result.data.reported);
+                ko.mapping.fromJS(result.data.reported,self.reported);
 
                 //add 'isDeleted' field for model binding, default false
                 result.data.desired = $.map(result.data.desired, function (item) {
                     item.isDeleted = false;
+                    item.dataType = "";
                     return item;
                 });
 

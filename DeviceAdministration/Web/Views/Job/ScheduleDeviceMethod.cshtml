@@ -84,10 +84,9 @@
                                                        data-bind='value: ParameterName, attr: { name: "Parameters[" + $index() + "].ParameterName", id: "Parameters" + $index() + ".ParameterName" }' />
                                             </td>
                                             <td>
-                                                @*data-msg-required="@Strings.RequiredValidationString"
-                                                    data-rule-required="true"*@
                                                 <input type="text" class="edit_form__texthalf"
                                                        data-bind='value: ParameterValue, attr: { name: "Parameters[" + $index() + "].ParameterValue", id: "Parameters" + $index() + ".ParameterValue" }' />
+                                                <input type="hidden" data-bind="value: Type , attr: { name: 'Parameters[' + $index() + '].Type', id: 'Parameters' + $index() + '.Type' } " />
                                             </td>
                                         </tr>
                                     </tbody>

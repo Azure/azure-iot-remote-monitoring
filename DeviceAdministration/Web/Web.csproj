@@ -307,6 +307,7 @@
     <Compile Include="Models\EditDeviceRuleModel.cs" />
     <Compile Include="Models\IconActionType.cs" />
     <Compile Include="Models\PreScheduleJobModel.cs" />
+    <Compile Include="Models\PropertyViewModel.cs" />
     <Compile Include="Models\ScheduleDeviceMethodModel.cs" />
     <Compile Include="Models\DeviceJobModel.cs" />
     <Compile Include="Models\LanguageModel.cs" />

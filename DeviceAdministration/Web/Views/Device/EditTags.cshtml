@@ -34,6 +34,7 @@
                                 <tr class="values_editor__groupheader">
                                     <th class="edit_form__labelHeader">@Strings.ScheduleChangeTags</th>
                                     <th class="edit_form__labelHeader">@Strings.ScheduleEditValue</th>
+                                    <th class="edit_form__labelHeader">@Strings.ScheduleEditType</th>
                                     <th class="edit_form__labelHeader">
                                         <div class="tooltip_header">
                                             @Strings.Delete
@@ -54,7 +55,10 @@
                                     </td>
                                     <td>
                                         <input type="text" class="edit_form__texthalf"
-                                               data-bind='value: value.value, enable:!isDeleted() && key(), css:{edit_form__deleted : isDeleted()}' />
+                                               data-bind='textInput: value.value,event:{ keyup:$root.updateDataType($data) }, enable:!isDeleted() && key(), css:{edit_form__deleted : isDeleted()}' />
+                                    </td>
+                                    <td>
+                                        <select class="filter_panel_select" data-bind="value: dataType,  enable:!isDeleted() && key(), options: $root.twinDataTypeOptions, optionsText: 'text', optionsValue: 'value'"></select>
                                     </td>
                                     <td>
                                         <input type="checkbox"
@@ -89,7 +93,17 @@
 
     var resources = {
         redirectUrl: '@Url.Action("Index", "Device")',
-        failedToUpdateTwin: '@Html.JavaScriptString(Strings.FailedToUpdateTwin)'
+        failedToUpdateTwin: '@Html.JavaScriptString(Strings.FailedToUpdateTwin)',
+        twinDataType: {
+            'string': '@TwinDataType.String',
+            'number': '@TwinDataType.Number',
+            'boolean': '@TwinDataType.Boolean'
+        },
+        twinDataTypeOptions: [
+            { value: '@TwinDataType.String', text: '@Html.JavaScriptString(Strings.StringLabel)' },
+            { value: '@TwinDataType.Number', text: '@Html.JavaScriptString(Strings.NumberLabel)' },
+            { value: '@TwinDataType.Boolean', text: '@Html.JavaScriptString(Strings.BooleanLabel)' }
+        ]
     }
 </script>
 <script type="text/javascript" src="~/Scripts/Views/Device/EditTags.js"></script>

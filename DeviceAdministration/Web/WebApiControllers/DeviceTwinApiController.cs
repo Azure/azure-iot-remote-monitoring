@@ -10,7 +10,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Microsoft.Azure.Devices.Shared;
-
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPut]
         [Route("{deviceId}/twin/desired")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task UpdateDeviceTwinDesiredProps(string deviceId, IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>> newtwin)
+        public async Task UpdateDeviceTwinDesiredProps(string deviceId, IEnumerable<PropertyViewModel> newtwin)
         {
 
             Twin updatetwin = new Twin();
@@ -72,8 +72,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     key = key.Substring(8);
                 }
-                var value = twin.Value.Value.ToString();
-                updatetwin.Properties.Desired.Set(key, twin.Value.Value.Type ==  Newtonsoft.Json.Linq.JTokenType.Null ? null : value);
+                setTwinProperties(twin, updatetwin.Properties.Desired, key);
                 var addnametask = _nameCacheLogic.AddNameAsync(twin.Key);
             }
             await _deviceManager.UpdateTwinAsync(deviceId, updatetwin);
@@ -82,7 +81,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpPut]
         [Route("{deviceId}/twin/tag")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task UpdateDeviceTwinTags(string deviceId, IEnumerable<KeyValuePair<string, TwinCollectionExtension.TwinValue>> newtwin)
+        public async Task UpdateDeviceTwinTags(string deviceId, IEnumerable<PropertyViewModel> newtwin)
         {
             Twin updatetwin = new Twin();
             updatetwin.ETag = "*";
@@ -97,11 +96,55 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 {
                     key = key.Substring(5);
                 }
-                var value = twin.Value.Value.ToString();
-                updatetwin.Tags.Set(key, twin.Value.Value.Type == Newtonsoft.Json.Linq.JTokenType.Null ? null : value);
+                setTwinProperties(twin, updatetwin.Tags, key);
                 var addnametask = _nameCacheLogic.AddNameAsync(twin.Key);
             }
             await _deviceManager.UpdateTwinAsync(deviceId, updatetwin);
+        }
+
+        private void setTwinProperties(PropertyViewModel twin, TwinCollection prop, string key)
+        {
+            if (twin.IsDeleted)
+            {
+                prop.Set(key, null);
+            }
+            else
+            {
+                switch (twin.DataType)
+                {
+                    case Infrastructure.Models.TwinDataType.String:
+                        string valueString = twin.Value.Value.ToString();
+                        prop.Set(key, valueString);
+                        break;
+                    case Infrastructure.Models.TwinDataType.Number:
+                        int valueInt;
+                        float valuefloat;
+                        if (int.TryParse(twin.Value.Value.ToString(), out valueInt))
+                        {
+                            prop.Set(key, valueInt);
+                        }
+                        else if (float.TryParse(twin.Value.Value.ToString(), out valuefloat))
+                        {
+                            prop.Set(key, valuefloat);
+                        }
+                        else
+                        {
+                            prop.Set(key, twin.Value.Value as string);
+                        }
+                        break;
+                    case Infrastructure.Models.TwinDataType.Boolean:
+                        bool valueBool;
+                        if (bool.TryParse(twin.Value.Value.ToString(), out valueBool))
+                        {
+                            prop.Set(key, valueBool);
+                        }
+                        else
+                        {
+                            prop.Set(key, twin.Value.Value as string);
+                        }
+                        break;
+                }
+            }
         }
     }
 }

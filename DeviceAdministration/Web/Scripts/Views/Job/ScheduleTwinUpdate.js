@@ -2,20 +2,22 @@
     'use strict';
 
     var self = this;
-    function PropertiesEditItem(name, value, isDeleted) {
+    function PropertiesEditItem(name, value, type, isDeleted) {
         var self = this;
         self.PropertyName = ko.observable(name);
         self.PropertyValue = ko.observable(value);
+        self.DataType = ko.observable(type);
         self.isDeleted = ko.observable(isDeleted);
         self.isEmptyValue = ko.computed(function () {
             return self.PropertyValue() == "" || self.PropertyValue() == null;
         })
     }
 
-    function TagsEditItem(name, value, isDeleted) {
+    function TagsEditItem(name, value,type, isDeleted) {
         var self = this;
         self.TagName = ko.observable(name);
         self.TagValue = ko.observable(value);
+        self.DataType = ko.observable(type);
         self.isDeleted = ko.observable(isDeleted);
         self.isEmptyValue = ko.computed(function () {
             return self.TagValue() == "" || self.TagValue() == null;
@@ -40,16 +42,42 @@
         this.propertieslist = {};
         this.tagslist = {};
         this.filterId = "";
+        this.twinDataTypeOptions = ko.observableArray(resources.twinDataTypeOptions),
+
+        this.updateDataType = function (data) {
+            if (data.TagValue) {
+                data.DataType(self.getDataType(data.TagValue()))
+            }
+            else {
+                data.DataType(self.getDataType(data.PropertyValue()))
+            }
+            
+        };
+
+        this.getDataType = function (value) {
+            var type;
+            if ($.isNumeric(value)) {
+                return resources.twinDataType.number
+            }
+            else if (/^true$|^false$/i.test(value)) {
+                return resources.twinDataType.boolean
+            }
+            else {
+                return resources.twinDataType.string;
+            }
+        };
 
         this.createEmptyPropertyIfNeeded = function (property) {
+            self.updateDataType(property)
             if (self.properties.indexOf(property) == self.properties().length - 1 && !property.isEmptyValue()) {
-                self.properties.push(new PropertiesEditItem("", "", false, false))
+                self.properties.push(new PropertiesEditItem("", "","String", false, false))
                 self.onepropleft(false);
             }
             return true;
         }
 
         this.createEmptyTagIfNeeded = function (tag) {
+            self.updateDataType(tag)
             if (self.tags.indexOf(tag) == self.tags().length - 1 && !tag.isEmptyValue()) {
                 self.tags.push(new TagsEditItem("", "", false, false))
                 self.onetagleft(false);

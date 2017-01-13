@@ -1,4 +1,7 @@
 ﻿using GlobalResources;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,7 +15,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         public string PropertyName { get; set; }   
         public string PropertyValue { get; set; }
-        public string Valuetype { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public TwinDataType DataType { get; set; }
         public bool isDeleted { get; set; }
 
     }
@@ -21,7 +26,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         public string TagName { get; set; }
         public string TagValue { get; set; }
-        public string Valuetype { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public TwinDataType DataType { get; set; }
         public bool isDeleted { get; set; }
     }
 

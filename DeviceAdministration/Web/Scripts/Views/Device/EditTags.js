@@ -15,6 +15,7 @@
         self.key = ko.observable(data.key);
         self.value = ko.mapping.fromJS(data.value);
         self.isDeleted = ko.observable(data.isDeleted);
+        self.dataType = ko.observable(data.dataType);
     }
 
     var viewModel = function (deviceId, $) {
@@ -27,6 +28,7 @@
                     "lastUpdated": ""
                 },
                 "isDeleted": false,
+                "dataType": ""
             }
         ]
 
@@ -35,9 +37,33 @@
                 create: function (data) {
                     return ko.observable(false);
                 }
-            }
+            },
+            'dataType': {
+                create: function (data) {
+                    var type = self.getDataType(data);
+                    return ko.observable(type);
+                }
+            },
         }
 
+        this.updateDataType = function (data) {
+            data.dataType(self.getDataType(data.value.value()));
+        };
+
+        this.getDataType = function (value) {
+            var type;
+            if ($.isNumeric(value)) {
+                return resources.twinDataType.number
+            }
+            else if (/^true$|^false$/i.test(value)) {
+                return resources.twinDataType.boolean
+            }
+            else {
+                return resources.twinDataType.string;
+            }
+        };
+
+        this.twinDataTypeOptions = ko.observableArray(resources.twinDataTypeOptions),
         this.properties = ko.mapping.fromJS(defaultData, mapping);
         this.reported = [];
         this.backButtonClicked = function () {
@@ -46,7 +72,9 @@
         this.propertieslist = {};
 
         this.createEmptyPropertyIfNeeded = function (property) {
-            self.properties.push(new propertyModel({ "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false }));
+            self.properties.push(new propertyModel({
+                "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false, "dataType": "String"
+            }));
             return true;
         }
 
@@ -61,7 +89,9 @@
 
         this.refreshnamecontrol = function () {
             jQuery('.edit_form__texthalf.edit_form__propertiesComboBox').each(function () {
-                IoTApp.Controls.NameSelector.create(jQuery(this), { type: IoTApp.Controls.NameSelector.NameListType.tag }, self.propertieslist);
+                IoTApp.Controls.NameSelector.create(jQuery(this), {
+                    type: IoTApp.Controls.NameSelector.NameListType.tag
+                }, self.propertieslist);
             });
         }
 
@@ -77,7 +107,8 @@
             //set the 'value' to empty when try to delete the prop.
             var updatedata = $.map(self.properties(), function (item) {
                 if (item.isDeleted() == true) {
-                    item.value.value = null; return item;
+                    item.value.value = null;
+                    return item;
                 } else {
                     return item;
                 }
@@ -100,7 +131,7 @@
         }
 
         $("form").validate({
-            submitHandler: self.formSubmit
+            submitHandler: self.formSubmit,
         });
 
         $.ajax({
@@ -112,6 +143,7 @@
                 //add 'isDeleted' field for model binding, default false
                 result.data = $.map(result.data, function (item) {
                     item.isDeleted = false;
+                    item.dataType = "";
                     return item;
                 });
 
