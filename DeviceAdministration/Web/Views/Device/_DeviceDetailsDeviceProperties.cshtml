@@ -11,7 +11,7 @@
     var tags = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("tags.") && !m.Name.IsReservedTwinName());
     var desiredProperties = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("properties.desired.") && !m.Name.IsReservedTwinName());
     var reportedProperties = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("properties.reported.") && !m.Name.IsReservedTwinName());
-    var deviceProperties = Model.DevicePropertyValueModels.Except(tags).Except(desiredProperties).Except(reportedProperties);
+    var deviceProperties = Model.DevicePropertyValueModels.Except(tags).Except(desiredProperties).Except(reportedProperties).Where(m=>!m.Name.IsReservedTwinName());
     var utcNow = DateTime.UtcNow;
 }
 <div class="header_grid header_grid_general">
