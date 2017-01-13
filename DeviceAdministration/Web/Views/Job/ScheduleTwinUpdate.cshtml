@@ -75,8 +75,6 @@
                                                        placeholder="@Strings.PropertyTextPlaceHolder"
                                                        data-msg-regex="*"
                                                        data-rule-regex="^desired.\S+$"
-                                                       data-msg-required="*"
-                                                       data-rule-required="true"
                                                        data-bind='value: PropertyName, css:{edit_form__deleted : isDeleted()}, attr: { name: "DesiredProperties[" + $index() + "].PropertyName", id: "DesiredProperties" + $index() + ".PropertyName" }' />
                                             </td>
                                             <td>
@@ -121,8 +119,6 @@
                                                        placeholder="@Strings.TagTextPlaceHolder"
                                                        data-msg-regex="*"
                                                        data-rule-regex="^tags.\S+$"
-                                                       data-msg-required="*"
-                                                       data-rule-required="true"
                                                        data-bind='value: TagName, css:{edit_form__deleted : isDeleted()}, attr: { name: "Tags[" + $index() + "].TagName", id: "Tags" + $index() + ".TagName" }' />
                                             </td>
                                             <td>
@@ -174,7 +170,7 @@
 
                     <fieldset class="fieldset_button">
                         <input type="button" class="button_base button_secondary button_cancel" data-bind="click: backButtonClicked" value="@Strings.Cancel" />
-                        <button class="button_base" type="submit">@Strings.Schedule</button>
+                        <button class="button_base" type="submit" data-bind="enable:canSchedule">@Strings.Schedule</button>
                     </fieldset>
                             }
             </div>
