@@ -610,7 +610,7 @@
 
     var util = {
         split: function (val) {
-            return val.split(/,\s*/);
+            return val.split(/,\s*/);f
         },
         extractLast: function(term) {
             return util.split(term).pop();
@@ -636,6 +636,7 @@
             }
         }
     }
+    self.util = util;
     var api = {
         getSuggestedClauses: function (callback) {
             var url = "/api/v1/suggestedClauses?skip=0&take=10";
@@ -858,7 +859,8 @@
         saveFilterIfNeeded: saveFilterIfNeeded,
         openSaveAsDialogForSelectedDevices: self.model.openSaveAsDialogForSelectedDevices,
         saveFilterForSelectedDevices: self.model.saveFilterForSelectedDevices,
-        setMultiSelectionMode: setMultiSelectionMode
+        setMultiSelectionMode: setMultiSelectionMode,
+        util:self.util
     }
 }, [jQuery, resources]);
 

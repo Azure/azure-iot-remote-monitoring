@@ -40,7 +40,7 @@
             },
             'dataType': {
                 create: function (data) {
-                    var type = self.getDataType(data);
+                    var type = IoTApp.DeviceFilter.util.getDataType(data);
                     return ko.observable(type);
                 }
             },
