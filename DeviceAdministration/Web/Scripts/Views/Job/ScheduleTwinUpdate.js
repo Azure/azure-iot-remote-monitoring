@@ -70,7 +70,7 @@
         this.createEmptyPropertyIfNeeded = function (property) {
             self.updateDataType(property)
             if (self.properties.indexOf(property) == self.properties().length - 1 && !property.isEmptyValue()) {
-                self.properties.push(new PropertiesEditItem("", "", twinDataType.string, false, false))
+                self.properties.push(new PropertiesEditItem("", "", resources.twinDataType.string, false, false))
                 self.onepropleft(false);
             }
             return true;

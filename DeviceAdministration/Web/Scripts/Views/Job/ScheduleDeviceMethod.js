@@ -79,7 +79,7 @@
                 data: ko.mapping.toJSON({ 'methodName': self.currentMethodData.methodName, 'parameters': self.currentMethodData.params }),
                 contentType: "application/json",
                 success: function (result) {
-                    location.href = resources.redirectUrl + "?filterId=" + result.data.filterId;
+                    location.href = resources.redirectToDeviceIndexUrl + "?filterId=" + result.data.filterId;
                 },
                 error: function (xhr, status, error) {
                     $('#loadingElement').hide();

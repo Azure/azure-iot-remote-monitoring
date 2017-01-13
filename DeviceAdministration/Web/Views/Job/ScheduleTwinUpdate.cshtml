@@ -71,15 +71,20 @@
                                     <tbody data-bind="foreach:{data: properties, afterAdd:makeproplist}">
                                         <tr class="values_editor__group">
                                             <td>
-                                                <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox" placeholder="@Strings.PropertyTextPlaceHolder"
-                                                       data-bind='value: PropertyName, attr: { name: "DesiredProperties[" + $index() + "].PropertyName", id: "DesiredProperties" + $index() + ".PropertyName" }' />
+                                                <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox"
+                                                       placeholder="@Strings.PropertyTextPlaceHolder"
+                                                       data-msg-regex="*"
+                                                       data-rule-regex="^desired.\S+$"
+                                                       data-msg-required="*"
+                                                       data-rule-required="true"
+                                                       data-bind='value: PropertyName, css:{edit_form__deleted : isDeleted()}, attr: { name: "DesiredProperties[" + $index() + "].PropertyName", id: "DesiredProperties" + $index() + ".PropertyName" }' />
                                             </td>
                                             <td>
                                                 <input type="text" class="edit_form__texthalfvalue"
-                                                       data-bind='textInput: PropertyValue, enable:PropertyName() && !isDeleted(),  event: { keyup: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
+                                                       data-bind='textInput: PropertyValue, enable:PropertyName() && !isDeleted(), css:{edit_form__deleted : isDeleted()},  event: { keyup: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
                                             </td>
                                             <td>
-                                                <select class="filter_panel_select" data-bind="value: DataType,  enable:!isDeleted() && PropertyName(), options: $root.twinDataTypeOptions, optionsText: 'text', optionsValue: 'value', attr: { name: 'DesiredProperties[' + $index() + '].DataType', id: 'DesiredProperties' + $index() + '.DataType' }"></select>
+                                                <select class="edit_form_select" data-bind="value: DataType,  enable:!isDeleted() && PropertyName(),css:{edit_form__deleted : isDeleted()}, options: $root.twinDataTypeOptions, optionsText: 'text', optionsValue: 'value', attr: { name: 'DesiredProperties[' + $index() + '].DataType', id: 'DesiredProperties' + $index() + '.DataType' }"></select>
                                             </td>
                                             <td>
                                                 <input type="checkbox"
@@ -112,15 +117,20 @@
                                         <tr class="values_editor__group">
 
                                             <td>
-                                                <input type="text" class="edit_form__texthalf edit_form__tagsComboBox" placeholder="@Strings.TagTextPlaceHolder"
-                                                       data-bind='value: TagName, attr: { name: "Tags[" + $index() + "].TagName", id: "Tags" + $index() + ".TagName" }' />
+                                                <input type="text" class="edit_form__texthalf edit_form__tagsComboBox"
+                                                       placeholder="@Strings.TagTextPlaceHolder"
+                                                       data-msg-regex="*"
+                                                       data-rule-regex="^tags.\S+$"
+                                                       data-msg-required="*"
+                                                       data-rule-required="true"
+                                                       data-bind='value: TagName, css:{edit_form__deleted : isDeleted()}, attr: { name: "Tags[" + $index() + "].TagName", id: "Tags" + $index() + ".TagName" }' />
                                             </td>
                                             <td>
                                                 <input type="text" class="edit_form__texthalfvalue"
-                                                       data-bind='textInput: TagValue, enable:TagName() && !isDeleted(), event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />
+                                                       data-bind='textInput: TagValue, enable:TagName() && !isDeleted(), css:{edit_form__deleted : isDeleted()}, event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />
                                             </td>
                                             <td>
-                                                <select class="filter_panel_select" data-bind="value: DataType,  enable:!isDeleted() && TagName(), options: $root.twinDataTypeOptions, optionsText: 'text', optionsValue: 'value', attr: { name: 'Tags[' + $index() + '].DataType', id: 'Tags' + $index() + '.DataType' }"></select>
+                                                <select class="edit_form_select" data-bind="value: DataType,  enable:!isDeleted() && TagName(), css:{edit_form__deleted : isDeleted()}, options: $root.twinDataTypeOptions, optionsText: 'text', optionsValue: 'value', attr: { name: 'Tags[' + $index() + '].DataType', id: 'Tags' + $index() + '.DataType' }"></select>
                                             </td>
                                             <td>
                                                 <input type="checkbox"

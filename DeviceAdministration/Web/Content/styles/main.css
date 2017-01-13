@@ -827,6 +827,15 @@ nav .selected {
   min-height: 30px;
   box-sizing: content-box;
 }
+.edit_form_select {
+  border-color: #999999;
+  background-color: #f2f2f2;
+  border-width: 1px;
+  box-sizing: content-box;
+  width: 100%;
+  padding: 0px 0px 0px 5px;
+  height: 30px;
+}
 .edit_form__texthalfvalue {
   display: block;
   float: left;
