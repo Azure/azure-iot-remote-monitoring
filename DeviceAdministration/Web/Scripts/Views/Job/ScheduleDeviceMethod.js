@@ -18,7 +18,7 @@
         this.methodName = ko.observable("");
         this.applicableDevices = ko.observable(0);
         this.inapplicableDevices = ko.observable(0);
-        this.totalDevices = ko.observable(0);        
+        this.totalDevices = ko.observable(0);
         this.methods = {};
         this.clonedMethodName = null;
         this.clonedMethodParameters = [];
@@ -27,7 +27,7 @@
         this.isLoading = ko.observable(true);
         this.maxExecutionTime = ko.observable(30);
         this.totalFilteredCount = ko.observable();
-        
+
 
         this.parameters = ko.pureComputed(function () {
             if (self.methodName != undefined
@@ -37,16 +37,16 @@
                 //Matched method founded
                 if (rawMethod.length != 0) {
                     var params = $.map(rawMethod[0].parameters, function (item) {
-                        return new MethodParameterEditItem(item.name, item.type,  item.value || "")
+                        return new MethodParameterEditItem(item.name, item.type, item.value || "")
                     });
 
                     //Search applicable devices
                     self.isLoading(true);
                     self.currentMethodData = {
                         methodName: rawMethod[0].name.replace(/\(\S+|\s+\)/, ""),
-                        params : params,
+                        params: params,
                     }
-                    self.searchApplicableDevices(self.currentMethodData.methodName,self.currentMethodData.params);
+                    self.searchApplicableDevices(self.currentMethodData.methodName, self.currentMethodData.params);
 
                     return params.length == 0 ? null : params;
                 }
@@ -73,7 +73,7 @@
                 self.saveMethodFilterQuery.abort()
             }
             self.saveMethodFilterQuery = $.ajax({
-                url: '/api/v1/devices/count/' + self.filterId + "/save?isMatched="+ isMatched,
+                url: '/api/v1/devices/count/' + self.filterId + "/save?isMatched=" + isMatched,
                 type: 'POST',
                 cache: false,
                 data: ko.mapping.toJSON({ 'methodName': self.currentMethodData.methodName, 'parameters': self.currentMethodData.params }),
@@ -92,10 +92,10 @@
         this.searchApplicableDevices = function (methodName, param) {
             $('#countloadingElement').show();
 
-            if (self.getApplicableDevice){
+            if (self.getApplicableDevice) {
                 self.getApplicableDevice.abort()
             }
-            self.getApplicableDevice= $.ajax({
+            self.getApplicableDevice = $.ajax({
                 url: '/api/v1/devices/count/' + self.filterId,
                 type: 'POST',
                 cache: false,
@@ -166,11 +166,10 @@
                 self.filterId = data.FilterId;
                 if (resources.originalJobId) {
                     self.backUrl(resources.redirectToJobIndexUrl + "?jobId=" + resources.originalJobId);
-                    self.jobName(data.JobName);
                 } else {
-                    self.jobName(data.JobName);
                     self.backUrl(resources.redirectToDeviceIndexUrl + "?filterId=" + self.filterId);
                 }
+                self.jobName(data.JobName);
                 self.clonedMethodName = data.MethodName;
                 self.clonedMethodParameters = data.Parameters;
                 self.maxExecutionTime(data.MaxExecutionTimeInMinutes);

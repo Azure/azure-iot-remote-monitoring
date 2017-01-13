@@ -13,7 +13,7 @@
         })
     }
 
-    function TagsEditItem(name, value,type, isDeleted) {
+    function TagsEditItem(name, value, type, isDeleted) {
         var self = this;
         self.TagName = ko.observable(name);
         self.TagValue = ko.observable(value);
@@ -46,12 +46,12 @@
 
         this.updateDataType = function (data) {
             if (data.TagValue) {
-                data.DataType(self.getDataType(data.TagValue()))
+                data.DataType(IoTApp.DeviceFilter.util.getDataType(data.TagValue()))
             }
             else {
-                data.DataType(self.getDataType(data.PropertyValue()))
+                data.DataType(IoTApp.DeviceFilter.util.getDataType(data.PropertyValue()))
             }
-            
+
         };
 
         this.getDataType = function (value) {
@@ -70,7 +70,7 @@
         this.createEmptyPropertyIfNeeded = function (property) {
             self.updateDataType(property)
             if (self.properties.indexOf(property) == self.properties().length - 1 && !property.isEmptyValue()) {
-                self.properties.push(new PropertiesEditItem("", "","String", false, false))
+                self.properties.push(new PropertiesEditItem("", "", twinDataType.string, false, false))
                 self.onepropleft(false);
             }
             return true;
@@ -79,7 +79,7 @@
         this.createEmptyTagIfNeeded = function (tag) {
             self.updateDataType(tag)
             if (self.tags.indexOf(tag) == self.tags().length - 1 && !tag.isEmptyValue()) {
-                self.tags.push(new TagsEditItem("", "", false, false))
+                self.tags.push(new TagsEditItem("", "", resources.twinDataType.string, false, false))
                 self.onetagleft(false);
             }
             return true

@@ -4403,15 +4403,6 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type.
-        /// </summary>
-        public static string ScheduleEditType {
-            get {
-                return ResourceManager.GetString("ScheduleEditType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
         public static string ScheduleEditValue {

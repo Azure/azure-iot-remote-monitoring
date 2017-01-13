@@ -189,40 +189,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 }
                 else
                 {
-                    switch (tagModel.DataType)
-                    {
-                        case Infrastructure.Models.TwinDataType.String:
-                            string valueString = tagModel.TagValue.ToString();
-                            twin.Set(key, valueString);
-                            break;
-                        case Infrastructure.Models.TwinDataType.Number:
-                            int valueInt;
-                            float valuefloat;
-                            if (int.TryParse(tagModel.TagValue.ToString(), out valueInt))
-                            {
-                                twin.Set(key, valueInt);
-                            }
-                            else if (float.TryParse(tagModel.TagValue.ToString(), out valuefloat))
-                            {
-                                twin.Set(key, valuefloat);
-                            }
-                            else
-                            {
-                                twin.Set(key, tagModel.TagValue);
-                            }
-                            break;
-                        case Infrastructure.Models.TwinDataType.Boolean:
-                            bool valueBool;
-                            if (bool.TryParse(tagModel.TagValue.ToString(), out valueBool))
-                            {
-                                twin.Set(key, valueBool);
-                            }
-                            else
-                            {
-                                twin.Set(key, tagModel.TagValue);
-                            }
-                            break;
-                    }
+                    TwinExtension.Set(twin, key, getDyanmicValue(tagModel.DataType, tagModel.TagValue));                  
                 }
                 await _nameCacheLogic.AddNameAsync(tagModel.TagName);
             }
@@ -236,40 +203,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 }
                 else
                 {
-                    switch (propertyModel.DataType)
-                    {
-                        case Infrastructure.Models.TwinDataType.String:
-                            string valueString = propertyModel.PropertyValue.ToString();
-                            twin.Set(key, valueString);
-                            break;
-                        case Infrastructure.Models.TwinDataType.Number:
-                            int valueInt;
-                            float valuefloat;
-                            if (int.TryParse(propertyModel.PropertyValue.ToString(), out valueInt))
-                            {
-                                twin.Set(key, valueInt);
-                            }
-                            else if (float.TryParse(propertyModel.PropertyValue.ToString(), out valuefloat))
-                            {
-                                twin.Set(key, valuefloat);
-                            }
-                            else
-                            {
-                                twin.Set(key, propertyModel.PropertyValue);
-                            }
-                            break;
-                        case Infrastructure.Models.TwinDataType.Boolean:
-                            bool valueBool;
-                            if (bool.TryParse(propertyModel.PropertyValue.ToString(), out valueBool))
-                            {
-                                twin.Set(key, valueBool);
-                            }
-                            else
-                            {
-                                twin.Set(key, propertyModel.PropertyValue);
-                            }
-                            break;
-                    }
+                    TwinExtension.Set(twin, key, getDyanmicValue(propertyModel.DataType, propertyModel.PropertyValue));                                     
                 }
                 await _nameCacheLogic.AddNameAsync(propertyModel.PropertyName);
             }
@@ -338,7 +272,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             string methodName = model.MethodName.Split('(').First();
 
-            var parameters = model.Parameters?.ToDictionary(p => p.ParameterName, p => getDyanmicValue(p)) ?? new Dictionary<string, dynamic>();
+            var parameters = model.Parameters?.ToDictionary(p => p.ParameterName, p => getDyanmicValue(p.Type,p.ParameterValue)) ?? new Dictionary<string, dynamic>();
             string payload = JsonConvert.SerializeObject(parameters);
 
             var deviceListFilter = await GetFilterById(model.FilterId);
@@ -358,39 +292,39 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return RedirectToAction("Index", "Job", new { jobId = jobId });
         }
         
-        private dynamic getDyanmicValue (MethodParameterEditViewModel param)
+        private dynamic getDyanmicValue (TwinDataType type, dynamic value)
         {
-            switch (param.Type)
+            switch (type)
             {
                 case Infrastructure.Models.TwinDataType.String:
-                    string valueString = param.ParameterValue.ToString();
+                    string valueString = value.ToString();
                     return valueString as dynamic;                    
                 case Infrastructure.Models.TwinDataType.Number:
                     int valueInt;
                     float valuefloat;
-                    if (int.TryParse(param.ParameterValue.ToString(), out valueInt))
+                    if (int.TryParse(value.ToString(), out valueInt))
                     {
                         return valueInt as dynamic;
                     }
-                    else if (float.TryParse(param.ParameterValue.ToString(), out valuefloat))
+                    else if (float.TryParse(value.ToString(), out valuefloat))
                     {
                         return valuefloat as dynamic;
                     }
                     else
                     {
-                        return param.ParameterValue as string;
+                        return value as string;
                     }                    
                 case Infrastructure.Models.TwinDataType.Boolean:
                     bool valueBool;
-                    if (bool.TryParse(param.ParameterValue.ToString(), out valueBool))
+                    if (bool.TryParse(value.ToString(), out valueBool))
                     {
                         return valueBool as dynamic;
                     }
                     else
                     {
-                        return param.ParameterValue as string;
+                        return value as string;
                     }
-                default: return param.ParameterValue as string;
+                default: return value as string;
             }
         }
 

@@ -47,21 +47,9 @@
         }
 
         this.updateDataType = function (data) {
-            data.dataType(self.getDataType(data.value.value()));
+            data.dataType(IoTApp.DeviceFilter.util.getDataType(data.value.value()));
         };
-
-        this.getDataType = function (value) {
-            var type;
-            if ($.isNumeric(value)) {
-                return resources.twinDataType.number
-            }
-            else if (/^true$|^false$/i.test(value)) {
-                return resources.twinDataType.boolean
-            }
-            else {
-                return resources.twinDataType.string;
-            }
-        };
+        
 
         this.twinDataTypeOptions = ko.observableArray(resources.twinDataTypeOptions),
         this.properties = ko.mapping.fromJS(defaultData, mapping);
@@ -73,7 +61,7 @@
 
         this.createEmptyPropertyIfNeeded = function (property) {
             self.properties.push(new propertyModel({
-                "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false, "dataType": "String"
+                "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false, "dataType": resources.twinDataType.string
             }));
             return true;
         }

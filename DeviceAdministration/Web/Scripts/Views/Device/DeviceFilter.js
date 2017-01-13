@@ -622,6 +622,18 @@
             }
 
             return str;
+        },
+        getDataType: function (value) {
+            var type;
+            if ($.isNumeric(value)) {
+                return resources.twinDataType.number
+            }
+            else if (/^true$|^false$/i.test(value)) {
+                return resources.twinDataType.boolean
+            }
+            else {
+                return resources.twinDataType.string;
+            }
         }
     }
     var api = {
@@ -772,6 +784,7 @@
             });
         }
     }
+
     var init = function (uiState, callback) {
         if (!self.initialized) {
             self.initialized = true;

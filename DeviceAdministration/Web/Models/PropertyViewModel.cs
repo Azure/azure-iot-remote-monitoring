@@ -10,15 +10,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 {
     public class PropertyViewModel
     {
-        /*            {
-                "key": "",
-                "value": {
-                    "value": "",
-                    "lastUpdated": ""
-                },
-                "isDeleted": false,
-                "dataType": ""
-            }*/
         public string Key { get; set; }
         public PropertyViewValue Value { get; set; }
         public bool IsDeleted { get; set; }
