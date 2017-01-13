@@ -26,9 +26,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// </summary>
     public class DeviceBase : IDevice
     {
-        public const string StartupTimePropertyName = "StartupTime";
-        public const string FirmwareVersionPropertyName = "FirmwareVersion";
-        public const string ConfigurationVersionPropertyName = "ConfigurationVersion";
+        public const string DeviceStatePropertyName = "Device.DeviceState";
+        public const string StartupTimePropertyName = "Device.StartupTime";
+        public const string FirmwareVersionPropertyName = "System.FirmwareVersion";
+        public const string ConfigurationVersionPropertyName = "System.ConfigurationVersion";
         public const string SetPointTempPropertyName = "Config.SetPointTemp";
         public const string TelemetryIntervalPropertyName = "Config.TelemetryInterval";
 
@@ -69,13 +70,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         private Dictionary<string, string> _propertyMapping = new Dictionary<string, string>
         {
-            { "CreatedTime", "CreatedTime" },
-            { "UpdatedTime", "UpdatedTime" },
-            { "DeviceState", "DeviceState" },
+            { "CreatedTime", "Device.CreatedTime" },
+            { "UpdatedTime", "Device.UpdatedTime" },
+            { "DeviceState", DeviceStatePropertyName },
             { "Manufacturer", "System.Manufacturer" },
             { "ModelNumber", "System.ModelNumber" },
             { "SerialNumber", "System.SerialNumber" },
-            { "FirmwareVersion", "System.FirmwareVersion" },
+            { "FirmwareVersion", FirmwareVersionPropertyName },
             { "AvailablePowerSources", "System.AvailablePowerSources" },
             { "PowerSourceVoltage", "System.PowerSourceVoltage" },
             { "BatteryLevel", "System.BatteryLevel" },

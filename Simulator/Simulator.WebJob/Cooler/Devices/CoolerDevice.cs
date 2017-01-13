@@ -102,9 +102,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             Logger.LogInfo($"Method {methodRequest.Name} invoked on device {DeviceID}, payload: {methodRequest.DataAsJson}");
 
-            var twin = new TwinCollection();
-            twin["DeviceState"] = methodRequest.DataAsJson;
-            await Transport.UpdateReportedPropertiesAsync(twin);
+            await SetReportedPropertyAsync(DeviceStatePropertyName, methodRequest.DataAsJson);
 
             return BuildMethodRespose(methodRequest.DataAsJson);
         }
