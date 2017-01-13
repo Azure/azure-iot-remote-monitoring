@@ -66,7 +66,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// </summary>
         /// <param name="clauses"></param>
         /// <returns>Count of saved clauses</returns>
-        Task<int> SaveSuggestClausesAsync(List<Clause> clauses);
+        Task<int> SaveSuggestClausesAsync(IEnumerable<Clause> clauses);
 
         /// <summary>
         /// Get suggestion list of clauses extracted from filters
@@ -75,5 +75,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="take"></param>
         /// <returns></returns>
         Task<IEnumerable<Clause>> GetSuggestClausesAsync(int skip, int take);
+
+        /// <summary>
+        /// Delete the suggestion list of clauses that have been persistented in storage.
+        /// </summary>
+        /// <param name="clauses"></param>
+        /// <returns>Count of deleted clauses</returns>
+        Task<int> DeleteSuggestClausesAsync(IEnumerable<Clause> clauses);
     }
 }

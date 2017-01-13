@@ -92,5 +92,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.We
             var result = await controller.GetSuggestClauses(0, 1000);
             result.AssertOnError();
         }
+
+        [Fact]
+        public async void DeleteSuggestClausesTest()
+        {
+            var clauses = fixture.CreateMany<Clause>(5);
+            logicMock.Setup(x => x.DeleteSuggestClausesAsync(clauses)).ReturnsAsync(3);
+            var result = await controller.DeleteSuggestClauses(clauses);
+            result.AssertOnError();
+        }
     }
 }

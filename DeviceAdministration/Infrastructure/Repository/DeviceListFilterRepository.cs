@@ -173,9 +173,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
         }
 
-        public async Task<int> SaveSuggestClausesAsync(List<Clause> clauses)
+        public async Task<int> SaveSuggestClausesAsync(IEnumerable<Clause> clauses)
         {
-            if (clauses == null || clauses.Count == 0)
+            if (clauses == null || clauses.Count() == 0)
             {
                 return 0;
             }
@@ -203,6 +203,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             });
 
             return (await Task.WhenAll(tasks)).Count();
+        }
+
+        public async Task<int> DeleteSuggestClausesAsync(IEnumerable<Clause> clauses)
+        {
+            if (clauses == null || clauses.Count() == 0)
+            {
+                return 0;
+            }
+
+            var tasks = clauses.Select(async c =>
+            {
+                var entity = new ClauseTableEntity(c) { ETag = "*" };
+                return await _clauseTableStorageClient.DoDeleteAsync(entity, BuildClauseFromEntity);
+            });
+
+            var results = await Task.WhenAll(tasks);
+            return results.Where(r => r.Status == TableStorageResponseStatus.Successful).Count();
         }
 
         private DeviceListFilter BuildFilterModelFromEntity(DeviceListFilterTableEntity entity)

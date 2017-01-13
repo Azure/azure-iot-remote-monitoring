@@ -292,5 +292,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             result = await deviceListFilterRepository.SaveSuggestClausesAsync(new List<Clause>());
             Assert.Equal(0, result);
         }
+
+        [Fact]
+        public async void DeleteSuggestClausesAsyncTest()
+        {
+            var clauses = fixture.CreateMany<Clause>(3).ToList();
+            var tableEntities = fixture.CreateMany<ClauseTableEntity>(1);
+
+            var resp = fixture.Create<TableStorageResponse<Clause>>();
+
+            _clauseTableStorageClientMock.Setup(x => x.DoDeleteAsync(It.IsNotNull<ClauseTableEntity>(),
+                It.IsNotNull<Func<ClauseTableEntity, Clause>>()))
+                .ReturnsAsync(resp);
+            int result = await deviceListFilterRepository.DeleteSuggestClausesAsync(clauses);
+            Assert.Equal(clauses.Count, result);
+            result = await deviceListFilterRepository.DeleteSuggestClausesAsync(null);
+            Assert.Equal(0, result);
+            result = await deviceListFilterRepository.DeleteSuggestClausesAsync(new List<Clause>());
+            Assert.Equal(0, result);
+        }
     }
 }

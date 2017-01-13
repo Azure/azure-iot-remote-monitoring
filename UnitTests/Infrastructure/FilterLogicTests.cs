@@ -132,5 +132,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var ret = await _filterLogic.GetSuggestClauses(0, 10);
             Assert.Equal(5, ret.Count());
         }
+
+        [Fact]
+        public async void DeleteSuggestClausesTest()
+        {
+            var clauses = fixture.CreateMany<Clause>(5);
+            _deviceListFilterRepositoryMock.Setup(x => x.DeleteSuggestClausesAsync(clauses)).ReturnsAsync(3);
+            int ret = await _filterLogic.DeleteSuggestClausesAsync(clauses);
+            Assert.Equal(3, ret);
+        }
     }
 }
