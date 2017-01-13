@@ -142,7 +142,7 @@
     var createDefaultDisplayName = function (columnName) {
         var parts = columnName.split('.');
 
-        return parts[parts.length -1];
+        return parts[parts.length -1].toUpperCase();
     };
 
     var updateColumns = function (saveAsGlobal) {
