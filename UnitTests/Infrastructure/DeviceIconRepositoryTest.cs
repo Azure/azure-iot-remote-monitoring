@@ -105,11 +105,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         }
 
         [Fact]
-        public void GetIconStorageUrlPrefixTest()
+        public async void GetIconStorageUrlPrefixTest()
         {
             string containerUri = "https://account1.blob.core.windows.net/deviceicons";
             _blobStorageClientMock.Setup(x => x.GetContainerUri()).ReturnsAsync(containerUri);
-            string url = deviceIconRepository.GetIconStorageUriPrefix();
+            string url = await deviceIconRepository.GetIconStorageUriPrefix();
             Assert.True(url.StartsWith(containerUri));
         }
     }

@@ -48,6 +48,7 @@
 
         this.fileChanged = function (f) {
             self.file = f.files[0];
+            if (!f.value) return;
             $('#filePathBox').val(f.value);
             if (self.file && self.file.size > self.maxSizeInMB * 1024 * 1024) {
                 IoTApp.Helpers.Dialog.displayError(resources.overSizedFile);

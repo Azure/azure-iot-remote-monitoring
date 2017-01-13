@@ -168,27 +168,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             return new BlobStorageReader(blobs);
         }
 
-        public async Task<SharedAccessBlobPolicies> CreateSASPolicyIfNotExist(string policyName, SharedAccessBlobPolicy policy)
+        public async Task CreateAccessPolicyIfNotExist(BlobContainerPublicAccessType publicAccessType, string policyName, SharedAccessBlobPolicy policy)
         {
-            await CreateCloudBlobContainerAsync();
-
-            var currentPermissions = _container.GetPermissions();
-            var policies = currentPermissions.SharedAccessPolicies;
-            if (!policies.ContainsKey(policyName))
+            if (_container == null && _containerName != null)
             {
-                policies.Add(policyName, policy);
-                _container.SetPermissions(currentPermissions);
+                _container = _blobClient.GetContainerReference(_containerName);
+                await _container.CreateIfNotExistsAsync(publicAccessType, null, null);
+
+                var currentPermissions = _container.GetPermissions();
+                var policies = currentPermissions.SharedAccessPolicies;
+                if (!policies.ContainsKey(policyName))
+                {
+                    policies.Add(policyName, policy);
+                    _container.SetPermissions(currentPermissions);
+                }
             }
-            return policies;
-        }
-
-        public async Task SetPublicPolicyType(BlobContainerPublicAccessType accessType)
-        {
-            await CreateCloudBlobContainerAsync();
-
-            var currentPermissions = _container.GetPermissions();
-            currentPermissions.PublicAccess = accessType;
-            _container.SetPermissions(currentPermissions);
         }
 
         private async Task CreateCloudBlobContainerAsync()

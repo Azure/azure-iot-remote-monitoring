@@ -22,7 +22,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         Task<string> GetBlobEtag(string blobName);
         Task UploadTextAsync(string blobName, string data);
         Task<IBlobStorageReader> GetReader(string blobPrefix, DateTime? minTime = null);
-        Task<SharedAccessBlobPolicies> CreateSASPolicyIfNotExist(string policyName, SharedAccessBlobPolicy policy);
-        Task SetPublicPolicyType(BlobContainerPublicAccessType accessType);
+        Task CreateAccessPolicyIfNotExist(BlobContainerPublicAccessType publicAccessType,string policyName, SharedAccessBlobPolicy policy);
     }
 }
