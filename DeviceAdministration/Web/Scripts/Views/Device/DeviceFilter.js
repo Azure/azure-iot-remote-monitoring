@@ -393,14 +393,13 @@
         removeClause: function (clause) {
             self.model.clauses.remove(clause);
         },
-        newClause: function (field, operator, value, dataType, isSuggested, checked) {
+        newClause: function (field, operator, value, dataType, checked) {
             var clause = {
                 field: ko.observable(field || ""),
                 operator: ko.observable(operator || "EQ"),
                 value: ko.observable(value),
                 dataType: ko.observable(dataType || resources.twinDataType.string),
                 checked: ko.observable(checked == null ? true : checked),
-                isSuggested: isSuggested,
                 shortDisplayName: ko.pureComputed(function () {
                     var parts = clause.field().split('.');
                     return parts[parts.length - 1] + " " + self.model.getOperatorText(clause.operator()) + " " + clause.value();
@@ -413,11 +412,9 @@
                     self.model.isChanged(true);
                 },
                 remove: function () {
-                    if (clause.isSuggested) {
-                        api.deleteSuggestedClause(self.model.getClauseModel(clause), function () {
-                            getSuggestedClauses();
-                        });
-                    }
+                    api.deleteSuggestedClause(self.model.getClauseModel(clause), function () {
+                        getSuggestedClauses();
+                    });
 
                     self.model.removeClause(clause);
                 }
@@ -800,7 +797,7 @@
             if (data) {
                 self.model.suggestedClauses = [];
                 data.forEach(function (item) {
-                    var newClause = self.model.newClause(item.columnName, item.clauseType, item.clauseValue, item.clauseDataType, true);
+                    var newClause = self.model.newClause(item.columnName, item.clauseType, item.clauseValue, item.clauseDataType);
                     self.model.suggestedClauses.push(newClause);
                 });
             }
