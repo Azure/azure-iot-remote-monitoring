@@ -99,5 +99,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             return await _filterRepository.GetSuggestClausesAsync(skip, take);
         }
+
+        public async Task<int> DeleteSuggestClausesAsync(IEnumerable<Clause> clauses)
+        {
+            return await _filterRepository.DeleteSuggestClausesAsync(clauses);
+        }
     }
 }

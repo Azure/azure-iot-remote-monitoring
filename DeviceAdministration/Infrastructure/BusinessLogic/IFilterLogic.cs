@@ -14,5 +14,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         string GenerateAdvancedClause(IEnumerable<Clause> filters);
         Task<IEnumerable<Filter>> GetFilterList(int skip, int take);
         Task<IEnumerable<Clause>> GetSuggestClauses(int skip, int take);
+        Task<int> DeleteSuggestClausesAsync(IEnumerable<Clause> clauses);
     }
 }

@@ -111,5 +111,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 return await _filterLogic.GetSuggestClauses(skip, take);
             });
         }
+
+        [HttpDelete]
+        [Route("~/api/v1/suggestedClauses")]
+        [WebApiRequirePermission(Permission.ViewDevices)]
+        public async Task<HttpResponseMessage> DeleteSuggestClauses([FromBody]IEnumerable<Clause> clauses)
+        {
+            return await GetServiceResponseAsync<int>(async () =>
+            {
+                return await _filterLogic.DeleteSuggestClausesAsync(clauses);
+            });
+        }
     }
 }
