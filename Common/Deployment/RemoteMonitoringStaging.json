@@ -99,14 +99,14 @@
                 "description": "The servicebus Sku"
             }
         },
-        "packageUri": {
-            "type": "string",
-            "defaultValue": "https://aka.ms/azureiot/staging/remotemonitoring/web"
-        },
-        "webJobPackageUri": {
-          "type": "string",
-          "defaultValue": "https://aka.ms/azureiot/staging/remotemonitoring/webjob"
-        },
+      "packageUri": {
+        "type": "string",
+        "defaultValue": "https://iotsuiteshare.blob.core.windows.net/rmdogfood/Web.zip"
+      },
+      "webJobPackageUri": {
+        "type": "string",
+        "defaultValue": "https://iotsuiteshare.blob.core.windows.net/rmdogfood/WebJobHost.zip"
+      },
         "webSku": {
             "type": "string",
             "defaultValue": "Premium",
