@@ -40,9 +40,6 @@
                 @using (Html.BeginForm("ScheduleTwinUpdate", "Job", FormMethod.Post, new { data_bind = "submit: beforePost" }))
                 {
                     @Html.AntiForgeryToken()
-                    <p>
-                        @Html.ValidationSummary(false)
-                    </p>
 
                     <fieldset class="edit_form">
                         @{
@@ -73,8 +70,8 @@
                                             <td>
                                                 <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox"
                                                        placeholder="@Strings.PropertyTextPlaceHolder"
-                                                       data-msg-regex="*"
-                                                       data-rule-regex="^desired.\S+$"
+                                                       data-msg-regex=" "
+                                                       data-rule-regex="^desired\.\S+$"
                                                        data-bind='value: PropertyName, css:{edit_form__deleted : isDeleted()}, attr: { name: "DesiredProperties[" + $index() + "].PropertyName", id: "DesiredProperties" + $index() + ".PropertyName" }' />
                                             </td>
                                             <td>
@@ -117,8 +114,8 @@
                                             <td>
                                                 <input type="text" class="edit_form__texthalf edit_form__tagsComboBox"
                                                        placeholder="@Strings.TagTextPlaceHolder"
-                                                       data-msg-regex="*"
-                                                       data-rule-regex="^tags.\S+$"
+                                                       data-msg-regex=" "
+                                                       data-rule-regex="^tags\.\S+$"
                                                        data-bind='value: TagName, css:{edit_form__deleted : isDeleted()}, attr: { name: "Tags[" + $index() + "].TagName", id: "Tags" + $index() + ".TagName" }' />
                                             </td>
                                             <td>
@@ -147,7 +144,7 @@
                                         <label class="edit_form__labelHeader">@Strings.StartTime</label>
                                         <div class="input-group" data-bind="dateTimePicker: startDate ,dateTimePickerOptions:{ allowInputToggle : true, widgetPositioning : {horizontal: 'left' ,vertical: 'top'}, format: 'LLL', locale: getCulture() }">
                                             <input type='text' id="StartDate" class="non_float edit_form__text less_margin"
-                                                   data-msg-required="*"
+                                                   data-msg-required=" "
                                                    data-rule-required="true" />
                                             <span class="input-group-addon">
                                                 <img class="edit_form__datePickerImg" src="/Content/img/expanded.svg">
@@ -159,7 +156,8 @@
                                         <label class="edit_form__labelHeader tooltip_header">@Strings.MaxExecutionTime  <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info tooltip_icon" title="@Strings.MaximumExecutionTime" /></label>
 
                                         <input type="text" class="non_float less_margin edit_form__textsmall" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
-                                               data-msg-required="*"
+                                               data-msg-required=" "
+                                               data-rule-regex="^\d+(\.\d+)?$"
                                                data-rule-required="true" />
                                         <span>Mins</span>
                                     </div>

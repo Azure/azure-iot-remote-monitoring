@@ -55,12 +55,12 @@
 
         this.canSchedule = ko.pureComputed(function () {
             var validcount = self.properties().filter(function (elem, index) {
-                if (/^desired.\S+$/.test(elem.PropertyName())) {
+                if (/^desired\.\S+$/.test(elem.PropertyName())) {
                     return true;
                 }
             }).length;
             validcount += self.tags().filter(function (elem, index) {
-                if (/^tags.\S+$/.test(elem.TagName())) {
+                if (/^tags\.\S+$/.test(elem.TagName())) {
                     return true;
                 }
             }).length;

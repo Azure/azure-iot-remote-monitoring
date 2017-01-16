@@ -24,9 +24,6 @@
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.DeviceId)
-                    <p>
-                        @Html.ValidationSummary(false)
-                    </p>
 
                     <fieldset class="edit_form">
                         <table class="values_editor" id="propertiesTable">
@@ -47,10 +44,8 @@
                                 <tr class="values_editor__group">
                                     <td>
                                         <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox"
-                                               data-msg-regex="*"
-                                               data-rule-regex="^desired.\S+$"
-                                               data-msg-required="*"
-                                               data-rule-required="true"
+                                               data-msg-regex=" "
+                                               data-rule-regex="^desired\.\S+$"
                                                data-bind="value: key, css:{edit_form__deleted : isDeleted()},attr:{name: 'propertyName' + $index(), id: 'propertyName' + $index()}" />
                                     </td>
                                     <td>

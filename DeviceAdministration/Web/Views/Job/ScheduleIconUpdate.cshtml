@@ -40,9 +40,6 @@
                 @using (Html.BeginForm("ScheduleIconUpdate", "Job", FormMethod.Post, new { data_bind = "submit: beforePost" }))
                 {
                     @Html.AntiForgeryToken()
-                    <p>
-                        @Html.ValidationSummary(false)
-                    </p>
 
                     <fieldset class="edit_form">
                         @{
@@ -137,7 +134,8 @@
                                     <div class="values_editor__group">
                                         <label class="edit_form__labelHeader tooltip_header">@Strings.MaxExecutionTime <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info tooltip_icon" title="@Strings.MaximumExecutionTime" /></label>
                                         <input type="text" class="non_float less_margin edit_form__textsmall" name="MaxExecutionTimeInMinutes" data-bind="value: maxExecutionTime"
-                                               data-msg-required="@Strings.RequiredValue"
+                                               data-msg-required=" "
+                                               data-rule-regex="^\d+(\.\d+)?$"
                                                data-rule-required="true" />
                                         <span>Mins</span>
                                     </div>
