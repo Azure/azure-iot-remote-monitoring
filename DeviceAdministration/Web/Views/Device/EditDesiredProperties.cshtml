@@ -58,7 +58,7 @@
                                                data-bind='textInput: value.value, event:{ keyup:$root.updateDataType($data) }, enable:!isDeleted() && key(), css:{edit_form__deleted : isDeleted()}' />
                                     </td>
                                     <td>
-                                        <select class="filter_panel_select" data-bind="value: dataType,  enable:!isDeleted() && key(), options: $root.twinDataTypeOptions, optionsText: 'text', optionsValue: 'value'"></select>
+                                        <select class="edit_form_select" data-bind="value: dataType,  enable:!isDeleted() && key(), options: $root.twinDataTypeOptions, optionsText: 'text', optionsValue: 'value'"></select>
                                     </td>
                                     <td>
                                         <input type="checkbox"

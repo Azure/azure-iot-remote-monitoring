@@ -12,6 +12,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task<DeviceIconResult> GetIcons(int skip, int take);
         Task<DeviceIcon> SaveIcon(string name);
         Task<bool> DeleteIcon(string name);
-        string GetIconStorageUriPrefix();
+        Task<string> GetIconStorageUriPrefix();
     }
 }

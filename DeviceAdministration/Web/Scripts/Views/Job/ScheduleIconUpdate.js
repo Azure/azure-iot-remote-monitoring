@@ -20,7 +20,6 @@
         var self = this;
         this.file = null;
         this.maxSizeInMB = 4;
-        this.sizeOk = false;
         this.pageSize = 10;
         this.apiRoute = '/api/v1/icons/';
 
@@ -78,11 +77,13 @@
 
         this.fileChanged = function (f) {
             self.file = f.files[0];
+            if (!f.value) return;
             $('#filePathBox').val(f.value);
             if (self.file && self.file.size > self.maxSizeInMB * 1024 * 1024) {
                 IoTApp.Helpers.Dialog.displayError(resources.overSizedFile);
             } else {
-                self.sizeOk = true;
+                self.uploadImage();
+                self.actionType(resources.uploadActionType);
             }
         };
 
@@ -223,10 +224,6 @@
 
         $('#chooseFileBtn').click(function () {
             $("#file").click();
-            if (self.sizeOk) {
-                self.uploadImage();
-            }
-            self.actionType(resources.uploadActionType);
             return false;
         });
 

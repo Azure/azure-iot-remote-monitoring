@@ -27,12 +27,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _deviceIconsBlobStoreContainerName = configurationProvider.GetConfigurationSettingValueOrDefault("DeviceIconStoreContainerName", "deviceicons");
             _blobStorageClient = blobStorageClientFactory.CreateClient(_storageAccountConnectionString, _deviceIconsBlobStoreContainerName);
             _writePolicyName = _deviceIconsBlobStoreContainerName + "-write";
-            _blobStorageClient.SetPublicPolicyType(BlobContainerPublicAccessType.Blob);
-            CreateSASPolicyIfNotExist();
         }
 
         public async Task<DeviceIcon> AddIcon(string fileName, Stream fileStream)
         {
+            await CreateAccessPolicyIfNotExist();
+
             // replace '.' with '_' so that the name can be used in MVC Url route.
             var name = Path.GetFileName(fileName).Replace(".", "_");
             var extension = Path.GetExtension(fileName);
@@ -50,12 +50,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<DeviceIcon> GetIcon(string name)
         {
+            await CreateAccessPolicyIfNotExist();
+
             var blob = await _blobStorageClient.GetBlob($"{_appliedFolder}/{name}");
             return new DeviceIcon(name, blob);
         }
 
         public async Task<DeviceIconResult> GetIcons(int skip, int take)
         {
+            await CreateAccessPolicyIfNotExist();
+
             string folderPrefix = _appliedFolder + "/";
             var blobs = await _blobStorageClient.ListBlobs(folderPrefix, true);
             var icons = blobs.Select(b =>
@@ -73,21 +77,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<DeviceIcon> SaveIcon(string name)
         {
+            await CreateAccessPolicyIfNotExist();
+
             var appliedBlob = await _blobStorageClient.GetBlob($"{_appliedFolder}/{name}");
             return new DeviceIcon(name, appliedBlob);
         }
 
         public async Task<bool> DeleteIcon(string name)
         {
-            return  await _blobStorageClient.DeleteBlob($"{_appliedFolder}/{name}");
+            return await _blobStorageClient.DeleteBlob($"{_appliedFolder}/{name}");
         }
 
-        public string GetIconStorageUriPrefix()
+        public async Task<string> GetIconStorageUriPrefix()
         {
-            return  string.Format("{0}/{1}/", _blobStorageClient.GetContainerUri().Result, _appliedFolder);
+            await CreateAccessPolicyIfNotExist();
+
+            return string.Format("{0}/{1}/", _blobStorageClient.GetContainerUri().Result, _appliedFolder);
         }
 
-        private void CreateSASPolicyIfNotExist()
+        private async Task CreateAccessPolicyIfNotExist()
         {
             var writePolicy = new SharedAccessBlobPolicy
             {
@@ -95,7 +103,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 SharedAccessExpiryTime = DateTime.UtcNow.AddYears(10)
             };
 
-            _blobStorageClient.CreateSASPolicyIfNotExist(_writePolicyName, writePolicy).Wait();
+            await _blobStorageClient.CreateAccessPolicyIfNotExist(BlobContainerPublicAccessType.Blob, _writePolicyName, writePolicy);
         }
     }
 }

@@ -60,11 +60,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.ViewDevices)]
-        public ActionResult Index(string filterId)
+        public async Task<ActionResult> Index(string filterId)
         {
             ViewBag.FilterId = filterId;
             ViewBag.HasManageJobsPerm = PermsChecker.HasPermission(Permission.ManageJobs);
-            ViewBag.IconBaseUrl = _iconRepository.GetIconStorageUriPrefix();
+            ViewBag.IconBaseUrl = await _iconRepository.GetIconStorageUriPrefix();
             ViewBag.IconTagName = Constants.DeviceIconTagName;
 
             return View();
@@ -305,7 +305,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             deviceModel.IsCellular = device.SystemProperties.ICCID != null;
             deviceModel.Iccid = device.SystemProperties.ICCID; // todo: try get rid of null checks
 
-            ViewBag.IconBaseUrl = _iconRepository.GetIconStorageUriPrefix();
+            ViewBag.IconBaseUrl = await _iconRepository.GetIconStorageUriPrefix();
 
             return PartialView("_DeviceDetails", deviceModel);
         }

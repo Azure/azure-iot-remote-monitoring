@@ -51,26 +51,26 @@
             else {
                 data.DataType(IoTApp.DeviceFilter.util.getDataType(data.PropertyValue()))
             }
-
         };
 
-        this.getDataType = function (value) {
-            var type;
-            if ($.isNumeric(value)) {
-                return resources.twinDataType.number
-            }
-            else if (/^true$|^false$/i.test(value)) {
-                return resources.twinDataType.boolean
-            }
-            else {
-                return resources.twinDataType.string;
-            }
-        };
+        this.canSchedule = ko.pureComputed(function () {
+            var validcount = self.properties().filter(function (elem, index) {
+                if (/^desired.\S+$/.test(elem.PropertyName())) {
+                    return true;
+                }
+            }).length;
+            validcount += self.tags().filter(function (elem, index) {
+                if (/^tags.\S+$/.test(elem.TagName())) {
+                    return true;
+                }
+            }).length;
+            return validcount > 0;
+        }, this);
 
         this.createEmptyPropertyIfNeeded = function (property) {
             self.updateDataType(property)
             if (self.properties.indexOf(property) == self.properties().length - 1 && !property.isEmptyValue()) {
-                self.properties.push(new PropertiesEditItem("", "", twinDataType.string, false, false))
+                self.properties.push(new PropertiesEditItem("", "", resources.twinDataType.string, false, false))
                 self.onepropleft(false);
             }
             return true;
