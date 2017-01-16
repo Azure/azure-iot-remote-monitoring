@@ -10,7 +10,7 @@
         <fieldset class="command_form">
             <div class="tooltip_header non_float">
                 @Html.LabelFor(m => m.Command, Strings.Method, new { @class = "command_form__label" })
-                <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info tooltip_icon" style="top:10px;" title="<pre>@Strings.MethodHeader</pre>" />
+                <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info tooltip_icon" style="top:10px;" title="@Strings.MethodHeader" />
             </div>
             @Html.DropDownListFor(m => Model.Command, Model.CommandSelectList, Strings.SelectAMethod, new { @class = "command_form__select" })
             @Html.ValidationMessageFor(model => model.Command)

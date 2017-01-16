@@ -3122,19 +3122,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Methods are extracted from device twin reported property SupportedMethods. Sample property:
-        ///&quot;SupportedMethods&quot;: {
-        ///  &quot;FirmwareUpdate_string&quot;: {
-        ///    &quot;Name&quot;: &quot;FirmwareUpdate&quot;,
-        ///    &quot;Description&quot;: &quot;Updates device Firmware. Use parameter &apos;FwPackageUri&apos; to specifiy the URI of the firmware file, e.g. https://iotrmassets.blob.core.windows.net/firmwares/FW20.bin&quot;,
-        ///    &quot;Parameters&quot;: {
-        ///      &quot;FwPackageUri&quot;: {
-        ///        &quot;Name&quot;: &quot;FwPackageUri&quot;,
-        ///        &quot;Type&quot;: &quot;string&quot;
-        ///      }
-        ///    }
-        ///  }
-        ///}.
+        ///   Looks up a localized string similar to Methods are extracted from a reserved reported property in device twin: SupportedMethods..
         /// </summary>
         public static string MethodHeader {
             get {

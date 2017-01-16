@@ -2437,19 +2437,7 @@
     <comment>Tooltip</comment>
   </data>
   <data name="MethodHeader" xml:space="preserve">
-    <value>Methods are extracted from device twin reported property SupportedMethods. Sample property:
-"SupportedMethods": {
-  "FirmwareUpdate_string": {
-    "Name": "FirmwareUpdate",
-    "Description": "Updates device Firmware. Use parameter 'FwPackageUri' to specifiy the URI of the firmware file, e.g. https://iotrmassets.blob.core.windows.net/firmwares/FW20.bin",
-    "Parameters": {
-      "FwPackageUri": {
-        "Name": "FwPackageUri",
-        "Type": "string"
-      }
-    }
-  }
-}</value>
+    <value>Methods are extracted from a reserved reported property in device twin: SupportedMethods.</value>
     <comment>Tooltip</comment>
   </data>
   <data name="LoadDefaultConfirmation" xml:space="preserve">
