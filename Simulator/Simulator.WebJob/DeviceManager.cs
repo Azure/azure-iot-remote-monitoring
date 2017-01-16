@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,82 +13,91 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// </summary>
     public class DeviceManager
     {
+        class TaskDetail
+        {
+            public CancellationTokenSource CancellationTokenSource { get; private set; }
+            public Task Task { get; private set; }
+
+            public TaskDetail(Func<CancellationToken, Task> entry)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+                Task = entry(CancellationTokenSource.Token);
+            }
+        }
+
         private readonly ILogger _logger;
         private readonly CancellationToken _token;
-
-        private readonly Dictionary<string, CancellationTokenSource> _cancellationTokens;
-
+        private readonly Dictionary<string, TaskDetail> _tasks;
 
         public DeviceManager(ILogger logger, CancellationToken token)
         {
             _logger = logger;
             _token = token;
 
-            _cancellationTokens = new Dictionary<string, CancellationTokenSource>();
+            _tasks = new Dictionary<string, TaskDetail>();
         }
 
         /// <summary>
         /// Starts all the devices in the list of devices in this class.
-        /// 
-        /// Note: This will not return until all devices have finished sending events,
-        /// assuming no device has RepeatEventListForever == true
         /// </summary>
-        public async Task StartDevicesAsync(List<IDevice> devices)
+        public void StartDevices(List<IDevice> devices)
         {
-            await Task.Run(async () =>
+            if (devices == null || !devices.Any())
             {
-                if (devices == null || !devices.Any())
-                    return;
+                return;
+            }
 
-                var startDeviceTasks = new List<Task>();
+            foreach (var device in devices)
+            {
+                _tasks.Add(device.DeviceID, new TaskDetail(device.StartAsync));
+            }
+        }
 
-                foreach (var device in devices)
-                {
-                    var deviceCancellationToken = new CancellationTokenSource();
+        public IEnumerable<string> GetLiveDevices()
+        {
+            var completedTasks = _tasks
+                .Where(pair => pair.Value.Task.IsCompleted)
+                .ToList();
 
-                    startDeviceTasks.Add(device.StartAsync(deviceCancellationToken.Token));
+            foreach (var pair in completedTasks)
+            {
+                _tasks.Remove(pair.Key);
+            }
 
-                    _cancellationTokens.Add(device.DeviceID, deviceCancellationToken);
-                }
-
-                // wait here until all tasks complete
-                await Task.WhenAll(startDeviceTasks);
-
-            }, _token);
+            return _tasks.Keys.ToList();
         }
 
         /// <summary>
         /// Cancel the asynchronous tasks for the devices specified
         /// </summary>
         /// <param name="deviceIds"></param>
-        public void StopDevices(List<string> deviceIds) 
+        public void StopDevices(List<string> deviceIds)
         {
             foreach (var deviceId in deviceIds)
             {
-                var cancellationToken = _cancellationTokens[deviceId];
-
-                if (cancellationToken != null)
+                TaskDetail task;
+                if (_tasks.TryGetValue(deviceId, out task))
                 {
-                    cancellationToken.Cancel();
-                    _cancellationTokens.Remove(deviceId);
+                    task.CancellationTokenSource.Cancel();
+                    _tasks.Remove(deviceId);
 
                     _logger.LogInfo("********** STOPPED DEVICE : {0} ********** ", deviceId);
                 }
-            }   
+            }
         }
 
         /// <summary>
         /// Cancel the asynchronous tasks for all devices
         /// </summary>
-        public void StopAllDevices() 
+        public void StopAllDevices()
         {
-            foreach (var cancellationToken in _cancellationTokens)
+            foreach (var pair in _tasks)
             {
-                cancellationToken.Value.Cancel();
-                _logger.LogInfo("********** STOPPED DEVICE : {0} ********** ", cancellationToken.Key);
+                pair.Value.CancellationTokenSource.Cancel();
+                _logger.LogInfo("********** STOPPED DEVICE : {0} ********** ", pair.Key);
             }
 
-            _cancellationTokens.Clear();
+            _tasks.Clear();
         }
     }
 }

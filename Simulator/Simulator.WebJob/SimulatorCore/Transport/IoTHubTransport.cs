@@ -113,12 +113,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(
-                        "{0}{0}*** Exception: SendEventAsync ***{0}{0}EventId: {1}{0}Event Data: {2}{0}Exception: {3}{0}{0}",
-                        Console.Out.NewLine,
-                        eventId,
-                        eventData,
-                        ex);
+                    _logger.LogError($"SendEventAsync failed, device: {_device.DeviceID}, exception: {ex.Message}");
                 }
             });
         }
@@ -138,34 +133,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             Client.Message message = await AzureRetryHelper.OperationWithBasicRetryAsync(
                 async () =>
                 {
-                    Exception exp;
-                    Client.Message msg;
-
-                    exp = null;
-                    msg = null;
                     try
                     {
-                        msg = await _deviceClient.ReceiveAsync();
+                        return await _deviceClient.ReceiveAsync();
                     }
-                    catch (Exception exception)
+                    catch (Exception ex)
                     {
-                        exp = exception;
+                        _logger.LogError($"ReceiveAsync failed, device: {_device.DeviceID}, exception: {ex.Message}");
+                        return null;
                     }
-
-                    if (exp != null)
-                    {
-                        _logger.LogError(
-                            "{0}{0}*** Exception: ReceiveAsync ***{0}{0}{1}{0}{0}",
-                            Console.Out.NewLine,
-                            exp);
-
-                        if (msg != null)
-                        {
-                            await _deviceClient.AbandonAsync(msg);
-                        }
-                    }
-
-                    return msg;
                 });
 
             if (message != null)
@@ -196,12 +172,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(
-                            "{0}{0}*** Exception: Abandon Command ***{0}{0}Command Name: {1}{0}Command: {2}{0}Exception: {3}{0}{0}",
-                            Console.Out.NewLine,
-                            command.CommandName,
-                            command.CommandHistory,
-                            ex);
+                        _logger.LogError($"Abandon Command failed, device: {_device.DeviceID}, exception: {ex.Message}");
                     }
                 });
         }
@@ -226,12 +197,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(
-                            "{0}{0}*** Exception: Complete Command ***{0}{0}Command Name: {1}{0}Command: {2}{0}Exception: {3}{0}{0}",
-                            Console.Out.NewLine,
-                            command.CommandName,
-                            command.CommandHistory,
-                            ex);
+                        _logger.LogError($"Complete Command failed, device: {_device.DeviceID}, exception: {ex.Message}");
                     }
                 });
         }
@@ -256,12 +222,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(
-                            "{0}{0}*** Exception: Reject Command ***{0}{0}Command Name: {1}{0}Command: {2}{0}Exception: {3}{0}{0}",
-                            Console.Out.NewLine,
-                            command.CommandName,
-                            command.CommandHistory,
-                            ex);
+                        _logger.LogError($"Reject Command failed, device: {_device.DeviceID}, exception: {ex.Message}");
                     }
                 });
         }
