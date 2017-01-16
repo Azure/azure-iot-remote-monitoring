@@ -28,7 +28,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         private readonly IDeviceFactory _deviceFactory;
         private readonly IVirtualDeviceStorage _deviceStorage;
 
-        private List<InitialDeviceConfig> _deviceList;
         private readonly int _devicePollIntervalSeconds;
 
         private const int DEFAULT_DEVICE_POLL_INTERVAL_SECONDS = 120;
@@ -42,7 +41,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             _telemetryFactory = telemetryFactory;
             _deviceFactory = deviceFactory;
             _deviceStorage = virtualDeviceStorage;
-            _deviceList = new List<InitialDeviceConfig>();
 
             string pollingIntervalString = _configProvider.GetConfigurationSettingValueOrDefault(
                                         "DevicePollIntervalSeconds",
@@ -65,46 +63,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 _logger.LogInfo("********** Starting Simulator **********");
                 while (!token.IsCancellationRequested)
                 {
-                    var newDevices = new List<InitialDeviceConfig>();
-                    var removedDevices = new List<string>();
                     var devices = await _deviceStorage.GetDeviceListAsync();
+                    var liveDevices = dm.GetLiveDevices();
 
-                    if (devices != null && devices.Any())
-                    {
-                        newDevices = devices.Where(d => !_deviceList.Any(x => x.DeviceId == d.DeviceId)).ToList();
-                        removedDevices =
-                            _deviceList.Where(d => !devices.Any(x => x.DeviceId == d.DeviceId))
-                                .Select(x => x.DeviceId)
-                                .ToList();
-                    }
-                    else if (_deviceList != null && _deviceList.Any())
-                    {
-                        removedDevices = _deviceList.Select(x => x.DeviceId).ToList();
-                    }
-
-                    if (newDevices.Count > 0)
-                    {
-                        _logger.LogInfo("********** {0} NEW DEVICES FOUND ********** ", newDevices.Count);
-                    }
-                    if (removedDevices.Count > 0)
-                    {
-                        _logger.LogInfo("********** {0} DEVICES REMOVED ********** ", removedDevices.Count);
-                    }
-
-
-                    //reset the base list of devices for comparison the next
-                    //time we retrieve the device list
-                    _deviceList = devices;
+                    var newDevices = devices.Where(d => !liveDevices.Contains(d.DeviceId)).ToList();
+                    var removedDevices = liveDevices.Where(d => !devices.Any(x => x.DeviceId == d)).ToList();
 
                     if (removedDevices.Any())
                     {
-                        //stop processing any devices that have been removed
+                        _logger.LogInfo("********** {0} DEVICES REMOVED ********** ", removedDevices.Count);
+
                         dm.StopDevices(removedDevices);
                     }
 
                     //begin processing any new devices that were retrieved
                     if (newDevices.Any())
                     {
+                        _logger.LogInfo("********** {0} NEW DEVICES FOUND ********** ", newDevices.Count);
+
                         var devicesToProcess = new List<IDevice>();
 
                         foreach (var deviceConfig in newDevices)
@@ -113,11 +89,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                             devicesToProcess.Add(_deviceFactory.CreateDevice(_logger, _transportFactory, _telemetryFactory, _configProvider, deviceConfig));
                         }
 
-#pragma warning disable 4014
-                        //don't wait for this to finish
-                        dm.StartDevicesAsync(devicesToProcess);
-#pragma warning restore 4014
+                        dm.StartDevices(devicesToProcess);
                     }
+
                     await Task.Delay(TimeSpan.FromSeconds(_devicePollIntervalSeconds), token);
                 }
             }
