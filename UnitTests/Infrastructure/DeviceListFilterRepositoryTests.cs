@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
@@ -90,7 +91,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                     x.DoTableInsertOrReplaceAsync(It.IsNotNull<DeviceListFilterTableEntity>(),
                         It.IsNotNull<Func<DeviceListFilterTableEntity, DeviceListFilter>>()))
                 .Callback<DeviceListFilterTableEntity, Func<DeviceListFilterTableEntity, DeviceListFilter>>(
-                        (entity, func) => {
+                        (entity, func) =>
+                        {
                             tableEntity = entity;
                             tableEntities.Add(tableEntity);
                         })
@@ -242,12 +244,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             Assert.Equal(max, ret.Count());
             Assert.Equal(expectedNams, ret.Select(e => e.Name).ToArray());
 
-            filters.Take(max).All(f => f.IsTemporary = true);
+            filters.Take(max).All(f => { f.IsTemporary = true; return true; });
+            filters.Take(max + 1).All(f => { f.Name = Constants.UnnamedFilterName; return true; });
             tableEntities = filters.Select(f => new DeviceListFilterTableEntity(f));
             ret = await deviceListFilterRepository.GetRecentFiltersAsync(max, false);
-            Assert.Equal(max, ret.Count());
+            Assert.Equal(40 - max - 1, ret.Count());
+            Assert.False(ret.Any(f => f.Name.Equals(Constants.UnnamedFilterName, StringComparison.InvariantCultureIgnoreCase)));
+            ret = await deviceListFilterRepository.GetRecentFiltersAsync(max, true);
+            Assert.Equal(40 - max - 1, ret.Count());
+            Assert.False(ret.Any(f => f.Name.Equals(Constants.UnnamedFilterName, StringComparison.InvariantCultureIgnoreCase)));
+
+            filters = fixture.CreateMany<DeviceListFilter>(40);
+            tableEntities = filters.Select(f => new DeviceListFilterTableEntity(f));
+            _filterTableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListFilterTableEntity>>()))
+                .ReturnsAsync(tableEntities);
+            filters.Take(max).All(f => { f.IsTemporary = true; return true; });
+            filters.Take(max - 1).All(f => { f.Name = Constants.UnnamedFilterName; return true; });
+            tableEntities = filters.Select(f => new DeviceListFilterTableEntity(f));
+            ret = await deviceListFilterRepository.GetRecentFiltersAsync(max, false);
+            Assert.Equal(40 - max + 1, ret.Count());
+            Assert.False(ret.Any(f => f.Name.Equals(Constants.UnnamedFilterName, StringComparison.InvariantCultureIgnoreCase)));
             ret = await deviceListFilterRepository.GetRecentFiltersAsync(max, true);
             Assert.Equal(40 - max, ret.Count());
+            Assert.False(ret.Any(f => f.Name.Equals(Constants.UnnamedFilterName, StringComparison.InvariantCultureIgnoreCase)));
+
         }
 
         [Fact]
@@ -260,11 +280,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var ret = await deviceListFilterRepository.GetFilterListAsync(0, 1000);
             Assert.Equal(10, ret.Count());
             Assert.Equal(tableEntities.OrderBy(e => e.Name).Select(e => new string[] { e.PartitionKey, e.Name }).ToArray(), ret.Select(e => new string[] { e.Id, e.Name }).ToArray());
-            filters.Take(4).All(f => f.IsTemporary = true);
+            filters.Take(4).All(f => { f.IsTemporary = true; return true; });
+            filters.Take(5).All(f => { f.Name = Constants.UnnamedFilterName; return true; });
+            ret = await deviceListFilterRepository.GetFilterListAsync(0, 10, true);
+            Assert.Equal(5, ret.Count());
+            ret = await deviceListFilterRepository.GetFilterListAsync(0, 10, false);
+            Assert.Equal(5, ret.Count());
+
+            filters = fixture.CreateMany<DeviceListFilter>(10);
+            tableEntities = filters.Select(f => new DeviceListFilterTableEntity(f));
+            _filterTableStorageClientMock.Setup(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListFilterTableEntity>>()))
+                .ReturnsAsync(tableEntities.OrderBy(e => e.Name));
+            filters.Take(4).All(f => { f.IsTemporary = true; return true; });
+            filters.Take(3).All(f => { f.Name = Constants.UnnamedFilterName; return true; });
             ret = await deviceListFilterRepository.GetFilterListAsync(0, 10, true);
             Assert.Equal(6, ret.Count());
             ret = await deviceListFilterRepository.GetFilterListAsync(0, 10, false);
-            Assert.Equal(10, ret.Count());
+            Assert.Equal(7, ret.Count());
         }
 
         [Fact]

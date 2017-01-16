@@ -166,6 +166,7 @@
     <Compile Include="BusinessLogic\FilterLogic.cs" />
     <Compile Include="BusinessLogic\SecurityKeyGenerator.cs" />
     <Compile Include="BusinessLogic\UserSettingsLogic.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Exceptions\DeviceAdministrationExceptionBase.cs" />
     <Compile Include="Exceptions\DeviceNotRegisteredException.cs" />
     <Compile Include="Exceptions\DeviceRegistrationException.cs" />

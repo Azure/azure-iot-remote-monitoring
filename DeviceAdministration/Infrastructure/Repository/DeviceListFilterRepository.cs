@@ -125,14 +125,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             TableQuery<DeviceListFilterTableEntity> query = new TableQuery<DeviceListFilterTableEntity>();
             var entities = await _filterTableStorageClient.ExecuteQueryAsync(query);
             // replace the timestamp of default filter with current time so that it is always sorted at top of filter list.
-            var ordered = entities.Where(e => !excludeTemporary || !e.IsTemporary).Select(e =>
-            {
-                if (e.Id.Equals(DefaultDeviceListFilter.Id))
+            var ordered = entities.Where(e => !Constants.UnnamedFilterName.Equals(e.Name.Trim(), StringComparison.InvariantCultureIgnoreCase) && (!excludeTemporary || !e.IsTemporary))
+                .Select(e =>
                 {
-                    e.Timestamp = DateTimeOffset.Now;
-                }
-                return e;
-            }).OrderByDescending(e => e.Timestamp);
+                    if (e.Id.Equals(DefaultDeviceListFilter.Id))
+                    {
+                        e.Timestamp = DateTimeOffset.Now;
+                    }
+                    return e;
+                }).OrderByDescending(e => e.Timestamp);
             if (Max > 0)
             {
                 return ordered.Take(Max).Select(e => BuildFilterModelFromEntity(e));
@@ -147,7 +148,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             TableQuery<DeviceListFilterTableEntity> query = new TableQuery<DeviceListFilterTableEntity>();
             var entities = await _filterTableStorageClient.ExecuteQueryAsync(query);
-            var ordered = entities.Where(e => !excludeTemporary || !e.IsTemporary).OrderBy(e => e.Name);
+            var ordered = entities.Where(e => !Constants.UnnamedFilterName.Equals(e.Name.Trim(), StringComparison.InvariantCultureIgnoreCase) && (!excludeTemporary || !e.IsTemporary))
+                .OrderBy(e => e.Name);
             if (take > 0)
             {
                 return ordered.Skip(skip).Take(take).Select(e => BuildFilterModelFromEntity(e));

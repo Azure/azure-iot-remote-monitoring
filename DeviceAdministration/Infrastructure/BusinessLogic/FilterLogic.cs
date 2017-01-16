@@ -52,6 +52,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return new Filter(filter) { AssociatedJobsCount = jobs.Count() };
         }
 
+        // We define a constant "UnsavedFilterName" to replace this logic to generate
+        // a default filter name in frontend. But this code will be kept here until
+        // we surely do not need this logic.
         public async Task<string> GetAvailableFilterNameAsync(string filterName = "NewFilter")
         {
             for (int i = 1; i <= MaxRetryCount; ++i)
