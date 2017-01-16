@@ -407,15 +407,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 if (isMatched)
                 {
                     methodfilter.AdvancedClause = $"{conjunctionClause.CONDITION} {conjunctionClause.AND} is_defined({queryColumnName})";
-                    methodfilter.Name = $"{rawfilter.Name}_{method.methodName}_match";
                 }
                 else
                 {
                     methodfilter.AdvancedClause = $"{conjunctionClause.CONDITION} {conjunctionClause.AND} NOT is_defined({queryColumnName})";
-                    methodfilter.Name = $"{rawfilter.Name}_{method.methodName}_nomatch";
                 }
 
                 methodfilter.Id = Guid.NewGuid().ToString();
+                methodfilter.Name = Infrastructure.Constants.UnnamedFilterName;
                 methodfilter.IsAdvanced = true;
                 methodfilter.IsTemporary = true;
                 var savedfilter = await _filterRepository.SaveFilterAsync(methodfilter, false);

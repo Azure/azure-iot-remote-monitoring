@@ -69,20 +69,15 @@
             $('#saveAdFilterButtons').show();
             $('#saveAdFilterButtonsMultiSelection').hide();
             $('.filter_panel_dialog_container').show();
-            $('.filter_panel_filtername_saveas_input').focus();
+            $('.filter_panel_filtername_saveas_input').select();
         },
         openSaveAsDialogForSelectedDevices: function (selectedDeviceIds) {
             self.selectedDeviceIds = selectedDeviceIds;
-            self.model.saveAsName('');
-            $('#defaultNameLoadingElement').show();
-            api.getNewFilterName(function (name) {
-                $('.filter_panel_filtername_saveas_input').focus();
-                self.model.saveAsName(name);
-                $('#defaultNameLoadingElement').hide();
-            });
+            self.model.saveAsName(resources.defaultFilterName);
             $('#saveAdFilterButtons').hide();
             $('#saveAdFilterButtonsMultiSelection').show();
             $('.filter_panel_dialog_container').show();
+            $('.filter_panel_filtername_saveas_input').select();
         },
         closeSaveAsDialog: function () {
             $('.filter_panel_dialog_container').hide();
@@ -91,7 +86,7 @@
             if (self.model.canSave()) {
                 self.originalFilterName = self.model.name();
                 $('.device_list_toolbar_filtername').hide();
-                $('.device_list_toolbar_filtername_input').show().focus();
+                $('.device_list_toolbar_filtername_input').show().select();
             }
         },
         stopEditFilterName: function () {
@@ -222,18 +217,13 @@
             });
         },
         saveFilterForSelectedDevices: function (name, deviceIds, callback) {
-            if (name == null) {
-                api.getNewFilterName(function (name) {
-                    self.model.saveFilterForSelectedDevices(name, deviceIds, callback);
-                });
-            }
-            else {
-                self.model.createAndSaveFilterWithClause(name, "deviceId", "IN", deviceIds.join(", "), function (filterId) {
-                    if ($.isFunction(callback)) {
-                        callback(filterId);
-                    }
-                });
-            }
+            name = name || resources.defaultFilterName;
+            
+            self.model.createAndSaveFilterWithClause(name, "deviceId", "IN", deviceIds.join(", "), function (filterId) {
+                if ($.isFunction(callback)) {
+                    callback(filterId);
+                }
+            });
         },
         createAndSaveFilterWithClause: function (name, columnName, operator, value, callback) {
             var filter = {
@@ -317,17 +307,15 @@
             }
         },
         newFilter: function (callback) {
-            api.getNewFilterName(function (name) {
-                self.model.setFilter({
-                    id: null,
-                    name: name,
-                    clauses: [],
-                    isAdvanced: false,
-                    advancedClause: "",
-                    associatedJobsCount: 0
-                });
-                self.model.isChanged(true);
+            self.model.setFilter({
+                id: null,
+                name: resources.defaultFilterName,
+                clauses: [],
+                isAdvanced: false,
+                advancedClause: "",
+                associatedJobsCount: 0
             });
+            self.model.isChanged(true);
         },
         executeFilter: function () {
             if (self.model.canAddClause())
