@@ -82,98 +82,6 @@
                     <a href="#" class="filter_panel_filter_link" data-bind="text: name, click: $parent.loadFilter.bind($data, id, true)"></a>
                 </div>
             </div>
-            <div class="filter_panel_container">
-                <div class="filter_panel">
-                    <img src="~/Content/img/column_delete.svg" class="filter_panel_close_img" data-bind="click: cancelEdit" />
-                    <span class="filter_panel_title">@Strings.FilterEditor</span>
-                    <div class="filter_panel_content">
-                        <div>
-                            <div class="filter_panel_type_select" data-toggle="dropdown">
-                                <span data-bind="visible: !isAdvanced()">@Strings.SearchTypeFilters</span>
-                                <span data-bind="visible: isAdvanced()">@Strings.SearchTypeAdvanced</span>
-                                <img src="~/Content/img/expanded.svg" class="filter_panel_type_select_img" />
-                            </div>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" data-bind="click: function() { setAdvanced(false) }">@Strings.SearchTypeFilters</a></li>
-                                <li><a href="#" data-bind="click: function() { setAdvanced(true) }">@Strings.SearchTypeAdvanced</a></li>
-                            </ul>
-     
-                            <label class="filter_panel_subtitle filter_panel_view_selected_clauses_only" data-bind="visible : !isAdvanced()"><input type="checkbox" data-bind="checked: viewSelectedClausesOnly" /> @Strings.ViewSeletedClausesOnly</label>
-                        </div>
-                        
-                        <div class="filter_panel_clauses" data-bind="foreach: clauses, visible : !isAdvanced()">
-                            <div class="filter_panel_clause no_select" data-bind="attr: { title: displayName }, click: toggle, css: { checked: checked }, visible: !$parent.viewSelectedClausesOnly() || checked() ">
-                                <div class="filter_panel_clause_text" data-bind="text: shortDisplayName"></div>
-                                <img class="filter_panel_clause_delete_img" title="@Strings.Delete" src="/Content/img/column_delete.svg" data-bind="click: remove" />
-                            </div>
-                        </div>
-                        <div data-bind="visible: isAdvanced()">
-                            <textarea id="" class="filter_panel_advanced_textarea" data-bind="textInput: advancedClause, event: { change: advancedClauseChanged }">SELECT * FROM Devices</textarea>
-                            <div class="filter_panel_advanced_example">
-                                <p>Example 1: deviceId ='SampleDevice001_009'</p>
-                                <p>Example 2: tags.Location = 'Redmond' and tags.DeviceType in ['Type1','Type2'] and (properties.reported.version = 'v1.2' or properties.reported.version = 'v1.3')</p>
-                            </div>
-                        </div>
-                        <div data-bind="visible: !isAdvanced()">
-                            <div class="filter_panel_subtitle">@Strings.AddNewClause</div>
-                            <div class="filter_panel_clause_edit">
-                            <div class="filter_panel_clause_edit_row">
-                                <div class="filter_panel_clause_edit_row_column">
-                                    <label class="filter_panel_clause_edit_label filter_group_top" for="filterFieldREPLACE_ME"><span>@Strings.FilterFieldLabel</span></label>
-                                </div>
-                                <div class="filter_panel_clause_edit_row_operator">
-                                    <label class="filter_panel_clause_edit_label" for="filterOperatorREPLACE_ME"><span>@Strings.FilterOperatorLabel</span></label>
-                                </div>
-                                <div class="filter_panel_clause_edit_row_value">
-                                    <label class="filter_panel_clause_edit_label" for="filterValueREPLACE_ME"><span>@Strings.FilterValueLabel</span></label>
-                                </div>
-                                <div class="filter_panel_clause_edit_row_datatype">
-                                    <label class="filter_panel_clause_edit_label" for="filterOperatorREPLACE_ME"><span>@Strings.DataTypeLabel</span></label>
-                                </div>
-                                <div class="filter_panel_clause_edit_row_add"></div>
-                            </div>
-                            <div class="filter_panel_clause_edit_row">
-                                <div class="filter_panel_clause_edit_row_column">
-                                    <input id="txtField" class="filter_panel_text" data-bind="textInput: currentClause().field, event: { blur: newClauseFieldBlur }">
-                                </div>
-                                <div class="filter_panel_clause_edit_row_operator">
-                                    <select class="filter_panel_select" data-bind="value: currentClause().operator">
-                                        <option value="EQ">=</option>
-                                        <option value="NE">!=</option>
-                                        <option value="LT">&lt;</option>
-                                        <option value="GT">&gt;</option>
-                                        <option value="LE">&lt;=</option>
-                                        <option value="GE">&gt;=</option>
-                                        <option value="IN">in</option>
-                                    </select>
-                                </div>
-                                <div class="filter_panel_clause_edit_row_value">
-                                    <input id="txtValue" class="filter_panel_text" data-bind="textInput: currentClause().value, attr: { placeholder: newClauseValuePlaceHolder }, event: { focus: newClauseValueFocus, blur: newClauseValueBlur, keyup: newClauseValueKeyup , change: newClauseValueChange}" />
-                                </div>
-                                <div class="filter_panel_clause_edit_row_datatype">
-                                    <select class="filter_panel_select" data-bind="value: currentClause().dataType, options: twinDataTypeOptions, optionsText: 'text', optionsValue: 'value'">
-                                    </select>
-                                </div>
-                                <div class="filter_panel_clause_edit_row_add">
-                                    <button type="button" class="button_base" data-bind="click: addClause, enable: canAddClause()">
-                                        Add
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="filter_panel_buttons">
-                            <button type="button" class="button_base pull-right" data-bind="click: executeFilter">
-                                @Strings.FilterLabel
-                            </button>
-                            <button type="button" class="button_base filter_panel_button_gray pull-right" data-bind="click: cancelEdit">
-                                @Strings.Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
         </div>
 
         <div class="details_grid_closed height_fixed button_details_grid">
@@ -267,6 +175,97 @@
                     <button type="button" class="button_base filter_panel_button_gray pull-right" data-bind="click: closeSaveAsDialog">
                         @Strings.Cancel
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter_panel_container height_fixed">
+            <div class="filter_panel">
+                <img src="~/Content/img/column_delete.svg" class="filter_panel_close_img" data-bind="click: cancelEdit" />
+                <span class="filter_panel_title">@Strings.FilterEditor</span>
+                <div class="filter_panel_content">
+                    <div>
+                        <div class="filter_panel_type_select" data-toggle="dropdown">
+                            <span data-bind="visible: !isAdvanced()">@Strings.SearchTypeFilters</span>
+                            <span data-bind="visible: isAdvanced()">@Strings.SearchTypeAdvanced</span>
+                            <img src="~/Content/img/expanded.svg" class="filter_panel_type_select_img" />
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" data-bind="click: function() { setAdvanced(false) }">@Strings.SearchTypeFilters</a></li>
+                            <li><a href="#" data-bind="click: function() { setAdvanced(true) }">@Strings.SearchTypeAdvanced</a></li>
+                        </ul>
+
+                        <label class="filter_panel_subtitle filter_panel_view_selected_clauses_only" data-bind="visible : !isAdvanced()"><input type="checkbox" data-bind="checked: viewSelectedClausesOnly" /> @Strings.ViewSeletedClausesOnly</label>
+                    </div>
+
+                    <div class="filter_panel_clauses" data-bind="foreach: clauses, visible : !isAdvanced()">
+                        <div class="filter_panel_clause no_select" data-bind="attr: { title: displayName }, click: toggle, css: { checked: checked }, visible: !$parent.viewSelectedClausesOnly() || checked() ">
+                            <div class="filter_panel_clause_text" data-bind="text: shortDisplayName"></div>
+                            <img class="filter_panel_clause_delete_img" title="@Strings.Delete" src="/Content/img/column_delete.svg" data-bind="click: remove" />
+                        </div>
+                    </div>
+                    <div data-bind="visible: isAdvanced()">
+                        <textarea id="" class="filter_panel_advanced_textarea" data-bind="textInput: advancedClause, event: { change: advancedClauseChanged }">SELECT * FROM Devices</textarea>
+                        <div class="filter_panel_advanced_example">
+                            <p>Example 1: deviceId ='SampleDevice001_009'</p>
+                            <p>Example 2: tags.Location = 'Redmond' and tags.DeviceType in ['Type1','Type2'] and (properties.reported.version = 'v1.2' or properties.reported.version = 'v1.3')</p>
+                        </div>
+                    </div>
+                    <div data-bind="visible: !isAdvanced()">
+                        <div class="filter_panel_subtitle">@Strings.AddNewClause</div>
+                        <div class="filter_panel_clause_edit">
+                            <div class="filter_panel_clause_edit_row">
+                                <div class="filter_panel_clause_edit_row_column">
+                                    <label class="filter_panel_clause_edit_label filter_group_top" for="filterFieldREPLACE_ME"><span>@Strings.FilterFieldLabel</span></label>
+                                </div>
+                                <div class="filter_panel_clause_edit_row_operator">
+                                    <label class="filter_panel_clause_edit_label" for="filterOperatorREPLACE_ME"><span>@Strings.FilterOperatorLabel</span></label>
+                                </div>
+                                <div class="filter_panel_clause_edit_row_value">
+                                    <label class="filter_panel_clause_edit_label" for="filterValueREPLACE_ME"><span>@Strings.FilterValueLabel</span></label>
+                                </div>
+                                <div class="filter_panel_clause_edit_row_datatype">
+                                    <label class="filter_panel_clause_edit_label" for="filterOperatorREPLACE_ME"><span>@Strings.DataTypeLabel</span></label>
+                                </div>
+                                <div class="filter_panel_clause_edit_row_add"></div>
+                            </div>
+                            <div class="filter_panel_clause_edit_row">
+                                <div class="filter_panel_clause_edit_row_column">
+                                    <input id="txtField" class="filter_panel_text" data-bind="textInput: currentClause().field, event: { blur: newClauseFieldBlur }">
+                                </div>
+                                <div class="filter_panel_clause_edit_row_operator">
+                                    <select class="filter_panel_select" data-bind="value: currentClause().operator">
+                                        <option value="EQ">=</option>
+                                        <option value="NE">!=</option>
+                                        <option value="LT">&lt;</option>
+                                        <option value="GT">&gt;</option>
+                                        <option value="LE">&lt;=</option>
+                                        <option value="GE">&gt;=</option>
+                                        <option value="IN">in</option>
+                                    </select>
+                                </div>
+                                <div class="filter_panel_clause_edit_row_value">
+                                    <input id="txtValue" class="filter_panel_text" data-bind="textInput: currentClause().value, attr: { placeholder: newClauseValuePlaceHolder }, event: { focus: newClauseValueFocus, blur: newClauseValueBlur, keyup: newClauseValueKeyup , change: newClauseValueChange}" />
+                                </div>
+                                <div class="filter_panel_clause_edit_row_datatype">
+                                    <select class="filter_panel_select" data-bind="value: currentClause().dataType, options: twinDataTypeOptions, optionsText: 'text', optionsValue: 'value'"></select>
+                                </div>
+                                <div class="filter_panel_clause_edit_row_add">
+                                    <button type="button" class="button_base" data-bind="click: addClause, enable: canAddClause()">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter_panel_buttons">
+                        <button type="button" class="button_base pull-right" data-bind="click: executeFilter">
+                            @Strings.FilterLabel
+                        </button>
+                        <button type="button" class="button_base filter_panel_button_gray pull-right" data-bind="click: cancelEdit">
+                            @Strings.Cancel
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

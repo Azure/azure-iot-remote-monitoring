@@ -187,7 +187,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             }
             catch (Exception ex)
             {
-                Logger.LogError("Unexpected Exception starting device: {0}", ex.ToString());
+                Logger.LogError($"Exception raise while starting device {DeviceID}: {ex.Message}");
             }
         }
 
@@ -250,7 +250,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             }
             catch (Exception ex)
             {
-                Logger.LogError("Unexpected Exception starting device send loop: {0}", ex.ToString());
+                Logger.LogError($"Exception raised while starting device send loop {DeviceID}: {ex.Message}");
             }
 
             if (token.IsCancellationRequested)
@@ -355,7 +355,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             }
             catch (Exception ex)
             {
-                Logger.LogError("Unexpected Exception starting device receive loop: {0}", ex.ToString());
+                Logger.LogError($"Exception raised while starting device receive loop {DeviceID}: {ex.Message}");
             }
 
             Logger.LogInfo("********** Processing Device {0} has been cancelled - StartReceiveLoopAsync Ending. **********", DeviceID);
@@ -491,7 +491,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogError($"Exception raised while adding callback for method {method.Name}: {ex}");
+                    Logger.LogError($"Exception raised while adding callback for method {method.Name} on device {DeviceID}: {ex.Message}");
                 }
             }
 
@@ -511,7 +511,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     }
                     catch (Exception ex)
                     {
-                        Logger.LogError($"Exception raised while processing desired property {pair.Key} change: {ex}");
+                        Logger.LogError($"Exception raised while processing desired property {pair.Key} change on device {DeviceID}: {ex.Message}");
                     }
                 }
             }
