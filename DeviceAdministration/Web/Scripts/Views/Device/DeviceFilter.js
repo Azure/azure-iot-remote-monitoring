@@ -176,7 +176,7 @@
                 }
             }
         },
-        saveFilter: function () {
+        saveFilter: function (callback) {
             var filter = self.model.getFilterModel();
             api.saveFilter(filter, function (result) {
                 if (!self.model.id()) {
@@ -185,6 +185,10 @@
                 self.model.isFilterLoadedFromServer(true);
                 self.model.loadFilters();
                 self.model.isChanged(false);
+
+                if ($.isFunction(callback)) {
+                    callback();
+                }
             })
         },
         saveAsFilter: function () {
@@ -840,9 +844,12 @@
     var getFilterName = function () {
         return self.model.name();
     }
-    var saveFilterIfNeeded = function () {
+    var saveFilterIfNeeded = function (callback) {
         if (self.model.isChanged()) {
-            self.model.saveFilter();
+            self.model.saveFilter(callback);
+        }
+        else if ($.isFunction(callback)) {
+            callback();
         }
     }
     var setMultiSelectionMode = function (mode) {

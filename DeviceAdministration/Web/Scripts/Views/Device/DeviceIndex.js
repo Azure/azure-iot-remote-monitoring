@@ -295,8 +295,10 @@
             click: function () {
                 unselectAllRows();
                 showDetails();
-                IoTApp.DeviceFilter.saveFilterIfNeeded();
-                self.loader = self.deviceDetails.scheduleJob(IoTApp.DeviceFilter.getFilterId(), IoTApp.DeviceFilter.getFilterName());
+                $('#loadingElement').show();
+                IoTApp.DeviceFilter.saveFilterIfNeeded(function () {
+                    self.loader = self.deviceDetails.scheduleJob(IoTApp.DeviceFilter.getFilterId(), IoTApp.DeviceFilter.getFilterName());
+                });
             }
         }).appendTo($buttonArea);
 
