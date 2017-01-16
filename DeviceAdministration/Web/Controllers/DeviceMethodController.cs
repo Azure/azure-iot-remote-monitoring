@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             DeviceCommandModel deviceCommandsModel = new DeviceCommandModel
             {
                 CommandHistory = device.CommandHistory.Where(c => c.DeliveryType == DeliveryType.Method).ToList(),
-                CommandsJson = JsonConvert.SerializeObject(device.Commands),
+                CommandsJson = JsonConvert.SerializeObject(device.Commands.Where(c => c.DeliveryType == DeliveryType.Method)),
                 SendCommandModel = new SendCommandModel
                 {
                     DeviceId = device.DeviceProperties.DeviceID,
