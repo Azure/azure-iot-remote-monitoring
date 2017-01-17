@@ -46,23 +46,31 @@
             },
         }
 
+        this.twinDataTypeOptions = ko.observableArray(resources.twinDataTypeOptions),
+        this.properties = ko.mapping.fromJS(defaultData, mapping);
+        this.oneItemLeft = ko.observable(true);        
+        this.propertieslist = {};
+
         this.updateDataType = function (data) {
             data.dataType(IoTApp.Helpers.DataType.getDataType(data.value.value()));
         };
-        
 
-        this.twinDataTypeOptions = ko.observableArray(resources.twinDataTypeOptions),
-        this.properties = ko.mapping.fromJS(defaultData, mapping);
-        this.reported = [];
         this.backButtonClicked = function () {
             location.href = resources.redirectUrl;
         }
-        this.propertieslist = {};
+
+        this.remove = function (item) {
+            self.properties.remove(item);
+            if (self.properties().length <= 1) {
+                self.oneItemLeft(true);
+            }
+        }
 
         this.createEmptyPropertyIfNeeded = function (property) {
             self.properties.push(new propertyModel({
                 "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false, "dataType": resources.twinDataType.string
             }));
+            self.oneItemLeft(false);
             return true;
         }
 
@@ -136,7 +144,12 @@
                 });
 
                 ko.mapping.fromJS(result.data, self.properties);
-
+                if (self.properties().length == 0) {
+                    self.properties.push(new propertyModel({ "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false, "dataType": resources.twinDataType.string }));
+                }
+                if (self.properties().length == 1) {
+                    self.oneItemLeft(true);
+                }
             }
         });
     }

@@ -60,6 +60,7 @@
                                                value="true"
                                                data-bind='checked: isDeleted ,enable: key()' />
                                     </td>
+                                    <td><a class="edit_form__link" data-bind="ifnot:$root.oneItemLeft , click:$root.remove"><small class="text_small">@Strings.Clear</small></a></td>
                                 </tr>
                             </tbody>
                         </table>
