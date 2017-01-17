@@ -33,7 +33,7 @@ IoTApp.createModule("IoTApp.Helpers.Dates", function () {
 
     var dates = {
         localizeDate: localizeDate,
-        localizeDates:localizeDates
+        localizeDates: localizeDates
     };
 
     return dates;
@@ -192,10 +192,30 @@ IoTApp.createModule("IoTApp.Helpers.String", function () {
     }
 });
 
+IoTApp.createModule("IoTApp.Helpers.DataType", function () {
+    var getDataType = function (value) {
+        var type;
+        if ($.isNumeric(value)) {
+            return resources.twinDataType.number
+        }
+        else if (/^true$|^false$/i.test(value)) {
+            return resources.twinDataType.boolean
+        }
+        else {
+            return resources.twinDataType.string;
+        }
+    }
+
+    return {
+        getDataType: getDataType
+    }
+});
+
+
 $(function () {
     "use strict";
 
-    $(document).on("click", ".button_copy", function() {
+    $(document).on("click", ".button_copy", function () {
         var textboxId = $(this).data('id');
         IoTApp.Helpers.Highlight.highlightText(textboxId);
     });
@@ -206,24 +226,22 @@ $(function () {
         hide: false,
         show: false,
         content: function () {
-              return $(this).prop('title');
-          }
+            return $(this).prop('title');
+        }
     });
     var copy;
-    $(document).on("mouseover", ".button_copy", function() {
+    $(document).on("mouseover", ".button_copy", function () {
         var inputSelector = '#' + $(this).data('id');
         copy = baseLayoutResources.clickToSelectAll;
         $(inputSelector).siblings().attr('title', copy);
     });
-    $(document).on("click", ".button_copy", function() {
+    $(document).on("click", ".button_copy", function () {
         var inputSelector = ".ui-tooltip-content";
         var isMac = (navigator.userAgent.toUpperCase().indexOf("MAC") !== -1);
-        if (isMac)
-        {
+        if (isMac) {
             copy = baseLayoutResources.commandCToCopy;
         }
-        else
-        {
+        else {
             copy = baseLayoutResources.controlCToCopy;
         }
         $(inputSelector).html(copy);
@@ -231,7 +249,7 @@ $(function () {
 
     //Catch any ajax call that has a 401 status and
     //take the user to the sign-in page
-    $(document).ajaxError(function(e, xhr, settings) {
+    $(document).ajaxError(function (e, xhr, settings) {
         if (xhr.status == 401) {
             window.location = '/Account/SignIn';
         }

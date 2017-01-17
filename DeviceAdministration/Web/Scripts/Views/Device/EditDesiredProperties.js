@@ -40,14 +40,14 @@
             },
             'dataType': {
                 create: function (data) {
-                    var type = IoTApp.DeviceFilter.util.getDataType(data);
+                    var type = IoTApp.Helpers.DataType.getDataType(data);
                     return ko.observable(type);
                 }
             },
         }
 
         this.updateDataType = function (data) {
-            data.dataType(IoTApp.DeviceFilter.util.getDataType(data.value.value()));
+            data.dataType(IoTApp.Helpers.DataType.getDataType(data.value.value()));
         };
 
         this.twinDataTypeOptions = ko.observableArray(resources.twinDataTypeOptions),

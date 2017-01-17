@@ -602,9 +602,9 @@
 
     var util = {
         split: function (val) {
-            return val.split(/,\s*/);f
+            return val.split(/,\s*/); f
         },
-        extractLast: function(term) {
+        extractLast: function (term) {
             return util.split(term).pop();
         },
         trim: function (str, chars) {
@@ -614,21 +614,9 @@
             }
 
             return str;
-        },
-        getDataType: function (value) {
-            var type;
-            if ($.isNumeric(value)) {
-                return resources.twinDataType.number
-            }
-            else if (/^true$|^false$/i.test(value)) {
-                return resources.twinDataType.boolean
-            }
-            else {
-                return resources.twinDataType.string;
-            }
         }
-    }
-    self.util = util;
+    };
+
     var api = {
         getSuggestedClauses: function (callback) {
             var url = "/api/v1/suggestedClauses?skip=0&take=10";
@@ -854,8 +842,7 @@
         saveFilterIfNeeded: saveFilterIfNeeded,
         openSaveAsDialogForSelectedDevices: self.model.openSaveAsDialogForSelectedDevices,
         saveFilterForSelectedDevices: self.model.saveFilterForSelectedDevices,
-        setMultiSelectionMode: setMultiSelectionMode,
-        util:self.util
+        setMultiSelectionMode: setMultiSelectionMode,        
     }
 }, [jQuery, resources]);
 

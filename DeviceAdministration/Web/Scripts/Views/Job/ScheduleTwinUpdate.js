@@ -46,10 +46,10 @@
 
         this.updateDataType = function (data) {
             if (data.TagValue) {
-                data.DataType(IoTApp.DeviceFilter.util.getDataType(data.TagValue()))
+                data.DataType(IoTApp.Helpers.DataType.getDataType(data.TagValue()))
             }
             else {
-                data.DataType(IoTApp.DeviceFilter.util.getDataType(data.PropertyValue()))
+                data.DataType(IoTApp.Helpers.DataType.getDataType(data.PropertyValue()))
             }
         };
 
