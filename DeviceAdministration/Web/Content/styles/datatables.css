@@ -578,6 +578,7 @@ table.dataTable thead {
     }
     table.dataTable tbody tr td.table_status {
         padding-left:40px;
+        text-transform: capitalize;
     }
 
     .table_status.status_false {
