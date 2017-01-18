@@ -45,16 +45,16 @@
 </div>
 
 <section class="details_grid_general toggle_target" id="jobDetailsGrid">
-    <h4 class="grid_subhead_detail_label">@Strings.JobId</h4>
+    <h4 class="grid_subhead_detail_label grid_subhead_detail_label_job_property">@Strings.JobId</h4>
     <p class="grid_detail_value" name="deviceField_jobId">@Model.JobId</p>
 
-    <h4 class="grid_subhead_detail_label">@Strings.StatusHeader</h4>
+    <h4 class="grid_subhead_detail_label grid_subhead_detail_label_job_property">@Strings.StatusHeader</h4>
     <p class="grid_detail_value" name="deviceField_status">@Model.Status</p>
 
-    <h4 class="grid_subhead_detail_label">@Strings.JobNameHeader</h4>
+    <h4 class="grid_subhead_detail_label grid_subhead_detail_label_job_property">@Strings.JobNameHeader</h4>
     <p class="grid_detail_value" name="deviceField_jobName">@Model.JobName</p>
 
-    <h4 class="grid_subhead_detail_label">@Strings.FilterNameHeader</h4>
+    <h4 class="grid_subhead_detail_label grid_subhead_detail_label_job_property">@Strings.FilterNameHeader</h4>
     <p class="grid_detail_value" name="deviceField_filterName">
         @if (Model.FilterName.Equals(Model.QueryCondition, StringComparison.InvariantCultureIgnoreCase))
         {
@@ -122,18 +122,18 @@
 </div>
 
 <section class="details_grid_general details_grid_general_section_job" id="deviceGrid">
-    <h4 class="grid_subhead_detail_label">@Strings.DeviceCountSubHeader</h4>
+    <h4 class="grid_subhead_detail_label grid_subhead_detail_label_job_property">@Strings.DeviceCountSubHeader</h4>
     <p class="grid_detail_value" name="deviceField_deviceCount">@Model.DeviceCount</p>
 
-    <h4 class="grid_subhead_detail_label">@Strings.SucceededCountSubHeader</h4>
+    <h4 class="grid_subhead_detail_label grid_subhead_detail_label_job_property">@Strings.SucceededCountSubHeader</h4>
     <p class="grid_detail_value grid_detail_value_with_link" name="deviceField_succeedCount">@Model.SucceededCount</p>
 
-    <h4 class="grid_subhead_detail_label">@Strings.FailedCountSubHeader</h4>
+    <h4 class="grid_subhead_detail_label grid_subhead_detail_label_job_property">@Strings.FailedCountSubHeader</h4>
     <p class="grid_detail_value grid_detail_value_with_link" name="deviceField_failedCount">@Model.FailedCount</p>
 
-    <h4 class="grid_subhead_detail_label">@Strings.PendingCountSubHeader</h4>
+    <h4 class="grid_subhead_detail_label grid_subhead_detail_label_job_property">@Strings.PendingCountSubHeader</h4>
     <p class="grid_detail_value grid_detail_value_with_link" name="deviceField_pendingCount">@Model.PendingCount</p>
 
-    <h4 class="grid_subhead_detail_label">@Strings.RunningCountSubHeader</h4>
+    <h4 class="grid_subhead_detail_label grid_subhead_detail_label_job_property">@Strings.RunningCountSubHeader</h4>
     <p class="grid_detail_value grid_detail_value_with_link" name="deviceField_runningCount">@Model.RunningCount</p>
 </section>

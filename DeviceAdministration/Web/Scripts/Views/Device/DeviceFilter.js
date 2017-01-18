@@ -391,6 +391,7 @@
                 operator: ko.observable(operator || "EQ"),
                 value: ko.observable(value),
                 dataType: ko.observable(dataType || resources.twinDataType.string),
+                dataTypeConfirmed: false,
                 checked: ko.observable(checked == null ? true : checked),
                 shortDisplayName: ko.pureComputed(function () {
                     var parts = clause.field().split('.');
@@ -493,11 +494,11 @@
         }),
         setDataTypeFromAvailableValues: function (values) {
             var finalType = null;
-            values.forEach(function (value) {
+            $.each(values, function (idx, value) {
                 var type = self.model.getDataType(value);
 
                 if (finalType && finalType != type) {
-                    finalType = resources.twinDataType.string;
+                    finalType = null;
                     return false;
                 }
 
@@ -506,6 +507,10 @@
 
             if (finalType) {
                 self.model.currentClause().dataType(finalType);
+                self.model.currentClause().dataTypeConfirmed = true;
+            }
+            else {
+                self.model.currentClause().dataTypeConfirmed = false;
             }
         },
         getDataType: function (value) {
@@ -519,6 +524,10 @@
             }
         },
         setDataTypeFromCurrentValue: function () {
+            if (self.model.currentClause().dataTypeConfirmed) {
+                return;
+            }
+
             var value = $('#txtValue').val();
             var values;
             if (self.model.currentClause().operator() == "IN") {
@@ -529,7 +538,7 @@
             }
 
             var finalType = null;
-            values.forEach(function (value) {
+            $.each(values, function (idx, value) {
                 var type = self.model.getDataTypeFromString(value);
 
                 if (finalType && finalType != type) {
