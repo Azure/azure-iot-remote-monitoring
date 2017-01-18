@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -19,6 +20,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
     public class ScheduleDeviceMethodModel : ScheduleJobViewModel
     {
+        [Required]
         public string MethodName { get; set; }
         public List<MethodParameterEditViewModel> Parameters { get; set; }
     }
