@@ -1550,7 +1550,7 @@ table#alertHistoryTable tr.selectedAlert {
   flex: none;
   width: 6.45em;
   padding: 2px 14px 2px 0px;
-  padding-right: 10px;
+  padding-right: 0px;
 }
 .filter_panel_buttons {
   height: 32px;
