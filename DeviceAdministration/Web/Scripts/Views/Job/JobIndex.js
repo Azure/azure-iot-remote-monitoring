@@ -123,8 +123,7 @@
                 {
                     "data": "filterName",
                     "mRender": function (data) {
-                        var s = IoTApp.Helpers.String.renderLongString(data, 20, '..');
-                        return htmlEncode(s);
+                        return htmlEncode(data);
                     },
                     "name": "filterName"
                 },
@@ -173,6 +172,7 @@
             ],
             "columnDefs": [
                 { className: "table_status", targets: [0] },
+                { className: "table_truncate_with_max_width", targets: [1, 2] },
                 { searchable: true, targets: [1] }
             ],
             "order": [[4, "desc"]]
