@@ -65,7 +65,7 @@
             $('.filter_panel_container').hide();
         },
         openSaveAsDialog: function () {
-            self.model.saveAsName(self.model.name());
+            self.model.saveAsName('');
             $('#saveAdFilterButtons').show();
             $('#saveAdFilterButtonsMultiSelection').hide();
             $('.filter_panel_dialog_container').show();
@@ -73,7 +73,7 @@
         },
         openSaveAsDialogForSelectedDevices: function (selectedDeviceIds) {
             self.selectedDeviceIds = selectedDeviceIds;
-            self.model.saveAsName(resources.defaultFilterName);
+            self.model.saveAsName('');
             $('#saveAdFilterButtons').hide();
             $('#saveAdFilterButtonsMultiSelection').show();
             $('.filter_panel_dialog_container').show();

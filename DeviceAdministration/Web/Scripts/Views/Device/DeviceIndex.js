@@ -77,7 +77,7 @@
         if (data) {
             uiState.start = data.start;
             uiState.searchQuery = data.search.value;
-            uiState.filterId = data.id;
+            uiState.filterId = data.name == resources.defaultFilterName ? '' : data.id;
         } else {
             if (uiState.start === undefined) {
                 uiState.start = 0;
@@ -162,7 +162,6 @@
             $('<th />')
                 .text(resources.image)
                 .attr('title', 'tags.' + resources.iconTagName)
-                .addClass('remove_text_transform')
                 .appendTo(header);
 
             data.forEach(function (column, index) {
