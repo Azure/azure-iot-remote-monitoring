@@ -33,9 +33,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             await CreateAccessPolicyIfNotExist();
 
-            // replace '.' with '_' so that the name can be used in MVC Url route.
-            var name = Path.GetFileName(fileName).Replace(".", "_");
-            var extension = Path.GetExtension(fileName);
+            string name = Guid.NewGuid().ToString();
+            string extension = Path.GetExtension(fileName);
             string contentType = MimeMapping.GetMimeMapping(string.IsNullOrEmpty(extension) ? "image/png" : extension);
             var uploadedBlob = await _blobStorageClient.UploadFromStreamAsync($"{_uploadedFolder}/{name}",
                 contentType,
