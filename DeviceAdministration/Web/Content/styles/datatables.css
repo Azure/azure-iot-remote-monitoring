@@ -677,3 +677,10 @@ table.dataTable tbody td.image_column {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.table_truncate_with_max_width {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+}

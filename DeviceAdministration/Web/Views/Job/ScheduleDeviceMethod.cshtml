@@ -39,9 +39,6 @@
                 @using (Html.BeginForm("ScheduleDeviceMethod", "Job", FormMethod.Post, new { data_bind = "submit: beforePost" }))
                 {
                     @Html.AntiForgeryToken()
-                    <p>
-                        @Html.ValidationSummary(false)
-                    </p>
 
                     <fieldset class="edit_form">
                         @{
