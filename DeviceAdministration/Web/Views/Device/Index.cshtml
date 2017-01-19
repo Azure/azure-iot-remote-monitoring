@@ -201,7 +201,11 @@
                     <div class="filter_panel_clauses" data-bind="foreach: clauses, visible : !isAdvanced()">
                         <div class="filter_panel_clause no_select" data-bind="attr: { title: displayName }, click: toggle, css: { checked: checked }, visible: !$parent.viewSelectedClausesOnly() || checked() ">
                             <div class="filter_panel_clause_text" data-bind="text: shortDisplayName"></div>
-                            <img class="filter_panel_clause_delete_img" title="@Strings.Delete" src="/Content/img/column_delete.svg" data-bind="click: remove" />
+                            @if (ViewBag.HasDeleteSuggestedClausePerm)
+                            {
+                            <img class="filter_panel_clause_delete_img" title="@Strings.Delete" src="/Content/img/delete-clause.svg" data-bind="click: remove" />
+                            }
+                            <img class="filter_panel_clause_right_top_img" src="/Content/img/clausechecked2.svg" />
                         </div>
                     </div>
                     <div data-bind="visible: isAdvanced()">
@@ -332,7 +336,8 @@
             { value: '@TwinDataType.Number', text: '@Html.JavaScriptString(Strings.NumberLabel)' },
             { value: '@TwinDataType.Boolean', text: '@Html.JavaScriptString(Strings.BooleanLabel)' }
         ],
-        defaultFilterName: '@Html.JavaScriptString(Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Constants.UnnamedFilterName)'
+        defaultFilterName: '@Html.JavaScriptString(Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Constants.UnnamedFilterName)',
+        deleteClauseConfirmation: '@Html.JavaScriptString(Strings.DeleteClauseConfirmation)'
     };
 </script>
 

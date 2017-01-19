@@ -28,6 +28,7 @@
         CellularConn,
         ViewJobs,
         ManageJobs,
-        SaveDeviceListColumnsAsGlobal
+        SaveDeviceListColumnsAsGlobal,
+        DeleteSuggestedClauses
     }
 }

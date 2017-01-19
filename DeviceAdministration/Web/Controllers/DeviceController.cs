@@ -64,6 +64,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             ViewBag.FilterId = filterId;
             ViewBag.HasManageJobsPerm = PermsChecker.HasPermission(Permission.ManageJobs);
+            ViewBag.HasDeleteSuggestedClausePerm = PermsChecker.HasPermission(Permission.DeleteSuggestedClauses);
             ViewBag.IconBaseUrl = await _iconRepository.GetIconStorageUriPrefix();
             ViewBag.IconTagName = Constants.DeviceIconTagName;
 

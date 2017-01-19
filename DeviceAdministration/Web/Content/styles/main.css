@@ -1412,7 +1412,7 @@ table#alertHistoryTable tr.selectedAlert {
 .filter_panel_clauses {
   overflow: auto;
   min-height: 42px;
-  margin: 10px 0px 15px 0px;
+  margin: 2px 0px 20px 0px;
 }
 .filter_panel_clause {
   display: block;
@@ -1420,7 +1420,7 @@ table#alertHistoryTable tr.selectedAlert {
   background-color: white;
   color: gray;
   border: 1px solid gray;
-  margin: 4px 8px 4px 0px;
+  margin: 12px 12px 0px 0px;
   padding: 5px;
   height: 22px;
   cursor: pointer;
@@ -1439,13 +1439,22 @@ table#alertHistoryTable tr.selectedAlert {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.filter_panel_clause_delete_img {
+.filter_panel_clause_right_top {
   display: none;
-  top: 4px;
-  right: 2px;
   position: absolute;
-  background-color: white;
+  right: -9px;
+  top: -9px;
+  width: 20px;
+  height: 20px;
+}
+.filter_panel_clause_delete_img {
   cursor: pointer;
+  display: none;
+  position: absolute;
+  right: -9px;
+  top: -9px;
+  width: 20px;
+  height: 20px;
 }
 .filter_panel_clause:hover:not(.checked) .filter_panel_clause_delete_img {
   display: block;
@@ -1454,12 +1463,14 @@ table#alertHistoryTable tr.selectedAlert {
   border-color: #1c9dd7;
   color: #1c9dd7;
 }
-.filter_panel_clause.checked::before {
-  content: url('/Content/img/clausechecked.svg');
-  position: absolute;
-  right: -10px;
-  top: -10px;
+.filter_panel_clause.checked .filter_panel_clause_right_top {
+  display: block;
 }
+/*.filter_panel_clause.checked::before {
+    content: url('/Content/img/clausechecked2.svg');
+    .filter_panel_clause_right_top;
+}*/
+
 .filter_panel_advanced_textarea {
   margin: 10px;
   width: calc(100% - 20px);

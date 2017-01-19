@@ -404,12 +404,18 @@
                     clause.checked(!clause.checked());
                     self.model.isChanged(true);
                 },
-                remove: function () {
-                    api.deleteSuggestedClause(self.model.getClauseModel(clause), function () {
-                        getSuggestedClauses();
+                remove: function (data, e) {
+                    IoTApp.Helpers.Dialog.confirm(resources.deleteClauseConfirmation, function (result) {
+                        if (result) {
+                            api.deleteSuggestedClause(self.model.getClauseModel(clause), function () {
+                                getSuggestedClauses();
+                            });
+
+                            self.model.removeClause(clause);
+                        }
                     });
 
-                    self.model.removeClause(clause);
+                    e.stopPropagation();
                 }
             };
 

@@ -2480,4 +2480,8 @@
     <value>String</value>
     <comment>Label.</comment>
   </data>
+  <data name="DeleteClauseConfirmation" xml:space="preserve">
+    <value>Are you sure you want to delete this clause?</value>
+    <comment>Confirmation message.</comment>
+  </data>
 </root>

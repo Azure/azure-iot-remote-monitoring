@@ -114,7 +114,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         [HttpDelete]
         [Route("~/api/v1/suggestedClauses")]
-        [WebApiRequirePermission(Permission.ViewDevices)]
+        [WebApiRequirePermission(Permission.DeleteSuggestedClauses)]
         public async Task<HttpResponseMessage> DeleteSuggestClauses([FromBody]IEnumerable<Clause> clauses)
         {
             return await GetServiceResponseAsync<int>(async () =>

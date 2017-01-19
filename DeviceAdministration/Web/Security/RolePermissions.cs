@@ -142,6 +142,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             AssignRolesToPermission(Permission.SaveDeviceListColumnsAsGlobal,
                 ADMIN_ROLE_NAME);
+
+            AssignRolesToPermission(Permission.DeleteSuggestedClauses,
+                ADMIN_ROLE_NAME);
         }
 
         /// <summary>

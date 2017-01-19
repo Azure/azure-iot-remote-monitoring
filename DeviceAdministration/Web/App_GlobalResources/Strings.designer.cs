@@ -1070,6 +1070,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this clause?.
+        /// </summary>
+        public static string DeleteClauseConfirmation {
+            get {
+                return ResourceManager.GetString("DeleteClauseConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete Filter.
         /// </summary>
         public static string DeleteFilter {
