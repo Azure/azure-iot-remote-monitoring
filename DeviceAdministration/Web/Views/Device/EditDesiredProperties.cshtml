@@ -61,8 +61,10 @@
                                                data-bind='checked: isDeleted ,enable: key()' />
                                     </td>
                                     <td><a class="edit_form__link" data-bind="ifnot:$root.oneItemLeft() || isUserDefinedType(), click:$root.remove"><small class="text_small">@Strings.Clear</small></a></td>
-                                    <td data-bind="if:$root.MatchReportedProp(key) != null"><span class="edit_form__labelsmall" data-bind="text:$root.MatchReportedProp(key).key"></span></td>
-                                    <td data-bind="if:$root.MatchReportedProp(key) != null"><span class="edit_form__labelsmall" data-bind="text:$root.fromNowValue($root.MatchReportedProp(key).value.lastUpdated,getCulture())"></span></td>
+                                    <!-- ko with: $root.MatchReportedProp(key) -->
+                                    <td data-bind="if:$data != null"><span class="edit_form__labelsmall" data-bind="text:'Reported:&nbsp;' + value.value() + '&nbsp;&nbsp;&nbsp;'+ $root.fromNowValue(value.lastUpdated, getCulture())"></span></td>
+                                    <!-- /ko -->
+                                    
                                 </tr>
                             </tbody>
                         </table>

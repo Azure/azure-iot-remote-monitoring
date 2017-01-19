@@ -44,7 +44,7 @@
 
         this.twinDataTypeOptions = ko.observableArray(resources.twinDataTypeOptions),
         this.properties = ko.mapping.fromJS(defaultData, mapping);
-        this.reported = ko.observableArray([]);
+        this.reported = ko.mapping.fromJS(defaultData, mapping);
         this.oneItemLeft = ko.observable(true);
         this.propertieslist = {};
 
@@ -105,10 +105,12 @@
             if (desired.indexOf("desired.") == 0) {
                 desired = desired.slice(8, desired.length);
             }
-            for (var i = 0; i < this.reported().length; i++) {
-
-                if (this.reported()[i].key().toLowerCase().indexOf(desired.toLowerCase()) >= 0) {
-                    return this.reported()[i];
+            if (desired) {
+                var regex = new RegExp(desired + "$", "i");
+                for (var i = 0; i < this.reported().length; i++) {
+                    if (regex.test(this.reported()[i].key())) {
+                        return this.reported()[i];
+                    }
                 }
             }
         }
