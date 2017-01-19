@@ -18,6 +18,7 @@ IoTApp.createModule("IoTApp.Helpers.Dates", function () {
     var localizeDate = function localizeDate(date, format) {
         if (!date) return resources.notApplicableValue || 'n/a';
         var currentMoment = moment(date).locale(cultureInfo);
+        if (currentMoment.year() == 9999) return resources.notApplicableValue || 'n/a';
         return currentMoment.format(format);
     };
 
