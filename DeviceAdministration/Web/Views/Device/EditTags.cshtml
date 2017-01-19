@@ -46,7 +46,7 @@
                                         <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox"
                                                data-msg-regex=" "
                                                data-rule-regex="^tags\.\S+$"
-                                               data-bind="value: key, css:{edit_form__deleted : isDeleted()}, attr:{name: 'tagName' + $index(), id: 'tagName' + $index()}" />
+                                               data-bind="value: key, disable: isUserDefinedType, css:{edit_form__deleted : isDeleted()}, attr:{name: 'tagName' + $index(), id: 'tagName' + $index()}" />
                                     </td>
                                     <td>
                                         <input type="text" class="edit_form__texthalf"
@@ -60,7 +60,7 @@
                                                value="true"
                                                data-bind='checked: isDeleted ,enable: key()' />
                                     </td>
-                                    <td><a class="edit_form__link" data-bind="ifnot:$root.oneItemLeft , click:$root.remove"><small class="text_small">@Strings.Clear</small></a></td>
+                                    <td><a class="edit_form__link" data-bind="ifnot:$root.oneItemLeft() || isUserDefinedType(), click:$root.remove"><small class="text_small">@Strings.Clear</small></a></td>
                                 </tr>
                             </tbody>
                         </table>

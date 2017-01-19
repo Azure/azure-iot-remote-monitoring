@@ -15,6 +15,7 @@
         self.key = ko.observable(data.key);
         self.value = ko.mapping.fromJS(data.value);
         self.isDeleted = ko.observable(data.isDeleted);
+        self.isUserDefinedType = ko.observable(data.isUserDefinedType);
         self.dataType = ko.observable(data.dataType);
     }
 
@@ -28,6 +29,7 @@
                     "lastUpdated": ""
                 },
                 "isDeleted": false,
+                "isUserDefinedType": false,
                 "dataType": ""
             }
         ]
@@ -36,12 +38,6 @@
             'isDeleted': {
                 create: function () {
                     return ko.observable(false);
-                }
-            },
-            'dataType': {
-                create: function (data) {
-                    var type = IoTApp.Helpers.DataType.getDataType(data);
-                    return ko.observable(type);
                 }
             },
         }
@@ -57,11 +53,15 @@
         }
 
         this.updateDataType = function (data) {
-            data.dataType(IoTApp.Helpers.DataType.getDataType(data.value.value()));
+            if (!data.isUserDefinedType()) {
+                data.dataType(IoTApp.Helpers.DataType.getDataType(data.value.value()));
+            }
         };
 
         this.createEmptyPropertyIfNeeded = function (property) {
-            self.properties.push(new propertyModel({ "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false, "dataType": resources.twinDataType.string }));
+            self.properties.push(new propertyModel({
+                "key": "", "value": { "value": "", "lastUpdated": "" }, "isDeleted": false, "isUserDefinedType": false, "dataType": resources.twinDataType.string
+            }));
             self.oneItemLeft(false);
             return true;
         }
@@ -155,7 +155,8 @@
                 //add 'isDeleted' field for model binding, default false
                 result.data.desired = $.map(result.data.desired, function (item) {
                     item.isDeleted = false;
-                    item.dataType = "";
+                    item.isUserDefinedType = true;
+                    item.dataType = IoTApp.Helpers.String.capitalizeFirstLetter(typeof (item.value.value));
                     return item;
                 });
 

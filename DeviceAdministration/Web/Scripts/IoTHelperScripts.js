@@ -187,7 +187,12 @@ IoTApp.createModule("IoTApp.Helpers.String", function () {
         return message;
     }
 
+    var capitalizeFirstLetter = function (string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     return {
+        capitalizeFirstLetter:capitalizeFirstLetter,
         renderLongString: renderLongString
     }
 });
