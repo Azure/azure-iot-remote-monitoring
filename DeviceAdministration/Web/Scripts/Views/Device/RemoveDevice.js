@@ -36,6 +36,9 @@
     }
 
     var onSuccess = function () {
+        setTimeout(function () {
+            $('#loadingElement').show();
+        }, 0);
         // get rid of deviceId cookie value--we just deleted the device
         IoTApp.Helpers.DeviceIdState.saveDeviceIdToCookie('');
 
