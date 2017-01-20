@@ -1440,7 +1440,7 @@ table#alertHistoryTable tr.selectedAlert {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.filter_panel_clause_right_top {
+.filter_panel_clause_right_top_img {
   display: none;
   position: absolute;
   right: -9px;
@@ -1464,7 +1464,7 @@ table#alertHistoryTable tr.selectedAlert {
   border-color: #1c9dd7;
   color: #1c9dd7;
 }
-.filter_panel_clause.checked .filter_panel_clause_right_top {
+.filter_panel_clause.checked .filter_panel_clause_right_top_img {
   display: block;
 }
 /*.filter_panel_clause.checked::before {
