@@ -62,7 +62,8 @@
                                     </td>
                                     <td><a class="edit_form__link" data-bind="ifnot:$root.oneItemLeft() || isUserDefinedType(), click:$root.remove"><small class="text_small">@Strings.Clear</small></a></td>
                                     <!-- ko with: $root.MatchReportedProp(key) -->
-                                    <td data-bind="if:$data != null"><span class="edit_form__labelsmall" data-bind="text:'Reported:&nbsp;' + value.value() + '&nbsp;&nbsp;&nbsp;'+ $root.fromNowValue(value.lastUpdated, getCulture())"></span></td>
+                                    <td data-bind="if:$data != null"><span class="edit_form__labelsmall" data-bind="text:'Reported'"></span></td>
+                                    <td data-bind="if:$data != null" style="text-align:left"><span class="edit_form__labelsmall" data-bind="text: value.value()"></span></td>
                                     <!-- /ko -->
                                     
                                 </tr>
