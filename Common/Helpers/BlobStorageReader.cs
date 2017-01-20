@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Runtime.Caching;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.WindowsAzure.Storage.Blob;
 
@@ -20,30 +22,64 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             _blobs = blobs;
         }
 
-
         public IEnumerator<BlobContents> GetEnumerator()
         {
-            foreach (var blob in _blobs)
+            foreach (var blockBlob in _blobs.OfType<CloudBlockBlob>())
             {
-                CloudBlockBlob blockBlob;
-                if ((blockBlob = blob as CloudBlockBlob) == null)
+                yield return new BlobContents
                 {
-                    continue;
-                }
-                var stream = new MemoryStream();
-                blockBlob.DownloadToStream(stream);
-                yield return
-                    new BlobContents
-                    {
-                        Data = stream,
-                        LastModifiedTime = blockBlob.Properties.LastModified?.LocalDateTime
-                    };
+                    Data = ReadBlockWithCache(blockBlob),
+                    LastModifiedTime = blockBlob.Properties.LastModified?.LocalDateTime
+                };
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        static private MemoryCache _blobCache = new MemoryCache("blobCache");
+
+        static private MemoryStream ReadBlockWithCache(CloudBlob blob)
+        {
+            var stream = new MemoryStream();
+            stream = _blobCache.AddOrGetExisting(
+                blob.Uri.ToString(),
+                stream,
+                new CacheItemPolicy
+                {
+                    SlidingExpiration = TimeSpan.FromHours(2),
+                    RemovedCallback = OnItemRemoved
+                }) as MemoryStream
+                ?? stream;
+
+            lock (stream)
+            {
+                var length = blob.Properties.Length - stream.Length;
+                if (length > 0)
+                {
+                    try
+                    {
+                        blob.DownloadRangeToStream(stream, stream.Length, length);
+                    }
+                    catch
+                    {
+                        // Nothing to do since caller will try to read periodically
+                    }
+                }
+
+                return new MemoryStream(stream.GetBuffer(), 0, (int)stream.Length, false);
+            }
+        }
+
+        static void OnItemRemoved(CacheEntryRemovedArguments arg)
+        {
+            var stream = arg.CacheItem.Value as MemoryStream;
+            if (stream != null)
+            {
+                stream.Dispose();
+            }
         }
     }
 }
