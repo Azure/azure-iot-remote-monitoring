@@ -2,23 +2,25 @@
     'use strict';
 
     var self = this;
-    function PropertiesEditItem(name, value, type, isDeleted) {
+    function PropertiesEditItem(name, value, type, isUserDefined, isDeleted) {
         var self = this;
         self.PropertyName = ko.observable(name);
         self.PropertyValue = ko.observable(value);
         self.DataType = ko.observable(type);
         self.isDeleted = ko.observable(isDeleted);
+        self.isUserDefinedType = ko.observable(isUserDefined);
         self.isEmptyValue = ko.computed(function () {
             return self.PropertyValue() == "" || self.PropertyValue() == null;
         })
     }
 
-    function TagsEditItem(name, value, type, isDeleted) {
+    function TagsEditItem(name, value, type, isUserDefined, isDeleted) {
         var self = this;
         self.TagName = ko.observable(name);
         self.TagValue = ko.observable(value);
         self.DataType = ko.observable(type);
         self.isDeleted = ko.observable(isDeleted);
+        self.isUserDefinedType = ko.observable(isUserDefined);
         self.isEmptyValue = ko.computed(function () {
             return self.TagValue() == "" || self.TagValue() == null;
         })
@@ -45,11 +47,13 @@
         this.twinDataTypeOptions = ko.observableArray(resources.twinDataTypeOptions),
 
         this.updateDataType = function (data) {
-            if (data.TagValue) {
-                data.DataType(IoTApp.Helpers.DataType.getDataType(data.TagValue()))
-            }
-            else {
-                data.DataType(IoTApp.Helpers.DataType.getDataType(data.PropertyValue()))
+            if (!data.isUserDefinedType()) {
+                if (data.TagValue) {
+                    data.DataType(IoTApp.Helpers.DataType.getDataType(data.TagValue()))
+                }
+                else {
+                    data.DataType(IoTApp.Helpers.DataType.getDataType(data.PropertyValue()))
+                }
             }
         };
 
@@ -157,18 +161,18 @@
                 self.maxExecutionTime(data.MaxExecutionTimeInMinutes);
 
                 if (!data.DesiredProperties || data.DesiredProperties.length == 0) {
-                    self.properties.push(new PropertiesEditItem("", "", false));
+                    self.properties.push(new PropertiesEditItem("", "", resources.twinDataType.string, false, false));
                 } else {
                     self.properties($.map(data.DesiredProperties, function (p) {
-                        return new PropertiesEditItem(p.PropertyName, p.PropertyValue, false);
+                        return new PropertiesEditItem(p.PropertyName, p.PropertyValue, p.DataType, true, false);
                     }));
                 }
 
                 if (!data.Tags || data.Tags.length == 0) {
-                    self.tags.push(new TagsEditItem("", "", false));
+                    self.tags.push(new TagsEditItem("", "", resources.twinDataType.string, false, false));
                 } else {
                     self.tags($.map(data.Tags, function (t) {
-                        return new TagsEditItem(t.TagName, t.TagValue, false);
+                        return new TagsEditItem(t.TagName, t.TagValue, t.DataType, true, false);
                     }));
                 }
 
@@ -185,8 +189,8 @@
                 });
             }
             else {
-                self.properties.push(new PropertiesEditItem("", "", false));
-                self.tags.push(new TagsEditItem("", "", false));
+                self.properties.push(new PropertiesEditItem("", "", resources.twinDataType.string, false, false));
+                self.tags.push(new TagsEditItem("", "", resources.twinDataType.string, false, false));
             }
 
             IoTApp.Controls.NameSelector.loadNameList({ type: IoTApp.Controls.NameSelector.NameListType.tag }, self.cachetagList);

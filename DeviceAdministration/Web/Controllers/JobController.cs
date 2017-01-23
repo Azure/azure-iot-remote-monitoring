@@ -115,18 +115,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         OriginalJobId = jobId,
                         DesiredProperties = twin.Properties.Desired.AsEnumerableFlatten().Select(p =>
                         {
+                            Newtonsoft.Json.Linq.JTokenType valuetype = p.Value.Value.Type;
                             return new DesiredPropetiesEditViewModel
                             {
                                 PropertyName = p.Key,
                                 PropertyValue = p.Value.Value.ToString(),
+                                DataType = valuetype.HasFlag(Newtonsoft.Json.Linq.JTokenType.Float & Newtonsoft.Json.Linq.JTokenType.Integer) ? TwinDataType.Number
+                                          : valuetype.HasFlag(Newtonsoft.Json.Linq.JTokenType.Boolean) ? TwinDataType.Boolean 
+                                          : TwinDataType.String
                             };
                         }).ToList(),
                         Tags = twin.Tags.AsEnumerableFlatten().Select(t =>
                         {
+                            Newtonsoft.Json.Linq.JTokenType valuetype = t.Value.Value.Type;
                             return new TagsEditViewModel
                             {
                                 TagName = t.Key,
                                 TagValue = t.Value.Value.ToString(),
+                                DataType = valuetype.HasFlag(Newtonsoft.Json.Linq.JTokenType.Float & Newtonsoft.Json.Linq.JTokenType.Integer) ? TwinDataType.Number
+                                          : valuetype.HasFlag(Newtonsoft.Json.Linq.JTokenType.Boolean) ? TwinDataType.Boolean
+                                          : TwinDataType.String
                             };
                         }).ToList(),
                     });
