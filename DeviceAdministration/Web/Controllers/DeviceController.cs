@@ -355,7 +355,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<ActionResult> DeleteDevice(string deviceId)
         {
             await _deviceLogic.RemoveDeviceAsync(deviceId);
-            return View("Index");
+            return null;
         }
 
         [RequirePermission(Permission.ViewDevices)]
