@@ -9,8 +9,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             ClauseValue = clause.ClauseValue;
             ClauseType = clause.ClauseType.ToString();
+            ClauseDataType = clause.ClauseDataType.ToString();
             RowKey = ColumnName = clause.ColumnName;
-            PartitionKey = $"{clause.ColumnName} {clause.ClauseType.ToString()} {ClauseValue.NormalizedTableKey()}";
+            PartitionKey = $"{clause.ColumnName} {clause.ClauseType.ToString()} {ClauseValue.NormalizedTableKey()} {clause.ClauseDataType.ToString()}";
             HitCounter = 1;
         }
 
@@ -19,6 +20,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public string ColumnName { get; set; }
         public string ClauseType { get; set; }
         public string ClauseValue { get; set; }
+        public string ClauseDataType { get; set; }
         public long HitCounter { get; set; }
     }
 }
