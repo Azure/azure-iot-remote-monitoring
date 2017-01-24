@@ -634,7 +634,7 @@
 
     var api = {
         getSuggestedClauses: function (callback) {
-            var url = "/api/v1/suggestedClauses?skip=0&take=10";
+            var url = "/api/v1/suggestedClauses?skip=0&take=15";
             return $.ajax({
                 url: url,
                 type: 'GET',
