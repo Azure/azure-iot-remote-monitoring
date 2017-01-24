@@ -1,10 +1,27 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Constants
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
-@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.ApiRegistrationModel
 
 <div class="advanced_left_column">
-    <div class="jasper_info_text">@Strings.ApiRegistrationInfoText</div>
+    @switch (Model.ApiRegistrationProvider)
+    {
+        case ApiRegistrationProviderTypes.Jasper:
+            {
+                <div class="provider_info_text">@Strings.ApiRegistrationInfoTextJasper</div>
+                break;
+            }
+        case ApiRegistrationProviderTypes.Ericsson:
+            {
+                <div class="provider_info_text">@Strings.ApiRegistrationInfoTextEricsson</div>
+                break;
+            }
+        default:
+            {
+                <a href="@Strings.ApiProviderGenericHelpUrl" target="_blank">Need Help?</a>
+                break;
+            }
+    }
     <fieldset class="registration_content">
         <div class="registration_textbox">
             <h2 class="registration_description">@Strings.ApiProviderLabel</h2>
@@ -19,9 +36,12 @@
                         @Strings.RequiredValue
                     </div>
                 </div>
-            </fieldset>           
-            <p class="api_warning_label">
+            </fieldset>
+            <p id="apiRegistrationProviderWarning" class="api_warning_label">
                 @Strings.ApiProviderWarningLabel
+            </p>
+            <p>
+                <button id="changeApiRegistrationProviderButton" class="button_base registration_change_provder_input" type="button">@Strings.ChangeApiProvider</button>
             </p>
             <fieldset>
                 <h2 class="registration_description">@Strings.BaseUrlLabel</h2>
@@ -69,7 +89,6 @@
     <fieldset class="fieldset_button">
         <button id="editButton" class="button_base registration_edit_input" type="button">@Strings.Edit</button>
         <button id="saveButton" class="button_base registration_save_input" type="button">@Strings.Save</button>
-        <button id="changeApiRegistrationProviderButton" class="button_base registration_change_provder_input" type="button">@Strings.ChangeApiProvider</button>
     </fieldset>
     <div class="api_save_registration_failed" id="registrationFailed">
         @Strings.ApiRegistrationFailed
@@ -83,12 +102,12 @@
 <div class="api_registration_help_link">
     @switch (Model.ApiRegistrationProvider)
     {
-        case ApiRegistrationProviderType.Jasper:
+        case ApiRegistrationProviderTypes.Jasper:
             {
                 <a href="@Strings.JasperHelpLink" target="_blank">Need Help?</a>
                 break;
             }
-        case ApiRegistrationProviderType.Ericsson:
+        case ApiRegistrationProviderTypes.Ericsson:
             {
                 <a href="@Strings.EricssonHelpLink" target="_blank">Need Help?</a>
                 break;
@@ -108,11 +127,10 @@
         function () {
             'use strict';
             var config = {
-                subheadContent: '@Html.JavaScriptString(Strings.ApiRegistrationTitleJasper)',
+                subheadContent: '@Html.JavaScriptString(Strings.ApiRegistrationTitle)',
                 goBackUrl: '@Url.Action("SelectAdvancedProcess")',
-                apiRegistrationProvider: '@Html.JavaScriptString(Model.ApiRegistrationProvider.ToString())',
-                apiProviderChangeWarningMessageInitial: '@Html.JavaScriptString(Strings.ApiProviderWarningPopupInitial)',
-                apiProviderChangeWarningMessageOnSave: '@Html.JavaScriptString(Strings.ApiProviderWarningPopupOnSave)'
+                apiRegistrationProvider: '@Html.JavaScriptString(Model.ApiRegistrationProvider)',
+                apiProviderChangeWarningMessage: '@Html.JavaScriptString(Strings.ApiProviderChangeWarningMessage)'
             };
             IoTApp.Advanced.initSubView(config);
             IoTApp.Advanced.initRegistration(config);

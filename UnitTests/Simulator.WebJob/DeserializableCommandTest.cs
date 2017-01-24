@@ -8,7 +8,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Simula
     public class DeserializableCommandTest
     {
         private readonly Client.Message _message;
-
         public DeserializableCommandTest()
         {
             _message = new Client.Message(Encoding.UTF8.GetBytes("{}"));

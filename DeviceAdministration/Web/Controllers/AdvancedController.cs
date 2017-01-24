@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Web.Mvc;
 using DeviceManagement.Infrustructure.Connectivity.Exceptions;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
+using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
@@ -19,16 +20,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         private const string CellularInvalidLicense = "400100";
 
         private readonly IApiRegistrationRepository _apiRegistrationRepository;
+        private readonly IIccidRepository _iccidRepository;
         private readonly ICellularExtensions _cellularExtensions;
         private readonly IDeviceLogic _deviceLogic;
 
-        public AdvancedController(IDeviceLogic deviceLogic,
+        public AdvancedController(
+            IDeviceLogic deviceLogic,
             IApiRegistrationRepository apiRegistrationRepository,
+            IIccidRepository iccidRepository,
             ICellularExtensions cellularExtensions)
         {
             _deviceLogic = deviceLogic;
             _apiRegistrationRepository = apiRegistrationRepository;
             _cellularExtensions = cellularExtensions;
+            _iccidRepository = iccidRepository;
         }
 
         [RequirePermission(Permission.CellularConn)]
@@ -52,26 +57,37 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<PartialViewResult> DeviceAssociation()
         {
             IList<DeviceModel> devices = await GetDevices();
-
+            DeviceAssociationModel model;
             try
             {
                 if (_apiRegistrationRepository.IsApiRegisteredInAzure())
                 {
-                    ViewBag.HasRegistration = true;
-                    ViewBag.UnassignedIccidList = _cellularExtensions.GetListOfAvailableIccids(devices);
-                    ViewBag.UnassignedDeviceIds = _cellularExtensions.GetListOfAvailableDeviceIDs(devices);
+                    var registrationModel = _apiRegistrationRepository.RecieveDetails();
+                    model = new DeviceAssociationModel()
+                    {
+                        ApiRegistrationProvider = registrationModel.ApiRegistrationProvider,
+                        HasRegistration = true,
+                        UnassignedIccidList = _cellularExtensions.GetListOfAvailableIccids(devices, registrationModel.ApiRegistrationProvider),
+                        UnassignedDeviceIds = _cellularExtensions.GetListOfAvailableDeviceIDs(devices)
+                    };
                 }
                 else
                 {
-                    ViewBag.HasRegistration = false;
+                    model = new DeviceAssociationModel()
+                    {
+                        HasRegistration = false
+                    };
                 }
             }
             catch (CellularConnectivityException)
             {
-                ViewBag.HasRegistration = false;
+                model = new DeviceAssociationModel()
+                {
+                    HasRegistration = false
+                };
             }
 
-            return PartialView("_DeviceAssociation");
+            return PartialView("_DeviceAssociation", model);
         }
 
         public async Task AssociateIccidWithDevice(string deviceId, string iccid)
@@ -97,28 +113,39 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
 
             DeviceModel device = await _deviceLogic.GetDeviceAsync(deviceId);
-            device.SystemProperties.ICCID = iccid;
+            if (device.SystemProperties != null)
+            {
+                device.SystemProperties.ICCID = iccid;
+            }
             await _deviceLogic.UpdateDeviceAsync(device);
         }
 
-        public bool SaveRegistration(ApiRegistrationModel apiModel)
+        public async Task<bool> SaveRegistration(ApiRegistrationModel apiModel)
         {
             try
             {
-                var registrationModel = _apiRegistrationRepository.RecieveDetails();
-
-                if (registrationModel.ApiRegistrationProvider != apiModel.ApiRegistrationProvider)
-                {
-                    // TODO
-                    // unregister the API and any connected devices
-                }
-
+                // get the current registration model
+                var oldRegistrationDetails = _apiRegistrationRepository.RecieveDetails();
+                // ammend the new details
                 _apiRegistrationRepository.AmendRegistration(apiModel);
 
-                var credentialsAreValid = _cellularExtensions.ValidateCredentials(apiModel.ApiRegistrationProvider);
-                if (!credentialsAreValid)
+                // check credentials work. If they do not work revert the change.
+                if (!CheckCredentials())
                 {
-                    _apiRegistrationRepository.DeleteApiDetails();
+                    _apiRegistrationRepository.AmendRegistration(oldRegistrationDetails);
+                    return false;
+                }
+
+                // if api provider has changed then disassociate all associated devices
+                if (oldRegistrationDetails != null && oldRegistrationDetails.ApiRegistrationProvider != apiModel.ApiRegistrationProvider)
+                {
+                    var disassociateDeviceResult = await DisassociateAllDevices();
+                    // if this has failed revert the change
+                    if (!disassociateDeviceResult)
+                    {
+                        _apiRegistrationRepository.AmendRegistration(oldRegistrationDetails);
+                        return false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -130,9 +157,17 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return true;
         }
 
-        public bool DeleteRegistration()
+        public async Task<bool> DeleteRegistration()
         {
-            return _apiRegistrationRepository.DeleteApiDetails();
+            var disassociateDeviceResult = await DisassociateAllDevices();
+            if (!disassociateDeviceResult) return false;
+            var deleteAllIccidEntities = _iccidRepository.DeleteAllIccids();
+            return deleteAllIccidEntities && _apiRegistrationRepository.DeleteApiDetails();
+        }
+
+        public bool AddIccids([FromBody]List<Iccid> iccids)
+        {
+            return _iccidRepository.AddIccids(iccids, "Erricson");
         }
 
         [RequirePermission(Permission.HealthBeat)]
@@ -156,6 +191,39 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             var devices = await _deviceLogic.GetDevices(query);
             return devices.Results;
+        }
+
+        /// <summary>
+        /// Disassociates all devices
+        /// </summary>
+        /// <returns></returns>
+        private async Task<bool> DisassociateAllDevices()
+        {
+            try
+            {
+                var devices = await GetDevices();
+                var connectedDevices = _cellularExtensions.GetListOfConnectedDeviceIds(devices);
+                foreach (dynamic deviceId in connectedDevices)
+                {
+                    await UpdateDeviceAssociation(deviceId, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool CheckCredentials()
+        {
+            var credentialsAreValid = _cellularExtensions.ValidateCredentials();
+            if (!credentialsAreValid)
+            {
+                _apiRegistrationRepository.DeleteApiDetails();
+                return false;
+            }
+            return true;
         }
     }
 }

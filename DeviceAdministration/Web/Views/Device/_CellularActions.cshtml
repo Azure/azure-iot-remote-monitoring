@@ -1,0 +1,30 @@
+﻿@using GlobalResources
+@using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice
+@using Newtonsoft.Json
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@model  Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
+<p id="actionsDisabledMessage" style="display: none;">@Strings.SimInformationActionsDisabledMessage</p>
+<div id="cellularActions">
+    <p><strong>@Strings.CellularActionsSendSmsLabel </strong></p>
+    <textarea type="text" id="sendSmsTextBox" class="form_input text_area tall space_below"></textarea>
+    <button id="sendSms" class="button_base button_no_float cell_action_button space_below">@Strings.CellularActionsSendSms</button>
+    <button id="reconnectDevice" class="button_base button_no_float cell_action_button space_below">@Strings.CellularActionsResetDeviceConnectionAction</button>
+    <div id="cellularActionsResults">
+        @if (Model.CellularActionUpdateResponse != null)
+        {
+            if (Model.CellularActionUpdateResponse.Success)
+            {
+                <p class="success_text">Success</p>
+            }
+            else
+            {
+                <p class="error_text">Error</p>
+            }
+        }
+    </div>
+</div>
+<script>
+    $(function () {
+        IoTApp.CellularActions.initActionForm(@Html.JavaScriptString(Model.TerminalDevice.IsInActiveState.ToString().ToLower()));
+    });
+</script>

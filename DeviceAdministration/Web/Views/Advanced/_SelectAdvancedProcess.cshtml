@@ -1,6 +1,5 @@
 ﻿@using GlobalResources
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
-@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.ApiRegistrationModel
 
 <div>
@@ -31,6 +30,9 @@
                         <button class="button_base edit_button" type="submit" id="apiRegistrationEditButton">
                             @Strings.Edit
                         </button>
+                        <button class="button_base delete_api_registration_button" type="submit" id="apiRegistrationDeleteButton">
+                            @Strings.Delete
+                        </button>
                     </fieldset>
                 </p>
             }
@@ -44,9 +46,6 @@
             <button class="add_new_button" type="submit" id="deviceAssociationButton">
                 @Strings.Create
             </button>
-            <button class="add_new_button" type="submit" id="deviceAssociationButton">
-                @Strings.Delete
-            </button>
         </li>
     </ul>
 </div>
@@ -57,7 +56,7 @@
             var config = {
                 subheadContent: '',
                 goBackUrl: '',
-                selectedProvider: '@Html.JavaScriptString(Model.ApiRegistrationProvider.ToString())'
+                selectedProvider: '@Html.JavaScriptString(Model.ApiRegistrationProvider)'
             };
 
             IoTApp.Advanced.initSubView(config);
@@ -65,8 +64,10 @@
             $('#apiRegistrationCreateButton').click(function () {
                 IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistration")');
             });
-
-            @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+            $('#apiRegistrationDeleteButton')
+                .click(function() {
+                    IoTApp.Advanced.deleteApiRegistration();
+                });
             $('#apiRegistrationEditButton').click(function () {
                 IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistration")');
             });

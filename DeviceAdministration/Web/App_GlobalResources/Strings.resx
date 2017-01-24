@@ -1399,8 +1399,8 @@
     <value>Cellular Connectivity Management</value>
     <comment>Panel heading.</comment>
   </data>
-  <data name="SimInformation" xml:space="preserve">
-    <value>SIM Information...</value>
+  <data name="SIMDetails" xml:space="preserve">
+    <value>SIM Details</value>
     <comment>Hyperlink label. {Locked="SIM"}</comment>
   </data>
   <data name="ConnectionStatus" xml:space="preserve">
@@ -1411,7 +1411,7 @@
     <value>Last Session Start: </value>
     <comment>Read-only field label.</comment>
   </data>
-  <data name="SimStatus" xml:space="preserve">
+  <data name="CellularInformationSimStatus" xml:space="preserve">
     <value>SIM Status: </value>
     <comment>Read-only field label. {Locked="SIM"}</comment>
   </data>
@@ -1476,19 +1476,19 @@
     <comment>(Unused)</comment>
   </data>
   <data name="BaseUrlToolTip" xml:space="preserve">
-    <value>You'll find this just below the API key on the API page in Control Center.</value>
+    <value>You'll find this API key in your API Providers system.</value>
     <comment>Input field tooltip.</comment>
   </data>
   <data name="LicenseKeyToolTip" xml:space="preserve">
-    <value>You'll find this at the top left of the API page in Control Center.</value>
+    <value>You'll find this in your API providers system.</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="PasswordToolTip" xml:space="preserve">
-    <value>This is the password you use to log into Control Center.</value>
+    <value>This is the password you use to log into your API Provider</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="UsernameToolTip" xml:space="preserve">
-    <value>This is the username you use to log into Control Center.</value>
+    <value>This is the username you use to log into your API Provider</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="AttachIccidToDevice" xml:space="preserve">
@@ -1518,10 +1518,6 @@
   <data name="ApiRegistrationDescription" xml:space="preserve">
     <value>Register this solution with the API from your cellular connectivity provider by clicking 'Create' and filling in your details.</value>
     <comment>Tile subheading.</comment>
-  </data>
-  <data name="ApiRegistrationTitleJasper" xml:space="preserve">
-    <value>Jasper API Registration</value>
-    <comment>Panel heading. {Locked="Jasper"}{Locked="API"}</comment>
   </data>
   <data name="CellularConnViewTitle" xml:space="preserve">
     <value>Cellular Conn</value>
@@ -1631,7 +1627,7 @@
     <value>The association succeeded for device {0} with ICCID {1}.</value>
     <comment>Success message.</comment>
   </data>
-  <data name="ApiRegistrationInfoText" xml:space="preserve">
+  <data name="ApiRegistrationInfoTextJasper" xml:space="preserve">
     <value>To activate the integration to view and control your Control Center devices through IoT Suite please enter the following credentials:</value>
     <comment>Informational text block.</comment>
   </data>
@@ -1651,7 +1647,7 @@
     <value>Password</value>
     <comment>Section heading.</comment>
   </data>
-  <data name="SimInformationInfoText" xml:space="preserve">
+  <data name="SimInformationInfoTextJasper" xml:space="preserve">
     <value>Delivered through the Jasper Control Center platform</value>
     <comment>{Locked="Jasper"}</comment>
   </data>
@@ -1683,9 +1679,6 @@
   <data name="ApiRegistrationTitle" xml:space="preserve">
     <value>API Registration</value>
   </data>
-  <data name="ApiRegistrationTitleEricsson" xml:space="preserve">
-    <value>Ericsson API Registration</value>
-  </data>
   <data name="EricssonHelpLink" xml:space="preserve">
     <value>https://www.ericsson.com/microsoft-iot</value>
   </data>
@@ -1713,12 +1706,116 @@
     <value>If you change your provider this will disassociate any connected devices and the current API registration. To change provider click "Change API Provider" below.</value>
     <comment>Warning label</comment>
   </data>
-  <data name="ApiProviderWarningPopupInitial" xml:space="preserve">
-    <value>Are you sure you want to change provider? This will disasociate and connected devices and delete your existing connection.</value>
-    <comment>Popup message</comment>
-  </data>
-  <data name="ApiProviderWarningPopupOnSave" xml:space="preserve">
+  <data name="ApiProviderChangeWarningMessage" xml:space="preserve">
     <value>You are about to change API providers. This will remove your current association as you can only have one at a time. Are you sure you want to do this?</value>
     <comment>Popup message</comment>
+  </data>
+  <data name="SimFirstActivationDate" xml:space="preserve">
+    <value>First Activation Date</value>
+  </data>
+  <data name="SimInformationInfoTextEricsson" xml:space="preserve">
+    <value>Delivered through the Ericsson API</value>
+  </data>
+  <data name="CustomerNumber" xml:space="preserve">
+    <value>Customer Number</value>
+  </data>
+  <data name="MSISDN" xml:space="preserve">
+    <value>MSISDN</value>
+    <comment>Label</comment>
+  </data>
+  <data name="PDPContextProfileName" xml:space="preserve">
+    <value>PDPContext Profile Name</value>
+  </data>
+  <data name="PriceProfileName" xml:space="preserve">
+    <value>Price Profile Name</value>
+    <comment>Label</comment>
+  </data>
+  <data name="AggregatedSimUsage" xml:space="preserve">
+    <value>Aggregated Sim Usage</value>
+    <comment>Label</comment>
+  </data>
+  <data name="CurrentLimits" xml:space="preserve">
+    <value>Current Limits</value>
+    <comment>Label</comment>
+  </data>
+  <data name="PricePlan" xml:space="preserve">
+    <value>Price Plan</value>
+    <comment>Label</comment>
+  </data>
+  <data name="DeviceAssociationIccidUploadText" xml:space="preserve">
+    <value>Your provider doesn't have an API to automatically retrieve available ICCIDs for your SIMs. Please use the upload button to add the ICCIDs that you have available in CSV format</value>
+    <comment>Message</comment>
+  </data>
+  <data name="DeviceAssociationNoUnasignedIccidsText" xml:space="preserve">
+    <value />
+    <comment>Messsage</comment>
+  </data>
+  <data name="CellularActionsResetDeviceConnection" xml:space="preserve">
+    <value>Reset Connection</value>
+    <comment>Button Label</comment>
+  </data>
+  <data name="CellularActionsResetDeviceConnectionAction" xml:space="preserve">
+    <value>Reconnect</value>
+    <comment>Label</comment>
+  </data>
+  <data name="CellularActionsSimActionsLabel" xml:space="preserve">
+    <value>Sim Actions</value>
+    <comment>Label</comment>
+  </data>
+  <data name="CellularInformationSimStateLabel" xml:space="preserve">
+    <value>SIM State</value>
+    <comment>Label</comment>
+  </data>
+  <data name="CellularInformationRatePlanLabel" xml:space="preserve">
+    <value>Rate Plan</value>
+    <comment>Label</comment>
+  </data>
+  <data name="EnableDeviceActions" xml:space="preserve">
+    <value>Enable Actions</value>
+    <comment>Button Label</comment>
+  </data>
+  <data name="CellularActionsSendSms" xml:space="preserve">
+    <value>Send SMS</value>
+    <comment>Button Label</comment>
+  </data>
+  <data name="CellularActionsSendSmsLabel" xml:space="preserve">
+    <value>SMS Text</value>
+    <comment>Label</comment>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Upload</value>
+    <comment>Button Label</comment>
+  </data>
+  <data name="CellularInformationLabel" xml:space="preserve">
+    <value>SIM Properties</value>
+  </data>
+  <data name="CellularInformationSubscriptionPackageLabel" xml:space="preserve">
+    <value>Subscription Package</value>
+  </data>
+  <data name="CountryCode" xml:space="preserve">
+    <value>Country Code</value>
+  </data>
+  <data name="LastData" xml:space="preserve">
+    <value>Last Data</value>
+  </data>
+  <data name="LastPDPContext" xml:space="preserve">
+    <value>Last PDP Context</value>
+  </data>
+  <data name="OperatorCode" xml:space="preserve">
+    <value>Operator Code</value>
+  </data>
+  <data name="SimInformationActionsDisabledMessage" xml:space="preserve">
+    <value>Actions have been disabled because the SIM is not in an active state</value>
+  </data>
+  <data name="ApiRegistrationInfoTextEricsson" xml:space="preserve">
+    <value>To activate the integration to view and control your Ericsson IoT account devices through IoT Suite please enter the following credentials:</value>
+  </data>
+  <data name="CellularInformationLocaleLabel" xml:space="preserve">
+    <value>Locale</value>
+    <comment>Label</comment>
+  </data>
+  <data name="CellularInformationNotLocaledOption" xml:space="preserve">
+    <value>-- select a locale --</value>
+    <comment>Dropdown label.</comment>
   </data>
 </root>

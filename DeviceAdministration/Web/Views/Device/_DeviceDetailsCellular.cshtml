@@ -1,14 +1,22 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.DeviceDetailModel
+
 <header class="header_grid">
     <h3 class="grid_subheadhead_detail">@Strings.CellularConnectivityManagement</h3>
 </header>
 
 <section class="details_grid_general">
     <p class="grid_detail_value">
-        <a href="#" id="deviceExplorer_cellInformation" class="not_disable">@Strings.SimInformation</a>
+        <a href="#" id="deviceExplorer_cellInformation" class="not_disable">@Strings.SIMDetails</a>
     </p>
     <p class="grid_detail_value">
         <a href="#" id="deviceExplorer_removeSimAssociation" class="not_disable">@Strings.RemoveSimAssociation</a>
     </p>
 </section>
 
+<script>
+    $(function () {
+        IoTApp.CellularActions.init('@Html.JavaScriptString(Model.DeviceID)');
+    });
+</script>

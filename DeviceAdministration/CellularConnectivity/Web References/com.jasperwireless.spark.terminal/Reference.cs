@@ -973,6 +973,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://api.jasperwireless.com/ws/service/terminal/SendCancelLocation", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
         [return: System.Xml.Serialization.XmlElementAttribute("SendCancelLocationResponse", Namespace="http://api.jasperwireless.com/ws/schema")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("securityHeader")]
         public SendCancelLocationResponse SendCancelLocation([System.Xml.Serialization.XmlElementAttribute(Namespace="http://api.jasperwireless.com/ws/schema")] SendCancelLocationRequest SendCancelLocationRequest) {
             object[] results = this.Invoke("SendCancelLocation", new object[] {
                         SendCancelLocationRequest});

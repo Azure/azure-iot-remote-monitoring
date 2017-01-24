@@ -288,8 +288,9 @@
     <Compile Include="DataTables\DataTablesResponse.cs" />
     <Compile Include="DataTables\Search.cs" />
     <Compile Include="DataTables\SortColumn.cs" />
-    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\StringExtentions.cs" />
     <Compile Include="Helpers\ICellularExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\JasperCredentialsProvider.cs" />
@@ -298,9 +299,14 @@
     <Compile Include="Helpers\DeviceDisplayHelper.cs" />
     <Compile Include="Models\ActionPropertiesModel.cs" />
     <Compile Include="Models\AlertHistoryDeviceModel.cs" />
+    <Compile Include="Models\CellularActionUpdateResponseModel.cs" />
     <Compile Include="Models\CellularConnectivityProviderEnum.cs" />
     <Compile Include="Models\EditDeviceRuleModel.cs" />
+    <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\LanguageModel.cs" />
+    <Compile Include="Models\ReconnectDeviceModel.cs" />
+    <Compile Include="Models\CellularActionModel.cs" />
+    <Compile Include="Models\CellularActionRequestModel.cs" />
     <Compile Include="Models\SimInformationViewModel.cs" />
     <Compile Include="Models\UpdateActionModel.cs" />
     <Compile Include="Models\AlertHistoryResultsModel.cs" />
@@ -447,6 +453,10 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Content\styles\elements\forms.less" />
+    <None Include="Properties\PublishProfiles\cellularconnectivity - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\cellularconnectivity - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\cellularconnectivity - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
@@ -490,6 +500,7 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\papaparse.min.js" />
     <Content Include="Scripts\Views\Actions\ActionProperties.js" />
     <Content Include="Scripts\Views\Actions\ActionsIndex.js" />
     <Content Include="Scripts\powerbi-visuals.all.min.js" />
@@ -508,6 +519,8 @@
     <Content Include="Scripts\Views\Device\AddDevice.js" />
     <Content Include="Scripts\Views\Device\AddDeviceCopy.js" />
     <Content Include="Scripts\Views\Device\AddDeviceCreate.js" />
+    <Content Include="Scripts\Views\Device\CellularActions.js" />
+    <Content Include="Scripts\Views\Device\CellularInformation.js" />
     <Content Include="Scripts\Views\Device\DeviceDetails.js" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -636,6 +649,10 @@
     <Content Include="Views\Advanced\_SelectAdvancedProcess.cshtml" />
     <Content Include="Views\Shared\_NavigationSubmenu.cshtml" />
     <Content Include="Views\Advanced\_IccidAssociation.cshtml" />
+    <Content Include="Views\Device\_CellularInformationJasper.cshtml" />
+    <Content Include="Views\Device\_CellularInformationEricsson.cshtml" />
+    <Content Include="Views\Advanced\_IccidUpload.cshtml" />
+    <Content Include="Views\Device\_CellularActions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -733,6 +750,7 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

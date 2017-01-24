@@ -10,7 +10,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         public string LicenceKey { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public int? ApiRegistrationProviderType { get; set; }
+        public string ApiRegistrationProviderType { get; set; }
+
+        // Erricsson Only
+        public string EnterpriseSenderNumber { get; set; }
+        public string RegistrationID { get; set; }
+        public string SmsEndpointBaseUrl { get; set; }
 
         // when more providers are available take as param
         public ApiRegistrationTableEntity()
@@ -24,39 +29,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
             return Convert.ToString((int)providerType, CultureInfo.InvariantCulture);
         }
 
-        public static int? ConvertApiProviderTypeToInt(ApiRegistrationProviderType? providerType)
-        {
-            if (!providerType.HasValue)
-            {
-                return null;
-            }
-            return Convert.ToInt32(providerType, CultureInfo.InvariantCulture);
-        }
-
-        public static ApiRegistrationProviderType? ConvertIntToApiProvider(int? providerType)
-        {
-            if (!providerType.HasValue)
-            {
-                return null;
-            }
-            return (ApiRegistrationProviderType)providerType;
-        }
-
         public static string GetRowKey(ApiRegistrationKey providerType)
         {
             return Enum.GetName(typeof(ApiRegistrationKey), providerType);
         }
 
-        public static ApiRegistrationProviderType GetRowKey(string providerTypeString)
+        public static ApiRegistrationKey GetRowKey(string providerTypeString)
         {
-            return (ApiRegistrationProviderType)Enum.Parse(typeof(ApiRegistrationProviderType), providerTypeString);
+            return (ApiRegistrationKey)Enum.Parse(typeof(ApiRegistrationKey), providerTypeString);
         }
-    }
-
-    public enum ApiRegistrationProviderType
-    {
-        Jasper=0,
-        Ericsson=1
     }
 
     public enum ApiRegistrationKey

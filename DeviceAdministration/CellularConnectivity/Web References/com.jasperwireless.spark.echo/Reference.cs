@@ -121,7 +121,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RequestType))]
     public partial class EchoService : System.Web.Services.Protocols.SoapHttpClientProtocol {
 
-        internal Models.Security.SecurityHeader securityHeader;
+        public Models.Security.SecurityHeader securityHeader;
 
         private System.Threading.SendOrPostCallback EchoOperationCompleted;
         
@@ -10896,8 +10896,8 @@ namespace DeviceManagement.Infrustructure.Connectivity.com.jasperwireless.spark.
     public partial class EchoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
-        
-        internal EchoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+
+        public EchoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

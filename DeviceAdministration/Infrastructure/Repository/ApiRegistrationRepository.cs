@@ -5,6 +5,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using System;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Constants;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -28,9 +30,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     BaseUrl = apiRegistrationModel.BaseUrl,
                     Username = apiRegistrationModel.Username,
                     LicenceKey = apiRegistrationModel.LicenceKey,
-                    ApiRegistrationProviderType = ApiRegistrationTableEntity
-                                                    .ConvertApiProviderTypeToInt(apiRegistrationModel.ApiRegistrationProvider)
-            };
+                    EnterpriseSenderNumber = apiRegistrationModel.EnterpriseSenderNumber,
+                    ApiRegistrationProviderType = apiRegistrationModel.ApiRegistrationProvider.ToString()
+                };
 
                 _azureTableStorageClient.Execute(TableOperation.InsertOrMerge(incomingEntity));
             }
@@ -61,8 +63,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 BaseUrl = apiRegistrationTableEntity.BaseUrl,
                 LicenceKey = apiRegistrationTableEntity.LicenceKey,
                 Password = apiRegistrationTableEntity.Password,
-                ApiRegistrationProvider = ApiRegistrationTableEntity
-                                            .ConvertIntToApiProvider(apiRegistrationTableEntity.ApiRegistrationProviderType)
+                EnterpriseSenderNumber = apiRegistrationTableEntity.EnterpriseSenderNumber,
+                ApiRegistrationProvider = apiRegistrationTableEntity.ApiRegistrationProviderType,
+                RegistrationID = apiRegistrationTableEntity.RegistrationID,
+                SmsEndpointBaseUrl = apiRegistrationTableEntity.SmsEndpointBaseUrl
             };
 
         }

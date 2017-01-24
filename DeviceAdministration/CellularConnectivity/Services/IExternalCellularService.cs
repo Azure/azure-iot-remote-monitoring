@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
-using DeviceManagement.Infrustructure.Connectivity.Models.Enums;
 
 namespace DeviceManagement.Infrustructure.Connectivity.Services
 {
@@ -9,9 +10,19 @@ namespace DeviceManagement.Infrustructure.Connectivity.Services
     /// </summary>
     public interface IExternalCellularService
     {
-        List<Iccid> GetTerminals(ApiRegistrationProviderType registrationProvider);
-        bool ValidateCredentials(ApiRegistrationProviderType registrationProvider);
-        Terminal GetSingleTerminalDetails(Iccid iccid, ApiRegistrationProviderType cellularProvider);
-        List<SessionInfo> GetSingleSessionInfo(Iccid iccid, ApiRegistrationProviderType cellularProvider);
+        List<Iccid> GetTerminals();
+        bool ValidateCredentials();
+        Terminal GetSingleTerminalDetails(Iccid iccid);
+        List<SessionInfo> GetSingleSessionInfo(Iccid iccid);
+        List<SimState> GetAllAvailableSimStates(string iccid);
+        List<SimState> GetValidTargetSimStates(string iccid, string currentState);
+        List<SubscriptionPackage> GetAvailableSubscriptionPackages(string iccid, string currentSubscription);
+        bool UpdateSimState(string iccid, string updatedState);
+        bool UpdateSubscriptionPackage(string iccid, string updatedPackage);
+        bool ReconnectTerminal(string iccid);
+        Task<bool> SendSms(string iccid, string msisdn, string smsText);
+        string GetLocale(string iccid, out IEnumerable<string> availableLocaleNames);
+        string SetLocale(string iccid, string localeName);
+        string GetLastSetLocaleServiceRequestState(string serviceRequestId);
     }
 }

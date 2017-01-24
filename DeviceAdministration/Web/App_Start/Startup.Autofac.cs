@@ -2,7 +2,6 @@
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
-using DeviceManagement.Infrustructure.Connectivity.Services;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
@@ -11,6 +10,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Help
 using Owin;
 using System.Reflection;
 using System.Web.Mvc;
+using DeviceManagement.Infrustructure.Connectivity.Services;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
@@ -81,9 +81,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
             builder.RegisterType<AlertsRepository>().As<IAlertsRepository>();
             builder.RegisterType<UserSettingsRepository>().As<IUserSettingsRepository>();
             builder.RegisterType<ApiRegistrationRepository>().As<IApiRegistrationRepository>();
+            builder.RegisterType<IccidRepository>().As<IIccidRepository>();
             builder.RegisterType<JasperCredentialsProvider>().As<ICredentialProvider>();
             builder.RegisterType<ExternalCellularService>().As<IExternalCellularService>();
-            builder.RegisterType<JasperCellularService>().As<IJasperCellularService>();
             builder.RegisterType<CellularExtensions>().As<ICellularExtensions>();
             builder.RegisterType<AzureTableStorageClientFactory>().As<IAzureTableStorageClientFactory>();
             builder.RegisterType<BlobStorageClientFactory>().As<IBlobStorageClientFactory>();
