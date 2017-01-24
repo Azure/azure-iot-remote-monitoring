@@ -9,7 +9,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
     /// <summary>
     /// Command processor to stop telemetry data
     /// </summary>
-    public class StopCommandProcessor : CommandProcessor 
+    public class StopCommandProcessor : CommandProcessor
     {
         private const string STOP_TELEMETRY = "StopTelemetry";
 
@@ -19,12 +19,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         }
 
-        public async override Task<CommandProcessingResult> HandleCommandAsync(DeserializableCommand deserializableCommand)
+        public override async Task<CommandProcessingResult> HandleCommandAsync(DeserializableCommand deserializableCommand)
         {
             if (deserializableCommand.CommandName == STOP_TELEMETRY)
             {
-                var command = deserializableCommand.Command;
-
                 try
                 {
                     var device = Device as CoolerDevice;

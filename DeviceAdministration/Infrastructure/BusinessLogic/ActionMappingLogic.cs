@@ -103,11 +103,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             await _actionMappingRepository.SaveMappingAsync(action);   
         }
 
-        public async Task<List<ActionMapping>> GetAllBareMappingsAsync()
-        {
-            return await _actionMappingRepository.GetAllMappingsAsync();
-        }
-
         public async Task<string> GetActionIdFromRuleOutputAsync(string ruleOutput)
         {
             var mappings = await _actionMappingRepository.GetAllMappingsAsync();

@@ -11,12 +11,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// </summary>
     public class ActionRepository : IActionRepository
     {
+        private readonly HttpMessageHandler _handler;
+
+        public ActionRepository(HttpMessageHandler handler = null)
+        {
+            _handler = handler;
+        }
+
         // Currently this dictionary is not editable in the app
         private Dictionary<string,string> actionIds = new Dictionary<string, string>()
          {
             { "Send Message", "" },
             { "Raise Alarm", "" }
-      };	         
+      };
+
+        public async Task<bool> AddActionEndpoint(string actionId, string endpoint)
+        {
+            return await Task.Run(() =>
+            {
+                if (actionIds.ContainsKey(actionId) && !string.IsNullOrEmpty(endpoint))
+                {
+                    actionIds[actionId] = endpoint;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+        }
 
         public async Task<List<string>> GetAllActionIdsAsync()
         {
@@ -29,7 +52,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 return await Task.Run(async () =>
                 {
-                    using (var client = new HttpClient())
+                    using (var client = _handler == null ? new HttpClient() : new HttpClient(_handler))
                     {
                         var response = await client.PostAsync(actionIds[actionId],
                             new StringContent(JsonConvert.SerializeObject(

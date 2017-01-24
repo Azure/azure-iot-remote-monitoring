@@ -30,12 +30,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public string DeviceId { get; set; }
     }
 
-    public class ParameterModel : Parameter, IValidatableObject
+    public class ParameterModel : IValidatableObject
     {
         public ParameterModel()
         {
             ErrorMessages = new List<string>();
         }
+
+        public string Name { get; set; }
+
+        public string Type { get; set; }
 
         public string Value { get; set; }
 
@@ -84,7 +88,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     {
         public static IEnumerable<ParameterModel> ToParametersModel(this List<Parameter> parameters)
         {
-            if (parameters == null || parameters[0] == null)
+            if (parameters == null || parameters.Count == 0)
             {
                 return new List<ParameterModel>();
             }

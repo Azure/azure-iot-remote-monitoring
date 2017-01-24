@@ -3,10 +3,6 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
-    /// <summary>
-    /// Interface to expose methods that can be called against the underlying device repository
-    /// to return lists of devices.
-    /// </summary>
     public interface IDeviceRegistryListRepository
     {
         /// <summary>

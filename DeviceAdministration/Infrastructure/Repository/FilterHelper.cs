@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.DeviceSchema;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
@@ -11,7 +11,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     /// <summary>
     /// Testable logic for filtering devices in DocDB
     /// </summary>
-    internal static class FilterHelper
+    public static class FilterHelper
     {
         /// <summary>
         /// Filters the device list with the supplied filters
@@ -19,8 +19,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <param name="list">Devices to filter</param>
         /// <param name="filters">Filters to apply</param>
         /// <returns>Set of devices that pass all the filters</returns>
-        public static IQueryable<dynamic> FilterDeviceList(
-            IQueryable<dynamic> list, 
+        public static IQueryable<DeviceModel> FilterDeviceList(
+            IQueryable<DeviceModel> list,
             List<FilterInfo> filters)
         {
             if (list == null)
@@ -46,8 +46,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return list;
         }
 
-        private static IQueryable<dynamic> FilterItems(
-            IQueryable<dynamic> list, 
+        private static IQueryable<DeviceModel> FilterItems(
+            IQueryable<DeviceModel> list,
             FilterInfo filter)
         {
             if (list == null)
@@ -67,44 +67,35 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     "filter");
             }
 
-            Func<dynamic, dynamic> getValue =
-                ReflectionHelper.ProducePropertyValueExtractor(
-                    filter.ColumnName, 
-                    false, 
+            Func<DeviceProperties, dynamic> getValue = ReflectionHelper.ProducePropertyValueExtractor(
+                    filter.ColumnName,
+                    false,
                     false);
 
-            Func<dynamic, bool> applyFilter =
-                (item) =>
+            Func<DeviceModel, bool> applyFilter = (item) =>
+            {
+                if (item == null)
                 {
-                    dynamic columnValue;
-                    dynamic deviceProperties;
+                    throw new ArgumentNullException("item");
+                }
 
-                    if (item == null)
-                    {
-                        throw new ArgumentNullException("item");
-                    }
+                if ((filter.FilterType == FilterType.Status) ||
+                    string.Equals(
+                        filter.ColumnName,
+                        "Status",
+                        StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return GetValueMatchesStatus(item, filter.FilterValue);
+                }
 
-                    if ((filter.FilterType == FilterType.Status) ||
-                        string.Equals(
-                            filter.ColumnName,
-                            "Status",
-                            StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        return GetValueMatchesStatus(item, filter.FilterValue);
-                    }
+                if (item.DeviceProperties == null)
+                {
+                    return false;
+                }
 
-                    try
-                    {
-                        deviceProperties = DeviceSchemaHelper.GetDeviceProperties(item);
-                    }
-                    catch (DeviceRequiredPropertyNotFoundException)
-                    {
-                        return false;
-                    }
-
-                    columnValue = getValue(deviceProperties);
-                    return GetValueSatisfiesFilter(columnValue, filter);
-                };
+                dynamic columnValue = getValue(item.DeviceProperties);
+                return GetValueSatisfiesFilter(columnValue, filter);
+            };
 
             return list.Where(applyFilter).AsQueryable();
         }
@@ -114,7 +105,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return item != null;
         }
 
-        private static bool GetValueMatchesStatus(dynamic item, string statusName)
+        private static bool GetValueMatchesStatus(DeviceModel item, string statusName)
         {
             if (item == null)
             {
@@ -126,27 +117,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 return false;
             }
 
-            string normalizedStatus = statusName.ToUpperInvariant();
-            bool? value;
-            try
-            {
-                value = DeviceSchemaHelper.GetHubEnabledState(item);
-            }
-            catch (DeviceRequiredPropertyNotFoundException)
-            {
-                value = null;
-            }
+            var normalizedStatus = statusName.ToUpperInvariant();
+            var enabledState = item.DeviceProperties?.HubEnabledState == null ? (bool?) null : item.DeviceProperties.GetHubEnabledState();
 
             switch (normalizedStatus)
             {
                 case "RUNNING":
-                    return value == true;
+                    return enabledState == true;
 
                 case "DISABLED":
-                    return value == false;
+                    return enabledState == false;
 
                 case "PENDING":
-                    return !value.HasValue;
+                    return !enabledState.HasValue;
 
                 default:
                     throw new ArgumentOutOfRangeException("statusName", statusName, "statusName has an unhandled status value.");

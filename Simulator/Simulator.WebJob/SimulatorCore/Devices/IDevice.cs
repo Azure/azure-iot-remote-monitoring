@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Telemetry;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices
@@ -18,9 +19,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         string PrimaryAuthKey { get; set; }
 
-        dynamic DeviceProperties { get; set; }
+        DeviceProperties DeviceProperties { get; set; }
 
-        dynamic Commands { get; set; }
+        List<Command> Commands { get; set; }
 
         List<ITelemetry> TelemetryEvents { get; }
 
@@ -28,10 +29,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         void Init(InitialDeviceConfig config);
 
-
         Task SendDeviceInfo();
 
-        dynamic GetDeviceInfo();
+        DeviceModel GetDeviceInfo();
 
         Task StartAsync(CancellationToken token);
     }

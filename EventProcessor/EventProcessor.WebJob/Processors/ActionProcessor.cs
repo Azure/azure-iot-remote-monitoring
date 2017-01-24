@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.ServiceBus.Messaging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -76,19 +77,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                     this.LastMessageOffset = message.Offset;
 
                     string jsonString = Encoding.UTF8.GetString(message.GetBytes());
-                    object result = JsonConvert.DeserializeObject(jsonString);
-                    JArray resultAsArray = result as JArray;
-
-                    if (resultAsArray != null)
+                    IList<ActionModel> results = JsonConvert.DeserializeObject<List<ActionModel>>(jsonString);
+                    if (results != null)
                     {
-                        foreach (dynamic item in resultAsArray)
+                        foreach (ActionModel item in results)
                         {
                             await ProcessAction(item);
                         }
-                    }
-                    else
-                    {
-                        await ProcessAction(result);
                     }
 
                     ++_totalMessages;
@@ -118,7 +113,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
             }
         }
 
-        private async Task ProcessAction(dynamic eventData)
+        private async Task ProcessAction(ActionModel eventData)
         {
             if (eventData == null)
             {
@@ -131,13 +126,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                 // NOTE: all column names from ASA come out as lowercase; see 
                 // https://social.msdn.microsoft.com/Forums/office/en-US/c79a662b-5db1-4775-ba1a-23df1310091d/azure-table-storage-account-output-property-names-are-lowercase?forum=AzureStreamAnalytics 
 
-                string deviceId = eventData.deviceid;
-                string ruleOutput = eventData.ruleoutput;
+                string deviceId = eventData.DeviceID;
+                string ruleOutput = eventData.RuleOutput;
 
                 if (ruleOutput.Equals("AlarmTemp", StringComparison.OrdinalIgnoreCase))
                 {
                     Trace.TraceInformation("ProcessAction: temperature rule triggered!");
-                    double tempReading = ExtractDouble(eventData.reading);
+                    double tempReading = eventData.Reading;
 
                     string tempActionId = await _actionMappingLogic.GetActionIdFromRuleOutputAsync(ruleOutput);
 
@@ -158,7 +153,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                 if (ruleOutput.Equals("AlarmHumidity", StringComparison.OrdinalIgnoreCase))
                 {
                     Trace.TraceInformation("ProcessAction: humidity rule triggered!");
-                    double humidityReading = ExtractDouble(eventData.reading);
+                    double humidityReading = eventData.Reading;
 
                     string humidityActionId = await _actionMappingLogic.GetActionIdFromRuleOutputAsync(ruleOutput);
 
@@ -181,18 +176,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                 Trace.TraceError("ActionProcessor: exception in ProcessAction:");
                 Trace.TraceError(e.ToString());
             }
-        }
-
-        private double ExtractDouble(dynamic value)
-        {
-            if (value == null)
-            {
-                Trace.TraceError("ActionProcessor: unable to parse null double value");
-                return -1;
-            }
-
-            string valueAsString = value.ToString();
-            return double.Parse(valueAsString, CultureInfo.CurrentCulture);
         }
 
         public Task CloseAsync(PartitionContext context, CloseReason reason)

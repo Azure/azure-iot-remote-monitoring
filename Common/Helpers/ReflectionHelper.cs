@@ -356,6 +356,55 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
         /// should be thrown if no matching property can be found.
         /// </param>
         public static void SetNamedPropertyValue(
+            object item,
+            object newValue,
+            string propertyName,
+            bool usesCaseSensitivePropertyNameMatch,
+            bool exceptionThrownIfNoMatch)
+        {
+            if (item == null)
+            {
+                throw new ArgumentNullException("item");
+            }
+
+            if (string.IsNullOrEmpty("propertyName"))
+            {
+                throw new ArgumentException("propertyName is a null reference or empty string.", "propertyName");
+            }
+
+            ICustomTypeDescriptor customProvider;
+            if ((customProvider = item as ICustomTypeDescriptor) != null)
+            {
+                SetNamedPropertyValue(
+                    customProvider,
+                    newValue,
+                    propertyName,
+                    usesCaseSensitivePropertyNameMatch,
+                    exceptionThrownIfNoMatch);
+            }
+
+            StringComparison comparisonType = StringComparison.CurrentCultureIgnoreCase;
+            if (usesCaseSensitivePropertyNameMatch)
+            {
+                comparisonType = StringComparison.CurrentCulture;
+            }
+
+            IEnumerable<PropertyInfo> matchingProps = item.GetType().GetProperties().Where(
+                    t => string.Equals(t.Name, propertyName, comparisonType));
+
+            MethodInfo methodInfo = matchingProps.Select(t => t.GetSetMethod()).FirstOrDefault(u => u != null);
+
+            if (methodInfo == default(MethodInfo))
+            {
+                if (exceptionThrownIfNoMatch)
+                {
+                    throw new ArgumentException("propertyName does not name a property on item", "propertyName");
+                }
+            }
+
+            methodInfo.Invoke(item, new object[] {newValue});
+        }
+        public static void SetNamedPropertyValue(
             ICustomTypeDescriptor item,
             object newValue,
             string propertyName,

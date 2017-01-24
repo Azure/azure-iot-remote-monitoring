@@ -3,34 +3,32 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DeviceManagement.Infrustructure.Connectivity.Exceptions;
-using DeviceManagement.Infrustructure.Connectivity.Services;
-using GlobalResources;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Extensions;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Controllers
 {
     public class AdvancedController : Controller
     {
-        private readonly IApiRegistrationRepository _apiRegistrationRepository;
-        private readonly IExternalCellularService _cellularService;
-        private readonly IDeviceLogic _deviceLogic;
         private const string CellularInvalidCreds = "400200";
         private const string CellularInvalidLicense = "400100";
 
+        private readonly IApiRegistrationRepository _apiRegistrationRepository;
+        private readonly ICellularExtensions _cellularExtensions;
+        private readonly IDeviceLogic _deviceLogic;
+
         public AdvancedController(IDeviceLogic deviceLogic,
-            IExternalCellularService cellularService,
-            IApiRegistrationRepository apiRegistrationRepository)
+            IApiRegistrationRepository apiRegistrationRepository,
+            ICellularExtensions cellularExtensions)
         {
             _deviceLogic = deviceLogic;
-            _cellularService = cellularService;
             _apiRegistrationRepository = apiRegistrationRepository;
+            _cellularExtensions = cellularExtensions;
         }
 
         [RequirePermission(Permission.CellularConn)]
@@ -53,15 +51,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         public async Task<PartialViewResult> DeviceAssociation()
         {
-            var devices = await GetDevices();
+            IList<DeviceModel> devices = await GetDevices();
 
             try
             {
                 if (_apiRegistrationRepository.IsApiRegisteredInAzure())
                 {
                     ViewBag.HasRegistration = true;
-                    ViewBag.UnassignedIccidList = _cellularService.GetListOfAvailableIccids(devices);
-                    ViewBag.UnassignedDeviceIds = _cellularService.GetListOfAvailableDeviceIDs(devices);
+                    ViewBag.UnassignedIccidList = _cellularExtensions.GetListOfAvailableIccids(devices);
+                    ViewBag.UnassignedDeviceIds = _cellularExtensions.GetListOfAvailableDeviceIDs(devices);
                 }
                 else
                 {
@@ -98,7 +96,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 throw new ArgumentNullException();
             }
 
-            var device = await _deviceLogic.GetDeviceAsync(deviceId);
+            DeviceModel device = await _deviceLogic.GetDeviceAsync(deviceId);
             device.SystemProperties.ICCID = iccid;
             await _deviceLogic.UpdateDeviceAsync(device);
         }
@@ -109,15 +107,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 var registrationModel = _apiRegistrationRepository.RecieveDetails();
 
-                if(registrationModel.ApiRegistrationProvider != apiModel.ApiRegistrationProvider)
+                if (registrationModel.ApiRegistrationProvider != apiModel.ApiRegistrationProvider)
                 {
                     // TODO
                     // unregister the API and any connected devices
                 }
 
-                _apiRegistrationRepository.AmendRegistration(apiModel);             
+                _apiRegistrationRepository.AmendRegistration(apiModel);
 
-                var credentialsAreValid = _cellularService.ValidateCredentials(apiModel.ApiRegistrationProvider.ConvertToExternalEnum());
+                var credentialsAreValid = _cellularExtensions.ValidateCredentials(apiModel.ApiRegistrationProvider);
                 if (!credentialsAreValid)
                 {
                     _apiRegistrationRepository.DeleteApiDetails();
@@ -149,7 +147,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View();
         }
 
-        private async Task<List<dynamic>> GetDevices()
+        private async Task<List<DeviceModel>> GetDevices()
         {
             var query = new DeviceListQuery
             {
