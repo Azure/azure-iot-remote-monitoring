@@ -90,19 +90,35 @@
         </h4>
 
         <div>
-            @foreach (var tag in Model.UpdateTwin.Tags.AsEnumerableFlatten())
+            @foreach (var tag in Model.UpdateTwin.Tags.AsEnumerableFlatten("tags.", false))
             {
             <ul class="job_result_section__twin_list">
-                <li>tags.@tag.Key</li>
-                <li>@tag.Value.Value</li>
+                @if (tag.Value.Value.Type != Newtonsoft.Json.Linq.JTokenType.Null)
+                {
+                    <li>@tag.Key</li>
+                    <li>@tag.Value.Value.Value</li>
+                }
+                else
+                {
+                    <li class="job_result_section__twin_list_crossline">@tag.Key</li>
+                    <li></li>
+                }
             </ul>
             }
 
-            @foreach (var property in Model.UpdateTwin.Properties.Desired.AsEnumerableFlatten())
+            @foreach (var property in Model.UpdateTwin.Properties.Desired.AsEnumerableFlatten("desired.", false))
             {
             <ul class="job_result_section__twin_list">
-                <li>desired.@property.Key</li>
-                <li>@property.Value.Value</li>
+                @if (property.Value.Value.Type != Newtonsoft.Json.Linq.JTokenType.Null)
+                {
+                    <li>@property.Key</li>
+                    <li>@property.Value.Value.Value</li>
+                }
+                else
+                {
+                    <li class="job_result_section__twin_list_crossline">@property.Key</li>
+                    <li></li>
+                }
             </ul>
             }
         </div>

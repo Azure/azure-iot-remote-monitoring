@@ -50,6 +50,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
         }
 
         [Fact]
+        public void AsEnumerableFlattenWithNullValueTest()
+        {
+            var twin = BuildRetrievedTwin();
+            var tags = twin.Tags.AsEnumerableFlatten("", false).ToArray();
+
+            Assert.Equal(tags[8].Key, "DeletedName");
+            Assert.Equal(tags[8].Value.Value.Type, JTokenType.Null);
+            Assert.Equal((string)tags[8].Value.Value.Value, null);
+
+            var desired = twin.Properties.Desired.AsEnumerableFlatten("", false).ToArray();
+            Assert.Equal(desired[4].Key, "DeletedName");
+            Assert.Equal(desired[4].Value.Value.Type, JTokenType.Null);
+            Assert.Equal((string)desired[4].Value.Value.Value, null);
+        }
+
+        [Fact]
         public void GetTest()
         {
             var twin = BuildRetrievedTwin();
@@ -114,6 +130,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
             };
 
             twin.Tags["DisplayName"] = "Device001";
+            twin.Tags["DeletedName"] = null;
 
             var build = new TwinCollection();
             build["Year"] = 2016;
@@ -124,6 +141,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
             version["Minor"] = 0;
             version["Build"] = build;
             twin.Properties.Desired["FirmwareVersion"] = version;
+            twin.Properties.Desired["DeletedName"] = null;
 
             return JsonConvert.DeserializeObject<Twin>(twin.ToJson());
         }

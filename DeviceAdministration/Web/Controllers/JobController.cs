@@ -48,14 +48,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             var jobResponse = await _iotHubDeviceManager.GetJobResponseByJobIdAsync(jobId);
 
-            var result = new DeviceJobModel(jobResponse);
-            var t = await GetJobDetailsAsync(result);
-            result.JobName = t.Item1;
-            result.FilterId = t.Item2;
-            result.FilterName = t.Item3;
-            result.OperationType = t.Item4;
+            var job = new DeviceJobModel(jobResponse);
+            await AddMoreDetailsToJobAsync(job);
 
-            return PartialView("_JobProperties", result);
+            return PartialView("_JobProperties", job);
         }
 
         [RequirePermission(Permission.ViewJobs)]
@@ -328,10 +324,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             }
         }
 
-        private async Task<Tuple<string, string, string, string>> GetJobDetailsAsync(DeviceJobModel job)
+        private async Task AddMoreDetailsToJobAsync(DeviceJobModel job)
         {
             Task<JobRepositoryModel> queryJobTask = _jobRepository.QueryByJobIDAsync(job.JobId);
-            return await DeviceJobHelper.GetJobDetailsAsync(job, queryJobTask);
+            await DeviceJobHelper.AddMoreDetailsToJobAsync(job, queryJobTask);
         }
 
         private async Task<DeviceListFilter> GetFilterById(string filterId)

@@ -30,44 +30,44 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.He
             _queryJobTask = Task.Run(() =>
                 new JobRepositoryModel("jobId", "filterId", "jobName", "filterName", ExtendJobType.ScheduleUpdateTwin, null));
 
-            var result = await DeviceJobHelper.GetJobDetailsAsync(_job, _queryJobTask);
-            Assert.Equal("jobName", result.Item1);
-            Assert.Equal("filterId", result.Item2);
-            Assert.Equal("filterName", result.Item3);
-            Assert.Equal(ExtendJobType.ScheduleUpdateTwin.LocalizedString(), result.Item4);
+            await DeviceJobHelper.AddMoreDetailsToJobAsync(_job, _queryJobTask);
+            Assert.Equal("jobName", _job.JobName);
+            Assert.Equal("filterId", _job.FilterId);
+            Assert.Equal("filterName", _job.FilterName);
+            Assert.Equal(ExtendJobType.ScheduleUpdateTwin.LocalizedString(), _job.OperationType);
 
             _queryJobTask = Task.Run(() =>
                 new JobRepositoryModel("jobId", "filterId", "jobName", "", ExtendJobType.ScheduleUpdateIcon, null));
-            result = await DeviceJobHelper.GetJobDetailsAsync(_job, _queryJobTask);
-            Assert.Equal("jobName", result.Item1);
-            Assert.Equal("filterId", result.Item2);
-            Assert.Equal(_job.QueryCondition, result.Item3);
-            Assert.Equal(ExtendJobType.ScheduleUpdateIcon.LocalizedString(), result.Item4);
+            await DeviceJobHelper.AddMoreDetailsToJobAsync(_job, _queryJobTask);
+            Assert.Equal("jobName", _job.JobName);
+            Assert.Equal("filterId", _job.FilterId);
+            Assert.Equal(_job.QueryCondition, _job.FilterName);
+            Assert.Equal(ExtendJobType.ScheduleUpdateIcon.LocalizedString(), _job.OperationType);
 
             _queryJobTask = Task.Run(() =>
                 new JobRepositoryModel("jobId", "filterId", "jobName", "*", ExtendJobType.ScheduleUpdateIcon, null));
-            result = await DeviceJobHelper.GetJobDetailsAsync(_job, _queryJobTask);
-            Assert.Equal("jobName", result.Item1);
-            Assert.Equal("filterId", result.Item2);
-            Assert.Equal(Strings.AllDevices, result.Item3);
-            Assert.Equal(ExtendJobType.ScheduleUpdateIcon.LocalizedString(), result.Item4);
+            await DeviceJobHelper.AddMoreDetailsToJobAsync(_job, _queryJobTask);
+            Assert.Equal("jobName", _job.JobName);
+            Assert.Equal("filterId", _job.FilterId);
+            Assert.Equal(Strings.AllDevices, _job.FilterName);
+            Assert.Equal(ExtendJobType.ScheduleUpdateIcon.LocalizedString(), _job.OperationType);
 
             _job.QueryCondition = null;
             _queryJobTask = Task.Run(() =>
                 new JobRepositoryModel("jobId", "filterId", "jobName", "", ExtendJobType.ScheduleRemoveIcon, null));
-            result = await DeviceJobHelper.GetJobDetailsAsync(_job, _queryJobTask);
-            Assert.Equal("jobName", result.Item1);
-            Assert.Equal("filterId", result.Item2);
-            Assert.Equal(Strings.NotApplicableValue, result.Item3);
-            Assert.Equal(ExtendJobType.ScheduleRemoveIcon.LocalizedString(), result.Item4);
+            await DeviceJobHelper.AddMoreDetailsToJobAsync(_job, _queryJobTask);
+            Assert.Equal("jobName", _job.JobName);
+            Assert.Equal("filterId", _job.FilterId);
+            Assert.Equal(Strings.NotApplicableValue, _job.FilterName);
+            Assert.Equal(ExtendJobType.ScheduleRemoveIcon.LocalizedString(), _job.OperationType);
 
             _queryJobTask = Task.Run(() =>
                 new JobRepositoryModel("jobId", "filterId", null, "", ExtendJobType.ScheduleRemoveIcon, null));
-            result = await DeviceJobHelper.GetJobDetailsAsync(_job, _queryJobTask);
-            Assert.Equal(Strings.NotApplicableValue, result.Item1);
-            Assert.Equal("filterId", result.Item2);
-            Assert.Equal(Strings.NotApplicableValue, result.Item3);
-            Assert.Equal(ExtendJobType.ScheduleRemoveIcon.LocalizedString(), result.Item4);
+            await DeviceJobHelper.AddMoreDetailsToJobAsync(_job, _queryJobTask);
+            Assert.Equal(Strings.NotApplicableValue, _job.JobName);
+            Assert.Equal("filterId", _job.FilterId);
+            Assert.Equal(Strings.NotApplicableValue, _job.FilterName);
+            Assert.Equal(ExtendJobType.ScheduleRemoveIcon.LocalizedString(), _job.OperationType);
         }
     }
 }
