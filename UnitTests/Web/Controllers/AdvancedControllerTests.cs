@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using DeviceManagement.Infrustructure.Connectivity.Exceptions;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Constants;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
@@ -12,7 +13,6 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Help
 using Moq;
 using Ploeh.AutoFixture;
 using Xunit;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Constants;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
 {
@@ -65,6 +65,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             var queryResMock = _fixture.Create<DeviceListQueryResult>();
             var iccids = _fixture.Create<List<string>>();
             var deviceIds = _fixture.Create<List<string>>();
+            var regModel = _fixture.Create<ApiRegistrationModel>();
+            regModel.ApiRegistrationProvider = ApiRegistrationProviderTypes.Jasper;
+
             _deviceLogicMock
                 .Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>()))
                 .ReturnsAsync(queryResMock);
@@ -72,6 +75,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             _apiRegistrationRepositoryMock
                 .Setup(mock => mock.IsApiRegisteredInAzure())
                 .Returns(true);
+
+            _apiRegistrationRepositoryMock
+                .Setup(mock => mock.RecieveDetails())
+                .Returns(regModel);
 
             _cellularExtensionMock
                 .Setup(mock => mock.GetListOfAvailableIccids(It.IsAny<List<DeviceModel>>(), ApiRegistrationProviderTypes.Jasper))
@@ -82,21 +89,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
                 .Returns(deviceIds);
 
             var result = await _advancedController.DeviceAssociation();
-            var viewBag = result.ViewBag;
-            Assert.True(viewBag.HasRegistration);
-            Assert.Equal(viewBag.UnassignedIccidList, iccids);
-            Assert.Equal(viewBag.UnassignedDeviceIds, deviceIds);
+            var model = result.Model as DeviceAssociationModel;
+            Assert.True(model.HasRegistration);
+            Assert.Equal(model.UnassignedIccidList, iccids);
+            Assert.Equal(model.UnassignedDeviceIds, deviceIds);
 
             _apiRegistrationRepositoryMock.Setup(mock => mock.IsApiRegisteredInAzure()).Returns(false);
             result = await _advancedController.DeviceAssociation();
-            viewBag = result.ViewBag;
-            Assert.False(viewBag.HasRegistration);
+            model = result.Model as DeviceAssociationModel;
+            Assert.False(model.HasRegistration);
 
             _apiRegistrationRepositoryMock.Setup(mock => mock.IsApiRegisteredInAzure())
                 .Throws(new CellularConnectivityException(new Exception()));
             result = await _advancedController.DeviceAssociation();
-            viewBag = result.ViewBag;
-            Assert.False(viewBag.HasRegistration);
+            model = result.Model as DeviceAssociationModel;
+            Assert.False(model.HasRegistration);
         }
 
         [Fact]
@@ -140,28 +147,29 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             var apiRegModel = _fixture.Create<ApiRegistrationModel>();
             _apiRegistrationRepositoryMock.Setup(mock => mock.AmendRegistration(apiRegModel)).Returns(true);
             _cellularExtensionMock.Setup(mock => mock.GetTerminals()).Returns(new List<Iccid>());
+            _cellularExtensionMock.Setup(mock => mock.ValidateCredentials()).Returns(true);
             var result = await _advancedController.SaveRegistration(apiRegModel);
             Assert.True(result);
 
             var ex = new Exception("The remote name could not be resolved");
-            _cellularExtensionMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
+            _cellularExtensionMock.Setup(mock => mock.ValidateCredentials()).Throws(new CellularConnectivityException(ex));
             result = await _advancedController.SaveRegistration(apiRegModel);
             Assert.False(result);
 
             ex = new Exception("400200");
-            _cellularExtensionMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
+            _cellularExtensionMock.Setup(mock => mock.ValidateCredentials()).Throws(new CellularConnectivityException(ex));
             result = await _advancedController.SaveRegistration(apiRegModel);
             Assert.False(result);
 
             ex = new Exception("400100");
-            _cellularExtensionMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
+            _cellularExtensionMock.Setup(mock => mock.ValidateCredentials()).Throws(new CellularConnectivityException(ex));
             result = await _advancedController.SaveRegistration(apiRegModel);
             Assert.False(result);
 
             ex = new Exception("message");
-            _cellularExtensionMock.Setup(mock => mock.GetTerminals()).Throws(new CellularConnectivityException(ex));
+            _cellularExtensionMock.Setup(mock => mock.ValidateCredentials()).Throws(new CellularConnectivityException(ex));
             result = await _advancedController.SaveRegistration(apiRegModel);
-            Assert.True(result);
+            Assert.False(result);
         }
     }
 }
