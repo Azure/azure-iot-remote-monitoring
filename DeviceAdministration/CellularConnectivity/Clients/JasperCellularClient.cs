@@ -210,9 +210,13 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                     {
                         Name = JasperApiConstants.TerminalStates.DEACTIVATED_LABEL,
                         Id = JasperApiConstants.TerminalStates.DEACTIVATED_CODE
+                    },
+                    new SimState()
+                    {
+                        Name = currentStateId,
+                        Id = currentStateId
                     }
                 };
-
             }
             catch (Exception e)
             {
