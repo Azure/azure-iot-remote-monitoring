@@ -197,9 +197,7 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
         public List<SimState> GetAvailableSimStates(string iccid, string currentStateId = null)
         {
             List<SimState> simStates;
-            try
-            {
-                simStates = new List<SimState>()
+            simStates = new List<SimState>()
                 {
                     new SimState()
                     {
@@ -213,14 +211,28 @@ namespace DeviceManagement.Infrustructure.Connectivity.Clients
                     },
                     new SimState()
                     {
-                        Name = currentStateId,
-                        Id = currentStateId
+                        Name = JasperApiConstants.TerminalStates.ACTIVATION_READY_LABEL,
+                        Id = JasperApiConstants.TerminalStates.ACTIVATION_READY_CODE
+                    },
+                    new SimState()
+                    {
+                        Name = JasperApiConstants.TerminalStates.INVENTORY_LABEL,
+                        Id = JasperApiConstants.TerminalStates.INVENTORY_CODE
+                    },
+                    new SimState()
+                    {
+                        Name = JasperApiConstants.TerminalStates.RETIRED_LABEL,
+                        Id = JasperApiConstants.TerminalStates.RETIRED_CODE
                     }
                 };
-            }
-            catch (Exception e)
+
+            if (!simStates.Select(simState => currentStateId == simState.Id).Any())
             {
-                throw new CellularConnectivityException(e);
+                simStates.Add(new SimState()
+                    {
+                        Name = currentStateId,
+                        Id = currentStateId
+                    });
             }
 
             return simStates.Select(simState => new SimState()
