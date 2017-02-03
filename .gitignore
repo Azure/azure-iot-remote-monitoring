@@ -208,3 +208,4 @@ VendingMachineSample/packages/*
 /RemoteMonitoring.VC.VC.opendb
 /Simulator/Simulator.WebJob/DMSimulator.exe
 /pingme.txt
+*.powerbirc
