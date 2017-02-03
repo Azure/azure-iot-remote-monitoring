@@ -41,6 +41,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             OperationType = wrappedJobResponse.Type.LocalizedString();
             StartTime = wrappedJobResponse.StartTime;
             EndTime = wrappedJobResponse.EndTime;
+            UpdateTwin = wrappedJobResponse.UpdateTwin;
         }
 
         public string JobId { get; set; }

@@ -11,40 +11,36 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 {
     public class DeviceJobHelper
     {
-        public static async Task<Tuple<string, string, string, string>> GetJobDetailsAsync(DeviceJobModel job, Task<JobRepositoryModel> queryJobRepositoryTask)
+        public static async Task AddMoreDetailsToJobAsync(DeviceJobModel job, Task<JobRepositoryModel> queryJobRepositoryTask)
         {
             try
             {
                 JobRepositoryModel repositoryModel = await queryJobRepositoryTask;
 
-                string filterId = repositoryModel.FilterId;
-                string jobType = string.Empty;
-                // The Extended JobType is missing in the table, use the origin JobType
-                if (repositoryModel.JobType == ExtendJobType.Unknown)
-                {
-                    jobType = job.OperationType;
-                }
-                else
-                {
-                    jobType = repositoryModel.JobType.LocalizedString();
-                }
+                job.JobName = repositoryModel.JobName ?? Strings.NotApplicableValue;
+                job.FilterId = repositoryModel.FilterId;
 
                 string filterName = repositoryModel.FilterName;
                 if (string.IsNullOrEmpty(filterName))
                 {
                     filterName = job.QueryCondition ?? Strings.NotApplicableValue;
                 }
-                if (filterName == "*" || DeviceListFilterRepository.DefaultDeviceListFilter.Id.Equals(filterId))
+                if (filterName == "*" || DeviceListFilterRepository.DefaultDeviceListFilter.Id.Equals(job.FilterId))
                 {
                     filterName = Strings.AllDevices;
                 }
+                job.FilterName = filterName;
 
-                return Tuple.Create(repositoryModel.JobName ?? Strings.NotApplicableValue, filterId, filterName, jobType);
+                if (repositoryModel.JobType != ExtendJobType.Unknown)
+                {
+                    job.OperationType = repositoryModel.JobType.LocalizedString();
+                }
             }
             catch
             {
-                string externalJobName = string.Format(Strings.ExternalJobNamePrefix, job.JobId);
-                return Tuple.Create(externalJobName, string.Empty, job.QueryCondition ?? Strings.NotApplicableValue, job.OperationType);
+                job.JobName = string.Format(Strings.ExternalJobNamePrefix, job.JobId);
+                job.FilterId = string.Empty;
+                job.FilterName = job.QueryCondition ?? Strings.NotApplicableValue;
             }
         }
     }

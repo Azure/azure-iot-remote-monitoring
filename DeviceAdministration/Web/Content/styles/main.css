@@ -2100,12 +2100,15 @@ table#alertHistoryTable tr.selectedAlert {
   padding-bottom: 1em;
 }
 .job_result_section__twin_list {
-  font-size: 0.75em;
+  font-size: 1em;
   list-style-type: none;
   columns: 2;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.job_result_section__twin_list_crossline {
+  text-decoration: line-through;
 }
 .job_result_section__device_list {
   display: inline-flex;

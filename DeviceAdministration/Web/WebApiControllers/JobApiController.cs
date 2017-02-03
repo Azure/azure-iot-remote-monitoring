@@ -36,20 +36,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 var jobResponses = await _iotHubDeviceManager.GetJobResponsesAsync();
 
-                var result = jobResponses.Select(r => new DeviceJobModel(r)).OrderByDescending(j => j.StartTime).ToList();
-                foreach(var job in result)
-                {
-                    var tuple = await GetJobDetailsAsync(job);
-                    job.JobName = tuple.Item1;
-                    job.FilterId = tuple.Item2;
-                    job.FilterName = tuple.Item3;
-                    job.OperationType = tuple.Item4;
-                };
+                var sortedJobs = jobResponses.Select(r => new DeviceJobModel(r)).OrderByDescending(j => j.StartTime).ToList();
+                var tasks = sortedJobs.Select(job => AddMoreDetailsToJobAsync(job));
+                await Task.WhenAll(tasks);
 
                 var dataTablesResponse = new DataTablesResponse<DeviceJobModel>()
                 {
-                    RecordsTotal = result.Count,
-                    Data = result.ToArray()
+                    RecordsTotal = sortedJobs.Count,
+                    Data = sortedJobs.ToArray()
                 };
 
                 return await Task.FromResult(dataTablesResponse);
@@ -83,10 +77,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             });
         }
 
-        private async Task<Tuple<string, string, string, string>> GetJobDetailsAsync(DeviceJobModel job)
+        private async Task AddMoreDetailsToJobAsync(DeviceJobModel job)
         {
             Task<JobRepositoryModel> queryJobTask = _jobRepository.QueryByJobIDAsync(job.JobId);
-            return await DeviceJobHelper.GetJobDetailsAsync(job, queryJobTask);
+            await DeviceJobHelper.AddMoreDetailsToJobAsync(job, queryJobTask);
         }
     }
 }

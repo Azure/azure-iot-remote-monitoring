@@ -270,11 +270,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 clauseType = ClauseType.EQ;
             }
+
+            TwinDataType clauseDataType;
+            try
+            {
+                Enum.TryParse(entity.ClauseDataType, out clauseDataType);
+            }
+            catch
+            {
+                clauseDataType = TwinDataType.String;
+            }
+
             return new Clause
             {
                 ColumnName = entity.ColumnName,
                 ClauseType = clauseType,
-                ClauseValue = entity.ClauseValue
+                ClauseValue = entity.ClauseValue,
+                ClauseDataType = clauseDataType,
             };
         }
     }

@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [Route("")]
         [WebApiRequirePermission(Permission.ViewDevices)]
         //api/v1/filters
-        public async Task<HttpResponseMessage> GetRecentFilters(int max=3)
+        public async Task<HttpResponseMessage> GetRecentFilters(int max = 10)
         {
             return await GetServiceResponseAsync<IEnumerable<Filter>>(async () =>
             {
@@ -104,7 +104,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         [HttpGet]
         [Route("~/api/v1/suggestedClauses")]
         [WebApiRequirePermission(Permission.ViewDevices)]
-        public async Task<HttpResponseMessage> GetSuggestClauses([FromUri]int skip = 0, [FromUri]int take = 1000)
+        public async Task<HttpResponseMessage> GetSuggestClauses([FromUri]int skip = 0, [FromUri]int take = 15)
         {
             return await GetServiceResponseAsync<IEnumerable<Clause>>(async () =>
             {
