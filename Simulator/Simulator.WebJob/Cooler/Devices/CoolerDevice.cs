@@ -30,8 +30,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             ITelemetryFactory telemetryFactory, IConfigurationProvider configurationProvider)
             : base(logger, transportFactory, telemetryFactory, configurationProvider)
         {
-            _desiredPropertyUdateHandlers.Add(SetPointTempPropertyName, OnSetPointTempUpdate);
-            _desiredPropertyUdateHandlers.Add(TelemetryIntervalPropertyName, OnTelemetryIntervalUpdate);
+            _desiredPropertyUpdateHandlers.Add(SetPointTempPropertyName, OnSetPointTempUpdate);
+            _desiredPropertyUpdateHandlers.Add(TelemetryIntervalPropertyName, OnTelemetryIntervalUpdate);
         }
 
         /// <summary>
@@ -255,24 +255,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         private MethodResponse BuildMethodRespose(object response, int status = 200)
         {
             return BuildMethodRespose(JsonConvert.SerializeObject(response), status);
-        }
-
-        private async Task SetReportedPropertyAsync(string name, dynamic value)
-        {
-            var collection = new TwinCollection();
-            TwinCollectionExtension.Set(collection, name, value);
-            await Transport.UpdateReportedPropertiesAsync(collection);
-        }
-
-        private async Task SetReportedPropertyAsync(Dictionary<string, dynamic> pairs)
-        {
-            var collection = new TwinCollection();
-            foreach (var pair in pairs)
-            {
-                TwinCollectionExtension.Set(collection, pair.Key, pair.Value);
-            }
-            await Transport.UpdateReportedPropertiesAsync(collection);
-        }
+        }        
 
         protected async Task OnSetPointTempUpdate(object value)
         {

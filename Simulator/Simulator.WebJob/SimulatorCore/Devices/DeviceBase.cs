@@ -32,6 +32,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public const string ConfigurationVersionPropertyName = "System.ConfigurationVersion";
         public const string SetPointTempPropertyName = "Config.SetPointTemp";
         public const string TelemetryIntervalPropertyName = "Config.TelemetryInterval";
+        public const string LastDesiredPropertyChangePropertyName = "Device.LastDesiredPropertyChange";
 
         // pointer to the currently executing event group
         private int _currentEventGroup = 0;
@@ -89,7 +90,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             { "Longitude", "Device.Location.Longitude" }
         };
 
-        protected Dictionary<string, Func<object, Task>> _desiredPropertyUdateHandlers = new Dictionary<string, Func<object, Task>>();
+        protected Dictionary<string, Func<object, Task>> _desiredPropertyUpdateHandlers = new Dictionary<string, Func<object, Task>>();
 
         /// <summary>
         /// 
@@ -287,6 +288,41 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                         if (command == null)
                         {
+                            var twin = await Transport.GetTwinAsync();
+                            var reported = twin.Properties.Reported.AsEnumerableFlatten().ToDictionary(
+                                pair => pair.Key,
+                                pair => pair.Value.Value.Value);
+
+                            foreach (var pair in twin.Properties.Desired.AsEnumerableFlatten())
+                            {
+                                object desiredValue = pair.Value.Value.Value;
+                                object reportedValue;
+
+                                if (reported.TryGetValue(pair.Key, out reportedValue))
+                                {
+                                    if (reportedValue.ToString() == desiredValue.ToString())
+                                    {
+                                        continue;
+                                    }
+                                }
+
+                                Func<object, Task> handler;
+                                if (_desiredPropertyUpdateHandlers.TryGetValue(pair.Key, out handler))
+                                {
+                                    try
+                                    {
+                                        Logger.LogWarning($"Found out-of-date desired property. Calling update handler");
+                                        await handler(pair.Value.Value.Value);
+                                        Logger.LogInfo($"Successfully called desired property update handler {handler.Method.Name} on {DeviceID}");
+                                        return;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Logger.LogError($"Exception raised while processing desired property {pair.Key} change on device {DeviceID}: {ex.Message}");
+                                    }
+                                }
+                            }
+
                             continue;
                         }
 
@@ -324,8 +360,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                             "Device: {1}{0}Command: {2}{0}Lock token: {3}{0}Error Type: {4}{0}Exception: {5}{0}",
                             Console.Out.NewLine,
                             DeviceID,
-                            command.CommandName,
-                            command.LockToken,
+                            command?.CommandName,
+                            command?.LockToken,
                             ex.IsTransient ? "Transient Error" : "Non-transient Error",
                             ex.ToString());
                     }
@@ -337,13 +373,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                             "Device: {1}{0}Command: {2}{0}Lock token: {3}{0}Exception: {4}{0}",
                             Console.Out.NewLine,
                             DeviceID,
-                            command.CommandName,
-                            command.LockToken,
+                            command?.CommandName,
+                            command?.LockToken,
                             ex.ToString());
                     }
 
-                    if ((command != null) &&
-                        (exception != null))
+                    if (command != null && exception != null)
                     {
                         await Transport.SignalAbandonedCommand(command);
                     }
@@ -355,7 +390,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             }
             catch (Exception ex)
             {
-                Logger.LogError($"Exception raised while starting device receive loop {DeviceID}: {ex.Message}");
+                Logger.LogError($"Exception raised while starting device receive loop {DeviceID}: {ex}");
             }
 
             Logger.LogInfo("********** Processing Device {0} has been cancelled - StartReceiveLoopAsync Ending. **********", DeviceID);
@@ -498,21 +533,47 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             Transport.SetDesiredPropertyUpdateCallback(OnDesiredPropertyUpdate);
         }
 
+        protected async Task SetReportedPropertyAsync(string name, dynamic value)
+        {
+            var collection = new TwinCollection();
+            TwinCollectionExtension.Set(collection, name, value);
+            await Transport.UpdateReportedPropertiesAsync(collection);
+        }
+
+        protected async Task SetReportedPropertyAsync(Dictionary<string, dynamic> pairs)
+        {
+            var collection = new TwinCollection();
+            foreach (var pair in pairs)
+            {
+                TwinCollectionExtension.Set(collection, pair.Key, pair.Value);
+            }
+            await Transport.UpdateReportedPropertiesAsync(collection);
+        }
+
         public async Task OnDesiredPropertyUpdate(TwinCollection desiredProperties, object userContext)
         {
+            await SetReportedPropertyAsync(LastDesiredPropertyChangePropertyName, desiredProperties.ToJson());
+            Logger.LogInfo($"{DeviceID} received desired property update: {desiredProperties.ToJson()}");
+
             foreach (var pair in desiredProperties.AsEnumerableFlatten())
             {
                 Func<object, Task> handler;
-                if (_desiredPropertyUdateHandlers.TryGetValue(pair.Key, out handler))
+                if (_desiredPropertyUpdateHandlers.TryGetValue(pair.Key, out handler))
                 {
                     try
                     {
                         await handler(pair.Value.Value.Value);
+                        Logger.LogInfo($"Successfully called desired property update handler {handler.Method.Name} on {DeviceID}");
+                        return;
                     }
                     catch (Exception ex)
                     {
                         Logger.LogError($"Exception raised while processing desired property {pair.Key} change on device {DeviceID}: {ex.Message}");
                     }
+                }
+                else
+                {
+                    Logger.LogWarning($"Cannot find desired property update handler for {pair.Key} on {DeviceID}");
                 }
             }
         }
