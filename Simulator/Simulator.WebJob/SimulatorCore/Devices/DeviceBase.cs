@@ -85,8 +85,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             { "Platform", "System.Platform" },
             { "Processor", "System.Processor" },
             { "InstalledRAM", "System.InstalledRAM" },
-            { "Latitude", "Location.Latitude" },
-            { "Longitude", "Location.Longitude" }
+            { "Latitude", "Device.Location.Latitude" },
+            { "Longitude", "Device.Location.Longitude" }
         };
 
         protected Dictionary<string, Func<object, Task>> _desiredPropertyUdateHandlers = new Dictionary<string, Func<object, Task>>();
