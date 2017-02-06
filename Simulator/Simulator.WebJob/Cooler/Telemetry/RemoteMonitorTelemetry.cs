@@ -8,13 +8,13 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Telemetry
 {
-    public class RemoteMonitorTelemetry : ITelemetry, ITelemetryWithInterval, ITelemetryWithSetPointTemperature
+    public class RemoteMonitorTelemetry : ITelemetry, ITelemetryWithInterval, ITelemetryWithSetPointTemperature, ITelemetryFactoryResetSupport
     {
         private readonly ILogger _logger;
         private readonly string _deviceId;
 
-        private const int REPORT_FREQUENCY_IN_SECONDS = 5;
-        private const int PEAK_FREQUENCY_IN_SECONDS = 90;
+        private const uint REPORT_FREQUENCY_IN_SECONDS = 5;
+        private const uint PEAK_FREQUENCY_IN_SECONDS = 90;
 
         private SampleDataGenerator _temperatureGenerator;
         private SampleDataGenerator _humidityGenerator;
@@ -22,13 +22,32 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         public bool ActivateExternalTemperature { get; set; }
 
-        public bool TelemetryActive { get; set; }
+        private bool _telemetryActive;
+
+        public bool TelemetryActive
+        {
+            get
+            {
+                return _telemetryActive;
+            }
+
+            set
+            {
+                _telemetryActive = value;
+                _telemetryIntervalInSeconds = _telemetryActive ? REPORT_FREQUENCY_IN_SECONDS : 0;
+            }
+        }
 
         public RemoteMonitorTelemetry(ILogger logger, string deviceId)
         {
             _logger = logger;
             _deviceId = deviceId;
 
+            Reset();
+        }
+
+        private void Reset()
+        {
             ActivateExternalTemperature = false;
             TelemetryActive = true;
 
@@ -73,7 +92,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             }
         }
 
-        public int TelemetryIntervalInSeconds { get; set; }
+        private uint _telemetryIntervalInSeconds;
+
+        public uint TelemetryIntervalInSeconds
+        {
+            get
+            {
+                return _telemetryIntervalInSeconds;
+            }
+
+            set
+            {
+                _telemetryIntervalInSeconds = value;
+                _telemetryActive = _telemetryIntervalInSeconds > 0;
+            }
+        }
 
         public double SetPointTemperature
         {
@@ -86,6 +119,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             {
                 _temperatureGenerator.ShiftSubsequentData(value);
             }
+        }
+
+        public void FactoryReset()
+        {
+            Reset();
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.CommandProcessors;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Telemetry;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors;
@@ -14,7 +13,6 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Telemetry.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
 using Microsoft.Azure.Devices.Client;
-using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices
@@ -187,7 +185,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 { LogPath, "Rebooting"}
             });
 
-            await Task.Delay(TimeSpan.FromSeconds(10));
+            await Task.Delay(TimeSpan.FromSeconds(20));
 
             await SetReportedPropertyAsync(new Dictionary<string, dynamic>
             {
@@ -218,6 +216,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             await Task.Delay(TimeSpan.FromSeconds(10));
 
+            var factoryResetSupport = _telemetryController as ITelemetryFactoryResetSupport;
+            if (factoryResetSupport != null)
+            {
+                factoryResetSupport.FactoryReset();
+                await UpdateReportedSetPointTempUpdate();
+                await UpdateReportedTelemetryInterval();
+            }
+
             await SetReportedPropertyAsync(new Dictionary<string, dynamic>
             {
                 { LogPath, "Reset" },
@@ -238,6 +244,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public async Task<MethodResponse> OnStartTelemetry(MethodRequest methodRequest, object userContext)
         {
             bool lastStatus = StartTelemetryData();
+            await UpdateReportedTelemetryInterval();
 
             return await Task.FromResult(BuildMethodRespose(new
             {
@@ -248,6 +255,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public async Task<MethodResponse> OnStopTelemetry(MethodRequest methodRequest, object userContext)
         {
             bool lastStatus = StopTelemetryData();
+            await UpdateReportedTelemetryInterval();
 
             return await Task.FromResult(BuildMethodRespose(new
             {
@@ -263,22 +271,46 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         private MethodResponse BuildMethodRespose(object response, int status = 200)
         {
             return BuildMethodRespose(JsonConvert.SerializeObject(response), status);
-        }        
+        }
 
         protected async Task OnSetPointTempUpdate(object value)
         {
             var telemetry = _telemetryController as ITelemetryWithSetPointTemperature;
-            telemetry.SetPointTemperature = Convert.ToDouble(value);
+            if (telemetry != null)
+            {
+                telemetry.SetPointTemperature = Convert.ToDouble(value);
+            }
 
-            await SetReportedPropertyAsync(SetPointTempPropertyName, telemetry.SetPointTemperature);
+            await UpdateReportedSetPointTempUpdate();
+        }
+
+        protected async Task UpdateReportedSetPointTempUpdate()
+        {
+            var telemetry = _telemetryController as ITelemetryWithSetPointTemperature;
+            if (telemetry != null)
+            {
+                await SetReportedPropertyAsync(SetPointTempPropertyName, telemetry.SetPointTemperature);
+            }
         }
 
         protected async Task OnTelemetryIntervalUpdate(object value)
         {
             var telemetry = _telemetryController as ITelemetryWithInterval;
-            telemetry.TelemetryIntervalInSeconds = Convert.ToInt32(value);
+            if (telemetry != null)
+            {
+                telemetry.TelemetryIntervalInSeconds = Convert.ToUInt32(value);
+            }
 
-            await SetReportedPropertyAsync(TelemetryIntervalPropertyName, telemetry.TelemetryIntervalInSeconds);
+            await UpdateReportedTelemetryInterval();
+        }
+
+        protected async Task UpdateReportedTelemetryInterval()
+        {
+            var telemetry = _telemetryController as ITelemetryWithInterval;
+            if (telemetry != null)
+            {
+                await SetReportedPropertyAsync(TelemetryIntervalPropertyName, telemetry.TelemetryIntervalInSeconds);
+            }
         }
     }
 }

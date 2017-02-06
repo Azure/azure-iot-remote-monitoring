@@ -566,7 +566,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     {
                         await handler(pair.Value.Value.Value);
                         Logger.LogInfo($"Successfully called desired property update handler {handler.Method.Name} on {DeviceID}");
-                        return;
                     }
                     catch (Exception ex)
                     {
