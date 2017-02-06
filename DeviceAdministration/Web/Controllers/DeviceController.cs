@@ -9,6 +9,7 @@ using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
@@ -410,8 +411,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 unregisteredDeviceModel.DeviceType != null,
                 "unregisteredDeviceModel.DeviceType is a null reference.");
 
-            DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(unregisteredDeviceModel.DeviceId,
-                unregisteredDeviceModel.DeviceType.IsSimulatedDevice, unregisteredDeviceModel.Iccid);
+            DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(
+                unregisteredDeviceModel.DeviceId,
+                unregisteredDeviceModel.DeviceType.IsSimulatedDevice,
+                unregisteredDeviceModel.Iccid);
+            SampleDeviceFactory.AssignDefaultTags(device);
 
             DeviceWithKeys addedDevice = await this._deviceLogic.AddDeviceAsync(device);
             return addedDevice;
