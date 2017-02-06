@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
-using Microsoft.Azure.Devices.Common.Exceptions;
 using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
@@ -33,21 +30,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns></returns>
         public async Task<DeviceModel> AddDeviceAsync(DeviceModel device, SecurityKeys securityKeys)
         {
-            var iotHubDevice = new Device(device.DeviceProperties.DeviceID);
-
-            var authentication = new AuthenticationMechanism
-                                 {
-                                     SymmetricKey = new SymmetricKey
-                                                    {
-                                                        PrimaryKey = securityKeys.PrimaryKey,
-                                                        SecondaryKey = securityKeys.SecondaryKey
-                                                    }
-                                 };
-
-            iotHubDevice.Authentication = authentication;
+            var iotHubDevice = new Device(device.DeviceProperties.DeviceID)
+            {
+                Authentication = new AuthenticationMechanism
+                {
+                    SymmetricKey = new SymmetricKey
+                    {
+                        PrimaryKey = securityKeys.PrimaryKey,
+                        SecondaryKey = securityKeys.SecondaryKey
+                    }
+                }
+            };
 
             await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
-                                                                await this._deviceManager.AddDeviceAsync(iotHubDevice));
+                await this._deviceManager.AddDeviceAsync(iotHubDevice));
+
+            if (device.Twin?.Tags.Count > 0 || device.Twin?.Properties.Desired.Count > 0)
+            {
+                device.Twin.ETag = "*";
+                await this._deviceManager.UpdateTwinAsync(device.DeviceProperties.DeviceID, device.Twin);
+            }
 
             return device;
         }
@@ -64,13 +66,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 // the device needs to be added as a new device as the one that was saved 
                 // has an eTag value that cannot be provided when registering a new device
                 var newIotHubDevice = new Device(oldIotHubDevice.Id)
-                                      {
-                                          Authentication = oldIotHubDevice.Authentication,
-                                          Status = oldIotHubDevice.Status
-                                      };
+                {
+                    Authentication = oldIotHubDevice.Authentication,
+                    Status = oldIotHubDevice.Status
+                };
 
                 await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
-                                                                    await this._deviceManager.AddDeviceAsync(newIotHubDevice));
+                    await this._deviceManager.AddDeviceAsync(newIotHubDevice));
             }
             catch (Exception)
             {

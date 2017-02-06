@@ -6,6 +6,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
+using Microsoft.Azure.Devices.Shared;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 {
@@ -25,7 +26,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             "SampleDevice001",
             "SampleDevice002",
             "SampleDevice003",
-            "SampleDevice004"
+            "SampleDevice004",
+            "SampleDevice005",
+            "SampleDevice006",
+            "SampleDevice007",
+            "SampleDevice008"
         };
 
         private class Location
@@ -58,6 +63,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             new Location(47.642876, -122.125492), //16070 NE 36th Way Bldg 33, Redmond, WA 98052
             new Location(47.637376, -122.140445), //14999 NE 31st Way, Redmond, WA 98052
             new Location(47.636121, -122.130254) //3009 157th Pl NE, Redmond, WA 98052
+        };
+
+        private static List<string> _possibleBuildingTags = new List<string>
+        {
+            "Building 40",
+            "Building 43"
+        };
+
+        private static List<string> _possibleFloorTags = new List<string>
+        {
+            "1F",
+            "2F",
         };
 
         public static DeviceModel GetSampleSimulatedDevice(string deviceId, string key)
@@ -204,6 +221,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
         {
             long milliTime = DateTime.Now.Millisecond;
             return DefaultDeviceNames.Select(r => string.Concat(r, "_" + milliTime)).ToList();
+        }
+
+        public static void AssignDefaultTags(DeviceModel device)
+        {
+            device.Twin = new Twin();
+            device.Twin.Tags["Building"] = Random(_possibleBuildingTags);
+            device.Twin.Tags["Floor"] = Random(_possibleFloorTags);
+        }
+
+        private static T Random<T>(IList<T> range)
+        {
+            return range[Rand.Next(range.Count)];
         }
     }
 }

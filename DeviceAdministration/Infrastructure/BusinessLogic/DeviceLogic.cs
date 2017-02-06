@@ -794,6 +794,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(id, true, null);
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
+                SampleDeviceFactory.AssignDefaultTags(device);
                 await this.AddDeviceToRepositoriesAsync(device, generatedSecurityKeys);
             }
             return sampleIds;
