@@ -181,7 +181,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             const string LogPath = "Method.Reboot.Log";
 
-            await SetReportedPropertyAsync(LogPath, "Rebooting");
+            await SetReportedPropertyAsync(new Dictionary<string, dynamic>
+            {
+                { LastRebootTimePropertyName, DateTime.UtcNow.ToString() },
+                { LogPath, "Rebooting"}
+            });
 
             await Task.Delay(TimeSpan.FromSeconds(10));
 
@@ -206,7 +210,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             const string LogPath = "Method.FactoryReset.Log";
 
-            await SetReportedPropertyAsync(LogPath, "Reseting");
+            await SetReportedPropertyAsync(new Dictionary<string, dynamic>
+            {
+                { LastFactoryResetTimePropertyName, DateTime.UtcNow.ToString() },
+                { LogPath, "Reseting"}
+            });
 
             await Task.Delay(TimeSpan.FromSeconds(10));
 
