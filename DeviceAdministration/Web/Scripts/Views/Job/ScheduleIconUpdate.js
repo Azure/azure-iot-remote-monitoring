@@ -68,7 +68,7 @@
                     self.backUrl(resources.redirectToJobIndexUrl + "?jobId=" + resources.originalJobId);
                     self.jobName(data.JobName);
                 } else {
-                    self.backUrl(resources.redirectToDeviceIndexUrl + "?filterId=" + self.filterId);
+                    self.backUrl(resources.redirectToDeviceIndexUrl);
                 }
 
                 this.loadFilteredCount();
