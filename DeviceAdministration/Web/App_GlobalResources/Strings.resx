@@ -2484,4 +2484,8 @@
     <value>Are you sure you want to delete this clause?</value>
     <comment>Confirmation message.</comment>
   </data>
+  <data name="FilterName" xml:space="preserve">
+    <value>Filter Name</value>
+    <comment>Input label.</comment>
+  </data>
 </root>

@@ -185,6 +185,10 @@
                 <span class="filter_panel_title">@Strings.FilterEditor</span>
                 <div class="filter_panel_content">
                     <div>
+                        <div><label class="filter_panel_clause_edit_label">@Strings.FilterName</label></div>
+                        <input class="filter_panel_name_text" data-bind="textInput: name">
+                    </div>
+                    <div>
                         <div class="filter_panel_type_select" data-toggle="dropdown">
                             <span data-bind="visible: !isAdvanced()">@Strings.SearchTypeFilters</span>
                             <span data-bind="visible: isAdvanced()">@Strings.SearchTypeAdvanced</span>

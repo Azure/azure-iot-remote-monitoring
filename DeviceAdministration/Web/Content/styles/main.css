@@ -875,6 +875,7 @@ nav .selected {
   box-sizing: content-box;
 }
 .edit_form__link {
+  min-width: 35px;
   font-size: 0.8em;
 }
 .edit_form_control_last {
@@ -1501,6 +1502,16 @@ table#alertHistoryTable tr.selectedAlert {
   display: block;
   margin: 5px 0px 5px 0px;
 }
+.filter_panel_name_text {
+  border: 1px solid #999999;
+  background-color: white;
+  box-sizing: content-box;
+  width: 100%;
+  height: 30px;
+  padding: 0px 5px 0px 5px;
+  max-width: 350px;
+  margin: 5px 0px 20px 0px;
+}
 .filter_panel_text {
   border: 1px solid #999999;
   background-color: white;
@@ -1527,6 +1538,7 @@ table#alertHistoryTable tr.selectedAlert {
   font-weight: normal;
   font-size: 13px;
   display: inline-block;
+  text-transform: uppercase;
 }
 .filter_panel_clause_edit_row {
   display: -webkit-flex;
