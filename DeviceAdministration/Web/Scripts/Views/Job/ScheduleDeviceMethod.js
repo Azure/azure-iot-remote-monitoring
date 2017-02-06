@@ -167,7 +167,7 @@
                 if (resources.originalJobId) {
                     self.backUrl(resources.redirectToJobIndexUrl + "?jobId=" + resources.originalJobId);
                 } else {
-                    self.backUrl(resources.redirectToDeviceIndexUrl + "?filterId=" + self.filterId);
+                    self.backUrl(resources.redirectToDeviceIndexUrl);
                 }
                 self.jobName(data.JobName);
                 self.clonedMethodName = data.MethodName;
