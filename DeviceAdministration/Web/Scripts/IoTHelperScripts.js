@@ -192,9 +192,21 @@ IoTApp.createModule("IoTApp.Helpers.String", function () {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    var showTooltipForEllipsis = function (container) {
+        $('*', container).filter(function () {
+            return $(this).css('text-overflow') == 'ellipsis';
+        }).each(function () {
+            var $this = $(this);
+            if (this.offsetWidth < this.scrollWidth && !$this.attr('title')) {
+                $this.attr('title', $this.html());
+            }
+        });
+    }
+
     return {
         capitalizeFirstLetter:capitalizeFirstLetter,
-        renderLongString: renderLongString
+        renderLongString: renderLongString,
+        showTooltipForEllipsis: showTooltipForEllipsis
     }
 });
 
@@ -216,7 +228,6 @@ IoTApp.createModule("IoTApp.Helpers.DataType", function () {
         getDataType: getDataType
     }
 });
-
 
 $(function () {
     "use strict";

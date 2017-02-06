@@ -89,11 +89,14 @@
             "order": [resources.sortColumnIndex, "desc"],
             "pageLength": 1000,
             "columnDefs": [
-                { "width": "200", "targets": 1 }
+                { "width": "200", "targets": 1 },
+                { className: "table_truncate_with_max_width", targets: [2, 3] }
             ]
         });
 
         $('#content').show();
+
+        IoTApp.Helpers.String.showTooltipForEllipsis($('#commandHistory'));
     }
 
 
