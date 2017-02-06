@@ -33,6 +33,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public const string SetPointTempPropertyName = "Config.SetPointTemp";
         public const string TelemetryIntervalPropertyName = "Config.TelemetryInterval";
         public const string LastDesiredPropertyChangePropertyName = "Device.LastDesiredPropertyChange";
+        public const string LastFactoryResetTimePropertyName = "Device.LastFactoryResetTime";
+        public const string LastRebootTimePropertyName = "Device.LastRebootTime";
 
         // pointer to the currently executing event group
         private int _currentEventGroup = 0;
