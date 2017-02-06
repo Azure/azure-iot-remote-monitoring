@@ -395,11 +395,27 @@
                 checked: ko.observable(checked == null ? true : checked),
                 shortDisplayName: ko.pureComputed(function () {
                     var parts = clause.field().split('.');
-                    return parts[parts.length - 1] + " " + self.model.getOperatorText(clause.operator()) + " " + clause.value();
+                    return clause.formatDisplayName(parts[parts.length - 1], clause.operator(), clause.value(), clause.dataType());
                 }),
                 displayName: ko.pureComputed(function () {
-                    return clause.field() + " " + self.model.getOperatorText(clause.operator()) + " " + clause.value();
+                    return clause.formatDisplayName(clause.field(), clause.operator(), clause.value(), clause.dataType());
                 }),
+                formatDisplayName: function (field, operator, value, dataType) {
+                    if (operator == 'IN') {
+                        var items = util.split(value);
+
+                        $.each(items, function(idx, item) {
+                            items[idx] = util.addQuoteIfNeeded(dataType, item);
+                        })
+
+                        value = items.join(', ');
+                    }
+                    else {
+                        value = util.addQuoteIfNeeded(dataType, value);
+                    }
+
+                    return field + " " + self.model.getOperatorText(operator) + " " + value;
+                },
                 toggle: function () {
                     clause.checked(!clause.checked());
                     self.model.isChanged(true);
@@ -629,6 +645,13 @@
             }
 
             return str;
+        },
+        addQuoteIfNeeded: function (dataType, value) {
+            if (dataType == resources.twinDataType.string && value.indexOf("\'") != 0 && value.lastIndexOf("\'") != value.length - 1) {
+                value = "\'" + value + "\'";
+            }
+
+            return value;
         }
     };
 
