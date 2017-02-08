@@ -175,7 +175,10 @@
                 { className: "table_truncate_with_max_width", targets: [1, 2] },
                 { searchable: true, targets: [1] }
             ],
-            "order": [[4, "desc"]]
+            "order": [[4, "desc"]],
+            "drawCallback": function (settings) {
+                IoTApp.Helpers.String.setupTooltipForEllipsis(self.dataTableContainer);
+            }
         });
 
         $('#toolbar_area').html($('#toolbarTemplate').html());

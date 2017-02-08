@@ -93,7 +93,8 @@
                         return renderPayload(data);
                     },
                     "name": "valueReturned",
-                    "visible": self.operationType == "Method"
+                    "visible": self.operationType == "Method",
+                    "className": "table_truncate_with_max_width"
                 },
                 {
                     "data": "timeCreated",
@@ -113,7 +114,12 @@
             "columnDefs": [
                 { className: "table_status", targets: [0] }
             ],
-            "order": [[1, "asc"]]
+            "order": [[1, "asc"]],
+            "drawCallback": function (settings) {
+                IoTApp.Helpers.String.setupTooltipForEllipsis(self.dataTableContainer, function () {
+                    return $(this).text().replace(/\n/g, "<br />");
+                });
+            }
         });
 
         self.dataTableContainer.on("draw.dt", onTableDrawn);
@@ -163,7 +169,6 @@
         catch (e) {
         }
 
-        var container = $('<div class="job_result_payload"/>');
         var content = '';
 
         if ($.isPlainObject(json)) {
@@ -172,15 +177,13 @@
                 items.push(key + ": " + value);
             });
 
-            content = items.join(', ');
+            content = items.join(', \n');
         }
         else {
             content = json;
         }
         
-        container.html(content).attr('title', content);
-
-        return $('<div />').append(container).html();
+        return $('<div />').text(content).html();
     }
 
     var onDataTableAjaxCalled = function (data, fnCallback) {

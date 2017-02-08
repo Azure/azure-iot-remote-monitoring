@@ -2160,12 +2160,6 @@ table#alertHistoryTable tr.selectedAlert {
 .job_result_status_filter_selected {
   border-bottom: 1px solid;
 }
-.job_result_payload {
-  max-width: 300px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 #jobResultDialog .dialog_dialog {
   width: 80%;
   height: 80%;

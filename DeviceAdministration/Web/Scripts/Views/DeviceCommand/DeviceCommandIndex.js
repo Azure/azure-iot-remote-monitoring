@@ -96,7 +96,7 @@
 
         $('#content').show();
 
-        IoTApp.Helpers.String.showTooltipForEllipsis($('#commandHistory'));
+        IoTApp.Helpers.String.setupTooltipForEllipsis($('#commandHistory'));
     }
 
 
