@@ -28,7 +28,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             ITelemetryFactory telemetryFactory, IConfigurationProvider configurationProvider)
             : base(logger, transportFactory, telemetryFactory, configurationProvider)
         {
-            _desiredPropertyUpdateHandlers.Add(SetPointTempPropertyName, OnSetPointTempUpdate);
+            _desiredPropertyUpdateHandlers.Add(TemperatureMeanValuePropertyName, OnTemperatureMeanValueUpdate);
             _desiredPropertyUpdateHandlers.Add(TelemetryIntervalPropertyName, OnTelemetryIntervalUpdate);
         }
 
@@ -76,7 +76,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public void ChangeSetPointTemp(double setPointTemp)
         {
             var remoteMonitorTelemetry = (RemoteMonitorTelemetry)_telemetryController;
-            remoteMonitorTelemetry.SetPointTemperature = setPointTemp;
+            remoteMonitorTelemetry.TemperatureMeanValue = setPointTemp;
             Logger.LogInfo("Device {0} temperature changed to {1}", DeviceID, setPointTemp);
         }
 
@@ -220,7 +220,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             if (factoryResetSupport != null)
             {
                 factoryResetSupport.FactoryReset();
-                await UpdateReportedSetPointTempUpdate();
+                await UpdateReportedTemperatureMeanValue();
                 await UpdateReportedTelemetryInterval();
             }
 
@@ -273,23 +273,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             return BuildMethodRespose(JsonConvert.SerializeObject(response), status);
         }
 
-        protected async Task OnSetPointTempUpdate(object value)
+        protected async Task OnTemperatureMeanValueUpdate(object value)
         {
-            var telemetry = _telemetryController as ITelemetryWithSetPointTemperature;
+            var telemetry = _telemetryController as ITelemetryWithTemperatureMeanValue;
             if (telemetry != null)
             {
-                telemetry.SetPointTemperature = Convert.ToDouble(value);
+                telemetry.TemperatureMeanValue = Convert.ToDouble(value);
             }
 
-            await UpdateReportedSetPointTempUpdate();
+            await UpdateReportedTemperatureMeanValue();
         }
 
-        protected async Task UpdateReportedSetPointTempUpdate()
+        protected async Task UpdateReportedTemperatureMeanValue()
         {
-            var telemetry = _telemetryController as ITelemetryWithSetPointTemperature;
+            var telemetry = _telemetryController as ITelemetryWithTemperatureMeanValue;
             if (telemetry != null)
             {
-                await SetReportedPropertyAsync(SetPointTempPropertyName, telemetry.SetPointTemperature);
+                await SetReportedPropertyAsync(TemperatureMeanValuePropertyName, telemetry.TemperatureMeanValue);
             }
         }
 

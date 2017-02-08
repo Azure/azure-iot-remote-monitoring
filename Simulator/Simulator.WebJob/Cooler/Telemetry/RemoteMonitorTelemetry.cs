@@ -8,7 +8,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Telemetry
 {
-    public class RemoteMonitorTelemetry : ITelemetry, ITelemetryWithInterval, ITelemetryWithSetPointTemperature, ITelemetryFactoryResetSupport
+    public class RemoteMonitorTelemetry : ITelemetry, ITelemetryWithInterval, ITelemetryWithTemperatureMeanValue, ITelemetryFactoryResetSupport
     {
         private readonly ILogger _logger;
         private readonly string _deviceId;
@@ -108,7 +108,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             }
         }
 
-        public double SetPointTemperature
+        public double TemperatureMeanValue
         {
             get
             {

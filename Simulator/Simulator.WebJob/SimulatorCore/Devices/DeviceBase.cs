@@ -30,7 +30,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         public const string StartupTimePropertyName = "Device.StartupTime";
         public const string FirmwareVersionPropertyName = "System.FirmwareVersion";
         public const string ConfigurationVersionPropertyName = "System.ConfigurationVersion";
-        public const string SetPointTempPropertyName = "Config.SetPointTemp";
+        public const string TemperatureMeanValuePropertyName = "Config.TemperatureMeanValue";
         public const string TelemetryIntervalPropertyName = "Config.TelemetryInterval";
         public const string LastDesiredPropertyChangePropertyName = "Device.LastDesiredPropertyChange";
         public const string LastFactoryResetTimePropertyName = "Device.LastFactoryResetTime";
@@ -507,10 +507,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 patch.Set(TelemetryIntervalPropertyName, telemetryWithInterval.TelemetryIntervalInSeconds);
             }
 
-            var telemetryWithSetPointTemp = _telemetryController as ITelemetryWithSetPointTemperature;
-            if (telemetryWithSetPointTemp != null)
+            var telemetryWithTemperatureMeanValue = _telemetryController as ITelemetryWithTemperatureMeanValue;
+            if (telemetryWithTemperatureMeanValue != null)
             {
-                patch.Set(SetPointTempPropertyName, telemetryWithSetPointTemp.SetPointTemperature);
+                patch.Set(TemperatureMeanValuePropertyName, telemetryWithTemperatureMeanValue.TemperatureMeanValue);
             }
 
             patch.Set(StartupTimePropertyName, DateTime.UtcNow.ToString());

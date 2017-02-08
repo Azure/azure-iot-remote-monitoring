@@ -28,9 +28,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         uint TelemetryIntervalInSeconds { get; set; }
     }
 
-    public interface ITelemetryWithSetPointTemperature
+    public interface ITelemetryWithTemperatureMeanValue
     {
-        double SetPointTemperature { get; set; }
+        double TemperatureMeanValue { get; set; }
     }
 
     public interface ITelemetryFactoryResetSupport
