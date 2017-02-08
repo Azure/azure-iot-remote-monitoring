@@ -13,10 +13,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 {
     class FirmwareUpdate : DMTaskBase
     {
-        static private string LogPath = "Method.FirmwareUpdate.Log";
+        static private string ReportPrefix = "Method.UpdateFirmware";
+        static private string Status = "Status";
+        static private string LastUpdate = "LastUpdate";
+        static private string Duration = "Duration-s";
+        static private string Running = "Running";
+        static private string Failed = "Failed";
+        static private string Complete = "Complete";
 
-        private Stopwatch _watch;
-        private LogBuilder _logBuilder = new LogBuilder();
+        private Stopwatch _masterWatch;
+        private Stopwatch _stepWatch;
 
         public string Uri { get; private set; }
         public string FirmwareVersion { get; private set; }
@@ -47,16 +53,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             bool succeed = true;
             var report = new TwinCollection();
-            string status;
 
             switch (state)
             {
                 case DMTaskState.FU_PENDING:
-                    report = null;  // No report for entering pending state
+                    var clear = new TwinCollection();
+                    clear.Set(ReportPrefix, null);
+                    await transport.UpdateReportedPropertiesAsync(clear);
+
+                    _masterWatch = Stopwatch.StartNew();
+                    _stepWatch = Stopwatch.StartNew();
+                    BuildReport(report, Running);
                     break;
 
                 case DMTaskState.FU_DOWNLOADING:
-                    _watch = Stopwatch.StartNew();
+                    _stepWatch = Stopwatch.StartNew();
 
                     try
                     {
@@ -64,33 +75,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                         {
                             FirmwareVersion = (await client.GetStringAsync(Uri)).Trim();
                         }
-
-                        status = "Downloading";
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         succeed = false;
-                        status = $"Download failed: {ex.Message}";
                     }
 
-                    report.Set(LogPath, _logBuilder.Append(status, succeed));
+                    BuildReport(report, "Download", succeed ? Running : Failed);
                     break;
 
                 case DMTaskState.FU_APPLYING:
-                    _watch = Stopwatch.StartNew();
+                    _stepWatch = Stopwatch.StartNew();
                     succeed = FirmwareVersion != "applyFail";
-                    status = succeed ? "Applying" : "Apply failed";
-                    report.Set(LogPath, _logBuilder.Append(status, succeed));
+                    BuildReport(report, "Applied", succeed ? Running : Failed);
                     break;
 
                 case DMTaskState.FU_REBOOTING:
-                    _watch = Stopwatch.StartNew();
+                    _stepWatch = Stopwatch.StartNew();
                     succeed = FirmwareVersion != "rebootFail";
-                    status = succeed ? "Rebooting" : "Reboot failed";
-                    report.Set(LogPath, _logBuilder.Append(status, succeed));
+                    BuildReport(report, "Reboot", succeed ? Running : Failed);
                     break;
 
                 case DMTaskState.DM_IDLE:
+                    BuildReport(report, Complete);
+
                     report.Set(DeviceBase.StartupTimePropertyName, DateTime.UtcNow.ToString());
                     report.Set(DeviceBase.FirmwareVersionPropertyName, FirmwareVersion);
                     break;
@@ -122,15 +130,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     break;
 
                 case DMTaskState.FU_DOWNLOADING:
-                    report.Set(LogPath, _logBuilder.Append($"Downloaded({(int)_watch.Elapsed.TotalSeconds}s)"));
+                    BuildReport(report, "Download", Complete);
                     break;
 
                 case DMTaskState.FU_APPLYING:
-                    report.Set(LogPath, _logBuilder.Append($"Applied({(int)_watch.Elapsed.TotalSeconds}s)"));
+                    BuildReport(report, "Applied", Complete);
                     break;
 
                 case DMTaskState.FU_REBOOTING:
-                    report.Set(LogPath, _logBuilder.Append($"Rebooted"));
+                    BuildReport(report, "Reboot", Complete);
                     break;
 
                 default:
@@ -143,6 +151,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             }
 
             return true;
+        }
+
+        private void BuildReport(TwinCollection report, string status)
+        {
+            report.Set($"{ReportPrefix}.{Status}", status);
+            report.Set($"{ReportPrefix}.{LastUpdate}", DateTime.UtcNow.ToString());
+            report.Set($"{ReportPrefix}.{Duration}", (int)_masterWatch.Elapsed.TotalSeconds);
+        }
+
+        private void BuildReport(TwinCollection report, string stepName, string status)
+        {
+            report.Set($"{ReportPrefix}.{stepName}.{Status}", status);
+            report.Set($"{ReportPrefix}.{stepName}.{LastUpdate}", DateTime.UtcNow.ToString());
+            report.Set($"{ReportPrefix}.{stepName}.{Duration}", (int)_stepWatch.Elapsed.TotalSeconds);
+
+            if (status == Failed)
+            {
+                BuildReport(report, Failed);
+            }
         }
     }
 }

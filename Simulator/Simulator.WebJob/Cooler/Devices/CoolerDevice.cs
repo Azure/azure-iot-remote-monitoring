@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
@@ -177,20 +178,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         private async Task RebootAsync()
         {
-            const string LogPath = "Method.Reboot.Log";
+            await SetReportedPropertyAsync("Method.Reboot", null);
+            var watch = Stopwatch.StartNew();
 
             await SetReportedPropertyAsync(new Dictionary<string, dynamic>
             {
                 { LastRebootTimePropertyName, DateTime.UtcNow.ToString() },
-                { LogPath, "Rebooting"}
+                { "Method.Reboot.Status", "Running" },
+                { "Method.Reboot.LastUpdate", DateTime.UtcNow.ToString() }
             });
 
             await Task.Delay(TimeSpan.FromSeconds(20));
 
             await SetReportedPropertyAsync(new Dictionary<string, dynamic>
             {
-                { LogPath, "Rebooted" },
-                { StartupTimePropertyName, DateTime.UtcNow.ToString() }
+                { StartupTimePropertyName, DateTime.UtcNow.ToString() },
+                { "Method.Reboot.Status", "Complete" },
+                { "Method.Reboot.LastUpdate", DateTime.UtcNow.ToString() },
+                { "Method.Reboot.Duration-s", (int)watch.Elapsed.TotalSeconds }
             });
         }
 
@@ -206,12 +211,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         private async Task FactoryResetAsync()
         {
-            const string LogPath = "Method.FactoryReset.Log";
+            await SetReportedPropertyAsync("Method.FactoryReset", null);
+            var watch = Stopwatch.StartNew();
 
             await SetReportedPropertyAsync(new Dictionary<string, dynamic>
             {
                 { LastFactoryResetTimePropertyName, DateTime.UtcNow.ToString() },
-                { LogPath, "Reseting"}
+                { "Method.FactoryReset.Status", "Running" },
+                { "Method.FactoryReset.LastUpdate", DateTime.UtcNow.ToString() }
             });
 
             await Task.Delay(TimeSpan.FromSeconds(10));
@@ -226,10 +233,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             await SetReportedPropertyAsync(new Dictionary<string, dynamic>
             {
-                { LogPath, "Reset" },
                 { StartupTimePropertyName, DateTime.UtcNow.ToString() },
                 { FirmwareVersionPropertyName, "1.0" },
                 { ConfigurationVersionPropertyName, null },
+                { "Method.FactoryReset.Status", "Complete" },
+                { "Method.FactoryReset.LastUpdate", DateTime.UtcNow.ToString() },
+                { "Method.FactoryReset.Duration-s", (int)watch.Elapsed.TotalSeconds }
             });
         }
 

@@ -65,7 +65,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
                     }
                     else
                     {
-                        if(!IgnoreNullValue)
+                        if (!IgnoreNullValue)
                         {
                             yield return new KeyValuePair<string, TwinValue>($"{prefix}{pair.Key}", new TwinValue
                             {
@@ -282,28 +282,30 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
                 // Current node is the target node, set the value
                 container[name] = value;
             }
-            else if (!container.Contains(name))
-            {
-                // The target container is not exist, create and add it
-                var newContainer = new JObject();
-                Set(newContainer, names.Skip(1), value);
-                container[name] = newContainer;
-                return;
-            }
             else
             {
-                // Current node is container, go to next level
-                var child = container[name];
-                if (child is JContainer)
+                var child = container.SelectToken(name);
+                if (child == null)
                 {
-                    Set(child as JContainer, names.Skip(1), value);
+                    // The target container is not exist, create and add it
+                    var newContainer = new JObject();
+                    Set(newContainer, names.Skip(1), value);
+                    container[name] = newContainer;
                 }
                 else
                 {
-                    // The next level of JContainer must be JContainer
+                    // Current node is container, go to next level
+                    if (child is JContainer)
+                    {
+                        Set(child as JContainer, names.Skip(1), value);
+                    }
+                    else
+                    {
+                        // The next level of JContainer must be JContainer
 #if DEBUG
-                    throw new ApplicationException($"Unexpected TwinCollection item JTokenType: {child.Type} @ {child.Path}");
+                        throw new ApplicationException($"Unexpected TwinCollection item JTokenType: {child.Type} @ {child.Path}");
 #endif
+                    }
                 }
             }
         }
