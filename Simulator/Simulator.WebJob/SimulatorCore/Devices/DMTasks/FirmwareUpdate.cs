@@ -13,7 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 {
     class FirmwareUpdate : DMTaskBase
     {
-        static private string ReportPrefix = "Method.UpdateFirmware";
+        static internal string ReportPrefix = "Method.UpdateFirmware";
         static private string Status = "Status";
         static private string LastUpdate = "LastUpdate";
         static private string Duration = "Duration-s";

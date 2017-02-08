@@ -15,6 +15,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
 using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
+using Microsoft.Azure.Devices.Shared;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices
 {
@@ -118,6 +120,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             try
             {
+                // before update firmware, we reset telemetry for demo purpose
+                var telemetry = _telemetryController as ITelemetryWithTemperatureMeanValue;
+                if (telemetry != null)
+                {
+                    telemetry.TemperatureMeanValue = 34.5;
+                }
+
+                await UpdateReportedTemperatureMeanValue();
+
                 var operation = new FirmwareUpdate(methodRequest);
                 _deviceManagementTask = operation.Run(Transport);
 
@@ -284,6 +295,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         protected async Task OnTemperatureMeanValueUpdate(object value)
         {
+            // When set the temperature we clean up the firmware update status for demo purpose.
+            var clear = new TwinCollection();
+            clear.Set(FirmwareUpdate.ReportPrefix, null);
+            await Transport.UpdateReportedPropertiesAsync(clear);
+
             var telemetry = _telemetryController as ITelemetryWithTemperatureMeanValue;
             if (telemetry != null)
             {
