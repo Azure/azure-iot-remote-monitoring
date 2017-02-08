@@ -170,6 +170,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             {
                 BuildReport(report, Failed);
             }
+            else
+            {
+                BuildReport(report, Running);
+            }
         }
     }
 }
