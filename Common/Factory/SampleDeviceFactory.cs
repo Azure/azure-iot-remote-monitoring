@@ -217,7 +217,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
                 new[] { new Parameter("DeviceState", "string") }
             ));
             device.Commands.Add(new Command(
-                "FirmwareUpdate",
+                "InitiateFirmwareUpdate",
                 DeliveryType.Method,
                 "Updates device Firmware. Use parameter 'FwPackageUri' to specifiy the URI of the firmware file, e.g. https://iotrmassets.blob.core.windows.net/firmwares/FW20.bin",
                 new[] { new Parameter("FwPackageUri", "string") }

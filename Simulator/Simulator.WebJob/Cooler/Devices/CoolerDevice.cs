@@ -108,7 +108,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             return BuildMethodRespose(methodRequest.DataAsJson);
         }
 
-        public async Task<MethodResponse> OnFirmwareUpdate(MethodRequest methodRequest, object userContext)
+        public async Task<MethodResponse> OnInitiateFirmwareUpdate(MethodRequest methodRequest, object userContext)
         {
             if (_deviceManagementTask != null && !_deviceManagementTask.IsCompleted)
             {
