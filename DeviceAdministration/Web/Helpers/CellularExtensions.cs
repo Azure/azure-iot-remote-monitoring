@@ -110,7 +110,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         public async Task<bool> SendSms(string iccid, string smsText)
         {
             var terminal = GetSingleTerminalDetails(new Iccid(iccid));
-            return await _cellularService.SendSms(iccid, terminal.Msisdn.Id, smsText);
+            return await _cellularService.SendSms(iccid, terminal.Msisdn?.Id, smsText);
         }
 
         public string GetLocale(string iccid, out IEnumerable<string> availableLocaleNames)

@@ -12,6 +12,12 @@ namespace DeviceManagement.Infrustructure.Connectivity.Constants
             public const string ACTIVATED_LABEL = "Activated";
             public const string DEACTIVATED_CODE = "DEACTIVATED_NAME";
             public const string DEACTIVATED_LABEL = "Deactivated";
+            public const string ACTIVATION_READY_CODE = "ACTIVATION_READY_NAME";
+            public const string ACTIVATION_READY_LABEL = "Activation Ready";
+            public const string INVENTORY_LABEL = "Inventory";
+            public const string INVENTORY_CODE = "INVENTORY_NAME";
+            public const string RETIRED_LABEL = "Retired";
+            public const string RETIRED_CODE = "RETIRED_NAME"; 
 
         }
     }
