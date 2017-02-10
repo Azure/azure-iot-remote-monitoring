@@ -18,7 +18,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         public ITransport CreateTransport(IDevice device)
         {
-            return new IoTHubTransport(_logger, _configurationProvider, device);
+            return new IoTHubWorkaroundTransport(_logger, _configurationProvider, device);
         }
     }
 }

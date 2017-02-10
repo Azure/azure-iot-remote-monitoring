@@ -186,6 +186,7 @@
     <Compile Include="SimulatorCore\Transport\Factory\IoTHubTransportFactory.cs" />
     <Compile Include="SimulatorCore\Transport\Factory\ITransportFactory.cs" />
     <Compile Include="SimulatorCore\Transport\IoTHubTransport.cs" />
+    <Compile Include="SimulatorCore\Transport\IoTHubWorkaroundTransport.cs" />
     <Compile Include="SimulatorCore\Transport\ITransport.cs" />
     <Compile Include="SimulatorModule.cs" />
     <Compile Include="Program.cs" />

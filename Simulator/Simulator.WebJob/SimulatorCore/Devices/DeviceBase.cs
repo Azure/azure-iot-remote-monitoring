@@ -290,46 +290,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                         if (command == null)
                         {
-                            var twin = await Transport.GetTwinAsync();
-                            var reported = twin.Properties.Reported.AsEnumerableFlatten().ToDictionary(
-                                pair => pair.Key,
-                                pair => pair.Value.Value.Value);
-
-                            foreach (var pair in twin.Properties.Desired.AsEnumerableFlatten())
-                            {
-                                object desiredValue = pair.Value.Value.Value;
-                                object reportedValue;
-
-                                if (reported.TryGetValue(pair.Key, out reportedValue))
-                                {
-                                    if (reportedValue.ToString() == desiredValue.ToString())
-                                    {
-                                        continue;
-                                    }
-                                }
-
-                                Func<object, Task> handler;
-                                if (_desiredPropertyUpdateHandlers.TryGetValue(pair.Key, out handler))
-                                {
-                                    try
-                                    {
-                                        Logger.LogWarning($"Found out-of-date desired property. Calling update handler");
-                                        await handler(pair.Value.Value.Value);
-                                        Logger.LogInfo($"Successfully called desired property update handler {handler.Method.Name} on {DeviceID}");
-                                        return;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Logger.LogError($"Exception raised while processing desired property {pair.Key} change on device {DeviceID}: {ex.Message}");
-                                    }
-                                }
-                            }
-
                             continue;
                         }
 
-                        processingResult =
-                        await RootCommandProcessor.HandleCommandAsync(command);
+                        processingResult = await RootCommandProcessor.HandleCommandAsync(command);
 
                         switch (processingResult)
                         {
