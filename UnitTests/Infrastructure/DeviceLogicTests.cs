@@ -247,8 +247,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var listOfDevices = this.fixture.Create<List<DeviceModel>>();
             foreach (var d in listOfDevices)
             {
-                d.Twin.Properties.Reported.Set("Location.Latitude", fixture.Create<double>());
-                d.Twin.Properties.Reported.Set("Location.Longitude", fixture.Create<double>());
+                d.Twin.Properties.Reported.Set("Device.Location.Latitude", fixture.Create<double>());
+                d.Twin.Properties.Reported.Set("Device.Location.Longitude", fixture.Create<double>());
             }
 
             var latitudes = new List<double>();
@@ -258,13 +258,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             {
                 try
                 {
-                    latitudes.Add((double)d.Twin.Properties.Reported.Get("Location.Latitude"));
-                    longitudes.Add((double)d.Twin.Properties.Reported.Get("Location.Longitude"));
+                    latitudes.Add((double)d.Twin.Properties.Reported.Get("Device.Location.Latitude"));
+                    longitudes.Add((double)d.Twin.Properties.Reported.Get("Device.Location.Longitude"));
                     locations.Add(new DeviceLocationModel
                     {
                         DeviceId = d.DeviceProperties.DeviceID,
-                        Latitude = (double)d.Twin.Properties.Reported.Get("Location.Latitude"),
-                        Longitude = (double)d.Twin.Properties.Reported.Get("Location.Longitude")
+                        Latitude = (double)d.Twin.Properties.Reported.Get("Device.Location.Latitude"),
+                        Longitude = (double)d.Twin.Properties.Reported.Get("Device.Location.Longitude")
                     });
                 }
                 catch (Exception)

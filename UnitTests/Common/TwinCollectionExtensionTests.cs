@@ -91,10 +91,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
             twin.Tags.Set("Location.Dummy", "n/a");
             Assert.Equal(twin.Tags.Get("Location.Dummy").ToString(), "n/a");
 
-            // Add left (new level)
-            twin.Tags.Set("Location.City.Short", "SH");
-            Assert.Equal(twin.Tags.Get("Location.City.Short").ToString(), "SH");
-
             // Replace intermedia node
             twin.Tags.Set("LastTelemetry.Telemetry", 3);
             Assert.Equal((int)twin.Tags.Get("LastTelemetry.Telemetry"), 3);
