@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.CommandProcessors;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Telemetry;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.CommandProcessors;
@@ -14,9 +15,8 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Sim
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Telemetry.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
 using Microsoft.Azure.Devices.Client;
-using Newtonsoft.Json;
 using Microsoft.Azure.Devices.Shared;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Cooler.Devices
 {
@@ -189,6 +189,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         private async Task RebootAsync()
         {
+            // before reboot, we reset telemetry for demo purpose
+            var telemetry = _telemetryController as ITelemetryWithTemperatureMeanValue;
+            if (telemetry != null)
+            {
+                telemetry.TemperatureMeanValue = 34.5;
+            }
+
+            await UpdateReportedTemperatureMeanValue();
+
             await SetReportedPropertyAsync("Method.Reboot", null);
             var watch = Stopwatch.StartNew();
 
