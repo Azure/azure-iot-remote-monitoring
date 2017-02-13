@@ -47,22 +47,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             "SampleDevice022",
             "SampleDevice023",
             "SampleDevice024",
-            "SampleDevice025",
-            "SampleDevice026",
-            "SampleDevice027",
-            "SampleDevice028",
-            "SampleDevice029",
-            "SampleDevice030",
-            "SampleDevice031",
-            "SampleDevice032",
-            "SampleDevice033",
-            "SampleDevice034",
-            "SampleDevice035",
-            "SampleDevice036",
-            "SampleDevice037",
-            "SampleDevice038",
-            "SampleDevice039",
-            "SampleDevice040"
+            "SampleDevice025"
         };
 
         private class Location
