@@ -20,16 +20,51 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly IAzureTableStorageClient _clauseTableStorageClient;
         private readonly string _filterTableName = "FilterList";
         private readonly string _clauseTableName = "SuggestedClausesList";
+
+        private static object _initializeLock = new object();
         private static bool DefaultFilterInitialized = false;
-        public static readonly DeviceListFilter DefaultDeviceListFilter = new DeviceListFilter
+
+        private static readonly DeviceListFilter[] _builtInFilters = new DeviceListFilter[]
         {
-            Id = Guid.Empty.ToString(),
-            Name = "All Devices",
-            Clauses = new List<Clause>(),
-            AdvancedClause = null,
-            IsAdvanced = false,
-            IsTemporary = false,
+            new DeviceListFilter
+            {
+                Id = "00000000-0000-0000-0000-000000000000",
+                Name = "All Devices",
+                Clauses = new List<Clause>()
+            },
+            new DeviceListFilter
+            {
+                Id = "00000000-0000-0000-0000-000000000001",
+                Name = "Unhealthy devices",
+                Clauses = new List<Clause>
+                {
+                    new Clause
+                    {
+                        ColumnName = "reported.Config.TemperatureMeanValue",
+                        ClauseType = ClauseType.GT,
+                        ClauseValue = "60",
+                        ClauseDataType = TwinDataType.Number
+                    }
+                }
+            },
+            new DeviceListFilter
+            {
+                Id = "00000000-0000-0000-0000-000000000002",
+                Name = "Old firmware devices",
+                Clauses = new List<Clause>
+                {
+                    new Clause
+                    {
+                        ColumnName = "reported.System.FirmwareVersion",
+                        ClauseType = ClauseType.LT,
+                        ClauseValue = "2.0",
+                        ClauseDataType = TwinDataType.String
+                    }
+                }
+            },
         };
+
+        public static readonly DeviceListFilter DefaultDeviceListFilter = _builtInFilters.First();
 
         public DeviceListFilterRepository(IConfigurationProvider configurationProvider, IAzureTableStorageClientFactory filterTableStorageClientFactory, IAzureTableStorageClientFactory clausesTableStorageClientFactory)
         {
@@ -38,15 +73,33 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             _filterTableStorageClient = filterTableStorageClientFactory.CreateClient(_storageAccountConnectionString, filterTableName);
             string clauseTableName = configurationProvider.GetConfigurationSettingValueOrDefault("SuggestedClauseTableName", _clauseTableName);
             _clauseTableStorageClient = clausesTableStorageClientFactory.CreateClient(_storageAccountConnectionString, clauseTableName);
-            InitializeDefaultFilter();
+
+            var task = InitializeDefaultFilter();
         }
 
         public async Task InitializeDefaultFilter()
         {
-            if (!DefaultFilterInitialized)
+            // Ensure initializing will be performed only one time
+            lock (_initializeLock)
             {
-                DefaultFilterInitialized = true;
-                await _filterTableStorageClient.DoTableInsertOrReplaceAsync(new DeviceListFilterTableEntity(DefaultDeviceListFilter) { ETag = "*" }, BuildFilterModelFromEntity);
+                if (!DefaultFilterInitialized)
+                {
+                    DefaultFilterInitialized = true;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            foreach (var filter in _builtInFilters)
+            {
+                await _filterTableStorageClient.DoTableInsertOrReplaceAsync(
+                    new DeviceListFilterTableEntity(filter)
+                    {
+                        ETag = "*"
+                    },
+                    BuildFilterModelFromEntity);
             }
         }
 
