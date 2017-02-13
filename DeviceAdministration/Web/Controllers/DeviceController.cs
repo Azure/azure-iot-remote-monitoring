@@ -153,7 +153,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 while (true)
                 {
                     var random = BitConverter.ToUInt32(Guid.NewGuid().ToByteArray(), 0);
-                    string deviceId = $"SampleDevice_{random % 10000:d4}";
+                    string deviceId = $"CoolingSampleDevice_{random % 10000:d4}";
 
                     if (!await GetDeviceExistsAsync(deviceId))
                     {

@@ -11,7 +11,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         public void GetSQLQueryTest()
         {
             string sql = BuildFilter().GetSQLQuery();
-            Assert.Equal(sql, "SELECT * FROM devices WHERE tags.x = 'one' AND properties.desired.y < '1' AND properties.reported.z > '1' AND tags.u != 'two' AND properties.desired.v <= '2' AND properties.reported.w >= '2' AND deviceId IN ['SampleDevice001', 'SampleDevice002', 'SampleDevice003']");
+            Assert.Equal(sql, "SELECT * FROM devices WHERE tags.x = 'one' AND properties.desired.y < '1' AND properties.reported.z > '1' AND tags.u != 'two' AND properties.desired.v <= '2' AND properties.reported.w >= '2' AND deviceId IN ['CoolingSampleDevice001', 'CoolingSampleDevice002', 'CoolingSampleDevice003']");
 
             sql = BuildEmptyFilter().GetSQLQuery();
             Assert.Equal(sql, "SELECT * FROM devices");
@@ -30,7 +30,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         public void GetSQLCondition()
         {
             string condition = BuildFilter().GetSQLCondition();
-            Assert.Equal(condition, "tags.x = 'one' AND properties.desired.y < '1' AND properties.reported.z > '1' AND tags.u != 'two' AND properties.desired.v <= '2' AND properties.reported.w >= '2' AND deviceId IN ['SampleDevice001', 'SampleDevice002', 'SampleDevice003']");
+            Assert.Equal(condition, "tags.x = 'one' AND properties.desired.y < '1' AND properties.reported.z > '1' AND tags.u != 'two' AND properties.desired.v <= '2' AND properties.reported.w >= '2' AND deviceId IN ['CoolingSampleDevice001', 'CoolingSampleDevice002', 'CoolingSampleDevice003']");
 
             condition = BuildEmptyFilter().GetSQLCondition();
             Assert.Equal(condition, string.Empty);
@@ -97,7 +97,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                     {
                         ColumnName = "deviceId",
                         ClauseType = ClauseType.IN,
-                        ClauseValue = "['SampleDevice001', 'SampleDevice002', 'SampleDevice003']"
+                        ClauseValue = "['CoolingSampleDevice001', 'CoolingSampleDevice002', 'CoolingSampleDevice003']"
                     }
                 }
             };
