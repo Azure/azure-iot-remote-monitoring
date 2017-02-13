@@ -120,17 +120,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             try
             {
-                // before update firmware, we reset telemetry for demo purpose
-                var telemetry = _telemetryController as ITelemetryWithTemperatureMeanValue;
-                if (telemetry != null)
-                {
-                    telemetry.TemperatureMeanValue = 34.5;
-                }
-
-                await UpdateReportedTemperatureMeanValue();
-
                 var operation = new FirmwareUpdate(methodRequest);
-                _deviceManagementTask = operation.Run(Transport);
+                _deviceManagementTask = operation.Run(Transport).ContinueWith(async task =>
+                {
+                    // after firmware completed, we reset telemetry for demo purpose
+                    var telemetry = _telemetryController as ITelemetryWithTemperatureMeanValue;
+                    if (telemetry != null)
+                    {
+                        telemetry.TemperatureMeanValue = 34.5;
+                    }
+
+                    await UpdateReportedTemperatureMeanValue();
+                });
 
                 return await Task.FromResult(BuildMethodRespose(new
                 {
@@ -189,15 +190,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         private async Task RebootAsync()
         {
-            // before reboot, we reset telemetry for demo purpose
-            var telemetry = _telemetryController as ITelemetryWithTemperatureMeanValue;
-            if (telemetry != null)
-            {
-                telemetry.TemperatureMeanValue = 34.5;
-            }
-
-            await UpdateReportedTemperatureMeanValue();
-
             await SetReportedPropertyAsync("Method.Reboot", null);
             var watch = Stopwatch.StartNew();
 
