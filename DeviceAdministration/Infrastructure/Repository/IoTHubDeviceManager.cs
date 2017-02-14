@@ -102,21 +102,21 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             return jobId;
         }
 
-        public async Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListFilter filter)
+        public async Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListFilter filter, int maxDevices = 10000)
         {
             var sqlQuery = filter.GetSQLQuery();
             var deviceQuery = this._deviceManager.CreateQuery(sqlQuery);
 
             var twins = new List<Twin>();
-            while (deviceQuery.HasMoreResults)
+            while (deviceQuery.HasMoreResults && twins.Count < maxDevices)
             {
                 twins.AddRange(await deviceQuery.GetNextAsTwinAsync());
             }
 
-            return twins;
+            return twins.Take(maxDevices);
         }
 
-        public async Task<int> GetDeviceCountAsync(string filterSQL, string countColAlias="total")
+        public async Task<int> GetDeviceCountAsync(string filterSQL, string countColAlias = "total")
         {
             if (string.IsNullOrWhiteSpace(countColAlias))
             {

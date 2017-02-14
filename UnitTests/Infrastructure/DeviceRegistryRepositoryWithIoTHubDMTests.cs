@@ -202,7 +202,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 .ReturnsAsync(1024);
 
             this._mockIoTHubDeviceManager
-                .Setup(x => x.QueryDevicesAsync(It.IsAny<DeviceListFilter>())).
+                .Setup(x => x.QueryDevicesAsync(It.IsAny<DeviceListFilter>(), It.IsAny<int>())).
                 ReturnsAsync(filtedDevices.Select(d => d.Twin));
 
             var result = await this._deviceRegistryRepository.GetDeviceList(filter);

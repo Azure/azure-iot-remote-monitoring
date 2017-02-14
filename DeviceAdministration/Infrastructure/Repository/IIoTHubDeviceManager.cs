@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         Task CloseAsyncDevice();
         Task<Twin> GetTwinAsync(string deviceId);
         Task UpdateTwinAsync(string deviceId, Twin twin);
-        Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListFilter filter);
+        Task<IEnumerable<Twin>> QueryDevicesAsync(DeviceListFilter filter, int maxDevices = 10000);
         Task<long> GetDeviceCountAsync();
         Task<int> GetDeviceCountAsync(string filterSQL, string countColAlias);
         Task<IEnumerable<DeviceJob>> GetDeviceJobsByDeviceIdAsync(string deviceId);
