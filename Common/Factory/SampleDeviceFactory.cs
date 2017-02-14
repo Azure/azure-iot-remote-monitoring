@@ -196,12 +196,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
             // Device methods
             device.Commands.Add(new Command(
-                "ChangeDeviceState",
-                DeliveryType.Method,
-                "Sets the device state metadata property that the device reports. This is useful for testing back-end logic.",
-                new[] { new Parameter("DeviceState", "string") }
-            ));
-            device.Commands.Add(new Command(
                 "InitiateFirmwareUpdate",
                 DeliveryType.Method,
                 "Updates device Firmware. Use parameter 'FwPackageUri' to specifiy the URI of the firmware file, e.g. https://iotrmassets.blob.core.windows.net/firmwares/FW20.bin",
@@ -216,21 +210,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
                 "FactoryReset",
                 DeliveryType.Method,
                 "Reset the device (including firmware and configuration) to factory default state"
-            ));
-            device.Commands.Add(new Command(
-                "PingDevice",
-                DeliveryType.Method,
-                "The device responds to this method with an acknowledgement. This is useful for checking that the device is still active and listening."
-            ));
-            device.Commands.Add(new Command(
-                "StartTelemetry",
-                DeliveryType.Method,
-                "Instructs the device to start sending telemetry."
-            ));
-            device.Commands.Add(new Command(
-                "StopTelemetry",
-                DeliveryType.Method,
-                "Instructs the device to stop sending telemetry."
             ));
         }
 
