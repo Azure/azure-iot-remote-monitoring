@@ -176,8 +176,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             });
         }
 
-        [RequirePermission(Permission.ManageJobs)]
         [HttpPost]
+        [RequirePermission(Permission.ManageJobs)]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ScheduleTwinUpdate(ScheduleTwinUpdateModel model)
         {
             var twin = new Twin();
@@ -226,8 +227,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return RedirectToAction("Index", "Job", new { jobId = jobId });
         }
 
-        [RequirePermission(Permission.ManageJobs)]
         [HttpPost]
+        [RequirePermission(Permission.ManageJobs)]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ScheduleIconUpdate(ScheduleTwinUpdateModel model)
         {
             var twin = new Twin() { ETag = "*" };
@@ -267,8 +269,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             });
         }
 
-        [RequirePermission(Permission.ManageJobs)]
         [HttpPost]
+        [RequirePermission(Permission.ManageJobs)]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ScheduleDeviceMethod(ScheduleDeviceMethodModel model)
         {
             string methodName = model.MethodName.Split('(').First();
