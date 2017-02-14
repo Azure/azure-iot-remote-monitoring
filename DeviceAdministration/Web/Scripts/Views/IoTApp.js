@@ -76,6 +76,10 @@ ko.bindingHandlers.dateTimePicker = {
     }
 };
 
+function byteCount(value) {
+    return encodeURI(value).split(/%..|./).length - 1;
+}
+
 function getCulture() {
     var name = "_culture=";
     var ca = document.cookie.split(';');

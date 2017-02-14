@@ -46,10 +46,12 @@
                                         <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox"
                                                data-msg-regex=" "
                                                data-rule-regex="^desired\.\S+$"
+                                               data-rule-maxtwindepth ="5"
                                                data-bind="value: key, disable: isUserDefinedType, css:{edit_form__deleted : isDeleted()},attr:{name: 'propertyName' + $index(), id: 'propertyName' + $index()}" />
                                     </td>
                                     <td>
                                         <input type="text" class="edit_form__texthalf"
+                                               data-rule-maxbytelength="512"
                                                data-bind='textInput: value.value, event:{ keyup:$root.updateDataType($data) }, enable:!isDeleted() && key(), css:{edit_form__deleted : isDeleted()}' />
                                     </td>
                                     <td>
@@ -65,7 +67,7 @@
                                     <td data-bind="if:$data != null"><span class="edit_form__labelsmall" data-bind="text:'Reported'"></span></td>
                                     <td data-bind="if:$data != null" style="text-align:left"><span class="edit_form__labelsmall" data-bind="text: value.value()"></span></td>
                                     <!-- /ko -->
-                                    
+
                                 </tr>
                             </tbody>
                         </table>
@@ -110,8 +112,15 @@
 <script type="text/javascript" src="~/Scripts/Views/Device/EditDesiredProperties.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        jQuery.validator.addMethod("maxbytelength", function (value, element, params) {
+            return this.optional(element) || byteCount(value) <= params
+        }, "");
+        jQuery.validator.addMethod("maxtwindepth", function (value, element, params) {
+            return this.optional(element) || value.match(/\./gi).length <= params
+        }, "");
         IoTApp.EditDesiredProperties.init("@Model.DeviceId");
     });
+
 
 </script>
 
