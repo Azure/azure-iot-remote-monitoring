@@ -115,7 +115,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                             Newtonsoft.Json.Linq.JTokenType valuetype = p.Value.Value.Type;
                             return new DesiredPropetiesEditViewModel
                             {
-                                PropertyName = p.Key,
+                                PropertyName = $"desired.{p.Key}",
                                 PropertyValue = p.Value.Value.ToString(),
                                 DataType = convertToTwinDataType(valuetype)
                             };
@@ -125,7 +125,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                             Newtonsoft.Json.Linq.JTokenType valuetype = t.Value.Value.Type;
                             return new TagsEditViewModel
                             {
-                                TagName = t.Key,
+                                TagName = $"tags.{t.Key}",
                                 TagValue = t.Value.Value.ToString(),
                                 DataType = convertToTwinDataType(valuetype)
                             };
