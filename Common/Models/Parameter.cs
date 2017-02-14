@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 {
@@ -20,5 +22,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 
         public string Name { get; set; }
         public string Type { get; set; }
+
+        public string Serialize()
+        {
+            return $"{Name}-{Type}";
+        }
+
+        static public Parameter Deserialize(string serialized)
+        {
+            var parts = serialized.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length < 2)
+            {
+                throw new ArgumentException($"Invalidate serialized parameter format: {serialized}");
+            }
+
+            return new Parameter
+            {
+                Name = string.Join("-", parts.Take(parts.Length - 1)),
+                Type = parts.Last()
+            };
+        }
     }
 }

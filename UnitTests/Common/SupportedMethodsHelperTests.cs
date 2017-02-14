@@ -38,20 +38,19 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
                 }),
             };
 
-            var property = SupportedMethodsHelper.GenerateSupportedMethodsReportedProperty(commands);
+            var property = new TwinCollection();
+            SupportedMethodsHelper.CreateSupportedMethodReport(property, commands, null);
 
             JObject supportedMethods = property["SupportedMethods"] as JObject;
-            Assert.Equal(supportedMethods.Count, commands.Where(c => c.DeliveryType == DeliveryType.Method).Count());
+            Assert.Equal(supportedMethods.Count, commands.Where(c => c.DeliveryType == DeliveryType.Method).Count() - 2);
 
-            Assert.Equal(supportedMethods["method1_string_int"]["Name"].ToString(), "method1");
-            Assert.Equal(supportedMethods["method1_string_int"]["Description"].ToString(), "desc1");
-            Assert.Equal(supportedMethods["method1_string_int"]["Parameters"]["p1"]["Type"].ToString(), "string");
-            Assert.Equal(supportedMethods["method1_string_int"]["Parameters"]["p2"]["Type"].ToString(), "int");
+            Assert.Equal(supportedMethods["method1--p1-string--p2-int"].ToString(), "desc1");
+            Assert.Equal(supportedMethods["command1--p1-int--p2-string"].ToString(), "desc1");
+            Assert.Equal(supportedMethods["method2"].ToString(), "desc2");
+            Assert.Equal(supportedMethods["method_3"].ToString(), "desc3");
 
-            Assert.Equal(supportedMethods["method2"]["Name"].ToString(), "method2");
-            Assert.Equal(supportedMethods["method2"]["Description"].ToString(), "desc2");
-
-            Assert.Equal(supportedMethods["method__3"]["Name"].ToString(), "method_3");
+            supportedMethods[""] = "desc2";
+            supportedMethods["method4--p1---p2-int"] = "desc1";
 
             var device = new DeviceModel();
             var twin = new Twin();

@@ -366,7 +366,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         {
             var patch = new TwinCollection();
             CrossSyncProperties(patch, reported, regenerate);
-            AddSupportedMethods(patch, reported);
+            SupportedMethodsHelper.CreateSupportedMethodReport(patch, Commands, reported);
             AddConfigs(patch);
 
             // Update ReportedProperties to IoT Hub
@@ -419,48 +419,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     patch.Set(reportedName, value);
                 }
             }
-        }
-
-        protected void AddSupportedMethods(TwinCollection patch, TwinCollection reported)
-        {
-            var existingMethods = new HashSet<string>();
-            if (reported.Contains("SupportedMethods"))
-            {
-                existingMethods.UnionWith(reported.AsEnumerableFlatten()
-                    .Select(pair => pair.Key)
-                    .Where(key => key.StartsWith("SupportedMethods."))
-                    .Select(key => key.Split('.')[1]));
-            }
-
-            var supportedMethods = new TwinCollection();
-            foreach (var method in Commands.Where(c => c.DeliveryType == DeliveryType.Method))
-            {
-                var parametersObj = new TwinCollection();
-                foreach (var parameter in method.Parameters)
-                {
-                    var parameterObj = new TwinCollection();
-                    parameterObj["Name"] = parameter.Name;
-                    parameterObj["Type"] = parameter.Type;
-                    parametersObj[parameter.Name] = parameterObj;
-                }
-
-                var methodObj = new TwinCollection();
-                methodObj["Name"] = method.Name;
-                methodObj["Description"] = method.Description;
-                methodObj["Parameters"] = parametersObj;
-
-                string normalizedName = SupportedMethodsHelper.NormalizeMethodName(method);
-                supportedMethods[normalizedName] = methodObj;
-
-                existingMethods.Remove(normalizedName);
-            }
-
-            foreach (var method in existingMethods)
-            {
-                supportedMethods[method] = null;
-            }
-
-            patch["SupportedMethods"] = supportedMethods;
         }
 
         protected void AddConfigs(TwinCollection patch)
