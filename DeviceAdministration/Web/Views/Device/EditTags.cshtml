@@ -46,10 +46,12 @@
                                         <input type="text" class="edit_form__texthalf edit_form__propertiesComboBox"
                                                data-msg-regex=" "
                                                data-rule-regex="^tags\.\S+$"
+                                               data-rule-maxtwindepth ="5"
                                                data-bind="value: key, disable: isUserDefinedType, css:{edit_form__deleted : isDeleted()}, attr:{name: 'tagName' + $index(), id: 'tagName' + $index()}" />
                                     </td>
                                     <td>
                                         <input type="text" class="edit_form__texthalf"
+                                               data-rule-maxbytelength="512"
                                                data-bind='textInput: value.value,event:{ keyup:$root.updateDataType($data) }, enable:!isDeleted() && key(), css:{edit_form__deleted : isDeleted()}' />
                                     </td>
                                     <td>
@@ -104,7 +106,14 @@
 </script>
 <script type="text/javascript" src="~/Scripts/Views/Device/EditTags.js"></script>
 <script type="text/javascript">
+
     $(document).ready(function () {
+        jQuery.validator.addMethod("maxbytelength", function (value, element, params) {
+            return this.optional(element) || byteCount(value) <= params
+        }, "");
+        jQuery.validator.addMethod("maxtwindepth", function (value, element, params) {
+            return this.optional(element) || value.match(/\./gi).length <= params
+        }, "");
         IoTApp.EditTags.init("@Model.DeviceId");
     });
 

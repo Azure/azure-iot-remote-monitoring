@@ -72,10 +72,12 @@
                                                        placeholder="@Strings.PropertyTextPlaceHolder"
                                                        data-msg-regex=" "
                                                        data-rule-regex="^desired\.\S+$"
+                                                       data-rule-maxtwindepth="5"
                                                        data-bind='value: PropertyName, css:{edit_form__deleted : isDeleted()}, attr: { name: "DesiredProperties[" + $index() + "].PropertyName", id: "DesiredProperties" + $index() + ".PropertyName" }' />
                                             </td>
                                             <td>
                                                 <input type="text" class="edit_form__texthalfvalue"
+                                                       data-rule-maxbytelength="512"
                                                        data-bind='textInput: PropertyValue, enable:PropertyName() && !isDeleted(), css:{edit_form__deleted : isDeleted()},  event: { keyup: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
                                             </td>
                                             <td>
@@ -116,10 +118,12 @@
                                                        placeholder="@Strings.TagTextPlaceHolder"
                                                        data-msg-regex=" "
                                                        data-rule-regex="^tags\.\S+$"
+                                                       data-rule-maxtwindepth="5"
                                                        data-bind='value: TagName, css:{edit_form__deleted : isDeleted()}, attr: { name: "Tags[" + $index() + "].TagName", id: "Tags" + $index() + ".TagName" }' />
                                             </td>
                                             <td>
                                                 <input type="text" class="edit_form__texthalfvalue"
+                                                       data-rule-maxbytelength="512"
                                                        data-bind='textInput: TagValue, enable:TagName() && !isDeleted(), css:{edit_form__deleted : isDeleted()}, event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />
                                             </td>
                                             <td>
@@ -200,6 +204,12 @@
 <script type="text/javascript" src="~/Scripts/Views/Job/ScheduleTwinUpdate.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        jQuery.validator.addMethod("maxbytelength", function (value, element, params) {
+            return this.optional(element) || byteCount(value) <= params
+        }, "");
+        jQuery.validator.addMethod("maxtwindepth", function (value, element, params) {
+            return this.optional(element) || value.match(/\./gi).length <= params
+        }, "");
         IoTApp.ScheduleTwinUpdate.init(@Html.Raw(JsonConvert.SerializeObject(Model)));
     });
 
