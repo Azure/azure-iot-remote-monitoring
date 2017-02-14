@@ -512,6 +512,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Building.
+        /// </summary>
+        public static string BuildingHeader {
+            get {
+                return ResourceManager.GetString("BuildingHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid byte; expected a format like &apos;24&apos; (between 0 and 255).
         /// </summary>
         public static string byteCommandErrorMessage {
@@ -2407,6 +2416,15 @@ namespace GlobalResources {
         public static string FirmwareVersionMustBeLessThan200Characters {
             get {
                 return ResourceManager.GetString("FirmwareVersionMustBeLessThan200Characters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FwStatus.
+        /// </summary>
+        public static string FwStatusHeader {
+            get {
+                return ResourceManager.GetString("FwStatusHeader", resourceCulture);
             }
         }
         
@@ -5017,6 +5035,15 @@ namespace GlobalResources {
         public static string Temperature {
             get {
                 return ResourceManager.GetString("Temperature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Temperature.
+        /// </summary>
+        public static string TemperatureHeader {
+            get {
+                return ResourceManager.GetString("TemperatureHeader", resourceCulture);
             }
         }
         

@@ -14,16 +14,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
     public class DeviceListColumnsApiController : WebApiControllerBase
     {
         private readonly IUserSettingsLogic _userSettingsLogic;
-        private readonly List<DeviceListColumns> defaultColumns = new List<DeviceListColumns>() {
-                    new DeviceListColumns() { Name = "tags.HubEnabledState", Alias = Strings.StatusHeader.ToUpperInvariant() },
-                    new DeviceListColumns() { Name = "deviceId", Alias = Strings.DeviceIdHeader.ToUpperInvariant() },
-                    new DeviceListColumns() { Name = "reported.System.Manufacturer", Alias = Strings.ManufactureHeader.ToUpperInvariant() },
-                    new DeviceListColumns() { Name = "reported.System.ModelNumber", Alias = Strings.ModelNumberHeader.ToUpperInvariant() },
-                    new DeviceListColumns() { Name = "reported.System.SerialNumber", Alias = Strings.SerialNumberHeader.ToUpperInvariant() },
-                    new DeviceListColumns() { Name = "reported.System.FirmwareVersion", Alias = Strings.FirmwareHeader.ToUpperInvariant() },
-                    new DeviceListColumns() { Name = "reported.System.Platform", Alias = Strings.PlatformHeader.ToUpperInvariant() },
-                    new DeviceListColumns() { Name = "reported.System.Processor", Alias = Strings.ProcessorHeader.ToUpperInvariant() },
-                    new DeviceListColumns() { Name = "reported.System.InstalledRAM", Alias = Strings.InstalledRamHeader.ToUpperInvariant() }};
+        private readonly List<DeviceListColumns> defaultColumns = new List<DeviceListColumns>()
+        {
+            new DeviceListColumns { Name = "tags.HubEnabledState", Alias = Strings.StatusHeader.ToUpperInvariant() },
+            new DeviceListColumns { Name = "deviceId", Alias = Strings.DeviceIdHeader.ToUpperInvariant() },
+            new DeviceListColumns { Name = "reported.System.Manufacturer", Alias = Strings.ManufactureHeader.ToUpperInvariant() },
+            new DeviceListColumns { Name = "reported.System.FirmwareVersion", Alias = Strings.FirmwareHeader.ToUpperInvariant() },
+            new DeviceListColumns { Name = "tags.Building", Alias = Strings.BuildingHeader.ToUpperInvariant() },
+            new DeviceListColumns { Name = "reported.Config.TemperatureMeanValue", Alias = Strings.TemperatureHeader.ToUpperInvariant() },
+            new DeviceListColumns { Name = "reported.Method.UpdateFirmware.Status", Alias = Strings.FwStatusHeader.ToUpperInvariant() }
+        };
 
         public DeviceListColumnsApiController(IUserSettingsLogic userSettingsLogic)
         {
@@ -39,7 +39,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             return await GetServiceResponseAsync<IEnumerable<DeviceListColumns>>(async () =>
             {
-                var columns =  await _userSettingsLogic.GetDeviceListColumnsAsync(userId);
+                var columns = await _userSettingsLogic.GetDeviceListColumnsAsync(userId);
 
                 if (columns == null || columns.Count() == 0)
                 {

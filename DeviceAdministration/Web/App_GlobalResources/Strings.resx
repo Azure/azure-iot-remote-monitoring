@@ -2488,4 +2488,16 @@
     <value>Filter Name</value>
     <comment>Input label.</comment>
   </data>
+  <data name="FwStatusHeader" xml:space="preserve">
+    <value>FwStatus</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="TemperatureHeader" xml:space="preserve">
+    <value>Temperature</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="BuildingHeader" xml:space="preserve">
+    <value>Building</value>
+    <comment>Table column header.</comment>
+  </data>
 </root>
