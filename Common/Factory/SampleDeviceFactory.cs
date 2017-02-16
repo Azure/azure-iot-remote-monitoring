@@ -22,7 +22,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         private static readonly Random Rand = new Random();
 
-        private static readonly List<string> DefaultDeviceNames = new List<string>{
+        private static readonly List<string> DefaultDeviceNames = new List<string>
+        {
             "CoolingSampleDevice001",
             "CoolingSampleDevice002",
             "CoolingSampleDevice003",
@@ -48,6 +49,18 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             "CoolingSampleDevice023",
             "CoolingSampleDevice024",
             "CoolingSampleDevice025"
+        };
+
+        private static readonly List<string> FreeFirmwareDeviceNames = new List<string>
+        {
+            "CoolingSampleDevice001",
+            "CoolingSampleDevice002",
+            "CoolingSampleDevice003",
+            "CoolingSampleDevice004",
+            "CoolingSampleDevice005",
+            "CoolingSampleDevice006",
+            "CoolingSampleDevice007",
+            "CoolingSampleDevice008"
         };
 
         private class Location
@@ -141,7 +154,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             device.DeviceProperties.Manufacturer = "Contoso Inc.";
             device.DeviceProperties.ModelNumber = "MD-" + randomId;
             device.DeviceProperties.SerialNumber = "SER" + randomId;
-            device.DeviceProperties.FirmwareVersion = "1." + randomId;
+
+            if (FreeFirmwareDeviceNames.Any(n => device.DeviceProperties.DeviceID.StartsWith(n)))
+            {
+                device.DeviceProperties.FirmwareVersion = "1." + randomId;
+            }
+            else
+            {
+                device.DeviceProperties.FirmwareVersion = "2.0";
+            }
+
             device.DeviceProperties.Platform = "Plat-" + randomId;
             device.DeviceProperties.Processor = "i3-" + randomId;
             device.DeviceProperties.InstalledRAM = randomId + " MB";
