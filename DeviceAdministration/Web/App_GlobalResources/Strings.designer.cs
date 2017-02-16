@@ -3734,6 +3734,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please name your filter..
+        /// </summary>
+        public static string PleaseNameYourFilter {
+            get {
+                return ResourceManager.GetString("PleaseNameYourFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Power Source Voltage.
         /// </summary>
         public static string PowerSourceVoltage {

@@ -11,7 +11,7 @@
         }
     };
 
-    var displayError = function (message) {
+    var displayError = function (message, callback) {
         var container = $("#dialog-error");
         $("div span", container).html(message);
 
@@ -21,6 +21,9 @@
                     text: container.data("resource-ok"),
                     click: function () {
                         $(this).dialog("close");
+                        if ($.isFunction(callback)) {
+                            callback();
+                        }
                     },
                     "class": "button_base"
                 }

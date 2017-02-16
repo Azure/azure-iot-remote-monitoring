@@ -171,7 +171,14 @@
                 }
             }
         },
-        saveFilter: function (callback) {
+        saveFilter: function (callback, notAllowDefaultFilterName) {
+            if (notAllowDefaultFilterName && self.model.name() == resources.defaultFilterName) {
+                IoTApp.Helpers.Dialog.displayError(resources.pleaseNameYourFilter, function () {
+                    self.model.startEditFilterName();
+                });
+                return;
+            }
+
             var filter = self.model.getFilterModel();
             api.saveFilter(filter, function (result) {
                 if (!self.model.id()) {
@@ -187,6 +194,13 @@
             })
         },
         saveAsFilter: function () {
+            if (self.model.saveAsName() == resources.defaultFilterName) {
+                IoTApp.Helpers.Dialog.displayError(resources.pleaseNameYourFilter, function () {
+                    $('.filter_panel_filtername_saveas_input').select();
+                });
+                return;
+            }
+
             self.model.closeSaveAsDialog();
             var newName = self.model.saveAsName();
             self.model.id(null);
@@ -201,6 +215,13 @@
             })
         },
         saveAsFilterForSelectedDevices: function (open) {
+            if (self.model.saveAsName() == resources.defaultFilterName) {
+                IoTApp.Helpers.Dialog.displayError(resources.pleaseNameYourFilter, function () {
+                    $('.filter_panel_filtername_saveas_input').select();
+                });
+                return;
+            }
+
             self.model.closeSaveAsDialog();
             var newName = self.model.saveAsName();
             $('.loader_container').show();

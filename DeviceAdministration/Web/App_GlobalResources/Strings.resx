@@ -2500,4 +2500,8 @@
     <value>Building</value>
     <comment>Table column header.</comment>
   </data>
+  <data name="PleaseNameYourFilter" xml:space="preserve">
+    <value>Please name your filter.</value>
+    <comment>Error message.</comment>
+  </data>
 </root>
