@@ -946,7 +946,7 @@
   </data>
   <data name="NumberOfDevicesHeader" xml:space="preserve">
     <value>No. of Devices</value>
-    <comment>Table column header.</comment>
+    <comment>Table column header. “No. of Devices” means: “the Number of Devices”. It means the device count.</comment>
   </data>
   <data name="sbyteCommandErrorMessage" xml:space="preserve">
     <value>Invalid SByte; expected a format like '-43' or '12' (between -128 and 127)</value>
@@ -1922,7 +1922,7 @@
     <comment>Error message.</comment>
   </data>
   <data name="FailedToSaveFilter" xml:space="preserve">
-    <value>Failed to save this filter because it it associated with jobs.</value>
+    <value>Failed to save this filter.</value>
     <comment>Error message.</comment>
   </data>
   <data name="SearchTypeFilters" xml:space="preserve">
@@ -2502,6 +2502,10 @@
   </data>
   <data name="PleaseNameYourFilter" xml:space="preserve">
     <value>Please name your filter.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FilterNameMustBeUnique" xml:space="preserve">
+    <value>The filter name must be unique.</value>
     <comment>Error message.</comment>
   </data>
 </root>

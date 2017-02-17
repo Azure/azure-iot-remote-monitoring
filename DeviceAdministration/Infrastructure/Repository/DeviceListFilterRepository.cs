@@ -130,6 +130,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 if (!force) return oldFilter;
             }
 
+            if (filter.Name != Constants.UnnamedFilterName)
+            {
+                var query = new TableQuery<DeviceListFilterTableEntity>().Where(
+                    TableQuery.CombineFilters(
+                        TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.NotEqual, filter.Id),
+                        TableOperators.And,
+                        TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, filter.Name)
+                    )
+                );
+                var entities = await _filterTableStorageClient.ExecuteQueryAsync(query);
+                if (entities.Any())
+                {
+                    throw new FilterDuplicatedNameException(filter.Id, filter.Name);
+                }
+            }
+
             DeviceListFilterTableEntity newEntity = new DeviceListFilterTableEntity(filter) { ETag = "*" };
             var result = await _filterTableStorageClient.DoTableInsertOrReplaceAsync(newEntity, BuildFilterModelFromEntity);
 

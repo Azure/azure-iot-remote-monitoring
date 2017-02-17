@@ -2006,7 +2006,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to save this filter because it it associated with jobs..
+        ///   Looks up a localized string similar to Failed to save this filter..
         /// </summary>
         public static string FailedToSaveFilter {
             get {
@@ -2155,6 +2155,15 @@ namespace GlobalResources {
         public static string FilterNameHeader {
             get {
                 return ResourceManager.GetString("FilterNameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The filter name must be unique..
+        /// </summary>
+        public static string FilterNameMustBeUnique {
+            get {
+                return ResourceManager.GetString("FilterNameMustBeUnique", resourceCulture);
             }
         }
         

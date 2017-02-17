@@ -16,11 +16,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public ErrorType Type { get; set; }
         public string Message { get; set; }
+        public string ExceptionType { get; set; }
 
         public Error(Exception exception)
         {
             Type = ErrorType.Exception;
             Message = Strings.UnexpectedErrorOccurred;
+            ExceptionType = exception.GetType().Name;
         }
 
         public Error(string validationError)

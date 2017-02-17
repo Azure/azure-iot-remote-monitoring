@@ -180,6 +180,7 @@
             }
 
             var filter = self.model.getFilterModel();
+            $('.loader_container').show();
             api.saveFilter(filter, function (result) {
                 if (!self.model.id()) {
                     self.model.id(result.id);
@@ -187,11 +188,14 @@
                 self.model.isFilterLoadedFromServer(true);
                 self.model.loadFilters();
                 self.model.isChanged(false);
+                $('.loader_container').hide();
 
                 if ($.isFunction(callback)) {
                     callback();
                 }
-            })
+            }, function () {
+                $('.loader_container').hide();
+            });
         },
         saveAsFilter: function () {
             if (self.model.saveAsName() == resources.defaultFilterName) {
@@ -207,12 +211,16 @@
             self.model.name(newName);
             var filter = self.model.getFilterModel();
 
+            $('.loader_container').show();
             api.saveFilter(filter, function (result) {
                 self.model.id(result.id);
                 self.model.isFilterLoadedFromServer(true);
                 self.model.loadFilters();
                 self.model.isChanged(false);
-            })
+                $('.loader_container').hide();
+            }, function () {
+                $('.loader_container').hide();
+            });
         },
         saveAsFilterForSelectedDevices: function (open) {
             if (self.model.saveAsName() == resources.defaultFilterName) {
@@ -235,18 +243,24 @@
                 }
 
                 self.model.loadFilters();
+            }, function () {
+                $('.loader_container').hide();
             });
         },
-        saveFilterForSelectedDevices: function (name, deviceIds, callback) {
+        saveFilterForSelectedDevices: function (name, deviceIds, successCallback, errorCallback) {
             name = name || resources.defaultFilterName;
             
             self.model.createAndSaveFilterWithClause(name, "deviceId", "IN", deviceIds.join(", "), function (filterId) {
-                if ($.isFunction(callback)) {
-                    callback(filterId);
+                if ($.isFunction(successCallback)) {
+                    successCallback(filterId);
+                }
+            }, function (exceptionType) {
+                if ($.isFunction(errorCallback)) {
+                    errorCallback(exceptionType);
                 }
             });
         },
-        createAndSaveFilterWithClause: function (name, columnName, operator, value, callback) {
+        createAndSaveFilterWithClause: function (name, columnName, operator, value, successCallback, errorCallback) {
             var filter = {
                 name: name,
                 filterName: name,
@@ -259,10 +273,14 @@
             };
 
             api.saveFilter(filter, function (result) {
-                if ($.isFunction(callback)) {
-                    callback(result.id);
+                if ($.isFunction(successCallback)) {
+                    successCallback(result.id);
                 }
-            })
+            }, function (exceptionType) {
+                if ($.isFunction(errorCallback)) {
+                    errorCallback(exceptionType);
+                }
+            });
         },
         deleteFilter: function (data, e, forceDelete) {
             if (self.model.associatedJobsCount()) {
@@ -778,7 +796,7 @@
                 }
             });
         },
-        saveFilter: function (filter, callback) {
+        saveFilter: function (filter, successCallback, errorCallback) {
             var url = "/api/v1/filters";
             return $.ajax({
                 url: url,
@@ -786,12 +804,31 @@
                 data: filter,
                 dataType: 'json',
                 success: function (result) {
-                    if ($.isFunction(callback)) {
-                        callback(result.data);
+                    if ($.isFunction(successCallback)) {
+                        successCallback(result.data);
                     }
                 },
-                error: function () {
-                    IoTApp.Helpers.Dialog.displayError(resources.failedToSaveFilter);
+                error: function (xhr, status, error) {
+                    var exceptionType;
+                    var message;
+                    if (xhr.responseJSON && xhr.responseJSON.error && xhr.responseJSON.error.length > 0) {
+                        exceptionType = xhr.responseJSON.error[0].exceptionType;
+                    }
+
+                    switch(exceptionType) {
+                        case "FilterDuplicatedNameException":
+                            message = resources.filterNameMustBeUnique;
+                            break;
+                        default:
+                            message = resources.failedToSaveFilter;
+                            break;
+                    }
+                    
+                    IoTApp.Helpers.Dialog.displayError(message);
+                    
+                    if ($.isFunction(errorCallback)) {
+                        errorCallback(exceptionType);
+                    }
                 }
             });
         },
