@@ -757,7 +757,7 @@
     <comment>Table column header.</comment>
   </data>
   <data name="SaveChangesToDevice" xml:space="preserve">
-    <value>Wijzigingen aan het apparaatregister opslaan</value>
+    <value>Wijzigingen voor de apparaatdubbel opslaan</value>
     <comment>Button label.</comment>
   </data>
   <data name="RuleOutputHeader" xml:space="preserve">
@@ -946,7 +946,7 @@
   </data>
   <data name="NumberOfDevicesHeader" xml:space="preserve">
     <value>Aantal apparaten</value>
-    <comment>Table column header.</comment>
+    <comment>Table column header. “No. of Devices” means: “the Number of Devices”. It means the device count.</comment>
   </data>
   <data name="sbyteCommandErrorMessage" xml:space="preserve">
     <value>Ongeldige SByte; er werd een notatie zoals -43 of 12 (tussen -128 en 127) verwacht</value>
@@ -1703,15 +1703,15 @@
     <comment>Tooltip.</comment>
   </data>
   <data name="InvokeMethodLabel" xml:space="preserve">
-    <value>Aanroepmethode</value>
+    <value>Methode</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="EditColumns" xml:space="preserve">
-    <value>Kolommen bewerken</value>
+    <value>Kolom bewerken</value>
     <comment>Button label.</comment>
   </data>
   <data name="ScheduleJob" xml:space="preserve">
-    <value>Taak plannen</value>
+    <value>Taakplanner</value>
     <comment>Button label.</comment>
   </data>
   <data name="ScheduleJobPanelLabel" xml:space="preserve">
@@ -1719,7 +1719,7 @@
     <comment>Section heading.</comment>
   </data>
   <data name="UpdateTwin" xml:space="preserve">
-    <value>Eigenschappen of tags bewerken</value>
+    <value>Apparaatdubbel bewerken</value>
     <comment>Button label.</comment>
   </data>
   <data name="RecentJobs" xml:space="preserve">
@@ -1767,11 +1767,11 @@
     <comment>Hyperlink label</comment>
   </data>
   <data name="ScheduleChangeDesiredProperties" xml:space="preserve">
-    <value>Gewenste eigenschappen wijzigen</value>
+    <value>Gewenste eigenschappen</value>
     <comment>Input label</comment>
   </data>
   <data name="ScheduleChangeTags" xml:space="preserve">
-    <value>Tags wijzigen</value>
+    <value>Labels</value>
     <comment>Input label</comment>
   </data>
   <data name="ScheduleDesiredPropertyName" xml:space="preserve">
@@ -1779,11 +1779,11 @@
     <comment>Input label</comment>
   </data>
   <data name="ScheduleEditPropertiesOrTags" xml:space="preserve">
-    <value>Eigenschappen of tags bewerken</value>
+    <value>Apparaatdubbel bewerken</value>
     <comment>Label</comment>
   </data>
   <data name="ScheduleEditValue" xml:space="preserve">
-    <value>Waarde bewerken</value>
+    <value>Waarde</value>
     <comment>Input label</comment>
   </data>
   <data name="ScheduleJobName" xml:space="preserve">
@@ -1791,15 +1791,15 @@
     <comment>Input label</comment>
   </data>
   <data name="ScheduleSetJobTime" xml:space="preserve">
-    <value>Tijd voor de taak instellen</value>
+    <value>Tijd voor de taak</value>
     <comment>Input label</comment>
   </data>
   <data name="SomeDeviceInapplicable" xml:space="preserve">
-    <value>{0} van {1} apparaten niet van toepassing</value>
+    <value>{0} apparaten niet van toepassing</value>
     <comment>label</comment>
   </data>
   <data name="SomeDevicesApplicable" xml:space="preserve">
-    <value>{0} van {1} apparaten van toepassing</value>
+    <value>{0} apparaten van toepassing</value>
     <comment>label</comment>
   </data>
   <data name="StartTime" xml:space="preserve">
@@ -1949,13 +1949,9 @@
     <value>Taken</value>
     <comment>Section heading.</comment>
   </data>
-  <data name="JobHistoryForQuery" xml:space="preserve">
-    <value>Taakgeschiedenis voor de query</value>
+  <data name="JobHistoryForFilter" xml:space="preserve">
+    <value>Taakgeschiedenis voor dit filter</value>
     <comment>Section heading.</comment>
-  </data>
-  <data name="JobHistoryForQueryTooltip" xml:space="preserve">
-    <value>Taakgeschiedenis voor de query</value>
-    <comment>Tooltip.</comment>
   </data>
   <data name="JobsTooltip" xml:space="preserve">
     <value>Taken</value>
@@ -1964,10 +1960,6 @@
   <data name="ScheduleJobError" xml:space="preserve">
     <value>Kan de taak niet plannen. Er is een onverwachte fout opgetreden.</value>
     <comment>Error message.</comment>
-  </data>
-  <data name="RequiredValidationString" xml:space="preserve">
-    <value>Dit veld is vereist</value>
-    <comment>Error message</comment>
   </data>
   <data name="ScheduleParameterName" xml:space="preserve">
     <value>Parameters</value>
@@ -2069,11 +2061,11 @@
     <comment>Table cell.</comment>
   </data>
   <data name="ScheduleDeviceMethodJobType" xml:space="preserve">
-    <value>Aanroepmethode</value>
+    <value>Methode</value>
     <comment>Table cell.</comment>
   </data>
   <data name="ScheduleUpdateTwinJobType" xml:space="preserve">
-    <value>Eigenschappen en tags bewerken</value>
+    <value>Apparaatdubbel bewerken</value>
     <comment>Table cell.</comment>
   </data>
   <data name="UnknownJobType" xml:space="preserve">
@@ -2193,20 +2185,12 @@
     <comment>Hyperlink label.</comment>
   </data>
   <data name="ShowJobResults" xml:space="preserve">
-    <value>Details weergeven</value>
+    <value>Resultaten weergeven</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="JobOperationResult" xml:space="preserve">
     <value>Taakbewerkingen</value>
     <comment>Section heading.</comment>
-  </data>
-  <data name="JobOperationResultTooltip" xml:space="preserve">
-    <value>De bewerkingsresultaten van de taak</value>
-    <comment>Tooltip.</comment>
-  </data>
-  <data name="JobPropertiesTooltip" xml:space="preserve">
-    <value>Eigenschappen van de taak</value>
-    <comment>Tooltip.</comment>
   </data>
   <data name="JobStatisticsTooltip" xml:space="preserve">
     <value>Apparaatstatistieken van de taak</value>
@@ -2249,7 +2233,7 @@
     <comment>Tooltip.</comment>
   </data>
   <data name="EditFilter" xml:space="preserve">
-    <value>Editorfilter</value>
+    <value>Filter bewerken</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="SaveAsFilter" xml:space="preserve">
@@ -2279,5 +2263,249 @@
   <data name="DeleteFilterWithJobsConfirmation" xml:space="preserve">
     <value>Dit filter is gekoppeld aan taken. Weet u zeker dat u dit filter wilt verwijderen?</value>
     <comment>Confirmation message.</comment>
+  </data>
+  <data name="ClauseMultipleValuesHint" xml:space="preserve">
+    <value>Voer door komma's gescheiden waarden in.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ClauseSingleValueHint" xml:space="preserve">
+    <value>Voer een waarde in.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="HaveNoPermissionError" xml:space="preserve">
+    <value>U beschikt niet over de machtiging voor deze acties.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SavedFilters" xml:space="preserve">
+    <value>Opgeslagen filters</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="FailedToCreateTempFilter" xml:space="preserve">
+    <value>Kan het tijdelijke filter niet maken.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToSearchApplicableDevice" xml:space="preserve">
+    <value>Kan het toepasselijke aantal apparaten niet ophalen.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceSelected" xml:space="preserve">
+    <value>{0} apparaat geselecteerd</value>
+    <comment>Session heading.</comment>
+  </data>
+  <data name="DevicesSelected" xml:space="preserve">
+    <value>{0} apparaten geselecteerd</value>
+    <comment>Session heading.</comment>
+  </data>
+  <data name="SaveAndOpen" xml:space="preserve">
+    <value>Opslaan en openen</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="NoDesiredProperties" xml:space="preserve">
+    <value>Geen gewenste eigenschappen</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="NoTags" xml:space="preserve">
+    <value>Geen tags</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="ApplyExistingIconLabel" xml:space="preserve">
+    <value>Bestaand pictogram toepassen</value>
+    <comment>Option label.</comment>
+  </data>
+  <data name="EditIconFor" xml:space="preserve">
+    <value>Pictogram voor {0} bewerken</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="PreviewImage" xml:space="preserve">
+    <value>Preview</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="RemoveCurrentIconLabel" xml:space="preserve">
+    <value>Huidig pictogram verwijderen</value>
+    <comment>Option label.</comment>
+  </data>
+  <data name="UploadNewIconLabel" xml:space="preserve">
+    <value>Nieuw pictogram uploaden</value>
+    <comment>Option label.</comment>
+  </data>
+  <data name="FailedToUploadImage" xml:space="preserve">
+    <value>Kan het afbeeldingsbestand niet uploaden, probeer het opnieuw.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ChooseFileLabel" xml:space="preserve">
+    <value>Bestand kiezen</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="OpenImageTooltip" xml:space="preserve">
+    <value>Kies een afbeeldingsbestand.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="OverSizedFile" xml:space="preserve">
+    <value>Gebruik een afbeeldingsbestand dat kleiner is dan 4 MB.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceTwin" xml:space="preserve">
+    <value>Apparaatdubbel</value>
+    <comment>Session heading.</comment>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Pictogram</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="EditDisplayName" xml:space="preserve">
+    <value>Weergavenaam bewerken</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FilteredDeviceCount" xml:space="preserve">
+    <value>({0})</value>
+    <comment>Label string</comment>
+  </data>
+  <data name="LoadingText" xml:space="preserve">
+    <value>Laden...</value>
+    <comment>Label message</comment>
+  </data>
+  <data name="PropertyTextPlaceHolder" xml:space="preserve">
+    <value>desired.sampleprop</value>
+    <comment>Text input Placeholder </comment>
+  </data>
+  <data name="TagTextPlaceHolder" xml:space="preserve">
+    <value> tags.sampletag</value>
+    <comment>Text input Placeholder</comment>
+  </data>
+  <data name="DeleteIconTooltip" xml:space="preserve">
+    <value>Pictogram verwijderen</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="FailedToDeleteIcon" xml:space="preserve">
+    <value>Dit pictogram wordt gebruikt door andere apparaten.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ImageSizeSuggestions" xml:space="preserve">
+    <value>Gebruik een afbeeldingsbestand van 150*150 pixels dat kleiner is dan 4 MB.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ExternalJobNamePrefix" xml:space="preserve">
+    <value>Externe taak {0}</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="NewScheduleJobNameFormat" xml:space="preserve">
+    <value>Nieuwe taak dd-mm-jjjj</value>
+    <comment>Name format</comment>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>Schema</value>
+    <comment>Buttone label.</comment>
+  </data>
+  <data name="DeviceTwinHeader" xml:space="preserve">
+    <value>JSON-documents waarin informatie over de apparaatstatus wordt opgeslagen</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="EditDesiredPropertyDelete" xml:space="preserve">
+    <value>Inschakelen om deze eigenschap te verwijderen uit de apparaatdubbel</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="EditDeviceIcon" xml:space="preserve">
+    <value>Apparaatpictogram bewerken</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="EditDeviceTwinDelete" xml:space="preserve">
+    <value>Inschakelen om deze tag te verwijderen van het apparaat</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Alle</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="JobResultsFor" xml:space="preserve">
+    <value>Taakresultaten voor {0}</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+    <comment>Label</comment>
+  </data>
+  <data name="SelectDeviceStatus" xml:space="preserve">
+    <value>Apparaatstatus selecteren</value>
+    <comment>Label</comment>
+  </data>
+  <data name="EditTagDelete" xml:space="preserve">
+    <value>Inschakelen om deze tag te verwijderen uit de apparaatdubbel</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="MaximumExecutionTime" xml:space="preserve">
+    <value>0: geen limiet</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="MethodHeader" xml:space="preserve">
+    <value>De methoden worden geëxtraheerd uit een gereserveerde gerapporteerde eigenschap in de apparaatdubbel: SupportedMethods.</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="LoadDefaultConfirmation" xml:space="preserve">
+    <value>Als u de standaardkolommen laadt, wordt de huidige instelling voor kolommen overschreven. Klik op OK om door te gaan of op Annuleren om af te breken.</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="UpdateIcon" xml:space="preserve">
+    <value>Apparaatpictogram bewerken</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="NoSelectedIcon" xml:space="preserve">
+    <value>Selecteer een pictogram om deze taak te plannen.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ScheduleRemoveIconJobType" xml:space="preserve">
+    <value>Apparaatpictogram verwijderen</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ScheduleUpdateIconJobType" xml:space="preserve">
+    <value>Apparaatpictogram bijwerken</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="NoAvailableActions" xml:space="preserve">
+    <value>Geen beschikbare acties</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DataTypeLabel" xml:space="preserve">
+    <value>Gegevenstype</value>
+    <comment>Textbox label.</comment>
+  </data>
+  <data name="BooleanLabel" xml:space="preserve">
+    <value>Booleaans</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="NumberLabel" xml:space="preserve">
+    <value>Aantal</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="StringLabel" xml:space="preserve">
+    <value>Tekenreeks</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="DeleteClauseConfirmation" xml:space="preserve">
+    <value>Weet u zeker dat u deze component wilt verwijderen?</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="FilterName" xml:space="preserve">
+    <value>Filternaam</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="FwStatusHeader" xml:space="preserve">
+    <value>FwStatus</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="TemperatureHeader" xml:space="preserve">
+    <value>Temperature</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="BuildingHeader" xml:space="preserve">
+    <value>Building</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="PleaseNameYourFilter" xml:space="preserve">
+    <value>Please name your filter.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FilterNameMustBeUnique" xml:space="preserve">
+    <value>The filter name must be unique.</value>
+    <comment>Error message.</comment>
   </data>
 </root>

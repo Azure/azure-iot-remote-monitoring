@@ -757,7 +757,7 @@
     <comment>Table column header.</comment>
   </data>
   <data name="SaveChangesToDevice" xml:space="preserve">
-    <value>Salva le modifiche al Registro di sistema del dispositivo</value>
+    <value>Salva le modifiche nel dispositivo gemello</value>
     <comment>Button label.</comment>
   </data>
   <data name="RuleOutputHeader" xml:space="preserve">
@@ -946,7 +946,7 @@
   </data>
   <data name="NumberOfDevicesHeader" xml:space="preserve">
     <value>N. di dispositivi</value>
-    <comment>Table column header.</comment>
+    <comment>Table column header. “No. of Devices” means: “the Number of Devices”. It means the device count.</comment>
   </data>
   <data name="sbyteCommandErrorMessage" xml:space="preserve">
     <value>Il valore SByte non è valido. È previsto un formato come '-43' o '12' (compreso tra -128 e 127)</value>
@@ -1703,15 +1703,15 @@
     <comment>Tooltip.</comment>
   </data>
   <data name="InvokeMethodLabel" xml:space="preserve">
-    <value>Richiama metodo</value>
+    <value>Metodo</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="EditColumns" xml:space="preserve">
-    <value>Modifica colonne</value>
+    <value>Editor di colonne</value>
     <comment>Button label.</comment>
   </data>
   <data name="ScheduleJob" xml:space="preserve">
-    <value>Pianifica processo</value>
+    <value>Pianificatore di processi</value>
     <comment>Button label.</comment>
   </data>
   <data name="ScheduleJobPanelLabel" xml:space="preserve">
@@ -1719,7 +1719,7 @@
     <comment>Section heading.</comment>
   </data>
   <data name="UpdateTwin" xml:space="preserve">
-    <value>Modifica proprietà o tag</value>
+    <value>Modifica dispositivo gemello</value>
     <comment>Button label.</comment>
   </data>
   <data name="RecentJobs" xml:space="preserve">
@@ -1755,7 +1755,7 @@
     <comment>Button label.</comment>
   </data>
   <data name="MaxExecutionTime" xml:space="preserve">
-    <value>TEMPO ESECUZIONE MASSIMO</value>
+    <value>TEMPO DI ESECUZIONE MASSIMO</value>
     <comment>Input label</comment>
   </data>
   <data name="Method" xml:space="preserve">
@@ -1767,11 +1767,11 @@
     <comment>Hyperlink label</comment>
   </data>
   <data name="ScheduleChangeDesiredProperties" xml:space="preserve">
-    <value>Modifica proprietà desiderate</value>
+    <value>Proprietà desiderate</value>
     <comment>Input label</comment>
   </data>
   <data name="ScheduleChangeTags" xml:space="preserve">
-    <value>Modifica tag</value>
+    <value>Tag</value>
     <comment>Input label</comment>
   </data>
   <data name="ScheduleDesiredPropertyName" xml:space="preserve">
@@ -1779,11 +1779,11 @@
     <comment>Input label</comment>
   </data>
   <data name="ScheduleEditPropertiesOrTags" xml:space="preserve">
-    <value>Modifica proprietà o tag</value>
+    <value>Modifica dispositivo gemello</value>
     <comment>Label</comment>
   </data>
   <data name="ScheduleEditValue" xml:space="preserve">
-    <value>Modifica valore</value>
+    <value>Valore</value>
     <comment>Input label</comment>
   </data>
   <data name="ScheduleJobName" xml:space="preserve">
@@ -1791,15 +1791,15 @@
     <comment>Input label</comment>
   </data>
   <data name="ScheduleSetJobTime" xml:space="preserve">
-    <value>Imposta ora processo</value>
+    <value>Ora processo</value>
     <comment>Input label</comment>
   </data>
   <data name="SomeDeviceInapplicable" xml:space="preserve">
-    <value>{0} di {1} dispositivi non applicabili</value>
+    <value>{0} dispositivi non applicabili</value>
     <comment>label</comment>
   </data>
   <data name="SomeDevicesApplicable" xml:space="preserve">
-    <value>{0} di {1} dispositivi applicabili</value>
+    <value>{0} dispositivi applicabili</value>
     <comment>label</comment>
   </data>
   <data name="StartTime" xml:space="preserve">
@@ -1949,13 +1949,9 @@
     <value>Processi</value>
     <comment>Section heading.</comment>
   </data>
-  <data name="JobHistoryForQuery" xml:space="preserve">
-    <value>Cronologia processo per la query</value>
+  <data name="JobHistoryForFilter" xml:space="preserve">
+    <value>Cronologia processo per questo filtro</value>
     <comment>Section heading.</comment>
-  </data>
-  <data name="JobHistoryForQueryTooltip" xml:space="preserve">
-    <value>Cronologia processo per la query</value>
-    <comment>Tooltip.</comment>
   </data>
   <data name="JobsTooltip" xml:space="preserve">
     <value>Processi</value>
@@ -1964,10 +1960,6 @@
   <data name="ScheduleJobError" xml:space="preserve">
     <value>Non è possibile pianificare il processo. Si è verificato un errore imprevisto.</value>
     <comment>Error message.</comment>
-  </data>
-  <data name="RequiredValidationString" xml:space="preserve">
-    <value>Questo campo è obbligatorio</value>
-    <comment>Error message</comment>
   </data>
   <data name="ScheduleParameterName" xml:space="preserve">
     <value>Parametri</value>
@@ -2069,11 +2061,11 @@
     <comment>Table cell.</comment>
   </data>
   <data name="ScheduleDeviceMethodJobType" xml:space="preserve">
-    <value>Richiama metodo</value>
+    <value>Metodo</value>
     <comment>Table cell.</comment>
   </data>
   <data name="ScheduleUpdateTwinJobType" xml:space="preserve">
-    <value>Modifica proprietà e tag</value>
+    <value>Modifica dispositivo gemello</value>
     <comment>Table cell.</comment>
   </data>
   <data name="UnknownJobType" xml:space="preserve">
@@ -2193,20 +2185,12 @@
     <comment>Hyperlink label.</comment>
   </data>
   <data name="ShowJobResults" xml:space="preserve">
-    <value>Mostra dettagli</value>
+    <value>Mostra risultati</value>
     <comment>Hyperlink label.</comment>
   </data>
   <data name="JobOperationResult" xml:space="preserve">
     <value>Operazioni processo</value>
     <comment>Section heading.</comment>
-  </data>
-  <data name="JobOperationResultTooltip" xml:space="preserve">
-    <value>Risultati dell'operazione per il processo</value>
-    <comment>Tooltip.</comment>
-  </data>
-  <data name="JobPropertiesTooltip" xml:space="preserve">
-    <value>Proprietà del processo</value>
-    <comment>Tooltip.</comment>
   </data>
   <data name="JobStatisticsTooltip" xml:space="preserve">
     <value>Statistiche dispositivo del processo</value>
@@ -2249,7 +2233,7 @@
     <comment>Tooltip.</comment>
   </data>
   <data name="EditFilter" xml:space="preserve">
-    <value>Filtro editor</value>
+    <value>Modifica filtro</value>
     <comment>Tooltip.</comment>
   </data>
   <data name="SaveAsFilter" xml:space="preserve">
@@ -2279,5 +2263,249 @@
   <data name="DeleteFilterWithJobsConfirmation" xml:space="preserve">
     <value>Questo filtro è associato a processi. Eliminare il filtro?</value>
     <comment>Confirmation message.</comment>
+  </data>
+  <data name="ClauseMultipleValuesHint" xml:space="preserve">
+    <value>Valori di input separati da virgole.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ClauseSingleValueHint" xml:space="preserve">
+    <value>Valore di input.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="HaveNoPermissionError" xml:space="preserve">
+    <value>Non si è autorizzati a eseguire queste azioni.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="SavedFilters" xml:space="preserve">
+    <value>Filtri salvati</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="FailedToCreateTempFilter" xml:space="preserve">
+    <value>Non è stato possibile creare il filtro temporaneo.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FailedToSearchApplicableDevice" xml:space="preserve">
+    <value>Non è stato possibile recuperare il numero di dispositivi applicabili.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceSelected" xml:space="preserve">
+    <value>{0} dispositivo selezionato</value>
+    <comment>Session heading.</comment>
+  </data>
+  <data name="DevicesSelected" xml:space="preserve">
+    <value>{0} dispositivi selezionati</value>
+    <comment>Session heading.</comment>
+  </data>
+  <data name="SaveAndOpen" xml:space="preserve">
+    <value>Salva e apri</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="NoDesiredProperties" xml:space="preserve">
+    <value>Nessuna proprietà desiderata</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="NoTags" xml:space="preserve">
+    <value>Nessun tag</value>
+    <comment>Informational text block.</comment>
+  </data>
+  <data name="ApplyExistingIconLabel" xml:space="preserve">
+    <value>Applica icona esistente</value>
+    <comment>Option label.</comment>
+  </data>
+  <data name="EditIconFor" xml:space="preserve">
+    <value>Modifica icona per {0}</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="PreviewImage" xml:space="preserve">
+    <value>Anteprima</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="RemoveCurrentIconLabel" xml:space="preserve">
+    <value>Rimuovi icona corrente</value>
+    <comment>Option label.</comment>
+  </data>
+  <data name="UploadNewIconLabel" xml:space="preserve">
+    <value>Carica nuova icona</value>
+    <comment>Option label.</comment>
+  </data>
+  <data name="FailedToUploadImage" xml:space="preserve">
+    <value>Non è stato possibile caricare il file di immagine. Riprovare.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ChooseFileLabel" xml:space="preserve">
+    <value>Scegli file</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="OpenImageTooltip" xml:space="preserve">
+    <value>Scegliere un file di immagine.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="OverSizedFile" xml:space="preserve">
+    <value>Usare un'immagine con dimensioni minori di 4 MB.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DeviceTwin" xml:space="preserve">
+    <value>Dispositivo gemello</value>
+    <comment>Session heading.</comment>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Icona</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="EditDisplayName" xml:space="preserve">
+    <value>Modifica nome visualizzato</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="FilteredDeviceCount" xml:space="preserve">
+    <value>({0})</value>
+    <comment>Label string</comment>
+  </data>
+  <data name="LoadingText" xml:space="preserve">
+    <value>Caricamento...</value>
+    <comment>Label message</comment>
+  </data>
+  <data name="PropertyTextPlaceHolder" xml:space="preserve">
+    <value>desired.sampleprop</value>
+    <comment>Text input Placeholder </comment>
+  </data>
+  <data name="TagTextPlaceHolder" xml:space="preserve">
+    <value> tags.sampletag</value>
+    <comment>Text input Placeholder</comment>
+  </data>
+  <data name="DeleteIconTooltip" xml:space="preserve">
+    <value>Elimina icona</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="FailedToDeleteIcon" xml:space="preserve">
+    <value>Questa icona è usata da altri dispositivi.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ImageSizeSuggestions" xml:space="preserve">
+    <value>Usare un file di immagine da 150*150 pixel e dimensioni minori di 4 MB.</value>
+    <comment>Tooltip.</comment>
+  </data>
+  <data name="ExternalJobNamePrefix" xml:space="preserve">
+    <value>Processo esterno {0}</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="NewScheduleJobNameFormat" xml:space="preserve">
+    <value>NuovoProcesso aaaa-MM-gg</value>
+    <comment>Name format</comment>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>Pianificazione</value>
+    <comment>Buttone label.</comment>
+  </data>
+  <data name="DeviceTwinHeader" xml:space="preserve">
+    <value>Documenti JSON in cui sono archiviate le informazioni sullo stato del dispositivo</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="EditDesiredPropertyDelete" xml:space="preserve">
+    <value>Selezionare per eliminare questa proprietà dal dispositivo gemello</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="EditDeviceIcon" xml:space="preserve">
+    <value>Modifica icona dispositivo</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="EditDeviceTwinDelete" xml:space="preserve">
+    <value>Selezionare per eliminare questo tag dal dispositivo</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Tutte</value>
+    <comment>Hyperlink label.</comment>
+  </data>
+  <data name="JobResultsFor" xml:space="preserve">
+    <value>Risultati del processo per {0}</value>
+    <comment>Page heading.</comment>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Dettagli</value>
+    <comment>Label</comment>
+  </data>
+  <data name="SelectDeviceStatus" xml:space="preserve">
+    <value>Selezionare lo stato del dispositivo</value>
+    <comment>Label</comment>
+  </data>
+  <data name="EditTagDelete" xml:space="preserve">
+    <value>Selezionare per eliminare questo tag dal dispositivo gemello</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="MaximumExecutionTime" xml:space="preserve">
+    <value>0: nessun limite</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="MethodHeader" xml:space="preserve">
+    <value>I metodi sono estratti da una proprietà segnalata come riservata nel dispositivo gemello: SupportedMethods.</value>
+    <comment>Tooltip</comment>
+  </data>
+  <data name="LoadDefaultConfirmation" xml:space="preserve">
+    <value>Il caricamento delle colonne predefinite sovrascriverà l'impostazione corrente per le colonne. Fare clic su "OK" per continuare o su "Annulla" per interrompere l'operazione.</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="UpdateIcon" xml:space="preserve">
+    <value>Modifica icona dispositivo</value>
+    <comment>Button label.</comment>
+  </data>
+  <data name="NoSelectedIcon" xml:space="preserve">
+    <value>Per pianificare questo processo, è necessario selezionare un'icona.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="ScheduleRemoveIconJobType" xml:space="preserve">
+    <value>Rimuovi icona dispositivo</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="ScheduleUpdateIconJobType" xml:space="preserve">
+    <value>Aggiorna icona dispositivo</value>
+    <comment>Table cell.</comment>
+  </data>
+  <data name="NoAvailableActions" xml:space="preserve">
+    <value>Nessuna azione disponibile</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="DataTypeLabel" xml:space="preserve">
+    <value>Tipo di dati</value>
+    <comment>Textbox label.</comment>
+  </data>
+  <data name="BooleanLabel" xml:space="preserve">
+    <value>Booleano</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="NumberLabel" xml:space="preserve">
+    <value>Numero</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="StringLabel" xml:space="preserve">
+    <value>Stringa</value>
+    <comment>Label.</comment>
+  </data>
+  <data name="DeleteClauseConfirmation" xml:space="preserve">
+    <value>Eliminare questa clausola?</value>
+    <comment>Confirmation message.</comment>
+  </data>
+  <data name="FilterName" xml:space="preserve">
+    <value>Nome filtro</value>
+    <comment>Input label.</comment>
+  </data>
+  <data name="FwStatusHeader" xml:space="preserve">
+    <value>FwStatus</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="TemperatureHeader" xml:space="preserve">
+    <value>Temperature</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="BuildingHeader" xml:space="preserve">
+    <value>Building</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="PleaseNameYourFilter" xml:space="preserve">
+    <value>Please name your filter.</value>
+    <comment>Error message.</comment>
+  </data>
+  <data name="FilterNameMustBeUnique" xml:space="preserve">
+    <value>The filter name must be unique.</value>
+    <comment>Error message.</comment>
   </data>
 </root>
