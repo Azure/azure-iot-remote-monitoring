@@ -155,17 +155,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task BootstrapDefaultRulesAsync(List<string> existingDeviceIds)
         {
-            DeviceRule temperatureRule = await GetNewRuleAsync(existingDeviceIds[0]);
-            temperatureRule.DataField = DeviceRuleDataFields.Temperature;
-            temperatureRule.RuleOutput = "AlarmTemp";
-            temperatureRule.Threshold = 38.0d;
-            await SaveDeviceRuleAsync(temperatureRule);
+            foreach (var deviceId in existingDeviceIds)
+            {
+                DeviceRule temperatureRule = await GetNewRuleAsync(deviceId);
+                temperatureRule.DataField = DeviceRuleDataFields.Temperature;
+                temperatureRule.RuleOutput = "AlarmTemp";
+                temperatureRule.Threshold = 60.0d;
+                await SaveDeviceRuleAsync(temperatureRule);
 
-            DeviceRule humidityRule = await GetNewRuleAsync(existingDeviceIds[0]);
-            humidityRule.DataField = DeviceRuleDataFields.Humidity;
-            humidityRule.RuleOutput = "AlarmHumidity";
-            humidityRule.Threshold = 48.0d;
-            await SaveDeviceRuleAsync(humidityRule);
+                DeviceRule humidityRule = await GetNewRuleAsync(deviceId);
+                humidityRule.DataField = DeviceRuleDataFields.Humidity;
+                humidityRule.RuleOutput = "AlarmHumidity";
+                humidityRule.Threshold = 48.0d;
+                await SaveDeviceRuleAsync(humidityRule);
+            }
         }
 
         public async Task<TableStorageResponse<DeviceRule>> DeleteDeviceRuleAsync(string deviceId, string ruleId)
