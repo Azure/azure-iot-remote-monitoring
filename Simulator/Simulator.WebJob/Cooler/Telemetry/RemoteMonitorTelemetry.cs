@@ -13,7 +13,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         private readonly ILogger _logger;
         private readonly string _deviceId;
 
-        private const uint REPORT_FREQUENCY_IN_SECONDS = 5;
+        private const uint REPORT_FREQUENCY_IN_SECONDS = 15;
         private const uint PEAK_FREQUENCY_IN_SECONDS = 90;
 
         private SampleDataGenerator _temperatureGenerator;
