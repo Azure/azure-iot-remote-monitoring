@@ -1,10 +1,8 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.DataInitialization
 {
@@ -49,7 +47,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                 // check if action mappings are there
                 Task<bool>.Run(async () => initializationNeeded = await _actionMappingLogic.IsInitializationNeededAsync()).Wait();
-                
+
                 if (!initializationNeeded)
                 {
                     Trace.TraceInformation("No initial data needed.");
@@ -71,7 +69,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 _actionMappingLogic.InitializeDataIfNecessaryAsync();
 
                 Trace.TraceInformation("Initial data creation completed.");
-            } 
+            }
             catch (Exception ex)
             {
                 Trace.TraceError("Failed to create initial default data: {0}", ex.ToString());
