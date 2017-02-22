@@ -416,6 +416,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 unregisteredDeviceModel.DeviceType.IsSimulatedDevice,
                 unregisteredDeviceModel.Iccid);
             SampleDeviceFactory.AssignDefaultTags(device);
+            SampleDeviceFactory.AssignDefaultDesiredProperties(device);
 
             DeviceWithKeys addedDevice = await this._deviceLogic.AddDeviceAsync(device);
             return addedDevice;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Exceptions;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
@@ -61,6 +62,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             "CoolingSampleDevice006",
             "CoolingSampleDevice007",
             "CoolingSampleDevice008"
+        };
+
+        private static readonly List<string> HighTemperatureDeviceNames = new List<string>
+        {
+            "CoolingSampleDevice001",
+            "CoolingSampleDevice002",
+            "CoolingSampleDevice003",
+            "CoolingSampleDevice004",
+            "CoolingSampleDevice005"
         };
 
         private class Location
@@ -243,9 +253,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         public static void AssignDefaultTags(DeviceModel device)
         {
-            device.Twin = new Twin();
+            if (device.Twin == null)
+            {
+                device.Twin = new Twin();
+            }
+
             device.Twin.Tags["Building"] = Random(_possibleBuildingTags);
             device.Twin.Tags["Floor"] = Random(_possibleFloorTags);
+        }
+
+        public static void AssignDefaultDesiredProperties(DeviceModel device)
+        {
+            if (HighTemperatureDeviceNames.Any(n => device.DeviceProperties.DeviceID.StartsWith(n)))
+            {
+                if (device.Twin == null)
+                {
+                    device.Twin = new Twin();
+                }
+
+                device.Twin.Properties.Desired.Set("Config.TemperatureMeanValue", 70);
+            }
         }
 
         private static T Random<T>(IList<T> range)
