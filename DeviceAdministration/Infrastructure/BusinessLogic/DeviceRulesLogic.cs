@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.SampleDataGenerator;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic
 {
@@ -43,9 +41,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public async Task<DeviceRule> GetDeviceRuleOrDefaultAsync(string deviceId, string ruleId)
         {
             List<DeviceRule> rulesForDevice = await _deviceRulesRepository.GetAllRulesForDeviceAsync(deviceId);
-            foreach(DeviceRule rule in rulesForDevice)
+            foreach (DeviceRule rule in rulesForDevice)
             {
-                if(rule.RuleId == ruleId)
+                if (rule.RuleId == ruleId)
                 {
                     return rule;
                 }
@@ -55,7 +53,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             createdRule.InitializeNewRule(deviceId);
             return createdRule;
         }
-        
+
         /// <summary>
         /// Retrieve an existing rule for a device/ruleId pair. If a rule does not exist
         /// it will return null. This method is best used when you know the rule exists.
@@ -77,9 +75,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             //Enforce single instance of a rule for a data field for a given device
             List<DeviceRule> foundForDevice = await _deviceRulesRepository.GetAllRulesForDeviceAsync(updatedRule.DeviceID);
-            foreach(DeviceRule rule in foundForDevice)
+            foreach (DeviceRule rule in foundForDevice)
             {
-                if(rule.DataField == updatedRule.DataField && rule.RuleId != updatedRule.RuleId)
+                if (rule.DataField == updatedRule.DataField && rule.RuleId != updatedRule.RuleId)
                 {
                     var response = new TableStorageResponse<DeviceRule>();
                     response.Entity = rule;
@@ -91,7 +89,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             return await _deviceRulesRepository.SaveDeviceRuleAsync(updatedRule);
         }
-        
+
         /// <summary>
         /// Generate a new rule with bare-bones configuration. This new rule can then be conigured and sent
         /// back through the SaveDeviceRuleAsync method to persist.
@@ -106,9 +104,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 rule.InitializeNewRule(deviceId);
 
                 return rule;
-            }); 
+            });
         }
-        
+
         /// <summary>
         /// Updated the enabled state of a given rule. This method does not update any other properties on the rule
         /// </summary>
@@ -119,7 +117,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public async Task<TableStorageResponse<DeviceRule>> UpdateDeviceRuleEnabledStateAsync(string deviceId, string ruleId, bool enabled)
         {
             DeviceRule found = await _deviceRulesRepository.GetDeviceRuleAsync(deviceId, ruleId);
-            if(found == null)
+            if (found == null)
             {
                 var response = new TableStorageResponse<DeviceRule>();
                 response.Entity = found;
@@ -135,7 +133,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<Dictionary<string, List<string>>> GetAvailableFieldsForDeviceRuleAsync(string deviceId, string ruleId)
         {
-            List<string> availableDataFields = DeviceRuleDataFields.GetListOfAvailableDataFields(); 
+            List<string> availableDataFields = DeviceRuleDataFields.GetListOfAvailableDataFields();
             List<string> operators = new List<string>() { ">" };
             List<string> ruleOutputs = await _actionMappingLogic.GetAvailableRuleOutputsAsync();
 
@@ -146,7 +144,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             return result;
         }
-        
+
         public async Task<bool> CanNewRuleBeCreatedForDeviceAsync(string deviceId)
         {
             List<DeviceRule> existingRules = await _deviceRulesRepository.GetAllRulesForDeviceAsync(deviceId);
@@ -154,7 +152,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             return existingRules.Count != availableDataFields.Count;
         }
-        
+
         public async Task BootstrapDefaultRulesAsync(List<string> existingDeviceIds)
         {
             DeviceRule temperatureRule = await GetNewRuleAsync(existingDeviceIds[0]);
@@ -169,7 +167,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             humidityRule.Threshold = 48.0d;
             await SaveDeviceRuleAsync(humidityRule);
         }
-        
+
         public async Task<TableStorageResponse<DeviceRule>> DeleteDeviceRuleAsync(string deviceId, string ruleId)
         {
             DeviceRule found = await _deviceRulesRepository.GetDeviceRuleAsync(deviceId, ruleId);
@@ -184,16 +182,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             return await _deviceRulesRepository.DeleteDeviceRuleAsync(found);
         }
-        
+
         public async Task<bool> RemoveAllRulesForDeviceAsync(string deviceId)
         {
             bool result = true;
 
             List<DeviceRule> deviceRules = await _deviceRulesRepository.GetAllRulesForDeviceAsync(deviceId);
-            foreach(DeviceRule rule in deviceRules)
+            foreach (DeviceRule rule in deviceRules)
             {
                 TableStorageResponse<DeviceRule> response = await _deviceRulesRepository.DeleteDeviceRuleAsync(rule);
-                if(response.Status != TableStorageResponseStatus.Successful)
+                if (response.Status != TableStorageResponseStatus.Successful)
                 {
                     //Do nothing, just report that it failed. The client can then take other steps if needed/desired
                     result = false;
