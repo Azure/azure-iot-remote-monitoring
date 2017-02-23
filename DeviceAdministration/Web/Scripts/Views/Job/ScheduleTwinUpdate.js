@@ -46,6 +46,14 @@
         this.filterId = "";
         this.twinDataTypeOptions = ko.observableArray(resources.twinDataTypeOptions),
 
+        this.getDesiredInputPrefix = function (index) {
+            return "DesiredProperties[" + index + "]";
+        };
+
+        this.getTagInputPrefix = function (index) {
+            return "Tags[" + index + "]";
+        };
+
         this.updateDataType = function (data) {
             if (!data.isUserDefinedType()) {
                 if (data.TagValue) {

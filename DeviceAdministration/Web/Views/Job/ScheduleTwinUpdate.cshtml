@@ -73,21 +73,21 @@
                                                        data-msg-regex=" "
                                                        data-rule-regex="^desired\.\S+$"
                                                        data-rule-maxtwindepth="5"
-                                                       data-bind='value: PropertyName, css:{edit_form__deleted : isDeleted()}, attr: { name: "DesiredProperties[" + $index() + "].PropertyName", id: "DesiredProperties" + $index() + ".PropertyName" }' />
+                                                       data-bind='value: PropertyName, css:{edit_form__deleted : isDeleted()}, attr: { name: $root.getDesiredInputPrefix($index())+".PropertyName", id: "DesiredProperties" + $index() + ".PropertyName" }' />
                                             </td>
                                             <td>
                                                 <input type="text" class="edit_form__texthalfvalue"
                                                        data-rule-maxbytelength="512"
-                                                       data-bind='textInput: PropertyValue, enable:PropertyName() && !isDeleted(), css:{edit_form__deleted : isDeleted()},  event: { keyup: $root.createEmptyPropertyIfNeeded }, attr: { name: "DesiredProperties[" + $index() + "].PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
+                                                       data-bind='textInput: PropertyValue, enable:PropertyName() && !isDeleted(), css:{edit_form__deleted : isDeleted()},  event: { keyup: $root.createEmptyPropertyIfNeeded }, attr: { name: $root.getDesiredInputPrefix($index())+".PropertyValue", id: "DesiredProperties" + $index() + ".PropertyValue" }' />
                                             </td>
                                             <td>
-                                                <select class="edit_form_select" data-bind="value: DataType,  enable:!isDeleted() && PropertyName(),css:{edit_form__deleted : isDeleted()}, options: $root.twinDataTypeOptions, optionsText: 'text', optionsValue: 'value', attr: { name: 'DesiredProperties[' + $index() + '].DataType', id: 'DesiredProperties' + $index() + '.DataType' }"></select>
+                                                <select class="edit_form_select" data-bind="value: DataType,  enable:!isDeleted() && PropertyName(),css:{edit_form__deleted : isDeleted()}, options: $root.twinDataTypeOptions, optionsText: 'text', optionsValue: 'value', attr: { name: $root.getDesiredInputPrefix($index())+'.DataType', id: 'DesiredProperties' + $index() + '.DataType' }"></select>
                                             </td>
                                             <td>
                                                 <input type="checkbox"
                                                        value="true"
-                                                       data-bind='checked: isDeleted, enable:PropertyName() ,attr: { name: "DesiredProperties[" + $index() + "].isDeleted", id: "DesiredProperties" + $index() + ".isDeleted" }' />
-                                                <input type="hidden" value="false" name="checkbox" data-bind='attr:{ name: "DesiredProperties[" + $index() + "].isDeleted" }' />
+                                                       data-bind='checked: isDeleted, enable:PropertyName() ,attr: { name: $root.getDesiredInputPrefix($index())+".isDeleted", id: "DesiredProperties" + $index() + ".isDeleted" }' />
+                                                <input type="hidden" value="false" name="checkbox" data-bind='attr:{ name: $root.getDesiredInputPrefix($index())+".isDeleted" }' />
                                             </td>
                                             <td><a data-bind="ifnot:$root.onepropleft , click:$root.removeProperty"><small class="text_small">@Strings.Clear</small></a></td>
                                         </tr>
@@ -119,21 +119,21 @@
                                                        data-msg-regex=" "
                                                        data-rule-regex="^tags\.\S+$"
                                                        data-rule-maxtwindepth="5"
-                                                       data-bind='value: TagName, css:{edit_form__deleted : isDeleted()}, attr: { name: "Tags[" + $index() + "].TagName", id: "Tags" + $index() + ".TagName" }' />
+                                                       data-bind='value: TagName, css:{edit_form__deleted : isDeleted()}, attr: { name: $root.getTagInputPrefix($index())+".TagName", id: "Tags" + $index() + ".TagName" }' />
                                             </td>
                                             <td>
                                                 <input type="text" class="edit_form__texthalfvalue"
                                                        data-rule-maxbytelength="512"
-                                                       data-bind='textInput: TagValue, enable:TagName() && !isDeleted(), css:{edit_form__deleted : isDeleted()}, event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: "Tags[" + $index() + "].TagValue", id: "Tags" + $index() + ".TagValue" }' />
+                                                       data-bind='textInput: TagValue, enable:TagName() && !isDeleted(), css:{edit_form__deleted : isDeleted()}, event: { keyup: $root.createEmptyTagIfNeeded }, attr: { name: $root.getTagInputPrefix($index())+".TagValue", id: "Tags" + $index() + ".TagValue" }' />
                                             </td>
                                             <td>
-                                                <select class="edit_form_select" data-bind="value: DataType,  enable:!isDeleted() && TagName(), css:{edit_form__deleted : isDeleted()}, options: $root.twinDataTypeOptions, optionsText: 'text', optionsValue: 'value', attr: { name: 'Tags[' + $index() + '].DataType', id: 'Tags' + $index() + '.DataType' }"></select>
+                                                <select class="edit_form_select" data-bind="value: DataType,  enable:!isDeleted() && TagName(), css:{edit_form__deleted : isDeleted()}, options: $root.twinDataTypeOptions, optionsText: 'text', optionsValue: 'value', attr: { name: $root.getTagInputPrefix($index())+'.DataType', id: 'Tags' + $index() + '.DataType' }"></select>
                                             </td>
                                             <td>
                                                 <input type="checkbox"
                                                        value="true"
-                                                       data-bind='checked: isDeleted, enable:TagName(), attr: { name: "Tags[" + $index() + "].isDeleted", id: "Tags" + $index() + ".isDeleted" }' />
-                                                <input type="hidden" value="false" name="checkbox" data-bind='attr:{ name: "Tags[" + $index() + "].isDeleted" }' />
+                                                       data-bind='checked: isDeleted, enable:TagName(), attr: { name: $root.getTagInputPrefix($index())+".isDeleted", id: "Tags" + $index() + ".isDeleted" }' />
+                                                <input type="hidden" value="false" name="checkbox" data-bind='attr:{ name: $root.getTagInputPrefix($index())+".isDeleted" }' />
                                             </td>
                                             <td><a class="edit_form__link" data-bind="ifnot:$root.onetagleft , click:$root.removeTag"><small class="text_small">@Strings.Clear</small></a></td>
                                         </tr>
