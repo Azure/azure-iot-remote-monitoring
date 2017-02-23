@@ -112,6 +112,10 @@
       <HintPath>..\..\packages\DotNetty.Transport-signed.0.3.1\lib\net45\DotNetty.Transport.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Infrastructure.Connectivity, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.RemoteMonitoring.Infrastructure.Connectivity.1.1.0\lib\net451\Infrastructure.Connectivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Azure.Amqp, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.Azure.Amqp.1.1.5\lib\net451\Microsoft.Azure.Amqp.dll</HintPath>
@@ -207,6 +211,10 @@
       <HintPath>..\..\packages\PInvoke.Windows.Core.0.3.2\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\PInvoke.Windows.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RestSharp.105.2.3\lib\net451\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=4.0.20622.1351, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -265,7 +273,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_GlobalResources\Strings1.Designer.cs">
+    <Compile Include="App_GlobalResources\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
@@ -454,9 +462,6 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
     <Content Include="Content\styles\elements\forms.less" />
-    <None Include="Properties\PublishProfiles\cellularconnectivity - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\cellularconnectivity - Web Deploy %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\cellularconnectivity - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
@@ -699,7 +704,6 @@
     <EmbeddedResource Include="App_GlobalResources\Strings.pl.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Strings.pl.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="App_GlobalResources\Strings.pt-BR.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -711,9 +715,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="App_GlobalResources\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
       <CustomToolNamespace>GlobalResources</CustomToolNamespace>
-      <LastGenOutput>Strings1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="App_GlobalResources\Strings.ru.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -740,10 +744,6 @@
     <ProjectReference Include="$(SolutionDir)\Common\Common.csproj">
       <Project>{5959c109-5369-4ff7-8b55-605a79fdf200}</Project>
       <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CellularConnectivity\DeviceManagement.Infrastructure.Connectivity.csproj">
-      <Project>{1d674cc1-a1ae-4450-b167-3ccfafcbbdcd}</Project>
-      <Name>DeviceManagement.Infrastructure.Connectivity</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{54b5b211-b661-42e9-af2d-87712a37d608}</Project>

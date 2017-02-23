@@ -158,26 +158,5 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
             var data = res.ExtractContentDataAs<bool>();
             Assert.True(data);
         }
-#if DEBUG
-        [Fact]
-        public async void DeleteAllDevices()
-        {
-            var devices = fixture.Create<DeviceListQueryResult>();
-            DeviceListQuery saveObject = null;
-            deviceLogic.Setup(mock => mock.GetDevices(It.IsAny<DeviceListQuery>()))
-                .Callback<DeviceListQuery>(obj => saveObject = obj)
-                .ReturnsAsync(devices);
-
-            deviceLogic.Setup(mock => mock.RemoveDeviceAsync(It.IsAny<string>())).Returns(Task.FromResult(true));
-
-            var res = await deviceApiController.DeleteAllDevices();
-            Assert.Equal(saveObject.Skip, 0);
-            Assert.Equal(saveObject.Take, 1000);
-            Assert.Equal(saveObject.SortColumn, "DeviceID");
-            res.AssertOnError();
-            var data = res.ExtractContentDataAs<bool>();
-            Assert.True(data);
-        }
-#endif
     }
 }
