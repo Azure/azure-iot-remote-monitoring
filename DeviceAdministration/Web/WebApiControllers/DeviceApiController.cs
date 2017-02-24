@@ -8,12 +8,11 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.DataTables;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Security;
 using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json.Linq;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
-using static Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions.TwinCollectionExtension;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers
 {
@@ -424,7 +423,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         private async Task<dynamic> GetConjunctionClause(string filterId)
-        {            
+        {
             DeviceListFilter rawfilter = await _filterRepository.GetFilterAsync(filterId);
             var conditionstring = rawfilter.GetSQLCondition();
             var whereClause = String.IsNullOrEmpty(conditionstring) ? "" : "WHERE";
@@ -435,16 +434,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
         private string GenerateQueryColumnName(dynamic method)
         {
-            string methodNamePostfix = "";
-
-            // Deal multi-params method name postfix
-            foreach (dynamic param in method.parameters)
+            var command = new Command(method.methodName.ToString(), DeliveryType.Method, string.Empty);
+            foreach (var param in method.parameters)
             {
-                methodNamePostfix += $"_{param.Type}";
+                command.Parameters.Add(new Parameter(param.ParameterName.ToString(), param.Type.ToString()));
             }
 
-            // Build twin property name for supported method
-            return $"properties.reported.SupportedMethods.{method.methodName}{methodNamePostfix}";
+            return $"properties.reported.SupportedMethods.{command.Serialize().Key}";
         }
     }
 }
