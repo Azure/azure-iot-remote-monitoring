@@ -110,7 +110,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
 
             tableEntity.Name = "changedName";
             _filterTableStorageClientMock.SetupSequence(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListFilterTableEntity>>()))
-                .ReturnsAsync(tableEntities);
+                .ReturnsAsync(tableEntities)
+                .ReturnsAsync(new List<DeviceListFilterTableEntity>());
             _filterTableStorageClientMock.Setup(x => x.DoDeleteAsync(It.IsNotNull<DeviceListFilterTableEntity>(), It.IsAny<Func<DeviceListFilterTableEntity, DeviceListFilter>>()));
             ret = await deviceListFilterRepository.SaveFilterAsync(newFilter, true);
 
@@ -124,6 +125,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                     x.DoTableInsertOrReplaceAsync(It.IsNotNull<DeviceListFilterTableEntity>(),
                         It.IsNotNull<Func<DeviceListFilterTableEntity, DeviceListFilter>>()))
                .ReturnsAsync(resp);
+            _filterTableStorageClientMock.SetupSequence(x => x.ExecuteQueryAsync(It.IsNotNull<TableQuery<DeviceListFilterTableEntity>>()))
+                .ReturnsAsync(tableEntities)
+                .ReturnsAsync(new List<DeviceListFilterTableEntity>());
             await Assert.ThrowsAnyAsync<FilterSaveException>(async () => await deviceListFilterRepository.SaveFilterAsync(newFilter, true));
         }
 
