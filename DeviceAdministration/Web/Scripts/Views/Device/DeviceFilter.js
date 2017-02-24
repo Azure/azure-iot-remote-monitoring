@@ -382,7 +382,8 @@
                 filter: self.model.getFilterModel(),
                 isChanged: self.model.isChanged(),
                 isFilterLoaded: self.model.isFilterLoaded(),
-                isFilterLoadedFromServer: self.model.isFilterLoadedFromServer()
+                isFilterLoadedFromServer: self.model.isFilterLoadedFromServer(),
+                associatedJobsCount: self.model.associatedJobsCount()
             }
         },
         restoreState: function () {
@@ -390,6 +391,7 @@
             self.model.isChanged(self.state.isChanged);
             self.model.isFilterLoaded(self.state.isFilterLoaded);
             self.model.isFilterLoadedFromServer(self.state.isFilterLoadedFromServer);
+            self.model.associatedJobsCount(self.state.associatedJobsCount);
         },
         getFilterModel: function () {
             return {
