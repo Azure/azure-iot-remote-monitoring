@@ -108,11 +108,11 @@
         },
         "packageUri": {
             "type": "string",
-            "defaultValue": "http://aka.ms/azureiot/remotemonitoring/web"
+            "defaultValue": "https://iotsuiteshare.blob.core.windows.net/rmdogfood/Web.zip"
         },
         "webJobPackageUri": {
             "type": "string",
-            "defaultValue": "http://aka.ms/azureiot/remotemonitoring/webjob"
+            "defaultValue": "https://iotsuiteshare.blob.core.windows.net/rmdogfood/WebJobHost.zip"
         },
         "webSku": {
             "type": "string",
