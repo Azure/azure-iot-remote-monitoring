@@ -107,13 +107,14 @@ msbuild WebJobHost\WebJobHost.csproj /v:m /T:Package
 @REM Help on errors
 @REM ----------------------------------------------
 @ECHO Arguments: build.cmd "Command" "Configuration" "EnvironmentName" "AzureEnvironment"
-@ECHO   Command: build (just builds); local (config local); cloud (config cloud, build, and deploy)
+@ECHO   Command: build (just builds); package (package build into zip files); local (config local); cloud (config cloud, build, and deploy)
 @ECHO   Configuration: build configuration either Debug or Release; default is Debug
 @ECHO   EnvironmentName: Name of cloud environment to deploy - default is local
 @ECHO   AzureEnvironment: Name of the Azure Environment to deploy to - default is AzureCloud
 @ECHO
 @ECHO eg.
 @ECHO   build - build.cmd build
+@ECHO   package release build - build.cmd package release
 @ECHO   local deployment: build.cmd local
 @ECHO   cloud deployment: build.cmd cloud release mydeployment
 @ECHO   national cloud deployment: same as above but include CloudName at end (eg. build.cmd local debug AzureGermanCloud or build.cmd cloud release mydeployment AzureGermanCloud)
