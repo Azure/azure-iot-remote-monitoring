@@ -77,6 +77,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
         /// The twin's tag and property flat name start with "__" and end with "__" is reserved
         /// for internal usage purpose.
         /// e.g.
+        ///     tags.HubEnabledState
         ///     tags.__icon__, tags.cpu.__version__
         ///     desired.__location__, desired.__location.latitude
         ///     reported.__location__, reported.__location__.__latitude__
@@ -86,6 +87,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
         static public bool IsReservedTwinName(this string flatName)
         {
             if (string.IsNullOrEmpty(flatName)) return false;
+            // this line should be removed once we change it to tags.__HubEnabledState__ in the future.
+            if ("tags.HubEnabledState".Equals(flatName, StringComparison.InvariantCulture)) return true;
             string[] parts = flatName.Split('.');
             return parts.Any(p => p.StartsWith("__") && p.EndsWith("__"));
         }

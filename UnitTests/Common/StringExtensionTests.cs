@@ -58,6 +58,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common
         {
             Assert.False(string.Empty.IsReservedTwinName());
             Assert.False("deviceId".IsReservedTwinName());
+            Assert.True("tags.HubEnabledState".IsReservedTwinName());
             Assert.False("tags.icon".IsReservedTwinName());
             Assert.False("tags._icon_".IsReservedTwinName());
             Assert.True("__icon__".IsReservedTwinName());
