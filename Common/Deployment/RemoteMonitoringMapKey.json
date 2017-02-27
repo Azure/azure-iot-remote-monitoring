@@ -106,14 +106,14 @@
                 "description": "The eventhub Sku"
             }
         },
-      "packageUri": {
-        "type": "string",
-        "defaultValue": "http://aka.ms/azureiot/remotemonitoring/web"
-      },
-      "webJobPackageUri": {
-        "type": "string",
-        "defaultValue": "http://aka.ms/azureiot/remotemonitoring/webjob"
-      },
+        "packageUri": {
+            "type": "string",
+            "defaultValue": "https://aka.ms/azureiot/remotemonitoring/web"
+        },
+        "webJobPackageUri": {
+            "type": "string",
+            "defaultValue": "https://aka.ms/azureiot/remotemonitoring/webjob"
+        },
         "webSku": {
             "type": "string",
             "defaultValue": "Premium",

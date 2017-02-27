@@ -101,11 +101,11 @@
         },
         "packageUri": {
             "type": "string",
-            "defaultValue": "http://aka.ms/azureiot/remotemonitoring/web"
+            "defaultValue": "https://aka.ms/azureiot/remotemonitoring/web"
         },
         "webJobPackageUri": {
             "type": "string",
-            "defaultValue": "http://aka.ms/azureiot/remotemonitoring/webjob"
+            "defaultValue": "https://aka.ms/azureiot/remotemonitoring/webjob"
         },
         "webSku": {
             "type": "string",
