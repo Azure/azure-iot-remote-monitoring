@@ -30,7 +30,7 @@
     @Scripts.Render("~/bundles/bootstrapdatetime")
 
     <script type="text/javascript" src="~/Scripts/js.cookie-1.5.1.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/Views/IoTApp.js"></script>
+    <script type="text/javascript" src="~/Scripts/Views/IoTApp.js?ver=@Constants.JSVersion"></script>
     @Styles.Render("~/Content/css/vendor")
     @Styles.Render("~/Content/css")
 </head>
@@ -121,9 +121,9 @@
     </section>
 
     @Html.Partial("_Dialogs")
-    <script src="~/Scripts/IoTHelperScripts.js"></script>
-    <script src="~/Scripts/dialog.js"></script>
-    <script src="~/Scripts/controls.js"></script>
+    <script src="~/Scripts/IoTHelperScripts.js?ver=@Constants.JSVersion"></script>
+    <script src="~/Scripts/dialog.js?ver=@Constants.JSVersion"></script>
+    <script src="~/Scripts/controls.js?ver=@Constants.JSVersion"></script>
     @RenderSection("scripts", required: false)
 
 

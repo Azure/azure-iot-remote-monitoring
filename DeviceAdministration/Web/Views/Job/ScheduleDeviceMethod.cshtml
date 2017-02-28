@@ -143,7 +143,7 @@
         LoadingText: "@Html.JavaScriptString(Strings.LoadingText)"
     }
 </script>
-<script type="text/javascript" src="~/Scripts/Views/Job/ScheduleDeviceMethod.js"></script>
+<script type="text/javascript" src="~/Scripts/Views/Job/ScheduleDeviceMethod.js?ver=@Constants.JSVersion"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         IoTApp.ScheduleDeviceMethod.init(@Html.Raw(JsonConvert.SerializeObject(Model)));
