@@ -3536,7 +3536,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delivered through the Jasper Control Center platform.
+        ///   Looks up a localized string similar to Delivered through the Cisco Jasper Control Center platform.
         /// </summary>
         public static string SimInformationInfoTextJasper {
             get {

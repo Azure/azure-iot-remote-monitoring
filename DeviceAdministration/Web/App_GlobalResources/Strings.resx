@@ -1648,7 +1648,7 @@
     <comment>Section heading.</comment>
   </data>
   <data name="SimInformationInfoTextJasper" xml:space="preserve">
-    <value>Delivered through the Jasper Control Center platform</value>
+    <value>Delivered through the Cisco Jasper Control Center platform</value>
     <comment>{Locked="Jasper"}</comment>
   </data>
   <data name="UsernameLabel" xml:space="preserve">
