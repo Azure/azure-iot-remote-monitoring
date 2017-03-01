@@ -14,7 +14,7 @@
             <img src="@image" class="details_grid_header_image" />
             @if (Model.IsDeviceEditEnabled)
             {
-            <a href="@Url.Action("EditIcon", "Device", new { deviceId = Model.DeviceID })"><img src="~/Content/img/edit_image.svg" class="details_grid_header_image_edit" title="@Strings.EditDeviceIcon" /></a>
+            <a href="@Url.Action("EditIcon", "Device", new { deviceId = Model.DeviceID })"><img class="details_grid_header_image_edit" title="@Strings.EditDeviceIcon" /></a>
             }
         </div>
         <div class="details_grid_header_actions">

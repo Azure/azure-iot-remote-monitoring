@@ -390,6 +390,8 @@
     <Content Include="Content\img\delete.svg" />
     <Content Include="Content\img\device_default.svg" />
     <Content Include="Content\img\edit_columns.svg" />
+    <Content Include="Content\img\edit_device_image.svg" />
+    <Content Include="Content\img\edit_device_image_hover.svg" />
     <Content Include="Content\img\edit_filter.svg" />
     <Content Include="Content\img\edit_image.svg" />
     <Content Include="Content\img\edit_name.svg" />
