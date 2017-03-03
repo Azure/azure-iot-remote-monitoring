@@ -17,7 +17,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
             Telemetry = new List<Telemetry>();
         }
 
+        /// <summary>
+        /// Start from version 1.6, device properties in this class will be ignored.
+        /// Please use 'reported properties' of twin to report properties
+        /// </summary>
         public DeviceProperties DeviceProperties { get; set; }
+
         public SystemProperties SystemProperties { get; set; }
         public List<Command> Commands { get; set; }
         public List<CommandHistory> CommandHistory { get; set; }
