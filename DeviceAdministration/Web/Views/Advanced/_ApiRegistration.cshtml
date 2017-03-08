@@ -1,18 +1,54 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Constants
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.ApiRegistrationModel
 
 <div class="advanced_left_column">
-    <div class="jasper_info_text">@Strings.ApiRegistrationInfoText</div>
+    @switch (Model.ApiRegistrationProvider)
+    {
+        case ApiRegistrationProviderTypes.Jasper:
+            {
+                <div class="provider_info_text">@Strings.ApiRegistrationInfoTextJasper</div>
+                break;
+            }
+        case ApiRegistrationProviderTypes.Ericsson:
+            {
+                <div class="provider_info_text">@Strings.ApiRegistrationInfoTextEricsson</div>
+                break;
+            }
+        default:
+            {
+                <a href="@Strings.ApiProviderGenericHelpUrl" target="_blank">Need Help?</a>
+                break;
+            }
+    }
     <fieldset class="registration_content">
         <div class="registration_textbox">
-            <h2 class="registration_description">@Strings.BaseUrlLabel</h2>
-            <div>
+            <h2 class="registration_description">@Strings.ApiProviderLabel</h2>
+            <fieldset class="registration_select">
+                <div class="form-group">
+                    <select class="api_input" id="apiRegistrationProvider">
+                        <option value="">@Strings.ApiRegistrationSelectOptionInitial</option>
+                        <option value="Jasper">@Strings.ApiRegistrationSelectOptionJasper</option>
+                    </select>
+                    <div class="api_check_field" id="apiRegistrationProviderRequired">
+                        @Strings.RequiredValue
+                    </div>
+                </div>
+            </fieldset>
+            <p id="apiRegistrationProviderWarning" class="api_warning_label">
+                @Strings.ApiProviderWarningLabel
+            </p>
+            <p>
+                <button id="changeApiRegistrationProviderButton" class="button_base registration_change_provder_input" type="button">@Strings.ChangeApiProvider</button>
+            </p>
+            <fieldset>
+                <h2 class="registration_description">@Strings.BaseUrlLabel</h2>
                 @Html.TextBoxFor(model => model.BaseUrl, new { id = "BaseUrl", title = Strings.BaseUrlToolTip, @class = "api_input" })
-            </div>
-            <div class="api_check_field" id="BaseUrlRequired">
-                @Strings.RequiredValue
-            </div>
+                <div class="api_check_field" id="BaseUrlRequired">
+                    @Strings.RequiredValue
+                </div>
+            </fieldset>
         </div>
     </fieldset>
     <fieldset class="registration_content">
@@ -48,6 +84,7 @@
             </div>
         </div>
     </fieldset>
+    @Html.HiddenFor(model => model.ApiRegistrationProvider)
     <fieldset class="fieldset_button">
         <button id="editButton" class="button_base registration_edit_input" type="button">@Strings.Edit</button>
         <button id="saveButton" class="button_base registration_save_input" type="button">@Strings.Save</button>
@@ -60,20 +97,42 @@
     </div>
 </div>
 
-<div class="jasper_help_link">
-    <a href="@Strings.JasperHelpLink" target="_blank">Need Help?</a>
+
+<div class="api_registration_help_link">
+    @switch (Model.ApiRegistrationProvider)
+    {
+        case ApiRegistrationProviderTypes.Jasper:
+            {
+                <a href="@Strings.JasperHelpLink" target="_blank">Need Help?</a>
+                break;
+            }
+        case ApiRegistrationProviderTypes.Ericsson:
+            {
+                <a href="@Strings.EricssonHelpLink" target="_blank">Need Help?</a>
+                break;
+            }
+        default:
+            {
+                <a href="@Strings.ApiProviderGenericHelpUrl" target="_blank">Need Help?</a>
+                break;
+            }
+    }
 </div>
 
-    <script type="text/javascript">
-        $(window).ready(
-            function () {
-                'use strict';
-                var config = {
-                    subheadContent: '@Html.JavaScriptString(Strings.ApiRegistrationTitle)',
-                    goBackUrl: '@Url.Action("SelectAdvancedProcess")'
-                };
-                IoTApp.Advanced.initSubView(config);
-                IoTApp.Advanced.initRegistration();
-            }
-        );
-    </script>
+
+
+<script type="text/javascript">
+    $(window).ready(
+        function () {
+            'use strict';
+            var config = {
+                subheadContent: '@Html.JavaScriptString(Strings.ApiRegistrationTitle)',
+                goBackUrl: '@Url.Action("SelectAdvancedProcess")',
+                apiRegistrationProvider: '@Html.JavaScriptString(Model.ApiRegistrationProvider)',
+                apiProviderChangeWarningMessage: '@Html.JavaScriptString(Strings.ApiProviderChangeWarningMessage)'
+            };
+            IoTApp.Advanced.initSubView(config);
+            IoTApp.Advanced.initRegistration(config);
+        }
+    );
+</script>

@@ -106,9 +106,8 @@
       <HintPath>..\..\packages\DotNetty.Transport-signed.0.3.2\lib\net45\DotNetty.Transport.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Infrastructure.Connectivity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.RemoteMonitoring.Infrastructure.Connectivity.1.0.0\lib\Infrastructure.Connectivity.dll</HintPath>
+    <Reference Include="Infrastructure.Connectivity, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.RemoteMonitoring.Infrastructure.Connectivity.1.1.0\lib\net451\Infrastructure.Connectivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Amqp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -207,6 +206,10 @@
       <HintPath>..\..\packages\PInvoke.Windows.Core.0.3.152\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\PInvoke.Windows.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RestSharp.105.2.3\lib\net451\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=4.0.20622.1351, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -292,9 +295,11 @@
     <Compile Include="DataTables\DataTablesResponse.cs" />
     <Compile Include="DataTables\Search.cs" />
     <Compile Include="DataTables\SortColumn.cs" />
+    <Compile Include="Extensions\StringExtentions.cs" />
     <Compile Include="Extensions\JobTypeExtension.cs" />
     <Compile Include="Helpers\DeviceJobHelper.cs" />
     <Compile Include="Helpers\ICellularExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\JasperCredentialsProvider.cs" />
@@ -303,7 +308,10 @@
     <Compile Include="Helpers\DeviceDisplayHelper.cs" />
     <Compile Include="Models\ActionPropertiesModel.cs" />
     <Compile Include="Models\AlertHistoryDeviceModel.cs" />
+    <Compile Include="Models\CellularActionUpdateResponseModel.cs" />
+    <Compile Include="Models\CellularConnectivityProviderEnum.cs" />
     <Compile Include="Models\EditDeviceRuleModel.cs" />
+    <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\IconActionType.cs" />
     <Compile Include="Models\PreScheduleJobModel.cs" />
     <Compile Include="Models\PropertyViewModel.cs" />
@@ -312,6 +320,9 @@
     <Compile Include="Models\LanguageModel.cs" />
     <Compile Include="Models\NamedDeviceJob.cs" />
     <Compile Include="Models\NamedJobResponseModel.cs" />
+    <Compile Include="Models\ReconnectDeviceModel.cs" />
+    <Compile Include="Models\CellularActionModel.cs" />
+    <Compile Include="Models\CellularActionRequestModel.cs" />
     <Compile Include="Models\ScheduleJobModel.cs" />
     <Compile Include="Models\ScheduleTwinUpdateModel.cs" />
     <Compile Include="Models\SimInformationViewModel.cs" />
@@ -442,7 +453,12 @@
     <Content Include="Content\img\sort_both.png" />
     <Content Include="Content\img\sort_desc.png" />
     <Content Include="Content\img\sort_desc_disabled.png" />
-    <Content Include="Content\styles\main.css" />
+    <Content Include="Content\styles\main.css">
+      <DependentUpon>main.less</DependentUpon>
+    </Content>
+    <Content Include="Content\styles\main.min.css">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
     <Content Include="Content\styles\visuals.min.css" />
     <Content Include="Content\styles\bootstrap\dropdowns.less" />
     <Content Include="Content\styles\bootstrap\bootstrap.less" />
@@ -492,6 +508,11 @@
     <Content Include="Content\styles\blocks\job_view\job_details_block.less" />
     <Content Include="Content\styles\blocks\device_view\devices_filter_block.less" />
     <Content Include="Content\styles\elements\dialog.less" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="Content\styles\elements\forms.less" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -539,6 +560,7 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\papaparse.min.js" />
     <Content Include="Scripts\Views\Actions\ActionProperties.js" />
     <Content Include="Scripts\Views\Actions\ActionsIndex.js" />
     <Content Include="Scripts\powerbi-visuals.all.min.js" />
@@ -558,6 +580,8 @@
     <Content Include="Scripts\Views\Device\AddDevice.js" />
     <Content Include="Scripts\Views\Device\AddDeviceCopy.js" />
     <Content Include="Scripts\Views\Device\AddDeviceCreate.js" />
+    <Content Include="Scripts\Views\Device\CellularActions.js" />
+    <Content Include="Scripts\Views\Device\CellularInformation.js" />
     <Content Include="Scripts\Views\Device\DeviceDetails.js" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -697,6 +721,10 @@
     <Content Include="Views\Advanced\_SelectAdvancedProcess.cshtml" />
     <Content Include="Views\Shared\_NavigationSubmenu.cshtml" />
     <Content Include="Views\Advanced\_IccidAssociation.cshtml" />
+    <Content Include="Views\Device\_CellularInformationJasper.cshtml" />
+    <Content Include="Views\Device\_CellularInformationEricsson.cshtml" />
+    <Content Include="Views\Advanced\_IccidUpload.cshtml" />
+    <Content Include="Views\Device\_CellularActions.cshtml" />
     <Content Include="Views\Job\_ScheduleJob.cshtml" />
     <Content Include="Views\Device\_DeviceListColumns.cshtml" />
     <Content Include="Views\Job\ScheduleTwinUpdate.cshtml" />
@@ -842,11 +870,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.Azure.DocumentDB.1.6.3\build\Microsoft.Azure.DocumentDB.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Azure.DocumentDB.1.6.3\build\Microsoft.Azure.DocumentDB.targets'))" />
-    <Error Condition="!Exists('..\..\packages\BuildWebCompiler.1.11.319\build\BuildWebCompiler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\BuildWebCompiler.1.11.319\build\BuildWebCompiler.targets'))" />
   </Target>
   <Import Project="..\..\packages\Microsoft.Web.WebJobs.Publish.1.0.11\tools\webjobs.targets" Condition="Exists('..\..\packages\Microsoft.Web.WebJobs.Publish.1.0.11\tools\webjobs.targets')" />
   <Import Project="..\..\packages\Microsoft.Azure.DocumentDB.1.6.3\build\Microsoft.Azure.DocumentDB.targets" Condition="Exists('..\..\packages\Microsoft.Azure.DocumentDB.1.6.3\build\Microsoft.Azure.DocumentDB.targets')" />
-  <Import Project="..\..\packages\BuildWebCompiler.1.11.319\build\BuildWebCompiler.targets" Condition="Exists('..\..\packages\BuildWebCompiler.1.11.319\build\BuildWebCompiler.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

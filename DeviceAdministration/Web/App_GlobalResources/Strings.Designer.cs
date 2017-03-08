@@ -206,6 +206,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aggregated Sim Usage.
+        /// </summary>
+        public static string AggregatedSimUsage {
+            get {
+                return ResourceManager.GetString("AggregatedSimUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Aggregated Usage: .
         /// </summary>
         public static string AggregatedUsage {
@@ -260,7 +269,52 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Jasper API Registration.
+        ///   Looks up a localized string similar to You are about to change API providers. This will remove your current association as you can only have one at a time. Are you sure you want to do this?.
+        /// </summary>
+        public static string ApiProviderChangeWarningMessage {
+            get {
+                return ResourceManager.GetString("ApiProviderChangeWarningMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://microsoft.com.
+        /// </summary>
+        public static string ApiProviderGenericHelpUrl {
+            get {
+                return ResourceManager.GetString("ApiProviderGenericHelpUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API Provider.
+        /// </summary>
+        public static string ApiProviderLabel {
+            get {
+                return ResourceManager.GetString("ApiProviderLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have already connected to an cellular API provider. You can only have one connection at a time. If you would like to create a new one then you need to edit the current provider connection and swap. The provider you have selected is:.
+        /// </summary>
+        public static string ApiProviderSwapDescription {
+            get {
+                return ResourceManager.GetString("ApiProviderSwapDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you change your provider this will disassociate any connected devices and the current API registration. To change provider click &quot;Change API Provider&quot; below..
+        /// </summary>
+        public static string ApiProviderWarningLabel {
+            get {
+                return ResourceManager.GetString("ApiProviderWarningLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cellular API Registration.
         /// </summary>
         public static string ApiRegistration {
             get {
@@ -269,7 +323,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Register this solution with your Jasper Control Center platform credentials to authenticate Jasper API use..
+        ///   Looks up a localized string similar to Register this solution with the API from your cellular connectivity provider by clicking &apos;Create&apos; and filling in your details..
         /// </summary>
         public static string ApiRegistrationDescription {
             get {
@@ -287,11 +341,20 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To activate the Jasper integration to view and control your Control Center devices through IoT Suite please enter the following credentials:.
+        ///   Looks up a localized string similar to To activate the integration to view and control your Ericsson IoT account devices through IoT Suite please enter the following credentials:.
         /// </summary>
-        public static string ApiRegistrationInfoText {
+        public static string ApiRegistrationInfoTextEricsson {
             get {
-                return ResourceManager.GetString("ApiRegistrationInfoText", resourceCulture);
+                return ResourceManager.GetString("ApiRegistrationInfoTextEricsson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To activate the integration to view and control your Control Center devices through IoT Suite please enter the following credentials:.
+        /// </summary>
+        public static string ApiRegistrationInfoTextJasper {
+            get {
+                return ResourceManager.GetString("ApiRegistrationInfoTextJasper", resourceCulture);
             }
         }
         
@@ -305,6 +368,33 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ericsson.
+        /// </summary>
+        public static string ApiRegistrationSelectOptionEricsson {
+            get {
+                return ResourceManager.GetString("ApiRegistrationSelectOptionEricsson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select provider.
+        /// </summary>
+        public static string ApiRegistrationSelectOptionInitial {
+            get {
+                return ResourceManager.GetString("ApiRegistrationSelectOptionInitial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jasper .
+        /// </summary>
+        public static string ApiRegistrationSelectOptionJasper {
+            get {
+                return ResourceManager.GetString("ApiRegistrationSelectOptionJasper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registration successful.
         /// </summary>
         public static string ApiRegistrationSuccessful {
@@ -314,7 +404,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Jasper API Registration.
+        ///   Looks up a localized string similar to API Registration.
         /// </summary>
         public static string ApiRegistrationTitle {
             get {
@@ -467,7 +557,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You&apos;ll find this just below the API key on the API page in Control Center..
+        ///   Looks up a localized string similar to You&apos;ll find this API key in your API Providers system..
         /// </summary>
         public static string BaseUrlToolTip {
             get {
@@ -548,6 +638,51 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset Connection.
+        /// </summary>
+        public static string CellularActionsResetDeviceConnection {
+            get {
+                return ResourceManager.GetString("CellularActionsResetDeviceConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reconnect.
+        /// </summary>
+        public static string CellularActionsResetDeviceConnectionAction {
+            get {
+                return ResourceManager.GetString("CellularActionsResetDeviceConnectionAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send SMS.
+        /// </summary>
+        public static string CellularActionsSendSms {
+            get {
+                return ResourceManager.GetString("CellularActionsSendSms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SMS Text.
+        /// </summary>
+        public static string CellularActionsSendSmsLabel {
+            get {
+                return ResourceManager.GetString("CellularActionsSendSmsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sim Actions.
+        /// </summary>
+        public static string CellularActionsSimActionsLabel {
+            get {
+                return ResourceManager.GetString("CellularActionsSimActionsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cellular Conn.
         /// </summary>
         public static string CellularConn {
@@ -575,11 +710,83 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SIM Properties.
+        /// </summary>
+        public static string CellularInformationLabel {
+            get {
+                return ResourceManager.GetString("CellularInformationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locale.
+        /// </summary>
+        public static string CellularInformationLocaleLabel {
+            get {
+                return ResourceManager.GetString("CellularInformationLocaleLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -- select a locale --.
+        /// </summary>
+        public static string CellularInformationNotLocaledOption {
+            get {
+                return ResourceManager.GetString("CellularInformationNotLocaledOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rate Plan.
+        /// </summary>
+        public static string CellularInformationRatePlanLabel {
+            get {
+                return ResourceManager.GetString("CellularInformationRatePlanLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SIM State.
+        /// </summary>
+        public static string CellularInformationSimStateLabel {
+            get {
+                return ResourceManager.GetString("CellularInformationSimStateLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SIM Status: .
+        /// </summary>
+        public static string CellularInformationSimStatus {
+            get {
+                return ResourceManager.GetString("CellularInformationSimStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subscription Package.
+        /// </summary>
+        public static string CellularInformationSubscriptionPackageLabel {
+            get {
+                return ResourceManager.GetString("CellularInformationSubscriptionPackageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 400200.
         /// </summary>
         public static string CellularInvalidCreds {
             get {
                 return ResourceManager.GetString("CellularInvalidCreds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change API Provider.
+        /// </summary>
+        public static string ChangeApiProvider {
+            get {
+                return ResourceManager.GetString("ChangeApiProvider", resourceCulture);
             }
         }
         
@@ -953,6 +1160,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Country Code.
+        /// </summary>
+        public static string CountryCode {
+            get {
+                return ResourceManager.GetString("CountryCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
         public static string Create {
@@ -971,11 +1187,29 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current Limits.
+        /// </summary>
+        public static string CurrentLimits {
+            get {
+                return ResourceManager.GetString("CurrentLimits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current Rate Plan: .
         /// </summary>
         public static string CurrentRatePlan {
             get {
                 return ResourceManager.GetString("CurrentRatePlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer Number.
+        /// </summary>
+        public static string CustomerNumber {
+            get {
+                return ResourceManager.GetString("CustomerNumber", resourceCulture);
             }
         }
         
@@ -1174,6 +1408,24 @@ namespace GlobalResources {
         public static string DeviceAssociationDescription {
             get {
                 return ResourceManager.GetString("DeviceAssociationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your provider doesn&apos;t have an API to automatically retrieve available ICCIDs for your SIMs. Please use the upload button to add the ICCIDs that you have available in CSV format.
+        /// </summary>
+        public static string DeviceAssociationIccidUploadText {
+            get {
+                return ResourceManager.GetString("DeviceAssociationIccidUploadText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string DeviceAssociationNoUnasignedIccidsText {
+            get {
+                return ResourceManager.GetString("DeviceAssociationNoUnasignedIccidsText", resourceCulture);
             }
         }
         
@@ -1763,6 +2015,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Actions.
+        /// </summary>
+        public static string EnableDeviceActions {
+            get {
+                return ResourceManager.GetString("EnableDeviceActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable Rule.
         /// </summary>
         public static string EnableRule {
@@ -1804,6 +2065,15 @@ namespace GlobalResources {
         public static string EnterIccid {
             get {
                 return ResourceManager.GetString("EnterIccid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.ericsson.com/microsoft-iot.
+        /// </summary>
+        public static string EricssonHelpLink {
+            get {
+                return ResourceManager.GetString("EricssonHelpLink", resourceCulture);
             }
         }
         
@@ -2942,6 +3212,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last Data.
+        /// </summary>
+        public static string LastData {
+            get {
+                return ResourceManager.GetString("LastData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last PDP Context.
+        /// </summary>
+        public static string LastPDPContext {
+            get {
+                return ResourceManager.GetString("LastPDPContext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Session Start: .
         /// </summary>
         public static string LastSessionStart {
@@ -2978,7 +3266,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You&apos;ll find this at the top left of the API page in Control Center..
+        ///   Looks up a localized string similar to You&apos;ll find this in your API providers system..
         /// </summary>
         public static string LicenseKeyToolTip {
             get {
@@ -3265,6 +3553,15 @@ namespace GlobalResources {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to MSISDN.
+        /// </summary>
+        public static string MSISDN {
+            get {
+                return ResourceManager.GetString("MSISDN", resourceCulture);
+            }
+        }
+		
         /// <summary>
         ///   Looks up a localized string similar to Months.
         /// </summary>
@@ -3635,6 +3932,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operator Code.
+        /// </summary>
+        public static string OperatorCode {
+            get {
+                return ResourceManager.GetString("OperatorCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OPERATIONS.
         /// </summary>
         public static string OperationsHeader {
@@ -3689,11 +3995,20 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This is the password you use to log into Control Center..
+        ///   Looks up a localized string similar to This is the password you use to log into your API Provider.
         /// </summary>
         public static string PasswordToolTip {
             get {
                 return ResourceManager.GetString("PasswordToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PDPContext Profile Name.
+        /// </summary>
+        public static string PDPContextProfileName {
+            get {
+                return ResourceManager.GetString("PDPContextProfileName", resourceCulture);
             }
         }
         
@@ -3784,6 +4099,24 @@ namespace GlobalResources {
         public static string Price {
             get {
                 return ResourceManager.GetString("Price", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price Plan.
+        /// </summary>
+        public static string PricePlan {
+            get {
+                return ResourceManager.GetString("PricePlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price Profile Name.
+        /// </summary>
+        public static string PriceProfileName {
+            get {
+                return ResourceManager.GetString("PriceProfileName", resourceCulture);
             }
         }
         
@@ -4796,6 +5129,24 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SIM Details.
+        /// </summary>
+        public static string SIMDetails {
+            get {
+                return ResourceManager.GetString("SIMDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First Activation Date.
+        /// </summary>
+        public static string SimFirstActivationDate {
+            get {
+                return ResourceManager.GetString("SimFirstActivationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SIM ICCID.
         /// </summary>
         public static string SimIccid {
@@ -4814,6 +5165,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actions have been disabled because the SIM is not in an active state.
+        /// </summary>
+        public static string SimInformationActionsDisabledMessage {
+            get {
+                return ResourceManager.GetString("SimInformationActionsDisabledMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SIM Information.
         /// </summary>
         public static string SimInformationBackText {
@@ -4828,6 +5188,24 @@ namespace GlobalResources {
         public static string SimInformationInfoText {
             get {
                 return ResourceManager.GetString("SimInformationInfoText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delivered through the Ericsson API.
+        /// </summary>
+        public static string SimInformationInfoTextEricsson {
+            get {
+                return ResourceManager.GetString("SimInformationInfoTextEricsson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delivered through the Cisco Jasper Control Center platform.
+        /// </summary>
+        public static string SimInformationInfoTextJasper {
+            get {
+                return ResourceManager.GetString("SimInformationInfoTextJasper", resourceCulture);
             }
         }
         
@@ -5253,6 +5631,15 @@ namespace GlobalResources {
                 return ResourceManager.GetString("UpdateTwin", resourceCulture);
             }
         }
+		
+        /// <summary>
+        ///   Looks up a localized string similar to Upload.
+        /// </summary>
+        public static string Upload {
+            get {
+                return ResourceManager.GetString("Upload", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Upload new icon.
@@ -5273,7 +5660,7 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This is the username you use to log into Control Center..
+        ///   Looks up a localized string similar to This is the username you use to log into your API Provider.
         /// </summary>
         public static string UsernameToolTip {
             get {

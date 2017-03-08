@@ -67,6 +67,10 @@
       <HintPath>..\packages\DotNetty.Transport-signed.0.3.2\lib\net45\DotNetty.Transport.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Infrastructure.Connectivity, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.RemoteMonitoring.Infrastructure.Connectivity.1.1.0\lib\net451\Infrastructure.Connectivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Azure.Amqp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.Amqp.2.0.4\lib\net45\Microsoft.Azure.Amqp.dll</HintPath>
       <Private>True</Private>
@@ -151,6 +155,10 @@
       <HintPath>..\packages\AutoFixture.AutoMoq.3.49.0\lib\net40\Ploeh.AutoFixture.AutoMoq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net451\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp">
@@ -196,11 +204,6 @@
     </Reference>
     <Reference Include="xunit.execution.desktop">
       <HintPath>..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infrastructure.Connectivity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.RemoteMonitoring.Infrastructure.Connectivity.1.0.0\lib\Infrastructure.Connectivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -296,13 +299,13 @@
       <Project>{5959c109-5369-4ff7-8b55-605a79fdf200}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DeviceAdministration\Infrastructure\Infrastructure.csproj">
+      <Project>{54b5b211-b661-42e9-af2d-87712a37d608}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Simulator\Simulator.WebJob\Simulator.WebJob.csproj">
       <Project>{8F0FF371-2306-4210-9C22-0D0657B595DC}</Project>
       <Name>Simulator.WebJob</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DeviceAdministration\Infrastructure\Infrastructure.csproj">
-      <Project>{54B5B211-B661-42E9-AF2D-87712A37D608}</Project>
-      <Name>Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\DeviceAdministration\Web\Web.csproj">
       <Project>{2101f5d8-84ed-47bc-8254-6505819e17c6}</Project>

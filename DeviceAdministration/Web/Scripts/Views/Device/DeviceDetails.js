@@ -31,22 +31,8 @@
         });
     }
 
-    var getCellularDetailsView = function () {
-        $('#loadingElement').show();
-
-        var iccid = IoTApp.Helpers.IccidState.getIccidFromCookie();
-        if (iccid == null) {
-            IoTApp.Helpers.RenderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
-            return;
-        }
-
-        $.get('/Device/GetDeviceCellularDetails', { iccid: iccid }, function (response) {
-            onCellularDetailsDone(response);
-        }).fail(function (response) {
-            $('#loadingElement').hide();
-            IoTApp.Helpers.RenderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
-        });
-
+    var getCellularDetailsView = function (iccid) {
+        return $.get("/Device/GetDeviceCellularDetails", { iccid: iccid });
     }
 
     var onCellularDetailsDone = function (html) {
@@ -58,11 +44,29 @@
             $('#details_grid_container').empty();
             onDeviceDetailsDone(self.cachedDeviceHtml);
         });
+        return $.Deferred().resolve().promise();
+    }
+
+    var displayCellularDetailsView = function () {
+        $('#loadingElement').show();
+
+        var iccid = IoTApp.Helpers.IccidState.getIccidFromCookie();
+        if (iccid === null) {
+            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
+            return;
+        }
+
+        getCellularDetailsView(iccid).then(function (response) {
+            onCellularDetailsDone(response);
+        }, function () {
+            $('#loadingElement').hide();
+            renderRetryError(resources.unableToRetrieveDeviceFromService, $('#details_grid_container'), function () { getDeviceDetailsView(deviceId); });
+        });
     }
 
     var onDeviceDetailsDone = function (html) {
 
-        if (self.cachedDeviceHtml == null) {
+        if (self.cachedDeviceHtml === null) {
             self.cachedDeviceHtml = html;
         }
 
@@ -76,7 +80,7 @@
 
         $("#deviceExplorer_cellInformation").on("click", function () {
             $('#details_grid_container').empty();
-            getCellularDetailsView();
+            displayCellularDetailsView();
         });
 
         $('#deviceExplorer_authKeys').on('click', function () {
@@ -269,8 +273,16 @@
         self.deviceJobLoader = loadDeviceJobsInternal(deviceId);
     }
 
+    var init = function (deviceId) {
+        self.cachedDeviceHtml = null;
+        getDeviceDetailsView(deviceId);
+    }
+
     return {
-        init: getDeviceDetailsView,
+        init: init,
+        getCellularDetailsView: getCellularDetailsView,
+        onCellularDetailsDone: onCellularDetailsDone,
+        displayCellularDetailsView: displayCellularDetailsView,
         scheduleJob: getScheduleJobView,
         loadDeviceJobs: loadDeviceJobs
     }

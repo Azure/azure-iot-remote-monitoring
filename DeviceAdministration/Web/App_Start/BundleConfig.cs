@@ -39,6 +39,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web
                 "~/Scripts/knockout-{version}.js",
                 "~/Scripts/knockout.mapping-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/papaparse")
+               .Include(
+                "~/Scripts/papaparse.min.js"));
+
             bundles.Add(new StyleBundle("~/content/css/vendor")
                 .Include(
                 "~/content/styles/datatables.css",

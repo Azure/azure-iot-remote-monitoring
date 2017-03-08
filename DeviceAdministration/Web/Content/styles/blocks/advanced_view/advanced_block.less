@@ -58,6 +58,10 @@
     p {
         margin: .4em 0 .85em 0;
     }
+
+    p.small {
+        font-size: .75em;
+    }
 }
 
 .registration_content_last {
@@ -122,6 +126,10 @@
     box-sizing: content-box;
 }
 
+.edit_button {
+    margin-right: 1em;
+}
+
 .add_new_button {
   display: block;
     float: left;
@@ -133,6 +141,7 @@
     padding: 0 1em;
     min-height: 32px;
     cursor: pointer;
+    margin-right: 1em;
 
     &:disabled {
         background-color: @button-disabled-background-color;
@@ -186,8 +195,17 @@
     border-color: @form-textbox-disabled-border;
 }
 
-.registration_edit_input {
+.registration_change_provder_input {
+    float:none;
+    clear:both;
+}
+
+.registration_edit_input, .registration_save_input {
     margin-right: 1em;
+}
+.api_warning_label{
+    font-size: 12px;
+    width: 460px;
 }
 
 .registration_succeeded {
@@ -196,7 +214,7 @@
     clear: both;
 }
 
-.jasper_help_link {
+.api_registration_help_link {
     width: 50%;
     height: 100%;
     float: left;
@@ -205,13 +223,16 @@
     box-sizing: border-box;
 }
 
+.provider_info_text {
+    padding-left: 30px;
+    min-height: 30px;
+    margin-bottom: 1em;
+    font-size: 0.8em;
+}
+
 .jasper_info_text {
     background-image: url("@{base-image-path}/icon_jasper.svg");
     background-position: left center;
     background-repeat: no-repeat;
     background-size: 30px 30px;
-    padding-left: 30px;
-    min-height: 30px;
-    margin-bottom: 1em;
-    font-size: 0.8em;
 }

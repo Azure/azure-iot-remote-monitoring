@@ -159,6 +159,7 @@
     <Compile Include="Configurations\ConfigurationProvider.cs" />
     <Compile Include="Configurations\EnvironmentDescription.cs" />
     <Compile Include="Configurations\IConfigurationProvider.cs" />
+    <Compile Include="Constants\ApiRegistrationProviderTypes.cs" />
     <Compile Include="Extensions\ObjectExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\TimeSpanExtension.cs" />
@@ -185,10 +186,14 @@
     <Compile Include="Mapper\MappingValidator.cs" />
     <Compile Include="Models\BlobContents.cs" />
     <Compile Include="Models\CommandHistory.cs" />
+    <Compile Include="Models\DeviceAssociationModel.cs" />
     <Compile Include="Models\DeviceModel.cs" />
     <Compile Include="Models\DeviceProperties.cs" />
+    <Compile Include="Models\IccidTableEntity.cs" />
     <Compile Include="Models\IoTHub.cs" />
+    <Compile Include="Models\SubscriptionPackageModel.cs" />
     <Compile Include="Models\SupportedMethod.cs" />
+    <Compile Include="Models\SimStateModel.cs" />
     <Compile Include="Models\SystemProperties.cs" />
     <Compile Include="Models\Telemetry.cs" />
     <Compile Include="Schema\SchemaHelper.cs" />
@@ -230,7 +235,6 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

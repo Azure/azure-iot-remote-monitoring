@@ -54,6 +54,10 @@
       <HintPath>..\..\packages\Dynamitey.1.0.2.0\lib\net40\Dynamitey.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Infrastructure.Connectivity, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.RemoteMonitoring.Infrastructure.Connectivity.1.1.0\lib\net451\Infrastructure.Connectivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Azure.Amqp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Azure.Amqp.2.0.4\lib\net45\Microsoft.Azure.Amqp.dll</HintPath>
       <Private>True</Private>
@@ -116,6 +120,10 @@
     </Reference>
     <Reference Include="PInvoke.Windows.Core, Version=0.3.0.0, Culture=neutral, PublicKeyToken=9e300f9f87f04a7a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\PInvoke.Windows.Core.0.3.152\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\PInvoke.Windows.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RestSharp.105.2.3\lib\net451\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -239,11 +247,13 @@
     <Compile Include="Repository\DeviceTelemetryRepository.cs" />
     <Compile Include="Repository\IAlertsRepository.cs" />
     <Compile Include="Repository\IApiRegistrationRepository.cs" />
+    <Compile Include="Repository\IccidRepository.cs" />
     <Compile Include="Repository\IDeviceIconRepository.cs" />
     <Compile Include="Repository\IDeviceRegistryCrudRepository.cs" />
     <Compile Include="Repository\IDeviceRegistryListRepository.cs" />
     <Compile Include="Repository\IDeviceRulesRepository.cs" />
     <Compile Include="Repository\IDeviceTelemetryRepository.cs" />
+    <Compile Include="Repository\IIccidRepository.cs" />
     <Compile Include="Repository\IJobRepository.cs" />
     <Compile Include="Repository\JobRepository.cs" />
     <Compile Include="Repository\NameCacheRepository.cs" />

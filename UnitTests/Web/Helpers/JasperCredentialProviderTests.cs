@@ -1,4 +1,5 @@
-﻿using DeviceManagement.Infrustructure.Connectivity.Models.Jasper;
+﻿using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
+using DeviceManagement.Infrustructure.Connectivity.Models.Jasper;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
@@ -25,6 +26,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.He
         public void ProvideTest()
         {
             var apiReg = fixture.Create<ApiRegistrationModel>();
+            apiReg.ApiRegistrationProvider = ApiRegistrationProviderTypes.Jasper;
             apiRegMock.Setup(mock => mock.RecieveDetails()).Returns(apiReg);
             var result = provider.Provide();
             var res = result as JasperCredentials;

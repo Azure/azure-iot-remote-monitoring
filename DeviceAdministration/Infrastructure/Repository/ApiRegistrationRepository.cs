@@ -27,7 +27,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     Password = apiRegistrationModel.Password,
                     BaseUrl = apiRegistrationModel.BaseUrl,
                     Username = apiRegistrationModel.Username,
-                    LicenceKey = apiRegistrationModel.LicenceKey
+                    LicenceKey = apiRegistrationModel.LicenceKey,
+                    EnterpriseSenderNumber = apiRegistrationModel.EnterpriseSenderNumber,
+                    ApiRegistrationProviderType = apiRegistrationModel.ApiRegistrationProvider.ToString()
                 };
 
                 _azureTableStorageClient.Execute(TableOperation.InsertOrMerge(incomingEntity));
@@ -43,7 +45,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             var query = new TableQuery<ApiRegistrationTableEntity>().
                 Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal,
-                    ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationProviderType.Jasper)));
+                    ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationKey.Default)));
 
             var response = _azureTableStorageClient.ExecuteQuery(query);
             if (response == null) return new ApiRegistrationModel();
@@ -58,23 +60,27 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 Username = apiRegistrationTableEntity.Username,
                 BaseUrl = apiRegistrationTableEntity.BaseUrl,
                 LicenceKey = apiRegistrationTableEntity.LicenceKey,
-                Password = apiRegistrationTableEntity.Password
+                Password = apiRegistrationTableEntity.Password,
+                EnterpriseSenderNumber = apiRegistrationTableEntity.EnterpriseSenderNumber,
+                ApiRegistrationProvider = apiRegistrationTableEntity.ApiRegistrationProviderType,
+                RegistrationID = apiRegistrationTableEntity.RegistrationID,
+                SmsEndpointBaseUrl = apiRegistrationTableEntity.SmsEndpointBaseUrl
             };
 
         }
 
         public bool IsApiRegisteredInAzure()
         {
-            var retrieveOperation = TableOperation.Retrieve<ApiRegistrationTableEntity>(ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationProviderType.Jasper),
-                                        ApiRegistrationTableEntity.GetRowKey(ApiRegistrationProviderType.Jasper));
+            var retrieveOperation = TableOperation.Retrieve<ApiRegistrationTableEntity>(ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationKey.Default),
+                                        ApiRegistrationTableEntity.GetRowKey(ApiRegistrationKey.Default));
             var retrievedResult = _azureTableStorageClient.Execute(retrieveOperation);
             return retrievedResult.Result != null;
         }
 
         public bool DeleteApiDetails()
         {
-            var entity = new DynamicTableEntity(ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationProviderType.Jasper),
-                                ApiRegistrationTableEntity.GetRowKey(ApiRegistrationProviderType.Jasper));
+            var entity = new DynamicTableEntity(ApiRegistrationTableEntity.GetPartitionKey(ApiRegistrationKey.Default),
+                                ApiRegistrationTableEntity.GetRowKey(ApiRegistrationKey.Default));
             entity.ETag = "*";
             _azureTableStorageClient.Execute(TableOperation.Delete(entity));
             return true;

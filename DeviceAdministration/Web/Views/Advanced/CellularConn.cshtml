@@ -1,4 +1,5 @@
 ﻿@using GlobalResources
+
 @{
     ViewBag.Title = @Strings.CellularConnViewTitle;
 }
@@ -11,6 +12,7 @@
     </div>
 </noscript>
 <script type="text/javascript" src="~/Scripts/Views/Advanced/Advanced.js?ver=@Constants.JSVersion"></script>
+@Scripts.Render("~/bundles/papaparse")
 <div class="advanced_content">
     <header class="header_main">
         <h1 class="header_main__head">@Strings.CellularConnViewTitle</h1>
@@ -20,7 +22,7 @@
     <div class="content_outer">
         <div class="content_inner">
             <div id="content">
-                @Html.Partial("_SelectAdvancedProcess")
+                <!-- content loads here -->
             </div>
         </div>
     </div>
@@ -35,7 +37,7 @@
             contentId: '#content',
             subheadId: '.header_main__subhead',
         };
-
         IoTApp.Advanced.init(config);
+        IoTApp.Advanced.redirecToPartial('@Url.Action("SelectAdvancedProcess")');
     })();
 </script>

@@ -1,21 +1,56 @@
-﻿@using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice
-@using GlobalResources
+﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Constants
 @model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
 
 <header class="header_grid">
-    <a href="#" id="deviceExplorer_CellInformationBack" class="details_grid__button_back grid_subheadhead_detail">@Strings.SimInformationBackText</a>
+    <a href="#" id="deviceExplorer_CellInformationBack" class="details_grid__button_back grid_subheadhead_detail">@Strings.Actions</a>
 </header>
 
 <section class="details_grid_general">
-    <p class="grid_detail_value"><strong>@Strings.SimStatus</strong> @Model.TerminalDevice.Status</p>
-    <p class="grid_detail_value"><strong>@Strings.LastSessionStart @Model.SessionInfo.DateSessionStarted</strong>
-    <p class="grid_detail_value"><strong>@Strings.CurrentRatePlan</strong>@Model.TerminalDevice.RatePlan</p>
-    <p class="grid_detail_value"><strong>@Strings.AggregatedUsage</strong>@Model.TerminalDevice.MonthToDateDataUsage</p>
-    <p class="grid_detail_value"><strong>@Strings.CurrentLimitReached</strong> @Model.TerminalDevice.OverageLimitReached</p>
-    <p class="grid_detail_value"><strong>@Strings.IMEI</strong> @Model.TerminalDevice.Imei.Id</p>
-    <p class="grid_detail_value"><strong>@Strings.IMSI</strong> @Model.TerminalDevice.Imsi.Id</p>
-    <p class="grid_detail_value"><strong>@Strings.ICCID</strong> @Model.TerminalDevice.Iccid.Id</p>
-    <p class="grid_detail_value"><strong>@Strings.AccountId</strong> @Model.TerminalDevice.AccountId</p>
+    @Html.Partial("_CellularActions", Model)
+    <br />
 </section>
 
-<div class="jasper_info_text details_grid_margin">@Strings.SimInformationInfoText</div>
+<header class="header_grid">
+    <h3 class="grid_subheadhead_detail">@Strings.SimInformationBackText</h3>
+    <a id="editCellularInformation" class="link_grid_subheadhead_detail">Edit</a>
+    <a id="saveCellularInformation" class="link_grid_subheadhead_detail" style="display: none;">Save</a>
+    <a id="cancelEditCellularInformation" class="link_grid_subheadhead_detail" style="display: none;">Cancel</a>
+</header>
+
+@Html.HiddenFor(model => model.ApiRegistrationProvider, new { id = "apiRegistrationProvider" })
+
+<section class="details_grid_general">
+    @switch (Model.ApiRegistrationProvider)
+    {
+        case ApiRegistrationProviderTypes.Jasper:
+        {
+            @Html.Partial("_CellularInformationJasper", Model)
+            break;
+        }
+        case ApiRegistrationProviderTypes.Ericsson:
+        {
+            @Html.Partial("_CellularInformationEricsson", Model)
+            break;
+        }
+    }
+    @switch (Model.ApiRegistrationProvider)
+    {
+        case ApiRegistrationProviderTypes.Jasper:
+            {
+                <div class="provider_info_textjasper_info_text details_grid_margin">@Strings.SimInformationInfoTextJasper</div>
+                break;
+            }
+        case ApiRegistrationProviderTypes.Ericsson:
+            {
+                <div class="provider_info_text details_grid_margin">@Strings.SimInformationInfoTextEricsson</div>
+                break;
+            }
+    }
+</section>
+
+<script>
+    $(function () {
+        IoTApp.CellularInformation.init();
+    });
+</script>

@@ -1,0 +1,48 @@
+﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Extensions
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
+
+<p>
+    <strong>@Strings.CellularInformationSimStateLabel </strong>
+</p>
+<div id="updateCellularInformationResults">
+    @if (Model.CellularActionUpdateResponse != null)
+    {
+        if (Model.CellularActionUpdateResponse.Success)
+        {
+            <p class="success_text">Success</p>
+        }
+        else
+        {
+            <p class="error_text">Error</p>
+        }
+    }
+</div>
+
+<select id="simStateSelect" class="form_input select_box space_below" disabled>
+    @foreach (var simState in @Model.AvailableSimStates)
+    {
+        <option value="@simState.Id" selected="@simState.IsActive">@simState.Name</option>
+    }
+</select>
+
+<!-- Removed until Jasper has a way to retrieve available rate plans-->
+@*<p>
+    <strong>@Strings.CellularInformationRatePlanLabel </strong>
+</p>
+<select id="subscriptionPackageSelect" class="form_input select_box space_below" disabled>
+    @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
+    {
+        <option value="@subscriptionPackage.Name" selected="@subscriptionPackage.IsActive">@subscriptionPackage.Name</option>
+    }
+</select>*@
+
+<p class="grid_detail_value"><strong>@Strings.CellularInformationRatePlanLabel </strong> @Model.AvailableSubscriptionPackages.FirstOrDefault(s => s.IsActive).Name.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.LastSessionStart </strong> @Model.SessionInfo.DateSessionStarted.ConvertToString("ddMMyyyy", "Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.CurrentRatePlan</strong> @Model.TerminalDevice.RatePlan</p>
+<p class="grid_detail_value"><strong>@Strings.AggregatedUsage</strong> @Model.TerminalDevice.MonthToDateDataUsage.ToString().DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.CurrentLimitReached</strong> @Model.TerminalDevice.OverageLimitReached</p>
+<p class="grid_detail_value"><strong>@Strings.IMEI</strong> @Model.TerminalDevice.Imei.Id.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.IMSI</strong> @Model.TerminalDevice.Imsi.Id.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.ICCID</strong> @Model.TerminalDevice.Iccid.Id.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.AccountId</strong> @Model.TerminalDevice.AccountId.ToString().DefaultIfNull("Unavailable")</p>

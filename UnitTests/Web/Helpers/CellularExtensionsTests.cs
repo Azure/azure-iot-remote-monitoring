@@ -2,7 +2,9 @@
 using System.Linq;
 using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice;
 using DeviceManagement.Infrustructure.Connectivity.Services;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Constants;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers;
 using Moq;
 using Ploeh.AutoFixture;
@@ -15,11 +17,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.He
         private readonly ICellularExtensions cellularExtensions;
         private readonly Mock<IExternalCellularService> cellularService;
         private readonly IFixture fixture;
+        private readonly Mock<IIccidRepository> _iccidRepositoryMock;
 
         public CellularExtensionsTests()
         {
             cellularService = new Mock<IExternalCellularService>();
-            cellularExtensions = new CellularExtensions(cellularService.Object);
+            _iccidRepositoryMock = new Mock<IIccidRepository>();
+            cellularExtensions = new CellularExtensions(cellularService.Object, _iccidRepositoryMock.Object);
             fixture = new Fixture();
         }
 
@@ -36,7 +40,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.He
             device.SystemProperties.ICCID = "id1";
             devices.Add(device);
             cellularService.Setup(mock => mock.GetTerminals()).Returns(iccids);
-            var result = cellularExtensions.GetListOfAvailableIccids(devices);
+            var result = cellularExtensions.GetListOfAvailableIccids(devices, ApiRegistrationProviderTypes.Jasper);
             Assert.Equal(result.Count(), devices.Count - 1);
             Assert.False(result.Contains("id1"));
         }

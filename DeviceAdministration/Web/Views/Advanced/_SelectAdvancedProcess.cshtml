@@ -1,16 +1,42 @@
 ﻿@using GlobalResources
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.ApiRegistrationModel
+
 <div>
     <ul class="list_select_select_advanced_process">
         <li class="list_item_select_advanced_process">
             <h2 class="select_advanced_process_subhead">@Strings.ApiRegistrationTitle</h2>
-            <p class="select_advanced_process_description">
-                @Strings.ApiRegistrationDescription
-            </p>
-            <p>
-                <button class="add_new_button" type="submit" id="apiRegistrationButton">
-                    @Strings.Create
-                </button>
-            </p>
+            @if (Model.ApiRegistrationProvider == null)
+            {
+                <p class="select_advanced_process_description">
+                    @Strings.ApiRegistrationDescription
+                </p>            
+                <p>
+                    <button class="add_new_button" type="submit" id="apiRegistrationCreateButton">
+                        @Strings.Create
+                    </button>
+                </p>
+            }
+            else
+            {
+                <p class="select_advanced_process_description">
+                    @Strings.ApiProviderSwapDescription
+                </p>
+                <p>
+                    @Model.ApiRegistrationProvider.ToString()
+                </p>
+                <p>
+                    <fieldset class="fieldset_button">
+                        <button class="button_base edit_button" type="submit" id="apiRegistrationEditButton">
+                            @Strings.Edit
+                        </button>
+                        <button class="button_base delete_api_registration_button" type="submit" id="apiRegistrationDeleteButton">
+                            @Strings.Delete
+                        </button>
+                    </fieldset>
+                </p>
+            }
+
         </li>
         <li class="list_item_select_advanced_process">
             <h2 class="select_advanced_process_subhead">@Strings.DeviceAssociationTitle</h2>
@@ -27,19 +53,24 @@
     $(window).ready(
         function () {
             'use strict';
-
             var config = {
                 subheadContent: '',
-                goBackUrl: ''
+                goBackUrl: '',
+                selectedProvider: '@Html.JavaScriptString(Model.ApiRegistrationProvider)'
             };
 
             IoTApp.Advanced.initSubView(config);
 
-            $('#apiRegistrationButton').click(
-                function () {
-                    IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistration")');
-                }
-            );
+            $('#apiRegistrationCreateButton').click(function () {
+                IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistration")');
+            });
+            $('#apiRegistrationDeleteButton')
+                .click(function() {
+                    IoTApp.Advanced.deleteApiRegistration();
+                });
+            $('#apiRegistrationEditButton').click(function () {
+                IoTApp.Advanced.redirecToPartial('@Url.Action("ApiRegistration")');
+            });
 
             $('#deviceAssociationButton').click(
                 function () {

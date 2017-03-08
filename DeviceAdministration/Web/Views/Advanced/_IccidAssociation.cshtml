@@ -1,26 +1,43 @@
-﻿@using GlobalResources
+﻿@using DeviceManagement.Infrustructure.Connectivity.Models.Constants
+@using GlobalResources
 @using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
-@if (ViewBag.HasRegistration)
+@model Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.DeviceAssociationModel
+@if (Model.HasRegistration)
 {
-    <fieldset class="registration_content">
-        <div class="registration_textbox">
-            <h2 class="registration_description">@Strings.DeviceId</h2>
-            @Html.DropDownList("UnassignedDeviceIds", new SelectList(ViewBag.UnassignedDeviceIds, ViewBag.UnassignedDeviceIds), new { @class = "advanced_dropdown" })
-        </div>
-    </fieldset>
-    <fieldset class="registration_content registration_content_last">
-        <div class="registration_textbox">
-            <h2 class="registration_description">@Strings.IccidLabel</h2>
-                @Html.DropDownList("UnassignedIccids", new SelectList(ViewBag.UnassignedIccidList, ViewBag.UnassignedIccidList), new { @class = "advanced_dropdown" })         
-        </div>
-    </fieldset>
-    <div class="fieldset_button">
-        <button id="associateButton" class="add_new_button" type="button">@Strings.Associate</button>
-    </div>
+    if (Model.ApiRegistrationProvider == ApiRegistrationProviderTypes.Ericsson)
+    {
+        Html.RenderPartial("_IccidUpload");
+    }
+    if (Model.UnassignedIccidList.Any())
+    {
+        <fieldset class="registration_content">
+            <div class="registration_textbox">
+                <h2 class="registration_description">@Strings.DeviceId</h2>
+                @Html.DropDownList("UnassignedDeviceIds", new SelectList(Model.UnassignedDeviceIds, Model.UnassignedDeviceIds), new { @class = "advanced_dropdown" })
+            </div>
+        </fieldset>
+        <fieldset class="registration_content">
+            <div class="registration_textbox">
+                <h2 class="registration_description">@Strings.IccidLabel</h2>
+                @Html.DropDownList("UnassignedIccids", new SelectList(Model.UnassignedIccidList, Model.UnassignedIccidList), new { @class = "advanced_dropdown" })
+            </div>
+        </fieldset>
+            <fieldset class="registration_content">
+                <div class="fieldset_button">
+                    <button id="associateButton" class="add_new_button" type="button">@Strings.Associate</button>
+                    <br />
+                </div>
+            </fieldset>
+    }
+    else
+    {
+        <fieldset class="registration_content">
+            <p class="small">@Strings.DeviceAssociationNoUnasignedIccidsText</p>
+        </fieldset>
+    }
     <div id="associateSucceeded" class="registration_succeeded">
         <h2>&#10004; <span id="associateSucceededText"></span></h2>
     </div>
-
     <script>
         "use strict";
         var resources = {
@@ -30,7 +47,7 @@
 }
 else
 {
-    <fieldset class="registration_content registration_content_last">
+    <fieldset class="registration_content">
         <div class="registration_textbox">
             <div class="api_registration_not_available iccid_association" id="noRegistration">
                 @Strings.ApiRegistrationNotAvailable

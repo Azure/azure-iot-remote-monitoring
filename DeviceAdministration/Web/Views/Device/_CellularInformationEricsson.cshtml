@@ -1,0 +1,77 @@
+﻿@using GlobalResources
+@using DeviceManagement.Infrustructure.Connectivity.Models.TerminalDevice
+@using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Extensions
+@model  Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Models.SimInformationViewModel
+
+@{
+    var erricsonTermal = (EricssonTerminal)Model.TerminalDevice;
+}
+
+<p>
+    <strong>@Strings.CellularInformationSimStateLabel</strong>
+</p>
+<select id="simStateSelect" class="form_input select_box space_below" disabled>
+    @foreach (var simState in @Model.AvailableSimStates)
+    {
+        <option value="@simState.Id" selected="@simState.IsActive">@simState.Name</option>
+    }
+</select>
+
+<p>
+    <strong>@Strings.CellularInformationSubscriptionPackageLabel </strong>
+</p>
+<select id="subscriptionPackageSelect" class="form_input select_box space_below" disabled>
+    @foreach (var subscriptionPackage in @Model.AvailableSubscriptionPackages)
+    {
+        <option value="@subscriptionPackage.Name" selected="@subscriptionPackage.IsActive">@subscriptionPackage.Name</option>
+    }
+</select>
+
+<p>
+    <strong>@Strings.CellularInformationLocaleLabel</strong>
+</p>
+<select id="localeSelect" class="form_input select_box space_below" disabled>
+    @if (Model.LastServiceRequestState != null)
+    {
+        <option disabled selected value>@Model.LastServiceRequestState</option>
+    }
+    else if (!Model.AvailableLocaleNames.Contains(Model.CurrentLocaleName))
+    {
+        <option disabled selected value>@Strings.CellularInformationNotLocaledOption</option>
+    }
+
+    @foreach (var localeName in Model.AvailableLocaleNames)
+    {
+        <option value="@localeName" selected=@(localeName == Model.CurrentLocaleName)>@localeName</option>
+    }
+</select>
+
+<div id="updateCellularInformationResults">
+    @if (Model.CellularActionUpdateResponse != null)
+    {
+        if (Model.CellularActionUpdateResponse.Success)
+        {
+            <p class="success_text">Success</p>
+        }
+        else
+        {
+            <p class="error_text">Error</p>
+        }
+    }
+</div>
+
+<p class="grid_detail_value"><strong>@Strings.SimFirstActivationDate </strong> @erricsonTermal.DateOfActivation.ConvertToString("ddMMyyyy", "Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.ICCID </strong> @erricsonTermal.Iccid.Id.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.IMEI </strong> @erricsonTermal.Imei.Id.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.IMSI </strong> @erricsonTermal.Imsi.Id.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.MSISDN </strong> @erricsonTermal.Msisdn.Id.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.PriceProfileName </strong> @erricsonTermal.PriceProfileName.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.PDPContextProfileName </strong> @erricsonTermal.PdpContextProfileName.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.CountryCode</strong> @erricsonTermal.CountryCode.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.OperatorCode</strong> @erricsonTermal.OperatorCode.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.LastData</strong> @erricsonTermal.LastData.ConvertToString("ddMMyyyy", "Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.LastPDPContext</strong> @erricsonTermal.LastPDPContext.ConvertToString("ddMMyyyy", "Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.CustomerNumber </strong> @erricsonTermal.AccountId.ToString().DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.PricePlan </strong> @erricsonTermal.PricePlan.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.AggregatedSimUsage </strong> @erricsonTermal.AggregatedSimUsage.DefaultIfNull("Unavailable")</p>
+<p class="grid_detail_value"><strong>@Strings.CurrentLimits </strong> @erricsonTermal.CurrentLimits.DefaultIfNull("Unavailable")</p>

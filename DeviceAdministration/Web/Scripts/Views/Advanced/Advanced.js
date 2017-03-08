@@ -6,6 +6,9 @@
     var subheadId;
 
     function disableAllInput() {
+        $("select").each(function () {
+            $("#" + this.id).prop("disabled", true);
+        });
         $("input[type=text]").each(function () {
             $("#" + this.id).prop("disabled", true);
         });
@@ -14,20 +17,42 @@
         });
     }
 
-    function enableAllInput() {
+    function clearAllInputs() {
         $("input[type=text]").each(function () {
+            $("#" + this.id).val("");
+        });
+        $("input[type=password]").each(function () {
+            $("#" + this.id).val("");
+        });
+    }
+    
+    function enableAllInput(excludedInputIds) {
+        disableAllInput();
+        function isExcludedInput(inputId, excludedInputIds){
+            return typeof excludedInputIds && jQuery.inArray(inputId, excludedInputIds) > -1;
+        }
+        $("select").each(function () {
+            if (isExcludedInput(this.id, excludedInputIds)) return;
+            $("#" + this.id).prop("disabled", false);
+        });
+        $("input[type=text]").each(function () {
+            if (isExcludedInput(this.id, excludedInputIds)) return;
             $("#" + this.id).prop("disabled", false);
         });
         $("input[type=password]").each(function () {
+            if (isExcludedInput(this.id, excludedInputIds)) return;
             $("#" + this.id).prop("disabled", false);
         });
     }
 
     function clearValidation() {
-        $("input[type=text]").each(function () {
+        $("select:enabled").each(function () {
             $("#" + this.id + "Required").hide();
         });
-        $("input[type=password]").each(function () {
+        $("input[type=text]:enabled").each(function () {
+            $("#" + this.id + "Required").hide();
+        });
+        $("input[type=password]:enabled").each(function () {
             $("#" + this.id + "Required").hide();
         });
         $("#registrationFailed").hide();
@@ -45,13 +70,19 @@
 
     function validateAllInput() {
         var valOk = true;
-        $("input[type=text]").each(function () {
+        $("select:enabled").each(function () {
             if (!$("#" + this.id).val()) {
                 $("#" + this.id + "Required").show();
                 valOk = false;
             }
         });
-        $("input[type=password]").each(function () {
+        $("input[type=text]:enabled").each(function () {
+            if (!$("#" + this.id).val()) {
+                $("#" + this.id + "Required").show();
+                valOk = false;
+            }
+        });
+        $("input[type=password]:enabled").each(function () {
             if (!$("#" + this.id).val()) {
                 $("#" + this.id + "Required").show();
                 valOk = false;
@@ -70,6 +101,7 @@
 
     var initSubView = function initSubView(config) {
         $(subheadId).text(config.subheadContent);
+        // configure the back button
         if (config.goBackUrl) {
             $(backButtonId).show();
             $(backButtonId).off('click').click(function () {
@@ -84,6 +116,9 @@
         } else {
             $(backButtonId).hide();
         }
+        
+        // configure the selected provider dropdown
+        selectApiProvider(config.apiRegistrationProvider);
     };
 
     var redirecToPartial = function redirecToPartial(partialUrl) {
@@ -96,16 +131,23 @@
         });
     }
 
-    var initRegistration = function() {
+    var initRegistration = function (config) {
         // set up page
-        if (!checkIfPageHasInputAlready()) {
-            disableAllInput();
-        }
         $(document).tooltip();
-
-        $("#saveButton").prop("disabled", true);
+        initApiRegistrationFields(config);
 
         $("#saveButton").bind("click", function () {
+            var apiProvider = $.trim($("#apiRegistrationProvider").val())
+            var providerHasChanged = apiProvider && config.apiRegistrationProvider && apiProvider !== config.apiRegistrationProvider;
+            var confirmSave = !providerHasChanged;          
+            
+            // if the provider is set and has changed then show warning message
+            if (providerHasChanged) {
+                confirmSave = confirm(config.apiProviderChangeWarningMessage);
+            }
+
+            // if not confirmed then bail
+            if (!confirmSave) return;
 
             clearValidation();
             if (!validateAllInput()) {
@@ -116,17 +158,22 @@
                 BaseUrl: $.trim($("#BaseUrl").val()),
                 LicenceKey: $.trim($("#LicenceKey").val()),
                 Username: $.trim($("#Username").val()),
-                Password: $.trim($("#Password").val())
+                Password: $.trim($("#Password").val()),
+                apiRegistrationProvider: $.trim($("#apiRegistrationProvider").val())
             }
 
             $.post('/Advanced/SaveRegistration', { apiModel: registrationModel }, function(response) {
 
                 if (response === "True") {
+                    selectApiProvider(config.apiRegistrationProvider);
                     $("#registrationFailed").hide();
                     $("#registrationPassed").show();
                     $("#saveButton").prop("disabled", true);
                     $("#editButton").prop("disabled", false);
                     disableAllInput();
+                    config.apiRegistrationProvider = registrationModel.apiRegistrationProvider;
+                    $("#changeApiRegistrationProviderButton").prop("disabled", false);
+                    $("#changeApiRegistrationProviderButton").show();
                 } else {
                     $("#registrationPassed").hide();
                     $("#registrationFailed").show();
@@ -135,14 +182,35 @@
         });
 
         $("#editButton").bind("click", function () {
-            enableAllInput();
+            enableApiRegistrationEdit(config.apiRegistrationProvider, true);
+        });
+
+        $("#changeApiRegistrationProviderButton").bind("click", function () {
+            $('#changeApiRegistrationProviderButton').prop("disabled", true);
             $("#saveButton").prop("disabled", false);
             $("#editButton").prop("disabled", true);
-
+            showApiRegistrationFields($("#apiRegistrationProvider").val(), true, false);
         });
     }
 
-    var initAssociation = function() {
+    var iccidFileUploadOnChange = function () {
+        var url = '/Advanced/DeviceAssociation';
+        IoTApp.Advanced.processCsvFileInput(this)
+        .then(IoTApp.Advanced.postIccidFileData)
+        .then(function () {
+            IoTApp.Advanced.redirecToPartial(url);
+        }, function (error) {
+            console.error(error);
+        });
+    }
+
+    var uploadIccidsButtonOnClick = function () {
+        $("#iccidFileUpload").click();
+    }
+
+    var initAssociation = function () {
+        $("#iccidFileUpload").on("change", iccidFileUploadOnChange);
+        $("#uploadIccidButton").on("click", uploadIccidsButtonOnClick);
         $("#associateButton").bind("click", function () {
             var deviceId = $("#UnassignedDeviceIds option:selected").text();
             var iccid = $("#UnassignedIccids option:selected").text();
@@ -166,11 +234,159 @@
         $("#associateSucceeded").hide();
     }
 
+    var selectApiProvider = function(providerName, changeProvider){
+        if (providerName) {
+            var providerSelectElement = $('#apiRegistrationProvider');
+            var selectedOptionElement = providerSelectElement.find('option[value="' + providerName + '"]');
+            if (selectedOptionElement.length > 0) {
+                // if apiRegistrationProvider select option found select it and disable the input
+                selectedOptionElement.attr('selected', 'selected');
+                if (!changeProvider) {
+                    providerSelectElement.attr('disabled', 'disabled');
+                }               
+            }
+            else {
+                // select the default option if apiRegistrationProvider did not mach any of the options
+                providerSelectElement.find('option[value=""]').attr('selected', 'selected');
+            }
+        }
+    }
+
+    var initApiRegistrationFields = function (config) {
+        disableAllInput();
+        $('#apiRegistrationProvider').on('change', function (event) {
+            event.preventDefault();
+            clearAllInputs();
+            showApiRegistrationFields(this.value, true);
+            $("#saveButton").prop("disabled", false);
+        });
+
+        $("#saveButton").prop("disabled", true);
+        $("#editButton").prop("disabled", false);
+        
+        var selectedProvider = config.apiRegistrationProvider;
+        if (selectedProvider) {
+            showApiRegistrationFields(selectedProvider, false, true);
+            $("#changeApiRegistrationProviderButton").show();
+            $("#saveButton").prop("disabled", true);
+            $("#editButton").prop("disabled", false);
+        }
+        else {
+            hideApiRegistrationFields();
+            $("#changeApiRegistrationProviderButton").hide();
+            $("#apiRegistrationProviderWarning").hide();
+            $('#apiRegistrationProvider').prop('disabled', false);
+            $("#saveButton").prop("disabled", true);
+            $("#editButton").prop("disabled", true);
+        }
+    }
+
+    var hideApiRegistrationFields = function () {
+        $("#BaseUrl").closest('fieldset').hide();
+        $("#LicenceKey").closest('fieldset').hide();
+        $("#Username").closest('fieldset').hide();
+        $("#Password").closest('fieldset').hide();
+    }
+
+    var showApiRegistrationFields = function (selectedProvider, enableFields, disableApiProvider) {
+        function showSharedFields() {
+            $("#BaseUrl").closest('fieldset').show();
+            $("#Username").closest('fieldset').show();
+            $("#Password").closest('fieldset').show();
+        }
+        var disabledFields = []
+        switch(selectedProvider){
+            case 'Jasper': {
+                showSharedFields();
+                if (enableFields) {
+                    if (disableApiProvider) {
+                        disabledFields.push('apiRegistrationProvider');
+                    }
+                    enableAllInput(disabledFields);
+                }
+                $("#LicenceKey").closest('fieldset').show();
+                break;
+            }
+            case 'Ericsson': {
+                showSharedFields();
+                $("#LicenceKey").closest('fieldset').hide();
+                if (enableFields) {
+                    disabledFields.push('LicenceKey');
+                    if (disableApiProvider) {
+                        disabledFields.push('apiRegistrationProvider');
+                    }
+                    enableAllInput(disabledFields)
+                }
+               
+                break;
+            }
+            default: {
+                hideApiRegistrationFields();
+                break;
+            }
+        }
+    }
+
+    var deleteApiRegistration = function () {
+        $.ajax({
+            url: '/Advanced/DeleteRegistration',
+            data: {},
+            async: true,
+            type: "post",
+            success: function () {
+                window.location.reload();
+            }
+        });
+    }
+
+    var enableApiRegistrationEdit = function (apiRegistrationProvider, changeProvider) {
+        selectApiProvider(apiRegistrationProvider, changeProvider);
+        showApiRegistrationFields(apiRegistrationProvider, true, true);
+        $("#saveButton").prop("disabled", false);
+        $("#editButton").prop("disabled", true);
+    }
+
+    var getValidIccidRecords = function (csvResults) {
+        return csvResults.data.filter(function (record) {
+            return record.Id;
+        });
+    }
+
+    var processCsvFileInput = function(fileInput) {
+        var deferred = jQuery.Deferred();
+        $(fileInput).parse({
+            config: {
+                complete: function (results) {
+                    results = getValidIccidRecords(results);
+                    deferred.resolve(results);
+                },
+                header: true
+            },
+            error: function (err) {
+                deferred.reject(err);
+            }
+        });
+        return deferred.promise();
+    }
+
+    var postIccidFileData = function (data) {
+        return $.ajax({
+            url: '/Advanced/AddIccids',
+            data: JSON.stringify(data),
+            async: true,
+            type: "post",
+            contentType: "application/json"
+        });
+    }
+
     return {
         init : init,
         initSubView: initSubView,
         redirecToPartial: redirecToPartial,
         initRegistration: initRegistration,
-        initAssociation: initAssociation
+        initAssociation: initAssociation,
+        deleteApiRegistration: deleteApiRegistration,
+        processCsvFileInput: processCsvFileInput,
+        postIccidFileData: postIccidFileData
     };
 }, [jQuery]);
