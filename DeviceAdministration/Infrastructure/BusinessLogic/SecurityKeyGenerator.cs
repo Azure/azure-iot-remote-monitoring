@@ -10,7 +10,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     public class SecurityKeyGenerator : ISecurityKeyGenerator
     {
         // string will be about 33% longer than this
-        private const int _lengthInBytes = 16;
+        private const int _lengthInBytes = 32;
 
         /// <summary>
         /// Creates a random security key pair
