@@ -148,7 +148,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 _apiRegistrationRepository.DeleteApiDetails();
                 return false;
@@ -208,7 +208,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                     await UpdateDeviceAssociation(deviceId, null);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }

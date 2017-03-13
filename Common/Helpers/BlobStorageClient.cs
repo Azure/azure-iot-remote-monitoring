@@ -90,7 +90,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 await targetBlob.StartCopyAsync(sourceBlob);
             }
 
-            sourceBlob.DeleteAsync();
+            var task = sourceBlob.DeleteAsync();
             return targetBlob;
         }
 

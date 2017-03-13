@@ -87,15 +87,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         {
             NameCacheEntityType type;
 
-            if (name.StartsWith(PREFIX_REPORTED))
+            if (name.StartsWith(PREFIX_REPORTED, StringComparison.Ordinal))
             {
                 type = NameCacheEntityType.ReportedProperty;
             }
-            else if (name.StartsWith(PREFIX_DESIRED))
+            else if (name.StartsWith(PREFIX_DESIRED, StringComparison.Ordinal))
             {
                 type = NameCacheEntityType.DesiredProperty;
             }
-            else if (name.StartsWith(PREFIX_TAGS))
+            else if (name.StartsWith(PREFIX_TAGS, StringComparison.Ordinal))
             {
                 type = NameCacheEntityType.Tag;
             }

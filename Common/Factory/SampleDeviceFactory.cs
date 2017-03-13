@@ -165,7 +165,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
             device.DeviceProperties.ModelNumber = "MD-" + randomId;
             device.DeviceProperties.SerialNumber = "SER" + randomId;
 
-            if (FreeFirmwareDeviceNames.Any(n => device.DeviceProperties.DeviceID.StartsWith(n)))
+            if (FreeFirmwareDeviceNames.Any(n => device.DeviceProperties.DeviceID.StartsWith(n, StringComparison.Ordinal)))
             {
                 device.DeviceProperties.FirmwareVersion = "1." + randomId;
             }
@@ -264,7 +264,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Factory
 
         public static void AssignDefaultDesiredProperties(DeviceModel device)
         {
-            if (HighTemperatureDeviceNames.Any(n => device.DeviceProperties.DeviceID.StartsWith(n)))
+            if (HighTemperatureDeviceNames.Any(n => device.DeviceProperties.DeviceID.StartsWith(n, StringComparison.Ordinal)))
             {
                 if (device.Twin == null)
                 {

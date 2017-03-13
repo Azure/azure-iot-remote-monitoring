@@ -45,7 +45,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             foreach (var model in devicePropertyValueModels)
             {
-                if (model.Name.StartsWith("tags.") || model.Name.StartsWith("properties.desired."))
+                if (model.Name.StartsWith("tags.", StringComparison.Ordinal) || model.Name.StartsWith("properties.desired.", StringComparison.Ordinal))
                 {
                     device.Twin.Set(model.Name, model.Value);
                 }
@@ -72,7 +72,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 DisplayOrder = 1,
                 IsEditable = true,
                 IsIncludedWithUnregisteredDevices = false,
-                Name = $"tags.{pair.Key}",
+                Name = FormattableString.Invariant($"tags.{pair.Key}"),
                 PropertyType = GetObjectType(pair.Value.Value),
                 Value = pair.Value.Value.ToString()
             });
@@ -82,7 +82,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 DisplayOrder = 2,
                 IsEditable = true,
                 IsIncludedWithUnregisteredDevices = false,
-                Name = $"properties.desired.{pair.Key}",
+                Name = FormattableString.Invariant($"properties.desired.{pair.Key}"),
                 PropertyType = GetObjectType(pair.Value.Value),
                 Value = pair.Value.Value.ToString(),
                 LastUpdatedUtc = pair.Value.LastUpdated
@@ -93,7 +93,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 DisplayOrder = 3,
                 IsEditable = false,
                 IsIncludedWithUnregisteredDevices = false,
-                Name = $"properties.reported.{pair.Key}",
+                Name = FormattableString.Invariant($"properties.reported.{pair.Key}"),
                 PropertyType = GetObjectType(pair.Value.Value),
                 Value = pair.Value.Value.ToString(),
                 LastUpdatedUtc = pair.Value.LastUpdated

@@ -341,6 +341,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To activate the Jasper integration to view and control your Control Center devices through IoT Suite please enter the following credentials:.
+        /// </summary>
+        public static string ApiRegistrationInfoText {
+            get {
+                return ResourceManager.GetString("ApiRegistrationInfoText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To activate the integration to view and control your Ericsson IoT account devices through IoT Suite please enter the following credentials:.
         /// </summary>
         public static string ApiRegistrationInfoTextEricsson {

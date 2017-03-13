@@ -68,7 +68,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             foreach (var handler in _savedMethodHandlers)
             {
-                deviceClient.SetMethodHandler(handler.Key, handler.Value, null);
+                await deviceClient.SetMethodHandlerAsync(handler.Key, handler.Value, null);
             }
 
             if (_savedDesiredpropertyHandler != null)
@@ -278,9 +278,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             return await _deviceClient.GetTwinAsync();
         }
 
-        public void SetMethodHandler(string methodName, MethodCallback callback)
+        public async Task SetMethodHandlerAsync(string methodName, MethodCallback callback)
         {
-            _deviceClient.SetMethodHandler(methodName, callback, null);
+            await _deviceClient.SetMethodHandlerAsync(methodName, callback, null);
 
             if (!_savedMethodHandlers.ContainsKey(methodName))
             {

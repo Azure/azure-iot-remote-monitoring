@@ -101,14 +101,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             return await Task.FromResult(new Twin());
         }
 
-        public void SetMethodHandler(string methodName, MethodCallback callback)
+        public Task SetMethodHandlerAsync(string methodName, MethodCallback callback)
         {
-            _logger.LogInfo($"SetMethodHandler called: {methodName} -> {callback.Method.Name}");
+            _logger.LogInfo(FormattableString.Invariant($"SetMethodHandler called: {methodName} -> {callback.Method.Name}"));
+
+            return Task.FromResult(0);
         }
 
         public void SetDesiredPropertyUpdateCallback(DesiredPropertyUpdateCallback callback)
         {
-            _logger.LogInfo($"SetDesiredPropertyUpdateCallback called, callback = {callback.Method.Name}");
+            _logger.LogInfo(FormattableString.Invariant($"SetDesiredPropertyUpdateCallback called, callback = {callback.Method.Name}"));
         }
     }
 }

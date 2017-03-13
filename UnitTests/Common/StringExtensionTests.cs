@@ -1,5 +1,4 @@
 ﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
-using System;
 using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Common

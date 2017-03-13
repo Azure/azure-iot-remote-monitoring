@@ -175,7 +175,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
             {
                 // Currently, the container could only be TwinCollection or JContainer
 #if DEBUG
-                throw new ApplicationException($"Unexpected TwinCollection item type: {child.GetType().FullName} @ ...{name}");
+                throw new ApplicationException(FormattableString.Invariant($"Unexpected TwinCollection item type: {child.GetType().FullName} @ ...{name}"));
 #else
                 return null;
 #endif
@@ -208,7 +208,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
             {
                 // The next level of JContainer must be JContainer
 #if DEBUG
-                throw new ApplicationException($"Unexpected TwinCollection item JTokenType: {child.Type} @ {child.Path}");
+                throw new ApplicationException(FormattableString.Invariant($"Unexpected TwinCollection item JTokenType: {child.Type} @ {child.Path}"));
 #else
                 return null;
 #endif
@@ -267,7 +267,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
                 {
                     // Currently, the container could only be TwinCollection or JContainer
 #if DEBUG
-                    throw new ApplicationException($"Unexpected TwinCollection item type: {child.GetType().FullName} @ ...{name}");
+                    throw new ApplicationException(FormattableString.Invariant($"Unexpected TwinCollection item type: {child.GetType().FullName} @ ...{name}"));
 #endif
                 }
             }
@@ -303,7 +303,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
                     {
                         // The next level of JContainer must be JContainer
 #if DEBUG
-                        throw new ApplicationException($"Unexpected TwinCollection item JTokenType: {child.Type} @ {child.Path}");
+                        throw new ApplicationException(FormattableString.Invariant($"Unexpected TwinCollection item JTokenType: {child.Type} @ {child.Path}"));
 #endif
                     }
                 }

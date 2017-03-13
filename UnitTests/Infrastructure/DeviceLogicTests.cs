@@ -388,7 +388,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         }
 
         [Fact]
-        public async void ExtractDevicePropertyValuesModelsTest()
+        public void ExtractDevicePropertyValuesModelsTest()
         {
             var device = this.fixture.Create<DeviceModel>();
             this._configProviderMock.Setup(mock => mock.GetConfigurationSettingValue("iotHub.HostName")).Returns("hostName");
@@ -405,7 +405,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         }
 
         [Fact]
-        public async void GenerateNDevicesTest()
+        public async Task GenerateNDevicesTest()
         {
             var device = this.fixture.Create<DeviceModel>();
             this._iotHubRepositoryMock.Setup(mock => mock.AddDeviceAsync(It.IsAny<DeviceModel>(), It.IsAny<SecurityKeys>()))

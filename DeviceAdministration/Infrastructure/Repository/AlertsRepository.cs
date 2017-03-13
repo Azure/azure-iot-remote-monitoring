@@ -1,8 +1,4 @@
-﻿using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
-using Microsoft.WindowsAzure.Storage.Blob;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
@@ -10,7 +6,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -170,36 +168,26 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             Debug.Assert(stream != null, "stream is a null reference.");
 
             var models = new List<AlertHistoryItemModel>();
-            TextReader reader = null;
+
             try
             {
                 stream.Position = 0;
-                reader = new StreamReader(stream);
-
-                IEnumerable<ExpandoObject> expandos = ParsingHelper.ParseCsv(reader).ToExpandoObjects();
-                foreach (ExpandoObject expando in expandos)
+                using (var reader = new StreamReader(stream))
                 {
-                    AlertHistoryItemModel model = ProduceAlertHistoryItem(expando);
-
-                    if (model != null)
+                    IEnumerable<ExpandoObject> expandos = ParsingHelper.ParseCsv(reader).ToExpandoObjects();
+                    foreach (ExpandoObject expando in expandos)
                     {
-                        models.Add(model);
+                        AlertHistoryItemModel model = ProduceAlertHistoryItem(expando);
+
+                        if (model != null)
+                        {
+                            models.Add(model);
+                        }
                     }
                 }
             }
             finally
             {
-                IDisposable dispStream = stream as IDisposable;
-                if (dispStream != null)
-                {
-                    dispStream.Dispose();
-                }
-
-                IDisposable dispReader = reader as IDisposable;
-                if (dispReader != null)
-                {
-                    dispReader.Dispose();
-                }
             }
 
             return models;

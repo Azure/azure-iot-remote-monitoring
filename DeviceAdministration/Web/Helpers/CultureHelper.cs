@@ -4,13 +4,13 @@
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 {
-    using Models;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
     using System.Threading;
+    using Models;
 
     public sealed class CultureHelper
     {
@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             // The first culture in implemented list is cs, change default culture to en if it's exist
             var defaultCulture = "en";
 
-            if (ImplementedCultureNames.Any(x => x.Equals(defaultCulture, StringComparison.InvariantCultureIgnoreCase)))
+            if (ImplementedCultureNames.Any(x => x.Equals(defaultCulture, StringComparison.OrdinalIgnoreCase)))
             {
                 return new CultureInfo(defaultCulture);
             }

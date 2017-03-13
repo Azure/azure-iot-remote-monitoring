@@ -197,12 +197,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
 
         private bool IsCorrectQueryForJobId(TableQuery<JobTableEntity> query, string jobId)
         {
-            return query.FilterString == $"PartitionKey eq '{jobId}'";
+            return query.FilterString == FormattableString.Invariant($"PartitionKey eq '{jobId}'");
         }
 
         private bool IsCorrectQueryForQueryName(TableQuery<JobTableEntity> query, string queryName)
         {
-            return query.FilterString == $"RowKey eq '{queryName}'";
+            return query.FilterString == FormattableString.Invariant($"RowKey eq '{queryName}'");
         }
 
         private bool IsModelCreatedByEntity(JobRepositoryModel model, JobTableEntity entity)

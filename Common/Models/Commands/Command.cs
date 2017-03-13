@@ -35,7 +35,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Co
 
         public KeyValuePair<string, string> Serialize()
         {
-            var parts = new string[] { Name }.Concat(Parameters.Select(p => $"{p.Name}-{p.Type}"));
+            var parts = new string[] { Name }.Concat(Parameters.Select(p => FormattableString.Invariant($"{p.Name}-{p.Type}")));
 
             return new KeyValuePair<string, string>(string.Join("--", parts), Description);
         }

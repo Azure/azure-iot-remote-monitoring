@@ -1,35 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models.Commands;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.DataTables;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.WebApiControllers;
 using Moq;
 using Newtonsoft.Json.Linq;
 using Ploeh.AutoFixture;
 using Xunit;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
-using System.Dynamic;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
-    WebApiControllers
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.WebApiControllers
 {
-    public class DeviceApiControllerTests
+    public class DeviceApiControllerTests : IDisposable
     {
         private readonly DeviceApiController deviceApiController;
         private readonly Mock<IDeviceLogic> deviceLogic;
         private readonly Mock<IDeviceListFilterRepository> devicefilterRepository;
-        private readonly Mock<IIoTHubDeviceManager> deviceManager;        
+        private readonly Mock<IIoTHubDeviceManager> deviceManager;
         private readonly IFixture fixture;
 
         public DeviceApiControllerTests()
         {
             deviceLogic = new Mock<IDeviceLogic>();
             devicefilterRepository = new Mock<IDeviceListFilterRepository>();
-            deviceManager = new Mock<IIoTHubDeviceManager>();            
+            deviceManager = new Mock<IIoTHubDeviceManager>();
             deviceApiController = new DeviceApiController(deviceLogic.Object, devicefilterRepository.Object, deviceManager.Object);
             deviceApiController.InitializeRequest();
             fixture = new Fixture();
@@ -101,8 +101,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
                 .ReturnsAsync(80);
             devicefilterRepository.Setup(mock => mock.GetFilterAsync(It.IsAny<string>()))
                 .ReturnsAsync(filter);
-            
-            System.Net.Http.HttpResponseMessage res = await deviceApiController.GetApplicableDeviceCountByMethod("mockfilterId",method);
+
+            System.Net.Http.HttpResponseMessage res = await deviceApiController.GetApplicableDeviceCountByMethod("mockfilterId", method);
 
             res.AssertOnError();
             var data = res.ExtractContentDataAs<DeviceApplicableResult>();
@@ -190,6 +190,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
             var data = res.ExtractContentDataAs<bool>();
             Assert.True(data);
         }
+
 #if DEBUG
         [Fact]
         public async void DeleteAllDevices()
@@ -211,5 +212,39 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
             Assert.True(data);
         }
 #endif
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    deviceApiController.Dispose();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~DeviceApiControllerTests() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

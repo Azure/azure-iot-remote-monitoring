@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions
 {
@@ -7,10 +8,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
     {
         public string FilterId { get; set; }
 
-        public FilterNotFoundException (string filterId)
-            : base($"Filter with Id = '{filterId}' could not be found.")
+        public FilterNotFoundException(string filterId)
+            : base(FormattableString.Invariant($"Filter with Id = '{filterId}' could not be found."))
         {
             FilterId = filterId;
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
         }
     }
 }

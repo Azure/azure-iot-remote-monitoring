@@ -3,13 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
+using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
-using System.Web.Caching;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper
 {
@@ -20,7 +16,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper
             if (!Validate(dynamicObject, typedObject))
             {
                 Debug.WriteLine("ERROR");
-                throw new Exception(string.Format("Conversion failed for type: {0}", typeof(T)));
+                throw new Exception(FormattableString.Invariant($"Conversion failed for type: {typeof(T)}"));
             }
         }
 
@@ -74,7 +70,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper
                                     foreach (var valItem in enumerableTypedValue)
                                     {
                                         var dynamicValueAtIndex = dynamicValue[index];
-                                        var typedValueAtIndex = Convert.ChangeType(valItem, nestedType);
+                                        var typedValueAtIndex = Convert.ChangeType(valItem, nestedType, CultureInfo.InvariantCulture);
                                         passed = (bool)method.Invoke(null, new object[] { dynamicValueAtIndex, typedValueAtIndex });
                                         if (!passed)
                                         {
@@ -91,7 +87,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper
                                     MethodInfo method =
                                         typeof(MappingValidator).GetMethod("Validate")
                                             .MakeGenericMethod(new Type[] { nestedType });
-                                    typedValue = Convert.ChangeType(typedProp.GetValue(typedObject), nestedType);
+                                    typedValue = Convert.ChangeType(typedProp.GetValue(typedObject), nestedType, CultureInfo.InvariantCulture);
 
                                     // dynamicValue is an object, so checking if it has any properties
                                     // else it is a primitive type object
@@ -134,7 +130,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Mapper
                             string dstr = dynamicObject.ToString();
                             Debug.WriteLine("3. DYNAMIC: " + dstr);
                             Debug.WriteLine("3. STRONG: " + typedObject.ToString());
-                            Debug.WriteLine("3. Property "+prop+" not found in strongly types object");
+                            Debug.WriteLine("3. Property " + prop + " not found in strongly types object");
                             return false;
                         }
                     }

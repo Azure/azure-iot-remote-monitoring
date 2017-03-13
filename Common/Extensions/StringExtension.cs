@@ -8,20 +8,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
         /// <summary>
         /// Try to remove prefix from input string
         /// </summary>
-        /// <param name="text">The raw string</param>
+        /// <param name="s">The raw string</param>
         /// <param name="prefix">The target prefix string</param>
         /// <param name="result">The prefix-removed string (or the raw string if target prefix was not found)</param>
         /// <returns>True if the target prefix was found</returns>
-        static public bool TryTrimPrefix(this string text, string prefix, out string result)
+        static public bool TryTrimPrefix(this string s, string prefix, out string result)
         {
-            if (text.StartsWith(prefix, StringComparison.InvariantCulture))
+            if (s.StartsWith(prefix, StringComparison.Ordinal))
             {
-                result = text.Substring(prefix.Length);
+                result = s.Substring(prefix.Length);
                 return true;
             }
             else
             {
-                result = text;
+                result = s;
                 return false;
             }
         }
@@ -29,13 +29,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
         /// <summary>
         /// Try to remove prefix from input string
         /// </summary>
-        /// <param name="text">The raw string</param>
+        /// <param name="s">The raw string</param>
         /// <param name="prefix">The target prefix string</param>
         /// <returns>prefix-removed string (or the raw string if target prefix was not found)</returns>
-        static public string TryTrimPrefix(this string text, string prefix)
+        static public string TryTrimPrefix(this string s, string prefix)
         {
             string result;
-            text.TryTrimPrefix(prefix, out result);
+            s.TryTrimPrefix(prefix, out result);
             return result;
         }
 
@@ -53,10 +53,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
         /// </summary>
         /// <param name="key"></param>
         /// <returns>true if it is a correct key</returns>
-        static public bool IsAllowedTableKey (this string key)
+        static public bool IsAllowedTableKey(this string key)
         {
             char[] speicialChars = @"#?/\".ToCharArray();
-            if(string.IsNullOrWhiteSpace(key)
+            if (string.IsNullOrWhiteSpace(key)
                 || key.Length > 1024
                 || key.IndexOfAny(speicialChars) > -1
                 || key.ToCharArray().Any(c => c < 0X1F || c > 0X7F && c < 0X9F))
@@ -88,9 +88,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
         {
             if (string.IsNullOrEmpty(flatName)) return false;
             // this line should be removed once we change it to tags.__HubEnabledState__ in the future.
-            if ("tags.HubEnabledState".Equals(flatName, StringComparison.InvariantCulture)) return true;
+            if ("tags.HubEnabledState".Equals(flatName, StringComparison.Ordinal)) return true;
             string[] parts = flatName.Split('.');
-            return parts.Any(p => p.StartsWith("__") && p.EndsWith("__"));
+            return parts.Any(p => p.StartsWith("__", StringComparison.Ordinal) && p.EndsWith("__", StringComparison.Ordinal));
         }
     }
 }

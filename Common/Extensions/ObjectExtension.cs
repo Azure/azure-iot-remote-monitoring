@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions
@@ -13,7 +14,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
             {
                 if (throwIfNoProperty)
                 {
-                    throw new ArgumentOutOfRangeException($"{type} has no property {name}");
+                    throw new ArgumentOutOfRangeException(FormattableString.Invariant($"{type} has no property {name}"));
                 }
                 else
                 {
@@ -22,7 +23,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
             }
 
             var intermediaType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
-            property.SetValue(obj, Convert.ChangeType(value.Value, intermediaType));
+            property.SetValue(obj, Convert.ChangeType(value.Value, intermediaType, CultureInfo.InvariantCulture));
         }
     }
 }

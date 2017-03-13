@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
@@ -8,10 +9,9 @@ using Moq;
 using Ploeh.AutoFixture;
 using Xunit;
 
-namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
-    WebApiControllers
+namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.WebApiControllers
 {
-    public class DeviceRulesApiControllerTests
+    public class DeviceRulesApiControllerTests : IDisposable
     {
         private readonly DeviceRulesApiController deviceRulesApiController;
         private readonly Mock<IDeviceRulesLogic> deviceRulesLogic;
@@ -130,5 +130,40 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web.
             var data = res.ExtractContentDataAs<TableStorageResponse<DeviceRule>>();
             Assert.Equal(data, tableResp);
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    deviceRulesApiController.Dispose();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~DeviceRulesApiControllerTests() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

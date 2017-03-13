@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
+using System;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 {
@@ -11,7 +12,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             ClauseType = clause.ClauseType.ToString();
             ClauseDataType = clause.ClauseDataType.ToString();
             RowKey = ColumnName = clause.ColumnName;
-            PartitionKey = $"{clause.ColumnName} {clause.ClauseType.ToString()} {ClauseValue.NormalizedTableKey()} {clause.ClauseDataType.ToString()}";
+            PartitionKey = FormattableString.Invariant($"{clause.ColumnName} {clause.ClauseType.ToString()} {ClauseValue.NormalizedTableKey()} {clause.ClauseDataType.ToString()}");
             HitCounter = 1;
         }
 

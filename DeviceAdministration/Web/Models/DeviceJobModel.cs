@@ -1,5 +1,5 @@
-﻿using GlobalResources;
-using System;
+﻿using System;
+using GlobalResources;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Extensions;
 using Microsoft.Azure.Devices.Shared;
@@ -67,7 +67,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             get
             {
-                return OperationType.Equals(ExtendJobType.ScheduleDeviceMethod.LocalizedString(), StringComparison.InvariantCultureIgnoreCase);
+                return OperationType.Equals(ExtendJobType.ScheduleDeviceMethod.LocalizedString(), StringComparison.OrdinalIgnoreCase);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             get
             {
-                return OperationType.Equals(ExtendJobType.ScheduleUpdateTwin.LocalizedString(), StringComparison.InvariantCultureIgnoreCase);
+                return OperationType.Equals(ExtendJobType.ScheduleUpdateTwin.LocalizedString(), StringComparison.OrdinalIgnoreCase);
             }
         }
 
@@ -83,8 +83,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         {
             get
             {
-                return OperationType.Equals(ExtendJobType.ScheduleUpdateIcon.LocalizedString(), StringComparison.InvariantCultureIgnoreCase)
-                    || OperationType.Equals(ExtendJobType.ScheduleRemoveIcon.LocalizedString(), StringComparison.InvariantCultureIgnoreCase);
+                return OperationType.Equals(ExtendJobType.ScheduleUpdateIcon.LocalizedString(), StringComparison.OrdinalIgnoreCase)
+                    || OperationType.Equals(ExtendJobType.ScheduleRemoveIcon.LocalizedString(), StringComparison.OrdinalIgnoreCase);
             }
         }
 

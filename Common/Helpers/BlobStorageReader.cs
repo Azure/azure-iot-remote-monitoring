@@ -13,6 +13,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
     {
     }
 
+    class CacheItem
+    {
+        public MemoryStream Stream;
+    }
+
     internal class BlobStorageReader : IBlobStorageReader
     {
         private readonly IEnumerable<IListBlobItem> _blobs;
@@ -43,25 +48,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
         static private MemoryStream ReadBlockWithCache(CloudBlob blob)
         {
-            var stream = new MemoryStream();
-            stream = _blobCache.AddOrGetExisting(
+            var item = new CacheItem { Stream = new MemoryStream() };
+            item = _blobCache.AddOrGetExisting(
                 blob.Uri.ToString(),
-                stream,
+                item,
                 new CacheItemPolicy
                 {
                     SlidingExpiration = TimeSpan.FromHours(2),
                     RemovedCallback = OnItemRemoved
-                }) as MemoryStream
-                ?? stream;
+                }) as CacheItem
+                ?? item;
 
-            lock (stream)
+            lock (item)
             {
-                var length = blob.Properties.Length - stream.Length;
+                var length = blob.Properties.Length - item.Stream.Length;
                 if (length > 0)
                 {
                     try
                     {
-                        blob.DownloadRangeToStream(stream, stream.Length, length);
+                        blob.DownloadRangeToStream(item.Stream, item.Stream.Length, length);
                     }
                     catch
                     {
@@ -69,17 +74,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                     }
                 }
 
-                return new MemoryStream(stream.GetBuffer(), 0, (int)stream.Length, false);
+                return new MemoryStream(item.Stream.GetBuffer(), 0, (int)item.Stream.Length, false);
             }
         }
 
         static void OnItemRemoved(CacheEntryRemovedArguments arg)
         {
-            var stream = arg.CacheItem.Value as MemoryStream;
-            if (stream != null)
-            {
-                stream.Dispose();
-            }
+            var item = arg.CacheItem.Value as CacheItem;
+            item?.Stream?.Dispose();
         }
     }
 }

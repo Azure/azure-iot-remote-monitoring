@@ -33,7 +33,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         Task<Twin> GetTwinAsync();
 
-        void SetMethodHandler(string methodName, MethodCallback callback);
+        Task SetMethodHandlerAsync(string methodName, MethodCallback callback);
 
         void SetDesiredPropertyUpdateCallback(DesiredPropertyUpdateCallback callback);
     }

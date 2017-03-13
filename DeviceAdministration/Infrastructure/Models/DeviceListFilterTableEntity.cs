@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
+using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -17,11 +17,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
             else
             {
-                throw new ArgumentException($"Incorrect table keys: {filterId}, {filterName}");
+                throw new ArgumentException(FormattableString.Invariant($"Incorrect table keys: {filterId}, {filterName}"));
             }
         }
 
-        public DeviceListFilterTableEntity (DeviceListFilter filter)
+        public DeviceListFilterTableEntity(DeviceListFilter filter)
         {
             if (filter.Id.IsAllowedTableKey() && filter.Name.IsAllowedTableKey())
             {
@@ -30,7 +30,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             }
             else
             {
-                throw new ArgumentException($"Incorrect table keys: {filter.Id}, {filter.Name}");
+                throw new ArgumentException(FormattableString.Invariant($"Incorrect table keys: {filter.Id}, {filter.Name}"));
             }
             Clauses = JsonConvert.SerializeObject(filter.Clauses, Formatting.None, new StringEnumConverter());
             SortColumn = filter.SortColumn;

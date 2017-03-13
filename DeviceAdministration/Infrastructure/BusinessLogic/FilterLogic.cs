@@ -32,7 +32,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             if (associatedJobs.Any())
             {
                 associatedJobs.ForEach(j => j.FilterName = savedFilter.Name);
-                _jobRepository.UpdateAssociatedFilterNameAsync(associatedJobs);
+                var task = _jobRepository.UpdateAssociatedFilterNameAsync(associatedJobs);
             }
 
             return new Filter(savedFilter);
@@ -81,7 +81,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 if (force)
                 {
                     associatedJobs.ForEach(j => j.FilterName = string.Empty);
-                    _jobRepository.UpdateAssociatedFilterNameAsync(associatedJobs);
+                    var task = _jobRepository.UpdateAssociatedFilterNameAsync(associatedJobs);
                 }
                 else
                 {

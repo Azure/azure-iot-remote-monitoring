@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Models
 {
@@ -103,7 +103,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 if (!string.IsNullOrWhiteSpace(AdvancedClause))
                 {
-                    return $"{queryWithoutCondition} WHERE {AdvancedClause}";
+                    return FormattableString.Invariant($"{queryWithoutCondition} WHERE {AdvancedClause}");
                 }
             }
             else
@@ -111,7 +111,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 string condition = GetSQLCondition();
                 if (!string.IsNullOrWhiteSpace(condition))
                 {
-                    return $"{queryWithoutCondition} WHERE {condition}";
+                    return FormattableString.Invariant($"{queryWithoutCondition} WHERE {condition}");
                 }
             }
 
@@ -158,7 +158,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                             items[i] = AddQuoteIfNeeded(filter.ClauseDataType, item);
                         }
 
-                        value = $"[{string.Join(", ", items)}]";
+                        value = FormattableString.Invariant($"[{string.Join(", ", items)}]");
                     }
                     else
                     {
@@ -168,9 +168,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     var twinPropertyName = filter.ColumnName;
                     if (this.IsProperties(twinPropertyName))
                     {
-                        twinPropertyName = $"properties.{filter.ColumnName}";
+                        twinPropertyName = FormattableString.Invariant($"properties.{filter.ColumnName}");
                     }
-                    return $"{twinPropertyName} {op} {value}";
+                    return FormattableString.Invariant($"{twinPropertyName} {op} {value}");
 
                 }).ToList();
 
@@ -179,14 +179,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         private bool IsProperties(string name)
         {
-            return name.StartsWith("reported.") || name.StartsWith("desired.");
+            return name.StartsWith("reported.", StringComparison.Ordinal) || name.StartsWith("desired.", StringComparison.Ordinal);
         }
 
         private string AddQuoteIfNeeded(TwinDataType dataType, string value)
         {
-            if (dataType == TwinDataType.String && !value.StartsWith("\'") && !value.EndsWith("\'"))
+            if (dataType == TwinDataType.String && !value.StartsWith("\'", StringComparison.Ordinal) && !value.EndsWith("\'", StringComparison.Ordinal))
             {
-                value = $"\'{value}\'";
+                value = FormattableString.Invariant($"\'{value}\'");
             }
 
             return value;

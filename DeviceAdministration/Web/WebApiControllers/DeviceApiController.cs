@@ -440,7 +440,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                 command.Parameters.Add(new Parameter(param.ParameterName.ToString(), param.Type.ToString()));
             }
 
-            return $"properties.reported.SupportedMethods.{command.Serialize().Key}";
+            return FormattableString.Invariant($"properties.reported.SupportedMethods.{command.Serialize().Key}");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
@@ -12,7 +13,7 @@ using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
 {
-    public class DeviceRulesControllerTests
+    public class DeviceRulesControllerTests : IDisposable
     {
         private readonly DeviceRulesController _deviceRulesController;
         private readonly Mock<IDeviceRulesLogic> _deviceRulesMock;
@@ -26,7 +27,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
         }
 
         [Fact]
-        public async void IndexTest()
+        public void IndexTest()
         {
             var result = _deviceRulesController.Index();
             var view = result as ViewResult;
@@ -62,7 +63,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             var result = await _deviceRulesController.UpdateRuleProperties(model);
             var view = result as JsonResult;
             var data = JsonConvert.SerializeObject(view.Data);
-            var obj = JsonConvert.SerializeObject(new {error = "The Threshold must be a valid double."});
+            var obj = JsonConvert.SerializeObject(new { error = "The Threshold must be a valid double." });
             Assert.Equal(data, obj);
 
             var tableResponse = fixture.Create<TableStorageResponse<DeviceRule>>();
@@ -75,7 +76,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             result = await _deviceRulesController.UpdateRuleProperties(model);
             view = result as JsonResult;
             data = JsonConvert.SerializeObject(view.Data);
-            obj = JsonConvert.SerializeObject(new {success = true});
+            obj = JsonConvert.SerializeObject(new { success = true });
             Assert.Equal(data, obj);
 
             tableResponse = fixture.Create<TableStorageResponse<DeviceRule>>();
@@ -120,7 +121,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             var result = await _deviceRulesController.UpdateRuleEnabledState(ruleModel);
             var view = result as JsonResult;
             var data = JsonConvert.SerializeObject(view.Data);
-            var obj = JsonConvert.SerializeObject(new {success = true});
+            var obj = JsonConvert.SerializeObject(new { success = true });
             Assert.Equal(data, obj);
             _deviceRulesMock.Verify();
         }
@@ -136,7 +137,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             var result = await _deviceRulesController.DeleteDeviceRule(deviceId, ruleId);
             var view = result as JsonResult;
             var data = JsonConvert.SerializeObject(view.Data);
-            var obj = JsonConvert.SerializeObject(new {success = true});
+            var obj = JsonConvert.SerializeObject(new { success = true });
             Assert.Equal(data, obj);
             _deviceRulesMock.Verify();
         }
@@ -190,5 +191,40 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             Assert.Equal(model.RuleOutput, ruleModel.RuleOutput);
             Assert.Equal(model.Threshold, ruleModel.Threshold.ToString());
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _deviceRulesController.Dispose();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~DeviceRulesControllerTests() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
@@ -155,16 +156,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         private void BuildReport(TwinCollection report, string status)
         {
-            report.Set($"{ReportPrefix}.{Status}", status);
-            report.Set($"{ReportPrefix}.{LastUpdate}", DateTime.UtcNow.ToString());
-            report.Set($"{ReportPrefix}.{Duration}", (int)_masterWatch.Elapsed.TotalSeconds);
+            report.Set(FormattableString.Invariant($"{ReportPrefix}.{Status}"), status);
+            report.Set(FormattableString.Invariant($"{ReportPrefix}.{LastUpdate}"), DateTime.UtcNow.ToString(CultureInfo.CurrentCulture));
+            report.Set(FormattableString.Invariant($"{ReportPrefix}.{Duration}"), (int)_masterWatch.Elapsed.TotalSeconds);
         }
 
         private void BuildReport(TwinCollection report, string stepName, string status)
         {
-            report.Set($"{ReportPrefix}.{stepName}.{Status}", status);
-            report.Set($"{ReportPrefix}.{stepName}.{LastUpdate}", DateTime.UtcNow.ToString());
-            report.Set($"{ReportPrefix}.{stepName}.{Duration}", (int)_stepWatch.Elapsed.TotalSeconds);
+            report.Set(FormattableString.Invariant($"{ReportPrefix}.{stepName}.{Status}"), status);
+            report.Set(FormattableString.Invariant($"{ReportPrefix}.{stepName}.{LastUpdate}"), DateTime.UtcNow.ToString(CultureInfo.CurrentCulture));
+            report.Set(FormattableString.Invariant($"{ReportPrefix}.{stepName}.{Duration}"), (int)_stepWatch.Elapsed.TotalSeconds);
 
             if (status == Failed)
             {

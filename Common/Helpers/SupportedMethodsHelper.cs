@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             {
                 existingMethods.UnionWith(reported.AsEnumerableFlatten()
                     .Select(pair => pair.Key)
-                    .Where(key => key.StartsWith("SupportedMethods."))
+                    .Where(key => key.StartsWith("SupportedMethods.", StringComparison.Ordinal))
                     .Select(key => key.Split('.')[1]));
             }
 
@@ -69,7 +69,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceError($"Exception raised while deserializing method {pair.Key}: {ex}");
+                    Trace.TraceError(FormattableString.Invariant($"Exception raised while deserializing method {pair.Key}: {ex}"));
                     continue;
                 }
             }
@@ -77,7 +77,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
 
         public static bool IsSupportedMethodProperty(string propertyName)
         {
-            return propertyName == SupportedMethodsKey || propertyName.StartsWith(SupportedMethodsKey + ".");
+            return propertyName == SupportedMethodsKey || propertyName.StartsWith(SupportedMethodsKey + ".", StringComparison.Ordinal);
         }
     }
 }

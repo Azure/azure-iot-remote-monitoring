@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -197,7 +198,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         private async Task InitializeAsync()
         {
             await Transport.OpenAsync();
-            SetupCallbacks();
+            await SetupCallbacksAsync();
 
             var twin = await Transport.GetTwinAsync();
             await UpdateReportedPropertiesAsync(twin.Properties.Reported);
@@ -435,22 +436,22 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                 patch.Set(TemperatureMeanValuePropertyName, telemetryWithTemperatureMeanValue.TemperatureMeanValue);
             }
 
-            patch.Set(StartupTimePropertyName, DateTime.UtcNow.ToString());
+            patch.Set(StartupTimePropertyName, DateTime.UtcNow.ToString(CultureInfo.CurrentCulture));
         }
 
-        private void SetupCallbacks()
+        private async Task SetupCallbacksAsync()
         {
             foreach (var method in Commands.Where(c => c.DeliveryType == DeliveryType.Method))
             {
                 try
                 {
-                    var handler = GetType().GetMethod($"On{method.Name}").CreateDelegate(typeof(MethodCallback), this) as MethodCallback;
+                    var handler = GetType().GetMethod(FormattableString.Invariant($"On{method.Name}")).CreateDelegate(typeof(MethodCallback), this) as MethodCallback;
 
-                    Transport.SetMethodHandler(method.Name, handler);
+                    await Transport.SetMethodHandlerAsync(method.Name, handler);
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogError($"Exception raised while adding callback for method {method.Name} on device {DeviceID}: {ex.Message}");
+                    Logger.LogError(FormattableString.Invariant($"Exception raised while adding callback for method {method.Name} on device {DeviceID}: {ex.Message}"));
                 }
             }
 

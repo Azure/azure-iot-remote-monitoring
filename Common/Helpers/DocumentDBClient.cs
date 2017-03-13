@@ -14,7 +14,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
     /// Wrapper over document db client.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DocumentDBClient<T> : IDocumentDBClient<T> where T : new()
+    public class DocumentDBClient<T> : IDocumentDBClient<T>, IDisposable where T : new()
     {
         private bool _initialized;
         private readonly string _databaseId;
@@ -35,7 +35,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
             _databaseId = configurationProvider.GetConfigurationSettingValue("docdb.DatabaseId");
             _collectionName = configurationProvider.GetConfigurationSettingValue("docdb.DocumentCollectionId");
         }
-        
+
         /// <summary>
         /// Gets a document by its id.
         /// </summary>
@@ -137,5 +137,40 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers
                 return JsonConvert.DeserializeObject<T>(rawDocumentData);
             }
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _client.Dispose();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~DocumentDBClient() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

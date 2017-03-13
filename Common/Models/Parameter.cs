@@ -25,7 +25,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 
         public string Serialize()
         {
-            return $"{Name}-{Type}";
+            return FormattableString.Invariant($"{Name}-{Type}");
         }
 
         static public Parameter Deserialize(string serialized)
@@ -34,7 +34,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
 
             if (parts.Length < 2)
             {
-                throw new ArgumentException($"Invalidate serialized parameter format: {serialized}");
+                throw new ArgumentException(FormattableString.Invariant($"Invalidate serialized parameter format: {serialized}"));
             }
 
             return new Parameter

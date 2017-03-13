@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -552,7 +553,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             viewModel.SessionInfo = _cellularExtensions.GetSingleSessionInfo(new Iccid(iccid)).LastOrDefault() ?? new SessionInfo();
 
             var apiProviderDetails = _apiRegistrationRepository.RecieveDetails();
-            viewModel.ApiRegistrationProvider = Convert.ToString(apiProviderDetails.ApiRegistrationProvider);
+            viewModel.ApiRegistrationProvider = Convert.ToString(apiProviderDetails.ApiRegistrationProvider, CultureInfo.CurrentCulture);
             viewModel.AvailableSimStates = _cellularExtensions.GetValidTargetSimStates(iccid, viewModel.TerminalDevice.Status);
 
             try

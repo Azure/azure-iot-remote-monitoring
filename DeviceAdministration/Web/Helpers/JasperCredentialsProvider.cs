@@ -1,9 +1,8 @@
-﻿using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
+﻿using System;
+using DeviceManagement.Infrustructure.Connectivity.Models.Constants;
 using DeviceManagement.Infrustructure.Connectivity.Models.Jasper;
-using DeviceManagement.Infrustructure.Connectivity.Models.Other;
 using DeviceManagement.Infrustructure.Connectivity.Models.Security;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
-using System;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.Helpers
 {
@@ -43,9 +42,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
                         SmsEndpointBaseUrl = apiRegistration.SmsEndpointBaseUrl
                     };
                 default:
-                    throw new IndexOutOfRangeException($"Could not find a service for '{apiRegistration.ApiRegistrationProvider}' provider");
+                    throw new IndexOutOfRangeException(FormattableString.Invariant($"Could not find a service for '{apiRegistration.ApiRegistrationProvider}' provider"));
             }
-            
+
         }
     }
 }

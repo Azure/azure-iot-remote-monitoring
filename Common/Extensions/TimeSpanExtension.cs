@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions
@@ -24,7 +25,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
 
             if (Units == null)
             {
-                return string.Format(format, input);
+                return string.Format(CultureInfo.InvariantCulture, format, input);
             }
 
             var timespan = input.Value;
@@ -37,7 +38,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extension
 
             int number = (int)Math.Floor(timespan.TotalMinutes / unit.Length.TotalMinutes);
             string text = number == 1 ? unit.Singular : unit.Plural;
-            return string.Format(format, $"{number} {text}");
+            return string.Format(CultureInfo.InvariantCulture, format, FormattableString.Invariant($"{number} {text}"));
         }
     }
 }

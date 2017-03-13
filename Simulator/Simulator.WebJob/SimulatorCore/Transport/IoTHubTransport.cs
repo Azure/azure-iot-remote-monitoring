@@ -251,9 +251,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             return await _deviceClient.GetTwinAsync();
         }
 
-        public void SetMethodHandler(string methodName, MethodCallback callback)
+        public async Task SetMethodHandlerAsync(string methodName, MethodCallback callback)
         {
-            _deviceClient.SetMethodHandler(methodName, callback, null);
+            await _deviceClient.SetMethodHandlerAsync(methodName, callback, null);
         }
 
         public void SetDesiredPropertyUpdateCallback(DesiredPropertyUpdateCallback callback)

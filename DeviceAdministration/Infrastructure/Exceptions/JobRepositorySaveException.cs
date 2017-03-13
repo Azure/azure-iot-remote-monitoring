@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Exceptions
 {
@@ -8,9 +9,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         public string JobID { get; set; }
 
         public JobRepositorySaveException(string jobID)
-            : base($"Failed to save Job with ID = '{jobID}' into the table")
+            : base(FormattableString.Invariant($"Failed to save Job with ID = '{jobID}' into the table"))
         {
             JobID = jobID;
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
         }
     }
 }
