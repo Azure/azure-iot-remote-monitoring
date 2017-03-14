@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Extensions;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations
 {
@@ -19,34 +22,34 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
 
         public string GetConfigurationSettingValueOrDefault(string configurationSettingName, string defaultValue)
         {
+            if (!this.configuration.ContainsKey(configurationSettingName))
+            {
+                string configValue = CloudConfigurationManager.GetSetting(configurationSettingName);
+                bool isEmulated = Environment.CommandLine.Contains("iisexpress.exe") ||
+                    Environment.CommandLine.Contains("w3wp.exe") ||
+                    Process.GetCurrentProcess().GetAncestorNames().Contains("devenv"); // if debugging in VS, devenv will be the parent
 
-                if (!this.configuration.ContainsKey(configurationSettingName))
+                if (isEmulated && (configValue != null && configValue.StartsWith(ConfigToken, StringComparison.OrdinalIgnoreCase)))
                 {
-                    string configValue = CloudConfigurationManager.GetSetting(configurationSettingName);
-                    bool isEmulated = Environment.CommandLine.Contains("iisexpress.exe") || 
-                        Environment.CommandLine.Contains("w3wp.exe") ||
-                        Environment.CommandLine.Contains("WebJob.vshost.exe");
+                    if (environment == null)
+                    {
+                        LoadEnvironmentConfig();
+                    }
 
-                    if (isEmulated && (configValue != null && configValue.StartsWith(ConfigToken, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        if (environment == null)
-                        {
-                            LoadEnvironmentConfig();
-                        }
-
-                        configValue = environment.GetSetting(
-                            configValue.Substring(configValue.IndexOf(ConfigToken, StringComparison.Ordinal) + ConfigToken.Length));
-                    }
-                    try
-                    {
-                        this.configuration.Add(configurationSettingName, configValue);
-                    }
-                    catch (ArgumentException)
-                    {
-                        // at this point, this key has already been added on a different
-                        // thread, so we're fine to continue
-                    }
+                    configValue = environment.GetSetting(
+                        configValue.Substring(configValue.IndexOf(ConfigToken, StringComparison.Ordinal) + ConfigToken.Length));
                 }
+
+                try
+                {
+                    this.configuration.Add(configurationSettingName, configValue);
+                }
+                catch (ArgumentException)
+                {
+                    // at this point, this key has already been added on a different
+                    // thread, so we're fine to continue
+                }
+            }
 
             return this.configuration[configurationSettingName] ?? defaultValue;
         }
@@ -74,7 +77,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
             {
                 location = executingPath.IndexOf("WebJob\\bin", StringComparison.OrdinalIgnoreCase);
             }
-            if (location >=0)
+            if (location >= 0)
             {
                 string fileName = executingPath.Substring(0, location) + "..\\local.config.user";
                 if (File.Exists(fileName))
@@ -87,6 +90,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
             throw new ArgumentException("Unable to locate local.config.user file.  Make sure you have run 'build.cmd local'.");
         }
 
+        #region IDispose 
         public void Dispose()
         {
             Dispose(true);
@@ -115,5 +119,6 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configura
         {
             Dispose(false);
         }
+        #endregion
     }
 }

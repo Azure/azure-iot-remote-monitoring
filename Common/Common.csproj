@@ -161,6 +161,7 @@
     <Compile Include="Configurations\IConfigurationProvider.cs" />
     <Compile Include="Constants\ApiRegistrationProviderTypes.cs" />
     <Compile Include="Extensions\ObjectExtension.cs" />
+    <Compile Include="Extensions\ProcessExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\TimeSpanExtension.cs" />
     <Compile Include="Extensions\TwinCollectionExtension.cs" />
