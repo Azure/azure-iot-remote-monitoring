@@ -93,7 +93,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var device = this.fixture.Create<DeviceModel>();
             device.Twin.Tags["x"] = "one";
             device.Twin.Properties.Desired["y"] = 2;
-            device.Twin.Properties.Reported["z"] = now;
+            device.Twin.Properties.Reported["z"] = now.ToString(CultureInfo.InvariantCulture);;
 
             this._configProviderMock.Setup(mock => mock.GetConfigurationSettingValue("iotHub.HostName")).Returns("hostName");
             var res = this._deviceLogic.ExtractDevicePropertyValuesModels(device);

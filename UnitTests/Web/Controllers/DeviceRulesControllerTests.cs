@@ -69,7 +69,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             var tableResponse = fixture.Create<TableStorageResponse<DeviceRule>>();
             tableResponse.Status = TableStorageResponseStatus.Successful;
             model = fixture.Create<EditDeviceRuleModel>();
-            model.Threshold = "2.14";
+            model.Threshold = 2.14.ToString(CultureInfo.CurrentCulture);
             _deviceRulesMock.Setup(mock => mock.SaveDeviceRuleAsync(It.IsAny<DeviceRule>()))
                 .ReturnsAsync(tableResponse)
                 .Verifiable();
@@ -82,7 +82,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             tableResponse = fixture.Create<TableStorageResponse<DeviceRule>>();
             tableResponse.Status = TableStorageResponseStatus.ConflictError;
             model = fixture.Create<EditDeviceRuleModel>();
-            model.Threshold = "2.14";
+            model.Threshold = 2.14.ToString(CultureInfo.CurrentCulture);
             _deviceRulesMock.Setup(mock => mock.SaveDeviceRuleAsync(It.IsAny<DeviceRule>()))
                 .ReturnsAsync(tableResponse)
                 .Verifiable();
