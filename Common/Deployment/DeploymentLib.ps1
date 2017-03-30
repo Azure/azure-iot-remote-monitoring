@@ -617,9 +617,35 @@ function HostEntryExists()
     )
     try
     {
-        if ([Net.Dns]::GetHostEntry($hostName) -ne $null)
+	#Fix for github issue https://github.com/Azure/azure-iot-remote-monitoring/issues/406
+	$splitHostName = $hostName.Split('.')
+	if ( $splitHostName[1].Equals("blob"))
+	{
+		if (Test-AzureName -Storage $splitHostName[0])
+		{
+			Write-Verbose ("Found hostname (blob): {0}" -f $hostName)
+			return $true
+		}
+	}
+	elseif ($splitHostName[1].Equals("azure-devices") -or $splitHostName[1].Equals("documents"))
+	{
+		if (Test-AzureName -Service $splitHostName[0])
+		{
+			Write-Verbose ("Found hostname (service): {0}" -f $hostName)
+			return $true
+		}
+	}
+	elseif ($splitHostName[1].Equals("servicebus") )
+	{
+		if (Test-AzureName -ServiceBusNameSpace $splitHostName[0])
+		{
+			Write-Verbose ("Found hostname (servicebus): {0}" -f $hostName)
+			return $true
+		}
+	}
+        elseif ([Net.Dns]::GetHostEntry($hostName) -ne $null)
         {
-            Write-Verbose ("Found hostname: {0}" -f $hostName)
+            Write-Verbose ("Found hostname (DNS): {0}" -f $hostName)
             return $true
         }
     }
