@@ -185,13 +185,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                 // Wait both the send and receive loops
                 await Task.WhenAll(loopTasks.ToArray());
-
-                // once the code makes it here the token has been canceled
-                await Transport.CloseAsync();
             }
             catch (Exception ex)
             {
-                Logger.LogError($"Exception raise while starting device {DeviceID}: {ex.Message}");
+                Logger.LogError($"Exception raise while starting device {DeviceID}: {ex}");
+            }
+            finally
+            {
+                // once the code makes it here the token has been canceled
+                await Transport.CloseAsync();
             }
         }
 

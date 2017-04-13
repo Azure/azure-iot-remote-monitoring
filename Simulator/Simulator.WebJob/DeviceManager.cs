@@ -55,16 +55,32 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
         public IEnumerable<string> GetLiveDevices()
         {
+            _logger.LogInfo($"{_tasks.Count} devices were started");
             var completedTasks = _tasks
                 .Where(pair => pair.Value.Task.IsCompleted)
                 .ToList();
 
             foreach (var pair in completedTasks)
             {
+                if (pair.Value.Task.IsFaulted)
+                {
+                    _logger.LogWarning($"Device {pair.Key} shut down due to fault");
+                }
+                else
+                {
+                    _logger.LogInfo($"Device {pair.Key} shut down as expected");
+                }
+
                 _tasks.Remove(pair.Key);
             }
 
-            return _tasks.Keys.ToList();
+            var devices = _tasks.Keys.ToList();
+            foreach (var device in devices)
+            {
+                _logger.LogInfo($"Device {device} is still running");
+            }
+
+            return devices;
         }
 
         /// <summary>

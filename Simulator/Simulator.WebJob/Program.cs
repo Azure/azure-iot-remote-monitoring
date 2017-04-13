@@ -15,6 +15,7 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.Dat
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Devices.Factory;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Logging;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Repository;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport.Factory;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
@@ -121,7 +122,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
             var configProvider = new ConfigurationProvider();
             var tableStorageClientFactory = new AzureTableStorageClientFactory();
             var telemetryFactory = new CoolerTelemetryFactory(logger);
-            
+
             var transportFactory = new IotHubTransportFactory(logger, configProvider);
 
             IVirtualDeviceStorage deviceStorage = null;
@@ -133,7 +134,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
             }
             else
             {
-                deviceStorage = new VirtualDeviceTableStorage(configProvider,tableStorageClientFactory);
+                deviceStorage = new VirtualDeviceTableStorage(configProvider, tableStorageClientFactory);
             }
 
             IDeviceFactory deviceFactory = new CoolerDeviceFactory();
@@ -148,12 +149,23 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator
         {
             while (!cancellationTokenSource.Token.IsCancellationRequested)
             {
-                Trace.TraceInformation("Running");
                 try
                 {
                     await Task.Delay(TimeSpan.FromMinutes(5), cancellationTokenSource.Token);
                 }
-                catch (TaskCanceledException) { }
+                catch (TaskCanceledException)
+                {
+                }
+
+                int downDevices, totalDevices;
+                StateCollection<DeviceClientState>.GetRatio(DeviceClientState.Down, out downDevices, out totalDevices);
+                Trace.TraceInformation($"{downDevices} of {totalDevices} devices down");
+
+                if (downDevices > totalDevices * 0.5 && Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME") != null)
+                {
+                    Trace.TraceError("Too many devices down. Force restart");
+                    break;
+                }
             }
         }
     }
