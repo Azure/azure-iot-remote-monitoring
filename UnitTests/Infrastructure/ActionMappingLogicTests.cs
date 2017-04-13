@@ -5,7 +5,6 @@ using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastr
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository;
 using Moq;
 using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoMoq;
 using Xunit;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infrastructure
@@ -48,10 +47,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
 
             Assert.True(await _actionMappingLogic.InitializeDataIfNecessaryAsync());
             Assert.Equal(2, savedMappings.Count);
-            Assert.Equal("Send Message", savedMappings[0].ActionId);
-            Assert.Equal("AlarmTemp", savedMappings[0].RuleOutput);
-            Assert.Equal("Raise Alarm", savedMappings[1].ActionId);
-            Assert.Equal("AlarmHumidity", savedMappings[1].RuleOutput);
+            Assert.Equal(ActionMappingLogic.ActionIdSendMessage, savedMappings[0].ActionId);
+            Assert.Equal(ActionMappingLogic.RuleOutputAlarmTemperature, savedMappings[0].RuleOutput);
+            Assert.Equal(ActionMappingLogic.ActionIdRaiseAlert, savedMappings[1].ActionId);
+            Assert.Equal(ActionMappingLogic.RuleOutputAlarmHumidity, savedMappings[1].RuleOutput);
         }
 
         [Fact]
@@ -95,8 +94,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var ret = await _actionMappingLogic.GetAvailableRuleOutputsAsync();
             Assert.NotNull(ret);
             Assert.Equal(2, ret.Count);
-            Assert.Equal("AlarmTemp", ret[0]);
-            Assert.Equal("AlarmHumidity", ret[1]);
+            Assert.Equal(ActionMappingLogic.RuleOutputAlarmTemperature, ret[0]);
+            Assert.Equal(ActionMappingLogic.RuleOutputAlarmHumidity, ret[1]);
         }
     }
 }

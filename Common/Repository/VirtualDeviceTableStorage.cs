@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Configurations;
-using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Helpers;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repository
 {
@@ -30,7 +29,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repositor
                 {
                     HostName = device.HostName,
                     DeviceId = device.DeviceId,
-                    Key = device.Key
+                    Key = device.Key,
+                    Longitude = device.Longitude,
+                    Latitude = device.Latitude
                 };
                 devices.Add(deviceConfig);
             }
@@ -64,12 +65,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repositor
 
         public async Task AddOrUpdateDeviceAsync(InitialDeviceConfig deviceConfig)
         {
-            var deviceEnity = new DeviceListEntity()
+            var deviceEnity = new DeviceListEntity
             {
                 DeviceId = deviceConfig.DeviceId,
                 HostName = deviceConfig.HostName,
-                Key = deviceConfig.Key
+                Key = deviceConfig.Key,
+                Longitude = deviceConfig.Longitude,
+                Latitude = deviceConfig.Latitude
             };
+
             var operation = TableOperation.InsertOrReplace(deviceEnity);
             await _azureTableStorageClient.ExecuteAsync(operation);
         }
@@ -84,7 +88,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Repositor
                 {
                     DeviceId = device.DeviceId,
                     HostName = device.HostName,
-                    Key = device.Key
+                    Key = device.Key,
+                    Longitude = device.Longitude,
+                    Latitude = device.Latitude
                 };
             }
             return null;

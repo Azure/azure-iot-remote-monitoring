@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.BusinessLogic;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infrastructure.Repository
 {
@@ -19,10 +20,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         }
 
         // Currently this dictionary is not editable in the app
-        private Dictionary<string,string> actionIds = new Dictionary<string, string>()
+        private Dictionary<string, string> actionIds = new Dictionary<string, string>()
          {
-            { "Send Message", "" },
-            { "Raise Alarm", "" }
+            { ActionMappingLogic.ActionIdSendMessage, "" },
+            { ActionMappingLogic.ActionIdRaiseAlert, "" }
       };
 
         public async Task<bool> AddActionEndpoint(string actionId, string endpoint)
@@ -48,7 +49,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task<bool> ExecuteLogicAppAsync(string actionId, string deviceId, string measurementName, double measuredValue)
         {
-            if(actionIds.ContainsKey(actionId) && !string.IsNullOrEmpty(actionIds[actionId]))
+            if (actionIds.ContainsKey(actionId) && !string.IsNullOrEmpty(actionIds[actionId]))
             {
                 return await Task.Run(async () =>
                 {
@@ -68,12 +69,12 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                     }
                 });
             }
-            else 
+            else
             {
-                Trace.TraceWarning("ExecuteLogicAppAsync no event endpoint defined for actionId '{0}'", actionId); 
+                Trace.TraceWarning("ExecuteLogicAppAsync no event endpoint defined for actionId '{0}'", actionId);
                 return false;
             }
-            
+
         }
     }
 }

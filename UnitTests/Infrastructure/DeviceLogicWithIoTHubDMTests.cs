@@ -113,7 +113,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             Assert.Equal(desiredY.DisplayOrder, 2);
 
             var reportedZ = res.Single(m => m.Name == "properties.reported.z");
-            Assert.Equal(reportedZ.Value, now.ToString(CultureInfo.InvariantCulture));
+            Assert.Equal(reportedZ.Value, now.ToString(CultureInfo.DefaultThreadCurrentCulture));
             Assert.Equal(reportedZ.IsEditable, false);
             Assert.Equal(reportedZ.DisplayOrder, 3);
 

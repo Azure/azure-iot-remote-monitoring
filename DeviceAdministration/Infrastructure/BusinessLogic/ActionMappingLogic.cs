@@ -11,13 +11,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         private readonly IActionMappingRepository _actionMappingRepository;
         private readonly IDeviceRulesRepository _rulesRepository;
 
-        private const string _ruleOutputAlarmTemp = "AlarmTemp";
-        private const string _ruleOutputAlarmHumidity = "AlarmHumidity";
+        public const string RuleOutputAlarmTemperature = "温度告警";
+        public const string RuleOutputAlarmHumidity = "湿度告警";
 
-        private List<string> _availableRuleOutputs = new List<string>() 
+        public const string ActionIdSendMessage = "发送消息";
+        public const string ActionIdRaiseAlert = "触发警报";
+
+        private List<string> _availableRuleOutputs = new List<string>()
         {
-            _ruleOutputAlarmTemp,
-            _ruleOutputAlarmHumidity
+            RuleOutputAlarmTemperature,
+            RuleOutputAlarmHumidity
         };
 
         public ActionMappingLogic(IActionMappingRepository actionMappingRepository, IDeviceRulesRepository rulesRepository)
@@ -53,16 +56,16 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
             var am1 = new ActionMapping()
             {
-                RuleOutput = _ruleOutputAlarmTemp,
-                ActionId = "Send Message"
+                RuleOutput = RuleOutputAlarmTemperature,
+                ActionId = ActionIdSendMessage
             };
 
             await _actionMappingRepository.SaveMappingAsync(am1);
 
             var am2 = new ActionMapping()
             {
-                RuleOutput = _ruleOutputAlarmHumidity,
-                ActionId = "Raise Alarm"
+                RuleOutput = RuleOutputAlarmHumidity,
+                ActionId = ActionIdRaiseAlert
             };
 
             await _actionMappingRepository.SaveMappingAsync(am2);
@@ -82,7 +85,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             List<DeviceRule> rules = await rulesTask;
 
             var results = new List<ActionMappingExtended>();
-            foreach(var mapping in mappings)
+            foreach (var mapping in mappings)
             {
                 var mappingExtended = new ActionMappingExtended();
                 mappingExtended.RuleOutput = mapping.RuleOutput;
@@ -100,7 +103,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
 
         public async Task SaveMappingAsync(ActionMapping action)
         {
-            await _actionMappingRepository.SaveMappingAsync(action);   
+            await _actionMappingRepository.SaveMappingAsync(action);
         }
 
         public async Task<string> GetActionIdFromRuleOutputAsync(string ruleOutput)

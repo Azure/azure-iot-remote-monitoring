@@ -12,5 +12,7 @@
         public string HostName { get; set; }
         public string DeviceId { get; set; }
         public string Key { get; set; }
+        public double? Longitude { get; set; }
+        public double? Latitude { get; set; }
     }
 }

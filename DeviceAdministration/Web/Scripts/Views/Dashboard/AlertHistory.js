@@ -122,8 +122,8 @@
 
     var onXhr = function onXhr(e, settings, data) {
         if (handleRequestError(settings)) {
-            if (typeof IoTApp.MapPane === "object" && data) {
-                IoTApp.MapPane.setDeviceLocationData(
+            if (typeof IoTApp.BaiduMapPane === "object" && data) {
+                IoTApp.BaiduMapPane.setDeviceLocationData(
                     data.minLatitude,
                     data.minLongitude,
                     data.maxLatitude,

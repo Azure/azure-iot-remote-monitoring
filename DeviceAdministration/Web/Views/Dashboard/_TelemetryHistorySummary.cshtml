@@ -1,15 +1,16 @@
 ﻿@using GlobalResources
 <div class="dashboard_telemetry_history_summary">
-    <div id="maxDeviceHumidityContainer" class="dashboard_telemetry_history_summary__dashboard_telemetry_history_gauge dashboard_telemetry_history_gauge--leftGauge">
-        <h5 class="telemetry_summary_gauge_control__gauge_header" id="maxDeviceHumidityLabel">@Strings.MaxOfDevicesHumidity</h5>
-        <div id="maxDevicehumidity" class="dashboard_telemetry_history_gauge__telemetry_summary_gauge_control"></div>
-    </div><div id="minDeviceHumidityContainer" class="dashboard_telemetry_history_summary__dashboard_telemetry_history_gauge dashboard_telemetry_history_gauge--centerGauge">
-              <h5 class="telemetry_summary_gauge_control__gauge_header" id="maxDeviceHumidityLabel">@Strings.MinOfDevicesHumidity</h5>
-        <div id="minDeviceHumidity" class="dashboard_telemetry_history_gauge__telemetry_summary_gauge_control"></div>
+    <div id="leftGaugeContainer" class="dashboard_telemetry_history_summary__dashboard_telemetry_history_gauge dashboard_telemetry_history_gauge--leftGauge">
+        <h5 class="telemetry_summary_gauge_control__gauge_header" id="leftGaugeLabel">@Strings.MaxOfDeviceTemperature</h5>
+        <div id="leftGauge" class="dashboard_telemetry_history_gauge__telemetry_summary_gauge_control"></div>
     </div>
-    <div id="avgDeviceHumidityContainer" class="dashboard_telemetry_history_summary__dashboard_telemetry_history_gauge dashboard_telemetry_history_gauge--rightGauge">
-        <h5 class="telemetry_summary_gauge_control__gauge_header" id="avgDeviceHumidityLabel">@Strings.AverageOfDeviceHumidity</h5>
-        <div id="averageDeviceHumidity" class="dashboard_telemetry_history_gauge__telemetry_summary_gauge_control"></div>
+    <div id="middleGaugeContainer" class="dashboard_telemetry_history_summary__dashboard_telemetry_history_gauge dashboard_telemetry_history_gauge--centerGauge">
+        <h5 class="telemetry_summary_gauge_control__gauge_header" id="leftGaugeLabel">@Strings.MinOfDeviceTemperature</h5>
+        <div id="middleGauge" class="dashboard_telemetry_history_gauge__telemetry_summary_gauge_control"></div>
+    </div>
+    <div id="avgDeviceTemperatureContainer" class="dashboard_telemetry_history_summary__dashboard_telemetry_history_gauge dashboard_telemetry_history_gauge--rightGauge">
+        <h5 class="telemetry_summary_gauge_control__gauge_header" id="avgDeviceTemperatureLabel">@Strings.AverageOfDeviceTemperature</h5>
+        <div id="rightGauge" class="dashboard_telemetry_history_gauge__telemetry_summary_gauge_control"></div>
     </div>
 </div>
 <script src="~/Scripts/Views/Dashboard/TelemetryHistorySummary.js?ver=@Constants.JSVersion"></script>
@@ -19,17 +20,17 @@
         'use strict';
 
         var telemetryHistorySummarySettings = {
-            averageDeviceHumidityContainer: $('#avgDeviceHumidityContainer'),
-            averageDeviceHumidityControl: $('#averageDeviceHumidity'),
-            averageDeviceHumidityLabel: $('#avgDeviceHumidityLabel'),
             gaugeMaxValue: 100,
             gaugeMinValue: 0,
-            maxDeviceHumidityContainer: $('#maxDeviceHumidityContainer'),
-            maxDeviceHumidityControl: $('#maxDevicehumidity'),
-            maxDeviceHumidityLabel: $('#maxDeviceHumidityLabel'),
-            minDeviceHumidityContainer: $('#minDeviceHumidityContainer'),
-            minDeviceHumidityControl: $('#minDeviceHumidity'),
-            minDeviceHumidityLabel: $('#maxDeviceHumidityLabel')
+            leftGaugeContainer: $('#leftGaugeContainer'),
+            leftGaugeControl: $('#leftGauge'),
+            leftGaugeLabel: $('#leftGaugeLabel'),
+            middleGaugeContainer: $('#middleGaugeContainer'),
+            middleGaugeControl: $('#middleGauge'),
+            middleGaugeLabel: $('#leftGaugeLabel'),
+            rightGaugeContainer: $('#avgDeviceTemperatureContainer'),
+            rightGaugeControl: $('#rightGauge'),
+            rightGaugeLabel: $('#avgDeviceTemperatureLabel')
         };
 
         IoTApp.Dashboard.TelemetryHistorySummary.init(telemetryHistorySummarySettings);

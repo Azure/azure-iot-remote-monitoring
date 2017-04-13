@@ -139,11 +139,13 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             {
                 try
                 {
-                    await _virtualDeviceStorage.AddOrUpdateDeviceAsync(new InitialDeviceConfig()
+                    await _virtualDeviceStorage.AddOrUpdateDeviceAsync(new InitialDeviceConfig
                     {
                         DeviceId = device.DeviceProperties.DeviceID,
                         HostName = _configProvider.GetConfigurationSettingValue("iotHub.HostName"),
-                        Key = securityKeys.PrimaryKey
+                        Key = securityKeys.PrimaryKey,
+                        Longitude = device.DeviceProperties.Longitude,
+                        Latitude = device.DeviceProperties.Latitude
                     });
                 }
                 catch (Exception ex)
@@ -792,7 +794,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             List<string> sampleIds = SampleDeviceFactory.GetDefaultDeviceNames();
             foreach (string id in sampleIds)
             {
-                DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(id, true, null);
+                DeviceModel device = DeviceCreatorHelper.BuildDeviceStructure(id, true, null);                
                 SecurityKeys generatedSecurityKeys = _securityKeyGenerator.CreateRandomKeys();
                 SampleDeviceFactory.AssignDefaultTags(device);
                 SampleDeviceFactory.AssignDefaultDesiredProperties(device);
@@ -869,13 +871,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                 maxLong = -122.3;
             }
 
-            double offset = 0.05;
-
             result.DeviceLocationList = locationList;
-            result.MinimumLatitude = minLat - offset;
-            result.MaximumLatitude = maxLat + offset;
-            result.MinimumLongitude = minLong - offset;
-            result.MaximumLongitude = maxLong + offset;
+            result.MinimumLatitude = minLat;
+            result.MaximumLatitude = maxLat;
+            result.MinimumLongitude = minLong;
+            result.MaximumLongitude = maxLong;
 
             return result;
         }

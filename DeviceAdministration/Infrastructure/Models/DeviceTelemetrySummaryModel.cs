@@ -10,7 +10,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <summary>
         /// Gets or sets the covered period's average humidity.
         /// </summary>
-        public double? AverageHumidity
+        public double? AverageTemperature
         {
             get;
             set;
@@ -29,7 +29,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <summary>
         /// Gets or sets the covered period's maximum humidity.
         /// </summary>
-        public double? MaximumHumidity
+        public double? MaximumTemperature
         {
             get;
             set;
@@ -38,7 +38,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <summary>
         /// Gets or sets the covered period's minimum humidity.
         /// </summary>
-        public double? MinimumHumidity
+        public double? MinimumTemperature
         {
             get;
             set;

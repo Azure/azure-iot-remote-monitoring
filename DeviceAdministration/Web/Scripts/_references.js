@@ -28,6 +28,7 @@
 /// <reference path="views/dashboard/alerthistory.js" />
 /// <reference path="views/dashboard/dashboarddevicepane.js" />
 /// <reference path="views/dashboard/jobindicators.js" />
+/// <reference path="views/dashboard/baidumappane.js" />
 /// <reference path="views/dashboard/mappane.js" />
 /// <reference path="views/dashboard/telemetryhistory.js" />
 /// <reference path="views/dashboard/telemetryhistorysummary.js" />

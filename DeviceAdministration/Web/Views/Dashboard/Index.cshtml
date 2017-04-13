@@ -33,27 +33,15 @@
 <div class="dashboard_content">
     <div class="dashboard_left_column">
         <div>
-            @{if (!string.IsNullOrWhiteSpace(Model.MapApiQueryKey))
-            {
+            <div>
                 <div id="deviceMap" class="dashboard_device_map">
-                    <script charset="UTF-8" type="text/javascript" src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1"></script>
-                    <script type="text/javascript" src="~/Scripts/IoTHelperScripts.js?ver=@Constants.JSVersion"></script>
+                    s<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=aozuxR9KIO4MdeSbZGTCRwH8F71d0xEi"></script>                    
 
-                    <script src="~/Scripts/Views/Dashboard/MapPane.js?ver=@Constants.JSVersion"></script>
-
-                    <script>
-                        resources.alertHistoryType = "dashboard_alert_history--static_height";
-                    </script>
+                    @*<script type="text/javascript" src="~/Scripts/IoTHelperScripts.js?ver=@Constants.JSVersion"></script>*@
+                    <script type="text/javascript" src="~/Scripts/Views/Dashboard/BaiduMapPane.js"></script>
+                    <script>resources.alertHistoryType = "dashboard_alert_history--static_height";</script>
                 </div>
-            }
-            else
-            {
-                <img class="static_map" id="staticMap" src="~/Content/img/map_copyrights.png" alt="Map Img" />
-                <script>
-                    resources.alertHistoryType = "dashboard_alert_history--dynamic_height";
-                </script>
-            }
-            }
+            </div>
         </div>
         @{
             Html.RenderPartial("_AlertHistory");

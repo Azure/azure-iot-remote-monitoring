@@ -539,6 +539,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Average of device temperature.
+        /// </summary>
+        public static string AverageOfDeviceTemperature {
+            get {
+                return ResourceManager.GetString("AverageOfDeviceTemperature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IoT Hub Hostname.
         /// </summary>
         public static string AzureDevicesHostname {
@@ -1498,6 +1507,15 @@ namespace GlobalResources {
         public static string DeviceDetailsPaneLabel {
             get {
                 return ResourceManager.GetString("DeviceDetailsPaneLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device.
+        /// </summary>
+        public static string DeviceDisplayNameHeader {
+            get {
+                return ResourceManager.GetString("DeviceDisplayNameHeader", resourceCulture);
             }
         }
         
@@ -3428,6 +3446,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max of device temperature.
+        /// </summary>
+        public static string MaxOfDeviceTemperature {
+            get {
+                return ResourceManager.GetString("MaxOfDeviceTemperature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Metadata.
         /// </summary>
         public static string Metadata {
@@ -3518,6 +3545,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Min of device temperature.
+        /// </summary>
+        public static string MinOfDeviceTemperature {
+            get {
+                return ResourceManager.GetString("MinOfDeviceTemperature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Minutes.
         /// </summary>
         public static string MinutePlural {
@@ -3563,15 +3599,6 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MSISDN.
-        /// </summary>
-        public static string MSISDN {
-            get {
-                return ResourceManager.GetString("MSISDN", resourceCulture);
-            }
-        }
-		
-        /// <summary>
         ///   Looks up a localized string similar to Months.
         /// </summary>
         public static string MonthPlural {
@@ -3604,6 +3631,15 @@ namespace GlobalResources {
         public static string MoveUp {
             get {
                 return ResourceManager.GetString("MoveUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MSISDN.
+        /// </summary>
+        public static string MSISDN {
+            get {
+                return ResourceManager.GetString("MSISDN", resourceCulture);
             }
         }
         
@@ -3941,20 +3977,20 @@ namespace GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operator Code.
-        /// </summary>
-        public static string OperatorCode {
-            get {
-                return ResourceManager.GetString("OperatorCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to OPERATIONS.
         /// </summary>
         public static string OperationsHeader {
             get {
                 return ResourceManager.GetString("OperationsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operator Code.
+        /// </summary>
+        public static string OperatorCode {
+            get {
+                return ResourceManager.GetString("OperatorCode", resourceCulture);
             }
         }
         
@@ -5435,6 +5471,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Interval (s).
+        /// </summary>
+        public static string TelemetryIntervalHeader {
+            get {
+                return ResourceManager.GetString("TelemetryIntervalHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Temperature.
         /// </summary>
         public static string Temperature {
@@ -5640,7 +5685,7 @@ namespace GlobalResources {
                 return ResourceManager.GetString("UpdateTwin", resourceCulture);
             }
         }
-		
+        
         /// <summary>
         ///   Looks up a localized string similar to Upload.
         /// </summary>

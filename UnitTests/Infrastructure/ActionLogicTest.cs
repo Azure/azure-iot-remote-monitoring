@@ -20,7 +20,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
         [Fact]
         public async void ExecuteLogicAppAsyncTest()
         {
-            var actionId = "Send Message";
+            var actionId = "发送消息";
             var deviceId = "TestDeviceID";
             var measurementName = "TestMeasurementName";
             var measuredValue = 10.0;

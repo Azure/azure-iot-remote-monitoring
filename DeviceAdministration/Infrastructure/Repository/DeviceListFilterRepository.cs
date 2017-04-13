@@ -29,20 +29,20 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             new DeviceListFilter
             {
                 Id = "00000000-0000-0000-0000-000000000000",
-                Name = "All Devices",
+                Name = "全部设备",
                 Clauses = new List<Clause>()
             },
             new DeviceListFilter
             {
                 Id = "00000000-0000-0000-0000-000000000001",
-                Name = "Unhealthy devices",
+                Name = "温度异常设备",
                 Clauses = new List<Clause>
                 {
                     new Clause
                     {
                         ColumnName = "reported.Config.TemperatureMeanValue",
                         ClauseType = ClauseType.GT,
-                        ClauseValue = "60",
+                        ClauseValue = "27",
                         ClauseDataType = TwinDataType.Number
                     }
                 }
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
             new DeviceListFilter
             {
                 Id = "00000000-0000-0000-0000-000000000002",
-                Name = "Old firmware devices",
+                Name = "旧固件设备",
                 Clauses = new List<Clause>
                 {
                     new Clause

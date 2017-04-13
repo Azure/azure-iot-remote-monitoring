@@ -127,7 +127,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     var telemetry = _telemetryController as ITelemetryWithTemperatureMeanValue;
                     if (telemetry != null)
                     {
-                        telemetry.TemperatureMeanValue = 34.5;
+                        telemetry.TemperatureMeanValue = 19;
                     }
 
                     await UpdateReportedTemperatureMeanValue();

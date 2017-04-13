@@ -81,7 +81,7 @@
         },
         "iotHubSku": {
             "type": "string",
-            "defaultValue": "S2",
+            "defaultValue": "S1",
             "metadata": {
                 "description": "The Iothub Sku"
             }
@@ -401,7 +401,7 @@
                 "Transformation": {
                     "Name": "AllToBlob",
                     "Properties": {
-                        "Query": "WITH \r\n    [StreamData]\r\nAS (\r\n    SELECT\r\n        *\r\n    FROM [IoTHubStream]\r\n    WHERE\r\n        [ObjectType] IS NULL -- Filter out device info and command responses\r\n) \r\n\r\nSELECT\r\n    IoTHub.ConnectionDeviceId AS DeviceId,\r\n    Temperature,\r\n    Humidity,\r\n    ExternalTemperature,\r\n    EventProcessedUtcTime,\r\n    PartitionId,\r\n    EventEnqueuedUtcTime,\r\n    * \r\nINTO\r\n    [Telemetry]\r\nFROM\r\n    [StreamData]\r\n\r\nSELECT\r\n    IoTHub.ConnectionDeviceId AS DeviceId,\r\n    AVG (Humidity) AS [AverageHumidity],\r\n    MIN(Humidity) AS [MinimumHumidity],\r\n    MAX(Humidity) AS [MaxHumidity],\r\n    5.0 AS TimeframeMinutes \r\nINTO\r\n    [TelemetrySummary]\r\nFROM [StreamData]\r\nWHERE\r\n    [Humidity] IS NOT NULL\r\nGROUP BY\r\n    IoTHub.ConnectionDeviceId,\r\n    SlidingWindow (mi, 5)",
+                        "Query": "WITH \r\n    [StreamData]\r\nAS (\r\n    SELECT\r\n        *\r\n    FROM [IoTHubStream]\r\n    WHERE\r\n        [ObjectType] IS NULL -- Filter out device info and command responses\r\n) \r\n\r\nSELECT\r\n    IoTHub.ConnectionDeviceId AS DeviceId,\r\n    Temperature,\r\n    Humidity,\r\n    ExternalTemperature,\r\n    EventProcessedUtcTime,\r\n    PartitionId,\r\n    EventEnqueuedUtcTime,\r\n    * \r\nINTO\r\n    [Telemetry]\r\nFROM\r\n    [StreamData]\r\n\r\nSELECT\r\n    IoTHub.ConnectionDeviceId AS DeviceId,\r\n    AVG(Temperature) AS [AverageTemperature],\r\n    MIN(Temperature) AS [MinimumTemperature],\r\n    MAX(Temperature) AS [MaximumTemperature],\r\n    5.0 AS TimeframeMinutes \r\nINTO\r\n    [TelemetrySummary]\r\nFROM [StreamData]\r\nWHERE\r\n    [Temperature] IS NOT NULL\r\nGROUP BY\r\n    IoTHub.ConnectionDeviceId,\r\n    SlidingWindow (mi, 5)",
                         "StreamingUnits": 1
                   }
                 }

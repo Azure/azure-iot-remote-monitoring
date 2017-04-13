@@ -53,7 +53,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
             int peakFrequencyInTicks = Convert.ToInt32(Math.Ceiling((double)PEAK_FREQUENCY_IN_SECONDS / REPORT_FREQUENCY_IN_SECONDS));
 
-            _temperatureGenerator = new SampleDataGenerator(33, 36, 42, peakFrequencyInTicks);
+            _temperatureGenerator = new SampleDataGenerator(18, 20, 21, peakFrequencyInTicks);
             _humidityGenerator = new SampleDataGenerator(20, 50);
             _externalTemperatureGenerator = new SampleDataGenerator(-20, 120);
 

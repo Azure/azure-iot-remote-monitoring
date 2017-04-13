@@ -70,7 +70,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             var minTime = new DateTime(year, month, date);
 
             var blobReader = new Mock<IBlobStorageReader>();
-            var blobData = "deviceid,averagehumidity,minimumhumidity,maxhumidity,timeframeminutes" + Environment.NewLine +
+            var blobData = "deviceid,averagetemperature,minimumtemperature,maximumtemperature,timeframeminutes" + Environment.NewLine +
                            "test2,37.806204872115607,37.806204872115607,37.806204872115607,5";
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(blobData));
             var blobContents = new BlobContents {Data = stream, LastModifiedTime = DateTime.UtcNow};
@@ -84,9 +84,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 await deviceTelemetryRepository.LoadLatestDeviceTelemetrySummaryAsync("test2", minTime);
             Assert.NotNull(telemetrySummaryList);
             Assert.Equal(telemetrySummaryList.DeviceId, "test2");
-            Assert.Equal(telemetrySummaryList.AverageHumidity, 37.806204872115607);
-            Assert.Equal(telemetrySummaryList.MinimumHumidity, 37.806204872115607);
-            Assert.Equal(telemetrySummaryList.MaximumHumidity, 37.806204872115607);
+            Assert.Equal(telemetrySummaryList.AverageTemperature, 37.806204872115607);
+            Assert.Equal(telemetrySummaryList.MinimumTemperature, 37.806204872115607);
+            Assert.Equal(telemetrySummaryList.MaximumTemperature, 37.806204872115607);
             Assert.Equal(telemetrySummaryList.TimeFrameMinutes, 5);
         }
     }

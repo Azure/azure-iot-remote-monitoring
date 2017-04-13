@@ -2497,7 +2497,7 @@
     <comment>Table column header.</comment>
   </data>
   <data name="BuildingHeader" xml:space="preserve">
-    <value>Building</value>
+    <value>地址</value>
     <comment>Table column header.</comment>
   </data>
   <data name="PleaseNameYourFilter" xml:space="preserve">
@@ -2507,5 +2507,25 @@
   <data name="FilterNameMustBeUnique" xml:space="preserve">
     <value>The filter name must be unique.</value>
     <comment>Error message.</comment>
+  </data>
+  <data name="AverageOfDeviceTemperature" xml:space="preserve">
+    <value>平均温度</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="MaxOfDeviceTemperature" xml:space="preserve">
+    <value>最高温度</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="MinOfDeviceTemperature" xml:space="preserve">
+    <value>最低温度</value>
+    <comment>Read-only field label.</comment>
+  </data>
+  <data name="DeviceDisplayNameHeader" xml:space="preserve">
+    <value>设备</value>
+    <comment>Table column header.</comment>
+  </data>
+  <data name="TelemetryIntervalHeader" xml:space="preserve">
+    <value>采样间隔 (s)</value>
+    <comment>Table column header.</comment>
   </data>
 </root>

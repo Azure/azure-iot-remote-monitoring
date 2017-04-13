@@ -271,11 +271,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
                 {
                 }
             }
-            var offset = 0.05;
-            var minLat = latitudes.Min() - offset;
-            var maxLat = latitudes.Max() + offset;
-            var minLong = longitudes.Min() - offset;
-            var maxLong = longitudes.Max() + offset;
+            var minLat = latitudes.Min();
+            var maxLat = latitudes.Max();
+            var minLong = longitudes.Min();
+            var maxLong = longitudes.Max();
 
             var res = this._deviceLogic.ExtractLocationsData(listOfDevices);
             Assert.NotNull(res);
@@ -289,10 +288,10 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Infras
             Assert.NotNull(res);
             Assert.Equal(JsonConvert.SerializeObject(new List<DeviceLocationModel>()),
                          JsonConvert.SerializeObject(res.DeviceLocationList));
-            Assert.Equal(47.6 - offset, res.MinimumLatitude);
-            Assert.Equal(47.6 + offset, res.MaximumLatitude);
-            Assert.Equal(-122.3 - offset, res.MinimumLongitude);
-            Assert.Equal(-122.3 + offset, res.MaximumLongitude);
+            Assert.Equal(47.6, res.MinimumLatitude);
+            Assert.Equal(47.6, res.MaximumLatitude);
+            Assert.Equal(-122.3, res.MinimumLongitude);
+            Assert.Equal(-122.3, res.MaximumLongitude);
         }
 
         [Fact]

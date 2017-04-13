@@ -294,34 +294,34 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
                             model.DeviceId = str;
                         }
 
-                        if (strdict.TryGetValue("averagehumidity", out str) &&
+                        if (strdict.TryGetValue("averagetemperature", out str) &&
                            double.TryParse(
                                 str,
                                 NumberStyles.Float,
                                 CultureInfo.InvariantCulture,
                                 out number))
                         {
-                            model.AverageHumidity = number;
+                            model.AverageTemperature = number;
                         }
 
-                        if (strdict.TryGetValue("maxhumidity", out str) &&
+                        if (strdict.TryGetValue("maximumtemperature", out str) &&
                            double.TryParse(
                                 str,
                                 NumberStyles.Float,
                                 CultureInfo.InvariantCulture,
                                 out number))
                         {
-                            model.MaximumHumidity = number;
+                            model.MaximumTemperature = number;
                         }
 
-                        if (strdict.TryGetValue("minimumhumidity", out str) &&
+                        if (strdict.TryGetValue("minimumtemperature", out str) &&
                            double.TryParse(
                                 str,
                                 NumberStyles.Float,
                                 CultureInfo.InvariantCulture,
                                 out number))
                         {
-                            model.MinimumHumidity = number;
+                            model.MinimumTemperature = number;
                         }
 
                         if (strdict.TryGetValue("timeframeminutes", out str) &&

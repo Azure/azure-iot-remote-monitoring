@@ -44,9 +44,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             _steps = new List<DMTaskStep>
             {
                 new DMTaskStep { CurrentState = DMTaskState.FU_PENDING, ExecuteTime = TimeSpan.Zero, NextState = DMTaskState.FU_DOWNLOADING },
-                new DMTaskStep { CurrentState = DMTaskState.FU_DOWNLOADING, ExecuteTime = TimeSpan.FromSeconds(20), NextState = DMTaskState.FU_APPLYING },
-                new DMTaskStep { CurrentState = DMTaskState.FU_APPLYING, ExecuteTime = TimeSpan.FromSeconds(20), NextState = DMTaskState.FU_REBOOTING },
-                new DMTaskStep { CurrentState = DMTaskState.FU_REBOOTING, ExecuteTime = TimeSpan.FromSeconds(20), NextState = DMTaskState.DM_IDLE }
+                new DMTaskStep { CurrentState = DMTaskState.FU_DOWNLOADING, ExecuteTime = TimeSpan.FromSeconds(1), NextState = DMTaskState.FU_APPLYING },
+                new DMTaskStep { CurrentState = DMTaskState.FU_APPLYING, ExecuteTime = TimeSpan.FromSeconds(1), NextState = DMTaskState.FU_REBOOTING },
+                new DMTaskStep { CurrentState = DMTaskState.FU_REBOOTING, ExecuteTime = TimeSpan.FromSeconds(1), NextState = DMTaskState.DM_IDLE }
             };
         }
 

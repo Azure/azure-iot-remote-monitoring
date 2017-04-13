@@ -27,5 +27,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Common.Models
         }
 
         public string Key { get; set; }
+
+        public double? Longitude { get; set; }
+
+        public double? Latitude { get; set; }
     }
 }

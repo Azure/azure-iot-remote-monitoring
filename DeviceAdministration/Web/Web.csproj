@@ -566,6 +566,7 @@
     <Content Include="Scripts\powerbi-visuals.all.min.js" />
     <Content Include="Scripts\Views\Advanced\Advanced.js" />
     <Content Include="Scripts\Views\Dashboard\AlertHistory.js" />
+    <Content Include="Scripts\Views\Dashboard\BaiduMapPane.js" />
     <Content Include="Scripts\Views\Dashboard\DashboardDevicePane.js" />
     <Content Include="Scripts\Views\Dashboard\JobIndicators.js" />
     <Content Include="Scripts\Views\Dashboard\MapPane.js" />

@@ -3,23 +3,27 @@
     function initTelemetryHistorySummary() {
         'use strict';
 
-        var averageDeviceHumidityContainer;
-        var averageDeviceHumidityControl;
-        var averageDeviceHumidityLabel;
-        var averageHumidityVisual;
-        var lastAvgHumidity;
-        var lastMaxHumidity;
-        var lastMinHumidity;
-        var maxDeviceHumidityContainer;
-        var maxDeviceHumidityControl;
-        var maxDeviceHumidityLabel;
-        var maxHumidityVisual;
         var maxValue;
-        var minDeviceHumidityContainer;
-        var minDeviceHumidityControl;
-        var minDeviceHumidityLabel;
-        var minHumidityVisual;
         var minValue;
+
+        var lastLeftGaugeValue;
+        var lastMiddleGaugeValue;
+        var lastRightGaugeValue;
+
+        var leftGaugeContainer;
+        var leftGaugeControl;
+        var leftGaugeLabel;
+        var leftGaugeVisual;
+
+        var middleGaugeContainer;
+        var middleGaugeControl;
+        var middleGaugeLabel;
+        var middleGaugeVisual;
+
+        var rightGaugeContainer;
+        var rightGaugeControl;
+        var rightGaugeLabel;
+        var rightGaugeVisual;
 
         var createDataView = function createDataView(indicatedValue) {
 
@@ -135,33 +139,33 @@
             maxValue = telemetryHistorySummarySettings.gaugeMaxValue;
             minValue = telemetryHistorySummarySettings.gaugeMinValue;
 
-            averageDeviceHumidityContainer = telemetryHistorySummarySettings.averageDeviceHumidityContainer;
-            averageDeviceHumidityControl = telemetryHistorySummarySettings.averageDeviceHumidityControl;
-            averageDeviceHumidityLabel = telemetryHistorySummarySettings.averageDeviceHumidityLabel;
-            maxDeviceHumidityContainer = telemetryHistorySummarySettings.maxDeviceHumidityContainer;
-            maxDeviceHumidityControl = telemetryHistorySummarySettings.maxDeviceHumidityControl;
-            maxDeviceHumidityLabel = telemetryHistorySummarySettings.maxDeviceHumidityLabel;
-            minDeviceHumidityContainer = telemetryHistorySummarySettings.minDeviceHumidityContainer;
-            minDeviceHumidityControl = telemetryHistorySummarySettings.minDeviceHumidityControl;
-            minDeviceHumidityLabel = telemetryHistorySummarySettings.minDeviceHumidityLabel;
+            rightGaugeContainer = telemetryHistorySummarySettings.rightGaugeContainer;
+            rightGaugeControl = telemetryHistorySummarySettings.rightGaugeControl;
+            rightGaugeLabel = telemetryHistorySummarySettings.rightGaugeLabel;
+            leftGaugeContainer = telemetryHistorySummarySettings.leftGaugeContainer;
+            leftGaugeControl = telemetryHistorySummarySettings.leftGaugeControl;
+            leftGaugeLabel = telemetryHistorySummarySettings.leftGaugeLabel;
+            middleGaugeContainer = telemetryHistorySummarySettings.middleGaugeContainer;
+            middleGaugeControl = telemetryHistorySummarySettings.middleGaugeControl;
+            middleGaugeLabel = telemetryHistorySummarySettings.middleGaugeLabel;
 
-            averageHumidityVisual = createVisual(averageDeviceHumidityControl);
-            maxHumidityVisual = createVisual(maxDeviceHumidityControl);
-            minHumidityVisual = createVisual(minDeviceHumidityControl);
+            rightGaugeVisual = createVisual(rightGaugeControl);
+            leftGaugeVisual = createVisual(leftGaugeControl);
+            middleGaugeVisual = createVisual(middleGaugeControl);
         };
 
         var redraw = function redraw() {
             var height;
             var width;
 
-            if (minDeviceHumidityControl &&
-                minHumidityVisual &&
-                (lastMinHumidity || (lastMinHumidity === 0))) {
-                height = minDeviceHumidityControl.height();
-                width = minDeviceHumidityControl.width();
+            if (middleGaugeControl &&
+                middleGaugeVisual &&
+                (lastMiddleGaugeValue || (lastMiddleGaugeValue === 0))) {
+                height = middleGaugeControl.height();
+                width = middleGaugeControl.width();
 
-                minHumidityVisual.update({
-                    dataViews: [createDataView(lastMinHumidity)],
+                middleGaugeVisual.update({
+                    dataViews: [createDataView(lastMiddleGaugeValue)],
                     viewport: {
                         height: height,
                         width: width
@@ -170,14 +174,14 @@
                 });
             }
 
-            if (maxDeviceHumidityControl &&
-                maxHumidityVisual &&
-                (lastMaxHumidity || (lastMaxHumidity === 0))) {
-                height = maxDeviceHumidityControl.height();
-                width = maxDeviceHumidityControl.width();
+            if (leftGaugeControl &&
+                leftGaugeVisual &&
+                (lastLeftGaugeValue || (lastLeftGaugeValue === 0))) {
+                height = leftGaugeControl.height();
+                width = leftGaugeControl.width();
 
-                maxHumidityVisual.update({
-                    dataViews: [createDataView(lastMaxHumidity)],
+                leftGaugeVisual.update({
+                    dataViews: [createDataView(lastLeftGaugeValue)],
                     viewport: {
                         height: height,
                         width: width
@@ -186,14 +190,14 @@
                 });
             }
 
-            if (averageDeviceHumidityControl &&
-                averageHumidityVisual &&
-                (lastAvgHumidity || (lastAvgHumidity === 0))) {
-                height = averageDeviceHumidityControl.height();
-                width = averageDeviceHumidityControl.width();
+            if (rightGaugeControl &&
+                rightGaugeVisual &&
+                (lastRightGaugeValue || (lastRightGaugeValue === 0))) {
+                height = rightGaugeControl.height();
+                width = rightGaugeControl.width();
 
-                averageHumidityVisual.update({
-                    dataViews: [createDataView(lastAvgHumidity)],
+                rightGaugeVisual.update({
+                    dataViews: [createDataView(lastRightGaugeValue)],
                     viewport: {
                         height: height,
                         width: width
@@ -212,49 +216,49 @@
 
                 padding = 0;
 
-                if (averageDeviceHumidityContainer &&
-                    averageDeviceHumidityLabel &&
-                    averageDeviceHumidityControl) {
+                if (rightGaugeContainer &&
+                    rightGaugeLabel &&
+                    rightGaugeControl) {
 
                     height =
-                        averageDeviceHumidityContainer.height() -
-                        averageDeviceHumidityLabel.height() -
+                        rightGaugeContainer.height() -
+                        rightGaugeLabel.height() -
                         padding;
 
-                    width = averageDeviceHumidityContainer.width() - padding;
+                    width = rightGaugeContainer.width() - padding;
 
-                    averageDeviceHumidityControl.height(height);
-                    averageDeviceHumidityControl.width(width);
+                    rightGaugeControl.height(height);
+                    rightGaugeControl.width(width);
                 }
 
-                if (maxDeviceHumidityContainer &&
-                    maxDeviceHumidityLabel &&
-                    maxDeviceHumidityControl) {
+                if (leftGaugeContainer &&
+                    leftGaugeLabel &&
+                    leftGaugeControl) {
 
                     height =
-                        maxDeviceHumidityContainer.height() -
-                        maxDeviceHumidityLabel.height() -
+                        leftGaugeContainer.height() -
+                        leftGaugeLabel.height() -
                         padding;
 
-                    width = maxDeviceHumidityContainer.width() - padding;
+                    width = leftGaugeContainer.width() - padding;
 
-                    maxDeviceHumidityControl.height(height);
-                    maxDeviceHumidityControl.width(width);
+                    leftGaugeControl.height(height);
+                    leftGaugeControl.width(width);
                 }
 
-                if (minDeviceHumidityContainer &&
-                    minDeviceHumidityLabel &&
-                    minDeviceHumidityControl) {
+                if (middleGaugeContainer &&
+                    middleGaugeLabel &&
+                    middleGaugeControl) {
 
                     height =
-                        minDeviceHumidityContainer.height() -
-                        minDeviceHumidityLabel.height() -
+                        middleGaugeContainer.height() -
+                        middleGaugeLabel.height() -
                         padding;
 
-                    width = minDeviceHumidityContainer.width() - padding;
+                    width = middleGaugeContainer.width() - padding;
 
-                    minDeviceHumidityControl.height(height);
-                    minDeviceHumidityControl.width(width);
+                    middleGaugeControl.height(height);
+                    middleGaugeControl.width(width);
                 }
 
                 redraw();
@@ -262,16 +266,16 @@
 
         var updateTelemetryHistorySummaryData =
             function updateTelemetryHistorySummaryData(
-                minHumidity,
-                maxHumidity,
-                avgHumidity) {
+                minTemperature,
+                maxTemperature,
+                avgTemperature) {
 
-                lastAvgHumidity = avgHumidity;
-                lastMaxHumidity = maxHumidity;
-                lastMinHumidity = minHumidity;
+                lastRightGaugeValue = avgTemperature;
+                lastLeftGaugeValue = maxTemperature;
+                lastMiddleGaugeValue = minTemperature;
 
                 redraw();
-        };
+            };
 
         return {
             init: init,
