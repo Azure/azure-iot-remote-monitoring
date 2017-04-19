@@ -351,7 +351,7 @@ function StopExistingStreamAnalyticsJobs()
     Param(
         [Parameter(Mandatory=$true,Position=0)] [string] $resourceGroupName
     )
-    $sasJobs = Find-AzureRmResource -ResourceGroupNameContains $resourceGroupName -ResourceType Microsoft.StreamAnalytics/streamingjobs
+    $sasJobs = Get-AzureRmResource -ResourceGroupName $resourceGroupName -ResourceType Microsoft.StreamAnalytics/streamingjobs
     if ($sasJobs -eq $null)
     {
         return $false
