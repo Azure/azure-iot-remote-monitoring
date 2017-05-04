@@ -80,7 +80,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                         {
                             if (string.IsNullOrWhiteSpace(resultItem.DeviceProperties.DeviceID))
                             {
-                                resultItem.DeviceProperties.DeviceID = message.SystemProperties["iothub-connection-device-id"].ToString();
+                                resultItem.DeviceProperties.DeviceID = resultItem.IoTHub.ConnectionDeviceId;
                             }
 
                             await ProcessEventItem(resultItem);
