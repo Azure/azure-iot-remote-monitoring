@@ -104,8 +104,9 @@ Most of the items in the `DeviceInfo` are optional. Here is a minimized version:
 ```
 
 Reminders:
+* `DeviceId` is NOT required. The remote monitoring solution could retrieve it from the system properties of the IoT Hub message.
 * The `HubEnabledState` must be set as `true`. Otherwise, the Remote Monitoring portal will treat the device as disabled, and show no command or methods for action.
-* The value of `Version` and `ObjectType` must be exactly same as the sample
+* The value of `Version` and `ObjectType` must be exactly same as the sample.
 * Since the `Telemetry` item was removed, the Remote Monitoring portal will treat all the fields (including `PartitionId`) in the telemetry message as telemetries.
 
 __2. Sample of reported supported methods__
