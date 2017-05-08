@@ -69,6 +69,7 @@ $global:azureEnvironment = Get-AzureEnvironment $azureEnvironmentName
 $environmentName = $environmentName.ToLowerInvariant()
 . "$(Split-Path $MyInvocation.MyCommand.Path)\DeploymentLib.ps1"
 ClearDNSCache
+DetectDNSResolution
 
 # Sets Azure Accounts, Region, Name validation, and AAD application
 InitializeEnvironment $environmentName
@@ -242,10 +243,10 @@ if ($environmentName -ne "local")
 {
     $maxSleep = 40
     $webEndpoint = "{0}.{1}" -f $environmentName, $global:websiteSuffix
-    if (!(HostEntryExists $webEndpoint))
+    if (!(Test-AzureName -Website $webEndpoint))
     {
         Write-Host "Waiting for website url to resolve." -NoNewline
-        while (!(HostEntryExists $webEndpoint))
+        while (!(Test-AzureName -Website $webEndpoint))
         {
             Write-Host "." -NoNewline
             Clear-DnsClientCache
@@ -259,7 +260,7 @@ if ($environmentName -ne "local")
         }
         Write-Host
     }
-    if (HostEntryExists $webEndpoint)
+    if (Test-AzureName -Website $webEndpoint)
     {
         start $global:site
     }

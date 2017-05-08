@@ -265,15 +265,16 @@ function ValidateResourceName()
         }
     }
 
-    return GetUniqueResourceName $resourceBaseName $resourceUrl $cloudDeploy
+    return GetUniqueResourceName $resourceBaseName $resourceType $resourceUrl $cloudDeploy
 }
 
 function GetUniqueResourceName()
 {
     Param(
         [Parameter(Mandatory=$true,Position=0)] [string] $resourceBaseName,
-        [Parameter(Mandatory=$true,Position=1)] [string] $resourceUrl,
-        [Parameter(Mandatory=$true,Position=2)] [bool] $cloudDeploy
+        [Parameter(Mandatory=$true,Position=1)] [string] $resourceType,
+        [Parameter(Mandatory=$true,Position=2)] [string] $resourceUrl,
+        [Parameter(Mandatory=$true,Position=3)] [bool] $cloudDeploy
     )
 
     if ($cloudDeploy)
@@ -285,7 +286,7 @@ function GetUniqueResourceName()
         $name = "{0}{1:x5}" -f $resourceBaseName, (get-random -max 1048575)
     }
     $max = 200
-    while (HostEntryExists ("{0}.{1}" -f $name, $resourceUrl))
+    while (AzureNameExists $name $resourceType $resourceUrl)
     {
         $name = "{0}{1:x5}" -f $resourceBaseName, (get-random -max 1048575)
         if ($max-- -le 0)
@@ -295,6 +296,71 @@ function GetUniqueResourceName()
     }
     ClearDNSCache
     return $name
+}
+
+function AzureNameExists () {
+	 Param(
+        [Parameter(Mandatory=$true,Position=0)] [string] $resourceBaseName,
+        [Parameter(Mandatory=$true,Position=1)] [string] $resourceType,
+        [Parameter(Mandatory=$true,Position=2)] [string] $resourceUrl
+    )
+
+	switch ($resourceType.ToLowerInvariant())
+    {
+        "microsoft.storage/storageaccounts"
+		{
+			return Test-AzureName -Storage $resourceBaseName
+		}
+		"microsoft.eventhub/namespaces"
+		{
+		    return Test-AzureName -ServiceBusNamespace $resourceBaseName
+		}
+		"microsoft.web/sites"
+		{
+		    return Test-AzureName -Website $resourceBaseName
+		}
+        "microsoft.devices/iothubs"
+        {
+            if($global:corruptedDNS)
+			{
+				return ExpectUnauthorizedResponse("https://{0}.{1}/devices" -f $resourceBaseName, $resourceUrl)
+			}
+			else
+			{
+				return HostEntryExists ("{0}.{1}" -f $resourceBaseName, $resourceUrl)
+			}
+        }
+		"microsoft.documentdb/databaseaccounts"
+		{
+			if($global:corruptedDNS)
+			{
+				return ExpectUnauthorizedResponse("https://{0}.{1}/" -f $resourceBaseName, $resourceUrl)
+			}
+			else
+			{
+				return HostEntryExists ("{0}.{1}" -f $resourceBaseName, $resourceUrl)
+			}
+		}
+		default {
+			return $true
+		}
+	}
+}
+
+function ExpectUnauthorizedResponse() {
+	Param(
+        [Parameter(Mandatory=$true,Position=2)] [string] $resourceUrl
+    )
+
+	try
+	{
+		Invoke-WebRequest -Uri $resourceUrl
+	}
+	catch [System.Net.WebException]
+	{
+		return ($_.Exception -ne $null) -and ($_.Exception.Response.StatusCode -eq "Unauthorized")
+	}
+	return $false
 }
 
 function GetAzureStorageAccount()
@@ -638,6 +704,25 @@ function ClearDNSCache()
     {
         Clear-DnsClientCache
     }
+}
+
+# Detect if DNS server alwarys return fake response which corrupts DNS name availability check.
+function DetectDNSResolution()
+{
+	$hostName = "ramdomsites{0:x5}.nonexistentdomainname.com" -f (get-random -max 1048575)
+	$Global:corruptedDNS = $false
+	try
+    {
+        if ([Net.Dns]::GetHostEntry($hostName) -ne $null)
+        {
+		    Write-Host ("DNS resolution corruption detected for: {0}" -f $hostName)
+            $Global:corruptedDNS = $true
+        }
+    }
+    catch
+	{
+	    Write-Verbose ("DNS resolution is normal for: {0}" -f $hostName)
+	}
 }
 
 function CommandExists()
