@@ -3,8 +3,8 @@
 
     var self = this;
 
-    var init = function (deviceId) {
-        self.viewModel = new viewModel(deviceId, jQuery)
+    var init = function (deviceId, isSimulatedDevice ) {
+        self.viewModel = new viewModel(deviceId, isSimulatedDevice, jQuery)
         ko.applyBindings(self.viewModel);
     }
 
@@ -14,9 +14,8 @@
         self.url = url;
     }
 
-    var defaultDeviceIcon = new DeviceIcon('device_default_svg', '/Content/img/device_default.svg');
 
-    var viewModel = function (deviceId) {
+    var viewModel = function (deviceId, isSimulatedDevice ) {
         var self = this;
         this.deviceId = deviceId;
         this.file = null;
@@ -24,7 +23,8 @@
         this.pageSize = 10;
         this.apiRoute = '/api/v1/icons/';
         this.getIconApiRoute = '/api/v1/devices/' + deviceId + '/icon'
-
+        var defaultImage = isSimulatedDevice ? "/Content/img/IoT.png" : "/Content/img/device_default.svg";
+        var defaultDeviceIcon = new DeviceIcon('device_default_svg', defaultImage);
         this.actionType = ko.observable(resources.uploadActionType);
         this.iconList = ko.observableArray([]);
         this.selectedIcon = ko.observable(null);

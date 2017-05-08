@@ -18,6 +18,15 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         /// <summary>
+        /// indicates  if a device is simulated
+        /// </summary>
+        public bool IsSimulatedDevice
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets a list of <see cref="DevicePropertyValueModel" />s, 
         /// describing the edited properties.
         /// </summary>
