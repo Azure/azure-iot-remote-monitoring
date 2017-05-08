@@ -265,15 +265,16 @@ function ValidateResourceName()
         }
     }
 
-    return GetUniqueResourceName $resourceBaseName $resourceUrl $cloudDeploy
+    return GetUniqueResourceName $resourceBaseName $resourceType $resourceUrl $cloudDeploy
 }
 
 function GetUniqueResourceName()
 {
     Param(
         [Parameter(Mandatory=$true,Position=0)] [string] $resourceBaseName,
-        [Parameter(Mandatory=$true,Position=1)] [string] $resourceUrl,
-        [Parameter(Mandatory=$true,Position=2)] [bool] $cloudDeploy
+        [Parameter(Mandatory=$true,Position=1)] [string] $resourceType,
+        [Parameter(Mandatory=$true,Position=2)] [string] $resourceUrl,
+        [Parameter(Mandatory=$true,Position=3)] [bool] $cloudDeploy
     )
 
     if ($cloudDeploy)
@@ -285,16 +286,88 @@ function GetUniqueResourceName()
         $name = "{0}{1:x5}" -f $resourceBaseName, (get-random -max 1048575)
     }
     $max = 200
-    while (HostEntryExists ("{0}.{1}" -f $name, $resourceUrl))
+    while (AzureNameExists $name $resourceType $resourceUrl)
     {
         $name = "{0}{1:x5}" -f $resourceBaseName, (get-random -max 1048575)
         if ($max-- -le 0)
         {
-            throw ("Unable to create unique name for resource {0} for url {1}" -f $resourceBaseName, $resourceUrl)
+            throw ("Unable to create unique name for resource {0} for url {1}" -f $name, $resourceUrl)
         }
     }
     ClearDNSCache
     return $name
+}
+
+function AzureNameExists () {
+	 Param(
+        [Parameter(Mandatory=$true,Position=0)] [string] $resourceBaseName,
+        [Parameter(Mandatory=$true,Position=1)] [string] $resourceType,
+        [Parameter(Mandatory=$true,Position=2)] [string] $resourceUrl
+    )
+
+	switch ($resourceType.ToLowerInvariant())
+    {
+        "microsoft.storage/storageaccounts"
+		{
+			return Test-AzureName -Storage $resourceBaseName
+		}
+		"microsoft.eventhub/namespaces"
+		{
+		    return Test-AzureName -ServiceBusNamespace $resourceBaseName
+		}
+		"microsoft.web/sites"
+		{
+		    return Test-AzureName -Website $resourceBaseName
+		}
+        "microsoft.devices/iothubs"
+        {
+            if($global:corruptedIotHubDNS)
+			{
+				return HostReplyRequest("https://{0}.{1}/devices" -f $resourceBaseName, $resourceUrl)
+			}
+			else
+			{
+				return HostEntryExists ("{0}.{1}" -f $resourceBaseName, $resourceUrl)
+			}
+        }
+		"microsoft.documentdb/databaseaccounts"
+		{
+			if($global:corruptedDocdbDNS)
+			{
+				return HostReplyRequest("https://{0}.{1}/" -f $resourceBaseName, $resourceUrl)
+			}
+			else
+			{
+				return HostEntryExists ("{0}.{1}" -f $resourceBaseName, $resourceUrl)
+			}
+		}
+		default {
+			return $true
+		}
+	}
+}
+
+function HostReplyRequest() {
+	Param(
+        [Parameter(Mandatory=$true,Position=2)] [string] $resourceUrl
+    )
+
+	try
+	{
+		Invoke-WebRequest -Uri $resourceUrl
+	}
+	catch [System.Net.WebException]
+	{
+		if ($_.Exception -ne $null) {
+			if ($_.Exception.Status -eq "ConnectFailure") {
+				return $false
+			}
+			if($_.Exception.Response.StatusCode -eq "Unauthorized") {
+				return $true
+			}
+		}
+	}
+	return $false
 }
 
 function GetAzureStorageAccount()
@@ -638,6 +711,43 @@ function ClearDNSCache()
     {
         Clear-DnsClientCache
     }
+}
+
+# Detect if DNS server alwarys return fake response which corrupts DNS name availability check.
+function DetectIoTHubDNS()
+{
+	$hostName = "nonexistsitesforsure{0:x5}.$global:iotHubSuffix" -f (get-random -max 1048575)
+	$Global:corruptedIotHubDNS = $false
+	try
+    {
+        if ([Net.Dns]::GetHostEntry($hostName) -ne $null)
+        {
+		    Write-Host ("IotHub DNS resolution corruption detected for: {0}" -f $hostName)
+            $Global:corruptedIotHubDNS = $true
+        }
+    }
+    catch
+	{
+	    Write-Verbose ("IotHub DNS resolution is normal for: {0}" -f $hostName)
+	}
+}
+
+function DetectDocdbDNS()
+{
+	$hostName = "nonexistsitesforsure{0:x5}.$global:docdbSuffix" -f (get-random -max 1048575)
+	$Global:corruptedDocdbDNS = $false
+	try
+    {
+        if ([Net.Dns]::GetHostEntry($hostName) -ne $null)
+        {
+		    Write-Host ("DocumentDB DNS resolution corruption detected for: {0}" -f $hostName)
+            $Global:corruptedDocdbDNS = $true
+        }
+    }
+    catch
+	{
+	    Write-Verbose ("DocumentDB DNS resolution is normal for: {0}" -f $hostName)
+	}
 }
 
 function CommandExists()
