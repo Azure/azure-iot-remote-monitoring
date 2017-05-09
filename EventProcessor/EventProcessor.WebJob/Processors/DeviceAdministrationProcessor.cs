@@ -78,6 +78,11 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.EventProcessor.W
                     {
                         foreach (DeviceModel resultItem in results)
                         {
+                            if (string.IsNullOrWhiteSpace(resultItem.DeviceProperties.DeviceID))
+                            {
+                                resultItem.DeviceProperties.DeviceID = resultItem.IoTHub.ConnectionDeviceId;
+                            }
+
                             await ProcessEventItem(resultItem);
                         }
                     }

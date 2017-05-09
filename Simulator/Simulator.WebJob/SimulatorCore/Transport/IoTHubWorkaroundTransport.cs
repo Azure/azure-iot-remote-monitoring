@@ -15,6 +15,12 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob.SimulatorCore.Transport
 {
+    enum DeviceClientState
+    {
+        Up,
+        Down
+    }
+
     class IoTHubWorkaroundTransport : ITransport
     {
         private readonly ILogger _logger;
@@ -93,6 +99,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
             }
 
             await _deviceClient.CloseAsync();
+            StateCollection<DeviceClientState>.Remove(_device.DeviceID);
         }
 
         /// <summary>
@@ -298,6 +305,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         private async Task SendLoop(CancellationToken ct)
         {
             bool isDeviceClientAvailable = true;
+            StateCollection<DeviceClientState>.Set(_device.DeviceID, DeviceClientState.Up);
 
             while (!ct.IsCancellationRequested)
             {
@@ -315,6 +323,7 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
 
                         _logger.LogInfo($"Transport opened for device {_device.DeviceID} with type {_transportType}");
                         isDeviceClientAvailable = true;
+                        StateCollection<DeviceClientState>.Set(_device.DeviceID, DeviceClientState.Up);
                     }
                     catch (Exception ex)
                     {
@@ -336,8 +345,9 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError($"Exception raised while device {_device.DeviceID} trying to update reported properties: {ex.Message}");
+                        _logger.LogError($"Exception raised while device {_device.DeviceID} trying to update reported properties: {ex}");
                         isDeviceClientAvailable = false;
+                        StateCollection<DeviceClientState>.Set(_device.DeviceID, DeviceClientState.Down);
                         continue;
                     }
                 }
@@ -358,15 +368,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError($"Exception raised while device {_device.DeviceID} trying to send events: {ex.Message}");
+                        _logger.LogError($"Exception raised while device {_device.DeviceID} trying to send events: {ex}");
                         isDeviceClientAvailable = false;
-
+                        StateCollection<DeviceClientState>.Set(_device.DeviceID, DeviceClientState.Down);
                         continue;
                     }
                 }
             }
         }
-
 
         #region IDispose
         private bool _disposed = false;
@@ -404,5 +413,4 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.Simulator.WebJob
         }
         #endregion
     }
-
 }
