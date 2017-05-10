@@ -414,6 +414,25 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             return View(new EditDevicePropertiesModel() { DeviceId = deviceId,IsSimulatedDevice=device.IsSimulatedDevice });
         }
 
+        [RequirePermission(Permission.ViewDevices)]
+        public async Task<FileResult> DownloadTwinJson(string deviceId)
+        {
+            if (string.IsNullOrWhiteSpace(deviceId))
+            {
+                throw new ArgumentException(nameof(deviceId));
+            }
+
+            var device = await _deviceLogic.GetDeviceAsync(deviceId);
+            if (device == null)
+            {
+                throw new DeviceNotRegisteredException("Unable to find device with deviceId " + deviceId);
+            }
+
+            var twinJson = device.Twin.ToJson(Formatting.Indented);
+            string suffix = ".json";
+            return File(System.Text.Encoding.UTF8.GetBytes(twinJson), "application/json", deviceId + suffix);
+        }
+
         private static IEnumerable<DevicePropertyValueModel> ApplyDevicePropertyOrdering(IEnumerable<DevicePropertyValueModel> devicePropertyModels)
         {
             Debug.Assert(

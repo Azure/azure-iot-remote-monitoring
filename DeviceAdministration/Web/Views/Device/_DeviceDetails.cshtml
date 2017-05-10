@@ -87,6 +87,15 @@
                     null)
             </p>
         }
+
+        <p id="downloadDeviceTwinJsonLink"
+            class="grid_detail_value">
+            @Html.ActionLink(Strings.DownloadTwinJson,
+            "DownloadTwinJson",
+            "Device",
+            new { deviceId = Model.DeviceID },
+            null)
+        </p>
         </div>
     </section>
 }
