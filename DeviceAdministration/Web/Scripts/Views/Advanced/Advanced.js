@@ -305,6 +305,7 @@
                     enableAllInput(disabledFields);
                 }
                 $("#LicenceKey").closest('fieldset').show();
+                $(".api_registration_help_link").show();
                 break;
             }
             case 'Ericsson': {
@@ -317,11 +318,12 @@
                     }
                     enableAllInput(disabledFields)
                 }
-               
+                $(".api_registration_help_link").hide();
                 break;
             }
             default: {
                 hideApiRegistrationFields();
+                $(".api_registration_help_link").hide();
                 break;
             }
         }
