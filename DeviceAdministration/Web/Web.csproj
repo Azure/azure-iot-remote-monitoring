@@ -411,6 +411,7 @@
     <Content Include="Content\img\icon_add_dark.svg" />
     <Content Include="Content\img\icon_jasper.svg" />
     <Content Include="Content\img\icon_jobs.svg" />
+    <Content Include="Content\img\IoT.png" />
     <Content Include="Content\img\open_image.svg" />
     <Content Include="Content\img\open_query.svg" />
     <Content Include="Content\img\refresh.svg" />
