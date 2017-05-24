@@ -1844,6 +1844,15 @@ namespace GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download Device Twin.
+        /// </summary>
+        public static string DownloadTwinJson {
+            get {
+                return ResourceManager.GetString("DownloadTwinJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {

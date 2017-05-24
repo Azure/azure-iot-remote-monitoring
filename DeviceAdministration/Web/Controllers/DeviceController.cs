@@ -300,7 +300,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             {
                 DeviceID = deviceId,
                 HubEnabledState = device.DeviceProperties.GetHubEnabledState(),
-                DevicePropertyValueModels = new List<DevicePropertyValueModel>()
+                DevicePropertyValueModels = new List<DevicePropertyValueModel>(),
+                IsSimulatedDevice = device.IsSimulatedDevice
             };
 
             propModels = _deviceLogic.ExtractDevicePropertyValuesModels(device);
@@ -402,9 +403,34 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
         }
 
         [RequirePermission(Permission.EditDeviceMetadata)]
-        public ActionResult EditIcon(string deviceId)
+        public async Task<ActionResult> EditIcon(string deviceId)
         {
-            return View(new EditDevicePropertiesModel() { DeviceId = deviceId });
+            var device = await _deviceLogic.GetDeviceAsync(deviceId);
+            if (device == null)
+            {
+                throw new InvalidOperationException("Unable to load device with deviceId " + deviceId);
+            }
+
+            return View(new EditDevicePropertiesModel() { DeviceId = deviceId,IsSimulatedDevice=device.IsSimulatedDevice });
+        }
+
+        [RequirePermission(Permission.ViewDevices)]
+        public async Task<FileResult> DownloadTwinJson(string deviceId)
+        {
+            if (string.IsNullOrWhiteSpace(deviceId))
+            {
+                throw new ArgumentException(nameof(deviceId));
+            }
+
+            var device = await _deviceLogic.GetDeviceAsync(deviceId);
+            if (device == null)
+            {
+                throw new DeviceNotRegisteredException("Unable to find device with deviceId " + deviceId);
+            }
+
+            var twinJson = device.Twin.ToJson(Formatting.Indented);
+            string suffix = ".json";
+            return File(System.Text.Encoding.UTF8.GetBytes(twinJson), "application/json", deviceId + suffix);
         }
 
         private static IEnumerable<DevicePropertyValueModel> ApplyDevicePropertyOrdering(IEnumerable<DevicePropertyValueModel> devicePropertyModels)

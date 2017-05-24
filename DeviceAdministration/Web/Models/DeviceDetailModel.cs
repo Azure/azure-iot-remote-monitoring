@@ -119,5 +119,14 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
             get;
             set;
         }
+
+        /// <summary>
+        /// indicates  if a device is simulated
+        /// </summary>
+        public bool IsSimulatedDevice
+        {
+            get;
+            set;
+        }
     }
 }

@@ -109,7 +109,7 @@
 <script type="text/javascript" src="~/Scripts/Views/Device/EditIcon.js?ver=@Constants.JSVersion"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        IoTApp.EditIcon.init("@Model.DeviceId");
+        IoTApp.EditIcon.init("@Model.DeviceId",@(Model.IsSimulatedDevice?"true":"false"));
     });
 
 </script>

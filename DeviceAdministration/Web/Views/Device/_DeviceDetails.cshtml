@@ -8,8 +8,9 @@
         <div class="details_grid_header_image_container">
             @{ 
                 var tagImage = Model.DevicePropertyValueModels.Where(m => m.Name == "tags." + Constants.DeviceIconTagName).FirstOrDefault();
-                var image = tagImage != null && !string.IsNullOrWhiteSpace(tagImage.Value) ? 
-                    ViewBag.IconBaseUrl + tagImage.Value : "/Content/img/device_default.svg";
+                var defaultImage = Model.IsSimulatedDevice ? "/Content/img/IoT.png" : "/Content/img/device_default.svg";
+                var image = tagImage != null && !string.IsNullOrWhiteSpace(tagImage.Value) ?
+                    ViewBag.IconBaseUrl + tagImage.Value : defaultImage;
             }
             <img src="@image" class="details_grid_header_image" />
             @if (Model.IsDeviceEditEnabled)
@@ -86,6 +87,15 @@
                     null)
             </p>
         }
+
+        <p id="downloadDeviceTwinJsonLink"
+            class="grid_detail_value">
+            @Html.ActionLink(Strings.DownloadTwinJson,
+            "DownloadTwinJson",
+            "Device",
+            new { deviceId = Model.DeviceID },
+            null)
+        </p>
         </div>
     </section>
 }

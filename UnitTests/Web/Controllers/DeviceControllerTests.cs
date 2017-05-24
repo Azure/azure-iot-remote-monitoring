@@ -251,6 +251,24 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.UnitTests.Web
             _deviceLogicMock.Verify(mock => mock.RemoveDeviceAsync(deviceID), Times.Once());
         }
 
+        [Fact]
+        public async void DownloadTwinJsonTest()
+        {
+            var deviceId = _fixture.Create<string>();
+            var deviceModel = _fixture.Create<DeviceModel>();
+            deviceModel.Twin = _fixture.Create<Microsoft.Azure.Devices.Shared.Twin>();
+
+            _deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(deviceModel);
+            var result = await _deviceController.DownloadTwinJson(deviceId);
+            Assert.Equal(((FileContentResult)result).FileContents, System.Text.UTF8Encoding.UTF8.GetBytes(deviceModel.Twin.ToJson()));
+
+            _deviceLogicMock.Setup(mock => mock.GetDeviceAsync(deviceId)).ReturnsAsync(null);
+            await Assert.ThrowsAsync<DeviceAdmin.Infrastructure.Exceptions.DeviceNotRegisteredException>(() => _deviceController.DownloadTwinJson(deviceId));
+
+            deviceId = null;
+            await Assert.ThrowsAsync<ArgumentException>(()=> _deviceController.DownloadTwinJson(deviceId));
+        }
+
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 

@@ -2672,4 +2672,7 @@
     <value>-- select a locale --</value>
     <comment>Dropdown label.</comment>
   </data>
+  <data name="DownloadTwinJson" xml:space="preserve">
+    <value>Download Device Twin</value>
+  </data>
 </root>
