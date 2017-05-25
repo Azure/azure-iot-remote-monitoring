@@ -984,6 +984,10 @@ $global:azureVersion = "2.0.0"
 # Check version
 $module = Get-Module -ListAvailable | Where-Object{ $_.Name -eq 'Azure' }
 $expected = New-Object System.Version($global:azureVersion)
+if($module -is [System.Array])
+{
+    $module = ($module | Sort-Object Version -Descending)[0]
+}
 $comparison = $expected.CompareTo($module.Version)
 
 if ($comparison -eq 1)
