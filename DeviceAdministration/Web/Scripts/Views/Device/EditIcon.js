@@ -23,7 +23,7 @@
         this.pageSize = 10;
         this.apiRoute = '/api/v1/icons/';
         this.getIconApiRoute = '/api/v1/devices/' + deviceId + '/icon'
-        var defaultImage = isSimulatedDevice ? "/Content/img/IoT.png" : "/Content/img/device_default.svg";
+        var defaultImage = isSimulatedDevice ? "/Content/img/IoT.svg" : "/Content/img/device_default.svg";
         var defaultDeviceIcon = new DeviceIcon('device_default_svg', defaultImage);
         this.actionType = ko.observable(resources.uploadActionType);
         this.iconList = ko.observableArray([]);

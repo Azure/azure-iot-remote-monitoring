@@ -152,7 +152,7 @@
             columns.push({
                 data: 'twin.tags.' + resources.iconTagName,
                 mRender: function (data, type, row, meta) {
-                    var defaultImage = row.isSimulatedDevice ? "/Content/img/IoT.png" : "/Content/img/device_default.svg";
+                    var defaultImage = row.isSimulatedDevice ? "/Content/img/IoT.svg" : "/Content/img/device_default.svg";
                     var image = data ? resources.iconBaseUrl + data : defaultImage;
                     return '<img class="device_list_cell_image" src="' + image + '" />';
                 },

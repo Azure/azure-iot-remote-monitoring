@@ -11,12 +11,13 @@
     var tags = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("tags.") && !m.Name.IsReservedTwinName());
     var desiredProperties = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("properties.desired.") && !m.Name.IsReservedTwinName());
     var reportedProperties = Model.DevicePropertyValueModels.Where(m => m.Name.StartsWith("properties.reported.") && !m.Name.IsReservedTwinName());
-    var deviceProperties = Model.DevicePropertyValueModels.Except(tags).Except(desiredProperties).Except(reportedProperties).Where(m=>!m.Name.IsReservedTwinName());
+    var deviceProperties = Model.DevicePropertyValueModels.Except(tags).Except(desiredProperties).Except(reportedProperties).Where(m => !m.Name.IsReservedTwinName());
     var utcNow = DateTime.UtcNow;
 }
 <div class="header_grid header_grid_general">
     <h3 class="grid_subheadhead_detail grid_subheadhead">@Strings.DeviceTwin</h3>
     <img src="~/Content/img/icon_info_gray.svg" class="details_grid_info" title="@Strings.DeviceTwinHeader" />
+    @Html.ActionLink(@Strings.DownloadTwinJson, "DownloadTwinJson", "Device", new { deviceId = Model.DeviceID }, new { id = "download_link", @class = "link_grid_subheadhead_detail", @style = "margin-top: 1ch;" })
 </div>
 
 <hr class="details_grid_twin_begin_line" />
@@ -174,7 +175,7 @@
     <div class="header_grid header_grid_general">
         <img id="jobClose" src="~/Content/img/expanded.svg" class="details_grid_info cursor_pointer job_toggle_target job_toggle_source" />
         <img id="jobOpen" src="~/Content/img/collapsed.svg" class="details_grid_info cursor_pointer display_none job_toggle_target job_toggle_source" />
-        <h3 class="grid_subheadhead cursor_pointer job_toggle_source" >@Strings.RecentJobs</h3>
+        <h3 class="grid_subheadhead cursor_pointer job_toggle_source">@Strings.RecentJobs</h3>
     </div>
 
     <section class="details_grid_general job_toggle_target" id="deviceJobGrid">

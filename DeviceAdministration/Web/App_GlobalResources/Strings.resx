@@ -2673,6 +2673,6 @@
     <comment>Dropdown label.</comment>
   </data>
   <data name="DownloadTwinJson" xml:space="preserve">
-    <value>Download Device Twin</value>
+    <value>Download</value>
   </data>
 </root>
