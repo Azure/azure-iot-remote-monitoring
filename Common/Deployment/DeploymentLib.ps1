@@ -285,7 +285,7 @@ function GetUniqueResourceName()
         $name = "{0}{1:x5}" -f $resourceBaseName, (get-random -max 1048575)
     }
     $max = 200
-    while (HostEntryExists ("{0}.{1}" -f $name, $resourceUrl))
+    while (ResolveAzureDNSName("{0}.{1}" -f $name, $resourceUrl))
     {
         $name = "{0}{1:x5}" -f $resourceBaseName, (get-random -max 1048575)
         if ($max-- -le 0)
@@ -391,10 +391,10 @@ function UploadFile()
     $storageAccountKey = (Get-AzureRmStorageAccountKey -StorageAccountName $storageAccountName -ResourceGroupName $resourceGroupName).Value[0]
 
     $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageAccountKey
-    if (!(HostEntryExists $context.StorageAccount.BlobEndpoint.Host))
+    if (!(ResolveAzureDNSName $context.StorageAccount.BlobEndpoint.Host))
     {
         Write-Host "$(Get-Date –f $timeStampFormat) - Waiting for storage account $($context.StorageAccount.BlobEndpoint.Host) url to resolve." -NoNewline
-        while (!(HostEntryExists $context.StorageAccount.BlobEndpoint.Host))
+        while (!(ResolveAzureDNSName $context.StorageAccount.BlobEndpoint.Host))
         {
             Write-Host "." -NoNewline
             ClearDNSCache
@@ -610,22 +610,21 @@ function ValidateLoginCredentials()
     }
 }
 
-function HostEntryExists()
-{
-    Param(
-        [Parameter(Mandatory=$true,Position=0)] $hostName
-    )
-    try
-    {
-        if ([Net.Dns]::GetHostEntry($hostName) -ne $null)
-        {
-            Write-Verbose ("Found hostname: {0}" -f $hostName)
-            return $true
-        }
-    }
-    catch {}
-    Write-Verbose ("Did not find hostname: {0}" -f $hostName)
-    return $false
+function ResolveAzureDNSName() {
+	Param(
+		[Parameter(Mandatory=$true,Position=0)] $hostName
+	)
+
+	$result = Resolve-DnsName -Name $hostName -ErrorAction SilentlyContinue
+	if($result -eq $null)
+	{
+	    Write-Verbose ("Did not find Azure DNS name: {0}" -f $hostName)
+		return $false
+	}
+	else
+	{
+		return $true
+	}
 }
 
 function ClearDNSCache()
