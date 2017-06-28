@@ -15,62 +15,54 @@
     var getMapKey = function () {
         $.get('/api/v1/telemetry/mapApiKey', {}, function (response) {
             self.mapApiKey = response;
-            startMap();
+            finishMap();
         });
     }
 
-    var startMap = function () {
-        Microsoft.Maps.loadModule('Microsoft.Maps.Themes.BingTheme', { callback: finishMap });
-    };
-
-    var finishMap = function() {
+    var finishMap = function () {
         var options = {
             credentials: self.mapApiKey,
             mapTypeId: Microsoft.Maps.MapTypeId.aerial,
             animate: false,
             enableSearchLogo: false,
-            enableClickableLogo: false
+            enableClickableLogo: false,
+            navigationBarMode: Microsoft.Maps.NavigationBarMode.minified,
+            bounds: Microsoft.Maps.LocationRect.fromEdges(71, -28, -55, 28)
         };
 
         // Initialize the map
-        self.map = new Microsoft.Maps.Map(document.getElementById("deviceMap"), options);
+        self.map = new Microsoft.Maps.Map('#deviceMap', options);
 
         // Hide the infobox when the map is moved.
         Microsoft.Maps.Events.addHandler(self.map, 'viewchange', hideInfobox);
     }
 
-    var onMapPinClicked = function (e) {
-        IoTApp.Dashboard.DashboardDevicePane.setSelectedDevice(e.target.getId());
-        displayInfobox(e);
+    var onMapPinClicked = function () {
+        IoTApp.Dashboard.DashboardDevicePane.setSelectedDevice(this.deviceId);
+        displayInfobox(this.deviceId, this.location);
     }
 
-    var displayInfobox = function (e) {
-        // Create the infobox for the pushpin
-        if (self.pinInfobox != null) {
-            hideInfobox(null);
-        }
+    var displayInfobox = function (deviceId, location) {
+        hideInfobox();
 
-        var id = e.target.getId();
-        var width = (id.length * 7) + 35;
+        var width = (deviceId.length * 7) + 35;
         var horizOffset = -(width / 2);
 
-        self.pinInfobox = new Microsoft.Maps.Infobox(e.target.getLocation(),
-            {
-                title: id,
-                typeName: Microsoft.Maps.InfoboxType.mini,
-                width: width,
-                height: 25,
-                visible: true,
-                offset: new Microsoft.Maps.Point(horizOffset, 35)
-            });
+        var infobox = new Microsoft.Maps.Infobox(location, {
+            title: deviceId,
+            maxWidth: 1000,
+            offset: new Microsoft.Maps.Point(horizOffset, 35),
+            showPointer: false
+        });
+        infobox.setMap(self.map);
+        $('.infobox-close').css('z-index', 1);
 
-        self.map.entities.push(self.pinInfobox);
+        self.pinInfobox = infobox;
     }
 
-    var hideInfobox = function (e) {
+    var hideInfobox = function () {
         if (self.pinInfobox != null) {
-            self.pinInfobox.setOptions({ visible: false });
-            self.map.entities.remove(self.pinInfobox);
+            self.pinInfobox.setMap(null);
             self.pinInfobox = null;
         }
     }
@@ -99,13 +91,10 @@
 
         self.map.entities.clear();
         if (deviceLocations) {
-            for (i = 0 ; i < deviceLocations.length; ++i) {
+            for (i = 0; i < deviceLocations.length; ++i) {
                 loc = new Microsoft.Maps.Location(deviceLocations[i].latitude, deviceLocations[i].longitude);
 
                 pinOptions = {
-                    id: deviceLocations[i].deviceId,
-                    height: 17,
-                    width: 17,
                     zIndex: deviceLocations[i].status
                 };
 
@@ -124,7 +113,7 @@
                 }
 
                 pin = new Microsoft.Maps.Pushpin(loc, pinOptions);
-                Microsoft.Maps.Events.addHandler(pin, 'click', onMapPinClicked);
+                Microsoft.Maps.Events.addHandler(pin, 'click', onMapPinClicked.bind({ deviceId: deviceLocations[i].deviceId, location: loc }));
                 self.map.entities.push(pin);
             }
         }
