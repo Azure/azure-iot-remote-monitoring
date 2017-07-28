@@ -143,7 +143,7 @@ if ($suiteExists)
     if (ResourceObjectExists $suitename $eventhubName Microsoft.Eventhub/namespaces)
     {
         $eventhubSku = GetResourceObject $suitename $eventhubName Microsoft.Eventhub/namespaces
-        $params += @{ehSku=$($eventhubSku.Properties.MessagingSku)}
+        $params += @{ehSku=$($eventhubSku.Sku.name)}
     }
 }
 
