@@ -971,7 +971,7 @@ function ResourceObjectExists
     )
 
     $azureRmResource = Get-AzureRmResource -ResourceName $resourceName -ResourceGroupName $resourceGroupName -ResourceType $type
-    Write-Host ($azureRmResource | Format-List | Out-String)
+    # Write-Host ($azureRmResource | Format-List | Out-String)
     return $azureRmResource
  }
 
