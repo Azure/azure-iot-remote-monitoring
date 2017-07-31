@@ -599,14 +599,14 @@ function ValidateLoginCredentials()
     $profilePath = Join-Path $PSScriptRoot "..\..\$($global:AzureAccountName).user"
     if (test-path $profilePath) {
         Write-Host "Trying to use saved profile $($profilePath)"
-        $rmProfile = Select-AzureRmProfile -Path $profilePath
+        $rmProfile = Import-AzureRmContext -Path $profilePath
         $rmProfileLoaded = ($rmProfile -ne $null) -and ($rmProfile.Context -ne $null) -and ((Get-AzureRmSubscription) -ne $null)
     }
 
     if ($rmProfileLoaded -ne $true) {
         Write-Host "Logging in"
         Login-AzureRmAccount -EnvironmentName $global:azureEnvironment.Name | Out-Null
-        Save-AzureRmProfile -Path $profilePath
+        Save-AzureRmContext -Path $profilePath
     }
 }
 
@@ -686,7 +686,7 @@ function GetAADTenant()
     }
     if ($tenants.Count -eq 1)
     {
-        [string]$tenantId = $tenants[0].TenantId
+        [string]$tenantId = $tenants[0].Id
     }
     else
     {
@@ -696,7 +696,7 @@ function GetAADTenant()
         $index = 1
         foreach ($tenantObj in $tenants)
         {
-            $tenant = $tenantObj.TenantId
+            $tenant = $tenantObj.Id
             $uri = "{0}{1}/me?api-version=1.6" -f $global:azureEnvironment.GraphUrl, $tenant
             $authResult = GetAuthenticationResult $tenant $global:azureEnvironment.ActiveDirectoryAuthority $global:azureEnvironment.GraphUrl $global:AzureAccountName -Prompt "Auto"
             $header = $authResult.CreateAuthorizationHeader()
@@ -725,7 +725,7 @@ function GetAADTenant()
                 Write-Host "Must be a number"
             }
         }
-        $tenantId = $tenants[$selectedIndex - 1].TenantId
+        $tenantId = $tenants[$selectedIndex - 1].Id
     }
 
     # Configure Application
@@ -872,9 +872,9 @@ function InitializeEnvironment()
             Write-Host "Available subscriptions:"
             $global:index = 0
             $selectedIndex = -1
-            Write-Host ($subscriptions | Format-Table -Property @{name="Option";expression={$global:index;$global:index+=1}},SubscriptionName, SubscriptionId -au | Out-String)
+            Write-Host ($subscriptions | Format-Table -Property @{name="Option";expression={$global:index;$global:index+=1}},Name, Id -au | Out-String)
 
-            while (!$subscriptions.SubscriptionId.Contains($global:SubscriptionId))
+            while (!$subscriptions.Id.Contains($global:SubscriptionId))
             {
                 try
                 {
@@ -891,7 +891,7 @@ function InitializeEnvironment()
                     continue
                 }
 
-                $global:SubscriptionId = $subscriptions[$selectedIndex - 1].SubscriptionId
+                $global:SubscriptionId = $subscriptions[$selectedIndex - 1].Id
             }
 
             UpdateEnvSetting "SubscriptionId" $global:SubscriptionId
@@ -901,7 +901,7 @@ function InitializeEnvironment()
     Select-AzureSubscription -SubscriptionId $global:SubscriptionId
 
 	$rmSubscription = Get-AzureRmSubscription -SubscriptionId $global:SubscriptionId
-	Select-AzureRmSubscription -SubscriptionName $rmSubscription.SubscriptionName -TenantId $rmSubscription.TenantId
+	Select-AzureRmSubscription -SubscriptionName $rmSubscription.Name -TenantId $rmSubscription.Tenant.Id
 
     if ([string]::IsNullOrEmpty($global:AllocationRegion))
     {
@@ -969,7 +969,10 @@ function ResourceObjectExists
          [Parameter(Mandatory=$true,Position=1)] [string] $resourceName,
          [Parameter(Mandatory=$true,Position=2)] [string] $type
     )
-    return Get-AzureRmResource -ResourceName $resourceName -ResourceGroupName $resourceGroupName -ResourceType $type
+
+    $azureRmResource = Get-AzureRmResource -ResourceName $resourceName -ResourceGroupName $resourceGroupName -ResourceType $type
+    # Write-Host ($azureRmResource | Format-List | Out-String)
+    return $azureRmResource
  }
 
 # Variable initialization
@@ -979,7 +982,7 @@ $global:resourceNotFound = "ResourceNotFound"
 $global:serviceNameToken = "ServiceName"
 $global:azurePath = Split-Path $MyInvocation.MyCommand.Path
 $global:version = Get-Content ("{0}\..\..\VERSION.txt" -f $global:azurePath)
-$global:azureVersion = "2.0.0"
+$global:azureVersion = "4.2.1"
 
 # Check version
 $module = Get-Module -ListAvailable | Where-Object{ $_.Name -eq 'Azure' }
